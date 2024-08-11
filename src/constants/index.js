@@ -125,6 +125,14 @@ export const roadmap = [
     status: "progress",
     imageUrl: roadmap4,
   },
+  {
+    id: "3",
+    title: "Understanding Prompt Engineering",
+    text: "Allow the chatbot to access external data sources, such as weather APIs or news APIs, to provide more relevant recommendations.",
+    date: "May 2023",
+    status: "progress",
+    imageUrl: roadmap4,
+  },
 ];
 
 export const collabText1 =
@@ -161,6 +169,7 @@ export const collabApps = [
     icon: figma,
     width: 26,
     height: 36,
+    
   },
   {
     id: "1",
@@ -211,14 +220,15 @@ export const collabApps = [
     width: 38,
     height: 32,
   },
+  
 ];
 
 export const pricing = [
   {
     id: "0",
-    title: "Basic",
+    title: "Consultation",
     description: "AI chatbot, personalized recommendations",
-    price: "0",
+    price: "300",
     features: [
       "An AI chatbot that can understand your queries",
       "Personalized recommendations based on your preferences",
@@ -227,9 +237,9 @@ export const pricing = [
   },
   {
     id: "1",
-    title: "Premium",
+    title: "Web Transformation",
     description: "Advanced AI chatbot, priority support, analytics dashboard",
-    price: "9.99",
+    price: "500 ",
     features: [
       "An advanced AI chatbot that can understand complex queries",
       "An analytics dashboard to track your conversations",
@@ -238,6 +248,17 @@ export const pricing = [
   },
   {
     id: "2",
+    title: "Enterprise",
+    description: "Custom AI chatbot, advanced analytics, dedicated account",
+    price: null,
+    features: [
+      "An AI chatbot that can understand your queries",
+      "Personalized recommendations based on your preferences",
+      "Ability to explore the app and its features without any cost",
+    ],
+  },
+  {
+    id: "3",
     title: "Enterprise",
     description: "Custom AI chatbot, advanced analytics, dedicated account",
     price: null,

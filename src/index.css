@@ -86,3 +86,24 @@
 .-rotate-360 {
   @apply rotate-[-360deg]
 }
+
+
+
+/* .slick-prev:before, 
+.slick-next:before {
+    font-size: 50px !important;
+    opacity: 1 !important;
+} */
+
+
+.transition-opacity {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
