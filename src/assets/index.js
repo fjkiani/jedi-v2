@@ -75,6 +75,17 @@ import instagram from "./socials/instagram.svg";
 import telegram from "./socials/telegram.svg";
 import twitter from "./socials/twitter.svg";
 
+//stack
+import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
+
+//vidoes
+import { analytics, HH, medicalAI, rdChat } from "../assets/videos";
+
+
+
+
+
+
 export {
   brainwave,
   check,
@@ -144,4 +155,19 @@ export {
   instagram,
   telegram,
   twitter,
+  //partners + stack
+  cohere,
+  langchain,
+  openai,
+  anthropic,
+  aws,
+  clay,
+  lambda,
+  snowflake,
+  // videos
+  analytics,
+  HH,
+  medicalAI,
+  rdChat
+
 };

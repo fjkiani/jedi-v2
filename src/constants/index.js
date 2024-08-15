@@ -36,6 +36,9 @@ import {
   yourlogo,
 } from "../assets";
 
+import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
+
+
 export const navigation = [
   {
     id: "0",
@@ -75,7 +78,7 @@ export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
 export const notificationImages = [notification4, notification3, notification2];
 
-export const companyLogos = [yourlogo, yourlogo, yourlogo, yourlogo, yourlogo];
+export const companyLogos = [cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake];
 
 export const brainwaveServices = [
   "AI-Driven Development",
@@ -281,7 +284,7 @@ export const benefits = [
   },
   {
     id: "1",
-    title: "Retrieval Answer Generation (RAG) ",
+    title: "Realtime Answer Generation (RAG) ",
     text: "As an Integration Platform as a Service (iPaaS) platform, we connect diverse applications and systems, creating unified dashboards ",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
@@ -290,7 +293,7 @@ export const benefits = [
   },
   {
     id: "2",
-    title: "Custom AI Solutions",
+    title: "Knowledge as a Service (KaaS)",
     text: "We drive digital transformation by modernizing legacy systems, utilizing cloud migration, full-stack development, and serverless architecture for Cost Efficiency and low latency .",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
@@ -355,3 +358,50 @@ export const socials = [
     url: "#",
   },
 ];
+
+
+
+// Service Content
+export const serviceContent = [
+  {
+    title: "Generative AI",
+    subtitle: "Enhance your photos effortlessly",
+    description: "Automatically enhance your photos using our AI app's photo editing feature. Try it now!",
+    video: "src/assets/videos/medical-ai.mp4",
+  },
+  {
+    title: "AI Agents",
+    subtitle: "Create stunning visuals with ease",
+    description: "The world’s most powerful AI photo and video art generation engine. What will you create?",
+    video: "src/assets/videos/analytics.mp4",
+  },
+  {
+    title: "Knowledge Base",
+    subtitle: "Professional-grade audio enhancement",
+    description: "Process and enhance audio files with our advanced AI-driven tools for clear and professional results.",
+    video: "src/assets/videos/rdChat.mp4",
+  },
+  {
+    title: "Knowledge Base",
+    subtitle: "Professional-grade audio enhancement",
+    description: "Process and enhance audio files with our advanced AI-driven tools for clear and professional results.",
+    video: "src/assets/videos/HH.mp4",
+  },
+];
+
+// Slider Settings
+export const sliderSettings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 2,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+  ],
+};
