@@ -123,7 +123,7 @@ export const roadmap = [
   {
     id: "3",
     title: "Knowledge as a Service (KaaS)",
-    text: "Allow the chatbot to access external data sources, such as weather APIs or news APIs, to provide more relevant recommendations.",
+    text: "Knowledge as a Service (KaaS) provides on-demand access to a comprehensive knowledge base tailored to your business needs. With KaaS, your organization can integrate expert insights, curated data, and advanced AI-driven knowledge systems to enhance decision-making, optimize workflows, and reduce operational costs. This service ensures that your team has immediate access to critical information, fostering continuous learning and innovation",
     date: "May 2023",
     status: "progress",
     imageUrl: roadmap4,
@@ -277,7 +277,7 @@ export const benefits = [
   {
     id: "0",
     title: "Context Aware Agents",
-    text: "We specialize in creating robust, cloud-native SaaS solutions using cutting-edge technologies like Next.js, Node.js, and React.",
+    text: "Context Aware Agents are AI-driven systems designed to understand and respond to user queries with a deep awareness of context and history. These agents go beyond simple question-and-answer systems by adapting to ongoing conversations, personalizing interactions, and delivering highly relevant responses based on the user’s unique situation.",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
@@ -285,7 +285,7 @@ export const benefits = [
   {
     id: "1",
     title: "Realtime Answer Generation (RAG) ",
-    text: "As an Integration Platform as a Service (iPaaS) platform, we connect diverse applications and systems, creating unified dashboards ",
+    text: "Realtime Answer Generation (RAG) empowers your business by providing instant access to up-to-date information directly from your data sources. Unlike traditional systems that rely on pre-trained models, RAG dynamically retrieves answers from live data, ensuring that your team or customers always have the latest and most accurate insights. ",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
@@ -294,7 +294,7 @@ export const benefits = [
   {
     id: "2",
     title: "Knowledge as a Service (KaaS)",
-    text: "We drive digital transformation by modernizing legacy systems, utilizing cloud migration, full-stack development, and serverless architecture for Cost Efficiency and low latency .",
+    text: "Knowledge as a Service (KaaS) provides on-demand access to a comprehensive knowledge base tailored to your business needs with real-time information, curated data, and advanced AI-driven knowledge systems to enhance decision-making and optimize workflows",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: benefitImage2,
