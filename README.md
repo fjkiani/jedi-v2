@@ -16,7 +16,6 @@ Agency V3 is a modern web application built with Vite.js and React, showcasing a
 
 - Responsive design for various screen sizes
 - Fast development and build times with Vite.js
-- Integration with Stripe for payments
 - Custom animations and transitions
 - Contact form functionality
 
