@@ -389,6 +389,10 @@ export const serviceContent = [
   },
 ];
 
+
+
+
+
 // Slider Settings
 export const sliderSettings = {
   dots: false,

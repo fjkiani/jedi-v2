@@ -1,98 +1,136 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import Button from "./Button";
 import Heading from "./Heading";
 import Section from "./Section";
 import Tagline from "./Tagline";
-import { roadmap } from "../constants";
-import { check2, grid, loading1 } from "../assets";
+import moment from "moment";
+import { getPosts } from "../services";
+import { check2 } from "../assets";
 import { Gradient } from "./design/Roadmap";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+
+
 
 const Roadmap = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const fetchedPosts = await getPosts();
+      console.log("Fetched Posts:", fetchedPosts);
+      setPosts(fetchedPosts);
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+
   const settings = {
-    dots: false, // Set to false to remove the dots
+    dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 2, // Show 2 slides at a time on desktop
+    slidesToShow: 2,
     slidesToScroll: 1,
     arrows: true,
     responsive: [
       {
-        breakpoint: 1024, // Apply slider for screens <= 1024px
+        breakpoint: 1024,
         settings: {
-          slidesToShow: 1, // Show 1 slide at a time on mobile
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
     ],
   };
 
+  if (loading) {
+    return <p>Loading content...</p>;
+  }
+
+  if (!posts || posts.length === 0) {
+    return <p>No posts available.</p>;
+  }
+
   return (
-    <Section className="overflow-hidden" id="roadmap">
+    <Section className="overflow-hidden" id="cms-content">
       <div className="container md:pb-10">
-        <Heading tag="Our most recent success" title="Case Studies" />
+        <Heading tag="Latest Content" title="From Our Blog" />
 
-        {/* Slider for both mobile and desktop */}
         <Slider {...settings}>
-          {roadmap.map((item) => {
-            const status = item.status === "done" ? "Done" : "In progress";
-
-            return (
-              <div
-                className={`md:flex p-0.25 rounded-[2.5rem] ${
-                  item.colorful ? "bg-conic-gradient" : "bg-n-6"
-                }`}
-                key={item.id}
-              >
-                <div className="relative p-8 bg-n-8 rounded-[2.4375rem] overflow-hidden xl:p-15">
-                  <div className="absolute top-0 left-0 max-w-full">
-                    <img
-                      className="w-full"
-                      src={grid}
-                      width={550}
-                      height={550}
-                      alt="Grid"
-                    />
-                  </div>
-                  <div className="relative z-1">
-                    <div className="flex items-center justify-between max-w-[27rem] mb-8 md:mb-20">
-                      <Tagline>{item.date}</Tagline>
-
-                      <div className="flex items-center px-4 py-1 bg-n-1 rounded text-n-8">
-                        <img
-                          className="mr-2.5"
-                          src={item.status === "done" ? check2 : loading1}
-                          width={16}
-                          height={16}
-                          alt={status}
-                        />
-                        <div className="tagline">{status}</div>
-                      </div>
-                    </div>
-
-                    <div className="mb-10 -my-10 -mx-15">
-                      <img
-                        className="w-full"
-                        src={item.imageUrl}
-                        width={628}
-                        height={426}
-                        alt={item.title}
-                      />
-                    </div>
-                    <h4 className="h4 mb-4">{item.title}</h4>
-                    <p className="body-2 text-n-4">{item.text}</p>
-                  </div>
+        {posts.map((post, index) => {
+  const node = post.node;
+  return (
+    <Link to={`/blog/post/${node.slug}`} key={index}>
+      <div className="md:flex p-4 rounded-[2.5rem] bg-n-6 shadow-lg transition-transform transform hover:scale-105 duration-300">
+        <div className="relative p-8 bg-gradient-to-b from-n-8 to-n-9 rounded-[2.4375rem] overflow-hidden xl:p-15">
+          <div className="relative z-1">
+            <div className="flex items-center justify-between mb-6">
+              <Tagline className="text-sm text-gray-400">
+                {node.createdAt
+                  ? moment(node.createdAt).format("MMM DD, YYYY")
+                  : "No date available"}
+              </Tagline>
+              <div className="flex items-center px-4 py-1 bg-green-600 rounded text-white">
+                <img
+                  className="mr-2.5"
+                  src={check2}
+                  width={16}
+                  height={16}
+                  alt={node.status || "Status unknown"}
+                />
+                <div className="tagline">
+                  {node.status === "done" ? "Completed" : "In Progress"}
                 </div>
               </div>
-            );
-          })}
+            </div>
+            <div className="mb-6">
+              {node.featuredImage?.url ? (
+                <img
+                  className="w-full h-auto rounded-lg shadow-lg"
+                  src={node.featuredImage.url}
+                  alt={node.title}
+                />
+              ) : (
+                <p className="text-gray-500">No image available</p>
+              )}
+            </div>
+            <h4 className="text-2xl font-semibold mb-4 text-white">
+              {node.title || "Untitled Post"}
+            </h4>
+            <p className="text-gray-300 mb-6">
+              {node.excerpt || "No description available."}
+            </p>
+            <div className="flex items-center">
+              <div className="flex items-center mr-4">
+                {node.author?.photo?.url && (
+                  <img
+                    alt={node.author?.name || "Author"}
+                    height="30px"
+                    width="30px"
+                    className="rounded-full mr-2"
+                    src={node.author.photo.url}
+                  />
+                )}
+                <p className="text-gray-400">
+                  {node.author?.name || "Unknown Author"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+})}
         </Slider>
 
         <Gradient />
       </div>
 
       <div className="flex justify-center mt-12 md:mt-15 xl:mt-20">
-        <Button href="/roadmap">Our roadmap</Button>
+        <Button href="/blog">View All Posts</Button>
       </div>
     </Section>
   );

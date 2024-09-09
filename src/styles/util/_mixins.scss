@@ -1,0 +1,22 @@
+@use './functions' as f;
+
+@mixin center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button-focus-underline {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - f.rem(1));
+  height: 3px;
+  border-radius: 100px;
+}
+
+@mixin focus-styles {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}

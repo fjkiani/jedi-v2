@@ -1,0 +1,143 @@
+@use './util/functions' as f;
+@use './util/mixins' as m;
+
+.crew {
+  &__main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensures that it takes full width */
+  }
+
+  &__text-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px; /* Added padding for smaller screens */
+  }
+
+  &__member-role, &__member-name, &__bio {
+    text-align: center; /* Ensures text is centered on all screen sizes */
+  }
+
+  &__member-name {
+    margin-bottom: f.rem(14);
+    font-family: var(--ff-heading);
+    font-size: f.rem(24); /* Responsive font size using rem */
+    text-transform: uppercase;
+  }
+
+  &__bio {
+    font-family: var(--ff-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--light-blue);
+    padding: 0 10px; /* Padding for text wrapping on smaller screens */
+  }
+}
+
+.hero-image {
+  width: 100%; /* Makes the image responsive */
+  height: auto; /* Maintains aspect ratio */
+  object-fit: cover; /* Ensures the image covers the area without distorting */
+
+  &__container {
+    order: -1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: f.rem(28);
+    border-bottom: 1px solid #383b4b;
+  }
+}
+
+.crew__pagination-dots {
+  display: flex;
+  align-items: center;
+  order: -1;
+  margin-bottom: f.rem(18);
+
+  &__dot {
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border: none;
+    transition: background 100ms linear;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.5);
+      outline: none;
+    }
+
+    &--active {
+      background: var(--white);
+    }
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .crew {
+    &__text-section {
+      width: 80%; /* Makes width responsive */
+      margin-bottom: 40px;
+    }
+  }
+
+  .hero-image {
+    &__container {
+      order: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .crew__pagination-dots {
+    order: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .crew {
+    &__main-content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: f.rem(90);
+    }
+
+    &__text-section {
+      flex-shrink: 0;
+      width: 45%; /* Adaptive width */
+      min-height: 409px;
+      margin-bottom: 0;
+      text-align: start;
+    }
+
+    &__member-role, &__member-name {
+      text-align: start; /* Aligns text to start on larger screens */
+    }
+
+    &__bio {
+      width: 100%; /* Allows bio to fill the text section */
+    }
+  }
+
+  .hero-image {
+    &__container {
+      width: 45%; /* Maintains aspect ratio */
+      height: 504px;
+      position: relative;
+    }
+  }
+}

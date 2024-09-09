@@ -26,6 +26,46 @@ const PostDetail = () => {
     return <p>Post not found</p>; // Handle the case where post is not found
   }
 
+  const renderContentFragment = (item, key) => {
+    switch (item.type) {
+      case 'paragraph':
+        return (
+          <p key={key} className="mb-8">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </p>
+        );
+      case 'bulleted-list':
+        return (
+          <ul key={key} className="list-disc list-inside mb-8 ml-5">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </ul>
+        );
+      case 'list-item':
+        return (
+          <li key={key} className="mb-4">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </li>
+        );
+      case 'numbered-list':
+        return (
+          <ol key={key} className="list-decimal list-inside mb-8 ml-5">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </ol>
+        );
+      case 'image':
+        return (
+          <img
+            key={key}
+            src={item.src}
+            alt={item.title || 'Image'}
+            className="mb-8 w-full h-auto rounded-lg"
+          />
+        );
+      default:
+        return <span key={key}>{item.text}</span>;
+    }
+  };
+
   return (
     <div className="shadow-lg rounded-lg lg:p-8 pb-12 mb-8">
       <div className="relative overflow-hidden shadow-md mb-6">
@@ -76,16 +116,9 @@ const PostDetail = () => {
         <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
         {/* Render the content */}
         {post.content?.raw?.children?.length > 0 ? (
-          post.content.raw.children.map((typeObj, index) => {
-            const children = typeObj.children.map((item, itemindex) => (
-              <React.Fragment key={itemindex}>{item.text}</React.Fragment>
-            ));
-            return (
-              <p key={index} className="mb-8">
-                {children}
-              </p>
-            );
-          })
+          post.content.raw.children.map((typeObj, index) =>
+            renderContentFragment(typeObj, index)
+          )
         ) : (
           <p>No content available</p>
         )}

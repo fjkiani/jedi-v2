@@ -12,6 +12,10 @@ import Services from "./components/Services";
 import PostCard from "@/components/hyGraph/PostCard";
 import PostDetail from "@/components/hyGraph/PostDetail";
 import { getPosts } from "./services"; // Adjust the import if necessary
+import { StarsCanvas} from "./components/canvas";
+import Contact from '@/components/Contact';
+import ScrollToTop from "./components/ScrollToTop"; // Import the ScrollToTop component
+
 
 //pages
 import Blog from '@/blog/Blog'; // Adjust the import to match the new path
@@ -38,6 +42,8 @@ const App = () => {
   return (
     <>
       <Header />
+      <ScrollToTop /> Add ScrollToTop to reset scroll position on navigation
+
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <Routes>
           <Route
@@ -50,20 +56,15 @@ const App = () => {
                 <Services />
                 <Pricing />
                 <Roadmap />
-                {loading ? (
-                  <p>Loading posts...</p>
-                ) : (
-                  posts.length > 0 &&
-                  posts.map((post, index) => (
-                    <PostCard key={index} post={post.node} />
-                  ))
-                )}
               </>
             }
           />
+          {/* //routes for pages */}
           <Route path="/blog" element={<Blog posts={posts} />} /> Add the Blog route
           <Route path="blog/post/:slug" element={<BlogPage />} /> {/* Dynamic route for post details */}
         </Routes>
+        <Contact/>
+        <StarsCanvas/>
         <Footer />
       </div>
       <ButtonGradient />

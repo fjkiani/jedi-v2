@@ -1,0 +1,250 @@
+@use './util/functions' as f;
+@use './util/mixins' as m;
+
+.technology {
+  &__main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__pagination-dots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 22px;
+
+    &__dot {
+      @include m.center-content;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: none;
+      font-family: var(--ff-heading);
+      font-size: 16;
+      color: var(--white);
+      transition: background 80ms linear;
+
+      &:not(:last-child) {
+        margin-bottom: 16px;
+      }
+
+      &:hover,
+      &:focus-visible {
+        border: 1px solid var(--white);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--white);
+        outline-offset: 4px;
+      }
+
+      &--active {
+        background: var(--white);
+        border: 1px solid var(--white);
+        color: var(--dark-blue);
+      }
+    }
+
+    &__view-all {
+      margin-top: 16px;
+      cursor: pointer;
+      background: var(--dark-blue);
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      text-transform: uppercase;
+      transition: background 80ms linear;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--light-blue);
+      }
+    }
+
+    @media screen and (max-width: 650px) {
+      flex-direction: row;
+      flex-wrap: wrap; // Added to allow wrapping of elements
+      justify-content: center;
+      align-items: center;
+
+      &__dot {
+        margin-bottom: 8px;
+        margin-right: 10px;
+
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+
+      &__view-all {
+        margin-top: 8px;
+        margin-left: 10px;
+        padding: 8px 12px;
+      }
+    }
+  }
+
+  &__info-section {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  &__sub-heading {
+    margin-bottom: f.rem(2);
+    font-family: var(--ff-sub-heading);
+    font-size: f.rem(14);
+    text-transform: uppercase;
+    letter-spacing: f.rem(2.36);
+    color: var(--light-blue);
+  }
+
+  &__name {
+    margin-bottom: f.rem(14);
+    font-family: var(--ff-heading);
+    font-size: f.rem(24);
+    text-transform: uppercase;
+  }
+
+  &__description {
+    font-family: var(--ff-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--light-blue);
+    margin: 0 auto;
+  }
+
+  &__hero-image {
+    &--mobile {
+      order: -1;
+      width: calc(100% + 48px);
+      height: clamp(170px, 45vw, 310px);
+      object-fit: cover;
+      object-position: bottom;
+      margin-bottom: 36px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    &--desktop {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .technology {
+    &__pagination-dots {
+      margin-bottom: 42px;
+
+      &__dot {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        letter-spacing: 1.5px;
+      }
+    }
+
+    &__sub-heading {
+      margin-bottom: f.rem(8);
+      font-size: f.rem(16);
+      letter-spacing: f.rem(2.7);
+    }
+
+    &__name {
+      margin-bottom: f.rem(8);
+      font-size: f.rem(40);
+    }
+
+    &__description {
+      width: 430px;
+    }
+
+    &__hero-image {
+      &--mobile {
+        width: calc(100% + 76px);
+        margin-bottom: 56px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .technology {
+    &__main-content {
+      flex-direction: row;
+      align-items: flex-start;
+      width: 1330px;
+    }
+
+    &__pagination-dots {
+      flex-direction: column;
+      margin-top: 110px;
+      margin-bottom: 0;
+      margin-inline: 110px 80px;
+
+      &__dot {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+        letter-spacing: 2px;
+
+        &:not(:last-child) {
+          margin-right: 0;
+          margin-bottom: 32px;
+        }
+      }
+    }
+
+    &__info-section {
+      width: 470px;
+      margin-right: auto;
+      margin-top: 110px;
+      text-align: start;
+    }
+
+    &__sub-heading {
+      margin-bottom: 0;
+    }
+
+    &__name {
+      font-size: f.rem(56);
+      margin-bottom: f.rem(6);
+    }
+
+    &__description {
+      width: 440px;
+    }
+
+    &__hero-image {
+      &--mobile {
+        display: none;
+      }
+
+      &--desktop {
+        display: block;
+        width: 515px;
+        height: 526px;
+        object-fit: cover;
+        object-position: center;
+        position: relative;
+        right: -55px;
+      }
+    }
+  }
+}
