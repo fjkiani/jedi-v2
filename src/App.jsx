@@ -51,10 +51,10 @@ const App = () => {
             element={
               <>
                 <Hero />
-                <Benefits />
                 <Collaboration />
+                <Benefits />
+                {/* <Pricing /> */}
                 <Services />
-                <Pricing />
                 <Roadmap />
               </>
             }

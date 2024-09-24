@@ -56,7 +56,7 @@ const Roadmap = () => {
   return (
     <Section className="overflow-hidden" id="cms-content">
       <div className="container md:pb-10">
-        <Heading tag="Latest Content" title="From Our Blog" />
+        <Heading tag="Research" title="From Our Blog" />
 
         <Slider {...settings}>
         {posts.map((post, index) => {

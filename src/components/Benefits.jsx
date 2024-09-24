@@ -47,7 +47,7 @@ const Benefits = () => {
       <div className="container relative z-2">
         <Heading
           className="md:max-w-md lg:max-w-2xl"
-          title="Supercharge Your Business with Jedi Labs"
+          title="NextGen AI Stack"
         />
         <Slider {...settings}>
           {benefits.map((item) => (

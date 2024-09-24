@@ -80,18 +80,13 @@ export const notificationImages = [notification4, notification3, notification2];
 
 export const companyLogos = [cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake];
 
-export const brainwaveServices = [
-  "AI-Driven Development",
-  "Full-Stack Engineering",
-  "Seamless Integration",
-];
 
 export const brainwaveServicesIcons = [
   recording03,
   recording01,
   disc02,
   chromecast,
-  sliders04,
+  // sliders04,
 ];
 
 export const roadmap = [
@@ -151,18 +146,28 @@ export const collabContent = [
   {
     id: "0",
     title: "From Idea to Reality",
-    text: collabText1,
+    // text: collabText1,
   },
-  {
-    id: "1",
-    title: "Comprehensive Development Services",
-    text: collabText2,
-  },
+  // {
+  //   id: "1",
+  //   title: "Next Generation Technology Solutions",
+  //   // text: collabText2,
+  // },
   {
     id: "2",
-    title: "Scalable and Recession-Proof",
-    text: collabText3,
+    title: "Full-Stack Software Development",
+    // text: collabText3,
   },
+  {
+    id: "3",
+    title: "Next-Gen and Recession-Proof",
+    // text: collabText3,
+  },
+  // {
+  //   id: "4",
+  //   title: "Scalable and Recession-Proof",
+  //   // text: collabText3,
+  // },
 ];
 
 export const collabApps = [
@@ -277,7 +282,7 @@ export const benefits = [
   {
     id: "0",
     title: "Context Aware Agents",
-    text: "Context Aware Agents are AI-driven systems designed to understand and respond to user queries with a deep awareness of context and history. These agents go beyond simple question-and-answer systems by adapting to ongoing conversations, personalizing interactions, and delivering highly relevant responses based on the user’s unique situation.",
+    text: "AI Agents that go beyond simple question-and-answer systems by adapting to ongoing conversations, personalizing interactions, and delivering highly relevant responses based on the user’s unique situation.",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
@@ -285,7 +290,7 @@ export const benefits = [
   {
     id: "1",
     title: "Realtime Answer Generation (RAG) ",
-    text: "Realtime Answer Generation (RAG) empowers your business by providing instant access to up-to-date information directly from your data sources. Unlike traditional systems that rely on pre-trained models, RAG dynamically retrieves answers from live data, ensuring that your team or customers always have the latest and most accurate insights. ",
+    text: "Realtime Answer Generation (RAG) empowers your business by providing instant access to up-to-date information directly from your data sources ",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
@@ -294,20 +299,12 @@ export const benefits = [
   {
     id: "2",
     title: "Knowledge as a Service (KaaS)",
-    text: "Knowledge as a Service (KaaS) provides on-demand access to a comprehensive knowledge base tailored to your business needs with real-time information, curated data, and advanced AI-driven knowledge systems to enhance decision-making and optimize workflows",
+    text: "Instant access to knowledge base tailored to your business needs with real-time information, curated data, and advanced AI-driven knowledge systems to enhance decision-making",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: benefitImage2,
   },
-  // {
-  //   id: "3",
-  //   title: "Fast responding",
-  //   text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
-  //   backgroundUrl: "./src/assets/benefits/card-4.svg",
-  //   iconUrl: benefitIcon4,
-  //   imageUrl: benefitImage2,
-  //   light: true,
-  // },
+ 
   // {
   //   id: "4",
   //   title: "Ask anything",
@@ -362,31 +359,62 @@ export const socials = [
 
 
 // Service Content
+// constants.js
 export const serviceContent = [
   {
-    title: "Generative AI",
-    subtitle: "Enhance your photos effortlessly",
-    description: "Automatically enhance your photos using our AI app's photo editing feature. Try it now!",
+    title: "AI-Powered X-Ray Analysis",
+    title2: "Instant Pneumonia Diagnosis",
+    subtitle: "Revolutionize X-Ray Diagnostics with AI",
+    description: "Fast track the diagnosis of suspected pneumonia patients in just 30 seconds utilizing our AI-powered X-ray analysis platform.",
     video: "/videos/medical-ai.mp4", // Updated path
+    useCases: [
+      "Quick detection of pneumonia in emergency cases",
+      "Assist radiologists with accurate diagnosis in less time",
+      "Improve patient outcomes by reducing diagnostic delays",
+    ],
   },
   {
-    title: "AI Agents",
-    subtitle: "Create stunning visuals with ease",
-    description: "The world’s most powerful AI photo and video art generation engine. What will you create?",
+    title: "Revenue and Expense Management Platform",
+    title2: "Comprehensive Visualization and Financial Accuracy",
+    subtitle: "Track and Analyze Your Revenue and Expenses",
+    description: "Visualization to help make informed financial decisions to enhance financial accuracy and strategic planning with automated tracking",
     video: "/videos/analytics.mp4", // Updated path
+    useCases: [
+      "Track revenue and expenses across various departments",
+      "Analyze profit and revenue to identify key financial trends",
+      "Manage inventory and expenses with real-time data insights",
+    ],
   },
   {
-    title: "Knowledge Base",
-    subtitle: "Professional-grade audio enhancement",
-    description: "Process and enhance audio files with our advanced AI-driven tools for clear and professional results.",
+    title: "R&D Chat",
+    title2: "Real-Time Answer Generation Chat",
+    subtitle: "Continuous Data Updates for Real-Time Conversations",
+    description: "Leverage Retrieval-Augmented Generation (RAG) and Natural Language Processing to revolutionize user engagement with real-time interactions.",
     video: "/videos/rdChat.mp4", // Updated path
+    useCases: [
+      "Real-time user interaction in customer service chatbots",
+      "Enhance customer engagement by providing accurate, up-to-date information",
+    ],
   },
   {
-    title: "Knowledge Base",
-    subtitle: "Professional-grade audio enhancement",
-    description: "Process and enhance audio files with our advanced AI-driven tools for clear and professional results.",
+    title: "Machine Learning ROI Dashboard",
+    title2: "Return on Investment ",
+    subtitle: "Efficiently Track and Analyze Marketing Data",
+    description: "Machine Learning dashboard, built on Snowflake and visualized through Streamlit, transforms raw ad spend data into actionable insights to forecast future ROI resulting in 400%+ ROI.",
     video: "/videos/HH.mp4", // Updated path
+    useCases: [
+      "Seamless integration of marketing data sources into Snowflake",
+      "Automated data cleansing and transformation for accurate analysis",
+      "Efficient management of marketing data pipelines for real-time insights",
+    ],
   },
+];
+
+
+export const brainwaveServices = [
+  "Test",
+  "Full-Stack Engineering",
+  "Seamless Integration",
 ];
 
 

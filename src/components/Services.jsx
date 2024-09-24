@@ -6,6 +6,8 @@ import { brainwaveServices, brainwaveServicesIcons, serviceContent, sliderSettin
 import { check } from "../assets";
 import { PhotoChatMessage, Gradient, VideoBar, VideoChatMessage } from "./design/Services";
 import Generating from "./Generating";
+import { StarsCanvas} from "../components/canvas";
+
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(0);
@@ -65,24 +67,26 @@ const Services = () => {
             </div>
 
             <div className="relative z-1 max-w-[17rem] mt-8 lg:mt-0 lg:ml-8 lg:w-[35%]">
-              <h4 className="h4 mb-4">{serviceContent[selectedService].title}</h4>
+              <h4 className="h4 mb-4">{serviceContent[selectedService].title2}</h4>
               <p className="body-2 mb-[3rem] text-n-3">
                 {serviceContent[selectedService].description}
               </p>
               <ul className="body-2">
-                {brainwaveServices.map((item, index) => (
-                  <li key={index} className="flex items-start py-4 border-t border-n-6">
-                    <img width={24} height={24} src={check} alt="check icon" />
-                    <p className="ml-4">{item}</p>
-                  </li>
-                ))}
-              </ul>
+                  {serviceContent[selectedService].useCases.map((useCase, index) => (
+                    <li key={index} className="flex items-start py-4 border-t border-n-6">
+                      <img width={24} height={24} src={check} alt="check icon" />
+                      <p className="ml-4">{useCase}</p>
+                    </li>
+                  ))}
+                </ul>
+
             </div>
           </div>
 
           <Gradient />
         </div>
       </div>
+                <StarsCanvas/>
     </Section>
   );
 };
