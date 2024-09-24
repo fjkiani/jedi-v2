@@ -1,4 +1,5 @@
-import brainwave from "./brainwave.svg";
+
+import logo from "./logo/logo.png";
 import check from "./check.svg";
 import brainwaveSymbol from "./brainwave-symbol.svg";
 import brainwaveWhiteSymbol from "./brainwave-symbol-white.svg";
@@ -75,11 +76,13 @@ import instagram from "./socials/instagram.svg";
 import telegram from "./socials/telegram.svg";
 import twitter from "./socials/twitter.svg";
 
+// //import videos
+// import { analytics, HH, medicalAI, rdChat, coding2 } from "../assets/videos";
+
 //stack
 import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
 
-//vidoes
-import { analytics, HH, medicalAI, rdChat } from "../assets/videos";
+
 
 
 
@@ -87,7 +90,7 @@ import { analytics, HH, medicalAI, rdChat } from "../assets/videos";
 
 
 export {
-  brainwave,
+  logo,
   check,
   check2,
   loading1,
@@ -165,9 +168,10 @@ export {
   lambda,
   snowflake,
   // videos
-  analytics,
-  HH,
-  medicalAI,
-  rdChat
+  // analytics,
+  // HH,
+  // medicalAI,
+  // rdChat,
+  // coding2
 
 };
