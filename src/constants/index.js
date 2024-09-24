@@ -87,6 +87,7 @@ export const brainwaveServicesIcons = [
   disc02,
   chromecast,
   // sliders04,
+  // sliders04,
 ];
 
 export const roadmap = [
