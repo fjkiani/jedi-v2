@@ -36,29 +36,29 @@ import {
   yourlogo,
 } from "../assets";
 
-import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
+import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake, neo4j, alx, mc, sand } from "../assets/stack";
 
 
 export const navigation = [
   {
     id: "0",
-    title: "Features",
-    url: "#features",
+    title: "About",
+    url: "#about",
   },
   {
     id: "1",
-    title: "Pricing",
-    url: "#pricing",
+    title: "Benefits",
+    url: "#benefits",
   },
   {
     id: "2",
-    title: "How to use",
-    url: "#how-to-use",
+    title: "Research",
+    url: "#blog",
   },
   {
     id: "3",
-    title: "Roadmap",
-    url: "#roadmap",
+    title: "Contact",
+    url: "#contact",
   },
   {
     id: "4",
@@ -78,7 +78,10 @@ export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
 export const notificationImages = [notification4, notification3, notification2];
 
-export const companyLogos = [cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake];
+// export const partnerLogos = [mastercard, sand, alx];
+
+export const companyLogos = [cohere, langchain, openai, anthropic, aws, neo4j, lambda, mc, sand, alx];
+export const backedBy = [alx, sand, mc]
 
 
 export const brainwaveServicesIcons = [
@@ -146,24 +149,24 @@ export const collabText3 =
 export const collabContent = [
   {
     id: "0",
-    title: "From Idea to Reality",
+    title: "Regenerative social educational platform designed to accelerate global development in education and human capital.",
     // text: collabText1,
   },
-  // {
-  //   id: "1",
-  //   title: "Next Generation Technology Solutions",
-  //   // text: collabText2,
-  // },
+  {
+    id: "1",
+    title: "Connects educators, students, institutions, industry partners, and learning service providers through “The Brain”",
+    // text: collabText2,
+  },
   {
     id: "2",
-    title: "Full-Stack Software Development",
+    title: "An Instantaneously Updated Semantic Knowledge Web Powered by AI.",
     // text: collabText3,
   },
-  {
-    id: "3",
-    title: "Next-Gen and Recession-Proof",
-    // text: collabText3,
-  },
+  // {
+  //   id: "3",
+  //   title: "Next-Gen and Recession-Proof",
+  //   // text: collabText3,
+  // },
   // {
   //   id: "4",
   //   title: "Scalable and Recession-Proof",
@@ -174,58 +177,58 @@ export const collabContent = [
 export const collabApps = [
   {
     id: "0",
-    title: "Figma",
-    icon: figma,
+    title: "alx",
+    icon: alx,
     width: 26,
     height: 36,
     
   },
   {
     id: "1",
-    title: "Notion",
-    icon: notion,
+    title: "langchain",
+    icon: langchain,
     width: 34,
     height: 36,
   },
   {
     id: "2",
-    title: "Discord",
-    icon: discord,
+    title: "anthropic",
+    icon: anthropic,
     width: 36,
     height: 28,
   },
   {
     id: "3",
-    title: "Slack",
-    icon: slack,
+    title: "aws",
+    icon: aws,
     width: 34,
     height: 35,
   },
   {
     id: "4",
-    title: "Photoshop",
-    icon: photoshop,
+    title: "lambda",
+    icon: lambda,
     width: 34,
-    height: 34,
+    height: 44,
   },
   {
     id: "5",
-    title: "Protopie",
-    icon: protopie,
+    title: "snowflake",
+    icon: snowflake,
     width: 34,
     height: 34,
   },
   {
     id: "6",
-    title: "Framer",
-    icon: framer,
+    title: "openai",
+    icon: openai,
     width: 26,
     height: 34,
   },
   {
     id: "7",
-    title: "Raindrop",
-    icon: raindrop,
+    title: "neo4j",
+    icon: neo4j,
     width: 38,
     height: 32,
   },
@@ -282,16 +285,16 @@ export const pricing = [
 export const benefits = [
   {
     id: "0",
-    title: "Context Aware Agents",
-    text: "AI Agents that go beyond simple question-and-answer systems by adapting to ongoing conversations, personalizing interactions, and delivering highly relevant responses based on the user’s unique situation.",
+    title: "Human Knowledge Simulator",
+    text: "AI-driven platform that continuously adapts and simulates personalized learning experiences by integrating real-time global knowledge, enabling learners to stay aligned with the latest advancements and industry standards.",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
   },
   {
     id: "1",
-    title: "Realtime Answer Generation (RAG) ",
-    text: "Realtime Answer Generation (RAG) empowers your business by providing instant access to up-to-date information directly from your data sources ",
+    title: "Education Ecosystem Accelerator",
+    text: "Bridging the gap between education and the rapidly evolving job market by connecting learners, educators, and industry expert and accelerating development, knowledge and skills",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
@@ -299,8 +302,8 @@ export const benefits = [
   },
   {
     id: "2",
-    title: "Knowledge as a Service (KaaS)",
-    text: "Instant access to knowledge base tailored to your business needs with real-time information, curated data, and advanced AI-driven knowledge systems to enhance decision-making",
+    title: "Knowledge as a Service",
+    text: "Providing on-demand access to a vast, continuously updated repository of global educational content, empowering learners and institutions to customize learning experiences and stay current with the latest industry and academic advancements.",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: benefitImage2,

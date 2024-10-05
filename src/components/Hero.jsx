@@ -45,8 +45,8 @@ const PrevArrow = (props) => {
 const Hero = () => {
   const heroContent = [
     {
-      title: "100x your business",
-      subtitle: "Unleash the power of technology to transform your business.",
+      title: "Amplify Human Knowledge with Edulga's AI-Powered Learning Graph",
+      subtitle: "Harness the power of \"The Brain\" our dynamic Large Graph Model—designed to simulate, connect, and expand human knowledge",
       video: "https://path-to-your-video-1.mp4",
     },
     {
@@ -100,7 +100,7 @@ const Hero = () => {
               <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
                 <h1 className="h1 mb-6">
                   {content.title}&nbsp;&nbsp;
-                  <span className="inline-block relative">
+                  {/* <span className="inline-block relative">
                     Jedi Labs{" "}
                     <img
                       src={curve}
@@ -109,7 +109,7 @@ const Hero = () => {
                       height={28}
                       alt="Curve"
                     />
-                  </span>
+                  </span> */}
                 </h1>
                 <p className="body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8">
                   {content.subtitle}
@@ -130,6 +130,7 @@ const Hero = () => {
                       src="/videos/coding2.mp4" // Updated to point to the public folder
                       controls
                       muted
+                      loop
                       autoPlay
                       alt="Hero video"
                     />
@@ -172,7 +173,7 @@ const Hero = () => {
           ))}
         </Slider>
 
-        <CompanyLogos className="hidden relative z-10 mt-20 lg:block" />
+        {/* <BackedBy className="hidden relative z-10 mt-20 lg:block" /> */}
       </div>
 
       <BottomLine />

@@ -7,6 +7,8 @@ import Button from "./Button";
 import Section from "./Section";
 import { LeftCurve, RightCurve } from "./design/Collaboration";
 import { StarsCanvas} from "../components/canvas";
+import BackedBy from "./BackedBy";
+
 
 
 const Collaboration = () => {
@@ -47,10 +49,10 @@ const Collaboration = () => {
   };
 
   return (
-    <Section crosses>
+    <Section crosses id="about">
       <div className="container lg:flex">
         <div className="max-w-[25rem]">
-          <h2 className="h2 mb-4 md:mb-8">You Imagine, We Engineer.</h2>
+          <h2 className="h2 mb-4 md:mb-8">What is Edulga?</h2>
 
           {/* Slider for mobile screens */}
           <div className="block lg:hidden">
@@ -143,9 +145,14 @@ const Collaboration = () => {
           </div>
         </div>
       </div>
+      <BackedBy className="hidden relative z-10 mt-20 lg:block" />
+
       <StarsCanvas/>
     </Section>
   );
 };
 
 export default Collaboration;
+
+
+import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";

@@ -54,7 +54,7 @@ const Roadmap = () => {
   }
 
   return (
-    <Section className="overflow-hidden" id="cms-content">
+    <Section className="overflow-hidden" id="blog">
       <div className="container md:pb-10">
         <Heading tag="Research" title="From Our Blog" />
 
