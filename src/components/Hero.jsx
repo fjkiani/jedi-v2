@@ -50,15 +50,17 @@ const Hero = () => {
       video: "https://path-to-your-video-1.mp4",
     },
     {
-      title: "Elevate Your Business with Cutting-Edge AI Solutions",
-      subtitle: "Transform ideas into reality with our advanced AI tools.",
+      title: "Accelerate Learning with Edulga’s Knowledge as a Service (KaaS)",
+      subtitle: "Empower learners and institutions with on-demand, real-time access to global educational content, continuously updated and tailored to individual needs.",
       video: "https://path-to-your-video-2.mp4",
     },
+    
     {
-      title: "Innovate and Scale with Jedi Labs' Expertise",
-      subtitle: "Harness the future of technology to drive your success.",
+      title: "Transform Education with Edulga’s Ecosystem Accelerator",
+      subtitle: "Connect learners, educators, and industry experts in a seamless platform that drives innovation, closes skill gaps, and prepares users for the future of work.",
       video: "https://path-to-your-video-3.mp4",
     },
+    
   ];
 
   // Create a ref for the video element
