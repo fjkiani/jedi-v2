@@ -20,6 +20,8 @@ import ScrollToTop from "./components/ScrollToTop"; // Import the ScrollToTop co
 //pages
 import Blog from '@/blog/Blog'; // Adjust the import to match the new path
 import BlogPage from '@/blog/BlogPage'; // Updated import for the detailed blog post page
+import CategoryPage from '@/blog/CategoryPage'; // Import the CategoryPage component
+
 
 
 
@@ -62,6 +64,8 @@ const App = () => {
           {/* //routes for pages */}
           <Route path="/blog" element={<Blog posts={posts} />} /> Add the Blog route
           <Route path="blog/post/:slug" element={<BlogPage />} /> {/* Dynamic route for post details */}
+          <Route path="/blog/category/:slug" element={<CategoryPage />} /> {/* Add this route */}
+
         </Routes>
         <Contact/>
         <StarsCanvas/>
