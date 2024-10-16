@@ -88,7 +88,7 @@ export const brainwaveServicesIcons = [
   recording03,
   recording01,
   disc02,
-  chromecast,
+  // chromecast,
   // sliders04,
   // sliders04,
 ];
@@ -382,7 +382,7 @@ export const serviceContent = [
     title2: " Optimize Learning Paths Through Real-Time Adaptation",
     subtitle: "Edulga integrates AI-powered agents into its learning platform to ensure that each student follows a learning path tailored to their progress, engagement, and knowledge gaps. These AI agents handle data gathering, performance analysis, and content retrieval, all while continuously refining the student’s path using intelligent feedback loops. With AI agents handling the complex task prioritization and resource management, Edulga provides an optimized, adaptive learning experience that scales globally.",
     // description: "Edulga's AI agents dynamically adapt and personalize the learning experience for each student, continuously improving outcomes based on real-time data.",
-    video: "/videos/ai_agents_in_edulga.mp4", // some path
+    video: "/videos/ai-agents.mp4", // some path
     useCases: [
       "Real-Time Path Adjustment and update learning paths in real time",
       "Prioritizing tasks based on difficulty, relevance, and student proficiency.",
