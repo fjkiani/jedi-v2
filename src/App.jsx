@@ -56,7 +56,7 @@ const App = () => {
                 <Collaboration />
                 <Benefits />
                 {/* <Pricing /> */}
-                {/* <Services /> */}
+                <Services />
                 <Roadmap />
               </>
             }

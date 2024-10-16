@@ -1,17 +1,18 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-
 import { logo } from "../assets";
 import { navigation } from "../constants";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Header = () => {
-  const pathname = useLocation();
+  const location = useLocation(); // Get current location (pathname + hash)
+  const navigate = useNavigate(); // Use navigate for programmatic navigation
   const [openNavigation, setOpenNavigation] = useState(false);
 
+  // Toggle mobile navigation menu
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
@@ -22,16 +23,41 @@ const Header = () => {
     }
   };
 
-  const handleClick = () => {
-    if (!openNavigation) return;
-
-    enablePageScroll();
-    setOpenNavigation(false);
+  // Function to scroll to section based on hash ID
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
+    }
   };
+
+  // Handle link clicks for navigation and scrolling
+  const handleClick = (itemUrl) => {
+    const sectionId = itemUrl.substring(2); // Remove "/#" and get section id
+
+    if (location.pathname === "/") {
+      // If already on the homepage, just scroll to the section
+      scrollToSection(sectionId);
+    } else {
+      // Navigate to the homepage and then scroll to the section
+      navigate("/");
+      setTimeout(() => {
+        scrollToSection(sectionId);
+      }, 100); // Short delay to ensure navigation is completed before scrolling
+    }
+  };
+
+  // Scroll to section based on hash when location changes
+  useEffect(() => {
+    if (location.hash) {
+      const sectionId = location.hash.substring(1); // Remove "#" from the hash
+      scrollToSection(sectionId);
+    }
+  }, [location]); // Effect runs when location changes
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
@@ -39,7 +65,6 @@ const Header = () => {
         <a className="block w-[5rem] xl:mr-8" href="#hero">
           <img src={logo} width={190} height={40} alt="Brainwave" />
         </a>
-        {/* <h2>Jedi Labs</h2> */}
 
         <nav
           className={`${
@@ -50,13 +75,12 @@ const Header = () => {
             {navigation.map((item) => (
               <a
                 key={item.id}
-                href={item.url}
-                onClick={handleClick}
+                onClick={() => handleClick(item.url)}
                 className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                  item.url === pathname.hash
-                    ? "z-2 lg:text-n-1"
+                  location.hash === `#${item.url.substring(2)}`
+                    ? "lg:text-n-1"
                     : "lg:text-n-1/50"
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
@@ -67,16 +91,6 @@ const Header = () => {
 
           <HamburgerMenu />
         </nav>
-
-        {/* <a
-          href="#signup"
-          className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
-        >
-          New account
-        </a> */}
-        {/* <Button className="hidden lg:flex" href="#login">
-          Sign in
-        </Button> */}
 
         <Button
           className="ml-auto lg:hidden"

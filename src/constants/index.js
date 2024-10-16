@@ -43,33 +43,33 @@ export const navigation = [
   {
     id: "0",
     title: "About",
-    url: "#about",
+    url: "/#about",
   },
   {
     id: "1",
     title: "Benefits",
-    url: "#benefits",
+    url: "/#benefits",
   },
   {
     id: "2",
     title: "Research",
-    url: "#blog",
+    url: "/#blog",
   },
   {
     id: "3",
     title: "Contact",
-    url: "#contact",
+    url: "/#contact",
   },
   {
     id: "4",
     title: "New account",
-    url: "#signup",
+    url: "/#signup",
     onlyMobile: true,
   },
   {
     id: "5",
     title: "Sign in",
-    url: "#login",
+    url: "/#login",
     onlyMobile: true,
   },
 ];
@@ -328,35 +328,35 @@ export const benefits = [
 ];
 
 export const socials = [
-  {
-    id: "0",
-    title: "Discord",
-    iconUrl: discordBlack,
-    url: "#",
-  },
-  {
-    id: "1",
-    title: "Twitter",
-    iconUrl: twitter,
-    url: "#",
-  },
-  {
-    id: "2",
-    title: "Instagram",
-    iconUrl: instagram,
-    url: "#",
-  },
-  {
-    id: "3",
-    title: "Telegram",
-    iconUrl: telegram,
-    url: "#",
-  },
+  // {
+  //   id: "0",
+  //   title: "Discord",
+  //   iconUrl: discordBlack,
+  //   url: "#",
+  // },
+  // {
+  //   id: "1",
+  //   title: "Twitter",
+  //   iconUrl: twitter,
+  //   url: "#",
+  // },
+  // {
+  //   id: "2",
+  //   title: "Instagram",
+  //   iconUrl: instagram,
+  //   url: "#",
+  // },
+  // {
+  //   id: "3",
+  //   title: "Telegram",
+  //   iconUrl: telegram,
+  //   url: "#",
+  // },
   {
     id: "4",
-    title: "Facebook",
+    title: "Edulga",
     iconUrl: facebook,
-    url: "#",
+    url: "https://www.linkedin.com/company/edulga/",
   },
 ];
 
@@ -366,52 +366,54 @@ export const socials = [
 // constants.js
 export const serviceContent = [
   {
-    title: "AI-Powered X-Ray Analysis",
-    title2: "Instant Pneumonia Diagnosis",
-    subtitle: "Revolutionize X-Ray Diagnostics with AI",
-    description: "Fast track the diagnosis of suspected pneumonia patients in just 30 seconds utilizing our AI-powered X-ray analysis platform.",
-    video: "/videos/medical-ai.mp4", // Updated path
+    title: "Advance AI Data Engineering",
+    title2: "Unstructured data Framework",
+    subtitle: "Edulga's Unstructured Framework allows the real-time handling of preprocessing unstructured data, converting it into a structured format that is usable for learning purposes across Large Language Models. This includes parsing and extracting relevant data (e.g., key concepts, courses, videos, pdf's) from each document type and convert it into content that can be fed into Edulga's The Brain",
+    // description: " By integrating the Unstructured Framework, embedding models, and LLM programming frameworks, Edulga can:",
+    video: "/videos/unstructured-2.mp4", // Updated path
     useCases: [
-      "Quick detection of pneumonia in emergency cases",
-      "Assist radiologists with accurate diagnosis in less time",
-      "Improve patient outcomes by reducing diagnostic delays",
+      "Ingest and preprocess unstructured educational content (PDFs, HTML, presentations) using NLP to extract key concepts and knowledge.",
+      "Automatically structure unstructured data and feed it into the Knowledge Graph, ensuring real-time content delivery based on student queries.",
+      "Enable personalized and context-driven learning experiences by integrating processed data into Edulga’s adaptive LLM-powered learning pathways."
     ],
   },
   {
-    title: "Revenue and Expense Management Platform",
-    title2: "Comprehensive Visualization and Financial Accuracy",
-    subtitle: "Track and Analyze Your Revenue and Expenses",
-    description: "Visualization to help make informed financial decisions to enhance financial accuracy and strategic planning with automated tracking",
-    video: "/videos/analytics.mp4", // Updated path
+    title: "Edulga’s AI-Powered Agents: Enabling Personalized Learning at Scale",
+    title2: " Optimize Learning Paths Through Real-Time Adaptation",
+    subtitle: "Edulga integrates AI-powered agents into its learning platform to ensure that each student follows a learning path tailored to their progress, engagement, and knowledge gaps. These AI agents handle data gathering, performance analysis, and content retrieval, all while continuously refining the student’s path using intelligent feedback loops. With AI agents handling the complex task prioritization and resource management, Edulga provides an optimized, adaptive learning experience that scales globally.",
+    // description: "Edulga's AI agents dynamically adapt and personalize the learning experience for each student, continuously improving outcomes based on real-time data.",
+    video: "/videos/ai_agents_in_edulga.mp4", // some path
     useCases: [
-      "Track revenue and expenses across various departments",
-      "Analyze profit and revenue to identify key financial trends",
-      "Manage inventory and expenses with real-time data insights",
+      "Real-Time Path Adjustment and update learning paths in real time",
+      "Prioritizing tasks based on difficulty, relevance, and student proficiency.",
+      "Personalized Content Delivery based on each student’s unique needs"
     ],
   },
+  
   {
-    title: "R&D Chat",
-    title2: "Real-Time Answer Generation Chat",
-    subtitle: "Continuous Data Updates for Real-Time Conversations",
-    description: "Leverage Retrieval-Augmented Generation (RAG) and Natural Language Processing to revolutionize user engagement with real-time interactions.",
-    video: "/videos/rdChat.mp4", // Updated path
+    title: "Edulga's Knowledge Graph & RAG: Intelligent Learning Powered by Real-Time Contextual Retrieval",
+    title2: "Personalized Learning Through AI-Powered Knowledge Graphs",
+    subtitle:"Knowledge Graph & RAG architecture forms the core of its adaptive learning platform. Using intelligent agents to query vast databases of unstructured educational content, the system combines vector-based search and graph-based relationships to generate real-time, personalized learning experiences according to most relevant content, dynamically adjusted to their learning needs. This enables Edulga to continuously refine learning paths and deliver content that is both comprehensive and aligned with the learner's goals.",
+    // description: "Edulga Knowledge Graph & RAG system is central to providing an adaptive and personalized learning experience. Through intelligent agent interactions, students receive contextually enriched content that is continuously updated to match their progress.",
+    video: "/videos/graph-rag.mp4", // some path
     useCases: [
-      "Real-time user interaction in customer service chatbots",
-      "Enhance customer engagement by providing accurate, up-to-date information",
+      "Adaptive Learning Path Updates that continuously updates the learner's content recommendations based on real-time performance",
+      "Enhanced Understanding Through Conceptual Relationships that helps identify and recommend related topics or subjects by linking foundational concepts across multiple disciplines."
+
     ],
-  },
-  {
-    title: "Machine Learning ROI Dashboard",
-    title2: "Return on Investment ",
-    subtitle: "Efficiently Track and Analyze Marketing Data",
-    description: "Machine Learning dashboard, built on Snowflake and visualized through Streamlit, transforms raw ad spend data into actionable insights to forecast future ROI resulting in 400%+ ROI.",
-    video: "/videos/HH.mp4", // Updated path
-    useCases: [
-      "Seamless integration of marketing data sources into Snowflake",
-      "Automated data cleansing and transformation for accurate analysis",
-      "Efficient management of marketing data pipelines for real-time insights",
-    ],
-  },
+  }
+  // {
+  //   title: "Machine Learning ROI Dashboard",
+  //   title2: "Return on Investment ",
+  //   subtitle: "Efficiently Track and Analyze Marketing Data",
+  //   description: "Machine Learning dashboard, built on Snowflake and visualized through Streamlit, transforms raw ad spend data into actionable insights to forecast future ROI resulting in 400%+ ROI.",
+  //   video: "/videos/HH.mp4", // Updated path
+  //   useCases: [
+  //     "Seamless integration of marketing data sources into Snowflake",
+  //     "Automated data cleansing and transformation for accurate analysis",
+  //     "Efficient management of marketing data pipelines for real-time insights",
+  //   ],
+  // },
 ];
 
 
