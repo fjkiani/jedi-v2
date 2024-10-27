@@ -26,7 +26,40 @@ const PostDetail = () => {
     return <p>Post not found</p>; // Handle the case where post is not found
   }
 
+  //this component renders the components from HyGraph
   const renderContentFragment = (item, key) => {
+    // Handle text nodes with formatting
+    if (item.text) {
+      let textElement = item.text;
+  
+      // Apply bold formatting
+      if (item.bold) {
+        textElement = <b key={key}>{textElement}</b>;
+      }
+  
+      // Apply italic formatting
+      if (item.italic) {
+        textElement = <i key={key}>{textElement}</i>;
+      }
+  
+      // Apply underline formatting
+      if (item.underline) {
+        textElement = <u key={key}>{textElement}</u>;
+      }
+  
+      // Apply inline code formatting
+      if (item.code) {
+        textElement = (
+          <code key={key} className="bg-gray-200 text-red-600 p-1 rounded">
+            {textElement}
+          </code>
+        );
+      }
+  
+      return <span key={key}>{textElement}</span>;
+    }
+  
+    // Handle other element types
     switch (item.type) {
       case 'paragraph':
         return (
@@ -34,23 +67,73 @@ const PostDetail = () => {
             {item.children.map((child, i) => renderContentFragment(child, i))}
           </p>
         );
-      case 'bulleted-list':
+      case 'heading-one':
         return (
-          <ul key={key} className="list-disc list-inside mb-8 ml-5">
+          <h1 key={key} className="text-4xl font-bold mb-6">
             {item.children.map((child, i) => renderContentFragment(child, i))}
-          </ul>
+          </h1>
         );
-      case 'list-item':
+      case 'heading-two':
         return (
-          <li key={key} className="mb-4">
+          <h2 key={key} className="text-3xl font-bold mb-5">
             {item.children.map((child, i) => renderContentFragment(child, i))}
-          </li>
+          </h2>
         );
-      case 'numbered-list':
+      case 'heading-three':
         return (
-          <ol key={key} className="list-decimal list-inside mb-8 ml-5">
+          <h3 key={key} className="text-2xl font-bold mb-4">
             {item.children.map((child, i) => renderContentFragment(child, i))}
-          </ol>
+          </h3>
+        );
+      case 'heading-four': // Support for heading 4
+        return (
+          <h4 key={key} className="text-xl font-bold mb-3">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </h4>
+        );
+      case 'heading-five': // Support for heading 5
+        return (
+          <h5 key={key} className="text-lg font-bold mb-2">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </h5>
+        );
+      case 'heading-six': // Support for heading 6
+        return (
+          <h6 key={key} className="text-base font-bold mb-1">
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </h6>
+        );
+      case 'blockquote':
+        return (
+          <blockquote
+            key={key}
+            className="border-l-4 border-gray-400 pl-4 mb-8 italic text-gray-600"
+          >
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </blockquote>
+        );
+      case 'code-block':
+        return (
+          <pre
+            key={key}
+            className="bg-gray-800 text-yellow-200 p-4 rounded mb-8 overflow-auto"
+          >
+            <code>
+              {item.children.map((child, i) => renderContentFragment(child, i))}
+            </code>
+          </pre>
+        );
+      case 'link':
+        return (
+          <a
+            key={key}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            {item.children.map((child, i) => renderContentFragment(child, i))}
+          </a>
         );
       case 'image':
         return (
@@ -61,10 +144,24 @@ const PostDetail = () => {
             className="mb-8 w-full h-auto rounded-lg"
           />
         );
+      case 'video': // Handle video rendering
+        return (
+          <video
+            key={key}
+            controls
+            src={item.src}
+            className="mb-8 w-full h-auto rounded-lg"
+          >
+            Your browser does not support the video tag.
+          </video>
+        );
       default:
         return <span key={key}>{item.text}</span>;
     }
   };
+  
+  
+  
 
   return (
     <div className="shadow-lg rounded-lg lg:p-8 pb-12 mb-8">

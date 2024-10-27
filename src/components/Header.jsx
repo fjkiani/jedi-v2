@@ -1,3 +1,4 @@
+// src/components/Header.jsx
 import { useLocation, useNavigate } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { logo } from "../assets";
@@ -8,52 +9,53 @@ import { HamburgerMenu } from "./design/Header";
 import { useState, useEffect } from "react";
 
 const Header = () => {
-  const location = useLocation(); // Get current location (pathname + hash)
-  const navigate = useNavigate(); // Use navigate for programmatic navigation
+  const location = useLocation();
+  const navigate = useNavigate();
   const [openNavigation, setOpenNavigation] = useState(false);
 
-  // Toggle mobile navigation menu
   const toggleNavigation = () => {
-    if (openNavigation) {
-      setOpenNavigation(false);
-      enablePageScroll();
-    } else {
-      setOpenNavigation(true);
-      disablePageScroll();
-    }
+    setOpenNavigation(!openNavigation);
+    openNavigation ? enablePageScroll() : disablePageScroll();
   };
 
-  // Function to scroll to section based on hash ID
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  // Handle link clicks for navigation and scrolling
+  // Handle navigation clicks
   const handleClick = (itemUrl) => {
-    const sectionId = itemUrl.substring(2); // Remove "/#" and get section id
+    if (itemUrl.startsWith("/#")) {
+      // For section scrolling
+      const sectionId = itemUrl.substring(2);
 
-    if (location.pathname === "/") {
-      // If already on the homepage, just scroll to the section
-      scrollToSection(sectionId);
-    } else {
-      // Navigate to the homepage and then scroll to the section
-      navigate("/");
-      setTimeout(() => {
+      if (location.pathname === "/") {
         scrollToSection(sectionId);
-      }, 100); // Short delay to ensure navigation is completed before scrolling
+      } else {
+        navigate("/");
+        setTimeout(() => scrollToSection(sectionId), 100);
+      }
+    } else if (itemUrl.startsWith("/")) {
+      // For internal routes like /contact or /team
+      navigate(itemUrl);
+    } else {
+      // For external links
+      window.open(itemUrl, "_blank");
     }
   };
 
-  // Scroll to section based on hash when location changes
   useEffect(() => {
     if (location.hash) {
-      const sectionId = location.hash.substring(1); // Remove "#" from the hash
+      const sectionId = location.hash.substring(1);
       scrollToSection(sectionId);
     }
-  }, [location]); // Effect runs when location changes
+  }, [location]);
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
 
   return (
     <div
@@ -62,9 +64,13 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-        <a className="block w-[5rem] xl:mr-8" href="#hero">
+        {/* Logo: Click to navigate to home */}
+        <div
+          className="block w-[5rem] xl:mr-8 cursor-pointer"
+          onClick={handleLogoClick}
+        >
           <img src={logo} width={190} height={40} alt="Brainwave" />
-        </a>
+        </div>
 
         <nav
           className={`${
@@ -79,9 +85,7 @@ const Header = () => {
                 className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                  location.hash === `#${item.url.substring(2)}`
-                    ? "lg:text-n-1"
-                    : "lg:text-n-1/50"
+                  location.pathname === item.url ? "lg:text-n-1" : "lg:text-n-1/50"
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
                 {item.title}

@@ -52,22 +52,32 @@ export const navigation = [
   },
   {
     id: "2",
-    title: "Research",
+    title: "Blog",
     url: "/#blog",
   },
   {
     id: "3",
-    title: "Contact",
-    url: "/#contact",
+    title: "Learning Hub",
+    url: "https://edulga-ai-course-generator.vercel.app/",
   },
   {
     id: "4",
+    title: "Contact",
+    url: "/contact",
+  },
+  {
+    id: "5",
+    title: "Team",
+    url: "/team",
+  },
+  {
+    id: "5",
     title: "New account",
     url: "/#signup",
     onlyMobile: true,
   },
   {
-    id: "5",
+    id: "6",
     title: "Sign in",
     url: "/#login",
     onlyMobile: true,
