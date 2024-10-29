@@ -9,7 +9,7 @@ const ComputersCanvas = CanvasComponents.ComputersCanvas; // Accessing Computers
 
 const Pricing = () => {
   return (
-    <Section className="overflow-hidden" id="pricing">
+    <Section className="overflow-hidden" id="about">
       <div className="container relative z-2">
         <div className="hidden relative justify-center mb-[6.5rem] lg:flex">
           {/* Render the ComputersCanvas component */}
@@ -30,8 +30,8 @@ const Pricing = () => {
         </div>
 
         <Heading
-          tag="Get started with Brainwave"
-          title="Pay once, use forever"
+          tag="Get started with JediLabs"
+          title="Invest once, Generate forever"
         />
 
         <div className="relative">

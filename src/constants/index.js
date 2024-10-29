@@ -48,16 +48,16 @@ export const navigation = [
   {
     id: "1",
     title: "Pricing",
-    url: "#pricing",
+    url: "#about",
   },
   {
     id: "2",
-    title: "How to use",
+    title: "Work",
     url: "#how-to-use",
   },
   {
     id: "3",
-    title: "Roadmap",
+    title: "Team",
     url: "#roadmap",
   },
   {
@@ -235,49 +235,51 @@ export const collabApps = [
 export const pricing = [
   {
     id: "0",
-    title: "Consultation",
-    description: "AI chatbot, personalized recommendations",
-    price: "300",
+    title: "Web Development",
+    description: "Modern Websites, Advanced Features",
+    price: "1000",
     features: [
-      "An AI chatbot that can understand your queries",
-      "Personalized recommendations based on your preferences",
-      "Ability to explore the app and its features without any cost",
+      "Professional website development tailored to your business needs",
+      "Responsive design with optimized performance",
+      "Integration with essential tools (CMS, analytics, SEO)",
+      "1-month post-launch support to resolve issues quickly",
     ],
   },
   {
     id: "1",
-    title: "Web Transformation",
-    description: "Advanced AI chatbot, priority support, analytics dashboard",
-    price: "500 ",
+    title: "Full-Stack Transformation",
+    description: "Web, AI, and Data Infrastructure",
+    price: "3000",
     features: [
-      "An advanced AI chatbot that can understand complex queries",
-      "An analytics dashboard to track your conversations",
-      "Priority support to solve issues quickly",
+      "End-to-end web and backend development for dynamic apps",
+      "AI-powered chatbots and analytics for enhanced user interaction",
+      "Data pipeline integration and visualization tools for real-time insights",
+      "Priority support for 3 months to ensure seamless functionality and adaptation",
     ],
   },
   {
     id: "2",
-    title: "Enterprise",
-    description: "Custom AI chatbot, advanced analytics, dedicated account",
-    price: null,
+    title: "Next-Gen ML Transformation",
+    description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
+    price: "5000",
     features: [
-      "An AI chatbot that can understand your queries",
-      "Personalized recommendations based on your preferences",
-      "Ability to explore the app and its features without any cost",
+      "Custom implementation of vector databases for semantic search",
+      "Advanced embeddings and graph databases for robust data relationships",
+      "Graph-based RAG architecture for real-time, context-aware answers",
+      "6-month dedicated support for fine-tuning and scaling the solution",
     ],
   },
   {
-    id: "3",
+    id: "4",
     title: "Enterprise",
-    description: "Custom AI chatbot, advanced analytics, dedicated account",
-    price: null,
+    description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
+    price: "5000",
     features: [
-      "An AI chatbot that can understand your queries",
-      "Personalized recommendations based on your preferences",
-      "Ability to explore the app and its features without any cost",
+      "All the above & beyond",
     ],
   },
 ];
+
 
 export const benefits = [
   {
@@ -329,32 +331,32 @@ export const socials = [
     id: "0",
     title: "Discord",
     iconUrl: discordBlack,
-    url: "#",
+    url: "https://www.linkedin.com/company/jedilabs/",
   },
-  {
-    id: "1",
-    title: "Twitter",
-    iconUrl: twitter,
-    url: "#",
-  },
-  {
-    id: "2",
-    title: "Instagram",
-    iconUrl: instagram,
-    url: "#",
-  },
-  {
-    id: "3",
-    title: "Telegram",
-    iconUrl: telegram,
-    url: "#",
-  },
-  {
-    id: "4",
-    title: "Facebook",
-    iconUrl: facebook,
-    url: "#",
-  },
+  // {
+  //   id: "1",
+  //   title: "Twitter",
+  //   iconUrl: twitter,
+  //   url: "#",
+  // },
+  // {
+  //   id: "2",
+  //   title: "Instagram",
+  //   iconUrl: instagram,
+  //   url: "#",
+  // },
+  // {
+  //   id: "3",
+  //   title: "Telegram",
+  //   iconUrl: telegram,
+  //   url: "#",
+  // },
+  // {
+  //   id: "4",
+  //   title: "Facebook",
+  //   iconUrl: facebook,
+  //   url: "#",
+  // },
 ];
 
 
