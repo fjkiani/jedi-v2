@@ -237,7 +237,7 @@ export const pricing = [
     id: "0",
     title: "Web Development",
     description: "Modern Websites, Advanced Features",
-    price: "1000",
+    price: "1-5K",
     features: [
       "Professional website development tailored to your business needs",
       "Responsive design with optimized performance",
@@ -249,7 +249,7 @@ export const pricing = [
     id: "1",
     title: "Full-Stack Transformation",
     description: "Web, AI, and Data Infrastructure",
-    price: "3000",
+    price: "5-10K",
     features: [
       "End-to-end web and backend development for dynamic apps",
       "AI-powered chatbots and analytics for enhanced user interaction",
@@ -261,7 +261,7 @@ export const pricing = [
     id: "2",
     title: "Next-Gen ML Transformation",
     description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
-    price: "5000",
+    price: "10-50K",
     features: [
       "Custom implementation of vector databases for semantic search",
       "Advanced embeddings and graph databases for robust data relationships",
@@ -273,7 +273,7 @@ export const pricing = [
     id: "4",
     title: "Enterprise",
     description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
-    price: "5000",
+    price: "50k+",
     features: [
       "All the above & beyond",
     ],

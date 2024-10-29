@@ -80,7 +80,7 @@ import twitter from "./socials/twitter.svg";
 // import { analytics, HH, medicalAI, rdChat, coding2 } from "../assets/videos";
 
 //stack
-import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake, neo4j, alx, sand, mc } from "../assets/stack";
+import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
 
 
 
@@ -167,10 +167,6 @@ export {
   clay,
   lambda,
   snowflake,
-  neo4j,
-  sand,
-  mc,
-  alx
   // videos
   // analytics,
   // HH,

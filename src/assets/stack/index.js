@@ -6,14 +6,6 @@ import aws from "./aws.png";
 import clay from "./clay.png";
 import lambda from "./lambda.png";
 import snowflake from "./snowflake.png";
-import neo4j from "./neo4j.png";
-import alx from "./alx.png";
-import sand from "./sand.png";
-import mc from "./mc.png";
-
-
-
-
 
 
 export {
@@ -24,9 +16,5 @@ export {
   aws,
   clay,
   lambda,
-  neo4j,
-  snowflake,
-  alx,
-  sand,
-  mc
+  snowflake
 };

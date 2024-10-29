@@ -8,7 +8,7 @@ const Generating = ({ className }) => {
       } text-base`}
     >
       <img className="w-5 h-5 mr-4" src={loading} alt="Loading" />
-     continuously evolving knowledge graph—connects learners, educators, and innovators
+      We help companies bring any idea to life
     </div>
   );
 };

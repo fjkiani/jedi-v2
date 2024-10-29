@@ -79,8 +79,8 @@ const Contact = () => {
         variants={slideIn("left", "tween", 0.2, 1)}
         className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
       >
-        <p className={styles.sectionSubText}>Would you like to expand your knowledge?</p>
-        {/* <h3 className={styles.sectionHeadText}>Lets connect.</h3> */}
+        <p className={styles.sectionSubText}>Would you like to work together?</p>
+        <h3 className={styles.sectionHeadText}>Lets bring your idea to life.</h3>
 
         <form
           ref={formRef}

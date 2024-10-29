@@ -19,7 +19,7 @@ const Services = () => {
   return (
     <Section id="how-to-use">
       <div className="container">
-        <Heading title="Edulga aims to bridge the gaps between education and industry through a platform that offers real-time, personalized learning experiences " />
+        <Heading title="Jedi Labs Develops Innovative Technology Solutions Across All Industries" />
 
         <div className="py-12 px-4 xl:px-8">
           <h4 className="h4 mb-4">{serviceContent[selectedService].title}</h4>

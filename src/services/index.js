@@ -18,7 +18,6 @@ export const getPosts = async () => {
               }
             }
             createdAt
-            updatedAt
             slug
             title
             excerpt
@@ -255,29 +254,3 @@ export const getRecentPosts = async () => {
 
   return result.posts;
 };
-
-
-//team members
-
-export const getAuthors = async () => {
-  const query = gql`
-    query GetAuthors {
-      authors {
-        name
-        photo {
-          url
-        }
-        bio
-      }
-    }
-  `;
-
-  try {
-    const result = await request(graphqlAPI, query);
-    return result.authors;
-  } catch (error) {
-    console.error("Error fetching authors:", error);
-    return [];
-  }
-};
-

@@ -52,7 +52,7 @@ const BackedBy = ({ className }) => {
       Backed By
       </h5>
       <Slider {...settings}>
-        {backedBy.map((logo, index) => (
+        {companyLogos.map((logo, index) => (
           <div key={index} className="p-2">
             <li className="flex items-center justify-center h-[8.5rem]">
               <img src={logo} width={134} height={28} alt={`Logo ${index + 1}`} />

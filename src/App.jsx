@@ -16,18 +16,12 @@ import { StarsCanvas} from "./components/canvas";
 import Contact from '@/components/Contact';
 import ScrollToTop from "./components/ScrollToTop"; // Import the ScrollToTop component
 
-//team 
-import Team from '@/components/team/Team'; // Adjusted to your file path
-// import '@fortawesome/fontawesome-free/css/all.min.css';
-
-
-
-
 
 //pages
 import Blog from '@/blog/Blog'; // Adjust the import to match the new path
 import BlogPage from '@/blog/BlogPage'; // Updated import for the detailed blog post page
-import CategoryPage from '@/blog/CategoryPage'; // Import the CategoryPage component
+
+
 
 
 
@@ -65,20 +59,11 @@ const App = () => {
               </>
             }
           />
-          {/* //routes for internal pages */}
+          {/* //routes for pages */}
           <Route path="/blog" element={<Blog posts={posts} />} /> Add the Blog route
           <Route path="blog/post/:slug" element={<BlogPage />} /> {/* Dynamic route for post details */}
-          <Route path="/blog/category/:slug" element={<CategoryPage />} /> {/* Add this route */}
-          <Route path="/team" element={<Team />} /> 
-          <Route path="/contact" element={<Contact />} /> {/* Contact page route */}
-
-
-
-
-          
-
         </Routes>
-        {/* <Contact/> */}
+        <Contact/>
         <StarsCanvas/>
         <Footer />
       </div>
