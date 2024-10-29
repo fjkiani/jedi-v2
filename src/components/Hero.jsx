@@ -45,20 +45,22 @@ const PrevArrow = (props) => {
 const Hero = () => {
   const heroContent = [
     {
-      title: "100x your business",
-      subtitle: "Unleash the power of technology to transform your business.",
+      title: "Amplify Human Knowledge with Edulga's AI-Powered Learning Graph",
+      subtitle: "Harness the power of \"The Brain\" our dynamic Large Graph Model—designed to simulate, connect, and expand human knowledge",
       video: "https://path-to-your-video-1.mp4",
     },
     {
-      title: "Elevate Your Business with Cutting-Edge AI Solutions",
-      subtitle: "Transform ideas into reality with our advanced AI tools.",
+      title: "Accelerate Learning with Edulga’s Knowledge as a Service (KaaS)",
+      subtitle: "Empower learners and institutions with on-demand, real-time access to global educational content, continuously updated and tailored to individual needs.",
       video: "https://path-to-your-video-2.mp4",
     },
+    
     {
-      title: "Innovate and Scale with Jedi Labs' Expertise",
-      subtitle: "Harness the future of technology to drive your success.",
+      title: "Transform Education with Edulga’s Ecosystem Accelerator",
+      subtitle: "Connect learners, educators, and industry experts in a seamless platform that drives innovation, closes skill gaps, and prepares users for the future of work.",
       video: "https://path-to-your-video-3.mp4",
     },
+    
   ];
 
   // Create a ref for the video element
@@ -100,7 +102,7 @@ const Hero = () => {
               <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
                 <h1 className="h1 mb-6">
                   {content.title}&nbsp;&nbsp;
-                  <span className="inline-block relative">
+                  {/* <span className="inline-block relative">
                     Jedi Labs{" "}
                     <img
                       src={curve}
@@ -109,12 +111,12 @@ const Hero = () => {
                       height={28}
                       alt="Curve"
                     />
-                  </span>
+                  </span> */}
                 </h1>
                 <p className="body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8">
                   {content.subtitle}
                 </p>
-                <Button href="/pricing" white>
+                <Button href="#contact" white>
                   Get started
                 </Button>
               </div>
@@ -130,27 +132,15 @@ const Hero = () => {
                       src="/videos/coding2.mp4" // Updated to point to the public folder
                       controls
                       muted
+                      loop
                       autoPlay
                       alt="Hero video"
                     />
-                      <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
+                      {/* <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" /> */}
 
-                      <ScrollParallax isAbsolutelyPositioned>
-                        <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 bg-n-9/40 backdrop-blur border border-n-1/10 rounded-2xl xl:flex">
-                          {/* {heroIcons.map((icon, iconIndex) => (
-                            <li className="p-5" key={iconIndex}>
-                              <img src={icon} width={24} height={25} alt={icon} />
-                            </li>
-                          ))} */}
-                        </ul>
-                      </ScrollParallax>
+                
 
-                      <ScrollParallax isAbsolutelyPositioned>
-                        {/* <Notification
-                          className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
-                          title="Code generation"
-                        /> */}
-                      </ScrollParallax>
+              
                     </div>
                   </div>
 
@@ -172,7 +162,7 @@ const Hero = () => {
           ))}
         </Slider>
 
-        <CompanyLogos className="hidden relative z-10 mt-20 lg:block" />
+        {/* <BackedBy className="hidden relative z-10 mt-20 lg:block" /> */}
       </div>
 
       <BottomLine />

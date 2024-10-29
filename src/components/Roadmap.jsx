@@ -54,7 +54,7 @@ const Roadmap = () => {
   }
 
   return (
-    <Section className="overflow-hidden" id="cms-content">
+    <Section className="overflow-hidden" id="blog">
       <div className="container md:pb-10">
         <Heading tag="Research" title="From Our Blog" />
 
@@ -68,8 +68,8 @@ const Roadmap = () => {
           <div className="relative z-1">
             <div className="flex items-center justify-between mb-6">
               <Tagline className="text-sm text-gray-400">
-                {node.createdAt
-                  ? moment(node.createdAt).format("MMM DD, YYYY")
+                {node.updatedAt
+                  ? moment(node.updatedAt).format("MMM DD, YYYY")
                   : "No date available"}
               </Tagline>
               <div className="flex items-center px-4 py-1 bg-green-600 rounded text-white">
@@ -81,7 +81,7 @@ const Roadmap = () => {
                   alt={node.status || "Status unknown"}
                 />
                 <div className="tagline">
-                  {node.status === "done" ? "Completed" : "In Progress"}
+                  {node.status === "done" ? "Completed" : "Deployed"}
                 </div>
               </div>
             </div>
