@@ -18,7 +18,7 @@ import ScrollToTop from "./components/ScrollToTop"; // Import the ScrollToTop co
 
 //team 
 import Team from '@/components/team/Team'; // Adjusted to your file path
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 

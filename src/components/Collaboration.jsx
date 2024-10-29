@@ -148,7 +148,7 @@ const Collaboration = () => {
           </div>
         </div>
       </div>
-      <BackedBy className="hidden relative z-10 mt-20 lg:block" />
+      {/* <BackedBy className="hidden relative z-10 mt-20 lg:block" /> */}
 
       <StarsCanvas/>
     </Section>

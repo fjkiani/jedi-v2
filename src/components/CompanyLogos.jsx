@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { backedBy, companyLogos } from "../constants";
+import {companyLogos } from "../constants";
 import { StarsCanvas} from "../components/canvas";
 
 
