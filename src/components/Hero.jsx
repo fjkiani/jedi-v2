@@ -43,23 +43,52 @@ const PrevArrow = (props) => {
 };
 
 const Hero = () => {
+  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [isVisible, setIsVisible] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const heroContent = [
     {
-      title: "100x your business",
-      subtitle: "Unleash the power of technology to transform your business.",
+      title: "Transform Your Business with AI",
+      subtitle: "Unleash the power of Jedi Labs to transform your business.",
       video: "https://path-to-your-video-1.mp4",
     },
     {
-      title: "Elevate Your Business with Cutting-Edge AI Solutions",
-      subtitle: "Transform ideas into reality with our advanced AI tools.",
-      video: "https://path-to-your-video-2.mp4",
+      title: "Automate Your Workflow Today",
+      subtitle: "Let Jedi Labs handle the repetitive tasks while you focus on growth.",
+      video: "https://path-to-your-video-1.mp4",
     },
     {
-      title: "Innovate and Scale with Jedi Labs' Expertise",
-      subtitle: "Harness the future of technology to drive your success.",
-      video: "https://path-to-your-video-3.mp4",
+      title: "Future-Proof Your Enterprise",
+      subtitle: "Stay ahead of the curve with cutting-edge AI solutions.",
+      video: "https://path-to-your-video-1.mp4",
     },
   ];
+
+  useEffect(() => {
+    const fadeTimeout = 3000; // How long each title stays visible
+    const fadeTransition = 500; // How long the fade effect takes
+
+    const fadeLoop = () => {
+      // Start fade out
+      setIsVisible(false);
+      
+      // After fade out, change text and start fade in
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % heroContent.length);
+        setDisplayedTitle(heroContent[(currentIndex + 1) % heroContent.length].title);
+        setIsVisible(true);
+      }, fadeTransition);
+    };
+
+    // Set initial title
+    setDisplayedTitle(heroContent[currentIndex].title);
+
+    // Set up the interval for changing text
+    const interval = setInterval(fadeLoop, fadeTimeout);
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
 
   // Create a ref for the video element
   const videoRef = useRef(null);
@@ -98,21 +127,15 @@ const Hero = () => {
           {heroContent.map((content, index) => (
             <div key={index}>
               <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
-                <h1 className="h1 mb-6">
-                  {content.title}&nbsp;&nbsp;
-                  <span className="inline-block relative">
-                    Jedi Labs{" "}
-                    <img
-                      src={curve}
-                      className="absolute top-full left-0 w-full xl:-mt-2"
-                      width={624}
-                      height={28}
-                      alt="Curve"
-                    />
-                  </span>
+                <h1 className={`h1 mb-6 transition-opacity duration-500 ease-in-out ${
+                  isVisible ? 'opacity-100' : 'opacity-0'
+                }`}>
+                  {displayedTitle}
                 </h1>
-                <p className="body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8">
-                  {content.subtitle}
+                <p className={`body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8 transition-opacity duration-500 ease-in-out ${
+                  isVisible ? 'opacity-100' : 'opacity-0'
+                }`}>
+                  {heroContent[currentIndex].subtitle}
                 </p>
                 <Button href="/pricing" white>
                   Get started

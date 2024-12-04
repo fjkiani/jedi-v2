@@ -113,26 +113,36 @@ const Collaboration = () => {
               {/* </div> */}
             </div>
 
+            {/* App icons with enhanced styling */}
             <ul>
               {collabApps.map((app, index) => (
                 <li
                   key={app.id}
-                  className={`absolute top-0 left-1/2 h-1/2 -ml-[1.6rem] origin-bottom rotate-${
+                  className={`absolute top-0 left-1/2 h-1/2 -ml-[2.4rem] origin-bottom rotate-${
                     index * 45
                   }`}
                 >
                   <div
-                    className={`relative -top-[1.6rem] flex w-[3.2rem] h-[3.2rem] bg-n-7 border border-n-1/15 rounded-xl -rotate-${
-                      index * 45
-                    }`}
+                    className={`relative -top-[2.4rem] flex w-[4.8rem] h-[4.8rem] 
+                      bg-[#192230] border border-[#2A3B4A] rounded-xl 
+                      backdrop-blur-sm transition-all duration-300
+                      hover:scale-110 hover:bg-[#253545] 
+                      hover:border-[#3A4B5A] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                      -rotate-${index * 45}`}
                   >
-                    <img
-                      className="m-auto"
-                      width={app.width}
-                      height={app.height}
-                      alt={app.title}
-                      src={app.icon}
-                    />
+                    <div className="m-auto p-3 rounded-lg bg-[#253545] flex items-center justify-center
+                      shadow-inner border border-[#3A4B5A]">
+                      <img
+                        className="w-[32px] h-[32px] object-contain 
+                          filter brightness-150 contrast-150
+                          drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                        alt={app.title}
+                        src={app.icon}
+                        style={{
+                          filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.2))'
+                        }}
+                      />
+                    </div>
                   </div>
                 </li>
               ))}

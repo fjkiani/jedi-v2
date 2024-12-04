@@ -49,7 +49,7 @@ const BackedBy = ({ className }) => {
   return (
     <div className={className}>
       <h5 className="tagline mb-6 text-center text-n-1/50">
-      Backed By
+      Built using
       </h5>
       <Slider {...settings}>
         {companyLogos.map((logo, index) => (

@@ -78,8 +78,182 @@ export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
 export const notificationImages = [notification4, notification3, notification2];
 
-export const companyLogos = [cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake];
+export const companyLogos = [
+  {
+    image: cohere,
+    name: "COHERE",
+    services: ["Text Generation", "Classification", "Embeddings"]
+  },
+  {
+    image: langchain,
+    name: "LANGCHAIN",
+    services: ["LLM Framework", "Agents", "Memory"]
+  },
+  {
+    image: openai,
+    name: "OPENAI",
+    services: ["GPT Models", "DALL-E", "Whisper"]
+  },
+  {
+    image: anthropic,
+    name: "ANTHROPIC",
+    services: ["Claude AI", "Constitutional AI"]
+  },
+  {
+    image: aws,
+    name: "AWS",
+    services: ["Cloud Computing", "ML Services", "Databases"]
+  },
+  {
+    image: clay,
+    name: "CLAY",
+    services: ["Data Enrichment", "Lead Generation"]
+  },
+  {
+    image: lambda,
+    name: "LAMBDA",
+    services: ["Serverless", "Auto Scaling", "Pay-per-use"]
+  },
+  {
+    image: snowflake,
+    name: "SNOWFLAKE",
+    services: ["Data Warehouse", "Analytics", "Data Sharing"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg",
+    name: "MONGODB",
+    services: ["NoSQL Database", "Atlas", "Realm"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/postgresql.svg",
+    name: "POSTGRESQL",
+    services: ["SQL Database", "ACID Compliance", "JSON Support"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/redis.svg",
+    name: "REDIS",
+    services: ["In-Memory DB", "Caching", "Pub/Sub"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/docker.svg",
+    name: "DOCKER",
+    services: ["Containerization", "Microservices", "DevOps"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/terraform-enterprise.svg",
+    name: "TERRAFORM",
+    services: ["Infrastructure as Code", "Cloud Provisioning"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/grafana.svg",
+    name: "GRAFANA",
+    services: ["Monitoring", "Visualization", "Analytics"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/python-5.svg",
+    name: "PYTHON",
+    services: ["ML/AI", "Web Dev", "Automation"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/typescript.svg",
+    name: "TYPESCRIPT",
+    services: ["Type Safety", "JavaScript Superset", "Enterprise Dev"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
+    name: "REACT",
+    services: ["UI Library", "Component-Based", "Virtual DOM"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/huggingface-2.svg",
+    name: "HUGGING FACE",
+    services: ["Model Hub", "Transformers", "NLP Tools"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg",
+    name: "TENSORFLOW",
+    services: ["Deep Learning", "Neural Networks", "ML Models"]
+  },
+  {
+    
+    image: "https://cdn.worldvectorlogo.com/logos/pytorch-2.svg",
+    name: "PYTORCH",
+    services: ["Deep Learning", "Research", "Production ML"]
+  },
+  {
+    image: "https://cdn.worldvectorlogo.com/logos/nvidia.svg",
+    name: "NVIDIA",
+    services: ["GPU Computing", "CUDA", "AI Infrastructure"]
+  },
 
+  {
+    image: "https://www.vectorlogo.zone/logos/databricks/databricks-icon.svg",
+    name: "DATABRICKS",
+    services: ["Lakehouse", "ML Platform", "Data Analytics"]
+  },
+
+  {
+    image: "https://www.vectorlogo.zone/logos/weaviate/weaviate-icon.svg",
+    name: "WEAVIATE",
+    services: ["Vector DB", "Neural Search", "Semantic Search"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/chroma/chroma-icon.svg",
+    name: "CHROMA",
+    services: ["Embeddings DB", "RAG", "AI Memory"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/neo4j/neo4j-icon.svg",
+    name: "NEO4J",
+    services: ["Graph Database", "Knowledge Graphs", "Graph Neural Networks"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/milvusio/milvusio-icon.svg",
+    name: "MILVUS",
+    services: ["Vector DB", "Similarity Search", "ML Features"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/qdrant/qdrant-icon.svg",
+    name: "QDRANT",
+    services: ["Vector Search", "Semantic Search", "ML Similarity"]
+  },
+  {
+    image: "https://simpleicons.org/icons/ollama.svg",
+    name: "OLLAMA",
+    services: ["Local LLMs", "Model Management", "API"]
+},
+  {
+    image: "https://www.vectorlogo.zone/logos/mlflow/mlflow-icon.svg",
+    name: "MLFLOW",
+    services: ["ML Lifecycle", "Experiment Tracking", "Model Registry"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/kubeflow/kubeflow-icon.svg",
+    name: "KUBEFLOW",
+    services: ["ML Orchestration", "Pipeline Management", "Model Serving"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logo/ray-1.svg",
+    name: "RAY",
+    services: ["Distributed ML", "Scaling AI", "Model Training"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/trychroma/trychroma-icon.svg",
+    name: "CHROMADB",
+    services: ["Vector Store", "Embeddings DB", "RAG"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/pytorch_lightning/pytorch_lightning-icon.svg",
+    name: "LIGHTNING AI",
+    services: ["ML Training", "Model Development", "AI Apps"]
+  },
+  {
+    image: "https://www.vectorlogo.zone/logos/replicate/replicate-icon.svg",
+    name: "REPLICATE",
+    services: ["Model Deployment", "AI APIs", "Model Hosting"]
+  },
+
+];
 
 export const brainwaveServicesIcons = [
   recording03,
@@ -146,90 +320,88 @@ export const collabText3 =
 export const collabContent = [
   {
     id: "0",
-    title: "From Idea to Reality",
-    // text: collabText1,
+    title: "AI/ML Solutions",
+    text: "Custom AI models, LLM integration, RAG systems, and intelligent automation",
+    subcategories: ["MLOps & Production AI", "Vector & Graph Databases"]
   },
-  // {
-  //   id: "1",
-  //   title: "Next Generation Technology Solutions",
-  //   // text: collabText2,
-  // },
+  {
+    id: "1",
+    title: "Full-Stack Development",
+    text: "Modern web apps, APIs, cloud architecture, and scalable backends",
+    subcategories: ["Cloud Infrastructure", "Enterprise Integration"]
+  },
   {
     id: "2",
-    title: "Full-Stack Software Development",
-    // text: collabText3,
+    title: "Data Engineering",
+    text: "Data pipelines, warehousing, analytics, and real-time processing",
+    subcategories: ["Real-time Processing", "Analytics Infrastructure"]
   },
   {
     id: "3",
-    title: "Next-Gen and Recession-Proof",
-    // text: collabText3,
-  },
-  // {
-  //   id: "4",
-  //   title: "Scalable and Recession-Proof",
-  //   // text: collabText3,
-  // },
+    title: "Custom Business Solutions",
+    text: "Tailored software solutions aligned with business objectives",
+    subcategories: ["System Integration", "Legacy Modernization"]
+  }
 ];
 
 export const collabApps = [
   {
     id: "0",
-    title: "Figma",
-    icon: figma,
-    width: 26,
-    height: 36,
-    
+    title: "OpenAI",
+    icon: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+    width: 34,
+    height: 34,
   },
   {
+
     id: "1",
-    title: "Notion",
-    icon: notion,
+    title: "REACT",
+    icon: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
     width: 34,
-    height: 36,
+    height: 34,
   },
   {
     id: "2",
-    title: "Discord",
-    icon: discord,
-    width: 36,
-    height: 28,
+    title: "Llama Index",
+    icon: "https://simpleicons.org/icons/ollama.svg",
+    width: 34,
+    height: 34,
   },
   {
     id: "3",
-    title: "Slack",
-    icon: slack,
+    title: "Hugging Face",
+    icon: "https://cdn.worldvectorlogo.com/logos/huggingface-2.svg",
     width: 34,
-    height: 35,
+    height: 34,
   },
   {
     id: "4",
-    title: "Photoshop",
-    icon: photoshop,
+    title: "Next.Js",
+    icon: "https://cdn.worldvectorlogo.com/logos/next-js.svg",
     width: 34,
     height: 34,
   },
   {
     id: "5",
-    title: "Protopie",
-    icon: protopie,
+    title: "Anthropic",
+    icon: "https://simpleicons.org/icons/anthropic.svg",
     width: 34,
     height: 34,
   },
   {
     id: "6",
-    title: "Framer",
-    icon: framer,
-    width: 26,
+    title: "NVIDIA",
+    icon: "https://cdn.worldvectorlogo.com/logos/nvidia.svg",
+    width: 34,
     height: 34,
   },
   {
     id: "7",
-    title: "Raindrop",
-    icon: raindrop,
-    width: 38,
-    height: 32,
+    title: "Neo4j",
+    icon: "https://simpleicons.org/icons/neo4j.svg",
+    width: 34,
+    height: 34,
   },
-  
 ];
 
 export const pricing = [
@@ -273,7 +445,7 @@ export const pricing = [
     id: "4",
     title: "Enterprise",
     description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
-    price: "50k+",
+    price: "Reach out",
     features: [
       "All the above & beyond",
     ],
@@ -284,46 +456,297 @@ export const pricing = [
 export const benefits = [
   {
     id: "0",
-    title: "Context Aware Agents",
-    text: "AI Agents that go beyond simple question-and-answer systems by adapting to ongoing conversations, personalizing interactions, and delivering highly relevant responses based on the user’s unique situation.",
-    backgroundUrl: "./src/assets/benefits/card-1.svg",
-    iconUrl: benefitIcon1,
-    imageUrl: benefitImage2,
+    title: "AI/ML Solutions",
+    text: "Custom AI models, LLM integration, RAG systems, and intelligent automation",
+    slug: "ai-ml-solutions",
+    imageUrl: "/path/to/hero-image.jpg",
+    
+    // Overview Tab Data
+    subcategories: [
+      "Custom AI Model Development",
+      "LLM Integration & Fine-tuning",
+      "RAG Systems Implementation",
+      "AI Automation Workflows"
+    ],
+    benefits: [
+      "Increased Operational Efficiency",
+      "Enhanced Decision Making",
+      "Reduced Costs",
+      "Scalable AI Solutions"
+    ],
+
+    // Technical Tab Data
+    techStack: [
+      {
+        name: "PyTorch",
+        icon: "https://www.vectorlogo.zone/logos/pytorch/pytorch-icon.svg"
+      },
+      {
+        name: "TensorFlow",
+        icon: "https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg"
+      },
+      {
+        name: "Langchain",
+        icon: "/path/to/langchain-icon.svg"
+      },
+      {
+        name: "ChromaDB",
+        icon: "https://www.vectorlogo.zone/logos/trychroma/trychroma-icon.svg"
+      }
+    ],
+    architectureDiagram: "/path/to/architecture-diagram.svg",
+    
+    // Case Studies Tab Data
+    caseStudies: [
+      {
+        title: "Enterprise RAG Implementation",
+        description: "Implemented a custom RAG system for a Fortune 500 company to improve document search and knowledge management.",
+        image: "/path/to/case-study-1.jpg",
+        results: [
+          "90% reduction in search time",
+          "75% improvement in answer accuracy",
+          "50% decrease in support tickets"
+        ],
+        metrics: [
+          { label: "ROI", value: "300%" },
+          { label: "Time Saved", value: "1000hrs" },
+          { label: "Accuracy", value: "95%" }
+        ]
+      },
+      {
+        title: "LLM Fine-tuning Project",
+        description: "Custom-trained LLM for specialized industry knowledge and compliance requirements.",
+        image: "/path/to/case-study-2.jpg",
+        results: [
+          "Specialized domain expertise",
+          "Compliance adherence",
+          "Reduced operational costs"
+        ]
+      }
+    ],
+
+    // Documentation Tab Data
+    documentation: [
+      {
+        title: "Getting Started",
+        content: "Step-by-step guide to implementing our AI solutions...",
+        sections: [
+          { title: "Prerequisites", content: "..." },
+          { title: "Installation", content: "..." },
+          { title: "Configuration", content: "..." }
+        ]
+      },
+      {
+        title: "API Reference",
+        content: "Detailed API documentation...",
+        sections: [
+          { title: "Authentication", content: "..." },
+          { title: "Endpoints", content: "..." },
+          { title: "Examples", content: "..." }
+        ]
+      },
+      {
+        title: "Best Practices",
+        content: "Recommended approaches and patterns...",
+        sections: [
+          { title: "Architecture", content: "..." },
+          { title: "Security", content: "..." },
+          { title: "Scaling", content: "..." }
+        ]
+      }
+    ],
+
+    // Additional Metadata
+    features: [
+      {
+        title: "Custom AI Models",
+        description: "Tailored AI solutions for your specific needs",
+        icon: "🤖"
+      },
+      {
+        title: "LLM Integration",
+        description: "Seamless integration with leading language models",
+        icon: "🔄"
+      },
+      {
+        title: "RAG Systems",
+        description: "Advanced retrieval-augmented generation",
+        icon: "📚"
+      }
+    ],
+    
+    // Integration Options
+    integrations: [
+      {
+        type: "API",
+        description: "RESTful API integration",
+        documentation: "/docs/api"
+      },
+      {
+        type: "SDK",
+        description: "Native SDK for major platforms",
+        documentation: "/docs/sdk"
+      }
+    ],
+
+    // Deployment Options
+    deployment: [
+      {
+        type: "Cloud",
+        platforms: ["AWS", "Azure", "GCP"]
+      },
+      {
+        type: "On-Premise",
+        requirements: ["Docker", "Kubernetes"]
+      }
+    ]
   },
   {
     id: "1",
-    title: "Realtime Answer Generation (RAG) ",
-    text: "Realtime Answer Generation (RAG) empowers your business by providing instant access to up-to-date information directly from your data sources ",
-    backgroundUrl: "./src/assets/benefits/card-2.svg",
-    iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
-    light: true,
+    title: "Full-Stack Development",
+    text: "Modern web apps, APIs, cloud architecture, and scalable backends",
+    slug: "full-stack-development",
+    imageUrl: "/images/solutions/full-stack.jpg",
+
+    subcategories: [
+      "Modern Web Applications",
+      "RESTful & GraphQL APIs",
+      "Cloud-Native Architecture",
+      "Microservices Development"
+    ],
+    benefits: [
+      "Rapid Development & Deployment",
+      "Scalable Infrastructure",
+      "Enhanced Performance",
+      "Future-Proof Technology"
+    ],
+
+    techStack: [
+      {
+        name: "React",
+        icon: "https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg"
+      },
+      {
+        name: "Node.js",
+        icon: "https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg"
+      },
+      {
+        name: "TypeScript",
+        icon: "https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg"
+      },
+      {
+        name: "AWS",
+        icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg"
+      }
+    ],
+    architectureDiagram: "/images/diagrams/full-stack-arch.svg",
+
+    caseStudies: [
+      {
+        title: "E-Commerce Platform Modernization",
+        description: "Transformed a legacy e-commerce system into a modern, scalable platform",
+        image: "/images/case-studies/ecommerce.jpg",
+        results: [
+          "300% increase in page load speed",
+          "50% reduction in infrastructure costs",
+          "99.99% uptime achievement"
+        ],
+        metrics: [
+          { label: "Performance", value: "+300%" },
+          { label: "Cost Reduction", value: "50%" },
+          { label: "Uptime", value: "99.99%" }
+        ]
+      }
+    ],
+
+    documentation: [
+      {
+        title: "Architecture Overview",
+        content: `
+# Full-Stack Architecture
+
+Our full-stack solution uses a modern, scalable architecture:
+
+\`\`\`mermaid
+graph TD
+    A[Client] --> B[CDN]
+    B --> C[Load Balancer]
+    C --> D[API Gateway]
+    D --> E[Microservices]
+    E --> F[Database]
+\`\`\`
+        `,
+        sections: [
+          { 
+            title: "Frontend Architecture",
+            content: "React-based SPA with Next.js for SSR..."
+          },
+          {
+            title: "Backend Services",
+            content: "Node.js microservices with Express..."
+          }
+        ]
+      }
+    ]
   },
   {
     id: "2",
-    title: "Knowledge as a Service (KaaS)",
-    text: "Instant access to knowledge base tailored to your business needs with real-time information, curated data, and advanced AI-driven knowledge systems to enhance decision-making",
-    backgroundUrl: "./src/assets/benefits/card-3.svg",
-    iconUrl: benefitIcon3,
-    imageUrl: benefitImage2,
-  },
- 
-  // {
-  //   id: "4",
-  //   title: "Ask anything",
-  //   text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
-  //   backgroundUrl: "./src/assets/benefits/card-5.svg",
-  //   iconUrl: benefitIcon1,
-  //   imageUrl: benefitImage2,
-  // },
-  // {
-  //   id: "5",
-  //   title: "Improve everyday",
-  //   text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
-  //   backgroundUrl: "./src/assets/benefits/card-6.svg",
-  //   iconUrl: benefitIcon2,
-  //   imageUrl: benefitImage2,
-  // },
+    title: "Data Engineering",
+    text: "Data pipelines, warehousing, analytics, and real-time processing",
+    slug: "data-engineering",
+    imageUrl: "/images/solutions/data-engineering.jpg",
+
+    subcategories: [
+      "ETL Pipeline Development",
+      "Data Warehouse Design",
+      "Real-time Analytics",
+      "Data Lake Implementation"
+    ],
+    benefits: [
+      "Automated Data Processing",
+      "Real-time Insights",
+      "Data-Driven Decisions",
+      "Improved Data Quality"
+    ],
+
+    techStack: [
+      {
+        name: "Apache Spark",
+        icon: "https://www.vectorlogo.zone/logos/apache_spark/apache_spark-icon.svg"
+      },
+      {
+        name: "Snowflake",
+        icon: "/images/tech/snowflake.svg"
+      },
+      {
+        name: "Airflow",
+        icon: "https://www.vectorlogo.zone/logos/apache_airflow/apache_airflow-icon.svg"
+      },
+      {
+        name: "Kafka",
+        icon: "https://www.vectorlogo.zone/logos/apache_kafka/apache_kafka-icon.svg"
+      }
+    ],
+    architectureDiagram: "/images/diagrams/data-engineering-arch.svg",
+
+    caseStudies: [
+      {
+        title: "Real-time Analytics Platform",
+        description: "Built a real-time analytics platform processing millions of events per second",
+        image: "/images/case-studies/analytics.jpg",
+        results: [
+          "Processing 1M+ events/second",
+          "Sub-second query response",
+          "90% reduction in processing costs"
+        ],
+        metrics: [
+          { label: "Events/sec", value: "1M+" },
+          { label: "Latency", value: "<1s" },
+          { label: "Cost Savings", value: "90%" }
+        ]
+      }
+    ]
+  }
 ];
 
 export const socials = [
