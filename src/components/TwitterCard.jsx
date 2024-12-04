@@ -5,80 +5,55 @@ const TwitterCard = ({ post }) => {
   if (!post) return null;
 
   const {
-    title = '',
-    excerpt = '',
+    title = 'Jedi Labs',  // Provide default values
+    excerpt = 'Explore the latest in AI and technology',
     featuredImage,
     author,
     createdAt,
     slug
   } = post;
 
-  // Ensure we have absolute URLs
+  // Ensure absolute URL for image
+  const imageUrl = featuredImage?.url;
   const baseUrl = 'https://www.jedilabs.org';
   const currentUrl = `${baseUrl}/blog/post/${slug}`;
-  const imageUrl = featuredImage?.url || '';
 
-  console.log('Post data for meta tags:', {
+  // Debug what's being rendered
+  console.log('Meta tags being rendered:', {
     title,
-    excerpt,
+    description: excerpt,
     image: imageUrl,
-    author: author?.name,
-    date: createdAt
+    url: currentUrl
   });
 
   return (
     <Helmet>
-      {/* Essential Basic Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={excerpt} />
-      <meta name="author" content={author?.name} />
-      
-      {/* LinkedIn Specific Tags */}
-      <meta property="og:site_name" content="Jedi Labs" />
+      {/* LinkedIn primarily looks for these specific OpenGraph tags */}
+      <meta name="image" property="og:image" content={imageUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={excerpt} />
-      <meta property="og:image" content={imageUrl} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:type" content="article" />
+      <meta property="og:site_name" content="Jedi Labs" />
       
-      {/* Article Specific Tags */}
+      {/* Ensure image dimensions are specified */}
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      
+      {/* Basic meta tags */}
+      <title>{title}</title>
+      <meta name="description" content={excerpt} />
+      <link rel="canonical" href={currentUrl} />
+      
+      {/* Article specific metadata */}
       <meta property="article:published_time" content={createdAt} />
       <meta property="article:author" content={author?.name} />
-      <meta property="article:section" content="Technology" /> {/* Adjust based on your content */}
       
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@JediLabs" />
+      <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={excerpt} />
-      <meta name="twitter:image" content={imageUrl} />
-      
-      {/* Schema.org markup for LinkedIn */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": title,
-          "description": excerpt,
-          "image": imageUrl,
-          "author": {
-            "@type": "Person",
-            "name": author?.name
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "Jedi Labs",
-            "logo": {
-              "@type": "ImageObject",
-              "url": `${baseUrl}/logo.png` // Add your logo URL
-            }
-          },
-          "datePublished": createdAt,
-          "url": currentUrl
-        })}
-      </script>
     </Helmet>
   );
 };
