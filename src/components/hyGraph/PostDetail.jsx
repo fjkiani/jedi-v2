@@ -62,6 +62,32 @@ const PostDetail = () => {
     }
 
     switch (item.type) {
+      case 'heading-six':
+        return (
+          <h6 key={key} className="text-lg font-semibold mb-3">
+            {item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`))}
+          </h6>
+        );
+
+      case 'image':
+        return (
+          <img
+            key={key}
+            src={item.src}
+            alt={item.title || 'blog image'}
+            width={item.width}
+            height={item.height}
+            className="my-4 rounded-lg"
+          />
+        );
+
+      case 'list-item':
+        return (
+          <li key={key} className="mb-2">
+            {item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`))}
+          </li>
+        );
+
       case 'heading-one':
         return (
           <h1 key={key} className="text-4xl font-bold mb-6">
@@ -130,7 +156,10 @@ const PostDetail = () => {
         );
 
       default:
-        console.log('Unhandled type:', item.type, item); // Debug log
+        if (item.children) {
+          return item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`));
+        }
+        console.log('Unhandled type:', item.type, item);
         return null;
     }
   };
