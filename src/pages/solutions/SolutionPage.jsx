@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getSolutionBySlug } from '@/constants/solutions';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
@@ -12,11 +12,13 @@ import {
   TabsContent,
   TabPanel
 } from '@/components/ui/Tabs';
+import InteractiveCode from '@/components/InteractiveCode/InteractiveCode';
 
 const SolutionPage = () => {
   const { slug } = useParams();
   const solution = getSolutionBySlug(slug);
   const [activeTab, setActiveTab] = useState('overview');
+  const navigate = useNavigate();
 
   if (!solution) {
     return (
@@ -28,6 +30,11 @@ const SolutionPage = () => {
       </Section>
     );
   }
+
+  const handleTechClick = (techName) => {
+    const techId = techName.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/technology/${techId}`);
+  };
 
   const tabs = [
     {
@@ -104,17 +111,42 @@ const SolutionPage = () => {
                 {Object.entries(technologies).map(([name, tech]) => (
                   <div 
                     key={name}
-                    className="bg-n-7 rounded-xl p-6 border border-n-6"
+                    onClick={() => handleTechClick(name)}
+                    className="bg-n-7 rounded-xl p-6 border border-n-6 cursor-pointer 
+                             transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <img 
                         src={tech.icon} 
-                        alt=""
+                        alt={name}
                         className="w-8 h-8"
                       />
                       <h4 className="font-semibold text-white">{name}</h4>
                     </div>
-                    <p className="text-n-3">{tech.description}</p>
+                    <p className="text-n-3 mb-4">{tech.description}</p>
+                    
+                    <div className="flex items-center gap-2 text-sm text-primary-1">
+                      <span>View Implementation Details</span>
+                      <Icon name="arrow-right" className="w-4 h-4" />
+                    </div>
+
+                    {tech.useCases && (
+                      <div className="mt-4 pt-4 border-t border-n-6">
+                        <h5 className="text-sm font-medium text-n-3 mb-2">
+                          Related Use Cases:
+                        </h5>
+                        <ul className="text-sm text-n-4">
+                          {solution.businessValue.useCases
+                            .filter(useCase => tech.useCases.includes(useCase))
+                            .map((useCase, index) => (
+                              <li key={index} className="flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary-1"></span>
+                                {useCase}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

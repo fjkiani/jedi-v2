@@ -135,7 +135,11 @@ export const aiMlSolution = {
         icon: 'https://cdn.simpleicons.org/openai',
         description: 'Advanced language models and AI APIs',
         category: 'Core AI',
-        priority: 1
+        priority: 1,
+        useCases: [
+          "Document Analysis & Summary",
+          "Customer Support Automation"
+        ]
       },
       'HuggingFace': {
         icon: 'https://cdn.simpleicons.org/huggingface',

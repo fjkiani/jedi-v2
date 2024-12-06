@@ -29,6 +29,11 @@ import SolutionsPage from './pages/solutions/index.jsx';
 import SolutionPage from './pages/solutions/SolutionPage.jsx';
 import IndustryRoutes from './features/industries/routes';
 import IndustryOverview from "@/features/industries/components/IndustryOverview";
+import TechStackTest from './components/TechStack/TechStackTest';
+import TechDetails from './components/TechDetails';
+import TechStackGrid from './components/TechStack/TechStackGrid';
+import TechDetail from './components/TechStack/TechDetail';
+import TechnologyDetail from './pages/technology/TechnologyDetail';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -165,6 +170,11 @@ const App = () => {
                 </PageTransition>
               } 
             />
+
+            <Route path="/tech-test" element={<TechStackTest />} />
+            <Route path="/tech/:techId" element={<TechDetails />} />
+            <Route path="/tech-stack" element={<TechStackGrid />} />
+            <Route path="/technology/:techId" element={<TechnologyDetail />} />
           </Routes>
         </AnimatePresence>
         
