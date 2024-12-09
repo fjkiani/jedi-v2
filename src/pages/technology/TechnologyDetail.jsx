@@ -5,13 +5,15 @@ import { techUseCaseMapper } from '@/constants/techUseCaseMapper';
 import { aiMlTechStack } from '@/constants/techCategories/aiMlTechStack';
 import { FiChevronDown, FiServer } from 'react-icons/fi';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
-import InteractiveCode from '@/components/InteractiveCode/InteractiveCode';
 import 'reactflow/dist/style.css';
+import { openAIService } from '@/services/openAIService.jsx';
+import AIResponse from '@/components/response/AIResponse';
 
 const TechnologyDetail = () => {
   const { techId } = useParams();
   const [activeTab, setActiveTab] = useState('architecture');
   const [expandedSections, setExpandedSections] = useState({});
+  const [useCaseStates, setUseCaseStates] = useState({});
 
   const techStackConfig = Object.values(aiMlTechStack).find(
     tech => tech.id === techId
@@ -75,6 +77,85 @@ const TechnologyDetail = () => {
         animated: true,
       })),
     };
+  };
+
+  const mockOpenAIResponse = {
+    research: {
+      cancer: "Recent developments in cancer research include immunotherapy breakthroughs and early detection methods.",
+      ai: "Latest AI advancements include improved large language models and computer vision applications.",
+      climate: "Climate research shows increasing focus on carbon capture technologies and renewable energy solutions."
+    }
+  };
+
+  const getUseCaseState = (index) => {
+    if (!useCaseStates[index]) {
+      setUseCaseStates(prev => ({
+        ...prev,
+        [index]: {
+          query: '',
+          result: null,
+          loading: false
+        }
+      }));
+    }
+    return useCaseStates[index] || { query: '', result: null, loading: false };
+  };
+
+  const runOpenAIDemo = async (index, model = 'gpt-4', sampleQuery) => {
+    console.log('runOpenAIDemo triggered');
+    console.log('index:', index);
+    console.log('sampleQuery:', sampleQuery);
+    
+    const currentState = getUseCaseState(index);
+    const queryToUse = sampleQuery || currentState.query;
+    
+    if (!queryToUse.trim()) return;
+
+    console.log('useCase:', techConfig.relatedUseCases[index]);
+    console.log('queryToUse:', queryToUse);
+
+    setUseCaseStates(prev => ({
+      ...prev,
+      [index]: { ...currentState, loading: true, result: null }
+    }));
+
+    try {
+      const useCase = techConfig.relatedUseCases[index];
+      const response = await openAIService.generateResponse(
+        useCase,
+        queryToUse,
+        {
+          category: techConfig.category
+        }
+      );
+      
+      console.log('Response received:', response);
+      
+      setUseCaseStates(prev => ({
+        ...prev,
+        [index]: { ...currentState, loading: false, result: response }
+      }));
+    } catch (error) {
+      console.error("Error:", error);
+      setUseCaseStates(prev => ({
+        ...prev,
+        [index]: { 
+          ...currentState, 
+          loading: false, 
+          result: "Error processing your request. Please try again."
+        }
+      }));
+    }
+  };
+
+  const renderAIResponse = (currentState) => {
+    if (!currentState.result) return null;
+
+    return (
+      <div className="bg-n-6 p-6 rounded-lg border border-n-5">
+        <AIResponse response={currentState.result} />
+      </div>
+    );
   };
 
   return (
@@ -178,24 +259,65 @@ const TechnologyDetail = () => {
 
               {activeTab === 'implementation' && (
                 <div className="space-y-6">
-                  <InteractiveCode 
-                    codeExample={useCase.implementation.codeExample}
-                  />
-                  
-                  {/* Implementation steps */}
-                  <div className="bg-n-7 rounded-lg p-4">
-                    <h3 className="text-xl font-semibold mb-4">Implementation Steps</h3>
-                    <div className="space-y-4">
-                      {useCase.implementation.steps?.map((step, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
-                          <div className="bg-n-6 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
-                            {idx + 1}
-                          </div>
-                          <p className="text-n-3">{step}</p>
-                        </div>
+                  <div className="bg-n-7 rounded-lg p-4 space-y-4">
+                    <h3 className="text-xl font-semibold text-white">Try the Use Case</h3>
+                    <p className="text-n-3">Select a sample query to run:</p>
+                    
+                    {/* Sample Queries Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {useCase.exampleQueries?.samples.map((sample, sampleIndex) => (
+                        <button
+                          key={sampleIndex}
+                          onClick={() => {
+                            console.log('Sample query clicked:', sample);
+                            setUseCaseStates(prev => ({
+                              ...prev,
+                              [index]: { ...getUseCaseState(index), query: sample }
+                            }));
+                            runOpenAIDemo(index, 'gpt-4', sample);
+                          }}
+                          className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200"
+                        >
+                          <p className="text-n-1">{sample}</p>
+                        </button>
                       ))}
                     </div>
+
+                    {/* Current Query Display */}
+                    {getUseCaseState(index).query && (
+                      <div className="bg-n-8 p-3 rounded-lg border border-n-6">
+                        <p className="text-sm text-n-3">Current Query:</p>
+                        <p className="text-n-1">{getUseCaseState(index).query}</p>
+                      </div>
+                    )}
+
+                    {/* Loading State */}
+                    {getUseCaseState(index).loading && (
+                      <div className="flex items-center justify-center p-4">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+                      </div>
+                    )}
+
+                    {/* AI Response */}
+                    {getUseCaseState(index).result && renderAIResponse(getUseCaseState(index))}
                   </div>
+
+                  {/* Implementation steps */}
+                  {useCase.implementation.steps && useCase.implementation.steps.length > 0 && (
+                    <div className="bg-n-7 rounded-lg p-4">
+                      <h3 className="text-xl font-semibold mb-4">Implementation Steps</h3>
+                      <div className="space-y-4">
+                        {useCase.implementation.steps.map((step, idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <div className="bg-n-6 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
+                              {idx + 1}
+                            </div>
+                            <p className="text-n-3">{step}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -289,6 +411,40 @@ const TechnologyDetail = () => {
       )}
     </motion.div>
   );
+};
+
+// Helper function to parse the response text into structured sections
+const parseResponse = (response) => {
+  const lines = response.split('\n');
+  const sections = {
+    title: lines[0],
+    query: lines[1],
+    content: []
+  };
+
+  let currentSection = null;
+
+  lines.forEach(line => {
+    if (line.startsWith('🤖') || line.startsWith('🔬') || line.startsWith('📊')) {
+      // New section starts
+      currentSection = {
+        type: 'process',
+        icon: line.charAt(0),
+        title: line.substring(1).trim(),
+        items: [],
+        fullWidth: line.includes('MAJOR DISCOVERIES')
+      };
+      sections.content.push(currentSection);
+    } else if (line.startsWith('•') && currentSection) {
+      // Add item to current section
+      currentSection.items.push(line.substring(1).trim());
+    } else if (line.includes('BREAKTHROUGH RESULT') && currentSection) {
+      currentSection.type = 'breakthrough';
+      currentSection.result = lines[lines.indexOf(line) + 1];
+    }
+  });
+
+  return sections;
 };
 
 export default TechnologyDetail;

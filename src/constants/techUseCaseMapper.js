@@ -143,7 +143,16 @@ function ResearchAssistantDemo() {
 // Required for react-live
 render(<ResearchAssistantDemo />);
 `
-        }
+        },
+        exampleQueries: {
+          placeholder: "What are the latest developments in quantum computing?",
+          samples: [
+            "Analyze recent breakthroughs in CRISPR technology",
+            "Summarize developments in renewable energy",
+            "Review machine learning applications in drug discovery"
+          ]
+        },
+        placeholder: "Try: 'Analyze recent breakthroughs in CRISPR technology'"
       },
       {
         title: "Intelligent Lab Assistant",
@@ -199,10 +208,9 @@ const labAssistant = {
   }
 };
 
-// Demo Component
 function LabAssistantDemo() {
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [result, setResult] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const runOptimization = async () => {
     setLoading(true);
@@ -222,32 +230,71 @@ function LabAssistantDemo() {
     setLoading(false);
   };
 
-  return (
-
-      >
-        {loading ? 'Optimizing...' : 'Optimize Protocol'}
-      </button>
-      
-      {result && (
-        <div style={{ 
-          background: '#1f2937', 
-          padding: '16px', 
+  return React.createElement('div', 
+    { style: { padding: '20px', color: 'white' } },
+    [
+      React.createElement('h3', { key: 'title' }, 'Lab Assistant Demo'),
+      React.createElement('button', {
+        key: 'optimize-button',
+        onClick: runOptimization,
+        disabled: loading,
+        style: {
+          background: '#6366f1',
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '6px',
+          border: 'none',
+          cursor: 'pointer',
+          marginBottom: '16px'
+        }
+      }, loading ? 'Optimizing...' : 'Optimize Protocol'),
+      result && React.createElement('div', {
+        key: 'result',
+        style: {
+          background: '#1f2937',
+          padding: '16px',
           borderRadius: '8px',
           marginTop: '16px'
-        }}>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </div>
-      )}
-    </div>
+        }
+      }, [
+        React.createElement('h4', { key: 'result-title' }, 'Optimization Results:'),
+        React.createElement('div', { key: 'steps' }, [
+          React.createElement('h5', { key: 'steps-title' }, 'Optimized Steps:'),
+          React.createElement('ul', { key: 'steps-list' },
+            result.optimizedSteps.map((step, index) =>
+              React.createElement('li', { key: index }, step)
+            )
+          )
+        ]),
+        React.createElement('div', { key: 'safety' }, [
+          React.createElement('h5', { key: 'safety-title' }, 'Safety Notes:'),
+          React.createElement('p', { key: 'safety-notes' }, result.safetyNotes)
+        ]),
+        React.createElement('div', { key: 'checks' }, [
+          React.createElement('h5', { key: 'checks-title' }, 'Quality Checks:'),
+          React.createElement('ul', { key: 'checks-list' },
+            result.qualityChecks.map((check, index) =>
+              React.createElement('li', { key: index }, check)
+            )
+          )
+        ])
+      ])
+    ]
   );
 }
 
-// Required for react-live
-render(<LabAssistantDemo />);
+render(React.createElement(LabAssistantDemo));
 `
-        }
+        },
+        exampleQueries: {
+          placeholder: "Optimize protocol for DNA sequencing",
+          samples: [
+            "Suggest parameters for HPLC analysis",
+            "Generate safety checklist for chemical synthesis",
+            "Calculate reagent concentrations for buffer preparation"
+          ]
+        },
+        placeholder: "Try: 'Optimize the PCR protocol for DNA amplification'"
       },
       {
         title: "Customer Support Automation",
@@ -310,7 +357,16 @@ const handleCustomerQuery = async (query) => {
 
   return response.choices[0].message.content;
 };`
-        }
+        },
+        exampleQueries: {
+          placeholder: "How do I integrate the API with my application?",
+          samples: [
+            "Troubleshoot authentication errors",
+            "Explain rate limiting policies",
+            "Guide for updating API credentials"
+          ]
+        },
+        placeholder: "Try: 'How do I reset my account password?'"
       }
     ],
     integrations: {

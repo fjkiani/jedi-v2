@@ -13,6 +13,11 @@ import {
   TabPanel
 } from '@/components/ui/Tabs';
 import InteractiveCode from '@/components/InteractiveCode/InteractiveCode';
+import { techUseCaseMapper } from '@/constants/techUseCaseMapper';
+import { openAIService } from '@/services/openAIService';
+import AIResponse from '@/components/response/AIResponse';
+import Implementation from '@/components/technology/Implementation';
+import { openAIImplementation } from '@/constants/implementations/openai';
 
 const SolutionPage = () => {
   const { slug } = useParams();
@@ -34,6 +39,24 @@ const SolutionPage = () => {
   const handleTechClick = (techName) => {
     const techId = techName.toLowerCase().replace(/\s+/g, '-');
     navigate(`/technology/${techId}`);
+  };
+
+  console.log('TechUseCaseMapper:', techUseCaseMapper);
+  console.log('OpenAI tech:', techUseCaseMapper.openai);
+
+  const openAITech = techUseCaseMapper.openai;
+  console.log('OpenAI implementation:', openAITech.implementation);
+  console.log('OpenAI Implementation:', openAIImplementation);
+
+  const openAIConfig = {
+    title: "AI-Powered Research & Development",
+    exampleQueries: {
+      samples: [
+        "Analyze recent breakthroughs in CRISPR technology",
+        "Summarize developments in renewable energy",
+        "Review machine learning applications in drug discovery"
+      ]
+    }
   };
 
   const tabs = [
@@ -70,16 +93,11 @@ const SolutionPage = () => {
 
           <div>
             <h3 className="h4 mb-6">Common Use Cases</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {solution.businessValue.useCases.map((useCase, index) => (
-                <div 
-                  key={index}
-                  className="bg-n-7 rounded-xl p-6 border border-n-6"
-                >
-                  <h4 className="font-semibold text-white mb-2">{useCase}</h4>
-                </div>
-              ))}
-            </div>
+            <Implementation 
+              tech={openAIConfig}
+              useCases={solution.businessValue.useCases}
+              showDemo={true}
+            />
           </div>
         </div>
       )

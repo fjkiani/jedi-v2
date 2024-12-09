@@ -49,12 +49,12 @@ const Hero = () => {
 
   const heroContent = [
     {
-      title: "Transform Your Business with AI",
+      title: "Jedi Labs is undergoing a transformation but we will transform Your Business with AI",
       subtitle: "Unleash the power of Jedi Labs to transform your business.",
       video: "https://path-to-your-video-1.mp4",
     },
     {
-      title: "Automate Your Workflow Today",
+      title: "Jedi Labs is undergoing a transformation but we will Automate Your Workflow Soon",
       subtitle: "Let Jedi Labs handle the repetitive tasks while you focus on growth.",
       video: "https://path-to-your-video-1.mp4",
     },

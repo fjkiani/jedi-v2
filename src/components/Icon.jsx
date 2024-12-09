@@ -35,7 +35,7 @@ export const Icon = ({ name, className }) => {
   const IconComponent = iconMap[name];
   
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found`);
+    // console.warn(`Icon "${name}" not found`);
     return null;
   }
 
