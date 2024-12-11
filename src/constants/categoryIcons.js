@@ -1,5 +1,25 @@
 export const categoryIcons = {
-  // Development & Tools
+  // AI & ML Categories
+  ai: {
+    aiPlatforms: 'brain',
+    mlFrameworks: 'code-square',
+    vectorDatabases: 'database',
+    mlOps: 'settings',
+    agents: 'robot',
+    nlp: 'message-square'
+  },
+
+  // Data Engineering
+  data: {
+    processing: 'data',
+    storage: 'database',
+    visualization: 'chart-line',
+    orchestration: 'workflow',
+    transformation: 'transform',
+    quality: 'check-circle'
+  },
+
+  // Development & Tools (existing)
   development: {
     core: 'tool',
     frontend: 'tool',
@@ -9,7 +29,7 @@ export const categoryIcons = {
     sdk: 'tool'
   },
 
-  // Analytics & Monitoring
+  // Analytics & Monitoring (existing)
   analytics: {
     monitoring: 'chart',
     metrics: 'chart',
@@ -18,7 +38,7 @@ export const categoryIcons = {
     performance: 'chart'
   },
 
-  // Quality & Validation
+  // Quality & Validation (existing)
   quality: {
     testing: 'check',
     validation: 'check',
@@ -27,7 +47,7 @@ export const categoryIcons = {
     security: 'check'
   },
 
-  // Innovation & Features
+  // Innovation & Features (existing)
   features: {
     innovation: 'lightbulb',
     features: 'lightbulb',
@@ -37,9 +57,27 @@ export const categoryIcons = {
 };
 
 export const getIconForCategory = (category) => {
+  if (!category) return 'cube'; // Default fallback
+
   // Direct mapping for common tech categories
   const iconMap = {
-    // Core & Development
+    // AI/ML
+    aiPlatforms: 'brain',
+    mlFrameworks: 'code-square',
+    vectorDatabases: 'database',
+    mlOps: 'settings',
+    agents: 'robot',
+    nlp: 'message-square',
+
+    // Data Engineering
+    dataProcessing: 'data',
+    dataStorage: 'database',
+    dataVisualization: 'chart-line',
+    dataOrchestration: 'workflow',
+    dataTransformation: 'transform',
+    dataQuality: 'check-circle',
+
+    // Core & Development (existing)
     core: 'code',
     frontend: 'code',
     backend: 'server',
@@ -47,25 +85,25 @@ export const getIconForCategory = (category) => {
     sdk: 'tool',
     runtime: 'cpu',
 
-    // Data & Storage
+    // Data & Storage (existing)
     database: 'database',
     storage: 'database',
     cache: 'database',
     data: 'database',
 
-    // Infrastructure & Deployment
+    // Infrastructure & Deployment (existing)
     infrastructure: 'server',
     cloud: 'cloud',
     deployment: 'rocket',
     container: 'server',
 
-    // Monitoring & Analytics
+    // Monitoring & Analytics (existing)
     monitoring: 'chart',
     analytics: 'chart',
     metrics: 'chart',
     performance: 'chart',
 
-    // Security & Quality
+    // Security & Quality (existing)
     security: 'shield',
     auth: 'shield',
     encryption: 'shield',
@@ -73,20 +111,34 @@ export const getIconForCategory = (category) => {
     testing: 'check',
     validation: 'check',
 
-    // Features & Innovation
+    // Features & Innovation (existing)
     features: 'lightbulb',
     innovation: 'lightbulb',
     experimental: 'lightbulb',
 
-    // Tools & Utilities
+    // Tools & Utilities (existing)
     tools: 'tool',
     utilities: 'tool',
     devops: 'tool'
   };
 
-  // Convert category to lowercase for case-insensitive matching
-  const normalizedCategory = category.toLowerCase();
-  
-  // Return matched icon or default to 'cube'
-  return iconMap[normalizedCategory] || 'tool';
+  try {
+    // Convert category to lowercase for case-insensitive matching
+    const normalizedCategory = category.toLowerCase();
+    
+    // Try to find a direct match
+    if (iconMap[normalizedCategory]) {
+      return iconMap[normalizedCategory];
+    }
+
+    // Try to find a partial match
+    const partialMatch = Object.keys(iconMap).find(key => 
+      normalizedCategory.includes(key) || key.includes(normalizedCategory)
+    );
+
+    return partialMatch ? iconMap[partialMatch] : 'cube';
+  } catch (error) {
+    console.warn(`Error getting icon for category: ${category}`, error);
+    return 'cube';
+  }
 }; 

@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/Tabs';
 import InteractiveCode from '@/components/InteractiveCode/InteractiveCode';
 import { techUseCaseMapper } from '@/constants/techUseCaseMapper';
-import { openAIService } from '@/services/openAIService';
+import { openAIService } from '@/services/openAIService.jsx';
 import AIResponse from '@/components/response/AIResponse';
 import Implementation from '@/components/technology/Implementation';
 import { openAIImplementation } from '@/constants/implementations/openai';

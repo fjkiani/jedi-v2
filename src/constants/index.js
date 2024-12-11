@@ -42,36 +42,109 @@ import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } fr
 export const navigation = [
   {
     id: "0",
-    title: "Features",
-    url: "#features",
+    title: "Solutions",
+    url: "/solutions",
+    dropdownItems: [
+      {
+        title: "AI/ML Solutions",
+        url: "/solutions/ai-ml-solutions",
+        description: "Enterprise-grade AI and machine learning solutions"
+      },
+      {
+        title: "AI Agents",
+        url: "/solutions/ai-agents",
+        description: "Autonomous AI agents and workflows"
+      },
+      {
+        title: "Data Engineering",
+        url: "/solutions/data-engineering",
+        description: "End-to-end data pipeline solutions"
+      }
+    ]
   },
   {
     id: "1",
-    title: "Pricing",
-    url: "#about",
+    title: "Technology",
+    url: "/technology",
+    dropdownItems: [
+      {
+        title: "AI Platforms",
+        items: [
+          { title: "OpenAI", url: "/technology/openai" },
+          { title: "LangChain", url: "/technology/langchain" },
+          { title: "Hugging Face", url: "/technology/huggingface" }
+        ]
+      },
+      {
+        title: "Data & Infrastructure",
+        items: [
+          { title: "Pinecone", url: "/technology/pinecone" },
+          { title: "Weaviate", url: "/technology/weaviate" },
+          { title: "Kubernetes", url: "/technology/kubernetes" }
+        ]
+      }
+    ]
   },
   {
     id: "2",
-    title: "Work",
-    url: "#how-to-use",
+    title: "Industries",
+    url: "/industries",
+    dropdownItems: [
+      {
+        title: "Financial Services",
+        url: "/industries/financial",
+        useCases: [
+          { title: "Fraud Detection", url: "/industries/financial/fraud-detection" },
+          { title: "Risk Analysis", url: "/industries/financial/risk-analysis" }
+        ]
+      },
+      {
+        title: "Healthcare",
+        url: "/industries/healthcare",
+        useCases: [
+          { title: "Disease Prediction", url: "/industries/healthcare/disease-prediction" },
+          { title: "Patient Care", url: "/industries/healthcare/patient-care" }
+        ]
+      },
+      {
+        title: "Manufacturing",
+        url: "/industries/manufacturing",
+        useCases: [
+          { title: "Predictive Maintenance", url: "/industries/manufacturing/predictive-maintenance" },
+          { title: "Quality Control", url: "/industries/manufacturing/quality-control" }
+        ]
+      },
+      {
+        title: "Retail",
+        url: "/industries/retail",
+        useCases: [
+          { title: "Inventory Optimization", url: "/industries/retail/inventory-optimization" },
+          { title: "Customer Analytics", url: "/industries/retail/customer-analytics" }
+        ]
+      }
+    ]
   },
   {
     id: "3",
-    title: "Team",
-    url: "#roadmap",
+    title: "Company",
+    url: "#",
+    dropdownItems: [
+      { title: "About Us", url: "/about" },
+      { title: "Team", url: "/team" },
+      { title: "Careers", url: "/careers" },
+      { title: "Contact", url: "/contact" }
+    ]
   },
   {
     id: "4",
-    title: "New account",
-    url: "#signup",
-    onlyMobile: true,
-  },
-  {
-    id: "5",
-    title: "Sign in",
-    url: "#login",
-    onlyMobile: true,
-  },
+    title: "Resources",
+    url: "#",
+    dropdownItems: [
+      { title: "Case Studies", url: "/case-studies" },
+      { title: "Documentation", url: "/docs" },
+      { title: "Blog", url: "/blog" }
+    ]
+  }
 ];
 
 export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
@@ -193,14 +266,19 @@ export const companyLogos = [
   },
 
   {
-    image: "https://www.vectorlogo.zone/logos/weaviate/weaviate-icon.svg",
-    name: "WEAVIATE",
-    services: ["Vector DB", "Neural Search", "Semantic Search"]
+    image: "https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg",
+    name: "NODEJS",
+    services: ["Server-Side", "JavaScript Runtime", "Event-Driven"]
   },
+  // {
+  //   image: "https://www.vectorlogo.zone/logos/weaviate/weaviate-icon.svg",
+  //   name: "WEAVIATE",
+  //   services: ["Vector DB", "Neural Search", "Semantic Search"]
+  // },
   {
-    image: "https://www.vectorlogo.zone/logos/chroma/chroma-icon.svg",
-    name: "CHROMA",
-    services: ["Embeddings DB", "RAG", "AI Memory"]
+    image: "https://www.vectorlogo.zone/logos/fastly/fastly-icon.svg",
+    name: "Fastly API",
+    services: ["Streaming", "Edge Computing", "CDN"]
   },
   {
     image: "https://www.vectorlogo.zone/logos/neo4j/neo4j-icon.svg",
@@ -208,51 +286,50 @@ export const companyLogos = [
     services: ["Graph Database", "Knowledge Graphs", "Graph Neural Networks"]
   },
   {
-    image: "https://www.vectorlogo.zone/logos/milvusio/milvusio-icon.svg",
-    name: "MILVUS",
-    services: ["Vector DB", "Similarity Search", "ML Features"]
+    image: "https://www.vectorlogo.zone/logos/python/python-icon.svg",
+    name: "PYTHON",
+    services: ["Data Engineering", "Machine Learning", "Data Processing"]
   },
-  {
-    image: "https://www.vectorlogo.zone/logos/qdrant/qdrant-icon.svg",
-    name: "QDRANT",
-    services: ["Vector Search", "Semantic Search", "ML Similarity"]
-  },
+  // {
+  //   image: "https://www.vectorlogo.zone/icons/qdrant/qdrant-icon.svg",
+  //   name: "QDRANT",
+  //   services: ["Vector Search", "Semantic Search", "ML Similarity"]
+  // },
   {
     image: "https://simpleicons.org/icons/ollama.svg",
     name: "OLLAMA",
     services: ["Local LLMs", "Model Management", "API"]
 },
   {
-    image: "https://www.vectorlogo.zone/logos/mlflow/mlflow-icon.svg",
+    image: "https://simpleicons.org/icons/mlflow.svg",
     name: "MLFLOW",
     services: ["ML Lifecycle", "Experiment Tracking", "Model Registry"]
   },
   {
-    image: "https://www.vectorlogo.zone/logos/kubeflow/kubeflow-icon.svg",
-    name: "KUBEFLOW",
-    services: ["ML Orchestration", "Pipeline Management", "Model Serving"]
-  },
+    image: "https://www.vectorlogo.zone/logos/elastic/elastic-icon.svg",
+    name: "ELASTIC",
+    services: ["Search", "Analytics", "Observability"]
+  },     
   {
-    image: "https://www.vectorlogo.zone/logo/ray-1.svg",
+    image: "https://simpleicons.org/icons/ray.svg",
     name: "RAY",
     services: ["Distributed ML", "Scaling AI", "Model Training"]
   },
   {
-    image: "https://www.vectorlogo.zone/logos/trychroma/trychroma-icon.svg",
-    name: "CHROMADB",
-    services: ["Vector Store", "Embeddings DB", "RAG"]
+    image: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg",
+    name: "GOOGLE CLOUD",
+    services: ["Cloud Computing", "ML Services", "Databases"]
   },
-  {
-    image: "https://www.vectorlogo.zone/logos/pytorch_lightning/pytorch_lightning-icon.svg",
-    name: "LIGHTNING AI",
-    services: ["ML Training", "Model Development", "AI Apps"]
-  },
-  {
-    image: "https://www.vectorlogo.zone/logos/replicate/replicate-icon.svg",
-    name: "REPLICATE",
-    services: ["Model Deployment", "AI APIs", "Model Hosting"]
-  },
-
+  // {
+  //   image: "https://www.vectorlogo.zone/logos/langchain/langchain-icon.svg",
+  //   name: "Langchain",
+  //   services: ["LLM Framework", "Agents", "Memory"]
+  // },
+  // {
+  //   image: "https://www.vectorlogo.zone/logos/pytorch_lightning/pytorch_lightning-icon.svg",
+  //   name: "LIGHTNING AI",
+  //   services: ["ML Training", "Model Development", "AI Apps"]
+  // },
 ];
 
 export const brainwaveServicesIcons = [
@@ -320,27 +397,43 @@ export const collabText3 =
 export const collabContent = [
   {
     id: "0",
-    title: "AI/ML Solutions",
-    text: "Custom AI models, LLM integration, RAG systems, and intelligent automation",
-    subcategories: ["MLOps & Production AI", "Vector & Graph Databases"]
+    title: "Enterprise AI Solutions",
+    text: "Production-ready AI systems with custom LLMs, RAG architectures, and intelligent automation platforms",
+    subcategories: [
+      "Custom LLM Development",
+      "Retrieval Augmented Generation",
+      "Enterprise MLOps"
+    ]
   },
   {
     id: "1",
-    title: "Full-Stack Development",
-    text: "Modern web apps, APIs, cloud architecture, and scalable backends",
-    subcategories: ["Cloud Infrastructure", "Enterprise Integration"]
+    title: "AI Agents & Automation",
+    text: "Autonomous AI agents that handle complex workflows, integrate with existing tools, and continuously learn",
+    subcategories: [
+      "Multi-Agent Systems",
+      "Tool & API Integration",
+      "Autonomous Workflows"
+    ]
   },
   {
     id: "2",
-    title: "Data Engineering",
-    text: "Data pipelines, warehousing, analytics, and real-time processing",
-    subcategories: ["Real-time Processing", "Analytics Infrastructure"]
+    title: "Knowledge Infrastructure",
+    text: "End-to-end knowledge processing pipelines, vector databases, and semantic search systems",
+    subcategories: [
+      "Vector Search & Embeddings",
+      "Knowledge Graphs",
+      "Semantic Processing"
+    ]
   },
   {
     id: "3",
-    title: "Custom Business Solutions",
-    text: "Tailored software solutions aligned with business objectives",
-    subcategories: ["System Integration", "Legacy Modernization"]
+    title: "AI Strategy & Implementation",
+    text: "Strategic consulting and implementation of AI solutions aligned with business objectives",
+    subcategories: [
+      "Use Case Discovery",
+      "POC Development",
+      "Production Scaling"
+    ]
   }
 ];
 

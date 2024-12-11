@@ -1,5 +1,4 @@
 import { TECH_IDS } from './techRegistry';
-import { getUseCasesForTech } from './useCaseMapper';
 
 const baseTechConfig = {
   getIcon: (techId) => `https://cdn.simpleicons.org/${techId}`,
@@ -405,6 +404,42 @@ const handleCustomerQuery = async (query, context) => {
             ],
             industryApplications: {
               // ... similar structure to other use cases
+            }
+          }
+        },
+        {
+          type: "fraud-detection",
+          title: "Fraud Detection & Prevention",
+          implementation: {
+            overview: "AI-powered fraud detection using OpenAI's advanced pattern recognition",
+            techStack: {
+              "GPT-4": {
+                role: "Anomaly Detection Engine",
+                features: [
+                  "Neural network-based pattern recognition",
+                  "Real-time transaction analysis",
+                  "Anomaly detection algorithms"
+                ]
+              },
+              "Vector Database": {
+                role: "Pattern Storage & Matching",
+                features: [
+                  "Real-time processing",
+                  "Historical pattern matching",
+                  "Fraud pattern database"
+                ]
+              }
+            },
+            industryApplications: {
+              financial: {
+                useCase: "Banking Fraud Prevention",
+                impact: "75% reduction in fraudulent transactions",
+                metrics: {
+                  accuracy: "99.9% detection rate",
+                  speed: "Real-time processing",
+                  coverage: "All transaction types"
+                }
+              }
             }
           }
         }

@@ -1,19 +1,128 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
 import Section from '@/components/Section';
-import { Icon } from '@/components/Icon';
+import IndustrySolutionCard from './IndustrySolutionCard';
+import { getTechConfig } from '@/constants/registry/techConfigFactory';
+import { 
+  TECH_IDS, 
+  TECH_CATEGORY_MAPPING,
+  USE_CASE_REQUIREMENTS 
+} from '@/constants/registry/techRegistry';
+import { 
+  USE_CASE_TECH_MAPPING,
+  getUseCaseImplementation 
+} from '@/constants/registry/useCaseRegistry';
 
 const IndustrySolutions = ({ industry }) => {
-  const [activeSolution, setActiveSolution] = useState(0);
+  // Enhanced solution relationships with registry integration
+  const solutionRelationships = useMemo(() => {
+    if (!industry?.solutions) return [];
+
+    return industry.solutions.map(solution => {
+      // Get all technologies for this solution
+      const techStack = {
+        primary: [],
+        supporting: [],
+        implementations: []
+      };
+
+      // Map solution technologies to registry tech configurations
+      solution.techStack?.primary && techStack.primary.push({
+        config: getTechConfig(solution.techStack.primary.id),
+        usage: solution.techStack.primary.usage
+      });
+
+      solution.techStack?.supporting?.forEach(tech => {
+        techStack.supporting.push({
+          config: getTechConfig(tech.id),
+          usage: tech.usage,
+          features: tech.features
+        });
+      });
+
+      // Get use case implementations
+      solution.benefits?.forEach(benefit => {
+        benefit.enabledBy?.forEach(techId => {
+          const useCases = Object.entries(USE_CASE_TECH_MAPPING)
+            .filter(([_, mapping]) => 
+              mapping.primaryTech === techId || 
+              mapping.relatedTech.includes(techId)
+            )
+            .map(([useCase]) => ({
+              title: useCase,
+              implementation: getUseCaseImplementation(useCase, techId)
+            }))
+            .filter(uc => uc.implementation);
+
+          techStack.implementations.push(...useCases);
+        });
+      });
+
+      // Validate tech stack against use case requirements
+      const validations = solution.useCases?.map(useCase => {
+        const requirements = USE_CASE_REQUIREMENTS[useCase.type];
+        const allTechIds = [
+          solution.techStack?.primary?.id,
+          ...(solution.techStack?.supporting?.map(tech => tech.id) || [])
+        ];
+
+        return {
+          useCase: useCase.type,
+          isValid: requirements?.requiredCategories.every(category =>
+            allTechIds.some(techId => 
+              TECH_CATEGORY_MAPPING[techId] === category
+            )
+          ),
+          missingCategories: requirements?.requiredCategories.filter(category =>
+            !allTechIds.some(techId => 
+              TECH_CATEGORY_MAPPING[techId] === category
+            )
+          )
+        };
+      });
+
+      // Add technical implementation details
+      const technicalDetails = solution.techStack?.primary && {
+        architecture: {
+          components: solution.architecture?.components?.map(comp => ({
+            ...comp,
+            technologies: comp.technologies?.map(techId => ({
+              id: techId,
+              config: getTechConfig(techId),
+              implementation: getUseCaseImplementation(solution.id, techId)
+            }))
+          })),
+          dataFlow: solution.architecture?.dataFlow?.map(flow => ({
+            ...flow,
+            technologies: flow.technologies?.map(techId => ({
+              id: techId,
+              config: getTechConfig(techId),
+              implementation: getUseCaseImplementation(solution.id, techId)
+            }))
+          }))
+        },
+        performance: solution.metrics?.map(metric => ({
+          ...metric,
+          technicalDetails: getTechConfig(solution.techStack.primary.id)
+            ?.performance?.[metric.type]
+        }))
+      };
+
+      return {
+        techStack,
+        validations,
+        implementations: techStack.implementations,
+        technicalDetails
+      };
+    });
+  }, [industry]);
 
   if (!industry || !industry.solutions) return null;
 
   return (
     <Section className="overflow-hidden">
       <div className="container relative">
-        {/* Section Header */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -23,94 +132,20 @@ const IndustrySolutions = ({ industry }) => {
           <p className="body-1 text-n-3 md:max-w-[571px] mx-auto">
             Discover how our AI solutions transform {industry.title}
           </p>
-        </motion.div>
+        </motion.div> */}
 
-        {/* Solutions Grid */}
         <div className="grid md:grid-cols-2 gap-6">
           {industry.solutions.map((solution, index) => (
-            <motion.div
+            <IndustrySolutionCard
               key={solution.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="relative p-8 rounded-3xl bg-n-7 border border-n-6 overflow-hidden group"
-            >
-              <div className="relative z-2">
-                {/* Solution Icon */}
-                <div className={`w-12 h-12 mb-6 rounded-xl bg-gradient-to-br ${industry.color} 
-                  flex items-center justify-center`}>
-                  <Icon name={solution.icon || 'bulb'} className="w-6 h-6 text-n-1" />
-                </div>
-
-                {/* Solution Content */}
-                <h4 className="h4 mb-4">{solution.title}</h4>
-                <p className="body-2 text-n-3 mb-6">{solution.description}</p>
-
-                {/* Metrics */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  {solution.metrics.map((metric, i) => (
-                    <div key={i} className="p-4 rounded-2xl bg-n-6">
-                      <div className="h5 mb-1 text-primary-1">{metric.value}</div>
-                      <div className="text-sm text-n-3">{metric.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {solution.technologies.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="px-4 py-1 rounded-full bg-n-6 text-n-3 text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Learn More Link */}
-                <Link
-                  to={`/industries/${industry.id}/${solution.id}`}
-                  className="flex items-center gap-2 text-primary-1 hover:text-primary-2 transition-colors"
-                >
-                  <span>Learn More</span>
-                  <Icon name="arrow-right" className="w-4 h-4" />
-                </Link>
-              </div>
-
-              {/* Hover Effect Background */}
-              <div className={`absolute inset-0 bg-gradient-to-br 
-                ${industry.color} opacity-0 group-hover:opacity-10 
-                transition-opacity duration-500`} />
-            </motion.div>
+              solution={solution}
+              industry={industry}
+              relationships={solutionRelationships[index]}
+              index={index}
+            />
           ))}
         </div>
 
-        {/* Benefits Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-20"
-        >
-          <h3 className="h3 mb-10 text-center">Key Benefits</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {industry.solutions[0].benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-2xl bg-n-7 border border-n-6"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 rounded-full bg-primary-1" />
-                  <span className="text-n-1">{benefit}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Background Elements */}
         <div className="absolute top-0 right-0 w-[70%] h-[70%] 
           bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none" />
       </div>

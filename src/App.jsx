@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import ButtonGradient from "./assets/svg/ButtonGradient";
 import NextGenAIStack from "./components/NextGenAIStack";
 import Collaboration from "./components/Collaboration";
@@ -87,101 +88,120 @@ const App = () => {
   if (loading) return <Loading />;
 
   return (
-    <HelmetProvider context={helmetContext}>
-      <Header />
-      <ScrollToTop />
+    <ThemeProvider>
+      <AppContent 
+        posts={posts} 
+        location={location} 
+        helmetContext={helmetContext} 
+      />
+    </ThemeProvider>
+  );
+};
 
-      <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Hero />
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
-                  >
-                    {/* <SolutionsNavigator /> */}
-                  </motion.div>
-                  <WhatWeDo />
-                  <Collaboration />
-                  <NextGenAIStack />
-                  <IndustryOverview />
-                  <WhyChooseUs />
-                  <CaseStudies />
-                  <Pricing />
-                  <Services />
-                  <Roadmap />
-                  <Contact />
-                  <StarsCanvas />
-                </>
-              }
-            />
+// Separate component to use the theme context
+const AppContent = ({ posts, location, helmetContext }) => {
+  const { isDarkMode } = useTheme();
+
+  return (
+    <div className={`${isDarkMode ? 'dark' : ''}`}>
+      <div className="min-h-screen bg-light-2 dark:bg-n-8 transition-colors duration-200">
+        <HelmetProvider context={helmetContext}>
+          <Header />
+          <ScrollToTop />
+
+          <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <Hero />
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                      >
+                        {/* <SolutionsNavigator /> */}
+                      </motion.div>
+                      <WhatWeDo />
+                      <Collaboration />
+                      <NextGenAIStack />
+                      <IndustryOverview />
+                      <WhyChooseUs />
+                      <CaseStudies />
+                      <Pricing />
+                      <Services />
+                      <Roadmap />
+                      <Contact />
+                      <StarsCanvas />
+                    </>
+                  }
+                />
+                
+                <Route 
+                  path="/solutions" 
+                  element={
+                    <PageTransition>
+                      <SolutionsPage />
+                      <WhyChooseUs />
+                      <CaseStudies />
+                      <Contact />
+                    </PageTransition>
+                  } 
+                />
+
+                <Route 
+                  path="/solutions/:slug" 
+                  element={
+                    <PageTransition>
+                      <SolutionPage />
+                      <CaseStudies />
+                      <Contact />
+                    </PageTransition>
+                  } 
+                />
+
+                <Route 
+                  path="/blog" 
+                  element={
+                    <PageTransition>
+                      <Blog posts={posts} />
+                    </PageTransition>
+                  } 
+                />
+
+                <Route 
+                  path="blog/post/:slug" 
+                  element={
+                    <PageTransition>
+                      <BlogPage />
+                    </PageTransition>
+                  } 
+                />
+
+                <Route 
+                  path="/industries/*" 
+                  element={
+                    <PageTransition>
+                      <IndustryRoutes />
+                    </PageTransition>
+                  } 
+                />
+
+                <Route path="/tech-test" element={<TechStackTest />} />
+                <Route path="/tech/:techId" element={<TechDetails />} />
+                <Route path="/tech-stack" element={<TechStackGrid />} />
+                <Route path="/technology/:techId" element={<TechnologyDetail />} />
+              </Routes>
+            </AnimatePresence>
             
-            <Route 
-              path="/solutions" 
-              element={
-                <PageTransition>
-                  <SolutionsPage />
-                  <WhyChooseUs />
-                  <CaseStudies />
-                  <Contact />
-                </PageTransition>
-              } 
-            />
-
-            <Route 
-              path="/solutions/:slug" 
-              element={
-                <PageTransition>
-                  <SolutionPage />
-                  <CaseStudies />
-                  <Contact />
-                </PageTransition>
-              } 
-            />
-
-            <Route 
-              path="/blog" 
-              element={
-                <PageTransition>
-                  <Blog posts={posts} />
-                </PageTransition>
-              } 
-            />
-
-            <Route 
-              path="blog/post/:slug" 
-              element={
-                <PageTransition>
-                  <BlogPage />
-                </PageTransition>
-              } 
-            />
-
-            <Route 
-              path="/industries/*" 
-              element={
-                <PageTransition>
-                  <IndustryRoutes />
-                </PageTransition>
-              } 
-            />
-
-            <Route path="/tech-test" element={<TechStackTest />} />
-            <Route path="/tech/:techId" element={<TechDetails />} />
-            <Route path="/tech-stack" element={<TechStackGrid />} />
-            <Route path="/technology/:techId" element={<TechnologyDetail />} />
-          </Routes>
-        </AnimatePresence>
-        
-        <Footer />
+            <Footer />
+          </div>
+          <ButtonGradient />
+        </HelmetProvider>
       </div>
-      <ButtonGradient />
-    </HelmetProvider>
+    </div>
   );
 };
 

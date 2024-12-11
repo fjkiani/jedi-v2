@@ -1,34 +1,41 @@
-
 export const businessValues = [
-    {
-      title: "Reduce Processing Time",
-      value: "80%",
-      description: "Reduce manual document processing time through AI automation",
-      icon: "chart",
-      color: "from-[#f44336] to-[#ff9800]"
-    },
-    {
-      title: "Improve Accuracy",
-      value: "95%",
-      description: "Enhance customer response accuracy with AI-powered solutions",
-      icon: "target",
-      color: "from-[#4CAF50] to-[#8BC34A]"
-    },
-    {
-      title: "Scale Operations",
-      value: "24/7",
-      description: "Scale operations without adding headcount with automated systems",
-      icon: "scale",
-      color: "from-[#2196F3] to-[#03A9F4]"
-    },
-    {
-      title: "Instant Response",
-      value: "100%",
-      description: "Available round the clock for instant customer responses",
-      icon: "clock",
-      color: "from-[#9C27B0] to-[#E91E63]"
-    }
-  ];
+  {
+    title: "AI/ML Solutions",
+    value: "40%",
+    citation: "Gartner, 2023",
+    description: "Average productivity increase in organizations using AI automation",
+    icon: "brain",
+    color: "from-[#4CAF50] to-[#8BC34A]",
+    tooltip: "Based on Gartner's study of 2,500 organizations implementing AI"
+  },
+  {
+    title: "Data Engineering",
+    value: "5x",
+    citation: "McKinsey, 2023",
+    description: "Faster decision-making with integrated data pipelines",
+    icon: "database",
+    color: "from-[#2196F3] to-[#03A9F4]",
+    tooltip: "McKinsey Global Survey on data transformation success rates"
+  },
+  {
+    title: "AI Agents",
+    value: "70%",
+    citation: "Deloitte, 2023",
+    description: "Cost reduction in routine task automation",
+    icon: "robot",
+    color: "from-[#9C27B0] to-[#E91E63]",
+    tooltip: "Deloitte's AI adoption and impact analysis"
+  },
+  {
+    title: "Full Stack",
+    value: "60%",
+    citation: "Forrester, 2023",
+    description: "Faster time-to-market with modern development practices",
+    icon: "code",
+    color: "from-[#f44336] to-[#ff9800]",
+    tooltip: "Forrester's research on digital transformation outcomes"
+  }
+];
   
   export const capabilities = [
     {

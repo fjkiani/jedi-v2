@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Icon } from '@/components/Icon';
-import { openAIService } from '@/services/openAIService';
+import { openAIService } from '@/services/openAIService.jsx';
 import AIResponse from '@/components/response/AIResponse';
 
 const Implementation = ({ tech, useCases, showDemo, customClassName }) => {

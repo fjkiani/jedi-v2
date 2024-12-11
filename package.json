@@ -46,7 +46,8 @@
     "simple-icons": "^13.18.0",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.5.5",
-    "three": "^0.167.1"
+    "three": "^0.167.1",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.0",

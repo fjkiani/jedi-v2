@@ -49,25 +49,43 @@ const Hero = () => {
 
   const heroContent = [
     {
-      title: "Jedi Labs is undergoing a transformation but we will transform Your Business with AI",
-      subtitle: "Unleash the power of Jedi Labs to transform your business.",
-      video: "https://path-to-your-video-1.mp4",
+      title: "Knowledge as a Service for Enterprise AI",
+      subtitle: "JediLabs transforms how enterprises harness AI by combining cutting-edge technology with deep domain expertise. Our platform turns complex AI capabilities into actionable business solutions.",
+      video: "/videos/coding2.mp4",
     },
     {
-      title: "Jedi Labs is undergoing a transformation but we will Automate Your Workflow Soon",
-      subtitle: "Let Jedi Labs handle the repetitive tasks while you focus on growth.",
-      video: "https://path-to-your-video-1.mp4",
+      title: "Enterprise-Grade AI/ML Solutions",
+      subtitle: "From intelligent document processing to predictive analytics, we build custom AI solutions that scale. Achieve 80% faster deployment, 60% cost reduction, and 95% automation accuracy.",
+      video: "/videos/coding2.mp4",
     },
     {
-      title: "Future-Proof Your Enterprise",
-      subtitle: "Stay ahead of the curve with cutting-edge AI solutions.",
-      video: "https://path-to-your-video-1.mp4",
+      title: "Autonomous AI Agents & Orchestration",
+      subtitle: "Deploy self-improving AI agents that handle complex workflows 24/7. Our agents integrate with your existing tools, reducing manual intervention by 90% while maintaining enterprise security standards.",
+      video: "/videos/coding2.mp4",
     },
+    {
+      title: "Intelligent Data Engineering Pipeline",
+      subtitle: "Transform raw data into business intelligence with our end-to-end data solutions. Process millions of records in real-time, ensure 99.9% data accuracy, and generate insights 10x faster.",
+      video: "/videos/coding2.mp4",
+    },
+    {
+      title: "Custom LLM Development & Integration",
+      subtitle: "Build and deploy domain-specific language models tailored to your industry. Our LLMs understand your business context, compliance requirements, and specialized terminology.",
+      video: "/videos/coding2.mp4",
+    },
+    {
+      title: "AI Strategy & Digital Transformation",
+      subtitle: "Partner with our experts to develop your AI roadmap. We help you identify high-impact use cases, build proof of concepts, and scale successful implementations across your organization.",
+      video: "/videos/coding2.mp4",
+    }
   ];
 
   useEffect(() => {
-    const fadeTimeout = 3000; // How long each title stays visible
-    const fadeTransition = 500; // How long the fade effect takes
+    const fadeTimeout = 8000;    // Increased to 8 seconds for more reading time
+    const fadeTransition = 1000; // Smooth 1-second transition
+
+    // Set initial title
+    setDisplayedTitle(heroContent[currentIndex].title);
 
     const fadeLoop = () => {
       // Start fade out
@@ -80,9 +98,6 @@ const Hero = () => {
         setIsVisible(true);
       }, fadeTransition);
     };
-
-    // Set initial title
-    setDisplayedTitle(heroContent[currentIndex].title);
 
     // Set up the interval for changing text
     const interval = setInterval(fadeLoop, fadeTimeout);
@@ -97,7 +112,7 @@ const Hero = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
@@ -105,6 +120,10 @@ const Hero = () => {
     prevArrow: <PrevArrow />,
     customPaging: (i) => <div className="dot"></div>,
     dotsClass: "slick-dots custom-dots",
+    autoplay: true,
+    autoplaySpeed: 8000,
+    pauseOnHover: true,
+    cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
   };
 
   // Play the video when the section loads
@@ -116,7 +135,7 @@ const Hero = () => {
 
   return (
     <Section
-      className="pt-[12rem] -mt-[5.25rem]"
+      className="pt-[12rem] -mt-[5.25rem] theme-bg-primary"
       crosses
       crossesOffset="lg:translate-y-[5.25rem]"
       customPaddings
@@ -127,12 +146,12 @@ const Hero = () => {
           {heroContent.map((content, index) => (
             <div key={index}>
               <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
-                <h1 className={`h1 mb-6 transition-opacity duration-500 ease-in-out ${
+                <h1 className={`h1 mb-6 theme-text-primary transition-opacity duration-500 ease-in-out ${
                   isVisible ? 'opacity-100' : 'opacity-0'
                 }`}>
                   {displayedTitle}
                 </h1>
-                <p className={`body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8 transition-opacity duration-500 ease-in-out ${
+                <p className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 transition-opacity duration-500 ease-in-out ${
                   isVisible ? 'opacity-100' : 'opacity-0'
                 }`}>
                   {heroContent[currentIndex].subtitle}
@@ -143,23 +162,23 @@ const Hero = () => {
               </div>
               <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
                 <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
-                  <div className="relative bg-n-8 rounded-[1rem]">
+                  <div className="relative theme-bg-secondary rounded-[1rem]">
                     <div className="h-[1.4rem] bg-n-10 rounded-t-[0.9rem]" />
 
                     <div className="aspect-[33/40] rounded-b-[0.9rem] overflow-hidden md:aspect-[688/490] lg:aspect-[1024/490]">
-                    <video
-                      ref={videoRef}
-                      className="w-full h-full object-cover"
-                      src="/videos/coding2.mp4" // Updated to point to the public folder
-                      controls
-                      muted
-                      autoPlay
-                      alt="Hero video"
-                    />
+                      <video
+                        ref={videoRef}
+                        className="w-full h-full object-cover"
+                        src="/videos/coding2.mp4"
+                        controls
+                        muted
+                        autoPlay
+                        alt="Hero video"
+                      />
                       <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
 
                       <ScrollParallax isAbsolutelyPositioned>
-                        <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 bg-n-9/40 backdrop-blur border border-n-1/10 rounded-2xl xl:flex">
+                        <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 theme-bg-secondary backdrop-blur border theme-border rounded-2xl xl:flex">
                           {/* {heroIcons.map((icon, iconIndex) => (
                             <li className="p-5" key={iconIndex}>
                               <img src={icon} width={24} height={25} alt={icon} />

@@ -1,22 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
-import { industriesList } from '@/constants/industry';
+import { financial } from '@/constants/industry/financial';
+import { TabsRoot, TabsList, TabTrigger, TabsContent, TabPanel } from '@/components/ui/Tabs';
+import CaseStudiesTab from '@/pages/solutions/tabs/CaseStudiesTab';
 
 const SolutionPage = () => {
   const { industryId, solutionId } = useParams();
-  const industry = industriesList[industryId];
-  const solution = industry?.solutions.find(s => s.id === solutionId);
+  
+  const industry = industryId === 'financial' ? financial : null;
+  const solution = industry?.solutions?.find(s => s.id === solutionId);
+
+  console.log('Data Check:', {
+    industryId,
+    solutionId,
+    industry,
+    solution,
+    allSolutions: industry?.solutions
+  });
 
   if (!industry || !solution) {
     return (
       <div className="container pt-[8rem]">
         <h1 className="h1 text-center">Solution Not Found</h1>
+        <pre className="text-sm text-n-3">
+          {JSON.stringify({ industryId, solutionId }, null, 2)}
+        </pre>
       </div>
     );
   }
+
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const tabs = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      icon: 'layout',
+      content: (
+        <div className="space-y-10">
+          <div className="grid md:grid-cols-2 gap-10">
+            <div>
+              <h3 className="h4 mb-4">Industry Impact</h3>
+              <p className="text-n-3">{solution.fullDescription}</p>
+            </div>
+            <div>
+              <h3 className="h4 mb-4">Solution Capabilities</h3>
+              <ul className="space-y-3">
+                {solution.capabilities?.map((capability, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
+                    <span className="text-n-3">{capability}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'case-studies',
+      label: 'Case Studies',
+      icon: 'book-open',
+      content: <CaseStudiesTab solution={solution} />
+    },
+    {
+      id: 'documentation',
+      label: 'Documentation',
+      icon: 'file-text',
+      content: (
+        <div>
+          <h3 className="h4 mb-4">Documentation</h3>
+          <p className="text-n-3">Industry-specific documentation and guides.</p>
+        </div>
+      )
+    },
+    {
+      id: 'technical',
+      label: 'Technical',
+      icon: 'code',
+      content: (
+        <div>
+          <h3 className="h4 mb-4">Technical Implementation</h3>
+          <p className="text-n-3">Details on how to implement this solution in the financial industry.</p>
+        </div>
+      )
+    }
+  ];
 
   return (
     <>
@@ -50,84 +123,34 @@ const SolutionPage = () => {
               </p>
             </motion.div>
           </div>
-
-          {/* Metrics Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12"
-          >
-            {solution.metrics.map((metric, index) => (
-              <div key={index} className="p-6 rounded-2xl bg-n-7 border border-n-6">
-                <div className="h4 mb-2 text-primary-1">{metric.value}</div>
-                <div className="text-n-3">{metric.label}</div>
-              </div>
-            ))}
-          </motion.div>
         </div>
       </Section>
 
-      {/* Technologies Section */}
+      {/* Tabs Section */}
       <Section>
         <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="h3 mb-10">Technologies Used</h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {solution.technologies.map((tech, index) => (
-                <div
-                  key={index}
-                  className="p-6 rounded-2xl bg-n-7 border border-n-6 flex items-center gap-4"
-                >
-                  <div className="w-2 h-2 rounded-full bg-primary-1" />
-                  <span className="text-n-1">{tech}</span>
-                </div>
+          <TabsRoot defaultValue={activeTab} onValueChange={setActiveTab}>
+            <TabsList>
+              {tabs.map((tab) => (
+                <TabTrigger key={tab.id} value={tab.id}>
+                  <span className="flex items-center gap-2">
+                    <Icon name={tab.icon} className="w-4 h-4" />
+                    {tab.label}
+                  </span>
+                </TabTrigger>
               ))}
-            </div>
-          </motion.div>
+            </TabsList>
+
+            <TabsContent>
+              {tabs.map((tab) => (
+                <TabPanel key={tab.id} value={tab.id}>
+                  {tab.content}
+                </TabPanel>
+              ))}
+            </TabsContent>
+          </TabsRoot>
         </div>
       </Section>
-
-      {/* Case Studies Section */}
-      {solution.caseStudies && (
-        <Section>
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="h3 mb-10">Case Studies</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {solution.caseStudies.map((caseStudy, index) => (
-                  <Link
-                    key={index}
-                    to={caseStudy.link}
-                    className="group p-6 rounded-2xl bg-n-7 border border-n-6 hover:border-primary-1 transition-colors"
-                  >
-                    <h4 className="h4 mb-4">{caseStudy.title}</h4>
-                    <p className="body-2 text-n-3 mb-6">{caseStudy.description}</p>
-                    <div className="flex flex-wrap gap-4">
-                      {caseStudy.metrics.map((metric, i) => (
-                        <span
-                          key={i}
-                          className="px-4 py-1 rounded-full bg-n-6 text-n-3 text-sm"
-                        >
-                          {metric}
-                        </span>
-                      ))}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </Section>
-      )}
 
       {/* Background Elements */}
       <div className="fixed inset-0 pointer-events-none">
