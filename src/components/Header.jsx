@@ -44,7 +44,7 @@ const ThemeToggle = () => {
 
 const DropdownMenu = ({ items }) => {
   return (
-    <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[240px] border border-n-1/10 shadow-lg">
+    <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[200px]">
       {items.map((item, index) => (
         <div key={index}>
           {item.items ? (
@@ -52,52 +52,46 @@ const DropdownMenu = ({ items }) => {
             <div className="relative group/nested">
               <Link 
                 to={item.url} 
-                className="flex items-center justify-between px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
               >
-                <span>{item.title}</span>
-                <svg className="w-4 h-4 text-n-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <div className="absolute left-full top-0 hidden group-hover/nested:block pl-1">
-                <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[220px] border border-n-1/10 shadow-lg">
-                  {item.items.map((subItem, subIndex) => (
-                    <Link
-                      key={subIndex}
-                      to={subItem.url}
-                      className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                    >
-                      {subItem.title}
-                    </Link>
-                  ))}
+                {item.title}
+                <div className="absolute left-full top-0 hidden group-hover/nested:block">
+                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
+                    {item.items.map((subItem, subIndex) => (
+                      <Link
+                        key={subIndex}
+                        to={subItem.url}
+                        className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                      >
+                        {subItem.title}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           ) : item.useCases ? (
             // Industry dropdown with use cases
             <div className="relative group/nested">
               <Link 
                 to={item.url} 
-                className="flex items-center justify-between px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
               >
-                <span>{item.title}</span>
-                <svg className="w-4 h-4 text-n-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <div className="absolute left-full top-0 hidden group-hover/nested:block pl-1">
-                <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[220px] border border-n-1/10 shadow-lg">
-                  {item.useCases.map((useCase, useCaseIndex) => (
-                    <Link
-                      key={useCaseIndex}
-                      to={useCase.url}
-                      className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                    >
-                      {useCase.title}
-                    </Link>
-                  ))}
+                {item.title}
+                <div className="absolute left-full top-0 hidden group-hover/nested:block">
+                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
+                    {item.useCases.map((useCase, useCaseIndex) => (
+                      <Link
+                        key={useCaseIndex}
+                        to={useCase.url}
+                        className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                      >
+                        {useCase.title}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           ) : (
             // Regular dropdown item
@@ -105,69 +99,9 @@ const DropdownMenu = ({ items }) => {
               to={item.url} 
               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
             >
-              <span>{item.title}</span>
-              {item.description && (
-                <span className="block text-xs text-n-3 mt-0.5">{item.description}</span>
-              )}
-            </Link>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const MobileDropdownMenu = ({ items }) => {
-  return (
-    <div className="pl-8 mt-2 space-y-2 bg-n-8/90">
-      {items.map((item, index) => (
-        <div key={index} className="py-2">
-          {item.items ? (
-            // Nested items
-            <div className="space-y-2">
-              <div className="text-n-1/50 font-medium text-sm">{item.title}</div>
-              <div className="pl-4 space-y-2">
-                {item.items.map((subItem, subIndex) => (
-                  <Link
-                    key={subIndex}
-                    to={subItem.url}
-                    className="block py-2 text-n-1/70 hover:text-n-1 text-base"
-                  >
-                    {subItem.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : item.useCases ? (
-            // Use cases
-            <div className="space-y-2">
-              <Link 
-                to={item.url}
-                className="text-n-1/70 hover:text-n-1 font-medium"
-              >
-                {item.title}
-              </Link>
-              <div className="pl-4 space-y-2">
-                {item.useCases.map((useCase, useCaseIndex) => (
-                  <Link
-                    key={useCaseIndex}
-                    to={useCase.url}
-                    className="block py-2 text-n-1/70 hover:text-n-1 text-base"
-                  >
-                    {useCase.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : (
-            // Regular item
-            <Link 
-              to={item.url} 
-              className="block text-n-1/70 hover:text-n-1"
-            >
               {item.title}
               {item.description && (
-                <span className="block text-sm text-n-3 mt-0.5">{item.description}</span>
+                <span className="block text-xs text-n-3">{item.description}</span>
               )}
             </Link>
           )}
@@ -205,31 +139,23 @@ const Header = () => {
           <img src={logo} width={190} height={40} alt="JediLabs" />
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className={`${
           openNavigation ? "flex" : "hidden"
-        } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8/95 backdrop-blur-md lg:static lg:flex lg:mx-auto lg:bg-transparent`}>
-          <div className="relative z-2 flex flex-col items-start justify-start w-full h-full overflow-auto px-6 pt-8 pb-16 lg:flex-row lg:items-center lg:p-0">
+        } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}>
+          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
-              <div key={item.id} className="relative group w-full lg:w-auto">
+              <div key={item.id} className="relative group">
                 <Link
                   to={item.url}
                   onClick={handleClick}
-                  className={`block relative font-code text-xl lg:text-2xl uppercase text-n-1 transition-colors hover:text-color-1 
-                    py-4 lg:py-6 lg:-mr-0.25 lg:text-xs lg:font-semibold 
+                  className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 
+                    px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold 
                     ${location.pathname === item.url ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
-                    lg:leading-5 lg:hover:text-n-1 lg:px-12`}
+                    lg:leading-5 lg:hover:text-n-1 xl:px-12`}
                 >
                   {item.title}
                 </Link>
-                {/* Desktop Dropdown */}
-                {!openNavigation && item.dropdownItems && (
-                  <DropdownMenu items={item.dropdownItems} />
-                )}
-                {/* Mobile Dropdown */}
-                {openNavigation && item.dropdownItems && (
-                  <MobileDropdownMenu items={item.dropdownItems} />
-                )}
+                {item.dropdownItems && <DropdownMenu items={item.dropdownItems} />}
               </div>
             ))}
           </div>

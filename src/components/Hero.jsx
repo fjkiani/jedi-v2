@@ -49,6 +49,11 @@ const Hero = () => {
 
   const heroContent = [
     {
+      title: "You imagine, We Engineer",
+      subtitle: "We are a team of AI engineers, best-in-class designers, and web developers who are passionate about building products that are both meaningful and impactful.",
+      video: "/videos/coding2.mp4",
+    },
+    {
       title: "Knowledge as a Service for Enterprise AI",
       subtitle: "JediLabs transforms how enterprises harness AI by combining cutting-edge technology with deep domain expertise. Our platform turns complex AI capabilities into actionable business solutions.",
       video: "/videos/coding2.mp4",

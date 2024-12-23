@@ -6,6 +6,10 @@ import { Icon } from '@/components/Icon';
 import { financial } from '@/constants/industry/financial';
 import { TabsRoot, TabsList, TabTrigger, TabsContent, TabPanel } from '@/components/ui/Tabs';
 import CaseStudiesTab from '@/pages/solutions/tabs/CaseStudiesTab';
+import DocumentationTab from '@/pages/solutions/tabs/DocumentationTab';
+import TechnicalTab from '@/pages/solutions/tabs/TechnicalTab';
+import { fraudDetectionDocs } from '@/constants/implementations/industries/financial/documentation';
+import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/implementation';
 
 const SolutionPage = () => {
   const { industryId, solutionId } = useParams();
@@ -34,6 +38,15 @@ const SolutionPage = () => {
 
   const [activeTab, setActiveTab] = useState('overview');
 
+  const getDocumentation = () => {
+    if (industryId === 'financial' && solutionId === 'fraud-detection') {
+      return fraudDetectionDocs;
+    }
+    return null;
+  };
+
+  const documentation = getDocumentation();
+  
   const tabs = [
     {
       id: 'overview',
@@ -62,31 +75,28 @@ const SolutionPage = () => {
       )
     },
     {
+      id: 'documentation',
+      label: 'Documentation',
+      icon: 'file-text',
+      content: (
+        <DocumentationTab documentation={documentation} />
+      )
+    },
+    {
       id: 'case-studies',
       label: 'Case Studies',
       icon: 'book-open',
       content: <CaseStudiesTab solution={solution} />
     },
     {
-      id: 'documentation',
-      label: 'Documentation',
-      icon: 'file-text',
-      content: (
-        <div>
-          <h3 className="h4 mb-4">Documentation</h3>
-          <p className="text-n-3">Industry-specific documentation and guides.</p>
-        </div>
-      )
-    },
-    {
       id: 'technical',
       label: 'Technical',
       icon: 'code',
       content: (
-        <div>
-          <h3 className="h4 mb-4">Technical Implementation</h3>
-          <p className="text-n-3">Details on how to implement this solution in the financial industry.</p>
-        </div>
+        <TechnicalTab 
+          solution={{ slug: solutionId }}
+          implementation={fraudDetectionImplementation}
+        />
       )
     }
   ];
