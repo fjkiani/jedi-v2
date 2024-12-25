@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { solutions } from '@/constants/solutions';
+import { solutions } from '@/constants/solutions/index';
 import Section from '@/components/Section';
 
 const SolutionsOverview = () => {

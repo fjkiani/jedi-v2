@@ -42,6 +42,22 @@ export const USE_CASE_TECH_MAPPING = {
     primaryTech: "langchain",
     relatedTech: ["airflow", "celery"],
     solutionId: "ai-agents"
+  },
+  // Healthcare Solutions Use Cases
+  "Patient Risk Analysis": {
+    primaryTech: "clinical-ai",
+    relatedTech: ["fhir", "ml-models"],
+    solutionId: "healthcare-solutions"
+  },
+  "Clinical Decision Support": {
+    primaryTech: "clinical-ai",
+    relatedTech: ["ehr-integration", "medical-nlp"],
+    solutionId: "healthcare-solutions"
+  },
+  "Remote Patient Monitoring": {
+    primaryTech: "health-monitoring",
+    relatedTech: ["clinical-ai", "fhir"],
+    solutionId: "healthcare-solutions"
   }
 };
 

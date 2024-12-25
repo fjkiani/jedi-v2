@@ -1,120 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
-import { financial } from '@/constants/industry/financial';
 import { TabsRoot, TabsList, TabTrigger, TabsContent, TabPanel } from '@/components/ui/Tabs';
+import SolutionOverview from '../components/SolutionOverview';
 import CaseStudiesTab from '@/pages/solutions/tabs/CaseStudiesTab';
 import DocumentationTab from '@/pages/solutions/tabs/DocumentationTab';
 import TechnicalTab from '@/pages/solutions/tabs/TechnicalTab';
-import { fraudDetectionDocs } from '@/constants/implementations/industries/financial/documentation';
-import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/implementation';
+import { getSolutionConfig } from '@/constants/registry/solutionRegistry';
+import { industriesList } from '@/constants/industry';
 
 const SolutionPage = () => {
   const { industryId, solutionId } = useParams();
-  
-  const industry = industryId === 'financial' ? financial : null;
-  const solution = industry?.solutions?.find(s => s.id === solutionId);
-
-  console.log('Data Check:', {
-    industryId,
-    solutionId,
-    industry,
-    solution,
-    allSolutions: industry?.solutions
-  });
-
-  if (!industry || !solution) {
-    return (
-      <div className="container pt-[8rem]">
-        <h1 className="h1 text-center">Solution Not Found</h1>
-        <pre className="text-sm text-n-3">
-          {JSON.stringify({ industryId, solutionId }, null, 2)}
-        </pre>
-      </div>
-    );
-  }
-
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedComponent, setSelectedComponent] = useState(null);
 
-  const getDocumentation = () => {
-    if (industryId === 'financial' && solutionId === 'fraud-detection') {
-      return fraudDetectionDocs;
-    }
-    return null;
-  };
-
-  const documentation = getDocumentation();
+  // Get industry and solution data
+  const industry = industriesList.find(ind => ind.id === industryId);
+  const solution = industry?.solutions?.find(s => s.id === solutionId);
   
-  const tabs = [
-    {
-      id: 'overview',
-      label: 'Overview',
-      icon: 'layout',
-      content: (
-        <div className="space-y-10">
-          <div className="grid md:grid-cols-2 gap-10">
-            <div>
-              <h3 className="h4 mb-4">Industry Impact</h3>
-              <p className="text-n-3">{solution.fullDescription}</p>
-            </div>
-            <div>
-              <h3 className="h4 mb-4">Solution Capabilities</h3>
-              <ul className="space-y-3">
-                {solution.capabilities?.map((capability, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
-                    <span className="text-n-3">{capability}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'documentation',
-      label: 'Documentation',
-      icon: 'file-text',
-      content: (
-        <DocumentationTab documentation={documentation} />
-      )
-    },
-    {
-      id: 'case-studies',
-      label: 'Case Studies',
-      icon: 'book-open',
-      content: <CaseStudiesTab solution={solution} />
-    },
-    {
-      id: 'technical',
-      label: 'Technical',
-      icon: 'code',
-      content: (
-        <TechnicalTab 
-          solution={{ slug: solutionId }}
-          implementation={fraudDetectionImplementation}
-        />
-      )
-    }
-  ];
+  // Get solution configuration from registry
+  const solutionConfig = useMemo(() => {
+    return getSolutionConfig(industryId, solutionId);
+  }, [industryId, solutionId]);
+
+  const handleComponentClick = (component) => {
+    setSelectedComponent(component);
+    setActiveTab('documentation');
+  };
 
   return (
     <>
-      {/* Hero Section */}
       <Section className="overflow-hidden pt-[8rem]">
-        <div className="container relative">
+        <div className="container">
           {/* Breadcrumb */}
           <div className="text-n-3 mb-6 flex items-center gap-2">
             <Link to="/industries" className="hover:text-n-1">Industries</Link>
             <Icon name="arrow-right" className="w-4 h-4" />
             <Link to={`/industries/${industryId}`} className="hover:text-n-1">
-              {industry.title}
+              {industry?.title}
             </Link>
             <Icon name="arrow-right" className="w-4 h-4" />
-            <span className="text-n-1">{solution.title}</span>
+            <span className="text-n-1">{solution?.title}</span>
           </div>
 
           {/* Hero Content */}
@@ -124,12 +52,9 @@ const SolutionPage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-[45rem]"
             >
-              <h1 className="h1 mb-6 inline-block bg-clip-text text-transparent 
-                bg-gradient-to-r from-primary-1 to-primary-2">
-                {solution.title}
-              </h1>
+              <h1 className="h1 mb-6">{solution?.title}</h1>
               <p className="body-1 text-n-3 mb-8">
-                {solution.fullDescription}
+                {solution?.description}
               </p>
             </motion.div>
           </div>
@@ -139,36 +64,63 @@ const SolutionPage = () => {
       {/* Tabs Section */}
       <Section>
         <div className="container">
-          <TabsRoot defaultValue={activeTab} onValueChange={setActiveTab}>
+          <TabsRoot value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
-              {tabs.map((tab) => (
-                <TabTrigger key={tab.id} value={tab.id}>
-                  <span className="flex items-center gap-2">
-                    <Icon name={tab.icon} className="w-4 h-4" />
-                    {tab.label}
-                  </span>
-                </TabTrigger>
-              ))}
+              <TabTrigger value="overview">
+                <span className="flex items-center gap-2">
+                  <Icon name="layout" className="w-4 h-4" />
+                  Overview
+                </span>
+              </TabTrigger>
+              <TabTrigger value="documentation">
+                <span className="flex items-center gap-2">
+                  <Icon name="file-text" className="w-4 h-4" />
+                  Documentation
+                </span>
+              </TabTrigger>
+              <TabTrigger value="case-studies">
+                <span className="flex items-center gap-2">
+                  <Icon name="book-open" className="w-4 h-4" />
+                  Case Studies
+                </span>
+              </TabTrigger>
+              <TabTrigger value="technical">
+                <span className="flex items-center gap-2">
+                  <Icon name="code" className="w-4 h-4" />
+                  Technical
+                </span>
+              </TabTrigger>
             </TabsList>
 
             <TabsContent>
-              {tabs.map((tab) => (
-                <TabPanel key={tab.id} value={tab.id}>
-                  {tab.content}
-                </TabPanel>
-              ))}
+              <TabPanel value="overview">
+                <SolutionOverview 
+                  industry={{ id: industryId }}
+                  solution={{ id: solutionId }}
+                  onComponentClick={handleComponentClick}
+                />
+              </TabPanel>
+              <TabPanel value="documentation">
+                <DocumentationTab 
+                  documentation={solutionConfig?.documentation}
+                  selectedComponent={selectedComponent}
+                  industry={{ id: industryId }}
+                />
+              </TabPanel>
+              <TabPanel value="case-studies">
+                <CaseStudiesTab solution={solution} />
+              </TabPanel>
+              <TabPanel value="technical">
+                <TechnicalTab 
+                  solution={{ id: solutionId }}
+                  implementation={solutionConfig?.implementation}
+                  diagrams={solutionConfig?.diagrams}
+                />
+              </TabPanel>
             </TabsContent>
           </TabsRoot>
         </div>
       </Section>
-
-      {/* Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-[40%] w-[70%] h-[70%] 
-          bg-radial-gradient from-primary-1/30 to-transparent blur-xl" />
-        <div className="absolute bottom-0 right-[40%] w-[70%] h-[70%] 
-          bg-radial-gradient from-primary-2/30 to-transparent blur-xl" />
-      </div>
     </>
   );
 };

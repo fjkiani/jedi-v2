@@ -9,6 +9,7 @@ import { ScrollParallax } from "react-just-parallax";
 import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
+import Icon from "./Icon";
 // import { coding2 } from "../assets/videos";
 
 // Import the slick-carousel CSS files
@@ -46,6 +47,7 @@ const Hero = () => {
   const [displayedTitle, setDisplayedTitle] = useState('');
   const [isVisible, setIsVisible] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
   const heroContent = [
     {
@@ -171,13 +173,26 @@ const Hero = () => {
                     <div className="h-[1.4rem] bg-n-10 rounded-t-[0.9rem]" />
 
                     <div className="aspect-[33/40] rounded-b-[0.9rem] overflow-hidden md:aspect-[688/490] lg:aspect-[1024/490]">
+                      {isVideoLoading && (
+                        <div className="w-full h-full bg-n-8 animate-pulse flex items-center justify-center">
+                          <Icon 
+                            name="loader" 
+                            className="w-10 h-10 text-primary-1 animate-spin" 
+                          />
+                        </div>
+                      )}
                       <video
                         ref={videoRef}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover transition-opacity duration-300 ${
+                          isVideoLoading ? 'opacity-0' : 'opacity-100'
+                        }`}
                         src="/videos/coding2.mp4"
                         controls
                         muted
                         autoPlay
+                        preload="none"
+                        onLoadedData={() => setIsVideoLoading(false)}
+                        playsInline
                         alt="Hero video"
                       />
                       <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />

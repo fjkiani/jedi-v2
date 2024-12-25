@@ -36,8 +36,7 @@ export const fraudDetectionDocs = {
           - Multi factor risk scoring
           - Automated decision making 
           
-          🚀 Try It Yourself
-          Run the code to see how the system analyzes a sample transaction!
+         
         `,
         codeExample: `
 // You Imagine - Jedi Labs Engineers
@@ -737,10 +736,10 @@ class FeatureEngine {
         monitor.endSpan(transaction.id, 'total');
       }
     }`
-          }
-        ]
       }
-    };
+    ]
+  }
+};
 
 
 
@@ -780,3 +779,86 @@ class FeatureEngine {
           }
         ]
       }; 
+
+export const interactiveExamples = {
+  creditCardFraud: {
+    title: "Credit Card Fraud Detection",
+    description: "Interactive fraud detection simulation",
+    steps: [
+      {
+        id: 'input',
+        title: 'Transaction Input',
+        description: 'Configure a sample transaction to test',
+        interactive: {
+          type: 'form',
+          fields: [
+            { name: 'amount', type: 'number', label: 'Amount', default: 999.99 },
+            { name: 'currency', type: 'select', label: 'Currency', options: ['USD', 'EUR', 'GBP'] },
+            { name: 'location', type: 'select', label: 'Location', options: ['US', 'UK', 'EU'] },
+            { name: 'time', type: 'time', label: 'Transaction Time' }
+          ]
+        }
+      },
+      {
+        id: 'analysis',
+        title: 'Real-time Analysis',
+        description: 'Watch the fraud detection process in action',
+        visualization: {
+          type: 'pipeline',
+          stages: [
+            { id: 'cache', label: 'Cache Check', icon: 'database' },
+            { id: 'enrich', label: 'Data Enrichment', icon: 'layers' },
+            { id: 'ml', label: 'ML Analysis', icon: 'cpu' },
+            { id: 'decision', label: 'Risk Decision', icon: 'shield' }
+          ]
+        }
+      },
+      {
+        id: 'result',
+        title: 'Detection Results',
+        description: 'View detailed analysis results',
+        visualization: {
+          type: 'dashboard',
+          panels: [
+            { type: 'gauge', label: 'Risk Score', min: 0, max: 100 },
+            { type: 'status', label: 'Decision' },
+            { type: 'list', label: 'Risk Factors' }
+          ]
+        }
+      }
+    ]
+  },
+  monitoring: {
+    title: "Live System Monitoring",
+    description: "Interactive monitoring dashboard",
+    panels: [
+      {
+        id: 'performance',
+        title: 'Performance Metrics',
+        type: 'realtime-chart',
+        metrics: [
+          { label: 'Response Time', unit: 'ms' },
+          { label: 'Transactions/sec', unit: 'tps' },
+          { label: 'Error Rate', unit: '%' }
+        ]
+      },
+      {
+        id: 'alerts',
+        title: 'Live Alerts',
+        type: 'feed',
+        filters: ['severity', 'type', 'status']
+      },
+      {
+        id: 'health',
+        title: 'System Health',
+        type: 'status-board',
+        components: [
+          'ML Models',
+          'Cache Layer',
+          'Vector DB',
+          'Alert System'
+        ]
+      }
+    ]
+  }
+}; 

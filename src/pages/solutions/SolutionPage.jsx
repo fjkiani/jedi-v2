@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getSolutionBySlug } from '@/constants/solutions';
+import { getSolutionBySlug } from '@/constants/solutions/index';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import ArchitectureDiagram from '@/components/diagrams/ArchitectureDiagram';

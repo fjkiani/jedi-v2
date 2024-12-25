@@ -190,4 +190,17 @@ const calculatePath = (start, end) => {
           Q ${midX} ${end.y}, ${end.x} ${end.y}`;
 };
 
+const NodeFeatures = ({ features }) => (
+  <div className="space-y-2">
+    {features.map((feature, index) => (
+      <div 
+        key={index} 
+        className="bg-n-7 rounded-lg p-2 text-sm text-n-3 hover:bg-n-6 transition-colors"
+      >
+        {feature}
+      </div>
+    ))}
+  </div>
+);
+
 export default DiagramView; 

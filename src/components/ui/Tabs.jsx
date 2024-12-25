@@ -2,11 +2,22 @@ import { Tab } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { cn } from "../../utils/cn";
 
-export const TabsRoot = ({ children, defaultIndex = 0, onChange }) => (
-  <Tab.Group defaultIndex={defaultIndex} onChange={onChange}>
-    {children}
-  </Tab.Group>
-);
+export const TabsRoot = ({ value, onValueChange, children }) => {
+  const selectedIndex = ["overview", "documentation", "case-studies", "technical"].indexOf(value);
+  
+  return (
+    <Tab.Group
+      selectedIndex={selectedIndex}
+      onChange={(index) => {
+        const newValue = ["overview", "documentation", "case-studies", "technical"][index];
+        console.log('Tab changing to:', newValue);
+        onValueChange(newValue);
+      }}
+    >
+      {children}
+    </Tab.Group>
+  );
+};
 
 export const TabsList = ({ children }) => (
   <Tab.List className="flex space-x-1 rounded-2xl bg-n-7/50 p-1.5 backdrop-blur border border-n-6">
