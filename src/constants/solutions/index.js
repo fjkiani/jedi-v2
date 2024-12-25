@@ -34,7 +34,7 @@ export {
   defaultDiagram
 };
 
-// Export solutions as an array to match what SolutionsOverview expects
+// New solution-based exports
 export const solutions = {
   'ai-ml-solutions': aiMlSolution,
   'full-stack-development': fullStackSolution,
@@ -44,12 +44,12 @@ export const solutions = {
 
 // Helper functions
 export const getSolutionBySlug = (slug) => solutions[slug];
-export const getAllSolutions = () => Object.values(solutions);
 export const getDiagramBySlug = (slug) => architectureDiagrams[slug] || defaultDiagram;
 export const getLayoutByType = (type) => commonLayouts[type] || commonLayouts.horizontal;
 export const getTechStackByDomain = (domain) => {
   return techStacks[domain] || {};
 };
+export const getAllSolutions = () => Object.values(solutions);
   
 
   

@@ -1,111 +1,115 @@
-export const patientRiskAnalysisDiagram = {
+import { commonLayouts } from '../../../diagrams';
+
+export const healthcareDiagram = {
+  useCase: {
+    title: "Patient Risk Analysis System",
+    description: "AI-powered healthcare risk assessment and monitoring platform",
+    businessValue: [
+      "Early risk detection and prevention",
+      "Improved patient outcomes",
+      "Reduced healthcare costs",
+      "Enhanced clinical decision support"
+    ],
+    capabilities: [
+      "Real-time patient monitoring",
+      "Predictive risk assessment",
+      "Clinical decision support",
+      "HIPAA-compliant data handling"
+    ]
+  },
   nodes: [
     {
-      id: 'data-ingestion',
-      label: 'Health Data Ingestion',
-      description: 'HIPAA-compliant data processing\n• EHR/EMR integration\n• Real-time vitals monitoring\n• Lab results processing\n• Medication tracking\n• Secure data encryption',
-      x: 100,
-      y: 100,
-      type: "Input",
+      id: 'data-collection',
+      label: 'Data Collection',
+      x: commonLayouts.horizontal.startPosition.x,
+      y: commonLayouts.horizontal.startPosition.y,
+      description: 'Patient data collection and integration',
       technologies: {
-        core: ['HL7 FHIR', 'DICOM'],
-        features: [
-          'Secure health data integration',
-          'Real-time patient monitoring',
-          'Multi-source data aggregation'
-        ]
+        core: ["FHIR", "HL7"],
+        integration: ["Apache Kafka", "RabbitMQ"],
+        storage: ["PostgreSQL", "MongoDB"]
       }
     },
     {
-      id: 'analysis-engine',
-      label: 'Clinical Analysis Engine',
-      description: 'AI-powered health analysis\n• Patient risk stratification\n• Condition prediction\n• Treatment optimization\n• Drug interaction checking\n• Continuous monitoring',
-      x: 500,
-      y: 100,
-      type: "Service",
+      id: 'risk-engine',
+      label: 'Risk Analysis Engine',
+      x: commonLayouts.horizontal.startPosition.x + commonLayouts.horizontal.spacing.x,
+      y: commonLayouts.horizontal.startPosition.y,
+      description: 'AI-powered risk assessment',
       technologies: {
-        core: ['TensorFlow', 'PyTorch', 'Clinical NLP'],
-        features: [
-          'Real-time health risk assessment',
-          'Predictive analytics for patient outcomes',
-          'Medical knowledge graph integration'
-        ]
+        ml: ["TensorFlow", "PyTorch"],
+        analysis: ["Scikit-learn", "XGBoost"],
+        optimization: ["ONNX", "TensorRT"]
       }
     },
     {
-      id: 'clinical-db',
-      label: 'Clinical Database',
-      description: 'Secure patient data storage\n• HIPAA compliance\n• Audit logging\n• Data versioning\n• Access controls\n• Encryption at rest',
-      x: 900,
-      y: 100,
-      type: "Storage",
+      id: 'clinical-support',
+      label: 'Clinical Support',
+      x: commonLayouts.horizontal.startPosition.x + (commonLayouts.horizontal.spacing.x * 2),
+      y: commonLayouts.horizontal.startPosition.y,
+      description: 'Clinical decision support system',
       technologies: {
-        core: ['FHIR Server', 'PostgreSQL'],
-        features: [
-          'Compliant health data storage',
-          'Clinical data versioning',
-          'Secure access management'
-        ]
+        rules: ["Drools", "OpenCDS"],
+        workflow: ["Camunda", "jBPM"],
+        ui: ["React", "D3.js"]
       }
     },
     {
-      id: 'alert-system',
-      label: 'Clinical Alert System',
-      description: 'Smart clinical alerting\n• Risk-based prioritization\n• Care team notification\n• Intervention tracking\n• Escalation management\n• Compliance logging',
-      x: 300,
-      y: 400,
-      type: "Alert",
+      id: 'monitoring',
+      label: 'Monitoring & Alerts',
+      x: commonLayouts.horizontal.startPosition.x + commonLayouts.horizontal.spacing.x,
+      y: commonLayouts.horizontal.startPosition.y + commonLayouts.horizontal.spacing.y,
+      description: 'Real-time monitoring and alerting',
       technologies: {
-        core: ['RabbitMQ', 'Clinical Decision Support'],
-        features: [
-          'Real-time clinical alerts',
-          'Care team coordination',
-          'Intervention tracking'
-        ]
-      }
-    },
-    {
-      id: 'ml-models',
-      label: 'Clinical ML Models',
-      description: 'Healthcare-specific AI\n• Risk prediction\n• Outcome analysis\n• Treatment optimization\n• Pattern recognition\n• Continuous learning',
-      x: 700,
-      y: 400,
-      type: "ML",
-      technologies: {
-        core: ['Clinical AI Models', 'Medical NLP'],
-        features: [
-          'Disease progression prediction',
-          'Treatment response analysis',
-          'Patient risk stratification'
-        ]
+        monitoring: ["Prometheus", "Grafana"],
+        alerting: ["PagerDuty", "Alertmanager"],
+        logging: ["ELK Stack", "Loki"]
       }
     }
   ],
   connections: [
     {
-      from: 'data-ingestion',
-      to: 'analysis-engine',
-      label: 'Patient Data Stream'
+      from: 'data-collection',
+      to: 'risk-engine',
+      label: 'Patient Data'
     },
     {
-      from: 'analysis-engine',
-      to: 'clinical-db',
-      label: 'Analysis Results'
+      from: 'risk-engine',
+      to: 'clinical-support',
+      label: 'Risk Scores'
     },
     {
-      from: 'analysis-engine',
-      to: 'alert-system',
-      label: 'Clinical Alerts'
+      from: 'clinical-support',
+      to: 'monitoring',
+      label: 'Alerts'
     },
     {
-      from: 'analysis-engine',
-      to: 'ml-models',
-      label: 'Model Updates'
-    },
-    {
-      from: 'ml-models',
-      to: 'analysis-engine',
-      label: 'Predictions'
+      from: 'monitoring',
+      to: 'data-collection',
+      label: 'Feedback'
     }
-  ]
-}; 
+  ],
+  deployment: {
+    environments: [
+      "Development",
+      "Staging",
+      "Production",
+      "DR Site"
+    ],
+    infrastructure: [
+      "AWS Healthcare",
+      "Kubernetes",
+      "HIPAA Compliance",
+      "Zero Trust Security"
+    ],
+    monitoring: [
+      "Health Metrics",
+      "Performance KPIs",
+      "Compliance Auditing",
+      "Security Monitoring"
+    ]
+  }
+};
+
+// For backward compatibility
+export { healthcareDiagram as patientRiskAnalysisDiagram }; 
