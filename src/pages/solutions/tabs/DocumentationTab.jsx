@@ -4,6 +4,8 @@ import { Icon } from '@/components/Icon';
 import CodeBlock from '@/components/CodeBlock';
 import LiveCodeEditor from '@/components/LiveCodeEditor';
 import { fraudDetectionDocs } from '@/constants/implementations/industries/financial/documentation';
+import { getSectionDiagram } from '@/constants/implementations/industries/financial/sections/index';
+import ArchitectureDiagram from '@/components/diagrams/ArchitectureDiagram';
 
 const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
   const [activeSection, setActiveSection] = useState('fundamentals');
@@ -75,55 +77,67 @@ const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
     }
   }, [selectedComponent]);
 
-  const renderContent = () => {
-    // Get the correct documentation based on industry
+  const renderSectionContent = () => {
+    const diagram = getSectionDiagram(activeSection);
     const docs = industry.id === 'financial' ? fraudDetectionDocs : documentation;
     const content = docs[activeSection];
-
-    if (!content) return null;
-
+    
+    console.log('Active Section:', activeSection);
+    console.log('Section Diagram:', diagram);
+    
     return (
       <div className="space-y-8">
-        {/* Title and Description */}
-        <div>
-          <h3 className="h4 mb-4">{content.title}</h3>
-          <p className="text-n-3">{content.description}</p>
-        </div>
-
-        {/* Sections */}
-        {content.sections?.map((section, idx) => (
-          <div key={idx} className="p-6 rounded-xl bg-n-8 border border-n-6">
-            <h4 className="text-lg font-medium mb-4">{section.title}</h4>
-            <div className="space-y-4">
-              {section.content && (
-                <p className="text-n-3">{section.content}</p>
-              )}
-              
-              {section.keyPoints && (
-                <ul className="space-y-2">
-                  {section.keyPoints.map((point, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
-                      <span className="text-n-3">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {section.codeExample && (
-                <div className="relative">
-                  <CodeBlock code={section.codeExample} language="javascript" />
-                  <button
-                    onClick={() => handleTryItLive(section.codeExample)}
-                    className="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-primary-1 text-n-1 text-sm hover:bg-primary-2 transition-colors"
-                  >
-                    Try it Live
-                  </button>
-                </div>
-              )}
+        {/* Documentation content */}
+        {content && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="h4 mb-4">{content.title}</h3>
+              <p className="text-n-3">{content.description}</p>
             </div>
+
+            {content.sections?.map((section, idx) => (
+              <div key={idx} className="p-6 rounded-xl bg-n-8 border border-n-6">
+                <h4 className="text-lg font-medium mb-4">{section.title}</h4>
+                <div className="space-y-4">
+                  {section.content && (
+                    <p className="text-n-3">{section.content}</p>
+                  )}
+                  
+                  {section.keyPoints && (
+                    <ul className="space-y-2">
+                      {section.keyPoints.map((point, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
+                          <span className="text-n-3">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {section.codeExample && (
+                    <div className="relative">
+                      <CodeBlock code={section.codeExample} language="javascript" />
+                      <button
+                        onClick={() => handleTryItLive(section.codeExample)}
+                        className="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-primary-1 text-n-1 text-sm hover:bg-primary-2 transition-colors"
+                      >
+                        Try it Live
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
+
+        {/* Architecture Diagram */}
+        {diagram && (
+          <div className="mt-8">
+            <h3 className="h4 mb-6">Architecture Overview</h3>
+            <ArchitectureDiagram diagram={diagram} />
+          </div>
+        )}
       </div>
     );
   };
@@ -156,7 +170,7 @@ const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            {renderContent()}
+            {renderSectionContent()}
           </motion.div>
         </AnimatePresence>
       </div>

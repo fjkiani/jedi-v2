@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { UseCaseView } from './views/UseCaseView';
 import { DeploymentView } from './views/DeploymentView';
-import { DiagramView } from './views/DiagramView';
-import { getDiagramBySlug } from '../../constants/solutions';
+import { DiagramView } from './DiagramView';
 
-const ArchitectureDiagram = ({ domain }) => {
-  const [view, setView] = useState('useCase');
+const ArchitectureDiagram = ({ diagram }) => {
+  const [view, setView] = useState('diagram');
   
-  // Get the diagram data for this domain
-  const diagram = getDiagramBySlug(domain);
+  console.log('ArchitectureDiagram received:', diagram);
 
   if (!diagram) {
     return (
       <div className="text-center text-n-3 py-8">
-        <p>Diagram not found for: {domain}</p>
+        <p>No diagram data available</p>
       </div>
     );
   }
@@ -26,7 +24,7 @@ const ArchitectureDiagram = ({ domain }) => {
     },
     deployment: {
       label: 'Deployment',
-      component: <DeploymentView diagram={diagram} domain={domain} />
+      component: <DeploymentView diagram={diagram} />
     },
     diagram: {
       label: 'Diagram',

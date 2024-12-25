@@ -3,14 +3,11 @@ import { motion } from "framer-motion";
 import { cn } from "../../utils/cn";
 
 export const TabsRoot = ({ value, onValueChange, children }) => {
-  const selectedIndex = ["overview", "documentation", "case-studies", "technical"].indexOf(value);
-  
   return (
     <Tab.Group
-      selectedIndex={selectedIndex}
-      onChange={(index) => {
-        const newValue = ["overview", "documentation", "case-studies", "technical"][index];
-        console.log('Tab changing to:', newValue);
+      value={value}
+      onValueChange={(newValue) => {
+        console.log('Tab changing to:', newValue); // Debug log
         onValueChange(newValue);
       }}
     >
