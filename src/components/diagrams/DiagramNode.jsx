@@ -1,18 +1,16 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Icon } from '@/components/Icon';
 
 export const DiagramNode = ({ node }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
   // Helper function to flatten technology object
   const getTechList = (technologies) => {
     if (!technologies) return [];
     
     return Object.entries(technologies).reduce((acc, [category, techs]) => {
-      // Handle array format
-      if (Array.isArray(techs)) {
-        return [...acc, ...techs];
-      }
-      // Handle object format with descriptions
-      if (typeof techs === 'object') {
+      if (typeof techs === 'object' && !Array.isArray(techs)) {
         return [...acc, ...Object.keys(techs)];
       }
       return acc;
@@ -20,20 +18,28 @@ export const DiagramNode = ({ node }) => {
   };
 
   const techList = getTechList(node.technologies);
+  
+  // Get metrics if available
+  const hasMetrics = node.metrics && Object.keys(node.metrics).length > 0;
+  const hasFeatures = node.features && node.features.length > 0;
 
   return (
     <motion.g
-      whileHover={{ scale: 1.02 }}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
       className="cursor-pointer"
     >
-      {/* Node background */}
+      {/* Base Node */}
       <rect
         x={node.x}
         y={node.y}
         width="250"
-        height="100"
+        height={isExpanded ? "200" : "100"}
         rx="12"
         className="fill-[#252631] stroke-[#2E2F3D]"
+        initial={{ height: 100 }}
+        animate={{ height: isExpanded ? 200 : 100 }}
+        transition={{ duration: 0.2 }}
       />
       
       {/* Label */}
@@ -84,6 +90,51 @@ export const DiagramNode = ({ node }) => {
           </text>
         )}
       </g>
+
+      {/* Expanded Content */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.g
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* Metrics */}
+            {hasMetrics && (
+              <g transform={`translate(${node.x + 20}, ${node.y + 100})`}>
+                <text className="fill-primary-1 text-xs font-medium">Metrics:</text>
+                {Object.entries(node.metrics).map(([key, value], idx) => (
+                  <text
+                    key={key}
+                    y={20 + idx * 16}
+                    className="fill-n-3 text-[10px]"
+                  >
+                    {key}: {value}
+                  </text>
+                ))}
+              </g>
+            )}
+
+            {/* Features */}
+            {hasFeatures && (
+              <g transform={`translate(${node.x + 140}, ${node.y + 100})`}>
+                <text className="fill-primary-1 text-xs font-medium">Features:</text>
+                {node.features.slice(0, 4).map((feature, idx) => (
+                  <text
+                    key={feature}
+                    y={20 + idx * 16}
+                    className="fill-n-3 text-[10px]"
+                  >
+                    • {feature}
+                  </text>
+                ))}
+              </g>
+            )}
+          </motion.g>
+        )}
+      </AnimatePresence>
     </motion.g>
   );
 };
+
+export default DiagramNode;

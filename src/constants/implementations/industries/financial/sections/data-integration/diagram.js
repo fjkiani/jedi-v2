@@ -29,84 +29,154 @@ export const dataIntegrationDiagram = {
       label: 'Transaction Sources',
       x: 100,
       y: 100,
-      description: 'Multiple data input sources',
+      description: 'Multi-channel data ingestion',
       technologies: {
         channels: {
-          "POS Systems": "Point of sale transactions",
-          "Mobile Apps": "Mobile payment data",
-          "Web Portals": "Online banking transactions",
-          "ATM Network": "ATM transaction data"
+          "POS Systems": "Real-time transaction processing",
+          "Mobile Apps": "Mobile payment & biometric data",
+          "Web Portals": "Online banking & e-commerce",
+          "ATM Network": "ATM transactions & location data",
+          "APIs": "Third-party integrations"
+        },
+        protocols: {
+          "REST": "External APIs",
+          "WebSocket": "Real-time updates",
+          "MQTT": "IoT device data",
+          "gRPC": "High-performance streaming"
         }
+      },
+      metrics: {
+        throughput: "100k events/sec",
+        latency: "<10ms",
+        reliability: "99.999%"
       }
     },
     {
       id: 'stream-processing',
       label: 'Stream Processing',
-      x: 400,
+      x: 600,
       y: 100,
-      description: 'Real-time data processing',
+      description: 'Real-time event processing pipeline',
       technologies: {
         streaming: {
-          "Apache Kafka": "Message broker",
+          "Apache Kafka": "Event backbone",
           "Apache Flink": "Stream processing",
-          "Redis Streams": "In-memory streaming"
+          "Redis Streams": "In-memory processing",
+          "Apache Storm": "Complex event processing"
+        },
+        processing: {
+          "Kafka Streams": "Stream processing",
+          "KSQL": "Stream analytics",
+          "Apache Spark": "Batch processing"
         }
-      }
+      },
+      features: [
+        "Event time processing",
+        "Windowing operations",
+        "State management",
+        "Exactly-once semantics"
+      ]
     },
     {
       id: 'data-enrichment',
       label: 'Data Enrichment',
-      x: 700,
+      x: 1100,
       y: 100,
-      description: 'Enrich transaction data',
+      description: 'Enrich and contextualize data',
       technologies: {
         enrichment: {
           "Redis Cache": "Fast lookup cache",
           "Elasticsearch": "Device fingerprint data",
-          "Neo4j": "Relationship graphs"
+          "Neo4j": "Relationship graphs",
+          "MongoDB": "User profile store"
+        },
+        processing: {
+          "Python": "Data transformation",
+          "Pandas": "Data manipulation",
+          "NumPy": "Numerical processing"
         }
-      }
+      },
+      features: [
+        "Real-time enrichment",
+        "Profile aggregation",
+        "Entity resolution",
+        "Feature computation"
+      ]
     },
     {
       id: 'historical-data',
       label: 'Historical Data',
       x: 100,
-      y: 300,
-      description: 'Historical transaction storage',
+      y: 500,
+      description: 'Multi-tier data storage',
       technologies: {
         storage: {
           "PostgreSQL": "Transactional data",
           "MongoDB": "User profiles",
-          "Snowflake": "Data warehouse"
+          "Snowflake": "Data warehouse",
+          "S3": "Data lake"
+        },
+        processing: {
+          "Apache Spark": "Batch processing",
+          "dbt": "Data transformation",
+          "Airflow": "Workflow orchestration"
         }
+      },
+      metrics: {
+        storage: "10+ PB",
+        retention: "7 years",
+        queryLatency: "<100ms"
       }
     },
     {
       id: 'data-quality',
       label: 'Data Quality',
-      x: 400,
-      y: 300,
+      x: 600,
+      y: 500,
       description: 'Data validation and monitoring',
       technologies: {
         quality: {
           "Great Expectations": "Data validation",
           "Apache Griffin": "Data quality",
-          "dbt": "Data transformation"
+          "dbt": "Data transformation",
+          "Monte Carlo": "Data observability"
+        },
+        monitoring: {
+          "Prometheus": "Metrics collection",
+          "Grafana": "Visualization",
+          "Datadog": "APM"
         }
-      }
+      },
+      features: [
+        "Schema validation",
+        "Data lineage",
+        "Quality metrics",
+        "Anomaly detection"
+      ]
     },
     {
       id: 'data-api',
       label: 'Data API Layer',
-      x: 700,
-      y: 300,
-      description: 'Unified data access',
+      x: 1100,
+      y: 500,
+      description: 'Unified data access layer',
       technologies: {
         api: {
           "GraphQL": "API gateway",
           "gRPC": "Internal services",
-          "REST": "External APIs"
+          "REST": "External APIs",
+          "Kafka": "Event streaming"
+        },
+        security: {
+          "OAuth2": "Authentication",
+          "JWT": "Authorization",
+          "API Gateway": "Rate limiting"
         }
+      },
+      metrics: {
+        throughput: "50k req/sec",
+        latency: "p99 < 100ms",
+        availability: "99.99%"
       }
     }
   ],
@@ -114,57 +184,127 @@ export const dataIntegrationDiagram = {
     {
       from: 'transaction-sources',
       to: 'stream-processing',
-      label: 'Raw Events'
+      label: 'Raw Events',
+      type: 'primary',
+      protocol: 'Kafka',
+      dataFlow: {
+        type: 'Event Stream',
+        format: 'Avro',
+        volume: '100k/sec'
+      }
     },
     {
       from: 'stream-processing',
       to: 'data-enrichment',
-      label: 'Processed Data'
+      label: 'Processed Data',
+      type: 'primary',
+      protocol: 'gRPC',
+      dataFlow: {
+        type: 'Enriched Stream',
+        format: 'Protobuf',
+        latency: '<50ms'
+      }
     },
     {
       from: 'data-enrichment',
       to: 'data-api',
-      label: 'Enriched Data'
+      label: 'Enriched Data',
+      type: 'primary',
+      protocol: 'GraphQL',
+      dataFlow: {
+        type: 'API Requests',
+        format: 'JSON',
+        latency: '<100ms'
+      }
     },
     {
       from: 'historical-data',
       to: 'data-enrichment',
-      label: 'Historical Context'
+      label: 'Historical Context',
+      type: 'secondary',
+      protocol: 'SQL/NoSQL',
+      style: 'dashed'
     },
     {
       from: 'stream-processing',
       to: 'historical-data',
-      label: 'Persist Data'
+      label: 'Persist Data',
+      type: 'secondary',
+      protocol: 'Batch/Stream',
+      style: 'dashed'
     },
     {
       from: 'stream-processing',
       to: 'data-quality',
-      label: 'Validate'
+      label: 'Validate',
+      type: 'monitoring',
+      protocol: 'HTTP',
+      style: 'dotted'
     },
     {
       from: 'data-quality',
       to: 'data-api',
-      label: 'Quality Metrics'
+      label: 'Quality Metrics',
+      type: 'monitoring',
+      protocol: 'REST',
+      style: 'dotted'
+    }
+  ],
+  zones: [
+    {
+      id: 'ingestion-zone',
+      label: 'Data Ingestion Zone',
+      nodes: ['transaction-sources', 'stream-processing'],
+      security: 'DMZ',
+      compliance: ['PCI-DSS', 'SOC2']
+    },
+    {
+      id: 'processing-zone',
+      label: 'Processing Zone',
+      nodes: ['data-enrichment', 'data-quality'],
+      security: 'Private Subnet',
+      compliance: ['HIPAA', 'GDPR']
+    },
+    {
+      id: 'storage-zone',
+      label: 'Storage Zone',
+      nodes: ['historical-data', 'data-api'],
+      security: 'Private Subnet',
+      compliance: ['PCI-DSS', 'SOX']
     }
   ],
   deployment: {
     environments: [
-      "Development",
-      "Staging",
-      "Production",
-      "DR Site"
+      {
+        name: "Production",
+        regions: ["us-east-1", "us-west-2"],
+        scaling: {
+          min: 10,
+          max: 50,
+          targetCPU: 70
+        }
+      },
+      {
+        name: "DR",
+        regions: ["eu-west-1"],
+        scaling: {
+          min: 5,
+          max: 25,
+          targetCPU: 70
+        }
+      }
     ],
-    infrastructure: [
-      "AWS Financial Services",
-      "Kubernetes Clusters",
-      "Service Mesh",
-      "Auto-scaling Groups"
-    ],
-    monitoring: [
-      "Data Pipeline SLAs",
-      "Stream Processing Latency",
-      "Data Quality Metrics",
-      "System Health Metrics"
-    ]
+    infrastructure: {
+      compute: ["EKS", "EC2 Auto Scaling"],
+      storage: ["S3", "EBS", "ElastiCache"],
+      networking: ["VPC", "CloudFront", "Route53"],
+      security: ["WAF", "Shield", "KMS"]
+    },
+    monitoring: {
+      metrics: ["CloudWatch", "Prometheus"],
+      logging: ["ELK Stack", "CloudWatch Logs"],
+      tracing: ["X-Ray", "Jaeger"],
+      alerting: ["PagerDuty", "SNS"]
+    }
   }
 }; 
