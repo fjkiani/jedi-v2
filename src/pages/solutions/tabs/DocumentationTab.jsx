@@ -6,6 +6,8 @@ import LiveCodeEditor from '@/components/LiveCodeEditor';
 import { fraudDetectionDocs } from '@/constants/implementations/industries/financial/documentation';
 import { getSectionDiagram } from '@/constants/implementations/industries/financial/sections/index';
 import ArchitectureDiagram from '@/components/diagrams/ArchitectureDiagram';
+import { getSectionsForIndustry } from '@/constants/registry/industrySectionsRegistry';
+import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
 
 const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
   const [activeSection, setActiveSection] = useState('fundamentals');
@@ -17,58 +19,8 @@ const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
     setIsEditorOpen(true);
   };
 
-  // Get sections based on industry and solution
-  const getSections = () => {
-    if (industry.id === 'financial') {
-      return [
-        {
-          id: 'fundamentals',
-          label: 'Understanding Fraud Detection',
-          icon: 'book'
-        },
-        {
-          id: 'data-integration',
-          label: 'Data Collection & Integration',
-          icon: 'database'
-        },
-        {
-          id: 'ai-analysis',
-          label: 'AI Analysis Engine',
-          icon: 'cpu'
-        },
-        {
-          id: 'decision-engine',
-          label: 'Decision Engine',
-          icon: 'shield'
-        }
-      ];
-    }
-    
-    // Healthcare sections
-    if (industry.id === 'healthcare') {
-      return [
-        {
-          id: 'data-collection',
-          label: 'Data Collection & Integration',
-          icon: 'database'
-        },
-        {
-          id: 'ai-analysis',
-          label: 'AI Analysis Engine',
-          icon: 'cpu'
-        },
-        {
-          id: 'clinical-decision',
-          label: 'Clinical Decision Support',
-          icon: 'activity'
-        }
-      ];
-    }
-
-    return [];
-  };
-
-  const sections = getSections();
+  // Get sections dynamically based on industry
+  const sections = getSectionsForIndustry(industry.id);
 
   // Update active section when component changes
   useEffect(() => {
@@ -78,7 +30,7 @@ const DocumentationTab = ({ documentation, selectedComponent, industry }) => {
   }, [selectedComponent]);
 
   const renderSectionContent = () => {
-    const diagram = getSectionDiagram(activeSection);
+    const diagram = getIndustryDiagram(industry.id, activeSection);
     const docs = industry.id === 'financial' ? fraudDetectionDocs : documentation;
     const content = docs[activeSection];
     

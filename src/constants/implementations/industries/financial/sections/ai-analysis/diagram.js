@@ -1,8 +1,8 @@
 import { createDiagram } from '@/constants/implementations/base/diagram-template';
 
-export const aiAnalysisDiagram = createDiagram({
+const aiAnalysisDiagram = createDiagram({
   title: "AI Analysis Engine",
-  description: "Enterprise ML pipeline for real-time fraud detection and risk analysis",
+  description: "Real-time AI-powered fraud analysis",
   nodes: [
     {
       id: 'feature-engineering',
@@ -229,4 +229,6 @@ export const aiAnalysisDiagram = createDiagram({
       compliance: ['SOC2']
     }
   ]
-}); 
+});
+
+export { aiAnalysisDiagram }; 

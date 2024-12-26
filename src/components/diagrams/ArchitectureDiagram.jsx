@@ -3,20 +3,11 @@ import { motion } from 'framer-motion';
 import { UseCaseView } from './views/UseCaseView';
 import { DeploymentView } from './views/DeploymentView';
 import { DiagramView } from './DiagramView';
-import { architectureDiagrams } from '@/constants/diagrams';
 
-const ArchitectureDiagram = ({ domain, diagram: propDiagram }) => {
+const ArchitectureDiagram = ({ diagram }) => {
   const [view, setView] = useState('diagram');
   
-  // Use provided diagram or look up by domain
-  const diagram = propDiagram || (domain && architectureDiagrams[domain]);
-  
-  console.log('ArchitectureDiagram:', {
-    domain,
-    hasPropDiagram: !!propDiagram,
-    hasDomainDiagram: !!(domain && architectureDiagrams[domain]),
-    finalDiagram: diagram
-  });
+  console.log('ArchitectureDiagram received:', diagram);
 
   if (!diagram) {
     return (

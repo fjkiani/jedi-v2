@@ -1,9 +1,12 @@
-import { Route } from 'react-router-dom';
-import SolutionPage from '../pages/SolutionPage';
+import { Routes, Route } from 'react-router-dom';
+import IndustryPage from '../pages/IndustryPage';
+import IndustrySolutionPage from '../pages/SolutionPage';
 
-export const industryRoutes = [
-  {
-    path: ':industryId/:solutionId',
-    element: <SolutionPage />
-  }
-]; 
+const IndustryRoutes = () => (
+  <Routes>
+    <Route path=":industryId" element={<IndustryPage />} />
+    <Route path=":industryId/solutions/:solutionId" element={<IndustrySolutionPage />} />
+  </Routes>
+);
+
+export default IndustryRoutes; 
