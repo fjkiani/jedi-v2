@@ -10,11 +10,25 @@ import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
 import Icon from "./Icon";
-// import { coding2 } from "../assets/videos";
+import { request } from 'graphql-request';
 
 // Import the slick-carousel CSS files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+// GraphQL query for hero content
+const GET_HERO_CONTENT = `
+  query GetHeroContent {
+    heroContents(orderBy: createdAt_ASC) {
+      id
+      title
+      subtitle
+      heroVideo {
+        url
+      }
+    }
+  }
+`;
 
 // Custom arrow components with larger size
 const NextArrow = (props) => {
@@ -48,78 +62,49 @@ const Hero = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [heroContent, setHeroContent] = useState([]);
+  const [isChanging, setIsChanging] = useState(false);
 
-  const heroContent = [
-    {
-      title: "You imagine, We Engineer",
-      subtitle: "We are a team of AI engineers, best-in-class designers, and web developers who are passionate about building products that are both meaningful and impactful.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Knowledge as a Service for Enterprise AI",
-      subtitle: "JediLabs transforms how enterprises harness AI by combining cutting-edge technology with deep domain expertise. Our platform turns complex AI capabilities into actionable business solutions.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Enterprise-Grade AI/ML Solutions",
-      subtitle: "From intelligent document processing to predictive analytics, we build custom AI solutions that scale. Achieve 80% faster deployment, 60% cost reduction, and 95% automation accuracy.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Autonomous AI Agents & Orchestration",
-      subtitle: "Deploy self-improving AI agents that handle complex workflows 24/7. Our agents integrate with your existing tools, reducing manual intervention by 90% while maintaining enterprise security standards.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Intelligent Data Engineering Pipeline",
-      subtitle: "Transform raw data into business intelligence with our end-to-end data solutions. Process millions of records in real-time, ensure 99.9% data accuracy, and generate insights 10x faster.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Custom LLM Development & Integration",
-      subtitle: "Build and deploy domain-specific language models tailored to your industry. Our LLMs understand your business context, compliance requirements, and specialized terminology.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "AI Strategy & Digital Transformation",
-      subtitle: "Partner with our experts to develop your AI roadmap. We help you identify high-impact use cases, build proof of concepts, and scale successful implementations across your organization.",
-      video: "/videos/coding2.mp4",
-    }
-  ];
-
+  // Fetch hero content from Hygraph
   useEffect(() => {
-    const fadeTimeout = 8000;    // Increased to 8 seconds for more reading time
-    const fadeTransition = 1000; // Smooth 1-second transition
-
-    // Set initial title
-    setDisplayedTitle(heroContent[currentIndex].title);
-
-    const fadeLoop = () => {
-      // Start fade out
-      setIsVisible(false);
-      
-      // After fade out, change text and start fade in
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % heroContent.length);
-        setDisplayedTitle(heroContent[(currentIndex + 1) % heroContent.length].title);
-        setIsVisible(true);
-      }, fadeTransition);
+    const fetchHeroContent = async () => {
+      try {
+        const data = await request(
+          'https://us-west-2.cdn.hygraph.com/content/cm1fkwyv5084x07mvgzp8hcml/master',
+          GET_HERO_CONTENT
+        );
+        
+        if (data.heroContents && data.heroContents.length > 0) {
+          setHeroContent(data.heroContents);
+          setDisplayedTitle(data.heroContents[0].title);
+        }
+      } catch (error) {
+        console.error('Error fetching hero content:', error);
+      }
     };
 
-    // Set up the interval for changing text
-    const interval = setInterval(fadeLoop, fadeTimeout);
-
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+    fetchHeroContent();
+  }, []);
 
   // Create a ref for the video element
   const videoRef = useRef(null);
+
+  // Play the video when the section loads
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  }, []);
+
+  if (heroContent.length === 0) {
+    return null; // or a loading state
+  }
 
   // Slider settings
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 500, // Reduced for smoother transitions
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
@@ -130,15 +115,16 @@ const Hero = () => {
     autoplay: true,
     autoplaySpeed: 8000,
     pauseOnHover: true,
-    cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
-  };
-
-  // Play the video when the section loads
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play();
+    cssEase: "ease-out",
+    beforeChange: (oldIndex, newIndex) => {
+      setIsChanging(true);
+      setCurrentIndex(newIndex);
+    },
+    afterChange: (index) => {
+      setIsChanging(false);
+      setCurrentIndex(index);
     }
-  }, []);
+  };
 
   return (
     <Section
@@ -151,22 +137,27 @@ const Hero = () => {
       <div className="container relative">
         <Slider {...settings}>
           {heroContent.map((content, index) => (
-            <div key={index}>
+            <div key={content.id}>
               <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
-                <h1 className={`h1 mb-6 theme-text-primary transition-opacity duration-500 ease-in-out ${
-                  isVisible ? 'opacity-100' : 'opacity-0'
+                <h1 className={`h1 mb-6 theme-text-primary transition-all duration-300 ${
+                  !isChanging && currentIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}>
-                  {displayedTitle}
+                  {content.title}
                 </h1>
-                <p className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 transition-opacity duration-500 ease-in-out ${
-                  isVisible ? 'opacity-100' : 'opacity-0'
+                <p className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 transition-all duration-300 delay-100 ${
+                  !isChanging && currentIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}>
-                  {heroContent[currentIndex].subtitle}
+                  {content.subtitle}
                 </p>
-                <Button href="/pricing" white>
-                  Get started
-                </Button>
+                <div className={`transition-all duration-300 delay-200 ${
+                  !isChanging && currentIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}>
+                  <Button href="/pricing" white>
+                    Get started
+                  </Button>
+                </div>
               </div>
+
               <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
                 <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
                   <div className="relative theme-bg-secondary rounded-[1rem]">
@@ -186,7 +177,7 @@ const Hero = () => {
                         className={`w-full h-full object-cover transition-opacity duration-300 ${
                           isVideoLoading ? 'opacity-0' : 'opacity-100'
                         }`}
-                        src="/videos/coding2.mp4"
+                        src={content.heroVideo?.url}
                         controls
                         muted
                         autoPlay
@@ -196,38 +187,11 @@ const Hero = () => {
                         alt="Hero video"
                       />
                       <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
-
-                      <ScrollParallax isAbsolutelyPositioned>
-                        <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 theme-bg-secondary backdrop-blur border theme-border rounded-2xl xl:flex">
-                          {/* {heroIcons.map((icon, iconIndex) => (
-                            <li className="p-5" key={iconIndex}>
-                              <img src={icon} width={24} height={25} alt={icon} />
-                            </li>
-                          ))} */}
-                        </ul>
-                      </ScrollParallax>
-
-                      <ScrollParallax isAbsolutelyPositioned>
-                        {/* <Notification
-                          className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
-                          title="Code generation"
-                        /> */}
-                      </ScrollParallax>
                     </div>
                   </div>
 
                   <Gradient />
                 </div>
-                <div className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
-                  {/* <img
-                    src={heroBackground}
-                    className="w-full"
-                    width={1440}
-                    height={1800}
-                    alt="hero"
-                  /> */}
-                </div>
-
                 <BackgroundCircles />
               </div>
             </div>
