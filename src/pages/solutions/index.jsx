@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { getAllSolutions } from '@/constants/solutions';
+import { getAllSolutions } from '@/constants/solutions/index';
 import { Icon } from '@/components/Icon';
 import Section from '@/components/Section';
 

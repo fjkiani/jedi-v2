@@ -71,6 +71,7 @@ export const DiagramView = ({ diagram }) => {
 
       return (
         <g key={zone.id}>
+          {/* Zone background */}
           <rect
             x={minX}
             y={minY}
@@ -82,27 +83,31 @@ export const DiagramView = ({ diagram }) => {
             strokeWidth="1.5"
             strokeDasharray="6 4"
           />
-          {/* Label container */}
-          <g transform={`translate(${minX + 40}, ${minY + 40})`}>
+
+          {/* Zone label container - positioned above the zone */}
+          <g transform={`translate(${minX}, ${minY - 70})`}>
             {/* Label background */}
             <rect
-              x="-10"
-              y="-25"
-              width="220"
-              height="60"
+              x="0"
+              y="0"
+              width="300"
+              height="50"
               rx="8"
-              className="fill-[#1C1C27]"
+              className="fill-[#1C1C27] stroke-[#2E2F3D]"
               fillOpacity="0.95"
             />
             {/* Zone name */}
             <text
+              x="20"
+              y="22"
               className="fill-n-3 text-sm font-medium"
             >
               {zone.label}
             </text>
             {/* Security and compliance info */}
             <text
-              y="25"
+              x="20"
+              y="38"
               className="fill-n-4 text-xs"
             >
               {zone.security} • {zone.compliance.join(', ')}
