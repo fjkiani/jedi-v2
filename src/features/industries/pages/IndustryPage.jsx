@@ -1,60 +1,98 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import IndustrySolutions from '../components/IndustrySolutions';
+import IndustryHero from '../components/IndustryHero';
 import { industriesList } from '@/constants/industry';
+import { getSectionsForIndustry } from '@/constants/registry/industrySectionsRegistry';
+import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
+import { getSolutionConfig } from '@/constants/registry/solutionRegistry';
+import { getUseCaseImplementation } from '@/constants/registry/useCaseRegistry';
 
 const IndustryPage = () => {
   const { industryId } = useParams();
-  const industry = industriesList.find(ind => ind.id === industryId);
+  
+  // Get industry data and related configurations
+  const industryData = useMemo(() => {
+    const industry = industriesList.find(ind => ind.id === industryId);
+    if (!industry) return null;
 
-  if (!industry) {
+    // Get industry-specific sections
+    const sections = getSectionsForIndustry(industryId);
+    
+    // Get diagrams for each section
+    const diagrams = sections.reduce((acc, section) => {
+      acc[section.id] = getIndustryDiagram(industryId, section.id);
+      return acc;
+    }, {});
+
+    // Get solution configurations
+    const solutions = industry.solutions.map(solution => {
+      const config = getSolutionConfig(industryId, solution.id);
+      const useCases = solution.techStack?.primary?.id 
+        ? getUseCaseImplementation(solution.title, solution.techStack.primary.id)
+        : null;
+
+      return {
+        ...solution,
+        config,
+        useCases,
+        diagrams: diagrams[solution.id]
+      };
+    });
+
+    return {
+      ...industry,
+      sections,
+      diagrams,
+      solutions
+    };
+  }, [industryId]);
+
+  if (!industryData) {
     return (
       <div className="container pt-[8rem]">
-        <h1 className="h1 text-center">Industry Not Found</h1>
+        <h1 className="h1 text-center mb-6">Industry Not Found</h1>
+        <div className="text-center">
+          <Link to="/industries" className="button button-primary">
+            Back to Industries
+          </Link>
+        </div>
       </div>
     );
   }
 
+  const defaultSolution = industryData.solutions[0];
+  const defaultSection = industryData.sections[0];
+
   return (
     <>
-      {/* Hero Section */}
-      <Section className="overflow-hidden pt-[8rem]">
-        <div className="container relative">
-          {/* Breadcrumb */}
-          <div className="text-n-3 mb-6 flex items-center gap-2">
-            <Link to="/industries" className="hover:text-n-1">Industries</Link>
-            <Icon name="arrow-right" className="w-4 h-4" />
-            <span className="text-n-1">{industry.title}</span>
-          </div>
-
-          {/* Hero Content */}
-          <div className="relative z-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-[45rem]"
-            >
-              <h1 className="h1 mb-6 inline-block bg-clip-text text-transparent 
-                bg-gradient-to-r from-primary-1 to-primary-2">
-                {industry.title}
-              </h1>
-              <p className="body-1 text-n-3 mb-8">
-                {industry.description}
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </Section>
+      {/* Hero Section with Industry Hero Component */}
+      <IndustryHero 
+        industry={industryData}
+        solution={defaultSolution}
+        sections={industryData.sections}
+        diagram={industryData.diagrams[defaultSection.id]}
+      />
 
       {/* Solutions Section */}
       <Section>
         <div className="container">
-          <IndustrySolutions industry={industry} />
+          <IndustrySolutions 
+            industry={industryData}
+            sections={industryData.sections}
+            diagrams={industryData.diagrams}
+          />
         </div>
       </Section>
+
+      {/* Background Gradient */}
+      <div 
+        className={`fixed inset-0 bg-gradient-to-b ${industryData.color} 
+          opacity-10 pointer-events-none z-0`}
+      />
     </>
   );
 };
