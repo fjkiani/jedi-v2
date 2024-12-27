@@ -1,12 +1,28 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 const AIResponse = ({ response }) => {
+  const [activeSection, setActiveSection] = useState(0);
+  const [expandedSections, setExpandedSections] = useState(new Set([0]));
+
+  const toggleSection = (index) => {
+    setExpandedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
   if (!response) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-[1200px] mx-auto">
       {/* Header with Model Info */}
-      <div className="bg-n-8 rounded-lg p-6">
+      <div className="bg-n-8 rounded-lg p-6 sticky top-4 z-10 border border-n-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -38,135 +54,97 @@ const AIResponse = ({ response }) => {
         {/* Model Capabilities */}
         <div className="flex flex-wrap gap-2 mt-4">
           {response.header.model.capabilities.map((capability, idx) => (
-            <span 
-              key={idx}
-              className="px-2 py-1 bg-n-7 rounded-full text-xs text-n-3"
-            >
+            <span key={idx} className="px-2 py-1 bg-n-7 rounded-full text-xs text-n-3">
               {capability}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Main Content Sections */}
-      <div className="space-y-4">
-        {response.sections.map((section, sectionIdx) => {
-          const shouldBePaired = 
-            section.title?.includes('HOW AI PROCESSED') || 
-            section.title?.includes('MAJOR DISCOVERIES') ||
-            section.title?.includes('TECHNICAL VALIDATION') || 
-            section.title?.includes('IMPLEMENTATION ROADMAP');
-
-          // Skip if this is the second item of a pair we've already rendered
-          if (shouldBePaired && 
-              (section.title?.includes('MAJOR DISCOVERIES') || 
-               section.title?.includes('IMPLEMENTATION ROADMAP')) && 
-              sectionIdx % 2 === 1) {
-            return null;
-          }
-
-          // If it's the first of a pair
-          if (shouldBePaired && sectionIdx % 2 === 0) {
-            const nextSection = response.sections[sectionIdx + 1];
-            
-            return (
-              <div key={sectionIdx} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Current Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: sectionIdx * 0.1 }}
-                  className="bg-n-8 rounded-lg p-6"
-                >
-                  <div className="flex items-center space-x-3 mb-4">
-                    <span className="text-2xl">{section.icon}</span>
-                    <div>
-                      <h3 className="text-lg font-medium text-white">{section.title}</h3>
-                      {section.subtitle && (
-                        <p className="text-sm text-n-3">{section.subtitle}</p>
-                      )}
-                    </div>
-                  </div>
-                  {section.description && (
-                    <p className="text-n-3 mb-4">{section.description}</p>
-                  )}
-                  {section.subsections?.map((subsection, idx) => (
-                    <SubSection key={idx} data={subsection} />
-                  ))}
-                  {section.discoveries?.map((discovery, idx) => (
-                    <Discovery key={idx} data={discovery} />
-                  ))}
-                </motion.div>
-
-                {/* Next Section */}
-                {nextSection && shouldBePaired && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (sectionIdx + 1) * 0.1 }}
-                    className="bg-n-8 rounded-lg p-6"
-                  >
-                    <div className="flex items-center space-x-3 mb-4">
-                      <span className="text-2xl">{nextSection.icon}</span>
-                      <div>
-                        <h3 className="text-lg font-medium text-white">{nextSection.title}</h3>
-                        {nextSection.subtitle && (
-                          <p className="text-sm text-n-3">{nextSection.subtitle}</p>
-                        )}
-                      </div>
-                    </div>
-                    {nextSection.description && (
-                      <p className="text-n-3 mb-4">{nextSection.description}</p>
-                    )}
-                    {nextSection.subsections?.map((subsection, idx) => (
-                      <SubSection key={idx} data={subsection} />
-                    ))}
-                    {nextSection.discoveries?.map((discovery, idx) => (
-                      <Discovery key={idx} data={discovery} />
-                    ))}
-                  </motion.div>
-                )}
-              </div>
-            );
-          }
-
-          // Regular full-width sections (anything not in a pair)
-          if (!shouldBePaired) {
-            return (
-              <motion.div
-                key={sectionIdx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: sectionIdx * 0.1 }}
-                className="bg-n-8 rounded-lg p-6"
-              >
-                <div className="flex items-center space-x-3 mb-4">
-                  <span className="text-2xl">{section.icon}</span>
-                  <div>
-                    <h3 className="text-lg font-medium text-white">{section.title}</h3>
-                    {section.subtitle && (
-                      <p className="text-sm text-n-3">{section.subtitle}</p>
-                    )}
-                  </div>
-                </div>
-                {section.description && (
-                  <p className="text-n-3 mb-4">{section.description}</p>
-                )}
-                {section.subsections?.map((subsection, idx) => (
-                  <SubSection key={idx} data={subsection} />
-                ))}
-                {section.discoveries?.map((discovery, idx) => (
-                  <Discovery key={idx} data={discovery} />
-                ))}
-              </motion.div>
-            );
-          }
-        })}
+      {/* Progress Indicator */}
+      <div className="flex items-center justify-between px-4 sticky top-[120px] z-10 bg-n-8/80 backdrop-blur-sm py-2 rounded-lg border border-n-6">
+        {response.sections.map((section, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActiveSection(idx)}
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all
+              ${activeSection === idx ? 'bg-primary-1 text-white' : 'text-n-3 hover:text-white'}`}
+          >
+            <span className="text-lg">{section.icon}</span>
+            <span className="text-sm font-medium">{section.title}</span>
+          </button>
+        ))}
       </div>
 
-      {/* Footer */}
-      <div className="bg-n-8 rounded-lg p-6">
-        <div className="grid grid-cols-3 gap-4 mb-4">
+      {/* Main Content Sections */}
+      <div className="space-y-4">
+        {response.sections.map((section, sectionIdx) => (
+          <motion.div
+            key={sectionIdx}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: sectionIdx * 0.1 }}
+            className="bg-n-8 rounded-lg border border-n-6 overflow-hidden"
+          >
+            {/* Section Header - Always visible */}
+            <button
+              onClick={() => toggleSection(sectionIdx)}
+              className="w-full flex items-center justify-between p-6 hover:bg-n-7 transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <span className="text-2xl">{section.icon}</span>
+                <div>
+                  <h3 className="text-lg font-medium text-white">{section.title}</h3>
+                  {section.subtitle && (
+                    <p className="text-sm text-n-3">{section.subtitle}</p>
+                  )}
+                </div>
+              </div>
+              <motion.div
+                animate={{ rotate: expandedSections.has(sectionIdx) ? 180 : 0 }}
+                className="text-n-3"
+              >
+                ▼
+              </motion.div>
+            </button>
+
+            {/* Section Content - Collapsible */}
+            <AnimatePresence>
+              {expandedSections.has(sectionIdx) && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="px-6 pb-6 border-t border-n-6">
+                    {section.description && (
+                      <p className="text-n-3 mb-6">{section.description}</p>
+                    )}
+
+                    <div className="space-y-4">
+                      {section.subsections?.map((subsection, idx) => (
+                        <SubSection key={idx} data={subsection} />
+                      ))}
+                      {section.discoveries?.map((discovery, idx) => (
+                        <Discovery key={idx} data={discovery} />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Footer - Sticky at bottom */}
+      <motion.div 
+        className="bg-n-8 rounded-lg p-6 border border-n-6 sticky bottom-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="grid grid-cols-3 gap-4">
           <MetricCard
             label="Confidence Score"
             value={response.footer.metrics.confidence}
@@ -195,52 +173,52 @@ const AIResponse = ({ response }) => {
             <span className="text-xs text-primary-1">{response.footer.poweredBy}</span>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-// Subcomponents
-const SubSection = ({ data }) => (
-  <div className="mb-6">
-    <div className="flex items-center space-x-2 mb-2">
-      <span>{data.marker}</span>
-      <span className="font-medium text-white">{data.title}</span>
-      {data.subtitle && (
-        <>
-          <span className="text-n-3">|</span>
-          <span className="text-n-3">{data.subtitle}</span>
-        </>
-      )}
-    </div>
-    
-    {data.mainPoint && (
-      <div className="ml-6 mb-2 text-n-2">• {data.mainPoint}</div>
-    )}
+// Update SubSection to be full width
+const SubSection = ({ data }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-    {data.details?.map((detail, idx) => (
-      <div key={idx} className="ml-8 text-n-3">- {detail}</div>
-    ))}
-
-    {data.bulletPoints?.map((point, idx) => (
-      <div key={idx} className="ml-6">
-        {typeof point === 'string' ? (
-          <div className="text-n-3">• {point}</div>
-        ) : (
-          <div>
-            <div className="text-n-2">• {point.title}</div>
-            {point.details.map((detail, detailIdx) => (
-              <div key={detailIdx} className="ml-4 text-n-3">- {detail}</div>
-            ))}
-          </div>
+  return (
+    <motion.div
+      className="bg-n-7 rounded-lg p-6 cursor-pointer"
+      whileHover={{ scale: 1.02 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      <div className="flex items-center space-x-2 mb-4">
+        <span>{data.marker}</span>
+        <span className="font-medium text-white">{data.title}</span>
+        {data.subtitle && (
+          <>
+            <span className="text-n-3">|</span>
+            <span className="text-n-3">{data.subtitle}</span>
+          </>
         )}
       </div>
-    ))}
-  </div>
-);
+      
+      {data.mainPoint && (
+        <div className="mb-4 text-n-2">• {data.mainPoint}</div>
+      )}
 
+      <div className="space-y-2">
+        {data.details?.map((detail, idx) => (
+          <div key={idx} className="text-n-3 flex items-start">
+            <span className="mr-2">-</span>
+            <span>{detail}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
+// Update Discovery to be full width
 const Discovery = ({ data }) => (
-  <div className="mb-6">
+  <div className="bg-n-7 rounded-lg p-6 hover:bg-n-6 transition-colors">
     <div className="flex items-center space-x-2 mb-3">
       <span>{data.marker}</span>
       <span className="font-medium text-white">{data.title}</span>

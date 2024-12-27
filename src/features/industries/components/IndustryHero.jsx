@@ -8,13 +8,19 @@ import ArchitectureDiagram from '@/components/diagrams/ArchitectureDiagram';
 import { financialOverview } from '@/constants/implementations/industries/financial/overview';
 import { healthcareOverview } from '@/constants/implementations/industries/healthcare/overview';
 import { dataIntegrationOverview } from '@/constants/implementations/industries/financial/components/data-integration/overview';
-import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/implementation';
+import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/fraudDetection';
 import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
+import { UseCaseView } from '@/components/diagrams/views/UseCaseView';
+import { DiagramView } from '@/components/diagrams/DiagramView';
+import { DeploymentView } from '@/components/diagrams/views/DeploymentView';
+import { industryService } from '@/services/industryService';
+import AIResponse from '@/components/response/AIResponse';
+import { USE_CASE_REGISTRY, getUseCases } from '@/constants/registry/useCaseRegistry';
 
 const TECH_TABS = {
   OVERVIEW: { id: 'Overview', icon: 'layout' },
   ARCHITECTURE: { id: 'Architecture', icon: 'grid' },
-  TECH_STACK: { id: 'Tech Stack', icon: 'layers' },
+  DEPLOYMENT: { id: 'Deployment', icon: 'server' },
   METRICS: { id: 'Metrics', icon: 'chart' }
 };
 
@@ -251,100 +257,194 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
     return industry.diagrams[selectedSection];
   }, [selectedSection, industry.diagrams]);
 
+  const [useCaseState, setUseCaseState] = useState({
+    query: '',
+    result: null,
+    loading: false
+  });
+
+  const runIndustryDemo = async (sampleQuery) => {
+    console.log('Running demo with:', { 
+      industry: industry.id, 
+      section: selectedSection, 
+      query: sampleQuery
+    });
+
+    setUseCaseState(prev => ({
+      ...prev,
+      loading: true,
+      query: sampleQuery,
+      error: null
+    }));
+
+    try {
+      // Map section to correct use case category
+      const sectionToUseCaseMap = {
+        'fundamentals': 'fundamentals',
+        'data-collection': 'fundamentals',  // Map data-collection to fundamentals
+        'data-processing': 'fundamentals',  // Map other sections as needed
+        'model-training': 'fundamentals',
+        'deployment': 'fundamentals'
+      };
+
+      const useCaseSection = sectionToUseCaseMap[selectedSection] || selectedSection;
+      
+      const response = await industryService.generateResponse(
+        industry.id,
+        useCaseSection,
+        sampleQuery
+      );
+      
+      if (!response) {
+        throw new Error('No response received');
+      }
+
+      setUseCaseState(prev => ({
+        ...prev,
+        loading: false,
+        result: response
+      }));
+    } catch (error) {
+      console.error("Error in runIndustryDemo:", error);
+      setUseCaseState(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message
+      }));
+    }
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
+        const useCaseData = getIndustryDiagram(industry.id, selectedSection);
+        const queries = fraudDetectionImplementation?.exampleQueries?.samples || [];
+        
         return (
-          <div className="space-y-6">
-            {/* Business Value */}
-            <div className="p-6 rounded-xl bg-n-7 border border-n-6">
-              <h3 className="text-xl font-semibold text-n-1 mb-4">Business Value</h3>
-              <div className="grid gap-3">
-                {[
-                  'Detect fraud in real-time with <100ms latency',
-                  'Reduce false positives by 60% through data enrichment',
-                  'Process over 10,000 transactions per second',
-                  '360° view of customer behavior patterns'
-                ].map((value, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary-1" />
-                    <span className="text-n-3">{value}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="space-y-8">
+            {/* Title and Description */}
+            <div className="text-center">
+              <h2 className="h2 mb-4">{useCaseData?.title || 'Fraud Detection'}</h2>
+              <p className="text-n-3 text-lg">{useCaseData?.description}</p>
             </div>
 
-            {/* Capabilities */}
-            <div className="p-6 rounded-xl bg-n-7 border border-n-6">
-              <h3 className="text-xl font-semibold text-n-1 mb-4">Capabilities</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  'Multi-source data integration',
-                  'Real-time stream processing',
-                  'Historical data analysis',
-                  'Automated data enrichment',
-                  'Data quality monitoring',
-                  'Scalable data pipeline'
-                ].map((capability, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <Icon name="check-circle" className="w-5 h-5 text-primary-1" />
-                    <span className="text-n-3">{capability}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Examples */}
-            <div className="p-6 rounded-xl bg-n-7 border border-n-6">
-              <h3 className="text-xl font-semibold text-n-1 mb-4">Examples</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Icon name="arrow-right" className="w-5 h-5 text-primary-1" />
-                  <span className="text-n-3">Credit card transaction monitoring</span>
+            {/* Sample Queries Section */}
+            {queries.length > 0 && (
+              <div className="bg-n-7 rounded-xl p-6 border border-n-6">
+                <h3 className="text-xl font-semibold mb-4">Try Example Queries</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {queries.map((sample, index) => (
+                    <button
+                      key={index}
+                      onClick={() => runIndustryDemo(sample)}
+                      className="text-left p-4 rounded-lg bg-n-8 border border-n-6 
+                        hover:border-primary-1 transition-colors duration-200"
+                    >
+                      <p className="text-n-1">{sample}</p>
+                    </button>
+                  ))}
                 </div>
+
+                {/* Loading State */}
+                {useCaseState.loading && (
+                  <div className="flex items-center justify-center p-4 mt-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+                  </div>
+                )}
+
+                {/* Response Display */}
+                {useCaseState.result && (
+                  <div className="mt-6 bg-n-8 rounded-xl border border-n-6 overflow-hidden">
+                    <AIResponse response={useCaseState.result} />
+                  </div>
+                )}
               </div>
+            )}
+
+            {/* Original Three Cards Section */}
+            <div className="space-y-6">
+              {/* Business Value Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6 rounded-xl bg-n-7 border border-n-6"
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <Icon name="chart" className="w-6 h-6 text-primary-1" />
+                  <h3 className="text-2xl font-semibold">Business Value</h3>
+                </div>
+                <div className="space-y-4">
+                  {useCaseData.businessValue?.map((value, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
+                      <p className="text-n-3">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Capabilities Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="p-6 rounded-xl bg-n-7 border border-n-6"
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <Icon name="layers" className="w-6 h-6 text-primary-1" />
+                  <h3 className="text-2xl font-semibold">Capabilities</h3>
+                </div>
+                <div className="space-y-4">
+                  {useCaseData.capabilities?.map((capability, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
+                      <p className="text-n-3">{capability}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Examples Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="p-6 rounded-xl bg-n-7 border border-n-6"
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <Icon name="lightbulb" className="w-6 h-6 text-primary-1" />
+                  <h3 className="text-2xl font-semibold">Examples</h3>
+                </div>
+                <div className="space-y-4">
+                  {useCaseData.examples?.map((example, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
+                      <p className="text-n-3">{example}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           </div>
         );
 
       case TECH_TABS.ARCHITECTURE.id:
         return (
-          <div className="relative h-[500px] bg-n-8 rounded-2xl border border-n-6 overflow-hidden">
-            <ArchitectureDiagram 
-              diagram={getIndustryDiagram(industry.id, selectedSection)} 
-            />
+          <div className="bg-n-8 rounded-2xl border border-n-6 overflow-hidden h-[600px]">
+            <DiagramView diagram={getIndustryDiagram(industry.id, selectedSection)} />
           </div>
         );
 
-      case TECH_TABS.TECH_STACK.id:
+      case TECH_TABS.DEPLOYMENT.id:
         return (
-          <div className="space-y-6">
-            {/* Using tech stack data from implementation.js */}
-            {Object.entries(fraudDetectionImplementation.architecture.components).map(([category, techs], index) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-n-7 border border-n-6"
-              >
-                <h3 className="text-lg font-semibold mb-4">{category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {techs.technologies.map((tech, idx) => (
-                    <span key={idx} className="px-3 py-1 rounded-lg bg-n-6 text-n-1">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          <div className="bg-n-8 rounded-2xl border border-n-6 overflow-hidden">
+            <DeploymentView diagram={getIndustryDiagram(industry.id, selectedSection)} />
           </div>
         );
 
       case TECH_TABS.METRICS.id:
         return (
           <div className="grid grid-cols-2 gap-6">
-            {/* Using metrics from implementation.js */}
             {fraudDetectionImplementation.metrics.items.map((metric, index) => (
               <motion.div
                 key={index}

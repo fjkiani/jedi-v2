@@ -1,6 +1,9 @@
-import { TECH_IDS } from '../registry/techRegistry';
-import { USE_CASE_TECH_MAPPING, getUseCaseImplementation } from '../registry/useCaseRegistry';
-import { techUseCaseMapper } from '../techUseCaseMapper';
+import { TECH_IDS } from '@/constants/registry/techRegistry';
+import { 
+  USE_CASE_TECH_MAPPING, 
+  getUseCaseImplementation 
+} from '@/constants/registry/useCaseRegistry';
+import { techUseCaseMapper } from '@/constants/techUseCaseMapper';
 
 export const financial = {
   id: 'financial',
