@@ -1,5 +1,21 @@
-import { createResponseTemplate, sectionTemplates } from './templates/responseTemplate';
 import { USE_CASE_REGISTRY } from '@/constants/registry/useCaseRegistry';
+import { getIndustryResponse } from './templates/industryResponseTemplate';
+import { fraudDetectionImplementation as fraudDetectionBase } from '@/constants/implementations/industries/financial/fraudDetection';
+import { fraudDetectionImplementation as fraudDetectionArch } from '@/constants/implementations/industries/financial/implementation';
+import { diagnosticAIImplementation } from '@/constants/implementations/industries/healthcare/diagnosticAI';
+
+// Merge both implementation files
+const fraudDetectionMerged = {
+  ...fraudDetectionBase,
+  architecture: fraudDetectionArch.architecture,
+  examples: fraudDetectionArch.examples
+};
+
+// Map of implementations by use case
+export const IMPLEMENTATION_MAP = {
+  'fraud-detection': fraudDetectionMerged,
+  'diagnostic-ai': diagnosticAIImplementation
+};
 
 export const industryService = {
   async generateResponse(industry, section, query) {
@@ -15,7 +31,7 @@ export const industryService = {
       }
 
       // Find the use case that matches the query
-      const useCase = Object.values(useCases).find(uc => 
+      const useCase = Object.entries(useCases).find(([_, uc]) => 
         uc.queries.includes(query)
       );
 
@@ -24,43 +40,22 @@ export const industryService = {
         throw new Error('No matching use case found');
       }
 
-      // Get implementation details
-      const implementation = useCase.implementation || {};
+      const [useCaseId, useCaseData] = useCase;
+      const implementation = {
+        ...IMPLEMENTATION_MAP[useCaseId],
+        ...useCaseData.implementation
+      };
 
-      const response = createResponseTemplate({
-        icon: "🔒",
-        title: useCase.title,
-        query,
-        modelName: "Industry AI",
-        modelVersion: "2024",
-        capabilities: useCase.capabilities,
-        sections: [
-          sectionTemplates.processingSection({
-            mainPoint: implementation.mainPoint || "Processing transaction patterns",
-            steps: implementation.processingSteps || [
-              "Data ingestion and enrichment",
-              "Pattern matching against known signatures",
-              "Risk scoring and decision making"
-            ]
-          }),
-          sectionTemplates.discoverySection([
-            {
-              title: "Pattern Analysis",
-              steps: implementation.exampleQueries?.samples || [],
-              highlight: "✨ Analysis Complete",
-              points: [
-                "Real-time processing enabled",
-                "Pattern matching optimized",
-                "Risk assessment completed"
-              ]
-            }
-          ])
-        ]
-      });
+      // Create the base response template
+      const baseResponse = getIndustryResponse(industry, useCaseId, query);
+      
+      if (!baseResponse) {
+        throw new Error('Failed to generate response');
+      }
 
-      return response;
+      return baseResponse;
     } catch (error) {
-      console.error("Industry Service Error:", error);
+      console.error('Error generating response:', error);
       throw error;
     }
   }

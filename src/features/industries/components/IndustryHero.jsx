@@ -8,7 +8,6 @@ import ArchitectureDiagram from '@/components/diagrams/ArchitectureDiagram';
 import { financialOverview } from '@/constants/implementations/industries/financial/overview';
 import { healthcareOverview } from '@/constants/implementations/industries/healthcare/overview';
 import { dataIntegrationOverview } from '@/constants/implementations/industries/financial/components/data-integration/overview';
-import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/fraudDetection';
 import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
 import { UseCaseView } from '@/components/diagrams/views/UseCaseView';
 import { DiagramView } from '@/components/diagrams/DiagramView';
@@ -33,6 +32,28 @@ const getOverviewForIndustry = (industryId) => {
     default:
       return null;
   }
+};
+
+// Helper function to get queries for the current industry and section
+const getQueriesForSection = (industry, section) => {
+  const sectionToUseCaseMap = {
+    'fundamentals': 'fundamentals',
+    'data-collection': 'fundamentals',
+    'data-processing': 'fundamentals',
+    'model-training': 'fundamentals',
+    'deployment': 'fundamentals'
+  };
+
+  const useCaseSection = sectionToUseCaseMap[section] || section;
+  const useCases = USE_CASE_REGISTRY[industry]?.[useCaseSection]?.useCases || {};
+  
+  // Get all queries from all use cases in this section
+  return Object.values(useCases).reduce((allQueries, useCase) => {
+    if (useCase.queries) {
+      allQueries.push(...useCase.queries);
+    }
+    return allQueries;
+  }, []);
 };
 
 const SectionDetails = ({ section, industryId }) => {
@@ -281,8 +302,8 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
       // Map section to correct use case category
       const sectionToUseCaseMap = {
         'fundamentals': 'fundamentals',
-        'data-collection': 'fundamentals',  // Map data-collection to fundamentals
-        'data-processing': 'fundamentals',  // Map other sections as needed
+        'data-collection': 'fundamentals',
+        'data-processing': 'fundamentals',
         'model-training': 'fundamentals',
         'deployment': 'fundamentals'
       };
@@ -318,13 +339,13 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
         const useCaseData = getIndustryDiagram(industry.id, selectedSection);
-        const queries = fraudDetectionImplementation?.exampleQueries?.samples || [];
+        const queries = getQueriesForSection(industry.id, selectedSection);
         
         return (
           <div className="space-y-8">
             {/* Title and Description */}
             <div className="text-center">
-              <h2 className="h2 mb-4">{useCaseData?.title || 'Fraud Detection'}</h2>
+              <h2 className="h2 mb-4">{useCaseData?.title || 'Industry Solutions'}</h2>
               <p className="text-n-3 text-lg">{useCaseData?.description}</p>
             </div>
 
@@ -348,83 +369,25 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
                 {/* Loading State */}
                 {useCaseState.loading && (
                   <div className="flex items-center justify-center p-4 mt-4">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+                    <div className="w-6 h-6 border-2 border-primary-1 border-t-transparent rounded-full animate-spin"></div>
                   </div>
                 )}
 
-                {/* Response Display */}
-                {useCaseState.result && (
-                  <div className="mt-6 bg-n-8 rounded-xl border border-n-6 overflow-hidden">
+                {/* Error State */}
+                {useCaseState.error && (
+                  <div className="p-4 mt-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <p className="text-red-500">{useCaseState.error}</p>
+                  </div>
+                )}
+
+                {/* Result */}
+                {useCaseState.result && !useCaseState.loading && (
+                  <div className="mt-6">
                     <AIResponse response={useCaseState.result} />
                   </div>
                 )}
               </div>
             )}
-
-            {/* Original Three Cards Section */}
-            <div className="space-y-6">
-              {/* Business Value Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-6 rounded-xl bg-n-7 border border-n-6"
-              >
-                <div className="flex items-center gap-4 mb-5">
-                  <Icon name="chart" className="w-6 h-6 text-primary-1" />
-                  <h3 className="text-2xl font-semibold">Business Value</h3>
-                </div>
-                <div className="space-y-4">
-                  {useCaseData.businessValue?.map((value, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
-                      <p className="text-n-3">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Capabilities Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="p-6 rounded-xl bg-n-7 border border-n-6"
-              >
-                <div className="flex items-center gap-4 mb-5">
-                  <Icon name="layers" className="w-6 h-6 text-primary-1" />
-                  <h3 className="text-2xl font-semibold">Capabilities</h3>
-                </div>
-                <div className="space-y-4">
-                  {useCaseData.capabilities?.map((capability, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
-                      <p className="text-n-3">{capability}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Examples Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="p-6 rounded-xl bg-n-7 border border-n-6"
-              >
-                <div className="flex items-center gap-4 mb-5">
-                  <Icon name="lightbulb" className="w-6 h-6 text-primary-1" />
-                  <h3 className="text-2xl font-semibold">Examples</h3>
-                </div>
-                <div className="space-y-4">
-                  {useCaseData.examples?.map((example, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Icon name="check" className="w-5 h-5 text-primary-1 mt-1" />
-                      <p className="text-n-3">{example}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
           </div>
         );
 

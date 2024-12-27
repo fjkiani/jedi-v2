@@ -1,5 +1,6 @@
 import { techUseCaseMapper } from '../techUseCaseMapper';
 import { fraudDetectionImplementation } from '../implementations/industries/financial/fraudDetection';
+import { diagnosticAIImplementation } from '../implementations/industries/healthcare/diagnosticAI';
 
 // Tech Use Case Mapping
 export const USE_CASE_TECH_MAPPING = {
@@ -13,10 +14,10 @@ export const USE_CASE_TECH_MAPPING = {
     relatedTech: ["langchain", "weaviate"],
     solutionId: "ai-ml-solutions"
   },
-  "Trading Agent": {
+  "Medical Diagnostics": {
     primaryTech: "openai",
-    relatedTech: ["langchain"],
-    solutionId: "ai-agents"
+    relatedTech: ["langchain", "tensorflow"],
+    solutionId: "ai-ml-solutions"
   }
 };
 
@@ -80,6 +81,37 @@ export const USE_CASE_REGISTRY = {
             "Review risk management protocols"
           ],
           capabilities: ["Market Analysis", "Automated Trading", "Risk Management"]
+        }
+      }
+    }
+  },
+  healthcare: {
+    "fundamentals": {
+      id: "fundamentals",
+      title: "Fundamentals",
+      useCases: {
+        "diagnostic-ai": {
+          id: "diagnostic-ai",
+          title: "Medical Diagnostics",
+          implementation: diagnosticAIImplementation,
+          queries: [
+            "Analyze medical imaging for diagnosis",
+            "Process clinical data for patient assessment",
+            "Generate diagnostic recommendations"
+          ],
+          capabilities: ["Image Analysis", "Clinical Processing", "Diagnostic Support"]
+        }
+      }
+    },
+    "ai-ml-solutions": {
+      id: "ai-ml-solutions",
+      title: "AI/ML Solutions",
+      useCases: {
+        "diagnostic-ai": {
+          id: "diagnostic-ai",
+          title: "Medical Diagnostics",
+          techMapping: USE_CASE_TECH_MAPPING["Medical Diagnostics"],
+          implementation: diagnosticAIImplementation
         }
       }
     }
