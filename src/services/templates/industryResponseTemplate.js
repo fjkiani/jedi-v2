@@ -1,19 +1,8 @@
-import { IMPLEMENTATION_MAP } from '../industryService';
-
-const createIndustryResponse = (config) => {
-  const {
-    icon,
-    title,
-    query,
-    capabilities = [],
-    processingSteps = [],
-    discoveries = [],
-    validation = {},
-    implementation = {}
-  } = config;
+const createIndustryResponse = (industry, implementation) => {
+  if (!implementation) return null;
 
   return {
-    title: implementation.title || "Fraud Detection & Prevention",
+    title: implementation.title,
     sections: [
       {
         icon: "🤖",
@@ -21,7 +10,7 @@ const createIndustryResponse = (config) => {
         subsections: [
           {
             title: "System Architecture",
-            content: implementation.architecture?.description || "Our fraud detection system employs a sophisticated multi-layered approach."
+            content: implementation.architecture?.description
           },
           {
             title: "Core Components",
@@ -65,20 +54,8 @@ const createIndustryResponse = (config) => {
   };
 };
 
-export const getIndustryResponse = (industry, useCaseId, query) => {
-  // Get the implementation from the service's IMPLEMENTATION_MAP
-  const implementation = IMPLEMENTATION_MAP[useCaseId];
-  
-  if (!implementation) {
-    throw new Error(`No implementation found for use case: ${useCaseId}`);
-  }
-
-  return createIndustryResponse({
-    icon: "🔒",
-    title: "Fraud Detection Analysis",
-    query,
-    implementation
-  });
+export const getIndustryResponse = (industry, implementation) => {
+  return createIndustryResponse(industry, implementation);
 };
 
 export default getIndustryResponse; 

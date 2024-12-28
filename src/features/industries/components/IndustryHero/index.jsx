@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Section from '@/components/Section';
 import { industryService } from '@/services/industryService';
 import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
-import { fraudDetectionImplementation } from '@/constants/implementations/industries/financial/fraudDetection';
+import { useCaseService } from '@/services/useCaseService';
 import { BreadcrumbNav } from './components/BreadcrumbNav';
 import { IndustryHeader } from './components/IndustryHeader';
 import { SectionNavigation } from './components/SectionNavigation';
@@ -18,11 +18,27 @@ import { TECH_TABS } from './constants';
 const IndustryHero = ({ industry, sections }) => {
   const [activeTab, setActiveTab] = useState(TECH_TABS.OVERVIEW.id);
   const [selectedSection, setSelectedSection] = useState(sections?.[0]?.id);
+  const [queries, setQueries] = useState([]);
   const [useCaseState, setUseCaseState] = useState({
     query: '',
     result: null,
     loading: false
   });
+
+  useEffect(() => {
+    const fetchQueries = async () => {
+      try {
+        const fetchedQueries = await useCaseService.getQueries(industry.id, selectedSection);
+        setQueries(fetchedQueries);
+      } catch (error) {
+        console.error('Error fetching queries:', error);
+      }
+    };
+
+    if (industry.id && selectedSection) {
+      fetchQueries();
+    }
+  }, [industry.id, selectedSection]);
 
   const runIndustryDemo = async (sampleQuery) => {
     setUseCaseState(prev => ({
@@ -32,10 +48,17 @@ const IndustryHero = ({ industry, sections }) => {
     }));
 
     try {
-      const response = await industryService.generateResponse(
+      const implementation = await useCaseService.getImplementation(
         industry.id,
         selectedSection,
         sampleQuery
+      );
+      
+      const response = await industryService.generateResponse(
+        industry.id,
+        selectedSection,
+        sampleQuery,
+        implementation
       );
       
       setUseCaseState(prev => ({
@@ -55,7 +78,6 @@ const IndustryHero = ({ industry, sections }) => {
 
   const renderTabContent = () => {
     const useCaseData = getIndustryDiagram(industry.id, selectedSection);
-    const queries = fraudDetectionImplementation?.exampleQueries?.samples || [];
 
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
@@ -72,7 +94,7 @@ const IndustryHero = ({ industry, sections }) => {
       case TECH_TABS.DEPLOYMENT.id:
         return <DeploymentTab diagram={useCaseData} />;
       case TECH_TABS.METRICS.id:
-        return <MetricsTab metrics={fraudDetectionImplementation.metrics} />;
+        return <MetricsTab industryId={industry.id} section={selectedSection} />;
       default:
         return null;
     }

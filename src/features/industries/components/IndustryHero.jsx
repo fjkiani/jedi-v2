@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
@@ -15,6 +15,7 @@ import { DeploymentView } from '@/components/diagrams/views/DeploymentView';
 import { industryService } from '@/services/industryService';
 import AIResponse from '@/components/response/AIResponse';
 import { USE_CASE_REGISTRY, getUseCases } from '@/constants/registry/useCaseRegistry';
+import { useCaseService } from '@/services/useCaseService';
 
 const TECH_TABS = {
   OVERVIEW: { id: 'Overview', icon: 'layout' },
@@ -271,18 +272,28 @@ const SectionDetails = ({ section, industryId }) => {
 const IndustryHero = ({ industry, solution, sections, diagram }) => {
   const [activeTab, setActiveTab] = useState(TECH_TABS.OVERVIEW.id);
   const [selectedSection, setSelectedSection] = useState(sections?.[0]?.id);
-
-  // Memoize the current section's data
-  const sectionData = useMemo(() => {
-    if (!selectedSection || !industry.diagrams) return null;
-    return industry.diagrams[selectedSection];
-  }, [selectedSection, industry.diagrams]);
+  const [queries, setQueries] = useState([]);
 
   const [useCaseState, setUseCaseState] = useState({
     query: '',
     result: null,
-    loading: false
+    loading: false,
+    error: null
   });
+
+  // Fetch queries when section changes
+  useEffect(() => {
+    const fetchQueries = async () => {
+      try {
+        const sectionQueries = await useCaseService.getQueries(industry.id, selectedSection);
+        setQueries(sectionQueries);
+      } catch (error) {
+        console.error('Error fetching queries:', error);
+      }
+    };
+
+    fetchQueries();
+  }, [industry.id, selectedSection]);
 
   const runIndustryDemo = async (sampleQuery) => {
     console.log('Running demo with:', { 
@@ -299,27 +310,12 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
     }));
 
     try {
-      // Map section to correct use case category
-      const sectionToUseCaseMap = {
-        'fundamentals': 'fundamentals',
-        'data-collection': 'fundamentals',
-        'data-processing': 'fundamentals',
-        'model-training': 'fundamentals',
-        'deployment': 'fundamentals'
-      };
-
-      const useCaseSection = sectionToUseCaseMap[selectedSection] || selectedSection;
-      
       const response = await industryService.generateResponse(
         industry.id,
-        useCaseSection,
+        selectedSection,
         sampleQuery
       );
       
-      if (!response) {
-        throw new Error('No response received');
-      }
-
       setUseCaseState(prev => ({
         ...prev,
         loading: false,
@@ -339,7 +335,6 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
         const useCaseData = getIndustryDiagram(industry.id, selectedSection);
-        const queries = getQueriesForSection(industry.id, selectedSection);
         
         return (
           <div className="space-y-8">
