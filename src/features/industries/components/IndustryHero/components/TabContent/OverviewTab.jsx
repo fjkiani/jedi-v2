@@ -44,8 +44,42 @@ const QuerySection = ({ queries, runIndustryDemo, useCaseState }) => (
         ))}
       </div>
 
-      <LoadingState loading={useCaseState.loading} />
-      <ResponseDisplay result={useCaseState.result} />
+      {useCaseState.loading && (
+        <div className="mt-6 flex items-center justify-center p-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+        </div>
+      )}
+
+      {useCaseState.result && !useCaseState.loading && (
+        <div className="mt-6">
+          <AIResponse response={useCaseState.result} variant="industry" />
+        </div>
+      )}
+    </div>
+  )
+);
+
+const ValueCardsSection = ({ useCaseData }) => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {useCaseData?.valueProposition?.map((value, index) => (
+      <div 
+        key={index}
+        className="bg-n-8 rounded-xl p-6 border border-n-6"
+      >
+        <div className="flex items-center space-x-3 mb-4">
+          <Icon name={value.icon} className="w-6 h-6 text-primary-1" />
+          <h4 className="text-lg font-semibold text-n-1">{value.title}</h4>
+        </div>
+        <p className="text-n-3">{value.description}</p>
+      </div>
+    ))}
+  </div>
+);
+
+const ResponseDisplay = ({ result }) => (
+  result && (
+    <div className="mt-6">
+      <AIResponse response={result} variant="industry" />
     </div>
   )
 ); 
