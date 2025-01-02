@@ -10,41 +10,61 @@ class UseCaseService {
 
   async initialize() {
     if (this.initialized) return;
-    
+     
     try {
       // First get all industries
-      const { industries } = await hygraphClient.request(GET_INDUSTRIES);
+      const industriesResponse = await hygraphClient.request(GET_INDUSTRIES);
+      const industries = industriesResponse?.industries || [];
       console.log('Fetched industries:', industries);
       
+      if (!industries || industries.length === 0) {
+        console.warn('No industries found');
+      }
+      
       industries.forEach(industry => {
-        this.industries.set(industry.slug, industry);
+        if (industry?.slug) {
+          this.industries.set(industry.slug, industry);
+        }
       });
 
       // Then get all use cases
-      const { useCaseS } = await hygraphClient.request(GET_USE_CASES);
-      console.log('Fetched use cases:', useCaseS);
+      const useCasesResponse = await hygraphClient.request(GET_USE_CASES);
+      const useCases = useCasesResponse?.useCaseS || [];
+      console.log('Fetched use cases:', useCases);
       
-      // Organize use cases by industry and section
-      useCaseS.forEach(useCase => {
+      if (!useCases || useCases.length === 0) {
+        console.warn('No use cases found');
+      }
+      
+      console.log('Fetched use cases with queries:', useCases.map(uc => ({
+        title: uc.title,
+        queries: uc.queries
+      })));
+      
+      // Organize use cases by industry only
+      useCases.forEach(useCase => {
+        // Skip use cases with no industry instead of warning
+        if (!useCase?.industry?.slug) {
+          console.log('Skipping use case with no industry:', useCase?.title);
+          return;
+        }
+        
         const industrySlug = useCase.industry.slug;
         if (!this.useCases.has(industrySlug)) {
-          this.useCases.set(industrySlug, new Map());
+          this.useCases.set(industrySlug, []);
         }
         
-        const industryMap = this.useCases.get(industrySlug);
-        if (!industryMap.has(useCase.section)) {
-          industryMap.set(useCase.section, []);
-        }
+        // Check if use case already exists before adding it
+        const existingUseCases = this.useCases.get(industrySlug);
+        const useCaseExists = existingUseCases.some(existing => existing.id === useCase.id);
         
-        industryMap.get(useCase.section).push(useCase);
-      });
-
-      console.log('Organized use cases:', {
-        industries: Array.from(this.industries.entries()),
-        useCases: Array.from(this.useCases.entries()).map(([industry, sections]) => ({
-          industry,
-          sections: Array.from(sections.entries())
-        }))
+        if (!useCaseExists) {
+          // Ensure queries are preserved when adding to map
+          this.useCases.get(industrySlug).push({
+            ...useCase,
+            queries: useCase.queries || [] // Ensure queries is at least an empty array
+          });
+        }
       });
 
       this.initialized = true;
@@ -71,11 +91,14 @@ class UseCaseService {
 
   async getUseCasesBySection(industrySlug, section) {
     await this.initialize();
-    return this.useCases.get(industrySlug)?.get(section) || [];
+    
+    const industryUseCases = this.useCases.get(industrySlug) || [];
+    // For now, return all use cases for the industry regardless of section
+    return industryUseCases;
   }
 
-  async getQueries(industrySlug, section) {
-    const useCases = await this.getUseCasesBySection(industrySlug, section);
+  async getQueries(industrySlug) {
+    const useCases = await this.getUseCasesBySection(industrySlug);
     return useCases.reduce((allQueries, useCase) => {
       if (useCase.queries) {
         allQueries.push(...useCase.queries);
@@ -84,14 +107,49 @@ class UseCaseService {
     }, []);
   }
 
-  async getImplementation(industrySlug, section, query) {
-    const useCases = await this.getUseCasesBySection(industrySlug, section);
-    const useCase = useCases.find(uc => uc.queries.includes(query));
+  async getImplementation(industrySlug, query) {
+    const useCases = await this.getUseCasesBySection(industrySlug);
+    console.log('Attempting to match query:', query);
+    console.log('Available use cases:', useCases.map(uc => ({
+      title: uc.title,
+      queries: uc.queries
+    })));
+    
+    // Find the use case that owns this query
+    const useCase = useCases.find(uc => {
+      if (!uc.queries) {
+        console.log(`No queries for use case: ${uc.title}`);
+        return false;
+      }
+      
+      console.log(`\nChecking use case "${uc.title}" queries:`, uc.queries);
+      const hasMatch = uc.queries.some(q => {
+        const match = q.toLowerCase() === query.toLowerCase();
+        console.log(`Comparing:\n  Query: "${query}"\n  Against: "${q}"\n  Exact match: ${match}`);
+        
+        if (!match) {
+          const includesMatch = q.toLowerCase().includes(query.toLowerCase()) || 
+                              query.toLowerCase().includes(q.toLowerCase());
+          console.log(`  Partial match: ${includesMatch}`);
+          return includesMatch;
+        }
+        return match;
+      });
+      console.log(`Found match in "${uc.title}": ${hasMatch}`);
+      return hasMatch;
+    });
     
     if (!useCase) {
-      throw new Error('No matching use case found');
+      console.log('No use case found with matching query:', query);
+      console.log('Falling back to first use case');
+      return useCases[0] ? {
+        title: useCases[0].title,
+        description: useCases[0].description,
+        architecture: useCases[0].architecture
+      } : null;
     }
 
+    console.log('Found matching use case:', useCase.title);
     return {
       title: useCase.title,
       description: useCase.description,

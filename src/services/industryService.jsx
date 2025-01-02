@@ -6,8 +6,8 @@ export const industryService = {
     try {
       console.log('Generating response for:', { industry, section, query });
 
-      // Get implementation from the use case service
-      const implementation = await useCaseService.getImplementation(industry, section, query);
+      // Get implementation from the use case service, ignoring section
+      const implementation = await useCaseService.getImplementation(industry, query);
       
       if (!implementation) {
         throw new Error('No implementation found');

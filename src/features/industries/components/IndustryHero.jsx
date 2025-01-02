@@ -273,6 +273,8 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
   const [activeTab, setActiveTab] = useState(TECH_TABS.OVERVIEW.id);
   const [selectedSection, setSelectedSection] = useState(sections?.[0]?.id);
   const [queries, setQueries] = useState([]);
+  const [useCases, setUseCases] = useState([]);
+  const [selectedUseCase, setSelectedUseCase] = useState(null);
 
   const [useCaseState, setUseCaseState] = useState({
     query: '',
@@ -281,18 +283,38 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
     error: null
   });
 
-  // Fetch queries when section changes
   useEffect(() => {
     const fetchQueries = async () => {
       try {
-        const sectionQueries = await useCaseService.getQueries(industry.id, selectedSection);
+        const sectionQueries = await useCaseService.getQueries(industry.id);
         setQueries(sectionQueries);
       } catch (error) {
         console.error('Error fetching queries:', error);
       }
     };
 
-    fetchQueries();
+    if (industry.id) {
+      fetchQueries();
+    }
+  }, [industry.id]);
+
+  useEffect(() => {
+    const fetchUseCases = async () => {
+      try {
+        const fetchedUseCases = await useCaseService.getUseCasesBySection(industry.id, selectedSection);
+        console.log('Fetched use cases:', fetchedUseCases);
+        if (fetchedUseCases && fetchedUseCases.length > 0) {
+          setUseCases(fetchedUseCases);
+          setSelectedUseCase(fetchedUseCases[0]); // Set first as default
+        }
+      } catch (error) {
+        console.error('Error fetching use cases:', error);
+      }
+    };
+
+    if (industry.id && selectedSection) {
+      fetchUseCases();
+    }
   }, [industry.id, selectedSection]);
 
   const runIndustryDemo = async (sampleQuery) => {
@@ -334,7 +356,7 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
-        const useCaseData = getIndustryDiagram(industry.id, selectedSection);
+        const useCaseData = selectedUseCase || getIndustryDiagram(industry.id, selectedSection);
         
         return (
           <div className="space-y-8">
@@ -344,41 +366,70 @@ const IndustryHero = ({ industry, solution, sections, diagram }) => {
               <p className="text-n-3 text-lg">{useCaseData?.description}</p>
             </div>
 
+            {/* Use Case Selector */}
+            {useCases.length > 1 && (
+              <div className="flex flex-wrap gap-2">
+                {useCases.map((useCase) => (
+                  <button
+                    key={useCase.id}
+                    onClick={() => setSelectedUseCase(useCase)}
+                    className={`px-6 py-3 rounded-xl text-base font-medium transition-colors duration-200
+                      ${selectedUseCase?.id === useCase.id 
+                        ? 'bg-n-6 text-n-1 border-2 border-primary-1' 
+                        : 'bg-n-8 text-n-3 border border-n-6 hover:text-n-1'}`}
+                  >
+                    {useCase.title}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Sample Queries Section */}
-            {queries.length > 0 && (
-              <div className="bg-n-7 rounded-xl p-6 border border-n-6">
-                <h3 className="text-xl font-semibold mb-4">Try Example Queries</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {queries.map((sample, index) => (
+            {selectedUseCase?.queries?.length > 0 && (
+              <div>
+                <h2 className="h2 mb-4">Try the Use Case</h2>
+                <p className="text-n-3 mb-6">Select a sample query to run:</p>
+                
+                <div className="flex flex-col gap-3">
+                  {selectedUseCase.queries.map((sample, index) => (
                     <button
                       key={index}
                       onClick={() => runIndustryDemo(sample)}
-                      className="text-left p-4 rounded-lg bg-n-8 border border-n-6 
+                      className="w-full text-left p-6 rounded-xl bg-n-8 border border-n-6 
                         hover:border-primary-1 transition-colors duration-200"
                     >
-                      <p className="text-n-1">{sample}</p>
+                      <p className="text-n-1 text-lg">{sample}</p>
                     </button>
                   ))}
                 </div>
 
-                {/* Loading State */}
-                {useCaseState.loading && (
-                  <div className="flex items-center justify-center p-4 mt-4">
-                    <div className="w-6 h-6 border-2 border-primary-1 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                )}
+                {(useCaseState.loading || useCaseState.result) && (
+                  <div className="mt-8 bg-n-8 rounded-xl border border-n-6 p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-2xl">AI Analysis</h3>
+                      <span className="text-n-3">Powered by Industry AI</span>
+                    </div>
 
-                {/* Error State */}
-                {useCaseState.error && (
-                  <div className="p-4 mt-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                    <p className="text-red-500">{useCaseState.error}</p>
-                  </div>
-                )}
+                    {/* Loading State */}
+                    {useCaseState.loading && (
+                      <div className="flex items-center justify-center p-4">
+                        <div className="w-6 h-6 border-2 border-primary-1 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
 
-                {/* Result */}
-                {useCaseState.result && !useCaseState.loading && (
-                  <div className="mt-6">
-                    <AIResponse response={useCaseState.result} />
+                    {/* Error State */}
+                    {useCaseState.error && (
+                      <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                        <p className="text-red-500">{useCaseState.error}</p>
+                      </div>
+                    )}
+
+                    {/* Result */}
+                    {useCaseState.result && !useCaseState.loading && (
+                      <div>
+                        <AIResponse response={useCaseState.result} variant="simple" />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

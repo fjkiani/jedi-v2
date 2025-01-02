@@ -31,274 +31,313 @@ export const dataEngineeringSolution = {
     ]
   },
 
-  // Architecture diagram configuration
-  architecture: {
-    title: "Data Engineering Pipeline",
-    description: "Modern data engineering architecture for processing and analyzing large-scale data",
-    layout: {
-      type: "horizontal",
-      spacing: { x: 300, y: 170 },
-      startPosition: { x: 100, y: 80 }
+ // Tech stack details
+ techStack: {
+  ingestion: {
+    'Apache NiFi': {
+      icon: 'https://cdn.simpleicons.org/apache',
+      description: 'Data ingestion and ETL tool.',
+      category: 'Ingestion',
+      priority: 1
     },
-    nodes: [
-      {
-        id: 'sources',
-        label: 'Data Sources',
-        x: 100,
-        y: 80,
-        description: 'Multiple data input streams',
-        technologies: {
-          streaming: ["Kafka", "Kinesis"],
-          batch: ["S3", "HDFS"],
-          ingestion: ["Debezium", "Airbyte"]
-        }
-      },
-      {
-        id: 'processing',
-        label: 'Data Processing',
-        x: 400,
-        y: 80,
-        description: 'ETL and transformation pipeline',
-        technologies: {
-          compute: ["Spark", "Flink"],
-          workflow: ["Airflow", "Dagster"],
-          quality: ["Great Expectations", "dbt"]
-        }
-      },
-      {
-        id: 'warehouse',
-        label: 'Data Warehouse',
-        x: 700,
-        y: 80,
-        description: 'Centralized data storage',
-        technologies: {
-          storage: ["Snowflake", "Redshift"],
-          modeling: ["dbt", "LookML"],
-          governance: ["Collibra", "Alation"]
-        }
-      },
-      {
-        id: 'analytics',
-        label: 'Analytics Engine',
-        x: 250,
-        y: 250,
-        description: 'Business intelligence and analytics',
-        technologies: {
-          bi: ["Looker", "Tableau"],
-          ml: ["SageMaker", "DataRobot"],
-          visualization: ["D3.js", "Plotly"]
-        }
-      },
-      {
-        id: 'monitoring',
-        label: 'Monitoring',
-        x: 550,
-        y: 250,
-        description: 'Pipeline and data monitoring',
-        technologies: {
-          observability: ["Datadog", "Prometheus"],
-          alerting: ["PagerDuty", "Grafana"],
-          logging: ["ELK Stack", "Splunk"]
-        }
-      }
-    ],
-    connections: [
-      {
-        from: 'sources',
-        to: 'processing',
-        label: 'Raw Data'
-      },
-      {
-        from: 'processing',
-        to: 'warehouse',
-        label: 'Processed'
-      },
-      {
-        from: 'warehouse',
-        to: 'analytics',
-        label: 'Query'
-      },
-      {
-        from: 'processing',
-        to: 'monitoring',
-        label: 'Metrics'
-      }
-    ]
-  },
-
-  // Tech stack details
-  techStack: {
-    processing: {
-      'Apache Spark': {
-        icon: 'https://cdn.simpleicons.org/apachespark',
-        description: 'Unified analytics engine for large-scale data',
-        category: 'Processing',
-        priority: 1
-      },
-      'Apache Kafka': {
-        icon: 'https://cdn.simpleicons.org/apachekafka',
-        description: 'Distributed event streaming platform',
-        category: 'Processing',
-        priority: 2
-      },
-      'Apache Beam': {
-        icon: 'https://cdn.simpleicons.org/apachebeam',
-        description: 'Unified programming model for batch/streaming',
-        category: 'Processing',
-        priority: 3
-      }
+    'Fivetran': {
+      icon: 'https://cdn.simpleicons.org/fivetran',
+      description: 'Automated data integration.',
+      category: 'Ingestion',
+      priority: 2
     },
-    orchestration: {
-      'Apache Airflow': {
-        icon: 'https://cdn.simpleicons.org/apacheairflow',
-        description: 'Platform to programmatically schedule workflows',
-        category: 'Orchestration',
-        priority: 1
-      },
-      'Dagster': {
-        icon: 'https://cdn.simpleicons.org/dagster',
-        description: 'Data orchestrator for ML, analytics, and ETL',
-        category: 'Orchestration',
-        priority: 2
-      },
-      'Prefect': {
-        icon: 'https://cdn.simpleicons.org/prefect',
-        description: 'Modern workflow orchestration',
-        category: 'Orchestration',
-        priority: 3
-      }
+    'Kafka Connect': {
+      icon: 'https://cdn.simpleicons.org/apachekafka',
+      description: 'Streaming data pipelines with Kafka.',
+      category: 'Ingestion',
+      priority: 3
     },
-    storage: {
-      'Snowflake': {
-        icon: 'https://cdn.simpleicons.org/snowflake',
-        description: 'Cloud data platform',
-        category: 'Storage',
-        priority: 1
-      },
-      'Apache Iceberg': {
-        icon: 'https://cdn.simpleicons.org/apacheiceberg',
-        description: 'Open table format for huge analytic datasets',
-        category: 'Storage',
-        priority: 2
-      },
-      'Delta Lake': {
-        icon: 'https://cdn.simpleicons.org/deltalake',
-        description: 'Open-source storage layer',
-        category: 'Storage',
-        priority: 3
-      }
-    },
-    transformation: {
-      'dbt': {
-        icon: 'https://cdn.simpleicons.org/dbt',
-        description: 'Data transformation tool',
-        category: 'Transformation',
-        priority: 1
-      },
-      'Apache Hive': {
-        icon: 'https://cdn.simpleicons.org/apachehive',
-        description: 'Data warehouse software',
-        category: 'Transformation',
-        priority: 2
-      },
-      'Pandas': {
-        icon: 'https://cdn.simpleicons.org/pandas',
-        description: 'Data manipulation and analysis tool',
-        category: 'Transformation',
-        priority: 3
-      }
-    },
-    quality: {
-      'Great Expectations': {
-        icon: 'https://cdn.simpleicons.org/greatexpectations',
-        description: 'Data quality validation',
-        category: 'Quality',
-        priority: 1
-      },
-      'Apache Griffin': {
-        icon: 'https://cdn.simpleicons.org/apache',
-        description: 'Big data quality solution',
-        category: 'Quality',
-        priority: 2
-      },
-      'Soda': {
-        icon: 'https://cdn.simpleicons.org/soda',
-        description: 'Data quality monitoring',
-        category: 'Quality',
-        priority: 3
-      }
-    },
-    visualization: {
-      'Apache Superset': {
-        icon: 'https://cdn.simpleicons.org/apachesuperset',
-        description: 'Modern data exploration and visualization',
-        category: 'Visualization',
-        priority: 1
-      },
-      'Metabase': {
-        icon: 'https://cdn.simpleicons.org/metabase',
-        description: 'Open-source business intelligence tool',
-        category: 'Visualization',
-        priority: 2
-      },
-      'Looker': {
-        icon: 'https://cdn.simpleicons.org/looker',
-        description: 'Business intelligence and analytics',
-        category: 'Visualization',
-        priority: 3
-      }
+    'Apache Sqoop': {
+      icon: 'https://cdn.simpleicons.org/apache',
+      description: 'Data transfer between Hadoop and relational databases.',
+      category: 'Ingestion',
+      priority: 4
     }
   },
-
-  // Deployment configuration
-  deployment: {
-    environments: [
-      {
-        name: 'Development',
-        icon: 'https://cdn.simpleicons.org/codepen',
-        description: 'Development and testing environment'
-      },
-      {
-        name: 'QA',
-        icon: 'https://cdn.simpleicons.org/testinglibrary',
-        description: 'Quality assurance environment'
-      },
-      {
-        name: 'Production',
-        icon: 'https://cdn.simpleicons.org/amazonaws',
-        description: 'Production environment'
-      },
-      {
-        name: 'Analytics',
-        icon: 'https://cdn.simpleicons.org/googleanalytics',
-        description: 'Analytics and reporting environment'
-      }
-    ],
-    monitoring: {
-      'Datadog': {
-        icon: 'https://cdn.simpleicons.org/datadog',
-        description: 'Infrastructure monitoring'
-      },
-      'Grafana': {
-        icon: 'https://cdn.simpleicons.org/grafana',
-        description: 'Metrics visualization'
-      },
-      'Prometheus': {
-        icon: 'https://cdn.simpleicons.org/prometheus',
-        description: 'Metrics collection'
-      }
+  processing: {
+    'Apache Spark': {
+      icon: 'https://cdn.simpleicons.org/apachespark',
+      description: 'Unified analytics engine for large-scale data.',
+      category: 'Processing',
+      priority: 1
     },
-    security: {
-      'Ranger': {
-        icon: 'https://cdn.simpleicons.org/apacheranger',
-        description: 'Data security and governance'
-      },
-      'Vault': {
-        icon: 'https://cdn.simpleicons.org/vault',
-        description: 'Secrets management'
-      }
+    'Apache Flink': {
+      icon: 'https://cdn.simpleicons.org/apacheflink',
+      description: 'Scalable stream processing framework.',
+      category: 'Processing',
+      priority: 2
+    },
+    'Apache Beam': {
+      icon: 'https://cdn.simpleicons.org/apachebeam',
+      description: 'Unified programming model for batch and streaming data processing.',
+      category: 'Processing',
+      priority: 3
+    },
+    'Google Dataflow': {
+      icon: 'https://cdn.simpleicons.org/googlecloud',
+      description: 'Managed service for executing Apache Beam pipelines.',
+      category: 'Processing',
+      priority: 4
+    }
+  },
+  orchestration: {
+    'Apache Airflow': {
+      icon: 'https://cdn.simpleicons.org/apacheairflow',
+      description: 'Platform to programmatically author, schedule, and monitor workflows.',
+      category: 'Orchestration',
+      priority: 1
+    },
+    'Prefect': {
+      icon: 'https://cdn.simpleicons.org/prefect',
+      description: 'Dataflow automation platform.',
+      category: 'Orchestration',
+      priority: 2
+    },
+    'Dagster': {
+      icon: 'https://cdn.simpleicons.org/dagster',
+      description: 'Data orchestrator for machine learning, analytics, and ETL.',
+      category: 'Orchestration',
+      priority: 3
+    },
+    'Luigi': {
+      icon: 'https://cdn.simpleicons.org/spotify',
+      description: 'Python module that helps build complex pipelines.',
+      category: 'Orchestration',
+      priority: 4
+    }
+  },
+  storage: {
+    'Amazon S3': {
+      icon: 'https://cdn.simpleicons.org/amazons3',
+      description: 'Scalable object storage.',
+      category: 'Storage',
+      priority: 1
+    },
+    'Azure Data Lake Storage': {
+      icon: 'https://cdn.simpleicons.org/microsoftazure',
+      description: 'Scalable storage for big data analytics.',
+      category: 'Storage',
+      priority: 2
+    },
+    'Google Cloud Storage': {
+      icon: 'https://cdn.simpleicons.org/googlecloud',
+      description: 'Unified object storage for developers and enterprises.',
+      category: 'Storage',
+      priority: 3
+    },
+    'Apache HBase': {
+      icon: 'https://cdn.simpleicons.org/apache',
+      description: 'Scalable, distributed big data store.',
+      category: 'Storage',
+      priority: 4
+    }
+  },
+  warehousing: {
+    'Snowflake': {
+      icon: 'https://cdn.simpleicons.org/snowflake',
+      description: 'Cloud data platform and data warehouse.',
+      category: 'Data Warehousing',
+      priority: 1
+    },
+    'Amazon Redshift': {
+      icon: 'https://cdn.simpleicons.org/amazonaws',
+      description: 'Fast, simple, cost-effective data warehousing.',
+      category: 'Data Warehousing',
+      priority: 2
+    },
+    'Google BigQuery': {
+      icon: 'https://cdn.simpleicons.org/googlecloud',
+      description: 'Serverless, highly scalable data warehouse.',
+      category: 'Data Warehousing',
+      priority: 3
+    },
+    'Azure Synapse Analytics': {
+      icon: 'https://cdn.simpleicons.org/microsoftazure',
+      description: 'Limitless analytics service with data warehousing.',
+      category: 'Data Warehousing',
+      priority: 4
+    }
+  },
+  transformation: {
+    'dbt (Data Build Tool)': {
+      icon: 'https://cdn.simpleicons.org/dbt',
+      description: 'Data transformation tool that enables data analysts and engineers to transform data in their warehouses.',
+      category: 'Transformation',
+      priority: 1
+    },
+    'Apache Hive': {
+      icon: 'https://cdn.simpleicons.org/apachehive',
+      description: 'Data warehouse software that facilitates reading, writing, and managing large datasets.',
+      category: 'Transformation',
+      priority: 2
+    },
+    'AWS Glue': {
+      icon: 'https://cdn.simpleicons.org/amazonaws',
+      description: 'Fully managed extract, transform, and load (ETL) service.',
+      category: 'Transformation',
+      priority: 3
+    },
+    'Talend': {
+      icon: 'https://cdn.simpleicons.org/talend',
+      description: 'Data integration and data integrity tools.',
+      category: 'Transformation',
+      priority: 4
+    }
+  },
+  quality: {
+    'Great Expectations': {
+      icon: 'https://cdn.simpleicons.org/greatexpectations',
+      description: 'Python-based tool for validating, documenting, and profiling data.',
+      category: 'Quality',
+      priority: 1
+    },
+    'Datafold': {
+      icon: 'https://cdn.simpleicons.org/datafold',
+      description: 'Data diffs and regression testing for data pipelines.',
+      category: 'Quality',
+      priority: 2
+    },
+    'Deequ': {
+      icon: 'https://cdn.simpleicons.org/amazonaws',
+      description: 'Library for unit testing data with Spark.',
+      category: 'Quality',
+      priority: 3
+    },
+    'Soda SQL': {
+      icon: 'https://cdn.simpleicons.org/soda',
+      description: 'Checks data in databases to find invalid, missing, or unexpected data.',
+      category: 'Quality',
+      priority: 4
+    }
+  },
+  visualization: {
+    'Tableau': {
+      icon: 'https://cdn.simpleicons.org/tableau',
+      description: 'Visual analytics platform for business intelligence.',
+      category: 'Visualization',
+      priority: 1
+    },
+    'Power BI': {
+      icon: 'https://cdn.simpleicons.org/powerbi',
+      description: 'Business analytics service by Microsoft.',
+      category: 'Visualization',
+      priority: 2
+    },
+    'Looker': {
+      icon: 'https://cdn.simpleicons.org/looker',
+      description: 'Business intelligence and big data analytics platform.',
+      category: 'Visualization',
+      priority: 3
+    },
+    'Grafana': {
+      icon: 'https://cdn.simpleicons.org/grafana',
+      description: 'Open-source platform for monitoring and observability.',
+      category: 'Visualization',
+      priority: 4
     }
   }
+},
+
+// Deployment configuration
+deployment: {
+  environments: [
+    {
+      name: 'Development',
+      icon: 'https://cdn.simpleicons.org/codepen',
+      description: 'Development and testing environment for developers.',
+      tools: ["Docker Compose", "Minikube", "Local Stack"]
+    },
+    {
+      name: 'Staging',
+      icon: 'https://cdn.simpleicons.org/virtualbox',
+      description: 'Pre-production environment mirroring production.',
+      tools: ["Kubernetes", "Helm Charts", "Terraform"]
+    },
+    {
+      name: 'Production',
+      icon: 'https://cdn.simpleicons.org/amazonaws',
+      description: 'Live environment serving end-users.',
+      tools: ["AWS", "Azure", "Google Cloud Platform", "Kubernetes"]
+    },
+    {
+      name: 'Disaster Recovery',
+      icon: 'https://cdn.simpleicons.org/evergreen',
+      description: 'Backup environment for high availability.',
+      tools: ["Multi-region Deployment", "Data Replication", "Failover Strategies"]
+    },
+    {
+      name: 'Analytics',
+      icon: 'https://cdn.simpleicons.org/googleanalytics',
+      description: 'Environment dedicated to analytics and reporting.',
+      tools: ["Data Warehouses", "BI Tools", "Data Lakes"]
+    }
+  ],
+  monitoring: {
+    'Prometheus': {
+      icon: 'https://cdn.simpleicons.org/prometheus',
+      description: 'System monitoring and alerting toolkit.'
+    },
+    'Grafana': {
+      icon: 'https://cdn.simpleicons.org/grafana',
+      description: 'Visualization and analytics software.'
+    },
+    'ELK Stack': {
+      icon: 'https://cdn.simpleicons.org/elasticsearch',
+      description: 'Log management and analytics (Elasticsearch, Logstash, Kibana).'
+    },
+    'Splunk': {
+      icon: 'https://cdn.simpleicons.org/splunk',
+      description: 'Platform for operational intelligence.'
+    },
+    'New Relic': {
+      icon: 'https://cdn.simpleicons.org/newrelic',
+      description: 'Application performance monitoring.'
+    }
+  },
+  security: {
+    'HashiCorp Vault': {
+      icon: 'https://cdn.simpleicons.org/vault',
+      description: 'Secrets management and data protection.'
+    },
+    'Apache Ranger': {
+      icon: 'https://cdn.simpleicons.org/apache',
+      description: 'Framework to enable, monitor, and manage comprehensive data security.'
+    },
+    'AWS IAM': {
+      icon: 'https://cdn.simpleicons.org/amazonaws',
+      description: 'Access control and identity management.'
+    },
+    'Azure Active Directory': {
+      icon: 'https://cdn.simpleicons.org/microsoftazure',
+      description: 'Identity and access management service.'
+    },
+    'Encryption Tools': {
+      icon: 'https://cdn.simpleicons.org/gnupg',
+      description: 'Encrypt data at rest and in transit.'
+    }
+  },
+  compliance: {
+    'GDPR Compliance Tools': {
+      icon: 'https://cdn.simpleicons.org/gdpr',
+      description: 'Tools to ensure compliance with European data protection.'
+    },
+    'HIPAA Compliance Tools': {
+      icon: 'https://cdn.simpleicons.org/hipaa',
+      description: 'Tools to ensure compliance with healthcare data regulations.'
+    },
+    'Audit Logging': {
+      icon: 'https://cdn.simpleicons.org/scrollreveal',
+      description: 'Maintain logs for auditing and compliance.'
+    },
+    'Data Masking': {
+      icon: 'https://cdn.simpleicons.org/datamask',
+      description: 'Mask sensitive data in non-production environments.'
+    }
+  }
+}
 };
-
-

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { techUseCaseMapper } from '@/constants/techUseCaseMapper';
@@ -7,6 +7,7 @@ import { FiChevronDown, FiServer } from 'react-icons/fi';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { openAIService } from '@/services/openAIService.jsx';
+import { technologyService } from '@/services/technologyService';
 import AIResponse from '@/components/response/AIResponse';
 
 const TechnologyDetail = () => {
@@ -14,35 +15,52 @@ const TechnologyDetail = () => {
   const [activeTab, setActiveTab] = useState('architecture');
   const [expandedSections, setExpandedSections] = useState({});
   const [useCaseStates, setUseCaseStates] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [technology, setTechnology] = useState(null);
+  const [error, setError] = useState(null);
 
-  const techStackConfig = Object.values(aiMlTechStack).find(
-    tech => tech.id === techId
-  );
-  const useCaseConfig = techUseCaseMapper[techId];
-
-  const techConfig = {
-    ...techStackConfig,
-    ...useCaseConfig,
-    relatedUseCases: [
-      ...(useCaseConfig?.relatedUseCases || []),
-      ...(techStackConfig?.useCases?.map(useCase => ({
-        title: useCase.title,
-        solutionSlug: useCase.relatedSolution,
-        implementation: {
-          overview: useCase.description,
-          architecture: {
-            components: useCase.architecture.components,
-            flow: useCase.architecture.workflow || []
-          },
-          benefits: useCase.implementation.benefits,
-          metrics: useCase.implementation.metrics,
-          steps: useCase.implementation.steps
+  useEffect(() => {
+    const fetchUseCases = async () => {
+      try {
+        setLoading(true);
+        const data = await technologyService.getTechnologyBySlug(techId);
+        if (data) {
+          setTechnology(data);
+        } else {
+          setError('No use cases found for this technology');
         }
-      })) || [])
-    ]
-  };
+      } catch (error) {
+        console.error('Error fetching use cases:', error);
+        setError('Error loading use cases');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!techConfig) return null;
+    if (techId) {
+      fetchUseCases();
+    }
+  }, [techId]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+          <p className="text-red-500">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!technology) return null;
 
   const createWorkflowDiagram = (workflow) => {
     if (!workflow || workflow.length === 0) return { nodes: [], edges: [] };
@@ -53,7 +71,7 @@ const TechnologyDetail = () => {
         data: { 
           label: (
             <div className="bg-transparent p-4 rounded-lg text-sm text-n-3 border border-dashed border-n-6 min-w-[200px]">
-              {step}
+              {step.description}
             </div>
           )
         },
@@ -79,14 +97,6 @@ const TechnologyDetail = () => {
     };
   };
 
-  const mockOpenAIResponse = {
-    research: {
-      cancer: "Recent developments in cancer research include immunotherapy breakthroughs and early detection methods.",
-      ai: "Latest AI advancements include improved large language models and computer vision applications.",
-      climate: "Climate research shows increasing focus on carbon capture technologies and renewable energy solutions."
-    }
-  };
-
   const getUseCaseState = (index) => {
     if (!useCaseStates[index]) {
       setUseCaseStates(prev => ({
@@ -102,17 +112,10 @@ const TechnologyDetail = () => {
   };
 
   const runOpenAIDemo = async (index, model = 'gpt-4', sampleQuery) => {
-    console.log('runOpenAIDemo triggered');
-    console.log('index:', index);
-    console.log('sampleQuery:', sampleQuery);
-    
     const currentState = getUseCaseState(index);
     const queryToUse = sampleQuery || currentState.query;
     
     if (!queryToUse.trim()) return;
-
-    console.log('useCase:', techConfig.relatedUseCases[index]);
-    console.log('queryToUse:', queryToUse);
 
     setUseCaseStates(prev => ({
       ...prev,
@@ -120,12 +123,16 @@ const TechnologyDetail = () => {
     }));
 
     try {
-      const useCase = techConfig.relatedUseCases[index];
+      const useCase = technology.relatedUseCases[index];
+      console.log('Running demo with:', { useCase, queryToUse });
+      
       const response = await openAIService.generateResponse(
         useCase,
         queryToUse,
         {
-          category: techConfig.category
+          category: technology.category,
+          capabilities: useCase.implementation.capabilities,
+          architecture: useCase.implementation.architecture
         }
       );
       
@@ -142,7 +149,21 @@ const TechnologyDetail = () => {
         [index]: { 
           ...currentState, 
           loading: false, 
-          result: "Error processing your request. Please try again."
+          result: {
+            header: {
+              icon: "⚠️",
+              title: "Error Processing Request",
+              query: queryToUse
+            },
+            sections: [
+              {
+                icon: "❌",
+                title: "ERROR",
+                description: "An error occurred while processing your request.",
+                content: error.message
+              }
+            ]
+          }
         }
       }));
     }
@@ -162,21 +183,13 @@ const TechnologyDetail = () => {
     <motion.div className="container mx-auto px-4 py-8 space-y-12">
       {/* Header */}
       <div className="flex items-start gap-6">
-        <img 
-          src={techConfig.icon || techConfig.image} 
-          alt={techConfig.name} 
-          className="w-16 h-16" 
-        />
         <div>
-          <h1 className="text-3xl font-bold mb-2">{techConfig.name}</h1>
-          <p className="text-n-3 text-lg">{techConfig.description}</p>
+          <h1 className="text-3xl font-bold mb-2">{technology.name}</h1>
+          <p className="text-n-3 text-lg">{technology.description}</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-n-7 rounded-full text-sm text-n-1">
-              {techConfig.category}
-            </span>
-            {techConfig.primaryUses?.map((use, index) => (
+            {technology.technologies?.map((tech, index) => (
               <span key={index} className="px-3 py-1 bg-n-7 rounded-full text-sm text-n-1">
-                {use}
+                {tech.name}
               </span>
             ))}
           </div>
@@ -184,7 +197,7 @@ const TechnologyDetail = () => {
       </div>
 
       {/* Use Cases */}
-      {techConfig.relatedUseCases?.map((useCase, index) => (
+      {technology.relatedUseCases.map((useCase, index) => (
         <div key={index} className="bg-n-8 rounded-xl p-6 border border-n-6">
           <h2 className="text-2xl font-bold mb-6">{useCase.title}</h2>
           <p className="text-n-3 mb-6">{useCase.implementation.overview}</p>
@@ -233,7 +246,7 @@ const TechnologyDetail = () => {
 
                   {/* Components */}
                   <div className="grid md:grid-cols-2 gap-4">
-                    {useCase.implementation.architecture.components.map((component, idx) => (
+                    {useCase.implementation.architecture.components?.map((component, idx) => (
                       <motion.div
                         key={idx}
                         whileHover={{ scale: 1.02 }}
@@ -243,14 +256,14 @@ const TechnologyDetail = () => {
                           <FiServer className="mr-2" />
                           {component.name}
                         </h4>
-                        <p className="text-n-3 mb-2">{component.role}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {component.tech.map((tech, techIdx) => (
-                            <span key={techIdx} className="px-2 py-1 bg-n-6 rounded text-xs text-n-1">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
+                        <p className="text-n-3 mb-2">{component.role || component.description}</p>
+                          <div className="flex flex-wrap gap-2">
+                          {(component.tech || component.technologies || []).map((tech, techIdx) => (
+                              <span key={techIdx} className="px-2 py-1 bg-n-6 rounded text-xs text-n-1">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
                       </motion.div>
                     ))}
                   </div>
@@ -264,37 +277,29 @@ const TechnologyDetail = () => {
                     <p className="text-n-3">Select a sample query to run:</p>
                     
                     {/* Sample Queries Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {useCase.exampleQueries?.samples.map((sample, sampleIndex) => (
+                    <div className="grid grid-cols-1 gap-3">
+                      {useCase.implementation.queries?.map((sample, sampleIndex) => (
                         <button
                           key={sampleIndex}
                           onClick={() => {
                             console.log('Sample query clicked:', sample);
-                            setUseCaseStates(prev => ({
-                              ...prev,
-                              [index]: { ...getUseCaseState(index), query: sample }
-                            }));
                             runOpenAIDemo(index, 'gpt-4', sample);
                           }}
-                          className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200"
+                          className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200 w-full"
                         >
-                          <p className="text-n-1">{sample}</p>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-primary-1"></div>
+                            <p className="text-n-1">{sample}</p>
+                          </div>
                         </button>
                       ))}
                     </div>
-
-                    {/* Current Query Display */}
-                    {getUseCaseState(index).query && (
-                      <div className="bg-n-8 p-3 rounded-lg border border-n-6">
-                        <p className="text-sm text-n-3">Current Query:</p>
-                        <p className="text-n-1">{getUseCaseState(index).query}</p>
-                      </div>
-                    )}
 
                     {/* Loading State */}
                     {getUseCaseState(index).loading && (
                       <div className="flex items-center justify-center p-4">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+                        <p className="ml-3 text-n-3">Analyzing query...</p>
                       </div>
                     )}
 
@@ -324,7 +329,7 @@ const TechnologyDetail = () => {
               {activeTab === 'benefits' && (
                 <div className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
-                    {useCase.implementation.benefits.map((benefit, idx) => (
+                    {useCase.implementation.benefits?.map((benefit, idx) => (
                       <motion.div
                         key={idx}
                         whileHover={{ scale: 1.02 }}
@@ -345,14 +350,14 @@ const TechnologyDetail = () => {
       ))}
 
       {/* Deployment Options */}
-      {techConfig.deploymentOptions && (
+      {technology.deploymentOptions && (
         <div className="bg-n-8 rounded-xl p-6 border border-n-6">
           <h2 className="text-2xl font-bold mb-6">Deployment Options</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Cloud Platforms</h3>
               <div className="space-y-2">
-                {techConfig.deploymentOptions.cloud.map((platform, idx) => (
+                {technology.deploymentOptions.cloud.map((platform, idx) => (
                   <div key={idx} className="text-n-3">{platform}</div>
                 ))}
               </div>
@@ -360,7 +365,7 @@ const TechnologyDetail = () => {
             <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Containerization</h3>
               <div className="space-y-2">
-                {techConfig.deploymentOptions.containerization.map((container, idx) => (
+                {technology.deploymentOptions.containerization.map((container, idx) => (
                   <div key={idx} className="text-n-3">{container}</div>
                 ))}
               </div>
@@ -368,7 +373,7 @@ const TechnologyDetail = () => {
             <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Scaling</h3>
               <div className="space-y-2">
-                {techConfig.deploymentOptions.scaling.map((scale, idx) => (
+                {technology.deploymentOptions.scaling.map((scale, idx) => (
                   <div key={idx} className="text-n-3">{scale}</div>
                 ))}
               </div>
@@ -378,14 +383,14 @@ const TechnologyDetail = () => {
       )}
 
       {/* Integration Details */}
-      {techConfig.integrations && (
+      {technology.integrations && (
         <div className="bg-n-8 rounded-xl p-6 border border-n-6">
           <h2 className="text-2xl font-bold mb-6">Integrations</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Primary Integrations</h3>
               <div className="space-y-2">
-                {techConfig.integrations.primary.map((integration, idx) => (
+                {technology.integrations.primary.map((integration, idx) => (
                   <div key={idx} className="text-n-3">{integration}</div>
                 ))}
               </div>
@@ -393,58 +398,24 @@ const TechnologyDetail = () => {
             <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">APIs</h3>
               <div className="space-y-2">
-                {techConfig.integrations.apis.map((api, idx) => (
+                {technology.integrations.apis.map((api, idx) => (
                   <div key={idx} className="text-n-3">{api}</div>
                 ))}
               </div>
             </div>
-            <div className="bg-n-7 rounded-lg p-4">
+              <div className="bg-n-7 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Security Features</h3>
-              <div className="space-y-2">
-                {techConfig.integrations.security.map((feature, idx) => (
+                <div className="space-y-2">
+                {technology.integrations.security.map((feature, idx) => (
                   <div key={idx} className="text-n-3">{feature}</div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
           </div>
         </div>
       )}
     </motion.div>
   );
-};
-
-// Helper function to parse the response text into structured sections
-const parseResponse = (response) => {
-  const lines = response.split('\n');
-  const sections = {
-    title: lines[0],
-    query: lines[1],
-    content: []
-  };
-
-  let currentSection = null;
-
-  lines.forEach(line => {
-    if (line.startsWith('🤖') || line.startsWith('🔬') || line.startsWith('📊')) {
-      // New section starts
-      currentSection = {
-        type: 'process',
-        icon: line.charAt(0),
-        title: line.substring(1).trim(),
-        items: [],
-        fullWidth: line.includes('MAJOR DISCOVERIES')
-      };
-      sections.content.push(currentSection);
-    } else if (line.startsWith('•') && currentSection) {
-      // Add item to current section
-      currentSection.items.push(line.substring(1).trim());
-    } else if (line.includes('BREAKTHROUGH RESULT') && currentSection) {
-      currentSection.type = 'breakthrough';
-      currentSection.result = lines[lines.indexOf(line) + 1];
-    }
-  });
-
-  return sections;
 };
 
 export default TechnologyDetail;

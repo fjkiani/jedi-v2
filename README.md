@@ -129,7 +129,7 @@ This guide explains how to add new use cases to the application using Hygraph CM
 ### 5. Create Use Case
 1. Create new UseCase entry
 2. Fill in all fields:
-   ```json
+   <!-- ```json
    {
      "title": "AI-Powered Medical Diagnostics",
      "industry": [Link to Industry],
@@ -144,7 +144,7 @@ This guide explains how to add new use cases to the application using Hygraph CM
        "Clinical Processing"
      ],
      "architecture": [Link to Architecture]
-   }
+   } -->
    ```
 
 ### 6. Publish

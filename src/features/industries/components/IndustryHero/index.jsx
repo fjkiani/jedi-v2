@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Section from '@/components/Section';
 import { industryService } from '@/services/industryService';
-import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
 import { useCaseService } from '@/services/useCaseService';
 import { BreadcrumbNav } from './components/BreadcrumbNav';
 import { IndustryHeader } from './components/IndustryHeader';
@@ -18,6 +17,7 @@ import { TECH_TABS } from './constants';
 const IndustryHero = ({ industry, sections }) => {
   const [activeTab, setActiveTab] = useState(TECH_TABS.OVERVIEW.id);
   const [selectedSection, setSelectedSection] = useState(sections?.[0]?.id);
+  const [useCaseData, setUseCaseData] = useState(null);
   const [queries, setQueries] = useState([]);
   const [useCaseState, setUseCaseState] = useState({
     query: '',
@@ -26,17 +26,26 @@ const IndustryHero = ({ industry, sections }) => {
   });
 
   useEffect(() => {
-    const fetchQueries = async () => {
+    const fetchData = async () => {
       try {
-        const fetchedQueries = await useCaseService.getQueries(industry.id, selectedSection);
-        setQueries(fetchedQueries);
+        // Get use case data
+        const useCases = await useCaseService.getUseCasesBySection(industry.id, selectedSection);
+        console.log('Fetched use cases:', useCases);
+        if (useCases && useCases.length > 0) {
+          const useCase = useCases[0]; // Use the first use case for now
+          console.log('Setting use case data:', useCase);
+          setUseCaseData(useCase);
+          // Don't set queries separately, we'll use them directly from useCaseData
+          setQueries([]); // Clear any existing queries
+        }
       } catch (error) {
-        console.error('Error fetching queries:', error);
+        console.error('Error fetching use case data:', error);
       }
     };
 
     if (industry.id && selectedSection) {
-      fetchQueries();
+      console.log('Fetching data for:', industry.id, selectedSection);
+      fetchData();
     }
   }, [industry.id, selectedSection]);
 
@@ -77,22 +86,20 @@ const IndustryHero = ({ industry, sections }) => {
   };
 
   const renderTabContent = () => {
-    const useCaseData = getIndustryDiagram(industry.id, selectedSection);
-
     switch (activeTab) {
       case TECH_TABS.OVERVIEW.id:
         return (
           <OverviewTab 
             useCaseData={useCaseData}
-            queries={queries}
+            queries={useCaseData?.queries || []} // Use queries directly from useCaseData
             runIndustryDemo={runIndustryDemo}
             useCaseState={useCaseState}
           />
         );
       case TECH_TABS.ARCHITECTURE.id:
-        return <ArchitectureTab diagram={useCaseData} />;
+        return <ArchitectureTab diagram={useCaseData?.architecture} />;
       case TECH_TABS.DEPLOYMENT.id:
-        return <DeploymentTab diagram={useCaseData} />;
+        return <DeploymentTab diagram={useCaseData?.architecture} />;
       case TECH_TABS.METRICS.id:
         return <MetricsTab industryId={industry.id} section={selectedSection} />;
       default:

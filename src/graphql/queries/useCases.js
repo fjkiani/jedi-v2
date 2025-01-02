@@ -1,18 +1,22 @@
 import { gql } from 'graphql-request';
 
-export const GET_USE_CASES = `
+export const GET_USE_CASES = gql`
   query GetUseCases {
     useCaseS {
       id
       title
+      description
       industry {
         id
-        slug
         name
-        sections
+        slug
       }
-      section
-      description
+      technologies {
+        id
+        name
+        icon
+        description
+      }
       queries
       capabilities
       architecture {
@@ -20,7 +24,6 @@ export const GET_USE_CASES = `
         components {
           name
           description
-          technologies
           details
           explanation
         }
@@ -34,21 +37,33 @@ export const GET_USE_CASES = `
   }
 `;
 
-export const GET_USE_CASES_BY_INDUSTRY = `
+export const GET_USE_CASES_BY_INDUSTRY = gql`
   query GetUseCasesByIndustry($slug: String!) {
-    useCaseS(where: { industry: { slug: $slug } }) {
+    useCases(where: { industry: { slug: $slug } }) {
       id
       title
+      section
+      description
       industry {
         id
         slug
         name
         sections
       }
-      section
-      description
+      category {
+        name
+        slug
+      }
+      technologies {
+        id
+        name
+        icon
+        description
+      }
       queries
       capabilities
+      metrics
+      implementation
       architecture {
         description
         components {
@@ -68,7 +83,7 @@ export const GET_USE_CASES_BY_INDUSTRY = `
   }
 `;
 
-export const GET_INDUSTRIES = `
+export const GET_INDUSTRIES = gql`
   query GetIndustries {
     industries {
       id

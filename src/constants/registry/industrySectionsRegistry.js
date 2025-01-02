@@ -1,3 +1,5 @@
+import { useCaseService } from '@/services/useCaseService';
+
 // Base section types that can be reused across industries
 export const SECTION_TYPES = {
   FUNDAMENTALS: 'fundamentals',
@@ -68,10 +70,26 @@ export const INDUSTRY_SECTIONS = {
 
 // Helper functions
 export const getSectionsForIndustry = (industryId) => {
-  return INDUSTRY_SECTIONS[industryId] || [];
+  // Start with hardcoded sections as fallback
+  const defaultSections = INDUSTRY_SECTIONS[industryId] || [];
+  
+  // Return hardcoded sections for now
+  // Later we can enhance this to merge with Hygraph data
+  return defaultSections;
 };
 
 export const getSectionConfig = (industryId, sectionId) => {
   const sections = INDUSTRY_SECTIONS[industryId] || [];
   return sections.find(section => section.id === sectionId);
-}; 
+};
+
+// Future enhancement: merge with Hygraph data
+// export const getHygraphSections = async (industryId) => {
+//   try {
+//     const hygraphSections = await useCaseService.getIndustrySections(industryId);
+//     return hygraphSections;
+//   } catch (error) {
+//     console.error('Error fetching Hygraph sections:', error);
+//     return [];
+//   }
+// }; 
