@@ -1,45 +1,67 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from './Icon';
 
-const UseCaseCard = ({ useCase }) => {
+const UseCaseCard = ({ useCase, onQueryClick }) => {
   const {
-    id,
     title,
-    description,
+    queries,
     technologies,
-    architecture
   } = useCase;
 
   return (
-    <Link 
-      to={`/use-case/${id}`}
-      className="bg-n-7 rounded-xl p-6 hover:bg-n-6 transition-all"
-    >
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="h4 mb-2">{title}</h3>
-        <div className="flex gap-2">
-          {technologies?.slice(0, 1).map(tech => (
-            <img 
-              key={tech.id}
-              src={tech.icon}
-              alt={tech.name}
-              className="w-8 h-8"
-            />
+    <div className="bg-n-7 rounded-xl p-6 border border-n-6 hover:border-primary-1 transition-all h-full">
+      <h2 className="h4 mb-6 text-n-1">{title}</h2>
+      
+      <div className="mb-6">
+        <h3 className="text-n-1 font-semibold mb-3">Sample Queries</h3>
+        <ul className="space-y-2">
+          {queries?.slice(0, 2).map((query, index) => (
+            <li 
+              key={index} 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onQueryClick?.(query);
+              }}
+              className="flex items-start gap-3 cursor-pointer hover:opacity-80"
+            >
+              <Icon name="arrow-right" className="w-4 h-4 text-primary-1 mt-1 flex-shrink-0" />
+              <span className="text-n-3">{query}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3 className="text-n-1 font-semibold mb-3">Technologies</h3>
+        <div className="flex flex-wrap gap-2">
+          {technologies?.map((tech) => (
+            <span
+              key={tech.slug}
+              className="bg-n-6 text-n-1 px-3 py-1 rounded-full text-sm border border-n-5"
+            >
+              {tech.name}
+            </span>
           ))}
         </div>
       </div>
-      <p className="text-n-3">{description}</p>
-      <div className="flex flex-wrap gap-2 mt-4">
-        {technologies?.map(tech => (
-          <span 
-            key={tech.id} 
-            className="text-xs bg-n-6 rounded-full px-2 py-1"
-          >
-            {tech.name}
-          </span>
-        ))}
-      </div>
-    </Link>
+    </div>
   );
+};
+
+UseCaseCard.propTypes = {
+  useCase: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    queries: PropTypes.arrayOf(PropTypes.string),
+    technologies: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+      })
+    ),
+  }).isRequired,
+  onQueryClick: PropTypes.func,
 };
 
 export default UseCaseCard; 

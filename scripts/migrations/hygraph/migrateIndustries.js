@@ -1,8 +1,8 @@
-import { hygraph } from '../../../src/lib/hygraph';
+import { hygraphClient } from '../../../src/lib/hygraph.js';
 import { 
   GET_INDUSTRY_BY_TITLE,
   CREATE_INDUSTRY 
-} from '../../../src/graphql/queries/industries';
+} from '../../../src/graphql/queries/industries.js';
 
 const industries = [
   {
@@ -32,7 +32,7 @@ const migrateIndustries = async () => {
   for (const industry of industries) {
     try {
       // Check if industry already exists
-      const { existingIndustry } = await hygraph.request(GET_INDUSTRY_BY_TITLE, {
+      const { existingIndustry } = await hygraphClient.request(GET_INDUSTRY_BY_TITLE, {
         title: industry.title
       });
 
@@ -42,7 +42,7 @@ const migrateIndustries = async () => {
       }
 
       // Create new industry
-      const result = await hygraph.request(CREATE_INDUSTRY, industry);
+      const result = await hygraphClient.request(CREATE_INDUSTRY, industry);
       
       console.log(`Successfully migrated industry: ${industry.name}`);
     } catch (error) {

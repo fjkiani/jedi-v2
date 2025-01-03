@@ -92,4 +92,69 @@ export const GET_INDUSTRIES = gql`
       sections
     }
   }
+`;
+
+export const GET_AI_AGENT_USE_CASES = gql`
+  query GetAIAgentUseCases {
+    useCaseS(where: { category: "ai-agents" }) {
+      id
+      title
+      description
+      queries
+      capabilities
+      architecture {
+        description
+        components {
+          name
+          description
+          details
+          explanation
+        }
+        flow {
+          step
+          description
+          details
+        }
+      }
+      metrics
+      implementation
+      technologies {
+        name
+        slug
+        icon
+      }
+    }
+  }
+`;
+
+export const GET_USE_CASES_BY_CATEGORY = gql`
+  query GetUseCasesByCategory($category: String!) {
+    useCases(where: { category_contains: $category }) {
+      id
+      title
+      description
+      queries
+      capabilities
+      technologies {
+        name
+        slug
+        icon
+      }
+      architecture {
+        description
+        components {
+          name
+          description
+          details
+          explanation
+        }
+        flow {
+          step
+          description
+          details
+        }
+      }
+      implementation
+    }
+  }
 `; 

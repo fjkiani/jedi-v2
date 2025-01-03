@@ -1,13 +1,13 @@
-import { hygraph } from '../../../src/lib/hygraph';
-import { technologyRegistry, TECH_CATEGORIES } from '../../../src/constants/registry/technologyRegistry';
+import { hygraphClient } from '../../../src/lib/hygraph.js';
+import { technologyRegistry, TECH_CATEGORIES } from '../../../src/constants/registry/technologyRegistry.js';
 import { 
   GET_TECHNOLOGY_BY_SLUG, 
   CREATE_TECHNOLOGY 
-} from '../../../src/graphql/queries/technologies';
+} from '../../../src/graphql/queries/technologies.js';
 import {
   GET_INDUSTRY_BY_TITLE,
   CREATE_INDUSTRY_TECHNOLOGY_RELATION
-} from '../../../src/graphql/queries/industries';
+} from '../../../src/graphql/queries/industries.js';
 
 const formatTechnologyData = (tech) => {
   return {
@@ -39,7 +39,7 @@ const linkTechnologyToIndustry = async (techId, industries) => {
   for (const industryTitle of industries) {
     try {
       // Get industry by title
-      const { industry } = await hygraph.request(GET_INDUSTRY_BY_TITLE, {
+      const { industry } = await hygraphClient.request(GET_INDUSTRY_BY_TITLE, {
         title: industryTitle.toLowerCase()
       });
 
@@ -49,7 +49,7 @@ const linkTechnologyToIndustry = async (techId, industries) => {
       }
 
       // Create relation between industry and technology
-      await hygraph.request(CREATE_INDUSTRY_TECHNOLOGY_RELATION, {
+      await hygraphClient.request(CREATE_INDUSTRY_TECHNOLOGY_RELATION, {
         industryId: industry.id,
         technologyId: techId
       });
@@ -67,7 +67,7 @@ const migrateToHygraph = async () => {
   for (const [id, tech] of Object.entries(technologyRegistry)) {
     try {
       // Check if technology already exists
-      const { technology } = await hygraph.request(GET_TECHNOLOGY_BY_SLUG, {
+      const { technology } = await hygraphClient.request(GET_TECHNOLOGY_BY_SLUG, {
         slug: tech.slug
       });
 
@@ -80,7 +80,7 @@ const migrateToHygraph = async () => {
       const formattedTech = formatTechnologyData(tech);
 
       // Create new technology
-      const result = await hygraph.request(CREATE_TECHNOLOGY, formattedTech);
+      const result = await hygraphClient.request(CREATE_TECHNOLOGY, formattedTech);
       
       // Link technology to industries based on use cases
       const industries = tech.details.useCases.map(useCase => 

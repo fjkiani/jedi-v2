@@ -1,7 +1,8 @@
-import { hygraph } from '../src/lib/hygraph';
-import { migrateIndustries } from './migrations/hygraph/migrateIndustries';
-import { migrateTechnologies } from './migrations/hygraph/migrateTechnologies';
-import { migrateSolutions } from './migrations/hygraph/migrateSolutions';
+import { hygraphClient } from '../src/lib/hygraph.js';
+import { migrateIndustries } from './migrations/hygraph/migrateIndustries.js';
+import { migrateTechnologies } from './migrations/hygraph/migrateTechnologies.js';
+import { migrateSolutions } from './migrations/hygraph/migrateSolutions.js';
+import { migrateAIAgentUseCases } from './migrations/hygraph/migrateAIAgentUseCases.js';
 
 const migrateToHygraph = async () => {
   console.log('Starting migration to Hygraph...');
@@ -13,8 +14,11 @@ const migrateToHygraph = async () => {
     // Then migrate technologies
     await migrateTechnologies();
     
-    // Finally migrate solutions
+    // Then migrate solutions
     await migrateSolutions();
+    
+    // Finally migrate AI agent use cases
+    await migrateAIAgentUseCases();
     
     console.log('All migrations completed successfully!');
   } catch (error) {

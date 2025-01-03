@@ -47,4 +47,23 @@ export const CREATE_INDUSTRY = `
       title
     }
   }
+`;
+
+export const CREATE_INDUSTRY_TECHNOLOGY_RELATION = `
+  mutation CreateIndustryTechnologyRelation(
+    $industryId: ID!
+    $technologyId: ID!
+  ) {
+    updateIndustry(
+      where: { id: $industryId }
+      data: {
+        technologies: {
+          connect: [{ id: $technologyId }]
+        }
+      }
+    ) {
+      id
+      title
+    }
+  }
 `; 

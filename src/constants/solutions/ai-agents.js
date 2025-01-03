@@ -28,7 +28,7 @@ export const aiAgentsSolution = {
       "Contextual awareness and memory management."
     ],
     useCases: [
-      "Automated Research Assistant",
+      "AI-Powered Research Assistant for Academic and Scientific Research",
       "Customer Service Agent",
       "Data Analysis Agent",
       "DevOps Automation Agent",
