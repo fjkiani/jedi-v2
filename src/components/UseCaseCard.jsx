@@ -39,8 +39,15 @@ const UseCaseCard = ({ useCase, onQueryClick }) => {
           {technologies?.map((tech) => (
             <span
               key={tech.slug}
-              className="bg-n-6 text-n-1 px-3 py-1 rounded-full text-sm border border-n-5"
+              className="bg-n-6 text-n-1 px-3 py-1 rounded-full text-sm border border-n-5 flex items-center gap-2"
             >
+              {tech.icon && (
+                tech.icon.startsWith('http') ? (
+                  <img src={tech.icon} alt="" className="w-4 h-4" />
+                ) : (
+                  <Icon name={tech.icon} className="w-4 h-4 text-primary-1" />
+                )
+              )}
               {tech.name}
             </span>
           ))}
@@ -58,6 +65,7 @@ UseCaseCard.propTypes = {
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired,
+        icon: PropTypes.string,
       })
     ),
   }).isRequired,

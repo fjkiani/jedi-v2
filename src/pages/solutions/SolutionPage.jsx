@@ -19,11 +19,15 @@ import AIResponse from '@/components/response/AIResponse';
 import UseCaseCard from '@/components/UseCaseCard';
 
 const GET_USE_CASES = `
-  query GetUseCases {
-    useCaseS {
+  query GetUseCases($category: String!) {
+    useCaseS(where: { category: { slug: $category } }) {
       id
       title
       description
+      category {
+        name
+        slug
+      }
       queries
       capabilities
       architecture {
@@ -101,8 +105,8 @@ const SolutionPage = () => {
     const fetchUseCases = async () => {
       try {
         setLoading(true);
-        const { useCaseS } = await hygraphClient.request(GET_USE_CASES);
-        console.log('Hygraph response:', useCaseS);
+        const { useCaseS } = await hygraphClient.request(GET_USE_CASES, { category: slug });
+        console.log('Hygraph response for category:', slug, useCaseS);
         setUseCases(useCaseS || []);
       } catch (err) {
         console.error('Error fetching use cases:', err);
@@ -113,7 +117,7 @@ const SolutionPage = () => {
     };
 
     fetchUseCases();
-  }, []);
+  }, [slug]);
 
   const handleUseCaseClick = (useCase) => {
     console.log('Use case clicked:', useCase);
@@ -139,10 +143,16 @@ const SolutionPage = () => {
     }, 100);
   };
 
+  const handleTechClick = (tech) => {
+    console.log('Technology clicked:', tech);
+    navigate(`/technology/${tech.slug}`);
+  };
+
   if (!solution) {
     return (
       <Section className="text-center">
         <h2 className="h2">Solution not found</h2>
+        <p className="text-n-3 mt-4">The solution "{slug}" could not be found.</p>
         <Link to="/solutions" className="button button-gradient mt-4">
           Back to Solutions
         </Link>
@@ -167,30 +177,32 @@ const SolutionPage = () => {
       icon: 'layout',
       content: (
         <div className="space-y-10">
-          <div className="grid md:grid-cols-2 gap-10">
-            <div>
-              <h3 className="h4 mb-4">Business Value</h3>
-              <ul className="space-y-3">
-                {solution.businessValue.metrics.map((metric, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
-                    <span className="text-n-3">{metric}</span>
-                  </li>
-                ))}
-              </ul>
+          {solution.businessValue && (
+            <div className="grid md:grid-cols-2 gap-10">
+              <div>
+                <h3 className="h4 mb-4">Business Value</h3>
+                <ul className="space-y-3">
+                  {solution.businessValue.metrics?.map((metric, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
+                      <span className="text-n-3">{metric}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="h4 mb-4">Key Capabilities</h3>
+                <ul className="space-y-3">
+                  {solution.businessValue.capabilities?.map((capability, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
+                      <span className="text-n-3">{capability}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div>
-              <h3 className="h4 mb-4">Key Capabilities</h3>
-              <ul className="space-y-3">
-                {solution.businessValue.capabilities.map((capability, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Icon name="check" className="w-6 h-6 text-primary-1 mt-1" />
-                    <span className="text-n-3">{capability}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          )}
 
           <div>
             <h3 className="h4 mb-6">Common Use Cases</h3>
@@ -202,10 +214,7 @@ const SolutionPage = () => {
                   {useCases.map((useCase) => (
                     <div 
                       key={useCase.id}
-                      onClick={() => {
-                        console.log('Clicking use case:', useCase);
-                        handleUseCaseClick(useCase);
-                      }}
+                      onClick={() => handleUseCaseClick(useCase)}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
                     >
                       <UseCaseCard 
@@ -216,7 +225,6 @@ const SolutionPage = () => {
                   ))}
                 </div>
                 
-                {console.log('Selected use case:', selectedUseCase)}
                 {selectedUseCase && (
                   <div 
                     id="use-case-details" 
@@ -368,7 +376,21 @@ const SolutionPage = () => {
                           <h4 className="text-lg font-semibold mb-3">Technologies</h4>
                           <div className="flex flex-wrap gap-2">
                             {selectedUseCase.technologies.map((tech, idx) => (
-                              <span key={idx} className="px-3 py-1 bg-n-7 rounded-full text-sm text-n-1">
+                              <span 
+                                key={idx} 
+                                className="px-3 py-1 bg-n-7 rounded-full text-sm text-n-1 flex items-center gap-2 cursor-pointer hover:bg-n-6"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleTechClick(tech);
+                                }}
+                              >
+                                {tech.icon && (
+                                  tech.icon.startsWith('http') ? (
+                                    <img src={tech.icon} alt="" className="w-4 h-4" />
+                                  ) : (
+                                    <Icon name={tech.icon} className="w-4 h-4 text-primary-1" />
+                                  )
+                                )}
                                 {tech.name}
                               </span>
                             ))}
@@ -390,19 +412,21 @@ const SolutionPage = () => {
       id: 'architecture',
       label: 'Architecture',
       icon: 'layout-grid',
-      content: (
+      content: solution.architecture ? (
         <div>
-          <h3 className="h4 mb-4">{solution.architecture.title}</h3>
+          <h3 className="h4 mb-4">{solution.architecture.title || 'Architecture'}</h3>
           <p className="text-n-3 mb-8">{solution.architecture.description}</p>
           <ArchitectureDiagram domain={slug} />
         </div>
+      ) : (
+        <div className="text-center text-n-3">Architecture details not available</div>
       )
     },
     {
       id: 'tech-stack',
       label: 'Tech Stack',
       icon: 'code',
-      content: (
+      content: solution.techStack ? (
         <div className="space-y-10">
           {Object.entries(solution.techStack).map(([category, technologies]) => (
             <div key={category}>
@@ -413,7 +437,7 @@ const SolutionPage = () => {
                 {Object.entries(technologies).map(([name, tech]) => (
                   <div 
                     key={name}
-                    onClick={() => handleTechClick(name)}
+                    onClick={() => handleTechClick(tech)}
                     className="bg-n-7 rounded-xl p-6 border border-n-6 cursor-pointer 
                              transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
                   >
@@ -455,6 +479,8 @@ const SolutionPage = () => {
             </div>
           ))}
         </div>
+      ) : (
+        <div className="text-center text-n-3">Tech stack details not available</div>
       )
     }
   ];
