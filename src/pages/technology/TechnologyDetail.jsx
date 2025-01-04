@@ -10,7 +10,7 @@ import AIResponse from '@/components/response/AIResponse';
 import Section from '@/components/Section';
 
 const TechnologyDetail = () => {
-  const { slug, useCaseId } = useParams();
+  const { slug, useCaseSlug } = useParams();
   const [activeTab, setActiveTab] = useState('architecture');
   const [expandedSections, setExpandedSections] = useState({});
   const [useCaseState, setUseCaseState] = useState({
@@ -25,8 +25,10 @@ const TechnologyDetail = () => {
   useEffect(() => {
     const fetchUseCase = async () => {
       try {
+        console.log('Fetching use case with slug:', useCaseSlug);
         setLoading(true);
-        const data = await technologyService.getUseCaseById(useCaseId);
+        const data = await technologyService.getUseCaseBySlug(useCaseSlug);
+        console.log('Received use case data:', data);
         if (data) {
           setUseCase(data);
         } else {
@@ -40,10 +42,13 @@ const TechnologyDetail = () => {
       }
     };
 
-    if (useCaseId) {
+    if (useCaseSlug) {
+      console.log('useCaseSlug is present:', useCaseSlug);
       fetchUseCase();
+    } else {
+      console.log('No useCaseSlug provided');
     }
-  }, [useCaseId]);
+  }, [useCaseSlug]);
 
   if (loading) {
     return (

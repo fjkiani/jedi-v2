@@ -109,10 +109,10 @@ const TechnologyOverview = () => {
             <div>
               <h2 className="h3 mb-6">Use Cases</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {technology.relatedUseCases.map((useCase) => (
+                {technology.relatedUseCases?.map((useCase) => (
                   <Link
                     key={useCase.id}
-                    to={`/technology/${slug}/use-case/${useCase.id}`}
+                    to={`/technology/${slug}/use-case/${useCase.slug || useCase.id}`}
                     className="bg-n-7 rounded-xl p-6 border border-n-6 
                              transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
                   >

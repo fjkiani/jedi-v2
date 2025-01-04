@@ -196,7 +196,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 <Route path="/tech-stack" element={<TechStackGrid />} />
                 <Route path="/technology" element={<TechnologiesPage />} />
                 <Route path="/technology/:slug" element={<TechnologyOverview />} />
-                <Route path="/technology/:slug/use-case/:useCaseId" element={<TechnologyDetail />} />
+                <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
               </Routes>
             </AnimatePresence>
             

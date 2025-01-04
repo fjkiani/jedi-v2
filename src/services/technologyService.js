@@ -21,6 +21,7 @@ const GET_USE_CASES_BY_TECH = `
     useCaseS(where: { technologies_some: { slug: $slug } }) {
       id
       title
+      slug
       description
       queries
       capabilities
@@ -42,11 +43,12 @@ const GET_USE_CASES_BY_TECH = `
   }
 `;
 
-const GET_USE_CASE_BY_ID = `
-  query GetUseCaseById($id: ID!) {
-    useCase(where: { id: $id }) {
+const GET_USE_CASE_BY_SLUG = `
+  query GetUseCaseBySlug($slug: String!) {
+    useCaseS(where: { slug: $slug }) {
       id
       title
+      slug
       description
       queries
       capabilities
@@ -87,19 +89,24 @@ class TechnologyService {
 
       // Get related use cases
       const { useCaseS } = await hygraphClient.request(GET_USE_CASES_BY_TECH, { slug });
+      console.log('Use cases data:', useCaseS); // Debug log
       
       return {
         ...technology,
-        relatedUseCases: useCaseS.map(useCase => ({
-          id: useCase.id,
-          title: useCase.title,
-          implementation: {
-            overview: useCase.description,
-            architecture: useCase.architecture,
-            queries: useCase.queries,
-            capabilities: useCase.capabilities
-          }
-        }))
+        relatedUseCases: useCaseS.map(useCase => {
+          console.log('Mapping use case:', useCase); // Debug log for each use case
+          return {
+            id: useCase.id,
+            title: useCase.title,
+            slug: useCase.slug,
+            implementation: {
+              overview: useCase.description,
+              architecture: useCase.architecture,
+              queries: useCase.queries,
+              capabilities: useCase.capabilities
+            }
+          };
+        })
       };
     } catch (error) {
       console.error('Error fetching technology:', error);
@@ -107,17 +114,20 @@ class TechnologyService {
     }
   }
 
-  async getUseCaseById(id) {
+  async getUseCaseBySlug(slug) {
     try {
-      const { useCase } = await hygraphClient.request(GET_USE_CASE_BY_ID, { id });
+      const { useCaseS } = await hygraphClient.request(GET_USE_CASE_BY_SLUG, { slug });
+      console.log('Fetched use case by slug:', useCaseS); // Debug log
       
-      if (!useCase) {
+      if (!useCaseS || useCaseS.length === 0) {
         return null;
       }
 
+      const useCase = useCaseS[0];
       return {
         id: useCase.id,
         title: useCase.title,
+        slug: useCase.slug,
         implementation: {
           overview: useCase.description,
           architecture: useCase.architecture,
