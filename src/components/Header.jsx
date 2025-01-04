@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { useTheme } from "../context/ThemeContext";
@@ -6,8 +7,8 @@ import { navigation } from "../constants";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
-import { useState } from "react";
 import { Link } from 'react-router-dom';
+import { technologyService } from '@/services/technologyService';
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -42,13 +43,89 @@ const ThemeToggle = () => {
   );
 };
 
-const DropdownMenu = ({ items }) => {
+const DropdownMenu = ({ items, categories }) => {
+  // If this is the Technology dropdown and we have categories, use those instead
+  if (items[0]?.title === "AI Platforms" && categories?.length > 0) {
+    return (
+      <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[200px]">
+        {categories.map((category) => (
+          <div key={category.slug} className="relative group/nested">
+            <Link 
+              to={`/category/${category.slug}`}
+              className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+            >
+              {category.name}
+              {category.technologies?.length > 0 && (
+                <div className="absolute left-full top-0 hidden group-hover/nested:block">
+                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
+                    {category.technologies.map((tech) => (
+                      <div key={tech.slug} className="relative group/tech">
+                        <Link
+                          to={`/technology/${tech.slug}`}
+                          className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>{tech.name}</span>
+                            {tech.useCases?.length > 0 && (
+                              <svg 
+                                className="w-4 h-4 text-n-3" 
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                stroke="currentColor"
+                              >
+                                <path 
+                                  strokeLinecap="round" 
+                                  strokeLinejoin="round" 
+                                  strokeWidth={2} 
+                                  d="M9 5l7 7-7 7" 
+                                />
+                              </svg>
+                            )}
+                          </div>
+                        </Link>
+                        {tech.useCases?.length > 0 && (
+                          <div className="absolute left-full top-0 hidden group-hover/tech:block">
+                            <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[280px]">
+                              <div className="px-4 py-2 border-b border-n-6">
+                                <h4 className="text-sm font-medium text-n-1">Use Cases</h4>
+                              </div>
+                              {tech.useCases.map((useCase) => (
+                                <Link
+                                  key={useCase.id}
+                                  to={`/technology/${tech.slug}/use-case/${useCase.slug}`}
+                                  className="block px-4 py-2 hover:bg-n-7/50"
+                                >
+                                  <div className="text-n-1/70 hover:text-n-1">
+                                    <span className="block font-medium">{useCase.title}</span>
+                                    {useCase.industry && (
+                                      <span className="block text-xs text-n-3 mt-0.5">
+                                        {useCase.industry.name}
+                                      </span>
+                                    )}
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </Link>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Default dropdown menu for other items
   return (
     <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[200px]">
       {items.map((item, index) => (
         <div key={index}>
           {item.items ? (
-            // Nested dropdown for categories like Technology
             <div className="relative group/nested">
               <Link 
                 to={item.url} 
@@ -71,7 +148,6 @@ const DropdownMenu = ({ items }) => {
               </Link>
             </div>
           ) : item.useCases ? (
-            // Industry dropdown with use cases
             <div className="relative group/nested">
               <Link 
                 to={item.url} 
@@ -94,7 +170,6 @@ const DropdownMenu = ({ items }) => {
               </Link>
             </div>
           ) : (
-            // Regular dropdown item
             <Link 
               to={item.url} 
               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
@@ -114,7 +189,21 @@ const DropdownMenu = ({ items }) => {
 const Header = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const [categories, setCategories] = useState([]);
   const { isDarkMode } = useTheme();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await technologyService.getAllCategories();
+        setCategories(data || []);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -155,7 +244,12 @@ const Header = () => {
                 >
                   {item.title}
                 </Link>
-                {item.dropdownItems && <DropdownMenu items={item.dropdownItems} />}
+                {item.dropdownItems && (
+                  <DropdownMenu 
+                    items={item.dropdownItems} 
+                    categories={item.title === "Technology" ? categories : null}
+                  />
+                )}
               </div>
             ))}
           </div>

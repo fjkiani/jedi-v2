@@ -1,5 +1,35 @@
 import { hygraphClient } from '@/lib/hygraph';
 
+const GET_ALL_CATEGORIES = `
+  query GetAllCategories {
+    categories {
+      id
+      name
+      slug
+      description
+      technologies {
+        id
+        name
+        slug
+        icon
+        description
+      }
+      technologySubcategory {
+        id
+        name
+        slug
+        technology {
+          id
+          name
+          slug
+          icon
+          description
+        }
+      }
+    }
+  }
+`;
+
 const GET_TECHNOLOGY_BY_SLUG = `
   query GetTechnologyBySlug($slug: String!) {
     technologyS(where: { slug: $slug }) {
@@ -21,7 +51,6 @@ const GET_USE_CASES_BY_TECH = `
     useCaseS(where: { technologies_some: { slug: $slug } }) {
       id
       title
-      slug
       description
       queries
       capabilities
@@ -43,12 +72,11 @@ const GET_USE_CASES_BY_TECH = `
   }
 `;
 
-const GET_USE_CASE_BY_SLUG = `
-  query GetUseCaseBySlug($slug: String!) {
-    useCaseS(where: { slug: $slug }) {
+const GET_USE_CASE_BY_ID = `
+  query GetUseCaseById($id: ID!) {
+    useCase(where: { id: $id }) {
       id
       title
-      slug
       description
       queries
       capabilities
@@ -77,6 +105,28 @@ const GET_USE_CASE_BY_SLUG = `
 `;
 
 class TechnologyService {
+  async getAllCategories() {
+    try {
+      console.log('Sending query:', GET_ALL_CATEGORIES);
+      const response = await hygraphClient.request(GET_ALL_CATEGORIES);
+      console.log('Raw response:', response);
+      
+      if (!response || !response.categories) {
+        console.warn('No categories found in response:', response);
+        return [];
+      }
+      
+      return response.categories;
+    } catch (error) {
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response,
+        request: error.request
+      });
+      throw error;
+    }
+  }
+
   async getTechnologyBySlug(slug) {
     try {
       // Get technology details
@@ -89,24 +139,19 @@ class TechnologyService {
 
       // Get related use cases
       const { useCaseS } = await hygraphClient.request(GET_USE_CASES_BY_TECH, { slug });
-      console.log('Use cases data:', useCaseS); // Debug log
       
       return {
         ...technology,
-        relatedUseCases: useCaseS.map(useCase => {
-          console.log('Mapping use case:', useCase); // Debug log for each use case
-          return {
-            id: useCase.id,
-            title: useCase.title,
-            slug: useCase.slug,
-            implementation: {
-              overview: useCase.description,
-              architecture: useCase.architecture,
-              queries: useCase.queries,
-              capabilities: useCase.capabilities
-            }
-          };
-        })
+        relatedUseCases: useCaseS.map(useCase => ({
+          id: useCase.id,
+          title: useCase.title,
+          implementation: {
+            overview: useCase.description,
+            architecture: useCase.architecture,
+            queries: useCase.queries,
+            capabilities: useCase.capabilities
+          }
+        }))
       };
     } catch (error) {
       console.error('Error fetching technology:', error);
@@ -114,20 +159,17 @@ class TechnologyService {
     }
   }
 
-  async getUseCaseBySlug(slug) {
+  async getUseCaseById(id) {
     try {
-      const { useCaseS } = await hygraphClient.request(GET_USE_CASE_BY_SLUG, { slug });
-      console.log('Fetched use case by slug:', useCaseS); // Debug log
+      const { useCase } = await hygraphClient.request(GET_USE_CASE_BY_ID, { id });
       
-      if (!useCaseS || useCaseS.length === 0) {
+      if (!useCase) {
         return null;
       }
 
-      const useCase = useCaseS[0];
       return {
         id: useCase.id,
         title: useCase.title,
-        slug: useCase.slug,
         implementation: {
           overview: useCase.description,
           architecture: useCase.architecture,

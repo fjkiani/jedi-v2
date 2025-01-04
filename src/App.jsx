@@ -37,6 +37,7 @@ import TechDetail from './components/TechStack/TechDetail';
 import TechnologyDetail from './pages/technology/TechnologyDetail';
 import TechnologyOverview from './pages/technology/TechnologyOverview';
 import TechnologiesPage from './pages/technology/TechnologiesPage';
+import TechnologyStack from './pages/technology/TechnologyStack';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -194,7 +195,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 <Route path="/tech-test" element={<TechStackTest />} />
                 <Route path="/tech/:techId" element={<TechDetails />} />
                 <Route path="/tech-stack" element={<TechStackGrid />} />
-                <Route path="/technology" element={<TechnologiesPage />} />
+                <Route path="/technology" element={<TechnologyStack />} />
                 <Route path="/technology/:slug" element={<TechnologyOverview />} />
                 <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
               </Routes>

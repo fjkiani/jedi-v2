@@ -11,25 +11,26 @@ const TechnologyOverview = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTechnology = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await technologyService.getTechnologyBySlug(slug);
-        if (data) {
-          setTechnology(data);
+        const techData = await technologyService.getTechnologyBySlug(slug);
+
+        if (techData) {
+          setTechnology(techData);
         } else {
           setError('Technology not found');
         }
       } catch (error) {
-        console.error('Error fetching technology:', error);
-        setError('Error loading technology details');
+        console.error('Error fetching data:', error);
+        setError('Error loading details');
       } finally {
         setLoading(false);
       }
     };
 
     if (slug) {
-      fetchTechnology();
+      fetchData();
     }
   }, [slug]);
 
@@ -64,6 +65,7 @@ const TechnologyOverview = () => {
   return (
     <Section className="overflow-hidden">
       <div className="container">
+        {/* Breadcrumb Navigation */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,49 +77,71 @@ const TechnologyOverview = () => {
         </motion.div>
 
         <div className="space-y-12">
-          {/* Technology Overview */}
-          <div className="flex items-start gap-6">
-            <div>
-              <div className="flex items-center gap-4 mb-4">
-                {technology.icon && (
-                  <img 
-                    src={technology.icon}
-                    alt={technology.name}
-                    className="w-12 h-12 object-contain"
-                  />
-                )}
-                <h1 className="h1">{technology.name}</h1>
-              </div>
-              <p className="text-n-3 text-lg mb-6">{technology.description}</p>
-              {technology.category && technology.category.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {technology.category.map((cat) => (
-                    <span 
-                      key={cat.id}
-                      className="px-3 py-1 bg-n-6 rounded-full text-sm text-n-1"
-                    >
-                      {cat.name}
-                    </span>
-                  ))}
-                </div>
+          {/* Technology Header */}
+          <div>
+            <div className="flex items-center gap-4 mb-4">
+              {technology.icon && (
+                <img 
+                  src={technology.icon}
+                  alt={technology.name}
+                  className="w-12 h-12 object-contain"
+                />
               )}
+              <h1 className="h1">{technology.name}</h1>
             </div>
+            <p className="text-n-3 text-lg mb-6">{technology.description}</p>
+            
+            {/* Categories */}
+            {technology.categories && technology.categories.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {technology.categories.map((category) => (
+                  <Link 
+                    key={category.slug}
+                    to={`/category/${category.slug}`}
+                    className="px-4 py-1 bg-n-6 rounded-full text-n-1 hover:bg-n-5"
+                  >
+                    {category.name}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Use Cases List */}
-          {technology.relatedUseCases && technology.relatedUseCases.length > 0 && (
+          {/* Use Cases */}
+          {technology.useCases && technology.useCases.length > 0 && (
             <div>
-              <h2 className="h3 mb-6">Use Cases</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {technology.relatedUseCases?.map((useCase) => (
+              <h2 className="text-4xl font-bold mb-8">Use Cases</h2>
+              <div className="space-y-6">
+                {technology.useCases.map((useCase) => (
                   <Link
-                    key={useCase.id}
-                    to={`/technology/${slug}/use-case/${useCase.slug || useCase.id}`}
-                    className="bg-n-7 rounded-xl p-6 border border-n-6 
-                             transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
+                    key={useCase.title}
+                    to={`/technology/${slug}/use-case/${useCase.slug || useCase.title.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="block"
                   >
-                    <h3 className="h4 mb-4">{useCase.title}</h3>
-                    <p className="text-n-3 line-clamp-3">{useCase.implementation.overview}</p>
+                    <div className="bg-n-7 rounded-[20px] p-8 hover:bg-n-6 transition-colors">
+                      <h3 className="text-2xl font-bold mb-6">{useCase.title}</h3>
+                      {useCase.industry && (
+                        <div className="mb-6">
+                          <p className="text-n-3 mb-2">Industry:</p>
+                          <p className="text-n-1">{useCase.industry.name}</p>
+                        </div>
+                      )}
+                      {useCase.capabilities && useCase.capabilities.length > 0 && (
+                        <div>
+                          <p className="text-n-3 mb-3">Capabilities:</p>
+                          <ul className="space-y-3">
+                            {useCase.capabilities.map((capability, index) => (
+                              <li 
+                                key={index}
+                                className="text-n-1"
+                              >
+                                {capability}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </Link>
                 ))}
               </div>
