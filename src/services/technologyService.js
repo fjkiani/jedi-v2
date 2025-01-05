@@ -2,7 +2,7 @@ import { hygraphClient } from '@/lib/hygraph';
 
 const GET_ALL_CATEGORIES = `
   query GetAllCategories {
-    categories(first: 100) {
+    categories {
       id
       name
       slug
@@ -129,26 +129,12 @@ class TechnologyService {
     try {
       console.log('Sending query:', GET_ALL_CATEGORIES);
       const response = await hygraphClient.request(GET_ALL_CATEGORIES);
-      console.log('Raw response:', JSON.stringify(response, null, 2));
+      console.log('Raw response:', response);
       
       if (!response || !response.categories) {
         console.warn('No categories found in response:', response);
         return [];
       }
-      
-      // Log each category in detail
-      response.categories.forEach(category => {
-        console.log('Category details:', {
-          id: category.id,
-          name: category.name,
-          slug: category.slug,
-          description: category.description,
-          technologiesCount: category.technologies?.length || 0,
-          subcategoriesCount: category.technologySubcategory?.length || 0,
-          technologies: category.technologies?.map(t => ({ name: t.name, slug: t.slug })) || [],
-          subcategories: category.technologySubcategory?.map(s => ({ name: s.name, slug: s.slug })) || []
-        });
-      });
       
       return response.categories;
     } catch (error) {
@@ -214,6 +200,16 @@ class TechnologyService {
       };
     } catch (error) {
       console.error('Error fetching use case:', error);
+      throw error;
+    }
+  }
+
+  async getUseCaseBySlug(useCaseId) {
+    try {
+      // Since we're actually passing an ID, let's use the getUseCaseById function
+      return this.getUseCaseById(useCaseId);
+    } catch (error) {
+      console.error('Error fetching use case by id:', error);
       throw error;
     }
   }
