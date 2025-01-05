@@ -2,7 +2,7 @@ import { hygraphClient } from '@/lib/hygraph';
 
 const GET_ALL_CATEGORIES = `
   query GetAllCategories {
-    categories {
+    categories(first: 100) {
       id
       name
       slug
@@ -13,6 +13,16 @@ const GET_ALL_CATEGORIES = `
         slug
         icon
         description
+        features
+        businessMetrics
+        useCases {
+          id
+          title
+          slug
+          industry {
+            name
+          }
+        }
       }
       technologySubcategory {
         id
@@ -24,6 +34,16 @@ const GET_ALL_CATEGORIES = `
           slug
           icon
           description
+          features
+          businessMetrics
+          useCases {
+            id
+            title
+            slug
+            industry {
+              name
+            }
+          }
         }
       }
     }
@@ -109,12 +129,26 @@ class TechnologyService {
     try {
       console.log('Sending query:', GET_ALL_CATEGORIES);
       const response = await hygraphClient.request(GET_ALL_CATEGORIES);
-      console.log('Raw response:', response);
+      console.log('Raw response:', JSON.stringify(response, null, 2));
       
       if (!response || !response.categories) {
         console.warn('No categories found in response:', response);
         return [];
       }
+      
+      // Log each category in detail
+      response.categories.forEach(category => {
+        console.log('Category details:', {
+          id: category.id,
+          name: category.name,
+          slug: category.slug,
+          description: category.description,
+          technologiesCount: category.technologies?.length || 0,
+          subcategoriesCount: category.technologySubcategory?.length || 0,
+          technologies: category.technologies?.map(t => ({ name: t.name, slug: t.slug })) || [],
+          subcategories: category.technologySubcategory?.map(s => ({ name: s.name, slug: s.slug })) || []
+        });
+      });
       
       return response.categories;
     } catch (error) {
