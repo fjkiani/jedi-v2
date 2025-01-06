@@ -34,7 +34,22 @@ const TechnologyResponse = ({ response }) => {
                   <>
                     {item.name && (
                       <div className="flex items-center gap-2 mb-2">
-                        {item.icon && <span className="text-xl">{item.icon}</span>}
+                        {item.icon && (
+                          typeof item.icon === 'string' ? (
+                            <div className="w-6 h-6 flex items-center justify-center">
+                              <img 
+                                src={item.icon}
+                                alt={item.name} 
+                                className="w-6 h-6"
+                                onError={(e) => {
+                                  e.target.src = 'https://cdn.simpleicons.org/dotenv';
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <span className="text-xl">{item.icon}</span>
+                          )
+                        )}
                         <div className="font-medium text-white">{item.name}</div>
                       </div>
                     )}

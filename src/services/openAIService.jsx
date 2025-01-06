@@ -194,15 +194,6 @@ const getMockResponse = function(useCase, query) {
               description: cap?.description || "",
               details: ensureArray(cap?.details)
             }))
-          },
-          {
-            title: "Technical Details",
-            content: ensureArray(useCase?.technologies).map(tech => ({
-              name: tech?.name || "",
-              description: tech?.description || "",
-              icon: tech?.icon || "",
-              details: tech?.stack ? [`Technologies: ${tech.stack.join(', ')}`] : []
-            }))
           }
         ]
       }

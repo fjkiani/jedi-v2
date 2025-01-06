@@ -17,6 +17,7 @@ import {
 import { hygraphClient } from '@/lib/hygraph';
 import AIResponse from '@/components/response/AIResponse';
 import UseCaseCard from '@/components/UseCaseCard';
+import { openAIService } from '@/services/openAIService';
 
 const GET_USE_CASES = `
   query GetUseCases($category: String!) {
@@ -103,6 +104,7 @@ const SolutionPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedUseCase, setSelectedUseCase] = useState(null);
+  const [response, setResponse] = useState(null);
 
   useEffect(() => {
     const fetchUseCases = async () => {
@@ -136,14 +138,45 @@ const SolutionPage = () => {
     }, 100);
   };
 
-  const handleQueryClick = (query) => {
+  const handleQueryClick = async (query) => {
     console.log('Query clicked:', query);
     
+    if (!selectedUseCase) {
+      console.warn('No use case selected');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Transform the use case data to match the expected format
+      const formattedUseCase = {
+        title: selectedUseCase.title,
+        implementation: {
+          overview: selectedUseCase.description,
+          architecture: selectedUseCase.architecture,
+          queries: selectedUseCase.queries,
+          capabilities: selectedUseCase.capabilities,
+          metrics: selectedUseCase.metrics
+        },
+        technologies: selectedUseCase.technologies
+      };
+
+      console.log('Sending formatted use case:', formattedUseCase);
+      const response = await openAIService.generateResponse(formattedUseCase, query);
+      console.log('OpenAI response:', response);
+      setResponse(response);
+    } catch (error) {
+      console.error('Error generating response:', error);
+      setError('Failed to generate response');
+    } finally {
+      setLoading(false);
+    }
+    
+    // Scroll to response section
     setTimeout(() => {
-      const element = document.getElementById('queries-section');
-      if (element) {
-        console.log('Found queries section, scrolling...');
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const responseSection = document.getElementById('response-section');
+      if (responseSection) {
+        responseSection.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
   };
@@ -281,66 +314,40 @@ const SolutionPage = () => {
                         <div>
                           <h4 className="text-lg font-semibold mb-3">Implementation</h4>
                           <div className="space-y-4">
-                            {typeof selectedUseCase.implementation === 'string' ? (
-                              <div className="bg-n-7 rounded-lg p-4">
-                                <p className="text-n-3 whitespace-pre-wrap">{selectedUseCase.implementation}</p>
+                            {/* Overview */}
+                            <div className="bg-n-7 rounded-lg p-4">
+                              <h5 className="font-medium mb-2">Overview</h5>
+                              <p className="text-n-3">{selectedUseCase.description}</p>
+                            </div>
+
+                            {/* Sample Queries */}
+                            <div id="queries-section">
+                              <h5 className="font-medium mb-2">Sample Queries</h5>
+                              <div className="grid gap-3">
+                                {selectedUseCase.queries?.map((query, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() => handleQueryClick(query)}
+                                    className="w-full text-left bg-n-7 rounded-lg p-4 hover:bg-n-6 transition-colors duration-200"
+                                  >
+                                    <p className="text-n-3">{query}</p>
+                                  </button>
+                                ))}
                               </div>
-                            ) : (
-                              <>
-                                {/* Requirements */}
-                                {selectedUseCase.implementation.requirements && (
-                                  <div className="bg-n-7 rounded-lg p-4">
-                                    <h5 className="font-medium mb-2">Requirements</h5>
-                                    <div className="text-n-3">
-                                      {Array.isArray(selectedUseCase.implementation.requirements) ? (
-                                        <ul className="list-disc list-inside space-y-2">
-                                          {selectedUseCase.implementation.requirements.map((req, idx) => (
-                                            <li key={idx}>{req}</li>
-                                          ))}
-                                        </ul>
-                                      ) : (
-                                        <p>{selectedUseCase.implementation.requirements}</p>
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
+                            </div>
 
-                                {/* Success Metrics */}
-                                {selectedUseCase.implementation.success_metrics && (
-                                  <div className="bg-n-7 rounded-lg p-4">
-                                    <h5 className="font-medium mb-2">Success Metrics</h5>
-                                    <div className="text-n-3">
-                                      {Array.isArray(selectedUseCase.implementation.success_metrics) ? (
-                                        <ul className="list-disc list-inside space-y-2">
-                                          {selectedUseCase.implementation.success_metrics.map((metric, idx) => (
-                                            <li key={idx}>{metric}</li>
-                                          ))}
-                                        </ul>
-                                      ) : (
-                                        <p>{selectedUseCase.implementation.success_metrics}</p>
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
+                            {/* Loading State */}
+                            {loading && (
+                              <div className="mt-4 text-center text-n-3">
+                                <p>Processing query...</p>
+                              </div>
+                            )}
 
-                                {/* Integration Points */}
-                                {selectedUseCase.implementation.integration_points && (
-                                  <div className="bg-n-7 rounded-lg p-4">
-                                    <h5 className="font-medium mb-2">Integration Points</h5>
-                                    <div className="text-n-3">
-                                      {Array.isArray(selectedUseCase.implementation.integration_points) ? (
-                                        <ul className="list-disc list-inside space-y-2">
-                                          {selectedUseCase.implementation.integration_points.map((point, idx) => (
-                                            <li key={idx}>{point}</li>
-                                          ))}
-                                        </ul>
-                                      ) : (
-                                        <p>{selectedUseCase.implementation.integration_points}</p>
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
-                              </>
+                            {/* AI Response */}
+                            {response && (
+                              <div id="response-section" className="mt-6">
+                                <AIResponse response={response} />
+                              </div>
                             )}
                           </div>
                         </div>
@@ -361,43 +368,39 @@ const SolutionPage = () => {
                         </div>
                       )}
 
-                      {/* Sample Queries */}
-                      {selectedUseCase.queries && selectedUseCase.queries.length > 0 && (
-                        <div id="queries-section">
-                          <h4 className="text-lg font-semibold mb-3">Sample Queries</h4>
-                          <div className="grid gap-3">
-                            {selectedUseCase.queries.map((query, idx) => (
-                              <div key={idx} className="bg-n-7 rounded-lg p-4">
-                                <p className="text-n-3">{query}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
                       {/* Technologies */}
                       {selectedUseCase.technologies && selectedUseCase.technologies.length > 0 && (
                         <div>
-                          <h4 className="text-lg font-semibold mb-3">Technologies</h4>
-                          <div className="flex flex-wrap gap-2">
+                          <h4 className="text-lg font-semibold mb-3">Core Technologies</h4>
+                          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {selectedUseCase.technologies.map((tech, idx) => (
-                              <span 
+                              <div 
                                 key={idx} 
-                                className="px-3 py-1 bg-n-7 rounded-full text-sm text-n-1 flex items-center gap-2 cursor-pointer hover:bg-n-6"
+                                className="bg-n-7 rounded-xl p-4 border border-n-6 cursor-pointer hover:border-primary-1 transition-all duration-300"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleTechClick(tech);
                                 }}
                               >
-                                {tech.icon && (
-                                  tech.icon.startsWith('http') ? (
-                                    <img src={tech.icon} alt="" className="w-4 h-4" />
-                                  ) : (
-                                    <Icon name={tech.icon} className="w-4 h-4 text-primary-1" />
-                                  )
+                                <div className="flex items-center gap-3 mb-2">
+                                  {tech.icon && (
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                      <img 
+                                        src={typeof tech.icon === 'string' ? tech.icon : tech.icon.url} 
+                                        alt={tech.name} 
+                                        className="w-8 h-8"
+                                        onError={(e) => {
+                                          e.target.src = 'https://cdn.simpleicons.org/dotenv';
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                  <h5 className="font-semibold text-white">{tech.name}</h5>
+                                </div>
+                                {tech.description && (
+                                  <p className="text-n-3 text-sm">{tech.description}</p>
                                 )}
-                                {tech.name}
-                              </span>
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -447,34 +450,39 @@ const SolutionPage = () => {
                              transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-4 mb-4">
-                      <img 
-                        src={tech.icon} 
-                        alt={name}
-                        className="w-8 h-8"
-                      />
+                      {tech.icon && (
+                        <div className="w-8 h-8 flex items-center justify-center">
+                          <img 
+                            src={typeof tech.icon === 'string' ? tech.icon : tech.icon.url} 
+                            alt={name}
+                            className="w-8 h-8"
+                            onError={(e) => {
+                              e.target.src = 'https://cdn.simpleicons.org/dotenv';
+                            }}
+                          />
+                        </div>
+                      )}
                       <h4 className="font-semibold text-white">{name}</h4>
                     </div>
                     <p className="text-n-3 mb-4">{tech.description}</p>
                     
                     <div className="flex items-center gap-2 text-sm text-primary-1">
-                      <span>View Implementation Details</span>
+                      <span>View Details</span>
                       <Icon name="arrow-right" className="w-4 h-4" />
                     </div>
 
-                    {tech.useCases && (
+                    {tech.useCases && tech.useCases.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-n-6">
                         <h5 className="text-sm font-medium text-n-3 mb-2">
                           Related Use Cases:
                         </h5>
                         <ul className="text-sm text-n-4">
-                          {solution.businessValue.useCases
-                            .filter(useCase => tech.useCases.includes(useCase))
-                            .map((useCase, index) => (
-                              <li key={index} className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary-1"></span>
-                                {useCase}
-                              </li>
-                            ))}
+                          {tech.useCases.map((useCase, index) => (
+                            <li key={index} className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary-1"></span>
+                              {useCase}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     )}
