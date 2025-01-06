@@ -20,7 +20,10 @@ import UseCaseCard from '@/components/UseCaseCard';
 
 const GET_USE_CASES = `
   query GetUseCases($category: String!) {
-    useCaseS(where: { category: { slug: $category } }) {
+    useCaseS(where: { OR: [
+      { category: { slug_contains: $category } },
+      { category: { name_contains: $category } }
+    ]}) {
       id
       title
       description
@@ -105,8 +108,10 @@ const SolutionPage = () => {
     const fetchUseCases = async () => {
       try {
         setLoading(true);
-        const { useCaseS } = await hygraphClient.request(GET_USE_CASES, { category: slug });
-        console.log('Hygraph response for category:', slug, useCaseS);
+        const categorySlug = slug.replace('-solutions', '');
+        console.log('Fetching use cases for category:', categorySlug);
+        const { useCaseS } = await hygraphClient.request(GET_USE_CASES, { category: categorySlug });
+        console.log('Hygraph response:', useCaseS);
         setUseCases(useCaseS || []);
       } catch (err) {
         console.error('Error fetching use cases:', err);

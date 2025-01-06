@@ -124,6 +124,38 @@ const GET_USE_CASE_BY_ID = `
   }
 `;
 
+const GET_USE_CASE_BY_SLUG = `
+  query GetUseCaseBySlug($title: String!) {
+    useCaseS(where: { title_contains: $title }) {
+      id
+      title
+      description
+      queries
+      capabilities
+      architecture {
+        description
+        components {
+          name
+          description
+          details
+          explanation
+        }
+        flow {
+          step
+          description
+          details
+        }
+      }
+      technologies {
+        id
+        name
+        slug
+        icon
+      }
+    }
+  }
+`;
+
 class TechnologyService {
   async getAllCategories() {
     try {
@@ -204,12 +236,59 @@ class TechnologyService {
     }
   }
 
-  async getUseCaseBySlug(useCaseId) {
+  async getUseCaseBySlug(slug) {
     try {
-      // Since we're actually passing an ID, let's use the getUseCaseById function
-      return this.getUseCaseById(useCaseId);
+      // Convert slug back to a searchable title and clean it up
+      const searchTitle = slug
+        .split('-')
+        .filter(word => word.length > 0)
+        .join(' ');
+      
+      console.log('Searching for use case with title containing:', searchTitle);
+      
+      // Try exact match first
+      let { useCaseS } = await hygraphClient.request(GET_USE_CASE_BY_SLUG, { title: searchTitle });
+      
+      // If no results, try with individual words
+      if (!useCaseS?.length) {
+        const words = searchTitle.split(' ');
+        for (const word of words) {
+          if (word.length < 3) continue; // Skip very short words
+          const result = await hygraphClient.request(GET_USE_CASE_BY_SLUG, { title: word });
+          if (result.useCaseS?.length) {
+            useCaseS = result.useCaseS;
+            break;
+          }
+        }
+      }
+      
+      console.log('Found use cases:', useCaseS);
+      
+      // Find the best matching use case
+      const useCase = useCaseS?.find(uc => 
+        uc.title.toLowerCase().includes(searchTitle.toLowerCase()) || 
+        searchTitle.toLowerCase().includes(uc.title.toLowerCase())
+      ) || useCaseS?.[0];
+      
+      if (!useCase) {
+        console.log('No use case found for title:', searchTitle);
+        return null;
+      }
+
+      console.log('Selected use case:', useCase);
+      return {
+        id: useCase.id,
+        title: useCase.title,
+        implementation: {
+          overview: useCase.description,
+          architecture: useCase.architecture,
+          queries: useCase.queries,
+          capabilities: useCase.capabilities
+        },
+        technologies: useCase.technologies
+      };
     } catch (error) {
-      console.error('Error fetching use case by id:', error);
+      console.error('Error fetching use case by slug:', error);
       throw error;
     }
   }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section';
+import { Icon } from '@/components/Icon';
 import { hygraphClient } from '@/lib/hygraph';
 import logo from '@/assets/logo/logo.png';
 
@@ -46,6 +47,37 @@ const GET_TECHNOLOGY_DETAILS = `
     }
   }
 `;
+
+const getIconName = (techName) => {
+  const techNameLower = techName.toLowerCase();
+  // AI and ML related
+  if (techNameLower.includes('bayes')) return 'chart';
+  if (techNameLower.includes('markov')) return 'chart';
+  if (techNameLower.includes('artificial intelligence')) return 'cpu';
+  if (techNameLower.includes('ai')) return 'cpu';
+  
+  // Standards and Protocols
+  if (techNameLower.includes('w3c')) return 'code';
+  if (techNameLower.includes('oauth')) return 'shield';
+  if (techNameLower.includes('gnupg')) return 'shield';
+  
+  // Infrastructure
+  if (techNameLower.includes('memcached')) return 'database';
+  if (techNameLower.includes('game')) return 'lightbulb';
+  
+  // Existing mappings
+  if (techNameLower.includes('monitor')) return 'chart';
+  if (techNameLower.includes('state')) return 'database';
+  if (techNameLower.includes('hierarchy')) return 'code';
+  if (techNameLower.includes('schedule')) return 'chart';
+  if (techNameLower.includes('puzzle')) return 'lightbulb';
+  if (techNameLower.includes('adapt')) return 'tool';
+  if (techNameLower.includes('recovery')) return 'shield';
+  if (techNameLower.includes('analytics')) return 'chart';
+  if (techNameLower.includes('resource')) return 'server';
+  
+  return 'code'; // default icon
+};
 
 const TechnologyOverview = () => {
   const { slug } = useParams();
@@ -241,13 +273,22 @@ const TechnologyOverview = () => {
                         to={`/technology/${tech.slug}`}
                         className="flex items-center gap-3 p-3 bg-n-8 rounded-lg hover:bg-n-6 transition-colors"
                       >
-                        {tech.icon && (
-                          <img 
-                            src={tech.icon}
-                            alt={tech.name}
-                            className="w-8 h-8 object-contain"
-                          />
-                        )}
+                        <div className="w-8 h-8 flex items-center justify-center">
+                          {tech.icon ? (
+                            <img 
+                              src={tech.icon}
+                              alt={tech.name}
+                              className="w-8 h-8 object-contain"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-lg bg-n-6 flex items-center justify-center">
+                              <Icon 
+                                name={getIconName(tech.name)} 
+                                className="w-5 h-5 text-primary-1"
+                              />
+                            </div>
+                          )}
+                        </div>
                         <span className="text-n-1">{tech.name}</span>
                       </Link>
                     ))}
@@ -384,7 +425,7 @@ const TechnologyOverview = () => {
                     )}
 
                     <Link
-                      to={`/technology/${slug}/use-case/${useCase.id}`}
+                      to={`/technology/${slug}/use-case/${useCase.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                       className="inline-flex items-center gap-2 text-primary-1 hover:text-primary-2 transition-colors"
                     >
                       View Implementation Details

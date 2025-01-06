@@ -24,10 +24,10 @@ const UseCaseCard = ({ useCase, onQueryClick }) => {
                 e.stopPropagation();
                 onQueryClick?.(query);
               }}
-              className="flex items-start gap-3 cursor-pointer hover:opacity-80"
+              className="flex items-start gap-3 cursor-pointer hover:bg-n-6 rounded-lg p-2 transition-colors group"
             >
-              <Icon name="arrow-right" className="w-4 h-4 text-primary-1 mt-1 flex-shrink-0" />
-              <span className="text-n-3">{query}</span>
+              <Icon name="arrow-right" className="w-4 h-4 text-primary-1 mt-1 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+              <span className="text-n-3 group-hover:text-n-1">{query}</span>
             </li>
           ))}
         </ul>
