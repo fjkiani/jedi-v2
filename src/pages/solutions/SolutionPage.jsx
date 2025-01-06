@@ -188,26 +188,31 @@ const SolutionPage = () => {
       return;
     }
     
-    // Convert the name to lowercase and replace spaces and special characters with hyphens
-    const slug = tech.name.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-    
-    // Create a technology object with the required structure
+    // Create a standardized technology object
     const technologyData = {
       name: tech.name,
-      icon: tech.icon || `https://cdn.simpleicons.org/${slug}`,
-      description: tech.description || '',
+      icon: tech.icon || `https://cdn.simpleicons.org/${tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '')}`,
+      description: tech.description || `Details about ${tech.name}`,
       category: tech.category || 'Technology',
-      primaryUses: tech.primaryUses || [],
-      useCases: tech.useCases || []
+      useCases: tech.useCases || [],
+      features: tech.features || null,
+      priority: tech.priority || null
     };
     
-    // Store the technology data in local storage for the detail page
-    localStorage.setItem('selectedTechnology', JSON.stringify(technologyData));
+    console.log('Saving technology data:', technologyData);
     
-    console.log('Generated slug:', slug);
-    navigate(`/tech/${slug}`);
+    try {
+      // Save to localStorage
+      localStorage.setItem('selectedTechnology', JSON.stringify(technologyData));
+      console.log('Technology data saved successfully');
+      
+      // Create the slug and navigate
+      const slug = tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      console.log('Navigating to:', `/technology/${slug}`); // Note: Updated path
+      navigate(`/technology/${slug}`);
+    } catch (error) {
+      console.error('Error in handleTechClick:', error);
+    }
   };
 
   if (!solution) {

@@ -304,7 +304,7 @@ class TechnologyService {
         const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         technologies[slug] = {
           ...tech,
-          name,
+          name, // Ensure name is included
           slug,
           category,
           useCases: tech.useCases || [],
@@ -348,6 +348,27 @@ class TechnologyService {
 
     return Object.values(categories);
   }
+
+  async getLocalTechnologyBySlug(slug) {
+    try {
+      // First, try to get the technology from localStorage
+      const storedTech = localStorage.getItem('selectedTechnology');
+      if (storedTech) {
+        const tech = JSON.parse(storedTech);
+        // Verify that this is the technology we're looking for
+        const techSlug = tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        if (techSlug === slug) {
+          return tech;
+        }
+      }
+
+      // If not found in localStorage, try to get from Hygraph
+      return this.getTechnologyBySlug(slug);
+    } catch (error) {
+      console.error('Error getting technology:', error);
+      throw error;
+    }
+  }
 }
 
-export const technologyService = new TechnologyService(); 
+export const technologyService = new TechnologyService();

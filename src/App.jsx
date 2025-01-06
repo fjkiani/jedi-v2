@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider, useTheme } from './context/ThemeContext';
@@ -39,6 +39,8 @@ import TechnologyOverview from './pages/technology/TechnologyOverview';
 import TechnologiesPage from './pages/technology/TechnologiesPage';
 import TechnologyStack from './pages/technology/TechnologyStack';
 import LocalTechnologyOverview from '@/pages/technology/LocalTechnologyOverview';
+import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
+import TechStackDetail from './pages/technology/TechStackDetail';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -194,11 +196,12 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 />
 
                 <Route path="/tech-test" element={<TechStackTest />} />
-                <Route path="/tech/:slug" element={<TechnologyDetail />} />
+                <Route path="/tech/:techId" element={<TechDetails />} />
                 <Route path="/tech-stack" element={<TechStackGrid />} />
                 <Route path="/technology" element={<TechnologyStack />} />
                 <Route path="/technology/:slug" element={<TechnologyOverview />} />
                 <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
+                <Route path="/technology/:slug" element={<TechStackDetail />} />
               </Routes>
             </AnimatePresence>
             

@@ -1,9 +1,45 @@
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { Icon } from '@/components/Icon';
+import { useNavigate } from 'react-router-dom';
 
 const TechnologyResponse = ({ response }) => {
+  const navigate = useNavigate();
+  console.log('TechnologyResponse - Rendering with response:', response);
+
+  const handleTechClick = (tech) => {
+    console.log('Technology clicked:', tech);
+    if (!tech.name) {
+      console.error('No name available for technology:', tech);
+      return;
+    }
+    
+    // Convert the name to lowercase and replace spaces and special characters with hyphens
+    const slug = tech.name.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    
+    // Create a technology object with the required structure
+    const technologyData = {
+      name: tech.name,
+      icon: tech.icon || `https://cdn.simpleicons.org/${tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '')}`,
+      description: tech.description || '',
+      category: tech.category || 'Technology',
+      primaryUses: tech.primaryUses || [],
+      useCases: tech.useCases || []
+    };
+    
+    // Store the technology data in local storage for the detail page
+    console.log('Storing technology data:', technologyData);
+    localStorage.setItem('selectedTechnology', JSON.stringify(technologyData));
+    
+    console.log('Generated slug:', slug);
+    console.log('Navigating to:', `/tech/${slug}`);
+    navigate(`/tech/${slug}`);
+  };
+
   const renderContent = (subsection) => {
+    console.log('Rendering subsection:', subsection);
     if (subsection.type === "reactflow") {
       return (
         <div className="h-[400px] bg-n-7 rounded-lg p-4">
@@ -26,7 +62,11 @@ const TechnologyResponse = ({ response }) => {
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {subsection.content.map((item, idx) => (
-            <div key={idx} className="p-4 bg-n-7 rounded-lg border border-n-6 hover:border-primary-1 transition-colors">
+            <div 
+              key={idx} 
+              className="p-4 bg-n-7 rounded-lg border border-n-6 hover:border-primary-1 transition-colors cursor-pointer"
+              onClick={() => item.name && handleTechClick(item)}
+            >
               <div className="whitespace-pre-wrap text-n-3">
                 {typeof item === 'string' ? (
                   item

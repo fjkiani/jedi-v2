@@ -10,7 +10,7 @@ import { healthcareOverview } from '@/constants/implementations/industries/healt
 import { dataIntegrationOverview } from '@/constants/implementations/industries/financial/components/data-integration/overview';
 import { getIndustryDiagram } from '@/constants/registry/industryDiagramsRegistry';
 import { UseCaseView } from '@/components/diagrams/views/UseCaseView';
-import { DiagramView } from '@/components/diagrams/DiagramView';
+import { DiagramView } from '@/components/diagrams/views/DiagramView';
 import { DeploymentView } from '@/components/diagrams/views/DeploymentView';
 import { industryService } from '@/services/industryService';
 import AIResponse from '@/components/response/AIResponse';

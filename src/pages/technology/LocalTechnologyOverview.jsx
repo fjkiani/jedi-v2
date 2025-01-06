@@ -157,4 +157,4 @@ const LocalTechnologyOverview = () => {
   );
 };
 
-export default LocalTechnologyOverview; 
+export default LocalTechnologyOverview;
