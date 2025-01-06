@@ -107,3 +107,17 @@
 .opacity-100 {
   opacity: 1;
 }
+
+/* ReactFlow Dark Theme */
+.react-flow-dark .react-flow__minimap {
+  background-color: #1F2937 !important;
+}
+
+.react-flow-dark .react-flow__minimap-mask {
+  fill: rgba(0, 0, 0, 0.1);
+}
+
+.react-flow-dark .react-flow__minimap-node {
+  fill: #4B5563;
+  stroke: none;
+}

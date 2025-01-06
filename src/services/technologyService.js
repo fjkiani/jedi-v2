@@ -1,4 +1,5 @@
 import { hygraphClient } from '@/lib/hygraph';
+import { aiMlSolution } from '@/constants/solutions/ai-ml';
 
 const GET_ALL_CATEGORIES = `
   query GetAllCategories {
@@ -291,6 +292,61 @@ class TechnologyService {
       console.error('Error fetching use case by slug:', error);
       throw error;
     }
+  }
+
+  // New methods for local technology data
+  getLocalTechnologies() {
+    const technologies = {};
+    
+    // Process AI/ML solution tech stack
+    Object.entries(aiMlSolution.techStack).forEach(([category, techs]) => {
+      Object.entries(techs).forEach(([name, tech]) => {
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        technologies[slug] = {
+          ...tech,
+          name,
+          slug,
+          category,
+          useCases: tech.useCases || [],
+          features: tech.description || '',
+          description: tech.description || '',
+          icon: tech.icon || null,
+        };
+      });
+    });
+
+    console.log('Generated local technologies:', technologies);
+    return technologies;
+  }
+
+  getLocalTechnologyBySlug(slug) {
+    console.log('Looking for local technology with slug:', slug);
+    const technologies = this.getLocalTechnologies();
+    console.log('Available local technologies:', Object.keys(technologies));
+    return technologies[slug];
+  }
+
+  getLocalCategories() {
+    const categories = {};
+    
+    // Process AI/ML solution tech stack
+    Object.entries(aiMlSolution.techStack).forEach(([categoryName, techs]) => {
+      categories[categoryName] = {
+        id: categoryName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name: categoryName.replace(/([A-Z])/g, ' $1').trim(),
+        slug: categoryName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        technologies: Object.entries(techs).map(([name, tech]) => ({
+          id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          name,
+          slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          icon: tech.icon,
+          description: tech.description,
+          category: categoryName
+        }))
+      };
+    });
+
+    return Object.values(categories);
   }
 }
 

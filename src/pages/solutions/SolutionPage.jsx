@@ -183,7 +183,31 @@ const SolutionPage = () => {
 
   const handleTechClick = (tech) => {
     console.log('Technology clicked:', tech);
-    navigate(`/technology/${tech.slug}`);
+    if (!tech.name) {
+      console.error('No name available for technology:', tech);
+      return;
+    }
+    
+    // Convert the name to lowercase and replace spaces and special characters with hyphens
+    const slug = tech.name.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    
+    // Create a technology object with the required structure
+    const technologyData = {
+      name: tech.name,
+      icon: tech.icon || `https://cdn.simpleicons.org/${slug}`,
+      description: tech.description || '',
+      category: tech.category || 'Technology',
+      primaryUses: tech.primaryUses || [],
+      useCases: tech.useCases || []
+    };
+    
+    // Store the technology data in local storage for the detail page
+    localStorage.setItem('selectedTechnology', JSON.stringify(technologyData));
+    
+    console.log('Generated slug:', slug);
+    navigate(`/tech/${slug}`);
   };
 
   if (!solution) {
@@ -283,7 +307,6 @@ const SolutionPage = () => {
                             >
                               <Background color="#4b5563" gap={16} />
                               <Controls className="react-flow-controls" />
-                              <MiniMap className="react-flow-minimap" />
                             </ReactFlow>
                           </div>
                         </div>
@@ -445,7 +468,7 @@ const SolutionPage = () => {
                 {Object.entries(technologies).map(([name, tech]) => (
                   <div 
                     key={name}
-                    onClick={() => handleTechClick(tech)}
+                    onClick={() => handleTechClick({ name, ...tech })}
                     className="bg-n-7 rounded-xl p-6 border border-n-6 cursor-pointer 
                              transition-all duration-300 hover:border-primary-1 hover:shadow-lg"
                   >
