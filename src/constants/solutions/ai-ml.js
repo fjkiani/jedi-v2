@@ -293,33 +293,61 @@ export const aiMlSolution = {
     modelTraining: {
       'TensorFlow': {
         icon: 'https://cdn.simpleicons.org/tensorflow',
-        description: 'End-to-end open-source platform for machine learning.',
+        description: 'Open-source machine learning framework.',
         category: 'Model Training',
         priority: 1
       },
       'PyTorch': {
         icon: 'https://cdn.simpleicons.org/pytorch',
-        description: 'Open-source machine learning library.',
+        description: 'Deep learning framework.',
         category: 'Model Training',
         priority: 2
       },
       'Scikit-learn': {
         icon: 'https://cdn.simpleicons.org/scikitlearn',
-        description: 'Machine learning library for Python.',
+        description: 'Machine learning library.',
         category: 'Model Training',
         priority: 3
       },
       'XGBoost': {
         icon: 'https://cdn.simpleicons.org/xgboost',
-        description: 'Optimized distributed gradient boosting library.',
+        description: 'Gradient boosting framework.',
         category: 'Model Training',
         priority: 4
       },
       'AutoML': {
-        icon: 'https://cdn.simpleicons.org/automl',
-        description: 'Automated machine learning tools.',
+        icon: 'https://cdn.simpleicons.org/google',
+        description: 'Automated machine learning.',
         category: 'Model Training',
         priority: 5
+      },
+      'HuggingFace': {
+        icon: 'https://huggingface.co/front/assets/huggingface_logo.svg',
+        description: 'Platform for building, training and deploying state of the art machine learning models.',
+        category: 'Model Training',
+        priority: 6,
+        features: [
+          'Pre-trained models for NLP and computer vision',
+          'Model Hub with thousands of pre-trained models',
+          'Datasets for training and fine-tuning',
+          'Easy model deployment and sharing',
+          'Active community and collaboration'
+        ],
+        businessValue: [
+          'Accelerate AI development with pre-trained models',
+          'Reduce training costs and time to market',
+          'Access to state-of-the-art AI models',
+          'Simplified model deployment and scaling',
+          'Community-driven innovation and support'
+        ],
+        capabilities: [
+          'Natural Language Processing',
+          'Computer Vision',
+          'Speech Recognition',
+          'Transfer Learning',
+          'Model Fine-tuning',
+          'Model Deployment'
+        ]
       }
     },
     modelDeployment: {

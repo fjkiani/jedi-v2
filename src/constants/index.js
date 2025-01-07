@@ -47,18 +47,23 @@ export const navigation = [
     dropdownItems: [
       {
         title: "AI/ML Solutions",
-        url: "/solutions/ai-ml-solutions",
-        description: "Enterprise-grade AI and machine learning solutions"
+        url: "/solutions/ai-ml-solutions"
       },
       {
         title: "AI Agents",
-        url: "/solutions/ai-agents",
-        description: "Autonomous AI agents and workflows"
+        url: "/solutions/ai-agents"
       },
       {
         title: "Data Engineering",
-        url: "/solutions/data-engineering",
-        description: "End-to-end data pipeline solutions"
+        url: "/solutions/data-engineering"
+      },
+      {
+        title: "MLOps & Model Deployment",
+        description: "Coming Soon"
+      },
+      {
+        title: "Computer Vision",
+        description: "Coming Soon"
       }
     ]
   },
@@ -80,7 +85,7 @@ export const navigation = [
         items: [
           { title: "Pinecone", url: "/technology/pinecone" },
           { title: "Weaviate", url: "/technology/weaviate" },
-          { title: "Kubernetes", url: "/technology/kubernetes" }
+          { title: "Kubernetes", description: "Coming Soon" }
         ]
       }
     ]
@@ -107,20 +112,20 @@ export const navigation = [
         ]
       },
       {
-        title: "Manufacturing",
-        url: "/industries/manufacturing",
-        useCases: [
-          { title: "Predictive Maintenance", url: "/industries/manufacturing/predictive-maintenance" },
-          { title: "Quality Control", url: "/industries/manufacturing/quality-control" }
-        ]
+        title: "Manufacturing & Industry 4.0",
+        description: "Coming Soon"
       },
       {
-        title: "Retail",
-        url: "/industries/retail",
-        useCases: [
-          { title: "Inventory Optimization", url: "/industries/retail/inventory-optimization" },
-          { title: "Customer Analytics", url: "/industries/retail/customer-analytics" }
-        ]
+        title: "Retail & E-commerce",
+        description: "Coming Soon"
+      },
+      {
+        title: "Energy & Utilities",
+        description: "Coming Soon"
+      },
+      {
+        title: "Insurance",
+        description: "Coming Soon"
       }
     ]
   },
@@ -130,8 +135,8 @@ export const navigation = [
     url: "#",
     dropdownItems: [
       { title: "About Us", url: "/about" },
-      { title: "Team", url: "/team" },
-      { title: "Careers", url: "/careers" },
+      { title: "Team", description: "Coming Soon" },
+      { title: "Careers", description: "Coming Soon" },
       { title: "Contact", url: "/contact" }
     ]
   },
@@ -140,8 +145,8 @@ export const navigation = [
     title: "Resources",
     url: "#",
     dropdownItems: [
-      { title: "Case Studies", url: "/case-studies" },
-      { title: "Documentation", url: "/docs" },
+      { title: "Case Studies", description: "Coming Soon" },
+      { title: "Documentation", description: "Coming Soon" },
       { title: "Blog", url: "/blog" }
     ]
   }

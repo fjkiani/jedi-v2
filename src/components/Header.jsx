@@ -4,11 +4,56 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { useTheme } from "../context/ThemeContext";
 import { logo } from "../assets";
 import { navigation } from "../constants";
+import { industriesList } from "../constants/industry";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { Link } from 'react-router-dom';
 import { technologyService } from '@/services/technologyService';
+
+// Transform industries data into dropdown format
+const transformIndustriesData = (industries) => {
+  // Filter to only include financial and healthcare
+  const activeIndustries = industries.filter(industry => 
+    ['financial', 'healthcare'].includes(industry.id)
+  );
+
+  // Transform active industries
+  const transformedIndustries = activeIndustries.map(industry => ({
+    title: industry.title,
+    url: `/industries/${industry.id}`,
+    useCases: industry.solutions?.map(solution => ({
+      title: solution.title,
+      url: `/industries/${industry.id}/${solution.id}`
+    })) || []
+  }));
+
+  // Add coming soon placeholders
+  const comingSoonIndustries = [
+    {
+      title: "Manufacturing & Industry 4.0",
+      url: "#",
+      description: "Coming Soon"
+    },
+    {
+      title: "Retail & E-commerce",
+      url: "#",
+      description: "Coming Soon"
+    },
+    {
+      title: "Energy & Utilities",
+      url: "#",
+      description: "Coming Soon"
+    },
+    {
+      title: "Insurance",
+      url: "#",
+      description: "Coming Soon"
+    }
+  ];
+
+  return [...transformedIndustries, ...comingSoonIndustries];
+};
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -169,15 +214,21 @@ const DropdownMenu = ({ items, categories }) => {
                 </div>
               </Link>
             </div>
+          ) : item.description ? (
+            // Coming Soon items
+            <div className="block px-4 py-2 cursor-default text-n-1/70">
+              {item.title}
+              <span className="block text-xs text-color-1 mt-0.5 font-medium">
+                {item.description}
+              </span>
+            </div>
           ) : (
+            // Regular menu items
             <Link 
-              to={item.url} 
+              to={item.url}
               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
             >
               {item.title}
-              {item.description && (
-                <span className="block text-xs text-n-3">{item.description}</span>
-              )}
             </Link>
           )}
         </div>
@@ -191,6 +242,17 @@ const Header = () => {
   const [openNavigation, setOpenNavigation] = useState(false);
   const [categories, setCategories] = useState([]);
   const { isDarkMode } = useTheme();
+
+  // Transform navigation to include dynamic industries
+  const dynamicNavigation = navigation.map(item => {
+    if (item.title === "Industries") {
+      return {
+        ...item,
+        dropdownItems: transformIndustriesData(industriesList)
+      };
+    }
+    return item;
+  });
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -232,7 +294,7 @@ const Header = () => {
           openNavigation ? "flex" : "hidden"
         } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}>
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-            {navigation.map((item) => (
+            {dynamicNavigation.map((item) => (
               <div key={item.id} className="relative group">
                 <Link
                   to={item.url}
@@ -253,17 +315,16 @@ const Header = () => {
               </div>
             ))}
           </div>
-          <HamburgerMenu />
         </nav>
 
-        <div className="flex items-center gap-4 ml-auto">
-          <Button className="hidden lg:flex" href="/contact">
+        <div className="flex items-center ml-auto">
+          <ThemeToggle />
+          <Button className="hidden lg:flex ml-4" href="/contact">
             Contact Us
           </Button>
-          <ThemeToggle />
-          <Button className="lg:hidden" px="px-3" onClick={toggleNavigation}>
+          <button className="ml-6 lg:hidden" onClick={toggleNavigation}>
             <MenuSvg openNavigation={openNavigation} />
-          </Button>
+          </button>
         </div>
       </div>
     </div>
