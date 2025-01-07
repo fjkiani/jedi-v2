@@ -51,7 +51,7 @@ const DropdownMenu = ({ items, categories }) => {
         {categories.map((category) => (
           <div key={category.slug} className="relative group/nested">
             <Link 
-              to={`/category/${category.slug}`}
+              to={`/technology#${category.slug}`}
               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
             >
               {category.name}

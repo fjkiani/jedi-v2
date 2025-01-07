@@ -59,9 +59,12 @@ const GET_TECHNOLOGY_BY_SLUG = `
       slug
       description
       icon
+      features
+      businessMetrics
       category {
         id
         name
+        slug
       }
     }
   }
@@ -157,6 +160,26 @@ const GET_USE_CASE_BY_SLUG = `
   }
 `;
 
+const GET_CATEGORY_BY_SLUG = `
+  query GetCategoryBySlug($slug: String!) {
+    categories(where: { slug: $slug }) {
+      id
+      name
+      slug
+      description
+      technologies {
+        id
+        name
+        slug
+        icon
+        description
+        features
+        businessMetrics
+      }
+    }
+  }
+`;
+
 class TechnologyService {
   async getAllCategories() {
     try {
@@ -182,11 +205,12 @@ class TechnologyService {
 
   async getTechnologyBySlug(slug) {
     try {
-      // Get technology details
+      console.log('Fetching technology with slug:', slug);
       const { technologyS } = await hygraphClient.request(GET_TECHNOLOGY_BY_SLUG, { slug });
       const technology = technologyS?.[0];
       
       if (!technology) {
+        console.log('No technology found for slug:', slug);
         return null;
       }
 
@@ -366,6 +390,24 @@ class TechnologyService {
       return this.getTechnologyBySlug(slug);
     } catch (error) {
       console.error('Error getting technology:', error);
+      throw error;
+    }
+  }
+
+  async getCategoryBySlug(slug) {
+    try {
+      console.log('Fetching category with slug:', slug);
+      const { categories } = await hygraphClient.request(GET_CATEGORY_BY_SLUG, { slug });
+      const category = categories?.[0];
+      
+      if (!category) {
+        console.log('No category found for slug:', slug);
+        return null;
+      }
+
+      return category;
+    } catch (error) {
+      console.error('Error fetching category:', error);
       throw error;
     }
   }

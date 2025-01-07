@@ -1,37 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
-// Add immediate debugging
-console.log('TechStackDetail file loaded');
+import { technologyService } from '@/services/technologyService';
 
 const TechStackDetail = () => {
-  console.log('TechStackDetail component rendering');
-  
   const { slug } = useParams();
-  console.log('Current slug:', slug);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // ... rest of your component code
-
-  // Add debug render
-  if (!technology && !loading) {
-    console.log('Rendering null state');
+  if (!loading && error) {
     return (
-      <div className="container">
-        <h1>Debug Info</h1>
-        <pre>
-          {JSON.stringify({
-            slug,
-            storedData: localStorage.getItem('selectedTechnology'),
-            loading,
-            technology
-          }, null, 2)}
-        </pre>
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold text-red-500 mb-4">Technology not found</h1>
+        <p className="mb-4">The technology or category you're looking for could not be found.</p>
+        <Link 
+          to="/technology" 
+          className="text-blue-500 hover:underline"
+        >
+          ← Back to Technologies
+        </Link>
       </div>
     );
   }
 
-  // ... rest of your render code
+  return (
+    <div className="container mx-auto px-4 py-8 text-center">
+      <h1 className="text-2xl font-bold mb-4">Redirecting...</h1>
+      <Link 
+        to="/technology" 
+        className="text-blue-500 hover:underline"
+      >
+        ← Back to Technologies
+      </Link>
+    </div>
+  );
 };
 
-// Add explicit export
 export default TechStackDetail;

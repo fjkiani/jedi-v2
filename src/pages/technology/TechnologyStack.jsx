@@ -19,11 +19,11 @@ const TechnologyCard = ({ tech }) => {
   // Default fallback icon (you can replace this with your own default icon URL)
   const defaultIcon = '/images/icons/default-tech.svg';
 
-  return (
-    <Link
-      to={`/technology/${slug}`}
-      className="block bg-n-7/50 backdrop-blur rounded-xl p-6 hover:bg-n-6 transition-all duration-300 border border-n-6 hover:border-primary-1 hover:shadow-lg hover:-translate-y-1"
-    >
+  // If this is a category (like 'automation'), don't make it clickable
+  const isCategory = !tech.icon && !tech.features?.length && !tech.businessMetrics?.length;
+  
+  const cardContent = (
+    <>
       <div className="flex items-center gap-4 mb-4">
         {iconUrl && (
           <div className="w-12 h-12 rounded-lg bg-n-6 flex items-center justify-center p-2">
@@ -80,11 +80,30 @@ const TechnologyCard = ({ tech }) => {
         </div>
       )}
 
-      <div className="mt-4 pt-3 border-t border-n-6">
-        <span className="text-primary-1 text-sm hover:text-primary-2 transition-colors">
-          View Implementation Details →
-        </span>
+      {!isCategory && (
+        <div className="mt-4 pt-3 border-t border-n-6">
+          <span className="text-primary-1 text-sm hover:text-primary-2 transition-colors">
+            View Implementation Details →
+          </span>
+        </div>
+      )}
+    </>
+  );
+
+  if (isCategory) {
+    return (
+      <div className="block bg-n-7/50 backdrop-blur rounded-xl p-6 border border-n-6">
+        {cardContent}
       </div>
+    );
+  }
+
+  return (
+    <Link
+      to={`/technology/${slug}`}
+      className="block bg-n-7/50 backdrop-blur rounded-xl p-6 hover:bg-n-6 transition-all duration-300 border border-n-6 hover:border-primary-1 hover:shadow-lg hover:-translate-y-1"
+    >
+      {cardContent}
     </Link>
   );
 };
@@ -239,7 +258,22 @@ const TechnologyStack = () => {
         setLoading(true);
         const data = await technologyService.getAllCategories();
         setCategories(data || []);
-        if (data && data.length > 0) {
+        
+        // Get the category from the hash if it exists
+        const hash = window.location.hash.slice(1);
+        if (hash && data) {
+          const category = data.find(cat => cat.slug === hash);
+          if (category) {
+            setSelectedCategory(category.slug);
+            // Scroll to the category after a short delay to ensure rendering
+            setTimeout(() => {
+              const element = document.getElementById(category.slug);
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }
+        } else if (data && data.length > 0) {
           setSelectedCategory(data[0].slug);
         }
       } catch (error) {
@@ -312,7 +346,7 @@ const TechnologyStack = () => {
             {selectedCategoryData && (
               <div className="space-y-8">
                 {/* Category Header with Subcategory Filters */}
-                <div className="bg-n-8 rounded-xl p-8 border border-n-6">
+                <div id={selectedCategoryData.slug} className="bg-n-8 rounded-xl p-8 border border-n-6">
                   <h2 className="text-3xl font-bold mb-6">{selectedCategoryData.name}</h2>
                   
                   {/* Subcategory Filter Buttons */}

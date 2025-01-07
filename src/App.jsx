@@ -201,7 +201,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 <Route path="/technology" element={<TechnologyStack />} />
                 <Route path="/technology/:slug" element={<TechnologyOverview />} />
                 <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
-                <Route path="/technology/:slug" element={<TechStackDetail />} />
+                <Route path="/tech/:slug" element={<TechStackDetail />} />
               </Routes>
             </AnimatePresence>
             
