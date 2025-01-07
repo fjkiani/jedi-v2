@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '../lib/hygraph';
+import { hygraphClient } from '../lib/hygraph';
 
 const getTeamMembers = async () => {
   const query = gql`
@@ -33,7 +33,7 @@ const getTeamMembers = async () => {
   `;
 
   try {
-    const { teamMembers } = await hygraph.request(query);
+    const { teamMembers } = await hygraphClient.request(query);
     return teamMembers;
   } catch (error) {
     console.error('Error fetching team members:', error);
@@ -80,7 +80,7 @@ const getTeamMemberBySlug = async (slug) => {
   `;
 
   try {
-    const { teamMember } = await hygraph.request(query, { slug });
+    const { teamMember } = await hygraphClient.request(query, { slug });
     return teamMember;
   } catch (error) {
     console.error('Error fetching team member:', error);

@@ -339,5 +339,126 @@ deployment: {
       description: 'Mask sensitive data in non-production environments.'
     }
   }
+},
+
+// Architecture diagram configuration
+architectureDiagram: {
+  id: "data-engineering",
+  nodes: [
+    {
+      id: "data-sources",
+      label: "Data Sources",
+      description: "Multiple data source integrations",
+      x: 100,
+      y: 100,
+      technologies: {
+        ingestion: {
+          'Apache NiFi': 'Data ingestion',
+          'Kafka Connect': 'Streaming data',
+          'Fivetran': 'Data integration'
+        }
+      }
+    },
+    {
+      id: "processing",
+      label: "Data Processing",
+      description: "Real-time and batch processing",
+      x: 500,
+      y: 100,
+      technologies: {
+        processing: {
+          'Apache Spark': 'Unified analytics',
+          'Apache Flink': 'Stream processing',
+          'Apache Beam': 'Unified processing'
+        }
+      }
+    },
+    {
+      id: "storage",
+      label: "Data Storage",
+      description: "Scalable data storage solutions",
+      x: 900,
+      y: 100,
+      technologies: {
+        storage: {
+          'Amazon S3': 'Object storage',
+          'Azure Data Lake': 'Big data storage',
+          'Google Cloud Storage': 'Cloud storage'
+        }
+      }
+    },
+    {
+      id: "warehouse",
+      label: "Data Warehouse",
+      description: "Enterprise data warehousing",
+      x: 300,
+      y: 400,
+      technologies: {
+        warehousing: {
+          'Snowflake': 'Cloud data platform',
+          'Amazon Redshift': 'Data warehousing',
+          'Google BigQuery': 'Serverless analytics'
+        }
+      }
+    },
+    {
+      id: "transformation",
+      label: "Data Transformation",
+      description: "ETL and data transformation",
+      x: 700,
+      y: 400,
+      technologies: {
+        transformation: {
+          'dbt': 'Data transformation',
+          'Apache Hive': 'Data warehouse',
+          'AWS Glue': 'ETL service'
+        }
+      }
+    },
+    {
+      id: "visualization",
+      label: "Data Visualization",
+      description: "Business intelligence and analytics",
+      x: 500,
+      y: 700,
+      technologies: {
+        visualization: {
+          'Tableau': 'Analytics platform',
+          'Power BI': 'Business analytics',
+          'Looker': 'BI platform'
+        }
+      }
+    }
+  ],
+  connections: [
+    { from: "data-sources", to: "processing", label: "Raw Data" },
+    { from: "processing", to: "storage", label: "Processed Data" },
+    { from: "storage", to: "warehouse", label: "Data Lake to Warehouse" },
+    { from: "warehouse", to: "transformation", label: "Raw to Transformed" },
+    { from: "transformation", to: "visualization", label: "Analytics Data" }
+  ],
+  zones: [
+    {
+      id: "ingestion-zone",
+      label: "Data Ingestion Zone",
+      nodes: ["data-sources"],
+      security: "High Security",
+      compliance: ["GDPR", "HIPAA"]
+    },
+    {
+      id: "processing-zone",
+      label: "Processing & Storage Zone",
+      nodes: ["processing", "storage"],
+      security: "Restricted Access",
+      compliance: ["SOC2", "ISO27001"]
+    },
+    {
+      id: "analytics-zone",
+      label: "Analytics Zone",
+      nodes: ["warehouse", "transformation", "visualization"],
+      security: "Controlled Access",
+      compliance: ["SOC2"]
+    }
+  ]
 }
 };

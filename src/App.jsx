@@ -23,7 +23,7 @@ import WhatWeDo from './components/WhatWeDo';
 import SolutionsNavigator from "./components/SolutionsNavigator";
 import { HelmetProvider } from 'react-helmet-async';
 import AboutUs from './pages/AboutUs';
-import TeamMemberDetail from './pages/team/TeamMemberDetail';
+// import TeamMemberDetail from './pages/team/TeamMemberDetail';
 
 //pages
 import Blog from '@/blog/Blog';
@@ -218,7 +218,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   path="/team/:slug" 
                   element={
                     <PageTransition>
-                      <TeamMemberDetail />
+                      {/* <TeamMemberDetail /> */}
                     </PageTransition>
                   } 
                 />

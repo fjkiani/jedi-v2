@@ -450,9 +450,27 @@ const SolutionPage = () => {
       icon: 'layout-grid',
       content: solution.architecture ? (
         <div>
-          <h3 className="h4 mb-4">{solution.architecture.title || 'Architecture'}</h3>
-          <p className="text-n-3 mb-8">{solution.architecture.description}</p>
-          <ArchitectureDiagram domain={slug} />
+          <h3 className="h4 mb-4">{solution.architecture.title}</h3>
+          <p className="text-n-3 mb-4">{solution.architecture.description}</p>
+          <div className="mb-8">
+            <ArchitectureDiagram diagram={solution.architecture} />
+          </div>
+          {selectedUseCase?.architecture?.flow && (
+            <div className="mt-10">
+              <h3 className="h4 mb-4">Implementation Flow</h3>
+              <div className="h-[400px] bg-n-7 rounded-lg p-4">
+                <ReactFlow 
+                  nodes={createWorkflowDiagram(selectedUseCase.architecture.flow).nodes}
+                  edges={createWorkflowDiagram(selectedUseCase.architecture.flow).edges}
+                  fitView
+                  className="react-flow-dark"
+                >
+                  <Background color="#4b5563" gap={16} />
+                  <Controls className="react-flow-controls" />
+                </ReactFlow>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center text-n-3">Architecture details not available</div>
