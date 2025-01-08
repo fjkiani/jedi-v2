@@ -185,15 +185,15 @@ const WhatWeDo = () => {
             </Swiper>
 
             {/* Custom Navigation Buttons */}
-            <button className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5 transition-colors backdrop-blur-sm border border-n-5">
-              <Icon name="arrow-left" className="w-6 h-6 text-n-1" />
+            <button className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-5 hover:border-n-4 hover:scale-110 group">
+              <Icon name="arrow-left" className="w-8 h-8 text-n-1 group-hover:text-primary-1 transition-colors" />
             </button>
-            <button className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5 transition-colors backdrop-blur-sm border border-n-5">
-              <Icon name="arrow-right" className="w-6 h-6 text-n-1" />
+            <button className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-5 hover:border-n-4 hover:scale-110 group">
+              <Icon name="arrow-right" className="w-8 h-8 text-n-1 group-hover:text-primary-1 transition-colors" />
             </button>
 
             {/* Custom Pagination */}
-            <div className="swiper-pagination flex justify-center gap-2 mt-6" />
+            <div className="swiper-pagination flex justify-center gap-3 mt-8" />
           </div>
         </motion.div>
 
@@ -206,22 +206,39 @@ const WhatWeDo = () => {
       <style jsx global>{`
         .architecture-slider {
           position: relative;
-          padding-bottom: 3rem;
+          padding-bottom: 4rem;
         }
         .swiper-pagination {
           bottom: 0 !important;
         }
         .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           background: var(--color-n-4);
           opacity: 0.5;
           transition: all 0.3s;
+          cursor: pointer;
+        }
+        .swiper-pagination-bullet:hover {
+          opacity: 0.8;
+          transform: scale(1.2);
         }
         .swiper-pagination-bullet-active {
-          width: 24px;
-          border-radius: 4px;
+          width: 32px;
+          border-radius: 5px;
           background: var(--color-primary-1);
+          opacity: 1;
+        }
+        .swiper-pagination-bullet-active:hover {
+          transform: none;
+        }
+        .swiper-button-prev,
+        .swiper-button-next {
+          opacity: 0.8;
+          transition: all 0.3s;
+        }
+        .swiper-button-prev:hover,
+        .swiper-button-next:hover {
           opacity: 1;
         }
         .swiper-button-prev:after,

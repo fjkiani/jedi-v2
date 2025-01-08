@@ -5,60 +5,59 @@ export const aboutContent = {
   },
   
   hero: {
-    title: "Our Vision",
-    highlightText: "Secure AI Innovation",
-    description: "At JediLabs, we're dedicated to transforming businesses through cutting-edge AI solutions that prioritize both innovation and privacy. Our mission is to make advanced AI technology accessible, practical, and secure for enterprises of all sizes.",
+    highlightText: "AI That Serves Everyone",
+    description: "At JediLabs, we're revolutionizing enterprise AI with our JEDI principles - Justice, Equity, Diversity, and Innovation. Our mission is to democratize advanced AI technology while ensuring it remains secure, ethical, and accessible for organizations of all sizes.",
     stats: [
       {
         value: "100%",
-        label: "Data Protected"
+        label: "Data Sovereignty"
       },
       {
-        value: "100%",
-        label: "Automated"
+        value: "10x",
+        label: "Development Speed"
       },
       {
-        value: "24/7",
-        label: "Inovation"
+        value: "Zero",
+        label: "Trust Architecture"
       }
     ]
   },
 
   vision: {
-    title: "Our Vision",
-    description: "We envision a future where AI enhances every aspect of business operations while maintaining the highest standards of data privacy and security. Our goal is to be at the forefront of this transformation, providing solutions that not only solve today's challenges but anticipate tomorrow's security needs.",
+    title: "The JEDI Vision",
+    description: "We're building a future where AI serves everyone equally. Our JEDI architecture ensures that every solution we deliver is not just powerful and secure, but also fair, accessible, and respectful of privacy. We're setting new standards in ethical AI development.",
     image: "/images/about/vision.webp",
     imageAlt: "JediLabs Vision",
     highlights: [
       {
-        id: "innovation",
-        text: "Innovation First",
+        id: "jedi-principles",
+        text: "JEDI Architecture",
         icon: {
-          path: "M20 6L9 17L4 12",
+          path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "client-success",
-        text: "Client Security",
+        id: "secure-innovation",
+        text: "Secure Innovation",
         icon: {
-          path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M12 16V12 M12 8H12.01",
+          path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "expert-team",
-        text: "Expert Team",
+        id: "ethical-deployment",
+        text: "Ethical Deployment",
         icon: {
-          path: "M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21 M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z",
+          path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "privacy",
-        text: "Privacy Shield",
+        id: "privacy-first",
+        text: "Privacy-First Design",
         icon: {
-          path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+          path: "M3.6 3h16.8a.6.6 0 0 1 .6.6v16.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6z M7 12h10 M12 7v10",
           viewBox: "0 0 24 24"
         }
       }

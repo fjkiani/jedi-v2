@@ -46,7 +46,7 @@ const transformIndustriesData = (industries) => {
       description: "Coming Soon"
     },
     {
-      title: "Insurance",
+      title: "Education",
       url: "#",
       description: "Coming Soon"
     }

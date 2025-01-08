@@ -10,6 +10,7 @@ import AboutIcon from '@/components/icons/AboutIcon';
 import { JEDIDiagramView } from '@/components/diagrams/JEDIDiagramView';
 import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
 import { securityArchitecture } from '@/constants/solutions/security-architecture';
+import { jediEmpower, jediVision } from '@/assets';
 
 const AboutUs = () => {
   const [aboutData, setAboutData] = useState(null);
@@ -47,8 +48,22 @@ const AboutUs = () => {
             variants={fadeIn('up')}
             initial="hidden"
             animate="show"
-            className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem] md:mb-[6.25rem]"
+            className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.75rem] md:mb-[6.25rem]"
           >
+            {/* Hero Image */}
+            <motion.div
+              variants={fadeIn('up')}
+              initial="hidden"
+              animate="show"
+              className="mb-10"
+            >
+              <img 
+                src={jediEmpower} 
+                alt="JEDI Empowerment"
+                className="w-full h-auto rounded-2xl shadow-xl"
+              />
+            </motion.div>
+
             <h1 className="h1 mb-6">
               {aboutContent.hero.title}{' '}
               <span className="inline-block relative">
@@ -107,8 +122,8 @@ const AboutUs = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-color-1/40 to-color-2/40 rounded-3xl -z-10" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <img 
-                  src={aboutContent.vision.image}
-                  alt={aboutContent.vision.imageAlt}
+                  src={jediVision}
+                  alt="JEDI Vision"
                   className="w-full h-full object-cover rounded-3xl"
                 />
               </div>
@@ -170,10 +185,10 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">{jediArchitecture.title}</h2>
+            {/* <h2 className="h2 mb-6">{jediArchitecture.title}</h2>
             <p className="body-2 text-n-4">
               {jediArchitecture.description}
-            </p>
+            </p> */}
           </motion.div>
           
           <motion.div
@@ -197,10 +212,10 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">{securityArchitecture.title}</h2>
+            {/* <h2 className="h2 mb-6">{securityArchitecture.title}</h2>
             <p className="body-2 text-n-4">
               {securityArchitecture.description}
-            </p>
+            </p> */}
           </motion.div>
           
           <motion.div

@@ -1,4 +1,3 @@
-
 import logo from "./logo/logo.png";
 import check from "./check.svg";
 import brainwaveSymbol from "./brainwave-symbol.svg";
@@ -82,12 +81,8 @@ import twitter from "./socials/twitter.svg";
 //stack
 import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
 
-
-
-
-
-
-
+import jediEmpower from './images/jedi-empower.png';
+import jediVision from './images/jedi.jpeg';
 
 export {
   logo,
@@ -173,5 +168,6 @@ export {
   // medicalAI,
   // rdChat,
   // coding2
-
+  jediEmpower,
+  jediVision,
 };

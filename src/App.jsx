@@ -23,6 +23,7 @@ import WhatWeDo from './components/WhatWeDo';
 import SolutionsNavigator from "./components/SolutionsNavigator";
 import { HelmetProvider } from 'react-helmet-async';
 import AboutUs from './pages/AboutUs';
+import ContactUs from '@/pages/ContactUs';
 // import TeamMemberDetail from './pages/team/TeamMemberDetail';
 
 //pages
@@ -222,6 +223,8 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     </PageTransition>
                   } 
                 />
+
+                <Route path="/contact" element={<ContactUs />} />
               </Routes>
             </AnimatePresence>
             

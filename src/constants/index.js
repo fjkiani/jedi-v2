@@ -64,6 +64,10 @@ export const navigation = [
       {
         title: "Computer Vision",
         description: "Coming Soon"
+      },
+      {
+        title: "Knowledge as a Service",
+        description: "Coming Soon"
       }
     ]
   },
