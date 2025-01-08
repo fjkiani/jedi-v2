@@ -43,82 +43,174 @@ export const aiAgentsSolution = {
 
   // Architecture diagram configuration
   architecture: {
-    title: "AI Agents Workflow",
-    description: "Step-by-step workflow of AI agent processing and analysis",
+    title: "AI Agents Architecture",
+    description: "Comprehensive architecture of a multi-agent system with tool integration and orchestration.",
     layout: {
-      type: "workflow",
-      spacing: { x: 300, y: 150 },
+      type: "horizontal",
+      spacing: { x: 300, y: 200 },
       startPosition: { x: 100, y: 80 }
     },
     nodes: [
       {
-        id: 'review',
-        label: 'Healthcare professionals review and validate',
+        id: 'user_interface',
+        label: 'User Interface',
         x: 100,
         y: 80,
-        description: 'Expert validation of AI recommendations'
+        description: 'Interaction layer between users and agents.',
+        technologies: {
+          interfaces: ["Web UI", "Mobile App", "Voice Assistants", "Chatbots"],
+          frameworks: ["React", "Angular", "Flutter", "Alexa Skills Kit"]
+        }
       },
       {
-        id: 'diagnose',
-        label: 'Generate diagnostic recommendations',
+        id: 'nlp_nlu',
+        label: 'NLP and NLU',
         x: 400,
         y: 80,
-        description: 'AI-powered diagnostic analysis'
+        description: 'Natural Language Processing and Understanding.',
+        technologies: {
+          nlp: ["spaCy", "NLTK", "Stanford NLP"],
+          nlu: ["Dialogflow", "Rasa", "Microsoft LUIS"],
+          transformerModels: ["BERT", "GPT-4", "RoBERTa"]
+        }
       },
       {
-        id: 'patterns',
-        label: 'Identify patterns and correlations in patient data',
+        id: 'agent_core',
+        label: 'Agent Core',
         x: 700,
         y: 80,
-        description: 'Advanced pattern recognition'
+        description: 'Central agent orchestration and decision-making.',
+        technologies: {
+          frameworks: ["LangChain", "OpenAI Functions", "AutoGPT", "BabyAGI"],
+          reasoning: ["ReAct", "Chain-of-thought (CoT)", "Self-Reflective Models"],
+          memory: ["Vector Databases", "Knowledge Graphs"]
+        }
       },
       {
-        id: 'analyze',
-        label: 'Analyze patient records and clinical data',
-        x: 100,
-        y: 280,
-        description: 'Comprehensive data analysis'
+        id: 'tool_integration',
+        label: 'Tool and API Integration',
+        x: 1000,
+        y: 80,
+        description: 'Connecting agents with external tools and services.',
+        technologies: {
+          integration: ["LangChain Tools", "Zapier", "AWS Lambda"],
+          protocols: ["REST", "GraphQL", "gRPC"],
+          authentication: ["OAuth2", "API Keys", "JWT"]
+        }
       },
       {
-        id: 'process',
-        label: 'Process and analyze medical imaging data',
-        x: 400,
-        y: 280,
-        description: 'Medical image processing'
-      },
-      {
-        id: 'gather',
-        label: 'Gather patient data from multiple sources',
+        id: 'knowledge_base',
+        label: 'Knowledge Base',
         x: 700,
-        y: 280,
-        description: 'Data collection and integration'
+        y: 300,
+        description: 'Storage and retrieval of information and context.',
+        technologies: {
+          vectorDBs: ["Pinecone", "Weaviate", "FAISS", "ChromaDB"],
+          databases: ["PostgreSQL", "MongoDB", "Neo4j (Graph DB)"],
+          caching: ["Redis", "Memcached"],
+          ontologies: ["OWL", "RDF"]
+        }
+      },
+      {
+        id: 'task_planning',
+        label: 'Task Planning and Execution',
+        x: 400,
+        y: 300,
+        description: 'Decomposing goals and orchestrating tasks.',
+        technologies: {
+          planningAlgorithms: ["Tree of Thoughts", "Monte Carlo Tree Search", "A* Search", "Hierarchical Task Networks"],
+          schedulers: ["Celery", "Apache Airflow", "Prefect"],
+          distributedComputing: ["Ray", "Dask", "Apache Ignite"]
+        }
+      },
+      {
+        id: 'monitoring',
+        label: 'Monitoring and Feedback',
+        x: 1000,
+        y: 300,
+        description: 'Monitoring agent performance and providing feedback.',
+        technologies: {
+          observability: ["Prometheus", "Grafana", "OpenTelemetry"],
+          logging: ["ELK Stack", "Splunk", "Datadog"],
+          alerting: ["PagerDuty", "OpsGenie", "Slack Notifications"]
+        }
+      },
+      {
+        id: 'machine_learning',
+        label: 'Machine Learning Models',
+        x: 1300,
+        y: 80,
+        description: 'Machine learning models powering the agents.',
+        technologies: {
+          languageModels: ["GPT-4", "BERT", "T5"],
+          frameworks: ["TensorFlow", "PyTorch", "Keras"],
+          customModels: ["Fine-tuned models", "Reinforcement Learning Agents"]
+        }
+      },
+      {
+        id: 'security',
+        label: 'Security and Compliance',
+        x: 1300,
+        y: 300,
+        description: 'Ensuring the agents operate securely and ethically.',
+        technologies: {
+          dataProtection: ["Encryption", "Anonymization", "Data Masking"],
+          compliance: ["GDPR", "HIPAA", "ISO 27001"],
+          authentication: ["OAuth2", "Multi-factor Authentication"],
+          authorization: ["RBAC", "ABAC"]
+        }
       }
     ],
     connections: [
       {
-        from: 'analyze',
-        to: 'review',
-        label: 'Data Analysis'
+        from: 'user_interface',
+        to: 'nlp_nlu',
+        label: 'User Input'
       },
       {
-        from: 'process',
-        to: 'diagnose',
-        label: 'Image Analysis'
+        from: 'nlp_nlu',
+        to: 'agent_core',
+        label: 'Processed Language'
       },
       {
-        from: 'gather',
-        to: 'patterns',
-        label: 'Data Integration'
+        from: 'agent_core',
+        to: 'tool_integration',
+        label: 'API Calls'
       },
       {
-        from: 'analyze',
-        to: 'process',
-        label: 'Clinical Context'
+        from: 'agent_core',
+        to: 'knowledge_base',
+        label: 'Contextual Data'
       },
       {
-        from: 'process',
-        to: 'gather',
-        label: 'Image Data'
+        from: 'agent_core',
+        to: 'task_planning',
+        label: 'Task Instructions'
+      },
+      {
+        from: 'task_planning',
+        to: 'tool_integration',
+        label: 'Execute Tasks'
+      },
+      {
+        from: 'agent_core',
+        to: 'machine_learning',
+        label: 'Model Invocation'
+      },
+      {
+        from: 'security',
+        to: 'agent_core',
+        label: 'Policies and Compliance'
+      },
+      {
+        from: 'monitoring',
+        to: 'agent_core',
+        label: 'Performance Metrics'
+      },
+      {
+        from: 'agent_core',
+        to: 'user_interface',
+        label: 'Responses'
       }
     ]
   },

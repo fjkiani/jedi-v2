@@ -1,0 +1,51 @@
+type Author {
+  name: String! @unique
+  title: String
+  photo: Asset @relation
+  bio: String
+  posts: [Post!] @relation
+  slug: String! @unique
+  workExperience: [WorkExperience!] @relation
+  education: [Education!] @relation
+  certifications: [Certification!] @relation
+  socialLinks: [SocialLink!] @relation
+}
+
+type WorkExperience {
+  companyName: String!
+  position: String!
+  location: String
+  startDate: Date!
+  endDate: Date
+  isCurrentRole: Boolean
+  description: RichText
+  achievements: String
+  companyLogo: Asset @relation
+  author: Author! @relation
+}
+
+type Education {
+  institution: String!
+  degree: String!
+  field: String
+  graduationYear: Int
+  author: Author! @relation
+}
+
+type Certification {
+  name: String!
+  credentialUrl: String
+  author: Author! @relation
+}
+
+type SocialLink {
+  platform: String!
+  url: String!
+  author: Author! @relation
+}
+
+type Asset {
+  url: String!
+  width: Int
+  height: Int
+} 

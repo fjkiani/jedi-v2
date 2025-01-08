@@ -2,8 +2,60 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Section from './Section';
 import { Icon } from './Icon';
-import { businessValues, capabilities } from '../constants/whatWeDoData';
+import { businessValues } from '../constants/whatWeDoData';
 import Tooltip from './Tooltip';
+import { JEDIDiagramView } from './diagrams/JEDIDiagramView';
+import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
+import { securityArchitecture } from '@/constants/solutions/security-architecture';
+import { aiMlSolution } from '@/constants/solutions/ai-ml';
+import { aiAgentsSolution } from '@/constants/solutions/ai-agents';
+// Import Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, EffectFade } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+import { Link } from 'react-router-dom';
+
+const architectures = [
+  {
+    id: 'jedi',
+    diagram: jediArchitecture,
+    title: 'J.E.D.I Architecture',
+    description: 'Our core principles in action'
+  },
+  {
+    id: 'security',
+    diagram: securityArchitecture,
+    title: 'Security Architecture',
+    description: 'Our comprehensive approach to protecting data and systems'
+  },
+  {
+    id: 'ai-ml',
+    diagram: {
+      ...aiMlSolution.architecture,
+      nodes: aiMlSolution.architecture.nodes.map(node => ({
+        ...node,
+        description: node.description || ''
+      }))
+    },
+    title: 'AI/ML Architecture',
+    description: 'Scalable AI/ML system architecture with components for data processing, model training, and deployment'
+  },
+  {
+    id: 'ai-agents',
+    diagram: {
+      ...aiAgentsSolution.architecture,
+      nodes: aiAgentsSolution.architecture.nodes.map(node => ({
+        ...node,
+        description: node.description || ''
+      }))
+    },
+    title: 'AI Agents Architecture',
+    description: 'Autonomous AI agents that perform complex tasks and interact with various tools and services'
+  }
+];
 
 const WhatWeDo = () => {
   return (
@@ -73,40 +125,121 @@ const WhatWeDo = () => {
           ))}
         </motion.div>
 
-        {/* Capabilities Section */}
-        {/* <motion.div
+        {/* Architecture Diagrams Section */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="mb-20"
         >
-          {capabilities.map((capability, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.01 }}
-              className="p-6 rounded-[20px] border border-n-6 bg-n-7"
+          <div className="text-center mb-10">
+            {/* <h3 className="h3 mb-4">Our Architecture</h3> */}
+            <p className="body-2 text-n-3 md:max-w-[571px] mx-auto mb-6">
+              Explore how we build secure, ethical, and innovative solutions
+            </p>
+            <div className="flex items-center justify-center gap-4 text-n-3">
+              <Icon name="arrow-left" className="w-6 h-6 animate-pulse" />
+              <span className="text-sm">Click dots to explore more</span>
+              <Icon name="arrow-right" className="w-6 h-6 animate-pulse" />
+            </div>
+          </div>
+
+          {/* Architecture Slider */}
+          <div className="relative">
+            <Swiper
+              modules={[Navigation, Pagination, EffectFade]}
+              spaceBetween={30}
+              slidesPerView={1}
+              navigation={{
+                prevEl: '.swiper-button-prev',
+                nextEl: '.swiper-button-next',
+              }}
+              pagination={{
+                clickable: true,
+                el: '.swiper-pagination',
+                bulletClass: 'swiper-pagination-bullet',
+                bulletActiveClass: 'swiper-pagination-bullet-active',
+              }}
+              effect="fade"
+              fadeEffect={{ crossFade: true }}
+              className="architecture-slider"
             >
-              <div className="flex items-center gap-4 mb-4">
-                <Icon name={capability.icon} className="w-8 h-8 text-primary-1" />
-                <h3 className="h4 text-n-1">{capability.title}</h3>
-              </div>
-              <p className="body-2 text-n-3 mb-4">{capability.description}</p>
-              <ul className="grid grid-cols-2 gap-2">
-                {capability.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-n-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary-1" />
-                    <span className="text-sm">{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div> */}
+              {architectures.map((arch) => (
+                <SwiperSlide key={arch.id}>
+                  <div className="rounded-2xl border border-n-6 bg-n-7 p-6">
+                    <div className="text-center mb-8">
+                      <h4 className="h4 mb-4 text-primary-1">{arch.title}</h4>
+                      <p className="body-2 text-n-3 mb-6">{arch.description}</p>
+                      <Link 
+                        to={arch.id === 'jedi' ? '/about' : `/solutions/${arch.id}`}
+                        className="button button-primary px-8 py-3 inline-flex items-center gap-2"
+                      >
+                        Learn More
+                        <Icon name="arrow-right" className="w-4 h-4" />
+                      </Link>
+                    </div>
+                    <JEDIDiagramView diagram={arch.diagram} showHeader={false} />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Custom Navigation Buttons */}
+            <button className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5 transition-colors backdrop-blur-sm border border-n-5">
+              <Icon name="arrow-left" className="w-6 h-6 text-n-1" />
+            </button>
+            <button className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5 transition-colors backdrop-blur-sm border border-n-5">
+              <Icon name="arrow-right" className="w-6 h-6 text-n-1" />
+            </button>
+
+            {/* Custom Pagination */}
+            <div className="swiper-pagination flex justify-center gap-2 mt-6" />
+          </div>
+        </motion.div>
 
         {/* Background Elements */}
         <div className="absolute top-0 left-[40%] w-[70%] h-[70%] 
           bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none" />
       </div>
+
+      {/* Add custom styles for Swiper */}
+      <style jsx global>{`
+        .architecture-slider {
+          position: relative;
+          padding-bottom: 3rem;
+        }
+        .swiper-pagination {
+          bottom: 0 !important;
+        }
+        .swiper-pagination-bullet {
+          width: 8px;
+          height: 8px;
+          background: var(--color-n-4);
+          opacity: 0.5;
+          transition: all 0.3s;
+        }
+        .swiper-pagination-bullet-active {
+          width: 24px;
+          border-radius: 4px;
+          background: var(--color-primary-1);
+          opacity: 1;
+        }
+        .swiper-button-prev:after,
+        .swiper-button-next:after {
+          display: none;
+        }
+        .button-primary {
+          background: linear-gradient(92.7deg, var(--color-primary-1) 0%, var(--color-primary-2) 100%);
+          color: var(--color-n-1);
+          border-radius: 0.75rem;
+          font-weight: 600;
+          transition: all 0.3s;
+        }
+        .button-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(var(--color-primary-1-rgb), 0.3);
+        }
+      `}</style>
     </Section>
   );
 };

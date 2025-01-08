@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.12.4",
     "@emailjs/browser": "^4.4.1",
+    "@graphcms/rich-text-react-renderer": "^0.6.2",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@monaco-editor/react": "^4.6.0",
@@ -48,6 +49,7 @@
     "scroll-lock": "^2.1.5",
     "simple-icons": "^13.18.0",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.0",
     "tailwind-merge": "^2.5.5",
     "three": "^0.167.1",
     "typewriter-effect": "^2.21.0"
