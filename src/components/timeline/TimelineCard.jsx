@@ -46,19 +46,17 @@ const TimelineCard = ({ experience, side = 'right' }) => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       className={`
-        relative w-full md:w-[calc(50%-1rem)] 
-        ${side === 'right' ? 'md:ml-auto' : 'md:mr-auto'}
-        p-4 rounded-2xl
+        relative w-full max-w-[800px]
+        p-6 rounded-2xl
         bg-n-1 dark:bg-n-6 
         shadow-xl shadow-n-1/5 dark:shadow-none
         hover:shadow-2xl hover:scale-[1.02]
         transition-all duration-300
-        mb-6
       `}
     >
       {/* Title & Company with Date */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {/* Company Icon */}
           {experience.companyIcon?.url && (
             <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-n-2 dark:bg-n-7">
@@ -84,121 +82,71 @@ const TimelineCard = ({ experience, side = 'right' }) => {
               )}
             </div>
           )}
+
           <div>
-            <h3 className="text-xl font-semibold mb-1">{experience.title}</h3>
-            <div className="flex items-center gap-2">
-              {experience.companyUrl ? (
-                <a 
-                  href={experience.companyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-base text-n-4 hover:text-color-1 transition-colors"
-                >
-                  {experience.company}
-                </a>
-              ) : (
-                <p className="text-base text-n-4">{experience.company}</p>
-              )}
-            </div>
+            <h3 className="text-lg font-semibold text-n-6 dark:text-n-1">{experience.title}</h3>
+            <p className="text-base text-n-4">{experience.company}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-n-4 whitespace-nowrap">
-            {new Date(experience.startDate).toLocaleDateString('en-US', { 
-              month: 'short', 
-              year: 'numeric' 
-            })} - {
-              experience.endDate 
-                ? new Date(experience.endDate).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    year: 'numeric' 
-                  })
-                : 'Present'
-            }
-          </span>
-          {!experience.endDate && (
-            <div className="px-2 py-0.5 text-sm font-medium text-color-1 bg-color-1/10 rounded-full">
-              Current
-            </div>
+
+        <div className="text-sm text-n-4 flex items-center gap-2">
+          {experience.location && (
+            <>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span>{experience.location}</span>
+            </>
           )}
         </div>
       </div>
-      
-      {/* Location */}
-      {experience.location && (
-        <div className="flex items-center gap-2 mb-3 text-n-4">
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-          <span className="text-sm">{experience.location}</span>
-        </div>
-      )}
 
       {/* Description */}
       {experience.description?.html && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="prose dark:prose-invert max-w-none mb-4 text-sm [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:mb-1 [&>p]:mb-2"
+        <div 
+          className="prose dark:prose-invert max-w-none mb-4 text-n-4"
           dangerouslySetInnerHTML={{ __html: experience.description.html }}
         />
       )}
 
-      {/* Technologies */}
-      {experience.skills?.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="space-y-2 mb-4"
-        >
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-n-4">Technologies & Skills</h4>
-          <div className="flex flex-wrap gap-2">
-            {experience.skills.map((skill, index) => {
-              if (!skill?.name) return null;
-
-              const route = getTechnologyRoute(skill);
-              const isBaseRoute = route === '/technology';
-
-              return (
-                <Link
-                  key={index}
-                  to={route}
-                  className="flex items-center gap-1.5 px-3 py-1 text-sm rounded-full bg-n-2 dark:bg-n-7 hover:bg-color-1 hover:text-white transition-colors group cursor-pointer"
-                >
-                  {skill.icon && (
-                    <img 
-                      src={skill.icon} 
-                      alt={skill.name} 
-                      className="w-4 h-4 object-contain group-hover:brightness-200"
-                    />
-                  )}
-                  <span>{skill.name}{isBaseRoute && ' →'}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </motion.div>
-      )}
-
       {/* Highlights */}
       {experience.highlights && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="relative mt-4 p-4 rounded-xl bg-gradient-to-br from-color-1/10 via-color-2/10 to-color-1/5 dark:from-color-1/20 dark:via-color-2/20 dark:to-color-1/10 border border-color-1/10 backdrop-blur-sm"
-        >
-          <div className="absolute -top-3 left-4 px-2 bg-gradient-to-r from-color-1 to-color-2 text-white rounded-full py-1">
-            <h4 className="text-sm font-semibold">Key Achievements</h4>
+        <div className="space-y-2 mb-4">
+          <h4 className="font-semibold text-n-6 dark:text-n-1">Key Achievements:</h4>
+          <div className="text-n-4">
+            {Array.isArray(experience.highlights) ? (
+              <ul className="list-disc list-inside space-y-1">
+                {experience.highlights.map((highlight, index) => (
+                  <li key={index}>{highlight}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>{experience.highlights}</p>
+            )}
           </div>
-          <p className="text-sm text-n-6 dark:text-n-1">{experience.highlights}</p>
-        </motion.div>
+        </div>
+      )}
+
+      {/* Skills */}
+      {experience.skills && experience.skills.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {experience.skills.map((skill, index) => (
+            <div
+              key={index}
+              className="inline-flex items-center gap-1 px-3 py-1 text-sm rounded-full bg-n-2 dark:bg-n-7 text-n-4"
+            >
+              {skill.icon && (
+                <img 
+                  src={skill.icon} 
+                  alt={skill.name || skill.title} 
+                  className="w-4 h-4 object-contain"
+                />
+              )}
+              <span>{skill.name || skill.title}</span>
+            </div>
+          ))}
+        </div>
       )}
     </motion.div>
   );

@@ -18,8 +18,13 @@ const GET_TEAM_MEMBER_BY_SLUG = gql`
         social
         url
       }
+      quickStats {
+        value
+        label
+      }
       workExperience {
         ... on WorkExperience {
+          id
           title
           company
           location
@@ -44,6 +49,23 @@ const GET_TEAM_MEMBER_BY_SLUG = gql`
               title
               description
             }
+          }
+        }
+      }
+      portfolioAsset {
+        title
+        description {
+          html
+        }
+        image {
+          url
+        }
+        projectUrl
+        workExperience {
+          ... on WorkExperience {
+            id
+            title
+            company
           }
         }
       }

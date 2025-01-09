@@ -6,6 +6,7 @@ import Section from '@/components/Section';
 import { fadeIn } from '@/utils/motion';
 import { teamService } from '@/services/teamService';
 import InteractiveTimeline from '@/components/timeline/InteractiveTimeline';
+import CertificationCard from '@/components/CertificationCard';
 import { Link } from 'react-router-dom';
 
 // Helper function to group skills by category
@@ -277,27 +278,25 @@ const TeamMemberDetail = () => {
                 </div>
 
                 {/* Quick Stats */}
-                <div className="mt-8 pt-6 border-t border-n-3 dark:border-n-6">
-                  <h3 className="h5 mb-4">Quick Overview</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="p-6 rounded-xl bg-n-1 dark:bg-n-6 text-center hover:bg-n-2 dark:hover:bg-n-5 transition-colors">
-                      <div className="h3 mb-2 text-color-1">5+</div>
-                      <div className="caption text-n-4">Years Experience</div>
-                    </div>
-                    <div className="p-6 rounded-xl bg-n-1 dark:bg-n-6 text-center hover:bg-n-2 dark:hover:bg-n-5 transition-colors">
-                      <div className="h3 mb-2 text-color-1">40+</div>
-                      <div className="caption text-n-4">Students Mentored</div>
-                    </div>
-                    <div className="p-6 rounded-xl bg-n-1 dark:bg-n-6 text-center hover:bg-n-2 dark:hover:bg-n-5 transition-colors">
-                      <div className="h3 mb-2 text-color-1">3+</div>
-                      <div className="caption text-n-4">AWS Certifications</div>
-                    </div>
-                    <div className="p-6 rounded-xl bg-n-1 dark:bg-n-6 text-center hover:bg-n-2 dark:hover:bg-n-5 transition-colors">
-                      <div className="h3 mb-2 text-color-1">3+</div>
-                      <div className="caption text-n-4">Successful Acquisitions</div>
+                {member.quickStats && member.quickStats.length > 0 && (
+                  <div className="mt-8 pt-6 border-t border-n-3 dark:border-n-6">
+                    <h3 className="h5 mb-4">Quick Overview</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {member.quickStats.map((stat, index) => (
+                        <motion.div 
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="p-6 rounded-xl bg-n-1 dark:bg-n-6 text-center hover:bg-n-2 dark:hover:bg-n-5 transition-colors"
+                        >
+                          <div className="h3 mb-2 text-color-1">{stat.value}</div>
+                          <div className="caption text-n-4">{stat.label}</div>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -360,18 +359,29 @@ const TeamMemberDetail = () => {
           </motion.div>
 
           {/* Work Experience Timeline */}
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="mt-12"
-          >
+          <div className="mb-20">
             <h2 className="h3 mb-6">Work Experience</h2>
-            {member.workExperience && (
-              <InteractiveTimeline experiences={member.workExperience} />
-            )}
-          </motion.div>
+            <div className="w-full">
+              {member.workExperience && (
+                <InteractiveTimeline 
+                  experiences={member.workExperience}
+                  portfolioAssets={member.portfolioAsset}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Certifications */}
+          {member.certification && member.certification.length > 0 && (
+            <div className="mb-20">
+              <h2 className="h3 mb-6">Certifications</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {member.certification.map((cert, index) => (
+                  <CertificationCard key={index} certification={cert} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </Section>
 
