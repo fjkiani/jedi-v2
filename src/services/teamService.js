@@ -68,6 +68,18 @@ const GET_TEAM_MEMBER_BY_SLUG = gql`
         ... on Post {
           title
           excerpt
+          slug
+          featuredImage {
+            url
+          }
+          createdAt
+          author {
+            name
+          }
+          categories {
+            name
+            slug
+          }
         }
       }
     }

@@ -211,7 +211,7 @@ const TeamMemberDetail = () => {
             variants={fadeIn('up')}
             initial="hidden"
             animate="show"
-            className="relative grid gap-6 md:grid-cols-2 md:gap-12 items-start"
+            className="relative grid gap-6 md:grid-cols-2 md:gap-12 items-start mb-12"
           >
             <div>
               {/* Profile Image */}
@@ -276,57 +276,6 @@ const TeamMemberDetail = () => {
                   />
                 </div>
 
-                {/* Key Areas of Expertise */}
-                <div className="mt-8 pt-6 border-t border-n-3 dark:border-n-6">
-                  <h3 className="h5 mb-4">Core Areas of Expertise</h3>
-                  <div className="space-y-3">
-                    {parseExpertiseAreas(member.bio?.html).map((expertise, index) => (
-                      <div 
-                        key={index}
-                        className="group flex items-center gap-4 p-4 rounded-xl bg-n-1 dark:bg-n-6 hover:bg-n-2 dark:hover:bg-n-5 transition-all duration-200"
-                      >
-                        <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-color-1/10 text-color-1 group-hover:bg-color-1 group-hover:text-white transition-colors">
-                          {getExpertiseIcon(expertise.title)}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-semibold text-base text-n-6 dark:text-n-1 truncate">
-                            {expertise.title}
-                          </h4>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            {expertise.details.map((detail, i) => {
-                              const tech = member.workExperience?.[0]?.skills?.find(
-                                s => s.name?.toLowerCase() === detail.toLowerCase() || 
-                                     s.title?.toLowerCase() === detail.toLowerCase()
-                              );
-                              
-                              if (!tech) return (
-                                <span key={i} className="text-sm text-n-4">{detail}</span>
-                              );
-
-                              return (
-                                <Link
-                                  key={i}
-                                  to={`/technology/${tech.slug || tech.name?.toLowerCase().replace(/\s+/g, '-')}`}
-                                  className="flex items-center gap-2 px-3 py-1 text-sm rounded-full bg-n-2 dark:bg-n-7 hover:bg-color-1 hover:text-white transition-colors"
-                                >
-                                  {tech.icon && (
-                                    <img 
-                                      src={tech.icon} 
-                                      alt={tech.name || tech.title} 
-                                      className="w-4 h-4 object-contain"
-                                    />
-                                  )}
-                                  <span>{detail}</span>
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Quick Stats */}
                 <div className="mt-8 pt-6 border-t border-n-3 dark:border-n-6">
                   <h3 className="h5 mb-4">Quick Overview</h3>
@@ -353,7 +302,64 @@ const TeamMemberDetail = () => {
             </div>
           </motion.div>
 
-          {/* Work Experience Timeline - Now Full Width */}
+          {/* Core Areas of Expertise - Full Width */}
+          <motion.div
+            variants={fadeIn('up')}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h3 className="h3 mb-6">Core Areas of Expertise</h3>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {parseExpertiseAreas(member.bio?.html).map((expertise, index) => (
+                <div 
+                  key={index}
+                  className="group flex items-center gap-4 p-4 rounded-xl bg-n-1 dark:bg-n-6 hover:bg-n-2 dark:hover:bg-n-5 transition-all duration-200"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-color-1/10 text-color-1 group-hover:bg-color-1 group-hover:text-white transition-colors">
+                    {getExpertiseIcon(expertise.title)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-semibold text-base text-n-6 dark:text-n-1 truncate">
+                      {expertise.title}
+                    </h4>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {expertise.details.map((detail, i) => {
+                        const tech = member.workExperience?.[0]?.skills?.find(
+                          s => s.name?.toLowerCase() === detail.toLowerCase() || 
+                               s.title?.toLowerCase() === detail.toLowerCase()
+                        );
+                        
+                        if (!tech) return (
+                          <span key={i} className="text-sm text-n-4">{detail}</span>
+                        );
+
+                        return (
+                          <Link
+                            key={i}
+                            to={`/technology/${tech.slug || tech.name?.toLowerCase().replace(/\s+/g, '-')}`}
+                            className="flex items-center gap-2 px-3 py-1 text-sm rounded-full bg-n-2 dark:bg-n-7 hover:bg-color-1 hover:text-white transition-colors"
+                          >
+                            {tech.icon && (
+                              <img 
+                                src={tech.icon} 
+                                alt={tech.name || tech.title} 
+                                className="w-4 h-4 object-contain"
+                              />
+                            )}
+                            <span>{detail}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Work Experience Timeline */}
           <motion.div
             variants={fadeIn('up')}
             initial="hidden"
@@ -372,73 +378,133 @@ const TeamMemberDetail = () => {
       {/* Additional Sections */}
       <Section className="pt-12">
         <div className="container">
-          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-            {/* Certifications */}
-            {member.certification?.length > 0 && (
-              <motion.div
-                variants={fadeIn('up')}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="p-8 rounded-3xl bg-n-2 dark:bg-n-7"
-              >
-                <h2 className="h4 mb-6">Certifications</h2>
-                <div className="grid gap-4">
-                  {member.certification.map((cert, index) => (
-                    <a
-                      key={index}
-                      href={cert.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 hover:bg-n-3 dark:hover:bg-n-6 p-2 rounded-xl transition-colors"
+          {/* Team Profile References (Blog Posts) */}
+          {member.teamProfile?.length > 0 && (
+            <motion.div
+              variants={fadeIn('up')}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
+              <h2 className="h3 mb-8">Recent Blogs</h2>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {member.teamProfile.map((post, index) => (
+                  <Link
+                    key={index}
+                    to={`/blog/post/${post.slug}`}
+                    className="group block"
+                  >
+                    <motion.div 
+                      className="relative overflow-hidden rounded-3xl bg-n-2 dark:bg-n-7"
+                      whileHover={{ y: -5 }}
+                      transition={{ duration: 0.3 }}
                     >
-                      {cert.image?.url && (
-                        <img 
-                          src={cert.image.url} 
-                          alt={cert.name} 
-                          className="w-12 h-12 object-contain"
-                        />
-                      )}
-                      <div>
-                        <h3 className="body-2 font-semibold">{cert.name}</h3>
-                        {cert.description?.raw && (
-                          <p className="text-sm text-n-4">
-                            {typeof cert.description.raw === 'string' 
-                              ? JSON.parse(cert.description.raw).children[0].children[0].text
-                              : cert.description.raw.children[0].children[0].text
-                            }
-                          </p>
+                      {/* Post Image */}
+                      <div className="aspect-[16/9] relative">
+                        {post.featuredImage?.url ? (
+                          <img 
+                            src={post.featuredImage.url} 
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-color-1/40 to-color-2/40" />
+                        )}
+                        {/* Category Tags */}
+                        {post.categories && post.categories.length > 0 && (
+                          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                            {post.categories.map((category, idx) => (
+                              <span
+                                key={idx}
+                                className="px-3 py-1 text-xs font-medium text-white bg-n-1/10 backdrop-blur-sm rounded-full"
+                              >
+                                {category.name}
+                              </span>
+                            ))}
+                          </div>
                         )}
                       </div>
-                    </a>
-                  ))}
-                </div>
-              </motion.div>
-            )}
 
-            {/* Team Profile References */}
-            {member.teamProfile?.length > 0 && (
-              <motion.div
-                variants={fadeIn('up')}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="p-8 rounded-3xl bg-n-2 dark:bg-n-7 lg:col-span-2"
-              >
-                <h2 className="h4 mb-6">Areas of Expertise</h2>
-                <div className="grid gap-6 md:grid-cols-2">
-                  {member.teamProfile.map((profile, index) => (
-                    <div key={index} className="space-y-2">
-                      <h3 className="body-2 font-semibold">{profile.title}</h3>
-                      <p className="caption text-n-4">
-                        {profile.description || profile.excerpt}
-                      </p>
+                      {/* Post Info */}
+                      <div className="p-6">
+                        {post.createdAt && (
+                          <div className="text-sm text-n-4 mb-3">
+                            {new Date(post.createdAt).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric'
+                            })}
+                          </div>
+                        )}
+                        <h3 className="h4 mb-4 group-hover:text-color-1 transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="body-2 text-n-4 mb-6 line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                        
+                        {/* Read More Link */}
+                        <div className="flex items-center gap-2 text-n-4 font-medium">
+                          <span className="group-hover:text-color-1 transition-colors">Read More</span>
+                          <svg 
+                            className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:text-color-1" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Certifications */}
+          {member.certification?.length > 0 && (
+            <motion.div
+              variants={fadeIn('up')}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="mt-10 p-8 rounded-3xl bg-n-2 dark:bg-n-7"
+            >
+              <h2 className="h4 mb-6">Certifications</h2>
+              <div className="grid gap-4">
+                {member.certification.map((cert, index) => (
+                  <a
+                    key={index}
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 hover:bg-n-3 dark:hover:bg-n-6 p-2 rounded-xl transition-colors"
+                  >
+                    {cert.image?.url && (
+                      <img 
+                        src={cert.image.url} 
+                        alt={cert.name} 
+                        className="w-12 h-12 object-contain"
+                      />
+                    )}
+                    <div>
+                      <h3 className="body-2 font-semibold">{cert.name}</h3>
+                      {cert.description?.raw && (
+                        <p className="text-sm text-n-4">
+                          {typeof cert.description.raw === 'string' 
+                            ? JSON.parse(cert.description.raw).children[0].children[0].text
+                            : cert.description.raw.children[0].children[0].text
+                          }
+                        </p>
+                      )}
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </div>
       </Section>
     </>

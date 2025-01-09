@@ -16,13 +16,19 @@ const TimelineCard = ({ experience, side = 'right' }) => {
   }, []);
 
   const fadeIn = {
-    hidden: { opacity: 0, x: side === 'right' ? 20 : -20 },
+    hidden: { 
+      opacity: 0,
+      x: side === 'right' ? 20 : -20,
+      y: 20
+    },
     visible: { 
-      opacity: 1, 
+      opacity: 1,
       x: 0,
+      y: 0,
       transition: {
-        duration: 0.5,
-        ease: 'easeOut'
+        type: "spring",
+        duration: 0.8,
+        bounce: 0.3
       }
     }
   };
@@ -47,6 +53,7 @@ const TimelineCard = ({ experience, side = 'right' }) => {
         shadow-xl shadow-n-1/5 dark:shadow-none
         hover:shadow-2xl hover:scale-[1.02]
         transition-all duration-300
+        mb-6
       `}
     >
       {/* Title & Company with Date */}
@@ -54,7 +61,7 @@ const TimelineCard = ({ experience, side = 'right' }) => {
         <div className="flex items-center gap-3">
           {/* Company Icon */}
           {experience.companyIcon?.url && (
-            <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-n-2 dark:bg-n-7">
+            <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-n-2 dark:bg-n-7">
               {experience.companyUrl ? (
                 <a 
                   href={experience.companyUrl} 
@@ -78,7 +85,7 @@ const TimelineCard = ({ experience, side = 'right' }) => {
             </div>
           )}
           <div>
-            <h3 className="text-lg font-semibold">{experience.title}</h3>
+            <h3 className="text-xl font-semibold mb-1">{experience.title}</h3>
             <div className="flex items-center gap-2">
               {experience.companyUrl ? (
                 <a 
@@ -96,7 +103,7 @@ const TimelineCard = ({ experience, side = 'right' }) => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-n-4 whitespace-nowrap">
+          <span className="text-sm font-medium text-n-4 whitespace-nowrap">
             {new Date(experience.startDate).toLocaleDateString('en-US', { 
               month: 'short', 
               year: 'numeric' 
@@ -110,7 +117,7 @@ const TimelineCard = ({ experience, side = 'right' }) => {
             }
           </span>
           {!experience.endDate && (
-            <div className="px-2 py-0.5 text-xs font-medium text-color-1 bg-color-1/10 rounded-full">
+            <div className="px-2 py-0.5 text-sm font-medium text-color-1 bg-color-1/10 rounded-full">
               Current
             </div>
           )}
@@ -147,10 +154,10 @@ const TimelineCard = ({ experience, side = 'right' }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="space-y-2"
+          className="space-y-2 mb-4"
         >
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-n-4">Technologies & Skills</h4>
-          <div className="flex flex-wrap gap-1.5">
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-n-4">Technologies & Skills</h4>
+          <div className="flex flex-wrap gap-2">
             {experience.skills.map((skill, index) => {
               if (!skill?.name) return null;
 
@@ -161,13 +168,13 @@ const TimelineCard = ({ experience, side = 'right' }) => {
                 <Link
                   key={index}
                   to={route}
-                  className="flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-n-2 dark:bg-n-7 hover:bg-color-1 hover:text-white transition-colors group cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1 text-sm rounded-full bg-n-2 dark:bg-n-7 hover:bg-color-1 hover:text-white transition-colors group cursor-pointer"
                 >
                   {skill.icon && (
                     <img 
                       src={skill.icon} 
                       alt={skill.name} 
-                      className="w-3 h-3 object-contain group-hover:brightness-200"
+                      className="w-4 h-4 object-contain group-hover:brightness-200"
                     />
                   )}
                   <span>{skill.name}{isBaseRoute && ' →'}</span>
@@ -185,10 +192,12 @@ const TimelineCard = ({ experience, side = 'right' }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-4 p-3 rounded-xl bg-n-2/50 dark:bg-n-7/50"
+          className="relative mt-4 p-4 rounded-xl bg-gradient-to-br from-color-1/10 via-color-2/10 to-color-1/5 dark:from-color-1/20 dark:via-color-2/20 dark:to-color-1/10 border border-color-1/10 backdrop-blur-sm"
         >
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-n-4 mb-2">Key Achievements</h4>
-          <p className="text-sm text-n-4">{experience.highlights}</p>
+          <div className="absolute -top-3 left-4 px-2 bg-gradient-to-r from-color-1 to-color-2 text-white rounded-full py-1">
+            <h4 className="text-sm font-semibold">Key Achievements</h4>
+          </div>
+          <p className="text-sm text-n-6 dark:text-n-1">{experience.highlights}</p>
         </motion.div>
       )}
     </motion.div>
