@@ -8,18 +8,18 @@ export const aboutContent = {
     highlightText: "AI That Serves Everyone",
     description: "At JediLabs, we're revolutionizing enterprise AI with our JEDI principles - Justice, Equity, Diversity, and Innovation. Our mission is to democratize advanced AI technology while ensuring it remains secure, ethical, and accessible for organizations of all sizes.",
     stats: [
-      {
-        value: "100%",
-        label: "Data Sovereignty"
-      },
-      {
-        value: "10x",
-        label: "Development Speed"
-      },
-      {
-        value: "Zero",
-        label: "Trust Architecture"
-      }
+        {
+            value: "99.9%",
+            label: "Automated Solutions"
+          },
+          {
+            value: "100x",
+            label: "Hours Saved"
+          },
+          {
+            value: "Zero",
+            label: "Compromises | Jobs Lost"
+          }
     ]
   },
 

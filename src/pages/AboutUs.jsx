@@ -11,6 +11,7 @@ import { JEDIDiagramView } from '@/components/diagrams/JEDIDiagramView';
 import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
 import { securityArchitecture } from '@/constants/solutions/security-architecture';
 import { jediEmpower, jediVision } from '@/assets';
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
   const [aboutData, setAboutData] = useState(null);
@@ -294,16 +295,17 @@ const AboutUs = () => {
             <p className="body-2 text-n-4 mb-10">
               {aboutContent.team.subtitle}
             </p>
-            <div className="flex items-center justify-center">
-              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-n-2 dark:bg-n-7">
-                <AboutIcon 
-                  path={aboutContent.team.comingSoon.icon.path}
-                  viewBox={aboutContent.team.comingSoon.icon.viewBox}
-                  className="w-5 h-5 text-color-1"
-                />
-                <span className="h5 text-color-1">{aboutContent.team.comingSoon.text}</span>
-              </div>
-            </div>
+            <Link 
+              to="/team"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-n-2 dark:bg-n-7 hover:bg-n-3 dark:hover:bg-n-6 transition-colors"
+            >
+              <AboutIcon 
+                path="M17.754 14a2.249 2.249 0 0 1 2.25 2.249v.575c0 .894-.32 1.76-.902 2.438-1.57 1.834-4.098 2.986-6.852 2.986-2.754 0-5.282-1.152-6.851-2.986a3.595 3.595 0 0 1-.903-2.438v-.575A2.25 2.25 0 0 1 6.747 14h11.007ZM12.25 2.75a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5Z"
+                viewBox="0 0 24 24"
+                className="w-5 h-5 text-color-1"
+              />
+              <span className="h5 text-color-1">Meet Our Team</span>
+            </Link>
           </motion.div>
         </div>
       </Section>

@@ -448,33 +448,11 @@ const SolutionPage = () => {
       id: 'architecture',
       label: 'Architecture',
       icon: 'layout-grid',
-      content: solution.architecture ? (
+      content: solution.architectureDiagram ? (
         <div>
-          <h3 className="h4 mb-4">{solution.architecture.title}</h3>
-          <p className="text-n-3 mb-4">{solution.architecture.description}</p>
+          <h3 className="h4 mb-4">Architecture Overview</h3>
           <div className="mb-8">
-            <ArchitectureDiagram diagram={{
-              ...solution.architecture,
-              id: solution.slug,
-              useCase: {
-                title: solution.title,
-                description: solution.description,
-                businessValue: solution.businessValue.metrics,
-                capabilities: solution.businessValue.capabilities,
-                examples: solution.businessValue.useCases,
-                deployment: solution.deployment
-              },
-              nodes: solution.architecture.nodes.map(node => ({
-                ...node,
-                technologies: {
-                  ...node.technologies,
-                  deployment: solution.deployment?.environments?.reduce((acc, env) => ({
-                    ...acc,
-                    [env.name]: env.tools.join(', ')
-                  }), {})
-                }
-              }))
-            }} />
+            <ArchitectureDiagram diagram={solution.architectureDiagram} />
           </div>
           {selectedUseCase?.architecture?.flow && (
             <div className="mt-10">

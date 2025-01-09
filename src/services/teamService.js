@@ -1,94 +1,142 @@
 import { gql } from 'graphql-request';
-import { hygraphClient } from '../lib/hygraph';
+import { hygraphClient } from '@/lib/hygraph';
 
-const getTeamMembers = async () => {
-  const query = gql`
-    query TeamMembers {
-      teamMembers(orderBy: order_ASC) {
-        id
-        name
-        role
-        bio
-        order
-        image {
-          url
-        }
-        linkedinUrl
-        twitterUrl
-        githubUrl
-        specialties
-        achievements
-        education {
-          degree
-          institution
-          year
-        }
-        publications {
+const GET_TEAM_MEMBER_BY_SLUG = gql`
+  query TeamMemberBySlug($slug: String!) {
+    teamMember(where: {slug: $slug}) {
+      name
+      role
+      slug
+      bio {
+        html
+      }
+      order
+      image {
+        url
+      }
+      socialLink {
+        social
+        url
+      }
+      workExperience {
+        ... on WorkExperience {
           title
-          url
-          year
+          company
+          location
+          startDate
+          endDate
+          highlights
+          description {
+            html
+          }
+          skills {
+            ... on Technology {
+              name
+              slug
+              icon
+              description
+            }
+            ... on UseCase {
+              title
+              description
+            }
+            ... on Projects {
+              title
+              description
+            }
+          }
         }
       }
-    }
-  `;
-
-  try {
-    const { teamMembers } = await hygraphClient.request(query);
-    return teamMembers;
-  } catch (error) {
-    console.error('Error fetching team members:', error);
-    return [];
-  }
-};
-
-const getTeamMemberBySlug = async (slug) => {
-  const query = gql`
-    query TeamMemberBySlug($slug: String!) {
-      teamMember(where: { slug: $slug }) {
-        id
+      certification {
         name
-        role
-        bio
-        slug
+        description {
+          raw
+        }
+        credentialUrl
         image {
           url
         }
-        linkedinUrl
-        twitterUrl
-        githubUrl
-        specialties
-        achievements
-        education {
-          degree
-          institution
-          year
+      }
+      teamProfile {
+        ... on Industry {
+          name
         }
-        publications {
-          title
-          url
-          year
-        }
-        featuredProjects {
+        ... on Projects {
           title
           description
-          technologies
-          imageUrl
-          projectUrl
+        }
+        ... on Post {
+          title
+          excerpt
         }
       }
     }
-  `;
-
-  try {
-    const { teamMember } = await hygraphClient.request(query, { slug });
-    return teamMember;
-  } catch (error) {
-    console.error('Error fetching team member:', error);
-    return null;
   }
-};
+`;
+
+const GET_ALL_TEAM_MEMBERS = gql`
+  query GetAllTeamMembers {
+    teamMembers(orderBy: order_ASC) {
+      name
+      role
+      slug
+      order
+      image {
+        url
+      }
+      socialLink {
+        social
+        url
+      }
+    }
+  }
+`;
+
+const GET_ALL_TECHNOLOGIES = gql`
+  query GetAllTechnologies {
+    technologies {
+      name
+      slug
+    }
+  }
+`;
+
+// Cache for technologies
+let technologiesCache = null;
 
 export const teamService = {
-  getTeamMembers,
-  getTeamMemberBySlug
+  getAllTechnologies: async () => {
+    if (technologiesCache) return technologiesCache;
+    
+    try {
+      const { technologies } = await hygraphClient.request(GET_ALL_TECHNOLOGIES);
+      technologiesCache = technologies;
+      return technologies;
+    } catch (error) {
+      console.error('Error fetching technologies:', error);
+      return [];
+    }
+  },
+
+  getTeamMemberBySlug: async (slug) => {
+    try {
+      console.log('Fetching team member with slug:', slug);
+      const { teamMember } = await hygraphClient.request(GET_TEAM_MEMBER_BY_SLUG, { slug });
+      console.log('Team member data:', teamMember);
+      return teamMember;
+    } catch (error) {
+      console.error('Error fetching team member:', error);
+      throw error;
+    }
+  },
+
+  getAllTeamMembers: async () => {
+    try {
+      const { teamMembers } = await hygraphClient.request(GET_ALL_TEAM_MEMBERS);
+      return teamMembers;
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+      throw error;
+    }
+  }
 }; 

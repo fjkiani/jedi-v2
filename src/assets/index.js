@@ -21,6 +21,11 @@ import sliders04 from "./sliders-04.svg";
 import loading from "./loading.png";
 import background from "./background.jpg";
 
+// About page images
+import jediEmpower from "./images/jedi-empower.png";
+import jediEmpower2 from "./images/jedi-empower-2.png";
+import jediImage from "./images/jedi.jpeg";
+
 import curve from "./hero/curve.png";
 import robot from "./hero/robot.jpg";
 import heroBackground from "./hero/hero-background.jpg";
@@ -81,8 +86,12 @@ import twitter from "./socials/twitter.svg";
 //stack
 import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } from "../assets/stack";
 
-import jediEmpower from './images/jedi-empower.png';
-import jediVision from './images/jedi.jpeg';
+
+
+
+
+
+
 
 export {
   logo,
@@ -107,6 +116,10 @@ export {
   sliders04,
   loading,
   background,
+  // About page images
+  jediEmpower,
+  jediEmpower2,
+  jediImage as jediVision,
   curve,
   robot,
   heroBackground,
@@ -168,6 +181,5 @@ export {
   // medicalAI,
   // rdChat,
   // coding2
-  jediEmpower,
-  jediVision,
+
 };

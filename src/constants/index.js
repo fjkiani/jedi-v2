@@ -139,7 +139,7 @@ export const navigation = [
     url: "#",
     dropdownItems: [
       { title: "About Us", url: "/about" },
-      { title: "Team", description: "Coming Soon" },
+      { title: "Team", url: "/team" },
       { title: "Careers", description: "Coming Soon" },
       { title: "Contact", url: "/contact" }
     ]

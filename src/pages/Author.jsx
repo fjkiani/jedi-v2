@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import { authorService } from '@/services/authorService';
-import { RichText } from '@hygraph/rich-text-react-renderer';
+import { RichText } from '@graphcms/rich-text-react-renderer';
 
 const Author = () => {
   const { slug } = useParams();
