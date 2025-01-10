@@ -238,11 +238,18 @@ const DropdownMenu = ({ items, categories }) => {
   );
 };
 
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+let categoriesCache = {
+  data: null,
+  timestamp: null
+};
+
 const Header = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
   const [categories, setCategories] = useState([]);
   const { isDarkMode } = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Transform navigation to include dynamic industries
   const dynamicNavigation = navigation.map(item => {
@@ -257,11 +264,37 @@ const Header = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      // Check if we have cached data that's still valid
+      if (categoriesCache.data && (Date.now() - categoriesCache.timestamp) < CACHE_DURATION) {
+        setCategories(categoriesCache.data);
+        return;
+      }
+
+      if (isLoading) return;
+
       try {
+        setIsLoading(true);
         const data = await technologyService.getAllCategories();
-        setCategories(data || []);
+        
+        if (data) {
+          // Update cache
+          categoriesCache = {
+            data: data,
+            timestamp: Date.now()
+          };
+          setCategories(data);
+        }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // If it's a rate limit error, use cached data if available
+        if (error?.response?.status === 429 && categoriesCache.data) {
+          setCategories(categoriesCache.data);
+        } else {
+          console.error('Error fetching categories:', error);
+          // Set empty array to prevent continuous retries
+          setCategories([]);
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
 

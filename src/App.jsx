@@ -25,6 +25,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import AboutUs from './pages/AboutUs';
 import TeamMemberDetail from './pages/team/TeamMemberDetail';
 import TeamPage from './pages/team';
+import ContactUs from './pages/ContactUs';
 // import TeamMemberDetail from './pages/team/TeamMemberDetail';
 
 //pages
@@ -232,6 +233,15 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <TeamMemberDetail />
+                  </PageTransition>
+                } 
+              />
+
+              <Route 
+                path="/contact" 
+                element={
+                  <PageTransition>
+                    <ContactUs />
                   </PageTransition>
                 } 
               />
