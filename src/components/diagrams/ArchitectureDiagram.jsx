@@ -18,10 +18,7 @@ const ArchitectureDiagram = ({ diagram }) => {
   }
 
   const views = {
-    useCase: {
-      label: 'Use Case',
-      component: <UseCaseView diagram={diagram} />
-    },
+  
     deployment: {
       label: 'Deployment',
       component: <DeploymentView diagram={diagram} />

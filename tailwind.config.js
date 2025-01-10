@@ -3,10 +3,24 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
 export default {
+  darkMode: "class", // Enable class-based dark mode
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
+        // Define primary colors with light and dark variants
+        background: {
+          light: "#FFFFFF",
+          dark: "#121212",
+        },
+        text: {
+          light: "#000000",
+          dark: "#FFFFFF",
+        },
+        primary: {
+          light: "#007bff",
+          dark: "#bb86fc",
+        },
         color: {
           1: "#AC6AFF",
           2: "#FFC876",

@@ -120,36 +120,22 @@ const IndustrySolutions = ({ industry }) => {
   if (!industry || !industry.solutions) return null;
 
   return (
-    <Section className="overflow-hidden">
-      <div className="container relative">
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="h2 mb-4">Our Solutions</h2>
-          <p className="body-1 text-n-3 md:max-w-[571px] mx-auto">
-            Discover how our AI solutions transform {industry.title}
-          </p>
-        </motion.div> */}
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {industry.solutions.map((solution, index) => (
-            <IndustrySolutionCard
-              key={solution.id}
-              solution={solution}
-              industry={industry}
-              relationships={solutionRelationships[index]}
-              index={index}
-            />
-          ))}
-        </div>
-
-        <div className="absolute top-0 right-0 w-[70%] h-[70%] 
-          bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none" />
+    <div className="container relative">
+      <div className="grid md:grid-cols-2 gap-6">
+        {industry.solutions.map((solution, index) => (
+          <IndustrySolutionCard
+            key={solution.id}
+            solution={solution}
+            industry={industry}
+            relationships={solutionRelationships[index]}
+            index={index}
+          />
+        ))}
       </div>
-    </Section>
+
+      <div className="absolute top-0 right-0 w-[70%] h-[70%] 
+        bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none" />
+    </div>
   );
 };
 

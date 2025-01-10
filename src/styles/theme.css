@@ -1,0 +1,59 @@
+:root {
+  /* Light theme variables */
+  --color-1: #AC6AFF;
+  --color-2: #FFC876;
+  --color-3: #FF776F;
+  --stroke-1: #26242C;
+  --n-1: #252134;  /* Main text color for light mode */
+  --n-2: #1F2937;
+  --n-3: #374151;
+  --n-4: #4B5563;
+  --n-5: #6B7280;
+  --n-6: #252134;  /* Secondary text color for light mode */
+  --n-7: #D1D5DB;
+  --n-8: #FFFFFF;  /* Background color for light mode */
+  --n-9: #474060;
+  --n-10: #43435C;
+  --n-11: #1B1B2E;
+  --n-12: #2E2A41;
+  --n-13: #6C7275;
+}
+
+/* Dark theme variables - keeping your original dark theme */
+.dark {
+  --color-1: #AC6AFF;
+  --color-2: #FFC876;
+  --color-3: #FF776F;
+  --stroke-1: #26242C;
+  --n-1: #FFFFFF;  /* Main text color for dark mode */
+  --n-2: #CAC6DD;
+  --n-3: #ADA8C3;
+  --n-4: #757185;
+  --n-5: #3F3A52;
+  --n-6: #252134;
+  --n-7: #15131D;
+  --n-8: #0E0C15;  /* Background color for dark mode */
+  --n-9: #474060;
+  --n-10: #43435C;
+  --n-11: #1B1B2E;
+  --n-12: #2E2A41;
+  --n-13: #6C7275;
+}
+
+/* Add smooth transitions for theme changes */
+* {
+  transition: background-color 200ms ease-in-out,
+              border-color 200ms ease-in-out,
+              color 200ms ease-in-out;
+}
+
+/* Base text colors for light/dark modes */
+:root {
+  color: var(--n-6);
+  background-color: var(--n-8);
+}
+
+.dark {
+  color: var(--n-1);
+  background-color: var(--n-8);
+}

@@ -38,9 +38,9 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="flex flex-col items-center gap-10">
           {/* Logo and Description */}
-          <Link to="/" className="block mb-6">
+          {/* <Link to="/" className="block mb-6">
             <img src={logo} alt="JediLabs" className="h-8" />
-          </Link>
+          </Link> */}
           
           {/* Navigation Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 w-full">

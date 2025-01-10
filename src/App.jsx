@@ -98,13 +98,11 @@ const App = () => {
   if (loading) return <Loading />;
 
   return (
-    <ThemeProvider>
-      <AppContent 
-        posts={posts} 
-        location={location} 
-        helmetContext={helmetContext} 
-      />
-    </ThemeProvider>
+    <AppContent 
+      posts={posts} 
+      location={location} 
+      helmetContext={helmetContext} 
+    />
   );
 };
 
@@ -112,135 +110,138 @@ const App = () => {
 const AppContent = ({ posts, location, helmetContext }) => {
   const { isDarkMode } = useTheme();
 
+  // Apply theme class to the root div
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode]);
+
   return (
-    <div className={`${isDarkMode ? 'dark' : ''}`}>
-      <div className="min-h-screen bg-light-2 dark:bg-n-8 transition-colors duration-200">
-        <HelmetProvider context={helmetContext}>
-          <Header />
-          <ScrollToTop />
+    <div className={`min-h-screen bg-white dark:bg-n-8 text-n-6 dark:text-n-1 transition-colors duration-200`}>
+      <HelmetProvider context={helmetContext}>
+        <Header />
+        <ScrollToTop />
 
-          <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <Hero />
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1 }}
-                      >
-                        {/* <SolutionsNavigator /> */}
-                      </motion.div>
-                      <WhatWeDo />
-                      <Collaboration />
-                      <NextGenAIStack />
-                      <IndustryOverview />
-                      <WhyChooseUs />
-                      {/* <CaseStudies /> */}
-                      {/* <Pricing /> */}
-                      <Services />
-                      <Roadmap />
-                      <Contact />
-                      <StarsCanvas />
-                    </>
-                  }
-                />
-                
-                <Route 
-                  path="/solutions" 
-                  element={
-                    <PageTransition>
-                      <SolutionsPage />
-                      <WhyChooseUs />
-                      <CaseStudies />
-                      <Contact />
-                    </PageTransition>
-                  } 
-                />
+        <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Hero />
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 1 }}
+                    >
+                      {/* <SolutionsNavigator /> */}
+                    </motion.div>
+                    <WhatWeDo />
+                    <Collaboration />
+                    <NextGenAIStack />
+                    <IndustryOverview />
+                    <WhyChooseUs />
+                    {/* <CaseStudies /> */}
+                    {/* <Pricing /> */}
+                    <Services />
+                    <Roadmap />
+                    <Contact />
+                    <StarsCanvas />
+                  </>
+                }
+              />
+              
+              <Route 
+                path="/solutions" 
+                element={
+                  <PageTransition>
+                    <SolutionsPage />
+                    <WhyChooseUs />
+                    <CaseStudies />
+                    <Contact />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="/solutions/:slug" 
-                  element={
-                    <PageTransition>
-                      <SolutionPage />
-                      <CaseStudies />
-                      <Contact />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="/solutions/:slug" 
+                element={
+                  <PageTransition>
+                    <SolutionPage />
+                    <CaseStudies />
+                    <Contact />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="/blog" 
-                  element={
-                    <PageTransition>
-                      <Blog posts={posts} />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="/blog" 
+                element={
+                  <PageTransition>
+                    <Blog posts={posts} />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="blog/post/:slug" 
-                  element={
-                    <PageTransition>
-                      <BlogPage />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="blog/post/:slug" 
+                element={
+                  <PageTransition>
+                    <BlogPage />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="/industries/*" 
-                  element={
-                    <PageTransition>
-                      <IndustryRoutes />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="/industries/*" 
+                element={
+                  <PageTransition>
+                    <IndustryRoutes />
+                  </PageTransition>
+                } 
+              />
 
-                <Route path="/tech-test" element={<TechStackTest />} />
-                <Route path="/tech/:techId" element={<TechDetails />} />
-                <Route path="/tech-stack" element={<TechStackGrid />} />
-                <Route path="/technology" element={<TechnologyStack />} />
-                <Route path="/technology/:slug" element={<EnhancedTechnologyDetail />} />
-                <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
-                <Route path="/tech/:slug" element={<TechStackDetail />} />
+              <Route path="/tech-test" element={<TechStackTest />} />
+              <Route path="/tech/:techId" element={<TechDetails />} />
+              <Route path="/tech-stack" element={<TechStackGrid />} />
+              <Route path="/technology" element={<TechnologyStack />} />
+              <Route path="/technology/:slug" element={<EnhancedTechnologyDetail />} />
+              <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
+              <Route path="/tech/:slug" element={<TechStackDetail />} />
 
-                <Route 
-                  path="/about" 
-                  element={
-                    <PageTransition>
-                      <AboutUs />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="/about" 
+                element={
+                  <PageTransition>
+                    <AboutUs />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="/team" 
-                  element={
-                    <PageTransition>
-                      <TeamPage />
-                    </PageTransition>
-                  } 
-                />
+              <Route 
+                path="/team" 
+                element={
+                  <PageTransition>
+                    <TeamPage />
+                  </PageTransition>
+                } 
+              />
 
-                <Route 
-                  path="/team/:slug" 
-                  element={
-                    <PageTransition>
-                      <TeamMemberDetail />
-                    </PageTransition>
-                  } 
-                />
-              </Routes>
-            </AnimatePresence>
-            
-            <Footer />
-          </div>
-          <ButtonGradient />
-        </HelmetProvider>
-      </div>
+              <Route 
+                path="/team/:slug" 
+                element={
+                  <PageTransition>
+                    <TeamMemberDetail />
+                  </PageTransition>
+                } 
+              />
+            </Routes>
+          </AnimatePresence>
+          
+          <Footer />
+        </div>
+        <ButtonGradient />
+      </HelmetProvider>
     </div>
   );
 };

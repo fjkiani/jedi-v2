@@ -17,7 +17,7 @@ const SolutionsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
-        >
+        >  
           <h1 className="h1 mb-4">Enterprise Solutions</h1>
           <p className="body-1 text-n-3 md:max-w-md lg:max-w-2xl mx-auto">
             Explore our comprehensive suite of enterprise-grade solutions powered by cutting-edge AI technologies.

@@ -18,7 +18,7 @@ const IndustryRoutes = () => {
           <PageTransition>
             <IndustriesOverview />
             <WhyChooseUs />
-            <CaseStudies />
+            {/* <CaseStudies /> */}
             <Contact />
           </PageTransition>
         } 

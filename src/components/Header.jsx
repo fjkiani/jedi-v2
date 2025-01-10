@@ -61,11 +61,12 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="ml-4 p-2 rounded-full hover:bg-n-7/40 transition-colors duration-200"
+      className="ml-4 p-2 rounded-full hover:bg-n-7/40 transition-colors duration-200 text-n-1 dark:text-n-1"
+      aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDarkMode ? (
-        // Sun icon
-        <svg className="w-5 h-5 text-n-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        // Sun icon for dark mode (clicking will switch to light)
+        <svg className="w-5 h-5 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -74,8 +75,8 @@ const ThemeToggle = () => {
           />
         </svg>
       ) : (
-        // Moon icon
-        <svg className="w-5 h-5 text-n-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        // Moon icon for light mode (clicking will switch to dark)
+        <svg className="w-5 h-5 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -279,12 +280,17 @@ const Header = () => {
 
   const handleClick = () => {
     if (!openNavigation) return;
+
     enablePageScroll();
     setOpenNavigation(false);
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 border-b theme-border theme-bg-primary backdrop-blur-sm">
+    <div
+      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+        openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
+      }`}
+    >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <Link to="/" className="block w-[5rem] xl:mr-8">
           <img src={logo} width={190} height={40} alt="JediLabs" />

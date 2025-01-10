@@ -163,7 +163,7 @@ const Hero = () => {
                 }`}>
                   {heroContent[currentIndex].subtitle}
                 </p>
-                <Button href="/pricing" white>
+                <Button href="/contact" white>
                   Get started
                 </Button>
               </div>

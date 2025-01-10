@@ -448,32 +448,58 @@ const SolutionPage = () => {
       id: 'architecture',
       label: 'Architecture',
       icon: 'layout-grid',
-      content: solution.architectureDiagram ? (
-        <div>
-          <h3 className="h4 mb-4">Architecture Overview</h3>
-          <div className="mb-8">
-            <ArchitectureDiagram diagram={solution.architectureDiagram} />
-          </div>
-          {selectedUseCase?.architecture?.flow && (
-            <div className="mt-10">
-              <h3 className="h4 mb-4">Implementation Flow</h3>
-              <div className="h-[400px] bg-n-7 rounded-lg p-4">
-                <ReactFlow 
-                  nodes={createWorkflowDiagram(selectedUseCase.architecture.flow).nodes}
-                  edges={createWorkflowDiagram(selectedUseCase.architecture.flow).edges}
-                  fitView
-                  className="react-flow-dark"
-                >
-                  <Background color="#4b5563" gap={16} />
-                  <Controls className="react-flow-controls" />
-                </ReactFlow>
-              </div>
+      content: (() => {
+        console.log('Architecture data:', solution.architecture);
+        return solution.architecture ? (
+          <div className="space-y-8">
+            <div>
+              <h3 className="h4 mb-4">{solution.architecture.title}</h3>
+              <p className="text-n-3 mb-8">{solution.architecture.description}</p>
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="text-center text-n-3">Architecture details not available</div>
-      )
+
+            <div className="mb-8">
+              <ArchitectureDiagram diagram={{
+                nodes: solution.architecture.nodes,
+                connections: solution.architecture.connections,
+                layout: solution.architecture.layout
+              }} />
+            </div>
+
+            {solution.architecture.components && (
+              <div>
+                <h4 className="h5 mb-4">Key Components</h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {solution.architecture.components.map((component, idx) => (
+                    <div key={idx} className="bg-n-7 rounded-lg p-4">
+                      <h5 className="font-medium text-n-1 mb-2">{component.name}</h5>
+                      <p className="text-n-3">{component.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedUseCase?.architecture?.flow && (
+              <div className="mt-10">
+                <h3 className="h4 mb-4">Implementation Flow</h3>
+                <div className="h-[400px] bg-n-7 rounded-lg p-4">
+                  <ReactFlow 
+                    nodes={createWorkflowDiagram(selectedUseCase.architecture.flow).nodes}
+                    edges={createWorkflowDiagram(selectedUseCase.architecture.flow).edges}
+                    fitView
+                    className="react-flow-dark"
+                  >
+                    <Background color="#4b5563" gap={16} />
+                    <Controls className="react-flow-controls" />
+                  </ReactFlow>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-center text-n-3">Architecture details not available</div>
+        );
+      })()
     },
     {
       id: 'tech-stack',

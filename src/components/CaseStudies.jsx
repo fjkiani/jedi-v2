@@ -11,7 +11,7 @@ const caseStudies = [
     metrics: [
       { value: "45%", label: "reduction in response time" },
       { value: "92%", label: "customer satisfaction" },
-      { value: "$2.4M", label: "annual savings" }
+      { value: "$100k", label: "potential annual savings" }
     ],
     image: "/images/case-studies/retail.jpg",
     slug: "retail-customer-service",

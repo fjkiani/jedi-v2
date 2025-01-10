@@ -78,15 +78,13 @@ const IndustryPage = () => {
       />
 
       {/* Solutions Section */}
-      <Section>
-        <div className="container">
-          <IndustrySolutions 
-            industry={industryData}
-            sections={industryData.sections}
-            diagrams={industryData.diagrams}
-          />
-        </div>
-      </Section>
+      <div className="mt-10">
+        <IndustrySolutions 
+          industry={industryData}
+          sections={industryData.sections}
+          diagrams={industryData.diagrams}
+        />
+      </div>
 
       {/* Background Gradient */}
       <div 
