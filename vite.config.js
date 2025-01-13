@@ -2,42 +2,46 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import sitemap from 'vite-plugin-sitemap';
-import { hygraphClient } from './src/lib/hygraph'; // Assuming you have this set up
 
 // Dynamic route generation function
 const getDynamicRoutes = async () => {
-  try {
-    // Base routes that are always present
-    const staticRoutes = ['/', '/solutions', '/team', '/about', '/blog'];
-    
-    // Get dynamic routes from Hygraph
-    const { teams } = await hygraphClient.request(`
-      {
-        teams {
-          slug
+  // Base routes that are always present
+  const staticRoutes = ['/', '/solutions', '/team', '/about', '/blog'];
+  
+  // Only attempt to get dynamic routes if we have the Hygraph endpoint
+  if (process.env.VITE_HYGRAPH_ENDPOINT) {
+    try {
+      const { hygraphClient } = await import('./src/lib/hygraph');
+      
+      // Get dynamic routes from Hygraph
+      const { teams } = await hygraphClient.request(`
+        {
+          teams {
+            slug
+          }
         }
-      }
-    `);
-    const teamRoutes = teams.map(team => `/team/${team.slug}`);
+      `);
+      const teamRoutes = teams.map(team => `/team/${team.slug}`);
 
-    // Add other dynamic routes as needed
-    // For example, blog posts, solutions, etc.
-    const { solutions } = await hygraphClient.request(`
-      {
-        solutions {
-          slug
+      const { solutions } = await hygraphClient.request(`
+        {
+          solutions {
+            slug
+          }
         }
-      }
-    `);
-    const solutionRoutes = solutions.map(solution => `/solutions/${solution.slug}`);
+      `);
+      const solutionRoutes = solutions.map(solution => `/solutions/${solution.slug}`);
 
-    // Combine all routes
-    return [...staticRoutes, ...teamRoutes, ...solutionRoutes];
-  } catch (error) {
-    console.error('Error generating dynamic routes:', error);
-    // Fallback to static routes if there's an error
-    return ['/', '/solutions', '/team', '/about', '/blog'];
+      return [...staticRoutes, ...teamRoutes, ...solutionRoutes];
+    } catch (error) {
+      console.warn('Warning: Could not fetch dynamic routes:', error);
+      return staticRoutes;
+    }
   }
+  
+  // Return static routes if no Hygraph endpoint is configured
+  console.warn('Warning: No Hygraph endpoint configured, using static routes only');
+  return staticRoutes;
 };
 
 export default defineConfig(async () => ({
