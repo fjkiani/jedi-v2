@@ -238,6 +238,135 @@ const DropdownMenu = ({ items, categories }) => {
   );
 };
 
+const MobileMenu = ({ items, categories }) => {
+  const [openItem, setOpenItem] = useState(null);
+  const [openSubItem, setOpenSubItem] = useState(null);
+
+  const handleItemClick = (title) => {
+    setOpenItem(openItem === title ? null : title);
+    setOpenSubItem(null); // Reset sub-item when main item changes
+  };
+
+  const handleSubItemClick = (e, title) => {
+    e.preventDefault(); // Prevent navigation when clicking items with use cases
+    setOpenSubItem(openSubItem === title ? null : title);
+  };
+
+  // Get items with proper structure
+  const getMenuItems = (items) => {
+    if (items[0]?.title === "AI Platforms" && categories?.length > 0) {
+      return categories.map(category => ({
+        title: category.name,
+        url: `/technology#${category.slug}`,
+        items: category.technologies?.map(tech => ({
+          title: tech.name,
+          url: `/technology/${tech.slug}`,
+          useCases: tech.useCases
+        }))
+      }));
+    }
+    return items;
+  };
+
+  const menuItems = getMenuItems(items);
+
+  return (
+    <div className="lg:hidden w-full">
+      {menuItems.map((item, index) => (
+        <div key={index} className="border-t border-n-6">
+          {item.items || item.useCases ? (
+            <div>
+              <button
+                onClick={() => handleItemClick(item.title)}
+                className="flex items-center justify-between w-full px-6 py-4 text-n-1/75"
+              >
+                <span>{item.title}</span>
+                <svg 
+                  className={`w-3 h-3 transition-transform ${openItem === item.title ? 'rotate-180' : ''}`}
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {openItem === item.title && (
+                <div className="bg-n-8/50">
+                  {item.items?.map((subItem, subIndex) => (
+                    <div key={subIndex}>
+                      {subItem.useCases ? (
+                        <>
+                          <button
+                            onClick={(e) => handleSubItemClick(e, subItem.title)}
+                            className="flex items-center justify-between w-full px-8 py-3 text-n-1/75 hover:text-n-1"
+                          >
+                            <span>{subItem.title}</span>
+                            <svg 
+                              className={`w-2.5 h-2.5 transition-transform ${openSubItem === subItem.title ? 'rotate-180' : ''}`}
+                              fill="none" 
+                              viewBox="0 0 24 24" 
+                              stroke="currentColor"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                          {openSubItem === subItem.title && (
+                            <div className="bg-n-8/30 py-1">
+                              {subItem.useCases.map((useCase, useCaseIndex) => (
+                                <Link
+                                  key={useCaseIndex}
+                                  to={`${subItem.url}/use-case/${useCase.slug}`}
+                                  className="block px-10 py-2 text-sm text-n-1/60 hover:text-n-1"
+                                >
+                                  {useCase.title}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <Link
+                          to={subItem.url}
+                          className="block px-8 py-3 text-n-1/75 hover:text-n-1"
+                        >
+                          {subItem.title}
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                  {item.useCases?.map((useCase, useCaseIndex) => (
+                    <Link
+                      key={useCaseIndex}
+                      to={useCase.url}
+                      className="block px-8 py-3 text-n-1/75 hover:text-n-1"
+                    >
+                      {useCase.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : item.description ? (
+            <div className="px-6 py-4 text-n-1/75">
+              {item.title}
+              <span className="block text-xs text-color-1 mt-0.5">
+                {item.description}
+              </span>
+            </div>
+          ) : (
+            <Link
+              to={item.url}
+              className="block px-6 py-4 text-n-1/75 hover:text-n-1"
+            >
+              {item.title}
+            </Link>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Header = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
@@ -298,25 +427,35 @@ const Header = () => {
 
         <nav className={`${
           openNavigation ? "flex" : "hidden"
-        } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}>
-          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
+        } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
+          <div className="relative z-2 flex flex-col items-start justify-start py-8 min-h-full w-full lg:flex-row lg:items-center lg:py-0">
             {dynamicNavigation.map((item) => (
-              <div key={item.id} className="relative group">
+              <div key={item.id} className="w-full lg:w-auto relative group">
                 <Link
                   to={item.url}
                   onClick={handleClick}
                   className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 
-                    px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold 
+                    px-6 py-4 lg:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold 
                     ${location.pathname === item.url ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
                     lg:leading-5 lg:hover:text-n-1 xl:px-12`}
                 >
                   {item.title}
                 </Link>
                 {item.dropdownItems && (
-                  <DropdownMenu 
-                    items={item.dropdownItems} 
-                    categories={item.title === "Technology" ? categories : null}
-                  />
+                  <>
+                    <div className="hidden lg:block">
+                      <DropdownMenu 
+                        items={item.dropdownItems} 
+                        categories={item.title === "Technology" ? categories : null}
+                      />
+                    </div>
+                    <div className="lg:hidden">
+                      <MobileMenu 
+                        items={item.dropdownItems}
+                        categories={item.title === "Technology" ? categories : null}
+                      />
+                    </div>
+                  </>
                 )}
               </div>
             ))}

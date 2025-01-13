@@ -6,9 +6,9 @@ const PostCard = ({ post }) => {
   // Handle both direct post data and post.node structure
   const postData = post.node || post;
   
-  // Handle author data that might be an array
-  const authorData = Array.isArray(postData.author) ? postData.author[0] : postData.author;
-  const authorImageUrl = authorData?.photo?.url || authorData?.image?.url;
+  // Handle author data that comes as an array
+  const authorData = postData.author?.[0];
+  const authorImageUrl = authorData?.photo?.url;
 
   return (
     <div className="shadow-lg rounded-lg p-0 lg:p-8 pb-12 mb-8">

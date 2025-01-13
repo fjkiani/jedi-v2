@@ -1,34 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Categories, PostWidget, Author } from '../components/hyGraph';
+import { Categories, PostWidget } from '../components/hyGraph';
 import { getPostDetails } from '../services';
 import { AdjacentPosts } from '../sections';
 import PostDetail from '../components/hyGraph/PostDetail';
 
-
-interface Post {
-  slug: string;
-  title: string;
-  author: {
-    name: string;
-    photo: {
-      url: string;
-    };
-  };
-  createdAt: string;
-  featuredImage: {
-    url: string;
-  };
-  categories: Array<{ slug: string; name: string }>;
-  content: {
-    raw: any;
-  };
-}
-
 const PostDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,7 +38,6 @@ const PostDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="col-span-1 lg:col-span-8">
           <PostDetail post={post} />
-          <Author author={post.author} />
           <AdjacentPosts slug={post.slug} createdAt={post.createdAt} />
           {/* <CommentsForm slug={post.slug} />
           <Comments slug={post.slug} /> */}

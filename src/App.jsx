@@ -25,12 +25,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import AboutUs from './pages/AboutUs';
 import TeamMemberDetail from './pages/team/TeamMemberDetail';
 import TeamPage from './pages/team';
-import ContactUs from './pages/ContactUs';
 // import TeamMemberDetail from './pages/team/TeamMemberDetail';
 
 //pages
 import Blog from '@/blog/Blog';
-import BlogPage from '@/blog/BlogPage';
+import BlogPage from '@/blog/BlogPage.tsx';
 import SolutionsPage from './pages/solutions/index.jsx';
 import SolutionPage from './pages/solutions/SolutionPage.jsx';
 import IndustryRoutes from './features/industries/routes';
@@ -47,6 +46,7 @@ import LocalTechnologyOverview from '@/pages/technology/LocalTechnologyOverview'
 import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
 import TechStackDetail from './pages/technology/TechStackDetail';
 import { RootSEO } from '@/components/SEO/RootSEO';
+import ContactUs from './pages/ContactUs';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -167,7 +167,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <WhyChooseUs />
                     {/* <CaseStudies /> */}
                     {/* <Pricing /> */}
-                    <Services />
+                    {/* <Services /> */}
                     <Roadmap />
                     <Contact />
                     <StarsCanvas />

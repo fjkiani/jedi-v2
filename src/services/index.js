@@ -34,9 +34,20 @@ export const getPosts = async () => {
     }
   `;
 
-  const result = await request(graphqlAPI, query);
-
-  return result.postsConnection.edges;
+  try {
+    const result = await request(graphqlAPI, query);
+    console.log('GraphQL Response:', {
+      endpoint: graphqlAPI,
+      posts: result.postsConnection.edges.map(edge => ({
+        title: edge.node.title,
+        author: edge.node.author
+      }))
+    });
+    return result.postsConnection.edges;
+  } catch (error) {
+    console.error('GraphQL Error:', error);
+    return [];
+  }
 };
 
 export const getCategories = async () => {
@@ -236,7 +247,7 @@ export const getComments = async (slug) => {
 
 export const getRecentPosts = async () => {
   const query = gql`
-    query GetPostDetails() {
+    query GetPostDetails {
       posts(
         orderBy: createdAt_ASC
         last: 3
@@ -247,6 +258,12 @@ export const getRecentPosts = async () => {
         }
         createdAt
         slug
+        author {
+          name
+          photo {
+            url
+          }
+        }
       }
     }
   `;

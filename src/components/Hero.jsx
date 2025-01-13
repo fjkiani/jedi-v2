@@ -167,6 +167,7 @@ const Hero = () => {
                   Get started
                 </Button>
               </div>
+              {/* Video section and surrounding containers commented out
               <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
                 <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
                   <div className="relative theme-bg-secondary rounded-[1rem]">
@@ -199,19 +200,10 @@ const Hero = () => {
 
                       <ScrollParallax isAbsolutelyPositioned>
                         <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 theme-bg-secondary backdrop-blur border theme-border rounded-2xl xl:flex">
-                          {/* {heroIcons.map((icon, iconIndex) => (
-                            <li className="p-5" key={iconIndex}>
-                              <img src={icon} width={24} height={25} alt={icon} />
-                            </li>
-                          ))} */}
                         </ul>
                       </ScrollParallax>
 
                       <ScrollParallax isAbsolutelyPositioned>
-                        {/* <Notification
-                          className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
-                          title="Code generation"
-                        /> */}
                       </ScrollParallax>
                     </div>
                   </div>
@@ -219,17 +211,13 @@ const Hero = () => {
                   <Gradient />
                 </div>
                 <div className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
-                  {/* <img
-                    src={heroBackground}
-                    className="w-full"
-                    width={1440}
-                    height={1800}
-                    alt="hero"
-                  /> */}
                 </div>
 
                 <BackgroundCircles />
               </div>
+              */}
+
+              <BackgroundCircles />
             </div>
           ))}
         </Slider>

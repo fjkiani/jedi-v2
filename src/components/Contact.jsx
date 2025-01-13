@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
-import styles from '../styles';
+import styles from '@/styles';
 import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "@/hoc";
 import { slideIn } from "../utils/motion";
@@ -79,8 +79,8 @@ const Contact = () => {
         variants={slideIn("left", "tween", 0.2, 1)}
         className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
       >
-        <p className={styles.sectionSubText}>Would you like to work together?</p>
-        <h3 className={styles.sectionHeadText}>Lets bring your idea to life.</h3>
+        <p className={styles.sectionSubText}>Would you like to 100x your business?</p>
+        {/* <h3 className={styles.sectionHeadText}>Lets bring your idea to life.</h3> */}
 
         <form
           ref={formRef}

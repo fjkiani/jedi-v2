@@ -175,12 +175,22 @@ const PostDetail = () => {
         </div>
         <div className="px-4 lg:px-0">
           <div className="flex items-center mb-8 w-full">
-            <div className="hidden md:flex items-center justify-center lg:mb-0 lg:w-auto mr-8">
-              {post.author.photo?.url && (
-                <img alt={post.author.name} height="30px" width="30px" className="align-middle rounded-full" src={post.author.photo.url} />
+            <div className="flex items-center justify-center lg:mb-0 lg:w-auto mr-8">
+              {post?.author?.[0]?.photo?.url ? (
+                <img 
+                  alt={post.author[0].name || 'Author'} 
+                  height="30px" 
+                  width="30px" 
+                  className="align-middle rounded-full" 
+                  src={post.author[0].photo.url} 
+                />
+              ) : (
+                <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500 text-sm">A</span>
+                </div>
               )}
               <p className="inline align-middle text-gray-700 ml-2 font-medium text-lg">
-                {post.author.name}
+                {post?.author?.[0]?.name || 'Anonymous'}
               </p>
             </div>
             <div className="font-medium text-gray-700">

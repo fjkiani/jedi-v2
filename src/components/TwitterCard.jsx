@@ -13,6 +13,10 @@ const TwitterCard = ({ post }) => {
     slug
   } = post;
 
+  // Get author data (handle array structure)
+  const authorData = author?.[0];
+  const authorName = authorData?.name;
+
   // Ensure absolute URL for image
   const imageUrl = featuredImage?.url;
   const baseUrl = 'https://www.jedilabs.org';
@@ -23,7 +27,8 @@ const TwitterCard = ({ post }) => {
     title,
     description: excerpt,
     image: imageUrl,
-    url: currentUrl
+    url: currentUrl,
+    author: authorName
   });
 
   return (
@@ -47,13 +52,15 @@ const TwitterCard = ({ post }) => {
       
       {/* Article specific metadata */}
       <meta property="article:published_time" content={createdAt} />
-      <meta property="article:author" content={author?.name} />
+      {authorName && <meta property="article:author" content={authorName} />}
+      {authorName && <meta name="author" content={authorName} />}
       
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={excerpt} />
+      {authorName && <meta name="twitter:creator" content={authorName} />}
     </Helmet>
   );
 };

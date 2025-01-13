@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export const DiagramConnection = ({ connection, fromNode, toNode }) => {
-  if (!fromNode || !toNode) return null;
+  useEffect(() => {
+    console.log('DiagramConnection props:', { connection, fromNode, toNode });
+  }, [connection, fromNode, toNode]);
+
+  if (!fromNode?.x || !fromNode?.y || !toNode?.x || !toNode?.y) {
+    console.warn('Invalid node positions:', { fromNode, toNode });
+    return null;
+  }
 
   // Style based on connection type
   const getConnectionStyle = () => {
@@ -37,54 +44,101 @@ export const DiagramConnection = ({ connection, fromNode, toNode }) => {
 
   const style = getConnectionStyle();
 
+  // Ensure all position values are valid numbers with fallbacks
+  const safeFromX = Number(fromNode.x);
+  const safeFromY = Number(fromNode.y);
+  const safeToX = Number(toNode.x);
+  const safeToY = Number(toNode.y);
+
+  if (isNaN(safeFromX) || isNaN(safeFromY) || isNaN(safeToX) || isNaN(safeToY)) {
+    console.error('Invalid node coordinates after conversion:', {
+      fromNode: { x: safeFromX, y: safeFromY },
+      toNode: { x: safeToX, y: safeToY }
+    });
+    return null;
+  }
+
   // Calculate control points for the curve
-  const dx = toNode.x - fromNode.x;
-  const dy = toNode.y - fromNode.y;
+  const dx = safeToX - safeFromX;
+  const dy = safeToY - safeFromY;
   
+  if (isNaN(dx) || isNaN(dy)) {
+    console.error('Invalid delta calculations:', { dx, dy, safeFromX, safeFromY, safeToX, safeToY });
+    return null;
+  }
+
   // Adjust control points based on vertical/horizontal distance
   const isVertical = Math.abs(dy) > Math.abs(dx);
   
-  let controlPoint1X, controlPoint1Y, controlPoint2X, controlPoint2Y;
+  let controlPoint1X = 0, controlPoint1Y = 0, controlPoint2X = 0, controlPoint2Y = 0;
   
   if (isVertical) {
     // For vertical connections
-    const midY = (fromNode.y + toNode.y) / 2;
-    controlPoint1X = fromNode.x + 250;
-    controlPoint1Y = fromNode.y + (dy * 0.15); // Reduced from 0.2
-    controlPoint2X = toNode.x;
-    controlPoint2Y = toNode.y - (dy * 0.15); // Adjusted for symmetry
+    controlPoint1X = safeFromX + 250;
+    controlPoint1Y = safeFromY + (dy * 0.15); // Reduced from 0.2
+    controlPoint2X = safeToX;
+    controlPoint2Y = safeToY - (dy * 0.15); // Adjusted for symmetry
   } else {
     // For horizontal connections
-    controlPoint1X = fromNode.x + (dx * 0.4);
-    controlPoint1Y = fromNode.y + 50;
-    controlPoint2X = toNode.x - (dx * 0.4); // More pronounced curve
-    controlPoint2Y = toNode.y + 50;
+    controlPoint1X = safeFromX + (dx * 0.4);
+    controlPoint1Y = safeFromY + 50;
+    controlPoint2X = safeToX - (dx * 0.4); // More pronounced curve
+    controlPoint2Y = safeToY + 50;
+  }
+
+  if ([controlPoint1X, controlPoint1Y, controlPoint2X, controlPoint2Y].some(isNaN)) {
+    console.error('Invalid control points:', {
+      controlPoint1: { x: controlPoint1X, y: controlPoint1Y },
+      controlPoint2: { x: controlPoint2X, y: controlPoint2Y },
+      isVertical,
+      dx,
+      dy
+    });
+    return null;
   }
 
   // Create two paths - one for the arrow and one for the dots
-  const getOffsetPath = (offset) => {
-    const verticalOffset = offset; // pixels above/below main path
-    
-    if (isVertical) {
-      return `M ${fromNode.x + 250} ${fromNode.y + 50 + offset} 
-              C ${controlPoint1X} ${controlPoint1Y + offset},
-                ${controlPoint2X} ${controlPoint2Y + offset},
-                ${toNode.x} ${toNode.y + 50 + offset}`;
-    } else {
-      return `M ${fromNode.x + 250} ${fromNode.y + 50 + offset} 
-              C ${controlPoint1X} ${controlPoint1Y + offset},
-                ${controlPoint2X} ${controlPoint2Y + offset},
-                ${toNode.x} ${toNode.y + 50 + offset}`;
+  const getOffsetPath = (offset = 0) => {
+    const verticalOffset = Number(offset);
+    if (isNaN(verticalOffset)) {
+      console.error('Invalid vertical offset:', offset);
+      return '';
     }
+    
+    const path = `M ${safeFromX + 250} ${safeFromY + 50 + verticalOffset} 
+            C ${controlPoint1X} ${controlPoint1Y + verticalOffset},
+              ${controlPoint2X} ${controlPoint2Y + verticalOffset},
+              ${safeToX} ${safeToY + 50 + verticalOffset}`;
+    
+    console.log('Generated path:', {
+      path,
+      points: {
+        start: { x: safeFromX + 250, y: safeFromY + 50 + verticalOffset },
+        control1: { x: controlPoint1X, y: controlPoint1Y + verticalOffset },
+        control2: { x: controlPoint2X, y: controlPoint2Y + verticalOffset },
+        end: { x: safeToX, y: safeToY + 50 + verticalOffset }
+      }
+    });
+    return path;
   };
 
-  const mainPath = getOffsetPath(0);  // Main path for the arrow
-  const dotsPath = getOffsetPath(connection.type === 'secondary' ? -4 : 4);  // Offset path for dots
+  const mainPath = getOffsetPath(0);
+  const dotsPath = getOffsetPath(connection.type === 'secondary' ? -4 : 4);
 
-  // Calculate label position
-  const labelX = (fromNode.x + toNode.x + 250) / 2;
-  const labelY = (fromNode.y + toNode.y) / 2;
+  if (!mainPath || !dotsPath) {
+    console.error('Invalid paths generated:', { mainPath, dotsPath });
+    return null;
+  }
+
+  // Calculate label position with safe numbers
+  const labelX = Math.round((safeFromX + safeToX + 250) / 2);
+  const labelY = Math.round((safeFromY + safeToY) / 2);
   
+  if (isNaN(labelX) || isNaN(labelY)) {
+    console.error('Invalid label position:', { labelX, labelY });
+    return null;
+  }
+
   // Adjust label position based on connection type
   const labelOffset = connection.type === 'secondary' ? -30 : 
                      connection.type === 'monitoring' ? 30 : 0;
