@@ -71,18 +71,6 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
-            {/* <div className="relative flex flex-col items-center text-center p-8 rounded-3xl bg-n-2 dark:bg-n-7">
-              <h3 className="h4 mb-4">San Francisco</h3>
-              <p className="body-2 text-n-4 mb-6">
-                100 Pine Street, Suite 1250<br />
-                San Francisco, CA 94111
-              </p>
-              <div className="space-y-3">
-                <p className="text-sm text-n-4">+1 (415) 555-0123</p>
-                <p className="text-sm text-n-4">sf@jedilabs.ai</p>
-              </div>
-            </div> */}
-
             <div className="relative flex flex-col items-center text-center p-8 rounded-3xl bg-n-2 dark:bg-n-7">
               <h3 className="h4 mb-4">New York</h3>
               <p className="body-2 text-n-4 mb-6">
@@ -90,27 +78,12 @@ const ContactUs = () => {
                 &nbsp;
               </p>
               <div className="space-y-3">
-                {/* <p className="text-sm text-n-4">+1 (212) 555-0123</p> */}
                 <p className="text-sm text-n-4">jedi@jedilabs.org</p>
               </div>
             </div>
-
-            {/* <div className="relative flex flex-col items-center text-center p-8 rounded-3xl bg-n-2 dark:bg-n-7">
-              <h3 className="h4 mb-4">London</h3>
-              <p className="body-2 text-n-4 mb-6">
-                Coming Soon<br />
-                &nbsp;
-              </p>
-              <div className="space-y-3">
-                <p className="text-sm text-n-4">+44 20 7123 4567</p>
-                <p className="text-sm text-n-4">london@jedilabs.ai</p>
-              </div>
-            </div> */}
           </motion.div>
         </div>
       </Section>
-
-      
     </>
   );
 };
