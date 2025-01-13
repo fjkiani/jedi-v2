@@ -25,7 +25,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import AboutUs from './pages/AboutUs';
 import TeamMemberDetail from './pages/team/TeamMemberDetail';
 import TeamPage from './pages/team';
-import ContactUs from './pages/ContactUs';
 // import TeamMemberDetail from './pages/team/TeamMemberDetail';
 
 //pages
@@ -46,6 +45,7 @@ import TechnologyStack from './pages/technology/TechnologyStack';
 import LocalTechnologyOverview from '@/pages/technology/LocalTechnologyOverview';
 import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
 import TechStackDetail from './pages/technology/TechStackDetail';
+import { RootSEO } from '@/components/SEO/RootSEO';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -80,6 +80,25 @@ const Loading = () => (
   </div>
 );
 
+const getBreadcrumbSchema = (path) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.jedilabs.org"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": path.charAt(1).toUpperCase() + path.slice(2),
+      "item": `https://www.jedilabs.org${path}`
+    }
+  ]
+});
+
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,11 +118,14 @@ const App = () => {
   if (loading) return <Loading />;
 
   return (
-    <AppContent 
-      posts={posts} 
-      location={location} 
-      helmetContext={helmetContext} 
-    />
+    <>
+      <RootSEO />
+      <AppContent 
+        posts={posts} 
+        location={location} 
+        helmetContext={helmetContext} 
+      />
+    </>
   );
 };
 
@@ -158,7 +180,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionsPage />
                     <WhyChooseUs />
-                    <CaseStudies />
+                    {/* <CaseStudies /> */}
                     <Contact />
                   </PageTransition>
                 } 
@@ -169,7 +191,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <SolutionPage />
-                    <CaseStudies />
+                    {/* <CaseStudies /> */}
                     <Contact />
                   </PageTransition>
                 } 
@@ -233,15 +255,6 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <TeamMemberDetail />
-                  </PageTransition>
-                } 
-              />
-
-              <Route 
-                path="/contact" 
-                element={
-                  <PageTransition>
-                    <ContactUs />
                   </PageTransition>
                 } 
               />

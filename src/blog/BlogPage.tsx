@@ -34,11 +34,9 @@ const PostDetails = () => {
   useEffect(() => {
     const fetchPost = async () => {
       const fetchedPost = await getPostDetails(slug);
-      console.log('Fetched Post:', fetchedPost);
       if (!fetchedPost) {
-        navigate('/404');
+        navigate('/404'); // Redirect to a 404 page if the post is not found
       } else {
-        console.log('Author Data:', fetchedPost.author);
         setPost(fetchedPost);
       }
       setLoading(false);

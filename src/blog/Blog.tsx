@@ -10,10 +10,6 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const fetchedPosts = await getPosts();
-      console.log('Fetched Posts:', fetchedPosts);
-      if (fetchedPosts && fetchedPosts.length > 0) {
-        console.log('First Post Author:', fetchedPosts[0].node.author);
-      }
       setPosts(fetchedPosts);
       setLoading(false);
     };
@@ -30,10 +26,9 @@ const BlogPage = () => {
       {/* <FeaturedPosts /> */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-8 col-span-1">
-          {posts.map((post, index) => {
-            console.log('Rendering post:', post.node);
-            return <PostCard key={index} post={post} />;
-          })}
+          {posts.map((post, index) => (
+            <PostCard key={index} post={post.node} />
+          ))}
         </div>
         <div className="lg:col-span-4 col-span-1">
           <div className="lg:sticky relative top-8">

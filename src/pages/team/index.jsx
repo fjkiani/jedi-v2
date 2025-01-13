@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Section from '@/components/Section';
 import { fadeIn } from '@/utils/motion';
 import { teamService } from '@/services/teamService';
+import { TeamListingSEO } from '@/components/SEO/TeamListingSEO';
 
 const TeamPage = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -27,13 +28,7 @@ const TeamPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Our Team | JediLabs Leadership</title>
-        <meta 
-          name="description" 
-          content="Meet the experts driving secure innovation at JediLabs. Our leadership team brings together expertise in AI, security, and enterprise solutions."
-        />
-      </Helmet>
+      <TeamListingSEO teamMembers={teamMembers} />
 
       {/* Hero Section */}
       <Section className="pt-[12rem] -mt-[5.25rem]">

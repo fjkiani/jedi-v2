@@ -24,10 +24,6 @@ const GET_POST_QUERY = `
       createdAt
       author {
         name
-        bio
-        photo {
-          url
-        }
       }
     }
   }

@@ -59,8 +59,7 @@ export const postService = {
   getPosts: async () => {
     try {
       const { posts } = await hygraph.request(GET_POSTS);
-      const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      return sortedPosts;
+      return posts;
     } catch (error) {
       console.error('Error fetching posts:', error);
       return [];
@@ -70,8 +69,7 @@ export const postService = {
   getPostsByCategory: async (categorySlug) => {
     try {
       const { posts } = await hygraph.request(GET_POSTS_BY_CATEGORY, { slug: categorySlug });
-      const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      return sortedPosts;
+      return posts;
     } catch (error) {
       console.error('Error fetching posts by category:', error);
       return [];
