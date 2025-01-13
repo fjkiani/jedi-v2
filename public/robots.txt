@@ -1,5 +1,17 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://www.jedilabs.org/sitemap.xml 
+# Disallow paths
+Disallow: /404
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.html$
+Disallow: /*.svg$
+Disallow: /*.gltf$
+Disallow: /*.bin$
+Disallow: /assets/
+Disallow: /models/
+Disallow: /videos/
+
+# Sitemap
+Sitemap: https://jedilabs.org/sitemap.xml 
