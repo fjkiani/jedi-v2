@@ -23,7 +23,7 @@ export const INDUSTRY_DIAGRAMS = {
   healthcare: {
     fundamentals: healthcareFundamentals,
     'data-collection': healthcareDataCollection,
-    'risk-analysis': healthcareRiskAnalysis,
+    'analysis': healthcareRiskAnalysis,
     'clinical-decision': healthcareClinicalDecision
   }
 };

@@ -34,20 +34,9 @@ export const getPosts = async () => {
     }
   `;
 
-  try {
-    const result = await request(graphqlAPI, query);
-    console.log('GraphQL Response:', {
-      endpoint: graphqlAPI,
-      posts: result.postsConnection.edges.map(edge => ({
-        title: edge.node.title,
-        author: edge.node.author
-      }))
-    });
-    return result.postsConnection.edges;
-  } catch (error) {
-    console.error('GraphQL Error:', error);
-    return [];
-  }
+  const result = await request(graphqlAPI, query);
+  console.log('Posts response:', JSON.stringify(result.postsConnection.edges, null, 2));
+  return result.postsConnection.edges;
 };
 
 export const getCategories = async () => {
