@@ -173,8 +173,9 @@ const WhatWeDo = () => {
                       <Link 
                         to={arch.id === 'jedi' ? '/about' : `/solutions/${arch.id}`}
                         className="button button-primary px-8 py-3 inline-flex items-center gap-2"
+                        aria-label={`Learn more about ${arch.title}`}
                       >
-                        Learn More
+                        {`Explore ${arch.title}`}
                         <Icon name="arrow-right" className="w-4 h-4" />
                       </Link>
                     </div>

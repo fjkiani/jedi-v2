@@ -45,8 +45,9 @@ import TechnologyStack from './pages/technology/TechnologyStack';
 import LocalTechnologyOverview from '@/pages/technology/LocalTechnologyOverview';
 import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
 import TechStackDetail from './pages/technology/TechStackDetail';
-import { RootSEO } from '@/components/SEO/RootSEO';
-import ContactUs from './pages/ContactUs';
+import ContactUs from "./pages/ContactUs";
+import SEO, { RootSEO } from "@/components/SEO";
+import { TestSEO } from '@/components/SEO/TestSEO';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -119,14 +120,16 @@ const App = () => {
   if (loading) return <Loading />;
 
   return (
-    <>
+    <HelmetProvider>
+      <TestSEO />
+      <SEO />
       <RootSEO />
       <AppContent 
         posts={posts} 
         location={location} 
         helmetContext={helmetContext} 
       />
-    </>
+    </HelmetProvider>
   );
 };
 
