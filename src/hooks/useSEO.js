@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
-import { hygraphClient } from '../lib/hygraph';
+import { hygraphClient } from '@/lib/hygraph';
 
-const defaults = {
-  title: 'Jedi Labs - Advanced AI and Cloud Solutions',
-  description: 'Advanced AI and Cloud Solutions for modern businesses. We specialize in secure, scalable AI implementations, custom solutions, and enterprise-grade technology consulting.',
-  keywords: 'AI, Machine Learning, Cloud Computing, Enterprise Solutions, Digital Transformation',
-  ogImage: null,
-  author: null,
-  teamMember: null
-};
-
-export const useSEO = (slug, type = 'page') => {
+export const useSEO = (slug, type = 'page', prefetchedData = null) => {
   const [state, setState] = useState({
-    data: defaults,
-    loading: true,
+    data: {
+      title: 'Jedi Labs - Advanced AI and Cloud Solutions',
+      description: 'Advanced AI and Cloud Solutions for modern businesses. We specialize in secure, scalable AI implementations, custom solutions, and enterprise-grade technology consulting.',
+      keywords: 'AI, Machine Learning, Cloud Computing, Enterprise Solutions, Digital Transformation',
+      ogImage: null,
+      useCases: null
+    },
+    loading: !prefetchedData,
     error: null
   });
 
@@ -22,15 +19,46 @@ export const useSEO = (slug, type = 'page') => {
     const requestId = Math.random().toString(36).substring(7);
 
     const fetchSEOData = async () => {
-      console.log(`🔍 [${requestId}] Fetching SEO data for ${type}${slug ? `: ${slug}` : ''}`);
-      
       try {
-        // If no slug is provided and it's a page type, use defaults (for root page)
-        if (!slug && type === 'page') {
-          console.log(`✅ [${requestId}] Using default SEO values for root page`);
+        // If we have prefetched data, use it directly and don't query Hygraph
+        if (prefetchedData && Object.keys(prefetchedData).length > 0) {
+          console.log(`📦 [${requestId}] Using prefetched data:`, prefetchedData);
+          
+          // Create rich meta description
+          const useCaseDescriptions = prefetchedData.useCases?.map(uc => 
+            `${uc.title}: ${uc.description}`
+          ).join('. ') || '';
+
+          const metaDescription = [
+            prefetchedData.description,
+            prefetchedData.features?.length && `Features: ${prefetchedData.features.join(', ')}`,
+            prefetchedData.businessMetrics?.length && `Impact: ${prefetchedData.businessMetrics.join(', ')}`,
+            useCaseDescriptions && `Use Cases: ${useCaseDescriptions}`
+          ].filter(Boolean).join('. ');
+
+          // Create rich keywords
+          const keywords = [
+            prefetchedData.name,
+            prefetchedData.category,
+            'AI Technology',
+            'Cloud Solutions',
+            ...(prefetchedData.features || []),
+            ...(prefetchedData.useCases?.map(uc => uc.title) || [])
+          ].filter(Boolean).join(', ');
+
+          const seoData = {
+            title: `${prefetchedData.name} - ${prefetchedData.category} | Jedi Labs`,
+            description: metaDescription,
+            keywords: keywords,
+            ogImage: prefetchedData.icon || null,
+            useCases: prefetchedData.useCases || null
+          };
+
+          console.log(`✅ [${requestId}] Generated SEO data from prefetch:`, seoData);
+          
           if (isActive) {
             setState({
-              data: defaults,
+              data: seoData,
               loading: false,
               error: null
             });
@@ -38,49 +66,60 @@ export const useSEO = (slug, type = 'page') => {
           return;
         }
 
-        let query;
+        // Only proceed with Hygraph query if no prefetched data
+        console.log(`🔍 [${requestId}] No prefetched data, querying Hygraph for ${type}${slug ? `: ${slug}` : ''}`);
         
+        let query;
         if (type === 'technology') {
           query = `
-            query GetTechnologyBySlug($slug: String!) {
-              technologyS(where: { slug: $slug }) {
-                id
+            query GetTechnology($slug: String!) {
+              categories {
                 name
-                slug
-                description
-                icon
-                features
-                businessMetrics
-                category {
+                technologies(where: { slug: $slug }) {
                   id
                   name
                   slug
-                }
-                useCases {
-                  title
                   description
-                  capabilities
-                  architecture {
+                  icon
+                  features
+                  businessMetrics
+                  useCases {
+                    title
                     description
+                    capabilities
                   }
                 }
               }
             }
           `;
-        } else {
-          // Default page query
+        } else if (type === 'page' && slug) {
           query = `
-            query GetPageSEO($slug: String!) {
-              posts(where: { slug: $slug }) {
+            query GetPage($slug: String!) {
+              page(where: { slug: $slug }) {
                 title
                 description
+                seo {
+                  title
+                  description
+                  keywords
+                }
               }
             }
           `;
+        } else {
+          // Return default data for root page
+          if (isActive) {
+            setState(prev => ({
+              ...prev,
+              loading: false
+            }));
+          }
+          return;
         }
 
         console.log(`📡 [${requestId}] Executing ${type} query...`);
         const result = await hygraphClient.request(query, { slug });
+        console.log(`✅ [${requestId}] Query result:`, result);
         
         if (!isActive) {
           console.log(`⚠️ [${requestId}] Request cancelled - component unmounted`);
@@ -88,47 +127,44 @@ export const useSEO = (slug, type = 'page') => {
         }
 
         if (type === 'technology') {
-          const tech = result.technologyS?.[0];
+          // Find the first technology with matching slug across all categories
+          const tech = result.categories
+            ?.flatMap(cat => cat.technologies || [])
+            .find(t => t.slug === slug);
 
           if (tech) {
             console.log(`✅ [${requestId}] Found technology: ${tech.name}`);
             
-            // Create rich meta description with use cases
+            // Create rich meta description
             const useCaseDescriptions = tech.useCases?.map(uc => 
               `${uc.title}: ${uc.description}`
             ).join('. ') || '';
 
             const metaDescription = [
               tech.description,
-              tech.features && `Features: ${tech.features}`,
-              tech.businessMetrics && `Metrics: ${tech.businessMetrics}`,
+              tech.features?.length && `Features: ${tech.features.join(', ')}`,
+              tech.businessMetrics?.length && `Impact: ${tech.businessMetrics.join(', ')}`,
               useCaseDescriptions && `Use Cases: ${useCaseDescriptions}`
             ].filter(Boolean).join('. ');
 
-            // Create rich keywords including capabilities from use cases
-            const capabilities = tech.useCases?.flatMap(uc => 
-              uc.capabilities || []
-            ).filter(Boolean);
-
+            // Create rich keywords
             const keywords = [
               tech.name,
-              tech.category?.name,
               'AI Technology',
               'Cloud Solutions',
-              tech.features,
-              ...capabilities
+              ...(tech.features || []),
+              ...(tech.useCases?.map(uc => uc.title) || [])
             ].filter(Boolean).join(', ');
 
             const seoData = {
-              ...defaults,
-              title: `${tech.name} - ${tech.category?.name || 'Technology'} | Jedi Labs`,
+              title: `${tech.name} - Technology | Jedi Labs`,
               description: metaDescription,
               keywords: keywords,
-              ogImage: tech.icon || defaults.ogImage,
-              useCases: tech.useCases // Include use cases in SEO data for potential structured data
+              ogImage: tech.icon || null,
+              useCases: tech.useCases || null
             };
 
-            console.log(`📝 [${requestId}] Generated SEO data:`, seoData);
+            console.log(`✅ [${requestId}] Generated SEO data from Hygraph:`, seoData);
 
             if (isActive) {
               setState({
@@ -141,28 +177,29 @@ export const useSEO = (slug, type = 'page') => {
             throw new Error(`Technology not found: ${slug}`);
           }
         } else {
-          const post = result.posts?.[0];
-          if (post) {
-            console.log(`✅ [${requestId}] Found post: ${post.title}`);
+          const page = result.page;
+          if (page) {
+            const seoData = {
+              ...state.data,
+              ...(page.seo || {}),
+              title: page.seo?.title || page.title || state.data.title,
+              description: page.seo?.description || page.description || state.data.description
+            };
+
             if (isActive) {
               setState({
-                data: {
-                  ...defaults,
-                  title: post.title || defaults.title,
-                  description: post.description || defaults.description
-                },
+                data: seoData,
                 loading: false,
                 error: null
               });
             }
           } else {
-            console.log(`⚠️ [${requestId}] No post found for slug: ${slug}, using defaults`);
+            console.log(`⚠️ [${requestId}] No page found for slug: ${slug}, using defaults`);
             if (isActive) {
-              setState({
-                data: defaults,
-                loading: false,
-                error: null
-              });
+              setState(prev => ({
+                ...prev,
+                loading: false
+              }));
             }
           }
         }
@@ -170,16 +207,15 @@ export const useSEO = (slug, type = 'page') => {
         console.error(`❌ [${requestId}] SEO Error:`, {
           type,
           slug,
-          error: error.message,
-          response: error.response,
-          stack: error.stack
+          message: error.message,
+          response: error.response?.errors
         });
         if (isActive) {
-          setState({
-            data: defaults,
+          setState(prev => ({
+            ...prev,
             loading: false,
             error: error.message || 'Failed to load SEO data'
-          });
+          }));
         }
       }
     };
@@ -190,7 +226,7 @@ export const useSEO = (slug, type = 'page') => {
       isActive = false;
       console.log(`🧹 [${requestId}] Cleaning up SEO request`);
     };
-  }, [slug, type]);
+  }, [slug, type, prefetchedData]);
 
   return state;
 };

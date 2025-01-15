@@ -44,24 +44,39 @@ export const RootSEO = ({ slug, type = 'page' }) => {
 
           const structuredData = {
             '@context': 'https://schema.org',
-            '@type': 'SoftwareApplication',
-            name: seoData.title,
-            description: seoData.description,
-            applicationCategory: 'Technology',
-            offers: {
-              '@type': 'Offer',
-              category: type
+            '@type': 'TechArticle',
+            'headline': seoData.title,
+            'description': seoData.description,
+            'keywords': seoData.keywords,
+            'articleBody': seoData.description,
+            'mainEntityOfPage': {
+              '@type': 'WebPage',
+              '@id': window.location.href
             },
-            usageInfo: seoData.useCases?.map(uc => ({
-              '@type': 'HowTo',
-              name: uc.title,
-              description: uc.description,
-              step: uc.capabilities?.map(cap => ({
-                '@type': 'HowToStep',
-                text: cap
-              })) || []
-            })) || []
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Jedi Labs',
+              'url': 'https://www.jedilabs.org'
+            },
+            'about': {
+              '@type': 'SoftwareApplication',
+              'name': seoData.title.split(' - ')[0],
+              'applicationCategory': 'Technology',
+              'description': seoData.description
+            }
           };
+
+          if (seoData.useCases?.length) {
+            structuredData.hasPart = seoData.useCases.map(uc => ({
+              '@type': 'HowTo',
+              'name': uc.title,
+              'description': uc.description,
+              'step': uc.capabilities?.map(cap => ({
+                '@type': 'HowToStep',
+                'text': cap
+              })) || []
+            }));
+          }
 
           // Remove any existing structured data
           const existingScript = document.querySelector('#structured-data');
