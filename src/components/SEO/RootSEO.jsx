@@ -36,35 +36,58 @@ export const RootSEO = ({ slug, type = 'page' }) => {
 
       // Add schema.org structured data for technologies
       if (type === 'technology' && seoData.useCases) {
-        const structuredData = {
-          '@context': 'https://schema.org',
-          '@type': 'SoftwareApplication',
-          name: seoData.title,
-          description: seoData.description,
-          applicationCategory: 'Technology',
-          offers: {
-            '@type': 'Offer',
-            category: type
-          },
-          usageInfo: seoData.useCases?.map(uc => ({
-            '@type': 'HowTo',
-            name: uc.title,
-            description: uc.description,
-            step: uc.capabilities?.map(cap => ({
-              '@type': 'HowToStep',
-              text: cap
-            }))
-          }))
-        };
+        try {
+          console.log('🏗 Generating structured data for technology:', {
+            title: seoData.title,
+            useCasesCount: seoData.useCases.length
+          });
 
-        let scriptTag = document.querySelector('#structured-data');
-        if (!scriptTag) {
-          scriptTag = document.createElement('script');
+          const structuredData = {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: seoData.title,
+            description: seoData.description,
+            applicationCategory: 'Technology',
+            offers: {
+              '@type': 'Offer',
+              category: type
+            },
+            usageInfo: seoData.useCases?.map(uc => ({
+              '@type': 'HowTo',
+              name: uc.title,
+              description: uc.description,
+              step: uc.capabilities?.map(cap => ({
+                '@type': 'HowToStep',
+                text: cap
+              })) || []
+            })) || []
+          };
+
+          // Remove any existing structured data
+          const existingScript = document.querySelector('#structured-data');
+          if (existingScript) {
+            console.log('🗑 Removing existing structured data script');
+            existingScript.remove();
+          }
+
+          // Create and add new script tag
+          console.log('📝 Creating new structured data script');
+          const scriptTag = document.createElement('script');
           scriptTag.id = 'structured-data';
           scriptTag.type = 'application/ld+json';
+          scriptTag.textContent = JSON.stringify(structuredData, null, 2);
           document.head.appendChild(scriptTag);
+          
+          console.log('✅ Structured data successfully added to head');
+        } catch (error) {
+          console.error('❌ Error adding structured data:', error);
         }
-        scriptTag.textContent = JSON.stringify(structuredData);
+      } else {
+        console.log('⏭ Skipping structured data:', {
+          isTechnology: type === 'technology',
+          hasUseCases: Boolean(seoData.useCases),
+          useCasesCount: seoData.useCases?.length
+        });
       }
     }
   }, [seoData, loading, error, type]);
