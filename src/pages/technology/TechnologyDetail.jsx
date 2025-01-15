@@ -8,6 +8,7 @@ import { openAIService } from '@/services/openAIService.jsx';
 import { technologyService } from '@/services/technologyService';
 import AIResponse from '@/components/response/AIResponse';
 import Section from '@/components/Section';
+import { RootSEO } from '@/components/SEO/RootSEO';
 
 const TechnologyDetail = () => {
   const { slug, useCaseSlug } = useParams();
@@ -178,154 +179,157 @@ const TechnologyDetail = () => {
   };
 
   return (
-    <Section className="overflow-hidden">
-      <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-n-3 mb-4"
-        >
-          <Link to="/technology" className="hover:text-color-1">Technologies</Link>
-          <span className="mx-2">/</span>
-          <Link to={`/technology/${slug}`} className="hover:text-color-1">{slug}</Link>
-          <span className="mx-2">/</span>
-          <span className="text-n-1">{useCase.title}</span>
-        </motion.div>
+    <>
+      <RootSEO slug={slug} type="technology" />
+      <Section className="overflow-hidden">
+        <div className="container">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-n-3 mb-4"
+          >
+            <Link to="/technology" className="hover:text-color-1">Technologies</Link>
+            <span className="mx-2">/</span>
+            <Link to={`/technology/${slug}`} className="hover:text-color-1">{slug}</Link>
+            <span className="mx-2">/</span>
+            <span className="text-n-1">{useCase.title}</span>
+          </motion.div>
 
-        <div className="space-y-12">
-          {/* Use Case Content */}
-          <div className="bg-n-8 rounded-xl p-6 border border-n-6">
-            <h2 className="text-2xl font-bold mb-6">{useCase.title}</h2>
-            <p className="text-n-3 mb-6">{useCase.implementation.overview}</p>
+          <div className="space-y-12">
+            {/* Use Case Content */}
+            <div className="bg-n-8 rounded-xl p-6 border border-n-6">
+              <h2 className="text-2xl font-bold mb-6">{useCase.title}</h2>
+              <p className="text-n-3 mb-6">{useCase.implementation.overview}</p>
 
-            {/* Tabs */}
-            <div className="flex space-x-4 mb-6">
-              {['architecture', 'implementation', 'benefits'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-lg transition-all ${
-                    activeTab === tab 
-                      ? 'bg-primary-1 text-white' 
-                      : 'bg-n-7 text-n-3 hover:bg-n-6'
-                  }`}
+              {/* Tabs */}
+              <div className="flex space-x-4 mb-6">
+                {['architecture', 'implementation', 'benefits'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-2 rounded-lg transition-all ${
+                      activeTab === tab 
+                        ? 'bg-primary-1 text-white' 
+                        : 'bg-n-7 text-n-3 hover:bg-n-6'
+                    }`}
+                  >
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab Content */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                {activeTab === 'architecture' && (
-                  <div className="space-y-6">
-                    {/* Flow Diagram */}
-                    {useCase.implementation.architecture?.flow && (
-                      <div className="h-[400px] bg-n-7 rounded-lg p-4">
-                        <ReactFlow 
-                          nodes={createWorkflowDiagram(useCase.implementation.architecture.flow).nodes}
-                          edges={createWorkflowDiagram(useCase.implementation.architecture.flow).edges}
-                          fitView
-                          className="react-flow-dark"
-                        >
-                          <Background color="#4b5563" gap={16} />
-                          <Controls className="react-flow-controls" />
-                          <MiniMap className="react-flow-minimap" />
-                        </ReactFlow>
-                      </div>
-                    )}
-
-                    {/* Components */}
-                    {useCase.implementation.architecture?.components && (
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {useCase.implementation.architecture.components.map((component, idx) => (
-                          <motion.div
-                            key={idx}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-n-7 rounded-lg p-4 cursor-pointer"
+                  {activeTab === 'architecture' && (
+                    <div className="space-y-6">
+                      {/* Flow Diagram */}
+                      {useCase.implementation.architecture?.flow && (
+                        <div className="h-[400px] bg-n-7 rounded-lg p-4">
+                          <ReactFlow 
+                            nodes={createWorkflowDiagram(useCase.implementation.architecture.flow).nodes}
+                            edges={createWorkflowDiagram(useCase.implementation.architecture.flow).edges}
+                            fitView
+                            className="react-flow-dark"
                           >
-                            <h4 className="text-white font-medium mb-2 flex items-center">
-                              <FiServer className="mr-2" />
-                              {component.name}
-                            </h4>
-                            <p className="text-n-3 mb-2">{component.role || component.description}</p>
-                          </motion.div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {activeTab === 'implementation' && (
-                  <div className="space-y-6">
-                    <div className="bg-n-7 rounded-lg p-4 space-y-4">
-                      <h3 className="text-xl font-semibold text-white">Try the Use Case</h3>
-                      <p className="text-n-3">Select a sample query to run:</p>
-                      
-                      {/* Sample Queries Grid */}
-                      <div className="grid grid-cols-1 gap-3">
-                        {useCase.implementation.queries?.map((sample, sampleIndex) => (
-                          <button
-                            key={sampleIndex}
-                            onClick={() => {
-                              console.log('Sample query clicked:', sample);
-                              runOpenAIDemo('gpt-4', sample);
-                            }}
-                            className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200 w-full"
-                          >
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-primary-1"></div>
-                              <p className="text-n-1">{sample}</p>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-
-                      {/* Loading State */}
-                      {useCaseState.loading && (
-                        <div className="flex items-center justify-center p-4">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
-                          <p className="ml-3 text-n-3">Analyzing query...</p>
+                            <Background color="#4b5563" gap={16} />
+                            <Controls className="react-flow-controls" />
+                            <MiniMap className="react-flow-minimap" />
+                          </ReactFlow>
                         </div>
                       )}
 
-                      {/* AI Response */}
-                      {useCaseState.result && renderAIResponse(useCaseState)}
+                      {/* Components */}
+                      {useCase.implementation.architecture?.components && (
+                        <div className="grid md:grid-cols-2 gap-4">
+                          {useCase.implementation.architecture.components.map((component, idx) => (
+                            <motion.div
+                              key={idx}
+                              whileHover={{ scale: 1.02 }}
+                              className="bg-n-7 rounded-lg p-4 cursor-pointer"
+                            >
+                              <h4 className="text-white font-medium mb-2 flex items-center">
+                                <FiServer className="mr-2" />
+                                {component.name}
+                              </h4>
+                              <p className="text-n-3 mb-2">{component.role || component.description}</p>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {activeTab === 'benefits' && (
-                  <div className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {useCase.implementation.benefits?.map((benefit, idx) => (
-                        <motion.div
-                          key={idx}
-                          whileHover={{ scale: 1.02 }}
-                          className="bg-n-7 rounded-lg p-4"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <FiServer className="text-primary-1" />
-                            <p className="text-n-3">{benefit}</p>
+                  {activeTab === 'implementation' && (
+                    <div className="space-y-6">
+                      <div className="bg-n-7 rounded-lg p-4 space-y-4">
+                        <h3 className="text-xl font-semibold text-white">Try the Use Case</h3>
+                        <p className="text-n-3">Select a sample query to run:</p>
+                        
+                        {/* Sample Queries Grid */}
+                        <div className="grid grid-cols-1 gap-3">
+                          {useCase.implementation.queries?.map((sample, sampleIndex) => (
+                            <button
+                              key={sampleIndex}
+                              onClick={() => {
+                                console.log('Sample query clicked:', sample);
+                                runOpenAIDemo('gpt-4', sample);
+                              }}
+                              className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200 w-full"
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-primary-1"></div>
+                                <p className="text-n-1">{sample}</p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Loading State */}
+                        {useCaseState.loading && (
+                          <div className="flex items-center justify-center p-4">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
+                            <p className="ml-3 text-n-3">Analyzing query...</p>
                           </div>
-                        </motion.div>
-                      ))}
+                        )}
+
+                        {/* AI Response */}
+                        {useCaseState.result && renderAIResponse(useCaseState)}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  )}
+
+                  {activeTab === 'benefits' && (
+                    <div className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {useCase.implementation.benefits?.map((benefit, idx) => (
+                          <motion.div
+                            key={idx}
+                            whileHover={{ scale: 1.02 }}
+                            className="bg-n-7 rounded-lg p-4"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <FiServer className="text-primary-1" />
+                              <p className="text-n-3">{benefit}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
-      </div>
-    </Section>
+      </Section>
+    </>
   );
 };
 

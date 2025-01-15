@@ -183,9 +183,9 @@ const GET_CATEGORY_BY_SLUG = `
 class TechnologyService {
   async getAllCategories() {
     try {
-      console.log('Sending query:', GET_ALL_CATEGORIES);
+      // console.log('Sending query:', GET_ALL_CATEGORIES);
       const response = await hygraphClient.request(GET_ALL_CATEGORIES);
-      console.log('Raw response:', response);
+      // console.log('Raw response:', response);
       
       if (!response || !response.categories) {
         console.warn('No categories found in response:', response);

@@ -1,25 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSEO } from '@/hooks/useSEO';
 import { hygraphClient } from '@/lib/hygraph';
 
 export const TestSEO = () => {
-  // Test root page SEO (default)
-  const { data: rootSEO, loading: rootLoading, error: rootError } = useSEO();
-  
-  // Test technology SEO
-  const { data: techSEO, loading: techLoading, error: techError } = useSEO('huggingface', 'technology');
+  const [technologies, setTechnologies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Log results
   useEffect(() => {
     const fetchAllTechnologies = async () => {
       try {
-        console.log('\n=== Fetching All Technologies ===');
+        console.log('\n=== Fetching All Technologies SEO Data ===');
         const query = `
           query {
             categories {
               name
               technologies {
                 name
+                slug
                 description
                 icon
                 useCases {
@@ -28,10 +26,6 @@ export const TestSEO = () => {
                   capabilities
                   architecture {
                     description
-                    components {
-                      name
-                      description
-                    }
                   }
                 }
               }
@@ -41,57 +35,65 @@ export const TestSEO = () => {
 
         const result = await hygraphClient.request(query);
         
-        console.log('\n📊 Technology Categories:');
         result.categories?.forEach(category => {
-        //   console.log(`\n🔹 Category: ${category.name}`);
           category.technologies?.forEach(tech => {
+            // Generate SEO data for each technology
+            const useCaseDescriptions = tech.useCases?.map(uc => 
+              `${uc.title}: ${uc.description}`
+            ).join('. ') || '';
+
+            const capabilities = tech.useCases?.flatMap(uc => 
+              uc.capabilities || []
+            ).filter(Boolean);
+
+            const seoData = {
+              title: `${tech.name} - ${category.name} | Jedi Labs`,
+              description: [
+                tech.description,
+                useCaseDescriptions && `Use Cases: ${useCaseDescriptions}`
+              ].filter(Boolean).join('. '),
+              keywords: [
+                tech.name,
+                category.name,
+                'AI Technology',
+                'Cloud Solutions',
+                ...(capabilities || [])
+              ].filter(Boolean).join(', '),
+              useCases: tech.useCases
+            };
+
             // console.log(`\n  📌 Technology: ${tech.name}`);
-            // console.log(`     Description: ${tech.description}`);
+            // console.log(`     SEO Title: ${seoData.title}`);
+            // console.log(`     SEO Description: ${seoData.description}`);
+            // console.log(`     SEO Keywords: ${seoData.keywords}`);
             
             if (tech.useCases?.length) {
-            //   console.log('     Use Cases:');
+              console.log('     Use Cases:');
               tech.useCases.forEach(useCase => {
                 // console.log(`       • ${useCase.title}`);
                 // console.log(`         ${useCase.description}`);
                 if (useCase.capabilities?.length) {
-                //   console.log('         Capabilities:', useCase.capabilities.join(', '));
                 }
               });
             }
           });
         });
         
-        console.log('\n=== End Technology List ===\n');
+        setTechnologies(result.categories);
+        setLoading(false);
+        console.log('\n=== End Technology SEO Data ===\n');
       } catch (error) {
         console.error('Error fetching technologies:', error);
+        setLoading(false);
       }
     };
 
     fetchAllTechnologies();
+  }, []);
 
-    // Log SEO test results
-    console.log('=== SEO Test Results ===');
-    
-    if (!rootLoading) {
-      console.log('\n📄 Root Page SEO Status:', rootError ? '❌ Error' : '✅ Success');
-      if (rootError) {
-        console.error('Root Error:', rootError);
-      } else {
-        console.log('Root Data:', rootSEO);
-      }
-    }
-
-    if (!techLoading) {
-      console.log('\n🔧 Technology SEO Status:', techError ? '❌ Error' : '✅ Success');
-      if (techError) {
-        console.error('Technology Error:', techError);
-      } else {
-        console.log('Technology SEO Data:', techSEO);
-      }
-    }
-    
-    console.log('\n=== End Test Results ===\n');
-  }, [rootLoading, rootError, rootSEO, techLoading, techError, techSEO]);
+  if (loading) {
+    return null;
+  }
 
   return null;
 }; 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { hygraphClient } from '../lib/hygraph';
 
 const defaults = {
-  title: 'Brainwave - Advanced AI and Cloud Solutions',
+  title: 'Jedi Labs - Advanced AI and Cloud Solutions',
   description: 'Advanced AI and Cloud Solutions for modern businesses. We specialize in secure, scalable AI implementations, custom solutions, and enterprise-grade technology consulting.',
   keywords: 'AI, Machine Learning, Cloud Computing, Enterprise Solutions, Digital Transformation',
   ogImage: null,
@@ -42,11 +42,20 @@ export const useSEO = (slug, type = 'page') => {
         
         if (type === 'technology') {
           query = `
-            query GetTechnologySEO($slug: String!) {
+            query GetTechnologyBySlug($slug: String!) {
               technologyS(where: { slug: $slug }) {
+                id
                 name
+                slug
                 description
                 icon
+                features
+                businessMetrics
+                category {
+                  id
+                  name
+                  slug
+                }
                 useCases {
                   title
                   description
@@ -83,22 +92,40 @@ export const useSEO = (slug, type = 'page') => {
 
           if (tech) {
             console.log(`✅ [${requestId}] Found technology: ${tech.name}`);
-            // Combine use case descriptions for rich meta description
+            
+            // Create rich meta description with use cases
             const useCaseDescriptions = tech.useCases?.map(uc => 
               `${uc.title}: ${uc.description}`
             ).join('. ') || '';
 
-            // Combine capabilities for keywords
+            const metaDescription = [
+              tech.description,
+              tech.features && `Features: ${tech.features}`,
+              tech.businessMetrics && `Metrics: ${tech.businessMetrics}`,
+              useCaseDescriptions && `Use Cases: ${useCaseDescriptions}`
+            ].filter(Boolean).join('. ');
+
+            // Create rich keywords including capabilities from use cases
             const capabilities = tech.useCases?.flatMap(uc => 
               uc.capabilities || []
-            ).filter(Boolean).join(', ');
+            ).filter(Boolean);
+
+            const keywords = [
+              tech.name,
+              tech.category?.name,
+              'AI Technology',
+              'Cloud Solutions',
+              tech.features,
+              ...capabilities
+            ].filter(Boolean).join(', ');
 
             const seoData = {
               ...defaults,
-              title: `${tech.name} - Technology Stack | Brainwave`,
-              description: tech.description + (useCaseDescriptions ? `. Use Cases: ${useCaseDescriptions}` : ''),
-              keywords: `${tech.name}, ${capabilities}, AI Technology, Cloud Solutions`,
-              ogImage: tech.icon?.url || defaults.ogImage
+              title: `${tech.name} - ${tech.category?.name || 'Technology'} | Jedi Labs`,
+              description: metaDescription,
+              keywords: keywords,
+              ogImage: tech.icon || defaults.ogImage,
+              useCases: tech.useCases // Include use cases in SEO data for potential structured data
             };
 
             console.log(`📝 [${requestId}] Generated SEO data:`, seoData);
