@@ -19,7 +19,7 @@
 
 @layer base {
   body {
-    @apply font-sans bg-n-8 text-n-1 text-base;
+    @apply bg-white dark:bg-n-8 text-n-6 dark:text-n-1 text-base transition-colors duration-200;
   }
 }
 

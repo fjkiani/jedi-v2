@@ -78,7 +78,7 @@ const WhatWeDo = () => {
               Enterprise Solutions
             </h2>
           </motion.div>
-          <p className="body-1 text-n-3 md:max-w-[571px] mx-auto">
+          <p className="body-1 text-n-6 dark:text-n-3 md:max-w-[571px] mx-auto">
             Comprehensive technology solutions from AI and data engineering to full-stack development
           </p>
         </motion.div>
@@ -94,7 +94,7 @@ const WhatWeDo = () => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.02, y: -5 }}
-              className="relative p-6 rounded-[20px] border border-n-6 bg-n-7 overflow-hidden group"
+              className="relative p-6 rounded-[20px] border border-n-6 bg-white/50 dark:bg-n-7 overflow-hidden group transition-colors duration-200"
             >
               <div className="relative z-1">
                 {/* Icon Container */}
@@ -105,17 +105,17 @@ const WhatWeDo = () => {
                 
                 {/* Metric Value with Citation */}
                 <div className="flex items-baseline gap-2 mb-3">
-                  <span className="h4 text-primary-1">{item.value}</span>
+                  <span className="h4 text-primary-1 dark:text-n-1">{item.value}</span>
                   <Tooltip content={item.tooltip}>
-                    <span className="text-sm text-n-3 cursor-help whitespace-nowrap">
+                    <span className="text-sm text-n-6 dark:text-n-3 cursor-help whitespace-nowrap">
                       ({item.citation})
                     </span>
                   </Tooltip>
                 </div>
                 
                 {/* Title and Description */}
-                <div className="mb-2 text-n-1 font-bold">{item.title}</div>
-                <p className="body-2 text-n-3">{item.description}</p>
+                <div className="mb-2 text-n-8 dark:text-n-1 font-bold">{item.title}</div>
+                <p className="body-2 text-n-6 dark:text-n-3">{item.description}</p>
               </div>
 
               {/* Hover Overlay */}
@@ -133,13 +133,8 @@ const WhatWeDo = () => {
           className="mb-20"
         >
           <div className="text-center mb-10">
-            {/* <h3 className="h3 mb-4">Our Architecture</h3> */}
-            <p className="body-2 text-n-3 md:max-w-[571px] mx-auto mb-6">
-              Explore how we build secure, ethical, and innovative solutions
-            </p>
-            <div className="flex items-center justify-center gap-4 text-n-3">
+            <div className="flex items-center justify-center gap-4 text-n-6 dark:text-n-3">
               <Icon name="arrow-left" className="w-6 h-6 animate-pulse" />
-              <span className="text-sm">Click dots to explore more</span>
               <Icon name="arrow-right" className="w-6 h-6 animate-pulse" />
             </div>
           </div>
@@ -166,31 +161,33 @@ const WhatWeDo = () => {
             >
               {architectures.map((arch) => (
                 <SwiperSlide key={arch.id}>
-                  <div className="rounded-2xl border border-n-6 bg-n-7 p-6">
+                  <div className="rounded-2xl border border-n-6 bg-white/50 dark:bg-n-7 p-6 transition-colors duration-200">
                     <div className="text-center mb-8">
-                      <h4 className="h4 mb-4 text-primary-1">{arch.title}</h4>
-                      <p className="body-2 text-n-3 mb-6">{arch.description}</p>
+                      <h4 className="h4 mb-4 text-n-8 dark:text-primary-1">{arch.title}</h4>
+                      <p className="body-2 text-n-6 dark:text-n-3 mb-6">{arch.description}</p>
                       <Link 
                         to={arch.id === 'jedi' ? '/about' : `/solutions/${arch.id}`}
-                        className="button button-primary px-8 py-3 inline-flex items-center gap-2"
+                        className="button button-primary px-8 py-3 inline-flex items-center gap-2 hover:shadow-xl dark:hover:shadow-primary-1/25"
                         aria-label={`Learn more about ${arch.title}`}
                       >
                         {`Explore ${arch.title}`}
                         <Icon name="arrow-right" className="w-4 h-4" />
                       </Link>
                     </div>
-                    <JEDIDiagramView diagram={arch.diagram} showHeader={false} />
+                    <div className="bg-white/80 dark:bg-n-8/80 rounded-xl p-4 transition-colors duration-200">
+                      <JEDIDiagramView diagram={arch.diagram} showHeader={false} />
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
 
-            {/* Custom Navigation Buttons */}
-            <button className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-5 hover:border-n-4 hover:scale-110 group">
-              <Icon name="arrow-left" className="w-8 h-8 text-n-1 group-hover:text-primary-1 transition-colors" />
+            {/* Navigation Buttons */}
+            <button className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-white/90 dark:bg-n-6/90 hover:bg-n-3/90 dark:hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-3 dark:border-n-5 hover:border-n-4 hover:scale-110 group">
+              <Icon name="arrow-left" className="w-8 h-8 text-n-8 dark:text-n-1 group-hover:text-primary-1 transition-colors" />
             </button>
-            <button className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-n-6/90 hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-5 hover:border-n-4 hover:scale-110 group">
-              <Icon name="arrow-right" className="w-8 h-8 text-n-1 group-hover:text-primary-1 transition-colors" />
+            <button className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center rounded-full bg-white/90 dark:bg-n-6/90 hover:bg-n-3/90 dark:hover:bg-n-5/90 transition-all duration-300 backdrop-blur-sm border border-n-3 dark:border-n-5 hover:border-n-4 hover:scale-110 group">
+              <Icon name="arrow-right" className="w-8 h-8 text-n-8 dark:text-n-1 group-hover:text-primary-1 transition-colors" />
             </button>
 
             {/* Custom Pagination */}
@@ -256,6 +253,11 @@ const WhatWeDo = () => {
         .button-primary:hover {
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(var(--color-primary-1-rgb), 0.3);
+        }
+
+        /* Dark mode specific styles */
+        :root[class~="dark"] .button-primary:hover {
+          box-shadow: 0 4px 16px rgba(var(--color-primary-1-rgb), 0.5);
         }
       `}</style>
     </Section>

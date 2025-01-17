@@ -86,7 +86,7 @@ const Services = () => {
           <Gradient />
         </div>
       </div>
-                <StarsCanvas/>
+                {/* <StarsCanvas/> */}
     </Section>
   );
 };

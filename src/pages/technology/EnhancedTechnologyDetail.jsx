@@ -10,21 +10,26 @@ import { dataEngineeringSolution } from '@/constants/solutions/data-engineering'
 import { fullStackSolution } from '@/constants/solutions/full-stack';
 import Section from '@/components/Section';
 import { RootSEO } from '@/components/SEO';
+import { useTheme } from '@/context/ThemeContext';
 
-const TabButton = ({ active, onClick, children }) => (
-  <button
-    onClick={onClick}
-    className={`px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-      active 
-        ? 'bg-primary-1 text-n-1' 
-        : 'text-n-3 hover:text-n-1 hover:bg-n-6'
-    }`}
-  >
-    {children}
-  </button>
-);
+const TabButton = ({ active, onClick, children }) => {
+  const { isDarkMode } = useTheme();
+  return (
+    <button
+      onClick={onClick}
+      className={`px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+        active 
+          ? 'bg-primary-1 text-n-1' 
+          : `${isDarkMode ? 'text-n-3 hover:text-n-1 hover:bg-n-6' : 'text-n-5 hover:text-n-8 hover:bg-n-2'}`
+      }`}
+    >
+      {children}
+    </button>
+  );
+};
 
 const EnhancedTechnologyDetail = () => {
+  const { isDarkMode } = useTheme();
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState('overview');
   const [technology, setTechnology] = useState(null);
@@ -184,43 +189,43 @@ const EnhancedTechnologyDetail = () => {
           {/* Breadcrumb */}
           <div className="mb-8">
             <div className="flex items-center gap-2 text-sm">
-              <Link to="/technology" className="text-n-3 hover:text-color-1">Technologies</Link>
-              <span className="text-n-3">/</span>
+              <Link to="/technology" className={`${isDarkMode ? 'text-n-3 hover:text-color-1' : 'text-n-5 hover:text-color-1'}`}>Technologies</Link>
+              <span className={isDarkMode ? 'text-n-3' : 'text-n-5'}>/</span>
               {technology.category && typeof technology.category === 'string' && (
                 <>
-                  <Link to={`/technology#${technology.category.toLowerCase()}`} className="text-n-3 hover:text-color-1">
+                  <Link to={`/technology#${technology.category.toLowerCase()}`} className={`${isDarkMode ? 'text-n-3 hover:text-color-1' : 'text-n-5 hover:text-color-1'}`}>
                     {technology.category}
                   </Link>
-                  <span className="text-n-3">/</span>
+                  <span className={isDarkMode ? 'text-n-3' : 'text-n-5'}>/</span>
                 </>
               )}
-              <span className="text-n-1">{technology.name}</span>
+              <span className={`${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{technology.name}</span>
             </div>
           </div>
 
           {/* Header */}
-          <div className="bg-n-8 rounded-xl p-8 border border-n-6 mb-8">
+          <div className={`${isDarkMode ? 'bg-n-8' : 'bg-white'} rounded-xl p-8 border ${isDarkMode ? 'border-n-6' : 'border-n-3'} mb-8`}>
             <div className="flex items-center gap-6 mb-6">
               {technology.icon && (
-                <div className="w-16 h-16 rounded-xl bg-n-7 flex items-center justify-center p-4">
+                <div className={`w-16 h-16 rounded-xl ${isDarkMode ? 'bg-n-7' : 'bg-n-2'} flex items-center justify-center p-4`}>
                   <img src={technology.icon} alt={technology.name} className="w-full h-full object-contain" />
                 </div>
               )}
               <div>
-                <h1 className="text-4xl font-bold mb-2">{technology.name}</h1>
+                <h1 className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{technology.name}</h1>
                 {technology.category && typeof technology.category === 'string' && (
-                  <div className="text-n-3">{technology.category}</div>
+                  <div className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{technology.category}</div>
                 )}
               </div>
             </div>
             {technology.description && (
-              <p className="text-n-3 text-lg">{technology.description}</p>
+              <p className={`text-lg ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{technology.description}</p>
             )}
           </div>
 
           {/* Tabs */}
-          <div className="bg-n-8 rounded-xl border border-n-6 mb-8">
-            <div className="border-b border-n-6 p-2">
+          <div className={`${isDarkMode ? 'bg-n-8' : 'bg-white'} rounded-xl border ${isDarkMode ? 'border-n-6' : 'border-n-3'} mb-8`}>
+            <div className={`border-b ${isDarkMode ? 'border-n-6' : 'border-n-3'} p-2`}>
               <div className="flex flex-wrap gap-2">
                 {tabs.map(({ id, label, icon: Icon }) => (
                   <TabButton
@@ -240,16 +245,16 @@ const EnhancedTechnologyDetail = () => {
             {/* Tab Content */}
             <div className="p-8">
               {activeTab === 'overview' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Overview</h2>
-                  <p>{technology.description}</p>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Overview</h2>
+                  <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{technology.description}</p>
                   
                   {technology.businessMetrics && technology.businessMetrics.length > 0 && (
                     <>
-                      <h3 className="text-xl font-semibold mt-8 mb-4">Business Impact</h3>
+                      <h3 className={`text-xl font-semibold mt-8 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Business Impact</h3>
                       <ul className="list-disc pl-6">
                         {technology.businessMetrics.map((metric, index) => (
-                          <li key={index} className="mb-2">{metric}</li>
+                          <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{metric}</li>
                         ))}
                       </ul>
                     </>
@@ -257,10 +262,10 @@ const EnhancedTechnologyDetail = () => {
 
                   {technology.capabilities && technology.capabilities.length > 0 && (
                     <>
-                      <h3 className="text-xl font-semibold mt-8 mb-4">Key Capabilities</h3>
+                      <h3 className={`text-xl font-semibold mt-8 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Key Capabilities</h3>
                       <ul className="list-disc pl-6">
                         {technology.capabilities.map((capability, index) => (
-                          <li key={index} className="mb-2">{capability}</li>
+                          <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{capability}</li>
                         ))}
                       </ul>
                     </>
@@ -269,24 +274,24 @@ const EnhancedTechnologyDetail = () => {
               )}
 
               {activeTab === 'features' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Features</h2>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Features</h2>
                   {technology.features && technology.features.length > 0 ? (
                     <ul className="list-disc pl-6">
                       {technology.features.map((feature, index) => (
-                        <li key={index} className="mb-2">{feature}</li>
+                        <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{feature}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-n-3">No features available</p>
+                    <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>No features available</p>
                   )}
 
                   {technology.primaryUses && technology.primaryUses.length > 0 && (
                     <>
-                      <h3 className="text-xl font-semibold mt-8 mb-4">Primary Uses</h3>
+                      <h3 className={`text-xl font-semibold mt-8 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Primary Uses</h3>
                       <ul className="list-disc pl-6">
                         {technology.primaryUses.map((use, index) => (
-                          <li key={index} className="mb-2">{use}</li>
+                          <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{use}</li>
                         ))}
                       </ul>
                     </>
@@ -295,22 +300,22 @@ const EnhancedTechnologyDetail = () => {
               )}
 
               {activeTab === 'architecture' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Architecture & Implementation</h2>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Architecture & Implementation</h2>
                   
                   {technology.architecture && (
                     <div className="mb-8">
-                      <h3 className="text-xl font-semibold mb-4">Architecture Overview</h3>
-                      <p>{technology.architecture}</p>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Architecture Overview</h3>
+                      <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{technology.architecture}</p>
                     </div>
                   )}
 
                   {technology.deploymentOptions && technology.deploymentOptions.length > 0 && (
                     <>
-                      <h3 className="text-xl font-semibold mb-4">Deployment Options</h3>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Deployment Options</h3>
                       <ul className="list-disc pl-6">
                         {technology.deploymentOptions.map((option, index) => (
-                          <li key={index} className="mb-2">{option}</li>
+                          <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{option}</li>
                         ))}
                       </ul>
                     </>
@@ -318,37 +323,37 @@ const EnhancedTechnologyDetail = () => {
 
                   {technology.requirements && (
                     <div className="mt-8">
-                      <h3 className="text-xl font-semibold mb-4">System Requirements</h3>
-                      <p>{technology.requirements}</p>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>System Requirements</h3>
+                      <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{technology.requirements}</p>
                     </div>
                   )}
                 </div>
               )}
 
               {activeTab === 'integration' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Integration Guide</h2>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Integration Guide</h2>
                   
                   {technology.integrationSteps && technology.integrationSteps.length > 0 ? (
-                    <div className="bg-n-7 rounded-lg p-6 border border-n-6">
-                      <h3 className="text-xl font-semibold mb-4">Quick Start</h3>
+                    <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Quick Start</h3>
                       <ol className="list-decimal pl-6">
                         {technology.integrationSteps.map((step, index) => (
-                          <li key={index} className="mb-4">{step}</li>
+                          <li key={index} className={`mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{step}</li>
                         ))}
                       </ol>
                     </div>
                   ) : (
-                    <div className="bg-n-7 rounded-lg p-6 border border-n-6">
-                      <p className="text-n-3">Integration guide coming soon...</p>
+                    <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                      <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>Integration guide coming soon...</p>
                     </div>
                   )}
 
                   {technology.codeExamples && (
-                    <div className="mt-8 bg-n-7 rounded-lg p-6 border border-n-6">
-                      <h3 className="text-xl font-semibold mb-4">Code Examples</h3>
-                      <pre className="bg-n-8 p-4 rounded-lg overflow-x-auto">
-                        <code>{technology.codeExamples}</code>
+                    <div className={`mt-8 ${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Code Examples</h3>
+                      <pre className={`${isDarkMode ? 'bg-n-8' : 'bg-n-1'} p-4 rounded-lg overflow-x-auto`}>
+                        <code className={`${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{technology.codeExamples}</code>
                       </pre>
                     </div>
                   )}
@@ -356,15 +361,15 @@ const EnhancedTechnologyDetail = () => {
               )}
 
               {activeTab === 'useCases' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Use Cases</h2>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Use Cases</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {technology.relatedUseCases && technology.relatedUseCases.length > 0 ? (
                       technology.relatedUseCases.map((useCase) => (
-                        <div key={useCase.id} className="bg-n-7 rounded-lg p-6 border border-n-6">
-                          <h3 className="text-xl font-semibold mb-3">{useCase.title}</h3>
+                        <div key={useCase.id} className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                          <h3 className={`text-xl font-semibold mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{useCase.title}</h3>
                           {useCase.implementation?.overview && (
-                            <p className="text-n-3 mb-4">{useCase.implementation.overview}</p>
+                            <p className={`mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{useCase.implementation.overview}</p>
                           )}
                           <Link
                             to={`/technology/${slug}/use-case/${useCase.title.toLowerCase().replace(/\s+/g, '-')}`}
@@ -378,16 +383,27 @@ const EnhancedTechnologyDetail = () => {
                         </div>
                       ))
                     ) : technology.useCases && technology.useCases.length > 0 ? (
-                      <div className="col-span-2">
-                        <ul className="list-disc pl-6">
-                          {technology.useCases.map((useCase, index) => (
-                            <li key={index} className="mb-2">{useCase}</li>
-                          ))}
-                        </ul>
-                      </div>
+                      technology.useCases.map((useCase, index) => (
+                        <div key={index} className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                          <h3 className={`text-xl font-semibold mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{useCase.title}</h3>
+                          <p className={`mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{useCase.description}</p>
+                          {useCase.architecture && (
+                            <div className="mt-4">
+                              <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Architecture</h4>
+                              <div className={`${isDarkMode ? 'bg-n-8' : 'bg-n-1'} p-4 rounded-lg`}>
+                                <pre className="overflow-x-auto">
+                                  <code className={`${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                                    {JSON.stringify(useCase.architecture, null, 2)}
+                                  </code>
+                                </pre>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))
                     ) : (
-                      <div className="col-span-2 text-center text-n-3">
-                        No use cases available
+                      <div className="col-span-2 text-center">
+                        <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>No use cases available</p>
                       </div>
                     )}
                   </div>
@@ -395,12 +411,12 @@ const EnhancedTechnologyDetail = () => {
               )}
 
               {activeTab === 'resources' && (
-                <div className="prose prose-invert max-w-none">
-                  <h2 className="text-2xl font-bold mb-4">Resources</h2>
+                <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Resources</h2>
                   
                   {technology.documentation && (
-                    <div className="bg-n-7 rounded-lg p-6 border border-n-6 mb-6">
-                      <h3 className="text-xl font-semibold mb-4">Documentation</h3>
+                    <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'} mb-6`}>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Documentation</h3>
                       <div className="flex flex-col gap-3">
                         {Object.entries(technology.documentation).map(([title, url]) => (
                           <a
@@ -421,8 +437,8 @@ const EnhancedTechnologyDetail = () => {
                   )}
 
                   {technology.tutorials && technology.tutorials.length > 0 && (
-                    <div className="bg-n-7 rounded-lg p-6 border border-n-6">
-                      <h3 className="text-xl font-semibold mb-4">Tutorials & Guides</h3>
+                    <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Tutorials & Guides</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {technology.tutorials.map((tutorial, index) => (
                           <a
@@ -430,11 +446,11 @@ const EnhancedTechnologyDetail = () => {
                             href={tutorial.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-n-8 p-4 rounded-lg hover:bg-n-6 transition-colors"
+                            className={`${isDarkMode ? 'bg-n-8 hover:bg-n-6' : 'bg-n-1 hover:bg-n-2'} p-4 rounded-lg transition-colors`}
                           >
-                            <h4 className="font-medium mb-2">{tutorial.title}</h4>
+                            <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{tutorial.title}</h4>
                             {tutorial.description && (
-                              <p className="text-sm text-n-3">{tutorial.description}</p>
+                              <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{tutorial.description}</p>
                             )}
                           </a>
                         ))}
@@ -443,8 +459,8 @@ const EnhancedTechnologyDetail = () => {
                   )}
 
                   {(!technology.documentation && (!technology.tutorials || technology.tutorials.length === 0)) && (
-                    <div className="text-center text-n-3">
-                      Resources coming soon...
+                    <div className="text-center">
+                      <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>Resources coming soon...</p>
                     </div>
                   )}
                 </div>

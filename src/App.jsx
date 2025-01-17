@@ -120,16 +120,13 @@ const App = () => {
   if (loading) return <Loading />;
 
   return (
-    <HelmetProvider>
-      <TestSEO />
-      <SEO />
-      <RootSEO />
+    <ThemeProvider>
       <AppContent 
         posts={posts} 
         location={location} 
         helmetContext={helmetContext} 
       />
-    </HelmetProvider>
+    </ThemeProvider>
   );
 };
 
@@ -137,14 +134,13 @@ const App = () => {
 const AppContent = ({ posts, location, helmetContext }) => {
   const { isDarkMode } = useTheme();
 
-  // Apply theme class to the root div
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
-
   return (
-    <div className={`min-h-screen bg-white dark:bg-n-8 text-n-6 dark:text-n-1 transition-colors duration-200`}>
+    <div className={`min-h-screen transition-colors duration-200
+      ${isDarkMode ? 'bg-n-8 text-n-1' : 'bg-white text-gray-900'}`}>
       <HelmetProvider context={helmetContext}>
+        <TestSEO />
+        <SEO />
+        <RootSEO />
         <Header />
         <ScrollToTop />
 
@@ -167,13 +163,13 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <Collaboration />
                     <NextGenAIStack />
                     <IndustryOverview />
-                    <WhyChooseUs />
+                    {/* <WhyChooseUs /> */}
                     {/* <CaseStudies /> */}
                     {/* <Pricing /> */}
                     {/* <Services /> */}
                     <Roadmap />
                     <Contact />
-                    <StarsCanvas />
+                    {/* <StarsCanvas /> */}
                   </>
                 }
               />

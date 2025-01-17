@@ -60,7 +60,7 @@ const BackedBy = ({ className }) => {
           </div>
         ))}
       </Slider>
-      <StarsCanvas/>
+      {/* <StarsCanvas/> */}
     </div>
   );
 };

@@ -136,7 +136,7 @@ const CompanyLogos = ({ className }) => {
           </Slider>
         </div>
       </div>
-      <StarsCanvas/>
+      {/* <StarsCanvas/> */}
     </div>
   );
 };

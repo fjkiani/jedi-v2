@@ -35,7 +35,7 @@ export const TestSEO = () => {
         console.log('\n📊 Technology SEO Status:');
         result.categories?.forEach(category => {
           category.technologies?.forEach(tech => {
-            console.log(`\n🔧 Testing SEO for ${tech.name}:`);
+            // console.log(`\n🔧 Testing SEO for ${tech.name}:`);
             
             // Mount RootSEO for each technology
             const rootSEO = document.createElement('div');
@@ -53,7 +53,7 @@ export const TestSEO = () => {
             // Verify structured data
             const structuredDataScript = document.querySelector('#structured-data');
             if (structuredDataScript) {
-              console.log('  ✅ Structured Data generated');
+              // console.log('  ✅ Structured Data generated');
               try {
                 const data = JSON.parse(structuredDataScript.textContent);
                 // console.log('  • Schema Type:', data['@type']);
@@ -62,7 +62,7 @@ export const TestSEO = () => {
                 console.log('  ❌ Error parsing structured data');
               }
             } else {
-              console.log('  ❌ No structured data found');
+              // console.log('  ❌ No structured data found');
             }
           });
         });

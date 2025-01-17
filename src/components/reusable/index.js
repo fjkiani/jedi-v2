@@ -19,7 +19,7 @@ const HealthHive = () => {
       {/* <HHLogoSlider logos={logosData}/> */}
       {/* <Contact/> */}
       
-      <StarsCanvas />
+      {/* <StarsCanvas /> */}
     </div>
   );
 };

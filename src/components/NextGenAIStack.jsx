@@ -8,12 +8,14 @@ import ClipPath from "../assets/svg/ClipPath";
 import { getAllSolutions } from "../constants/solutions";
 import { Link } from 'react-router-dom';
 import { Icon } from "./Icon";
+import { useTheme } from "@/context/ThemeContext";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const NextGenAIStack = () => {
   const solutions = getAllSolutions();
+  const { isDarkMode } = useTheme();
 
   const settings = {
     dots: true,
@@ -56,11 +58,11 @@ const NextGenAIStack = () => {
           <Slider {...settings}>
             {solutions.map((solution) => (
               <div key={solution.id} className="px-4">
-                <div className="relative p-8 h-[400px] rounded-3xl overflow-hidden bg-n-7 border border-n-6 
-                  group transition-all duration-500 hover:border-n-4">
+                <div className={`relative p-8 h-[400px] rounded-3xl overflow-hidden ${isDarkMode ? 'bg-n-7' : 'bg-white'} border ${isDarkMode ? 'border-n-6' : 'border-n-3'} 
+                  group transition-all duration-500 ${isDarkMode ? 'hover:border-n-4' : 'hover:border-n-5'}`}>
                   {/* Background Image with enhanced transitions */}
-                  <div className="absolute inset-0 z-0 opacity-[0.08] transition-all duration-700 
-                    group-hover:opacity-[0.18] group-hover:scale-[1.05]">
+                  <div className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-[0.08]' : 'opacity-[0.12]'} transition-all duration-700 
+                    ${isDarkMode ? 'group-hover:opacity-[0.18]' : 'group-hover:opacity-[0.22]'} group-hover:scale-[1.05]`}>
                     {solution.imageUrl && (
                       <img
                         src={solution.imageUrl}
@@ -73,8 +75,8 @@ const NextGenAIStack = () => {
                   {/* Gradient Overlays */}
                   <div className="absolute inset-0 z-1">
                     {/* Base gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-n-8/95 via-n-8/70 to-n-8/50 
-                      transition-opacity duration-700" />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${isDarkMode ? 'from-n-8/95 via-n-8/70 to-n-8/50' : 'from-white/95 via-white/70 to-white/50'} 
+                      transition-opacity duration-700`} />
                     
                     {/* Accent gradient on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-1/5 via-primary-1/0 to-transparent 
@@ -84,22 +86,22 @@ const NextGenAIStack = () => {
                   {/* Content with enhanced hover effects */}
                   <div className="relative z-2">
                     <div className="mb-[2rem] transition-transform duration-500 group-hover:translate-y-[-4px]">
-                      <div className="w-12 h-12 bg-n-6/80 backdrop-blur-sm rounded-xl 
+                      <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6/80' : 'bg-n-2/80'} backdrop-blur-sm rounded-xl 
                         flex items-center justify-center mb-6 transition-all duration-500
-                        group-hover:bg-n-5/80 group-hover:shadow-lg group-hover:shadow-primary-1/20">
+                        ${isDarkMode ? 'group-hover:bg-n-5/80' : 'group-hover:bg-n-3/80'} group-hover:shadow-lg group-hover:shadow-primary-1/20`}>
                         <Icon name={solution.icon} className="w-6 h-6 text-primary-1 transition-transform 
                           duration-500 group-hover:scale-110" />
                       </div>
-                      <h4 className="h4 mb-4 transition-colors duration-500 
-                        group-hover:text-primary-1">{solution.title}</h4>
-                      <p className="body-2 text-n-3 transition-colors duration-500 
-                        group-hover:text-n-1">{solution.description}</p>
+                      <h4 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} transition-colors duration-500 
+                        group-hover:text-primary-1`}>{solution.title}</h4>
+                      <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'} transition-colors duration-500 
+                        ${isDarkMode ? 'group-hover:text-n-1' : 'group-hover:text-n-6'}`}>{solution.description}</p>
                     </div>
                     
                     <Link 
                       to={`/solutions/${solution.slug}`}
-                      className="flex items-center gap-4 text-n-1 transition-all duration-500 
-                        group-hover:gap-5"
+                      className={`flex items-center gap-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} transition-all duration-500 
+                        group-hover:gap-5`}
                     >
                       <span className="font-bold relative">
                         EXPLORE MORE
@@ -128,7 +130,8 @@ const NextGenAIStack = () => {
             <div 
               key={index}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 
-                ${index === 1 ? 'bg-n-1 scale-125' : 'bg-n-6 hover:bg-n-5'}`}
+                ${index === 1 ? (isDarkMode ? 'bg-n-1' : 'bg-n-8') : (isDarkMode ? 'bg-n-6 hover:bg-n-5' : 'bg-n-3 hover:bg-n-4')} 
+                ${index === 1 ? 'scale-125' : ''}`}
             />
           ))}
         </div>
