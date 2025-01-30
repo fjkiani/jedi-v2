@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BlogSEO } from '@/components/SEO/BlogSEO';
 import { hygraphClient } from '@/lib/hygraph';
+import { RichText } from '@graphcms/rich-text-react-renderer';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useTheme } from '@/context/ThemeContext';
 
 export const BlogPost = () => {
   const { slug } = useParams();
-  console.log('🚀 BlogPost page mounted for slug:', slug);
+  const { isDarkMode } = useTheme();
   
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +17,6 @@ export const BlogPost = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      console.log('🔄 Fetching blog post for slug:', slug);
       try {
         const query = `
           query GetBlogPost($slug: String!) {
@@ -22,7 +25,16 @@ export const BlogPost = () => {
               title
               slug
               excerpt
-              content
+              content {
+                raw
+                references {
+                  ... on Asset {
+                    id
+                    url
+                    mimeType
+                  }
+                }
+              }
               publishedAt
               updatedAt
               categories {
@@ -43,11 +55,11 @@ export const BlogPost = () => {
         `;
 
         const result = await hygraphClient.request(query, { slug });
-        console.log('✅ Fetched blog post:', result.post);
+        console.log('Post content:', result.post.content); // Debug log
         setPost(result.post);
         setLoading(false);
       } catch (err) {
-        console.error('❌ Error fetching blog post:', err);
+        console.error('Error fetching blog post:', err);
         setError(err);
         setLoading(false);
       }
@@ -55,33 +67,49 @@ export const BlogPost = () => {
 
     if (slug) {
       fetchPost();
-    } else {
-      console.warn('⚠️ No slug provided for blog post');
-      setLoading(false);
     }
   }, [slug]);
 
-  if (loading) {
-    console.log('⏳ BlogPost page loading...');
-    return <div>Loading blog post...</div>;
-  }
-  
-  if (error) {
-    console.error('❌ BlogPost page error:', error);
-    return <div>Error loading blog post: {error.message}</div>;
-  }
-  
-  if (!post) {
-    console.warn('⚠️ No post found for slug:', slug);
-    return <div>Blog post not found</div>;
-  }
+  // Update the renderers to better handle code blocks
+  const renderers = {
+    code: ({ children }) => (
+      <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5">
+        {children}
+      </code>
+    ),
+    code_block: ({ children }) => {
+      console.log('Code block content:', children); // Debug log
+      return (
+        <div className="relative">
+          <SyntaxHighlighter
+            language="javascript"
+            style={vscDarkPlus}
+            className="rounded-lg my-4 p-4 !bg-gray-900"
+            showLineNumbers={true}
+            wrapLines={true}
+            customStyle={{
+              margin: 0,
+              padding: '1rem',
+              backgroundColor: '#1a1a1a',
+            }}
+          >
+            {children}
+          </SyntaxHighlighter>
+        </div>
+      );
+    },
+    h1: ({ children }) => <h1 className="text-3xl font-bold mt-8 mb-4">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-2xl font-bold mt-6 mb-3">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-xl font-bold mt-5 mb-2">{children}</h3>,
+    p: ({ children }) => <p className="mb-4 text-gray-800 dark:text-gray-200">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc ml-6 mb-4">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal ml-6 mb-4">{children}</ol>,
+    li: ({ children }) => <li className="mb-2">{children}</li>,
+  };
 
-  console.log('🎨 Rendering blog post:', {
-    title: post.title,
-    hasContent: !!post.content,
-    hasAuthor: !!post.author,
-    categoriesCount: post.categories?.length
-  });
+  if (loading) return <div>Loading blog post...</div>;
+  if (error) return <div>Error loading blog post: {error.message}</div>;
+  if (!post) return <div>Blog post not found</div>;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -129,12 +157,20 @@ export const BlogPost = () => {
         </div>
       )}
       
-      <div className="prose prose-lg max-w-none">
-        {post.content}
+      <div className={`prose prose-lg max-w-none ${isDarkMode ? 'prose-invert' : ''}`}>
+        {post.content?.raw ? (
+          <RichText
+            content={post.content.raw}
+            references={post.content.references}
+            renderers={renderers}
+          />
+        ) : (
+          <p>No content available</p>
+        )}
       </div>
       
       {post.author?.bio && (
-        <div className="mt-12 p-6 bg-gray-50 rounded-lg">
+        <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <h2 className="text-xl font-bold mb-4">About the Author</h2>
           <div className="flex items-start">
             {post.author.photo && (
@@ -146,7 +182,7 @@ export const BlogPost = () => {
             )}
             <div>
               <p className="font-medium mb-2">{post.author.name}</p>
-              <p className="text-gray-600">{post.author.bio}</p>
+              <p className="text-gray-600 dark:text-gray-300">{post.author.bio}</p>
             </div>
           </div>
         </div>
