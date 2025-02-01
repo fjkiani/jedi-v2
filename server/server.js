@@ -59,7 +59,7 @@ app.use('/blog/post/:slug', async (req, res, next) => {
     
     if (!post) {
       return res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-    }
+    } x
 
     let html = await fs.readFile(path.join(__dirname, 'dist', 'index.html'), 'utf-8');
     
