@@ -23,7 +23,7 @@ const TwitterCard = ({ post }) => {
   const currentUrl = `${baseUrl}/blog/post/${slug}`;
 
   // Debug what's being rendered
-  console.log('Meta tags being rendered:', {
+  console.log('Twitter Card Meta tags:', {
     title,
     description: excerpt,
     image: imageUrl,
@@ -33,34 +33,39 @@ const TwitterCard = ({ post }) => {
 
   return (
     <Helmet>
-      {/* LinkedIn primarily looks for these specific OpenGraph tags */}
-      <meta name="image" property="og:image" content={imageUrl} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={excerpt} />
+      {/* Twitter Card Tags - Must come first */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@JediLabs" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={excerpt} />
+      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+      {authorName && <meta name="twitter:creator" content={authorName} />}
+      
+      {/* OpenGraph Tags */}
       <meta property="og:url" content={currentUrl} />
       <meta property="og:type" content="article" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={excerpt} />
+      {imageUrl && <meta property="og:image" content={imageUrl} />}
       <meta property="og:site_name" content="Jedi Labs" />
       
-      {/* Ensure image dimensions are specified */}
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      
-      {/* Basic meta tags */}
+      {/* Basic Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={excerpt} />
       <link rel="canonical" href={currentUrl} />
       
-      {/* Article specific metadata */}
+      {/* Article Metadata */}
       <meta property="article:published_time" content={createdAt} />
       {authorName && <meta property="article:author" content={authorName} />}
-      {authorName && <meta name="author" content={authorName} />}
       
-      {/* Twitter Card Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={imageUrl} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={excerpt} />
-      {authorName && <meta name="twitter:creator" content={authorName} />}
+      {/* Image Dimensions for Twitter/OG */}
+      {imageUrl && (
+        <>
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta name="twitter:image:alt" content={title} />
+        </>
+      )}
     </Helmet>
   );
 };
