@@ -18,8 +18,10 @@ const TwitterCard = ({ post }) => {
   const authorName = authorData?.name;
 
   // Ensure absolute URL for image
-  const imageUrl = featuredImage?.url;
   const baseUrl = 'https://www.jedilabs.org';
+  const imageUrl = featuredImage?.url ? 
+    (featuredImage.url.startsWith('http') ? featuredImage.url : `${baseUrl}${featuredImage.url}`) 
+    : `${baseUrl}/og-image.jpg`; // Fallback image
   const currentUrl = `${baseUrl}/blog/post/${slug}`;
 
   // Debug what's being rendered
@@ -36,21 +38,21 @@ const TwitterCard = ({ post }) => {
       {/* Twitter Card Tags - Must come first */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@JediLabs" />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={`${title} | Jedi Labs`} />
       <meta name="twitter:description" content={excerpt} />
-      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+      <meta name="twitter:image" content={imageUrl} />
       {authorName && <meta name="twitter:creator" content={authorName} />}
       
       {/* OpenGraph Tags */}
       <meta property="og:url" content={currentUrl} />
       <meta property="og:type" content="article" />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={`${title} | Jedi Labs`} />
       <meta property="og:description" content={excerpt} />
-      {imageUrl && <meta property="og:image" content={imageUrl} />}
+      <meta property="og:image" content={imageUrl} />
       <meta property="og:site_name" content="Jedi Labs" />
       
       {/* Basic Meta Tags */}
-      <title>{title}</title>
+      <title>{`${title} | Jedi Labs`}</title>
       <meta name="description" content={excerpt} />
       <link rel="canonical" href={currentUrl} />
       
@@ -59,13 +61,9 @@ const TwitterCard = ({ post }) => {
       {authorName && <meta property="article:author" content={authorName} />}
       
       {/* Image Dimensions for Twitter/OG */}
-      {imageUrl && (
-        <>
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta name="twitter:image:alt" content={title} />
-        </>
-      )}
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta name="twitter:image:alt" content={title} />
     </Helmet>
   );
 };
