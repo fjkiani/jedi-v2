@@ -62,8 +62,12 @@ export const getPostDetails = async (slug) => {
         excerpt
         featuredImage {
           url
+          width
+          height
+          mimeType
+          fileName
         }
-        author{
+        author {
           name
           bio
           photo {
@@ -84,7 +88,7 @@ export const getPostDetails = async (slug) => {
   `;
 
   const result = await request(graphqlAPI, query, { slug });
-
+  console.log('Post details from HyGraph:', result.post); // Debug log
   return result.post;
 };
 

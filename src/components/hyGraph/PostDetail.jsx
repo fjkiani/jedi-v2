@@ -13,6 +13,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchPostDetails = async () => {
       const fetchedPost = await getPostDetails(slug);
+      console.log('Fetched post details:', fetchedPost); // Debug log
       setPost(fetchedPost);
       setLoading(false);
     };
@@ -26,6 +27,16 @@ const PostDetail = () => {
   if (!post) {
     return <p>Post not found</p>;
   }
+
+  // Debug log before passing to TwitterCard
+  console.log('Post data being passed to TwitterCard:', {
+    title: post.title,
+    excerpt: post.excerpt,
+    featuredImage: post.featuredImage,
+    author: post.author,
+    createdAt: post.createdAt,
+    slug: post.slug
+  });
 
   // Function to add citation to the list and return its number
   const addCitation = (href) => {
