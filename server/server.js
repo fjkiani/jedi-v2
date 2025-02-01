@@ -24,6 +24,13 @@ const GET_POST_QUERY = `
       createdAt
       author {
         name
+        bio
+        photo {
+          url
+        }
+      }
+      content {
+        raw
       }
     }
   }
@@ -46,12 +53,7 @@ app.get('/blog/post/:slug', async (req, res, next) => {
     const slug = req.params.slug;
     console.log('Processing request for blog post:', slug);
     
-    // If not a social crawler, serve the SPA
-    if (!req.isSocialCrawler) {
-      return res.sendFile(path.join(__dirname, '../dist/index.html'));
-    }
-    
-    // For social crawlers, fetch post data and inject meta tags
+    // For all requests, fetch post data to ensure we have the latest content
     const data = await request(
       HYGRAPH_ENDPOINT,
       GET_POST_QUERY,
@@ -64,35 +66,53 @@ app.get('/blog/post/:slug', async (req, res, next) => {
       return res.sendFile(path.join(__dirname, '../dist/index.html'));
     }
 
+    // Ensure we have absolute URLs for images
+    const imageUrl = post.featuredImage?.url 
+      ? (post.featuredImage.url.startsWith('http') 
+          ? post.featuredImage.url 
+          : `https:${post.featuredImage.url}`)
+      : 'https://www.jedilabs.org/og-image.jpg';
+
     let html = await fs.readFile(path.join(__dirname, '../dist/index.html'), 'utf-8');
     
     // Clean existing meta tags
     html = html.replace(/<meta property="og:.*?>/g, '');
     html = html.replace(/<meta name="twitter:.*?>/g, '');
     
+    const authorName = post.author?.[0]?.name || post.author?.name;
+    const authorBio = post.author?.[0]?.bio || post.author?.bio;
+    
     const metaTags = `
       <!-- Essential Meta Tags -->
       <meta property="og:title" content="${post.title}" />
       <meta property="og:description" content="${post.excerpt}" />
-      <meta property="og:image" content="${post.featuredImage?.url}" />
+      <meta property="og:image" content="${imageUrl}" />
       <meta property="og:type" content="article" />
       <meta property="og:site_name" content="Jedi Labs" />
       <meta property="og:url" content="https://www.jedilabs.org/blog/post/${slug}" />
       <meta property="article:published_time" content="${post.createdAt}" />
-      ${post.author?.name ? `<meta property="article:author" content="${post.author.name}" />` : ''}
+      ${authorName ? `<meta property="article:author" content="${authorName}" />` : ''}
+      ${authorBio ? `<meta property="article:author:bio" content="${authorBio}" />` : ''}
 
       <!-- Twitter Card Tags -->
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@JediLabs" />
       <meta name="twitter:title" content="${post.title}" />
       <meta name="twitter:description" content="${post.excerpt}" />
-      <meta name="twitter:image" content="${post.featuredImage?.url}" />
+      <meta name="twitter:image" content="${imageUrl}" />
+      ${authorName ? `<meta name="twitter:creator" content="${authorName}" />` : ''}
     `;
 
     // Insert meta tags right after <head>
     html = html.replace('<head>', '<head>\n' + metaTags);
     
-    console.log('Injected meta tags for social crawler');
+    console.log('Meta tags debug:', {
+      title: post.title,
+      image: imageUrl,
+      author: authorName,
+      excerpt: post.excerpt
+    });
+    
     res.send(html);
   } catch (error) {
     console.error('Error processing blog post:', error);
