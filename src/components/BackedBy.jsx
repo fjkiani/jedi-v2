@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import {companyLogos } from "../constants";
-import { StarsCanvas} from "../components/canvas";
+// import { StarsCanvas} from "../components/canvas";
 
 
 // Import the slick-carousel CSS files

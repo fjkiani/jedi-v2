@@ -14,14 +14,13 @@ export default defineConfig({
   base: '/',
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
   },
   server: {
-    port: 3000,
+    port: 3001,
     historyApiFallback: true,
-  },
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+    }
+  }
 });

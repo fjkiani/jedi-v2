@@ -6,7 +6,7 @@ import { collabApps, collabContent } from "../constants";
 import Button from "./Button";
 import Section from "./Section";
 import { LeftCurve, RightCurve } from "./design/Collaboration";
-import { StarsCanvas} from "../components/canvas";
+// import { StarsCanvas} from "../components/canvas";
 
 
 const Collaboration = () => {
@@ -154,7 +154,7 @@ const Collaboration = () => {
         </div>
       </div>
 
-      <StarsCanvas/>
+      {/* <StarsCanvas/> */}
     </Section>
   );
 };

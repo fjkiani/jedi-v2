@@ -6,7 +6,7 @@ import { brainwaveServices, brainwaveServicesIcons, serviceContent, sliderSettin
 import { check } from "../assets";
 import { PhotoChatMessage, Gradient, VideoBar, VideoChatMessage } from "./design/Services";
 import Generating from "./Generating";
-import { StarsCanvas} from "../components/canvas";
+// import { StarsCanvas} from "../components/canvas";
 
 
 const Services = () => {
