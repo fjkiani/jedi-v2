@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "server/server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/**"]
+      }
     },
     {
       "src": "package.json",
@@ -21,8 +24,16 @@
       "dest": "/dist/assets/$1"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
       "dest": "server/server.js"
     }
-  ]
+  ],
+  "env": {
+    "VITE_HYGRAPH_ENDPOINT": "@hygraph-endpoint",
+    "VITE_HYGRAPH_TOKEN": "@hygraph-token",
+    "NODE_ENV": "production"
+  }
 } 
