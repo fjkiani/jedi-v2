@@ -26,9 +26,12 @@ const hygraphClient = new GraphQLClient(
 const staticRoutes = [
   { path: '/', changefreq: 'daily', priority: 1.0 },
   { path: '/solutions', changefreq: 'weekly', priority: 0.9 },
+  { path: '/industries', changefreq: 'weekly', priority: 0.9 },
   { path: '/team', changefreq: 'weekly', priority: 0.8 },
   { path: '/blog', changefreq: 'daily', priority: 0.8 },
   { path: '/technology', changefreq: 'weekly', priority: 0.8 },
+  // { path: '/tech-stack', changefreq: 'weekly', priority: 0.8 },
+  // { path: '/tech', changefreq: 'weekly', priority: 0.8 },
   { path: '/about', changefreq: 'monthly', priority: 0.7 },
   { path: '/contact', changefreq: 'monthly', priority: 0.7 }
 ];
@@ -121,18 +124,23 @@ async function fetchDynamicRoutes() {
       console.log('No solutions found');
     }
 
-    // Query technologies
+    // Query technologies with use cases
     try {
       const techResult = await hygraphClient.request(`
         {
           technologies {
             slug
             updatedAt
+            useCases {
+              slug
+              updatedAt
+            }
           }
         }
       `);
       
       if (techResult.technologies) {
+        // Add main technology routes
         routes.push(
           ...techResult.technologies.map(tech => ({
             path: `/technology/${tech.slug}`,
@@ -141,32 +149,67 @@ async function fetchDynamicRoutes() {
             priority: 0.8
           }))
         );
+
+        // Add technology use case routes
+        techResult.technologies.forEach(tech => {
+          if (tech.useCases) {
+            routes.push(
+              ...tech.useCases.map(useCase => ({
+                path: `/technology/${tech.slug}/use-case/${useCase.slug}`,
+                lastmod: useCase.updatedAt.split('T')[0],
+                changefreq: 'weekly',
+                priority: 0.7
+              }))
+            );
+          }
+        });
+
         console.log('Technologies found:', techResult.technologies.length);
       }
     } catch (e) {
       console.log('No technologies found');
     }
 
-    // Query industries
+    // Query industries with solutions
     try {
       const industriesResult = await hygraphClient.request(`
         {
           industries {
             slug
             updatedAt
+            solutions {
+              slug
+              updatedAt
+            }
           }
         }
       `);
       
       if (industriesResult.industries) {
+        // Add main industry routes
         routes.push(
           ...industriesResult.industries.map(industry => ({
-            path: `/industry/${industry.slug}`,
+            path: `/industries/${industry.slug}`,
             lastmod: industry.updatedAt.split('T')[0],
             changefreq: 'monthly',
             priority: 0.7
           }))
         );
+
+        // Add industry solution routes
+        industriesResult.industries.forEach(industry => {
+          if (industry.solutions) {
+            routes.push(
+              ...industry.solutions.map(solution => ({
+                path: `/industries/${industry.slug}/${solution.slug}`,
+                lastmod: solution.updatedAt.split('T')[0],
+                changefreq: 'monthly',
+                priority: 0.7
+              }))
+            );
+          }
+        });
+
         console.log('Industries found:', industriesResult.industries.length);
       }
     } catch (e) {

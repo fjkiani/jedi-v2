@@ -964,3 +964,5 @@ export const sliderSettings = {
     },
   ],
 };
+
+
