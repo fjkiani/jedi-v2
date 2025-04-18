@@ -41,4 +41,4 @@ const testConnection = async () => {
   }
 };
 
-export { hygraphClient, testConnection }; 
+export { hygraphClient, testConnection, endpoint as hygraphEndpoint }; 

@@ -218,13 +218,13 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 } 
               />
 
-              <Route 
-                path="/industries/*" 
+              <Route
+                path="/industries/*"
                 element={
                   <PageTransition>
                     <IndustryRoutes />
                   </PageTransition>
-                } 
+                }
               />
 
               <Route path="/tech-test" element={<TechStackTest />} />

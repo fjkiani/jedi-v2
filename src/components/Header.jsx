@@ -4,56 +4,23 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { useTheme } from "../context/ThemeContext";
 import { logo } from "../assets";
 import { navigation } from "../constants";
-import { industriesList } from "../constants/industry";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { Link } from 'react-router-dom';
 import { technologyService } from '@/services/technologyService';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
 
-// Transform industries data into dropdown format
-const transformIndustriesData = (industries) => {
-  // Filter to only include financial and healthcare
-  const activeIndustries = industries.filter(industry => 
-    ['financial', 'healthcare'].includes(industry.id)
-  );
-
-  // Transform active industries
-  const transformedIndustries = activeIndustries.map(industry => ({
-    title: industry.title,
-    url: `/industries/${industry.id}`,
-    useCases: industry.solutions?.map(solution => ({
-      title: solution.title,
-      url: `/industries/${industry.id}/${solution.id}`
-    })) || []
-  }));
-
-  // Add coming soon placeholders
-  const comingSoonIndustries = [
-    {
-      title: "Manufacturing & Industry 4.0",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Retail & E-commerce",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Energy & Utilities",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Education",
-      url: "#",
-      description: "Coming Soon"
+// Define GraphQL Query for Navbar Industries
+const GetNavbarIndustries = gql`
+  query GetNavbarIndustries {
+    industries(stage: PUBLISHED, orderBy: name_ASC) {
+      name
+      slug
     }
-  ];
-
-  return [...transformedIndustries, ...comingSoonIndustries];
-};
+  }
+`;
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -371,17 +338,39 @@ const Header = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [navIndustries, setNavIndustries] = useState([]);
+  const [loadingIndustries, setLoadingIndustries] = useState(true);
   const { isDarkMode } = useTheme();
 
-  // Transform navigation to include dynamic industries
-  const dynamicNavigation = navigation.map(item => {
-    if (item.title === "Industries") {
-      return {
-        ...item,
-        dropdownItems: transformIndustriesData(industriesList)
-      };
+  // Fetch industries from Hygraph
+  useEffect(() => {
+    const fetchNavIndustries = async () => {
+      setLoadingIndustries(true);
+      try {
+        const data = await hygraphClient.request(GetNavbarIndustries);
+        setNavIndustries(data.industries || []);
+      } catch (error) {
+        console.error('Error fetching navbar industries:', error);
+        setNavIndustries([]); // Set empty on error
+      } finally {
+        setLoadingIndustries(false);
+      }
+    };
+    fetchNavIndustries();
+  }, []);
+
+  // Prepare navigation data, injecting fetched industries
+  const dynamicNavigation = navigation.map(navItem => {
+    if (navItem.title === "Industries" && !loadingIndustries) {
+      // Map fetched industries to the required dropdown format
+      const industryDropdownItems = navIndustries.map(industry => ({
+        title: industry.name,
+        url: `/industries/${industry.slug}`
+      }));
+      return { ...navItem, dropdownItems: industryDropdownItems };
     }
-    return item;
+    // Return other nav items unchanged, or Industries item while loading
+    return navItem;
   });
 
   useEffect(() => {

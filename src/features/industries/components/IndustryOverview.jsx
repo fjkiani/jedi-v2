@@ -1,37 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
-import { industriesList } from '@/constants/industry';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
+
+// Define GraphQL Query
+const GetIndustriesOverview = gql`
+  query GetIndustriesOverview {
+    industries(stage: PUBLISHED, orderBy: name_ASC) {
+      id
+      name
+      slug
+    }
+  }
+`;
+
+// Simple mapping for icons based on slug (adjust keys/values as needed)
+const iconMap = {
+  'healthcare': 'heart',
+  'financial-services': 'dollar-sign',
+  'default': 'grid'
+};
+
+// Simple mapping for colors based on slug (adjust keys/values as needed)
+const colorMap = {
+  'healthcare': 'from-blue-500 to-blue-700',
+  'financial-services': 'from-green-500 to-green-700',
+  'default': 'from-n-5 to-n-7'
+};
 
 const IndustryOverview = () => {
-  // Filter active and coming soon industries
-  const activeIndustries = industriesList.filter(industry => 
-    ['financial', 'healthcare'].includes(industry.id)
-  );
+  const [industriesData, setIndustriesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const comingSoonIndustries = [
-    {
-      id: 'manufacturing',
-      title: 'Education',
-      description: 'Knowledge Graphs solutions powered by AI Agents',
-      icon: 'tool',
-      color: 'from-[#FF6B6B] to-[#FF8E8E]',
-      comingSoon: true
-    },
-    {
-      id: 'retail',
-      title: 'Retail & E-commerce',
-      description: 'AI-driven retail optimization and customer experience',
-      icon: 'chart',
-      color: 'from-[#4ECDC4] to-[#6EE7E7]',
-      comingSoon: true
-    }
-    
-  ];
-
-  const allIndustries = [...activeIndustries, ...comingSoonIndustries];
+  useEffect(() => {
+    const fetchIndustries = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await hygraphClient.request(GetIndustriesOverview);
+        setIndustriesData(data.industries || []);
+      } catch (err) {
+        console.error("Error fetching industries:", err);
+        setError("Failed to load industries. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchIndustries();
+  }, []);
 
   return (
     <Section className="relative overflow-hidden bg-n-8/90 backdrop-blur-sm">
@@ -49,79 +69,58 @@ const IndustryOverview = () => {
           </p>
         </motion.div>
 
+        {/* Loading State */}
+        {loading && <div className="text-center text-n-4 p-8">Loading industries...</div>}
+
+        {/* Error State */}
+        {error && <div className="text-center text-red-500 p-8">Error: {error}</div>}
+
         {/* Industries Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-2">
-          {allIndustries.map((industry, index) => (
-            <motion.div
-              key={industry.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-            >
-              {industry.comingSoon ? (
-                // Coming Soon Card
-                <div className="block p-6 rounded-2xl bg-n-7 border border-n-6">
-                  {/* Icon */}
-                  <div className={`w-12 h-12 mb-4 rounded-xl bg-gradient-to-br ${industry.color} 
-                    flex items-center justify-center opacity-60`}>
-                    <Icon name={industry.icon} className="w-6 h-6 text-n-1" />
-                  </div>
+        {!loading && !error && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-2">
+            {industriesData.map((industry, index) => {
+              // Determine icon and color using mappings and slug
+              const iconName = iconMap[industry.slug] || iconMap['default'];
+              const colorClass = colorMap[industry.slug] || colorMap['default'];
 
-                  {/* Title */}
-                  <h4 className="h4 mb-2 opacity-60">{industry.title}</h4>
-                  
-                  {/* Description */}
-                  <p className="body-2 text-n-3 mb-4 line-clamp-2 opacity-60">
-                    {industry.description}
-                  </p>
-
-                  {/* Coming Soon Badge */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-primary-1/10 border border-primary-1/20">
-                    <span className="text-sm font-medium text-primary-1">Coming Soon</span>
-                  </div>
-                </div>
-              ) : (
-                // Active Industry Card
-                <Link 
-                  to={`/industries/${industry.id}`}
-                  className="group block p-6 rounded-2xl bg-n-7 border border-n-6 
-                    hover:border-primary-1 transition-colors duration-300"
+              return (
+                <motion.div
+                  key={industry.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {/* Icon */}
-                  <div className={`w-12 h-12 mb-4 rounded-xl bg-gradient-to-br ${industry.color} 
-                    flex items-center justify-center transform group-hover:scale-110 transition-transform`}>
-                    <Icon name={industry.icon} className="w-6 h-6 text-n-1" />
-                  </div>
+                  <Link
+                    to={`/industries/${industry.slug}`}
+                    className="group block p-6 rounded-2xl bg-n-7 border border-n-6
+                      hover:border-primary-1 transition-colors duration-300 h-full flex flex-col"
+                  >
+                    {/* Icon */}
+                    <div className={`w-12 h-12 mb-4 rounded-xl bg-gradient-to-br ${colorClass}
+                      flex items-center justify-center transform group-hover:scale-110 transition-transform flex-shrink-0`}>
+                      <Icon name={iconName} className="w-6 h-6 text-n-1" />
+                    </div>
 
-                  {/* Title */}
-                  <h4 className="h4 mb-2">{industry.title}</h4>
-                  
-                  {/* Description */}
-                  <p className="body-2 text-n-3 mb-4 line-clamp-2">
-                    {industry.description}
-                  </p>
+                    <div className="flex-grow">
+                      {/* Title */}
+                      <h4 className="h4 mb-2">{industry.name}</h4>
 
-                  {/* Key Solutions */}
-                  <div className="space-y-2">
-                    {industry.solutions?.slice(0, 2).map((solution, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary-1" />
-                        <span className="text-sm text-n-3">{solution.title}</span>
-                      </div>
-                    ))}
-                  </div>
+                      {/* Description removed as it's not fetched */}
 
-                  {/* Learn More */}
-                  <div className="mt-4 flex items-center gap-2 text-primary-1">
-                    <span className="text-sm font-medium">Learn More</span>
-                    <Icon name="arrow-right" className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              )}
-            </motion.div>
-          ))}
-        </div>
+                    </div>
+
+                    {/* Learn More */}
+                    <div className="mt-4 flex items-center gap-2 text-primary-1">
+                      <span className="text-sm font-medium">Learn More</span>
+                      <Icon name="arrow-right" className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
 
         {/* View All Link */}
         <motion.div
