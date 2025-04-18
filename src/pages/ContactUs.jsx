@@ -8,10 +8,10 @@ const ContactUs = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us | JediLabs - Let's Build Something Amazing</title>
+        <title>Contact Us | JediLabs - Start Your 100x Transformation Journey</title>
         <meta 
           name="description" 
-          content="Get in touch with JediLabs to discuss your AI and security needs. Let's work together to build innovative, secure solutions for your business."
+          content="Get in touch with JediLabs to discuss how we can help your business achieve 100x growth. Let's transform your organization together."
         />
       </Helmet>
 
@@ -25,17 +25,17 @@ const ContactUs = () => {
             className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.75rem]"
           >
             <h1 className="h1 mb-6">
-              Let's Build Something{' '}
+              Ready to{' '}
               <span className="inline-block relative">
-                Amazing Together
+                100x Your Business?
                 <svg className="absolute left-0 right-0 bottom-0 -z-10" viewBox="0 0 100% 100%">
                   <circle className="stroke-n-1/10 dark:stroke-n-6" cx="50%" cy="50%" r="45%" pathLength="100" strokeDasharray="100" strokeDashoffset="0" fill="none" strokeWidth="0.5"/>
                 </svg>
               </span>
             </h1>
             <p className="body-1 text-n-4 mb-6">
-              Whether you're looking to implement AI solutions, enhance security, or discuss a custom project,
-              we're here to help turn your vision into reality.
+              Whether you're looking to transform your operations, accelerate growth, or implement cutting-edge AI solutions,
+              we're here to help you achieve exponential results. Let's start your 100x journey today.
             </p>
           </motion.div>
         </div>

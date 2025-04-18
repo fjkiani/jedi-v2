@@ -13,6 +13,7 @@ import Roadmap from "./components/Roadmap";
 import Services from "./components/Services";
 import WhyChooseUs from "./components/WhyChooseUs";
 import CaseStudies from "./components/CaseStudies";
+import TransformationMethodology from "./components/TransformationMethodology";
 import PostCard from "@/components/hyGraph/PostCard";
 import PostDetail from "@/components/hyGraph/PostDetail";
 import { getPosts } from "./services";
@@ -159,14 +160,15 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     >
                       {/* <SolutionsNavigator /> */}
                     </motion.div>
+                    <Services />
+                    <TransformationMethodology />
                     <WhatWeDo />
+                    <CaseStudies />
                     <Collaboration />
                     <NextGenAIStack />
                     <IndustryOverview />
                     {/* <WhyChooseUs /> */}
-                    {/* <CaseStudies /> */}
                     {/* <Pricing /> */}
-                    {/* <Services /> */}
                     <Roadmap />
                     <Contact />
                     {/* <StarsCanvas /> */}
@@ -180,7 +182,8 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionsPage />
                     <WhyChooseUs />
-                    {/* <CaseStudies /> */}
+                    <TransformationMethodology />
+                    <CaseStudies />
                     <Contact />
                   </PageTransition>
                 } 

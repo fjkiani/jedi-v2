@@ -1,0 +1,606 @@
+# Instructions
+
+During you interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file so you will not make the same mistake again. 
+
+You should also use the `.cursorrules` file as a scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Tools
+
+Note all the tools are in python. So in the case you need to do batch processing, you can always consult the python files and write your own script.
+
+## Screenshot Verification
+The screenshot verification workflow allows you to capture screenshots of web pages and verify their appearance using LLMs. The following tools are available:
+
+1. Screenshot Capture:
+```bash
+venv/bin/python tools/screenshot_utils.py URL [--output OUTPUT] [--width WIDTH] [--height HEIGHT]
+```
+
+2. LLM Verification with Images:
+```bash
+venv/bin/python tools/llm_api.py --prompt "Your verification question" --provider {openai|anthropic} --image path/to/screenshot.png
+```
+
+Example workflow:
+```python
+from screenshot_utils import take_screenshot_sync
+from llm_api import query_llm
+
+# Take a screenshot
+screenshot_path = take_screenshot_sync('https://example.com', 'screenshot.png')
+
+# Verify with LLM
+response = query_llm(
+    "What is the background color and title of this webpage?",
+    provider="openai",  # or "anthropic"
+    image_path=screenshot_path
+)
+print(response)
+```
+
+## LLM
+
+You always have an LLM at your side to help you with the task. For simple tasks, you could invoke the LLM by running the following command:
+```
+venv/bin/python ./tools/llm_api.py --prompt "What is the capital of France?" --provider "anthropic"
+```
+
+The LLM API supports multiple providers:
+- OpenAI (default, model: gpt-4o)
+- Azure OpenAI (model: configured via AZURE_OPENAI_MODEL_DEPLOYMENT in .env file, defaults to gpt-4o-ms)
+- DeepSeek (model: deepseek-chat)
+- Anthropic (model: claude-3-sonnet-20240229)
+- Gemini (model: gemini-pro)
+- Local LLM (model: Qwen/Qwen2.5-32B-Instruct-AWQ)
+
+But usually it's a better idea to check the content of the file and use the APIs in the `tools/llm_api.py` file to invoke the LLM if needed.
+
+## Web browser
+
+You could use the `tools/web_scraper.py` file to scrape the web.
+```
+venv/bin/python ./tools/web_scraper.py --max-concurrent 3 URL1 URL2 URL3
+```
+This will output the content of the web pages.
+
+## Search engine
+
+You could use the `tools/search_engine.py` file to search the web.
+```
+venv/bin/python ./tools/search_engine.py "your search keywords"
+```
+This will output the search results in the following format:
+```
+URL: https://example.com
+Title: This is the title of the search result
+Snippet: This is a snippet of the search result
+```
+If needed, you can further use the `web_scraper.py` file to scrape the web page content.
+
+# Lessons
+
+## User Specified Lessons
+
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+
+## Cursor learned
+
+
+1. **Graph Database Integration**
+   [ ] Design graph schema
+      - Nodes:
+        - AnalysisNode (timestamp, ticker, version)
+        - MarketSentimentNode (short_term, long_term)
+        - PriceLevelNode (support, resistance)
+        - VolatilityNode (skew, term_structure)
+        - InstitutionalActivityNode (patterns, significant_strikes)
+        - TradingOpportunityNode (strategy, risk_reward)
+        - RiskFactorNode (type, severity)
+      - Relationships:
+        - ANALYZED_AT (Analysis -> Timestamp)
+        - HAS_SENTIMENT (Analysis -> MarketSentiment)
+        - IDENTIFIES_LEVEL (Analysis -> PriceLevel)
+        - SHOWS_VOLATILITY (Analysis -> Volatility)
+        - INDICATES_ACTIVITY (Analysis -> InstitutionalActivity)
+        - SUGGESTS_OPPORTUNITY (Analysis -> TradingOpportunity)
+        - HIGHLIGHTS_RISK (Analysis -> RiskFactor)
+
+
+## Streamlit App Review and Refactoring Plan
+
+**Overall Goal:** To improve the modularity, testability, maintainability, and LLM utilization of the `streamlit_app_llm.py` application by refactoring the different analysis types and potentially implementing a more agentic workflow.
+
+**Phase 1: Deep Dive & Code Review (Understand the Current State)**
+
+*   **1.1. Review `EnhancedAnalysisPipeline` & Dependencies:**
+    *   [✅] Read `src/analysis/enhanced_analysis_pipeline.py`.
+    *   [✅] Understand its internal logic (Initial LLM -> Deep Reasoning LLM -> Feedback Module), LLM calls (`analyze_market_quotes_with_gemini`, `deep_reasoning_analysis`), and the feedback loop implementation (`implement_feedback_loop`).
+    *   [✅] Reviewed `analyze_market_quotes_with_gemini` (in `src/llm/models.py`): Initial analysis based *only* on quote data. Prompt depends on `analysis_type`. Limited by input data scope.
+    *   [✅] Reviewed `deep_reasoning_analysis` (in `deep_reasoning_fix.py`): Second LLM pass critiquing initial analysis based on quote data + initial analysis. Returns raw text. Hardcoded model.
+    *   [✅] Reviewed `implement_feedback_loop` (in `src/analysis/feedback_loop.py`): Uses two more LLM calls to detect contradictions and generate learning points. Updates initial analysis based on keyword matching in LLM resolution text. Hardcoded model. Parsing reliant on LLM format adherence.
+    *   [ ] Document how "Enhanced Analysis" differs from "Basic Analysis".
+*   **1.2. Review `MemoryEnhancedAnalysis`:**
+    *   [✅] Read `src/llm/memory_enhanced_analysis.py`.
+    *   [✅] Understand how memory (`AnalysisMemory`) and technical history (`TechnicalIndicatorsStorage`) are integrated to provide context (`memory_context`, `technical_context`).
+    *   [✅] Document the LLM calls (`_perform_analysis_with_memory` using hardcoded `gemini-1.5-flash`) and logic used (fetch quote -> update/verify technicals -> generate context -> analyze -> store result).
+*   **1.3. Review Specific LLM Functions:**
+    *   [✅] Analyze `analyze_with_gemini` (in `streamlit_app_llm.py`): Options analysis using `gemini-1.5-flash`. Detailed prompt requesting structured JSON output (sentiment, volatility, insights, single trade recommendation). Relies on `prepare_gemini_input` for data. Hardcoded model. JSON parsing has basic fallback.
+    *   [✅] Analyze `analyze_technicals_with_llm` (in `streamlit_app_llm.py`): Technical analysis using `gemini-1.5-flash`. Calculates indicators, fetches history via `yfinance`. Incorporates simple historical feedback. Requests detailed JSON output. Hardcoded model. Feedback logic is basic.
+    *   [✅] Analyze `generate_price_targets` (in `streamlit_app_llm.py`): Hybrid approach. Tries specialized LLM (`analyze_price_targets_with_llm`) first. Falls back to combining technicals, time series S/R, options implied moves, and volatility using weighted averages. Redundant data fetching. Hardcoded models/confidence.
+*   **1.4. Review Data Fetching & Preparation:**
+    *   [✅] Analyze `fetch_market_data`: Confirmed it uses direct API call, bypassing connector. **Needs refactoring.**
+    *   [✅] Analyze `prepare_gemini_input`: Understands its purpose (formatting options data for LLM), necessity tied to `analyze_with_gemini`.
+*   **1.5. Review Display Functions:**
+    *   [✅] Analyze `display_market_overview`: Consumes data from direct API call via `fetch_market_data`. **Fragile.**
+    *   [✅] Analyze `display_llm_options_analysis`: Consumes output from `analyze_with_gemini`. Coupled to LLM JSON format.
+    *   [✅] Analyze `display_enhanced_analysis`, `display_memory_enhanced_analysis`, `display_technical_analysis`, `display_price_targets`: Understand their data consumption patterns.
+*   **1.6. Identify Redundancy & Hardcoding:**
+    *   [✅] Documented instances of repeated LLM interaction logic, display patterns, indicator calculations.
+    *   [✅] Pinpointed hardcoded API calls, LLM model names/params, JSON structure dependencies, processing limits, timeframe mappings, display styles.
+
+**Phase 2: Refactoring Strategy & Design**
+
+*   **2.1. Define Modular Structure:**
+    *   [✅] Propose creating separate Python modules for each analysis type (e.g., `src/analysis/general_analyzer.py`, `src/analysis/options_analyzer.py`, etc.). Each module would encapsulate the logic for its specific analysis type.
+    *   [✅] Plan to move relevant functions (like `analyze_with_gemini`, `analyze_technicals_with_llm`) into their respective modules.
+*   **2.2. Centralize Common Components:**
+    *   [✅] Plan refactoring of data fetching (`fetch_market_data` removal, **mandatory use of connector**) into a shared data module or utility. Centralize indicator calculations.
+    *   [✅] Plan creating a shared LLM interaction layer/wrapper (e.g., `src/llm/llm_client.py`) to standardize calls, handle errors, and parse JSON.
+    *   [✅] Plan centralizing display logic using helper functions or dedicated display modules (e.g., `src/streamlit_app/ui_components.py`).
+*   **2.3. Define Interfaces:**
+    *   [✅] Define a standard input/output interface for each analysis module (accepting `ticker`, `connector`, `llm_client`, etc., returning structured dict).
+    *   [✅] Define clear methods for the `llm_client` (e.g., `generate_json`).
+    *   [✅] Display functions will expect these standardized dictionaries.
+*   **2.4. Agentic Workflow Design (Based on User Clarification):**
+    *   [✅] Aim for collaborative multi-agent system (technical, options, sentiment, risk agents + manager/synthesis agent).
+    *   [ ] Design interaction flow and data protocols (Deferred - modularization is prerequisite).
+
+**Phase 3: Implementation (Iterative)**
+
+*   **3.1. Refactor Data Fetching (Immediate Priority):**
+    *   [✅] Modify `streamlit_app_llm.py` to instantiate `YahooFinanceConnector` once.
+    *   [✅] Replace the `fetch_market_data` function with calls to `connector.get_market_quotes(ticker)`.
+    *   [✅] Update `display_market_overview` to correctly parse the `MarketQuote` object returned by the connector. (Fix applied for `isinstance` issue).
+    *   [✅] Ensure `prepare_gemini_input` uses `connector.get_option_chain(ticker)` instead of the old `fetch_market_data` output.
+*   **3.2. Create Core Modules:**
+    *   [✅] Set up the new directory structure and empty Python files for each analysis type module and shared components (data, llm, display).
+*   **3.3. Refactor Analysis Type 1 (Options Analysis):**
+    *   [✅] Move `analyze_with_gemini` and `prepare_gemini_input` logic into `src/analysis/options_analyzer.py`.
+    *   [✅] Update `streamlit_app_llm.py` to import and call `run_options_analysis` from the new module.
+    *   [✅] Ensure data fetching uses the centralized component (done in 3.1).
+    *   [ ] Add basic tests for the `OptionsAnalyzer` module (deferred).
+*   **3.4. Refactor Analysis Type 2 (General Analysis):**
+    *   [ ] Design the scope of "General Analysis" (360 view) - (Deferred).
+    *   [ ] Migrate relevant logic (potentially from "Basic" or elements of "Enhanced") into `src/analysis/general_analyzer.py` (Deferred).
+    *   [ ] Determine how agent outputs will contribute to this view.
+*   **3.5. Refactor Remaining Analysis Types:**
+    *   [✅] Refactor Technical Analysis (move `analyze_technicals_with_llm` to `src/analysis/technical_analyzer.py`, use connector, update main app). Fixed `calculate_indicators` call signature issue. Fixed historical data fetching logic (`use_rapidapi=False`).
+    *   [✅] **Refactor Enhanced Analysis:**
+        *   [✅] **Action:** Move `EnhancedAnalysisPipeline` class and related logic to `src/analysis/enhanced_analyzer.py`.
+        *   [✅] **Action:** Create wrapper function `run_enhanced_analysis` in `src/analysis/enhanced_analyzer.py`.
+        *   [✅] **Action:** Adjust imports in the new module (handle potential import errors for dependencies like `deep_reasoning`).
+        *   [✅] **Action:** Delete old file `src/analysis/enhanced_analysis_pipeline.py`.
+        *   [✅] **Action:** Remove old import and update `streamlit_app_llm.py` to import and call `run_enhanced_analysis`.
+        *   [✅] **Verification:** Read `src/analysis/enhanced_analyzer.py`. Checked `streamlit_app_llm.py` imports and call site.
+    *   [✅] **Refactor Memory-Enhanced Analysis:**
+        *   [✅] **Action:** Create `src/analysis/memory_analyzer.py`.
+        *   [✅] **Action:** Implement wrapper `run_memory_analysis` using `MemoryEnhancedAnalysis` instance and connector.
+        *   [✅] **Action:** Update `streamlit_app_llm.py` to import and call `run_memory_analysis`.
+        *   [✅] **Verification:** Checked import and call site in `streamlit_app_llm.py`.
+*   **3.6. Refactor Main App:**
+    *   [ ] Slim down `streamlit_app_llm.py` to primarily handle UI, input gathering, routing calls to the appropriate analysis modules, and calling display functions.
+    *   [✅] **Action:** Move display functions (`display_market_overview`, `display_llm_options_analysis`, `display_enhanced_analysis`, `display_memory_enhanced_analysis`, `create_technical_chart`, `display_technical_analysis`, `display_price_targets`) to `src/streamlit_app/ui_components.py`. (Fix applied for `display_market_overview` `isinstance` and `create_technical_chart` `NameError`).
+    *   [✅] **Action:** Update imports in both `streamlit_app_llm.py` and `src/streamlit_app/ui_components.py`.
+    *   [✅] **Action:** Update call sites in `streamlit_app_llm.py`'s `main` function to use the display functions from the new module.
+
+**Phase 4: LLM & Workflow Enhancement**
+
+*   **4.1. Optimize LLM Prompts:**
+    *   [ ] Review and refine prompts in all LLM-calling functions and modules for clarity, efficiency, and better instruction following.
+    *   [ ] Ensure consistent JSON output formatting instructions.
+*   **4.2. Enhance LLM Error Handling:**
+    *   [ ] Implement robust error handling and fallback logic within the centralized LLM wrapper for API errors or parsing failures.
+*   **4.3. Implement Agentic Workflow (If designed in Phase 2):**
+    *   [ ] Build out the communication and orchestration logic for the multi-agent system.
+
+**Phase 5: Testing & Validation**
+
+*   **5.1. Unit & Integration Testing:**
+    *   [ ] Write more comprehensive tests for each analysis module and shared component.
+    *   [ ] Test the interactions between modules in the main Streamlit app.
+*   **5.2. Functional Testing:**
+    *   [ ] Manually run through each analysis type in the Streamlit app for various tickers to ensure correctness and expected behavior.
+    *   [ ] Compare outputs before and after refactoring to check for regressions.
+
+## Options Analysis Enhancement Plan
+
+**Goal:** Make LLM Options analysis less generic, more detailed, and incorporate deep reasoning.
+
+*   **[ ] 1. Review Current State:**
+    *   [✅] Analyze prompt in `src/analysis/options_analyzer.py::analyze_with_gemini`. (Requests sentiment, vol, insights, trade rec).
+    *   [✅] Analyze data prep in `src/analysis/options_analyzer.py::prepare_gemini_input`. (Uses `OptionChain`, limits to 3 expirations, selects strikes around ATM).
+*   **[ ] 2. Identify Areas for Improvement:**
+    *   [ ] Lack of quantification (e.g., specific P/C ratios, skew metrics).
+    *   [ ] Limited expiration analysis (only first 3).
+    *   [ ] Potential for more explicit strategy identification (beyond just recommending one contract).
+    *   [ ] Opportunity to link options data to underlying technicals/news (requires data integration - Phase 2 improvement).
+*   **[X] 3. Design Enhanced Workflow (Hybrid Approach):**
+    *   **[ ] 3.1. Enhance Data Preparation:**
+        *   [ ] Modify `prepare_gemini_input` to potentially include more expirations (e.g., first 5?) or provide a summary across more expirations. Evaluate performance impact.
+    *   **[X] 3.2. Refine Initial Analysis Prompt:**
+        *   [X] Modify prompt in `analyze_with_gemini` to demand more specific, quantitative analysis (e.g., "Calculate P/C ratio...", "Quantify IV skew...").
+        *   [X] Ask for identification of potential spreads or common strategies observed.
+        *   [X] Ensure output JSON structure remains consistent but potentially add fields for quantitative metrics or observed strategies.
+    *   **[X] 3.3. Add Deep Reasoning Step:**
+        *   [X] Create a new function `deep_reasoning_options_analysis` in `src/analysis/options_analyzer.py`.
+        *   [X] This function takes the *original options data* (dict from `prepare_gemini_input`) AND the *structured JSON output* from the initial `analyze_with_gemini` call.
+        *   [X] Use a separate LLM call (e.g., Gemini Pro or Claude Sonnet) with a prompt asking for:
+            *   A narrative critique of the initial structured analysis (consistency, missed nuances, alternatives).
+            *   Deeper insights (market psychology, implied catalysts, complex strategies).
+            *   Identification of conflicting signals (e.g., across expirations).
+            *   Output: Narrative text.
+    *   **[X] 3.4. Integrate Results:**
+        *   [X] Modify `run_options_analysis` wrapper function:
+            *   Call `prepare_gemini_input`.
+            *   Call `analyze_with_gemini` (refined prompt).
+            *   Call `deep_reasoning_options_analysis` using the results.
+            *   Append the narrative deep reasoning output as a new key (e.g., `"deep_reasoning_narrative"`).
+    *   **[X] 3.5. Add Synthesis Step:**
+        *   [X] Create `synthesize_options_analysis` function in `src/analysis/options_analyzer.py`.
+        *   [X] Input: `options_data_dict`, `initial_analysis_json`, `deep_reasoning_narrative`.
+        *   [X] Prompt: Act as Portfolio Manager, review all inputs, reconcile conflicts, generate final synthesis (sentiment, signals, volatility, final trade idea/no trade, confidence, next steps).
+        *   [X] Output: Structured JSON for the final summary.
+        *   [X] Modify `run_options_analysis` to call `synthesize_options_analysis` and add its output under key `"final_summary"`.
+        *   [ ] Modify `display_llm_options_analysis` to display `"final_summary"` prominently.
+*   **[X] 4. Implementation & Testing:**
+    *   [ ] Implement changes to `prepare_gemini_input` (if decided).
+    *   [X] Update prompt in `analyze_with_gemini`.
+    *   [X] Implement `deep_reasoning_options_analysis` function.
+    *   [X] Update `run_options_analysis` wrapper to include deep reasoning.
+    *   [X] Implement `synthesize_options_analysis` function.
+    *   [X] Update `run_options_analysis` wrapper to include synthesis.
+    *   [X] Update `display_llm_options_analysis` to show final summary.
+    *   [X] Test with various tickers and compare outputs. Iterate on prompts.
+
+## Database Persistence & Historical Context Plan
+
+**Goal:** Enhance LLM analysis capabilities by providing historical context (reducing statelessness) and enabling trend identification, anomaly detection, and reflection on past analyses. Persist analysis results and potentially option chain data for future reference and improved caching.
+
+**Technology:** Start with SQLite for simplicity, consider PostgreSQL or time-series DB for future scaling if needed.
+
+*   **[ ] Phase 1: Analysis Result Persistence**
+    *   **[ ] 1.1. Define Database Schema:**
+        *   Create a simple schema for storing analysis results.
+        *   Table: `analysis_history` (id INTEGER PRIMARY KEY, timestamp TEXT, ticker TEXT, analysis_type TEXT, result_json TEXT)
+    *   **[ ] 1.2. Integrate SQLite:**
+        *   Add utility functions (e.g., in `src/data/database_utils.py`) for initializing the DB connection, creating the table if it doesn't exist, and saving/retrieving analysis results.
+    *   **[ ] 1.3. Modify Analysis Wrappers:**
+        *   Update `run_options_analysis`, `run_technical_analysis`, etc., to call the DB utility function to save the final analysis result (e.g., the `final_summary` or equivalent structured output) to the `analysis_history` table upon successful completion.
+
+*   **[ ] Phase 2: Simple Historical Context Injection**
+    *   **[ ] 2.1. Retrieve Previous Analysis:**
+        *   In the relevant analysis wrapper function(s) (e.g., `run_options_analysis` before the synthesis step), add logic to query the `analysis_history` table for the *most recent* previous analysis result for the *same ticker* and *same analysis type*.
+    *   **[ ] 2.2. Update LLM Synthesis Step:**
+        *   Modify the synthesis function (e.g., `synthesize_options_analysis`) to accept the retrieved previous analysis summary as an optional input.
+    *   **[ ] 2.3. Enhance Synthesis Prompt:**
+        *   Update the prompt for the synthesis LLM. If a previous analysis summary is provided, instruct the LLM to:
+            *   Acknowledge the previous state.
+            *   Explicitly note key changes in data or assessment compared to the previous analysis.
+            *   Incorporate this change detection into its final reasoning and conclusion.
+
+*   **[ ] Phase 3: Option Chain Data Persistence (Future Consideration)**
+    *   **[ ] 3.1. Design Schema:** Define schema for storing option chain snapshots (consider full data vs. summaries, data retention policies). Table might include `option_snapshots` (id, timestamp, ticker, expiration_date, strike, call_vol, call_oi, put_vol, put_oi, call_iv, put_iv, ...).
+    *   **[ ] 3.2. Integrate Storage:** Modify data fetching/preparation steps to save relevant option chain data to the database.
+    *   **[ ] 3.3. Develop Retrieval:** Implement functions to query historical option chain data/summaries.
+
+*   **[ ] Phase 4: Advanced Context & Retrieval (Future Consideration)**
+    *   **[ ] 4.1. Feature Engineering:** Develop logic to query the database and calculate historical trends or features (e.g., change in P/C ratio over N days, IV term structure shifts).
+    *   **[ ] 4.2. Prompt Integration:** Integrate these calculated historical features/trends into the LLM prompts for deeper context-aware analysis.
+
+## General Analysis (360 View) Plan
+
+**Goal:** Create a comprehensive, multi-faceted analysis for a given ticker by progressively combining insights from market quotes, options, technicals, and potentially other data sources (e.g., news, fundamentals) using a multi-step or agentic approach.
+
+*   **[ ] Phase 1: Standalone Quote Analysis Module**
+    *   **[ ] 1.1. Review Existing Quote Analysis Logic:**
+        *   [ ] Read `analyze_market_quotes_with_gemini` function in `src/llm/models.py`.
+        *   [ ] Document its prompt, expected inputs (`MarketQuote` data), and output structure (likely JSON).
+    *   **[ ] 1.2. Create General Analyzer Module:**
+        *   [ ] Create file `src/analysis/general_analyzer.py`.
+        *   [ ] Implement wrapper function `run_general_analysis(ticker, connector)`:
+            *   Calls `connector.get_market_quotes(ticker)`.
+            *   Handles potential errors from the connector.
+            *   Calls `analyze_market_quotes_with_gemini` using the fetched quote data.
+            *   Returns the structured analysis result.
+    *   **[ ] 1.3. Integrate into Streamlit App:**
+        *   [ ] Add "General Market Analysis" option to `analysis_options` in `streamlit_app_llm.py`.
+        *   [ ] Add logic in `streamlit_app_llm.py`'s main analysis block to call `run_general_analysis` when this option is selected.
+        *   [ ] Create `display_general_analysis` function in `src/streamlit_app/ui_components.py` to display the results from `analyze_market_quotes_with_gemini`.
+        *   [ ] Update `streamlit_app_llm.py` to call `display_general_analysis` when appropriate.
+    *   **[ ] 1.4. Testing:**
+        *   [ ] Test the "General Market Analysis" flow in the Streamlit app for various tickers.
+
+*   **[ ] Phase 2: Integration into 360 View (Future)**
+    *   [ ] Design data flow: How the output of `run_general_analysis` is passed to subsequent analysis steps (Options, Technicals).
+    *   [ ] Update prompts for Options/Technical analysis to incorporate insights from the quote analysis.
+    *   [ ] Potentially create a "Synthesis Agent/Module" to combine outputs from Quote, Options, and Technical analyses into a single, coherent 360-degree report.
+    *   [ ] Refine the Streamlit UI to display the combined 360-degree view.
+
+# Scratchpad: Hygraph Data Population Plan
+
+**Goal:** Populate Hygraph with detailed technology information, including nested use cases, architectures, components, flows, metrics, and implementation details.
+
+**Key Mutations Used:**
+
+1.  **`updateTechnology` (for adding nested Use Case, Architecture, Components, Flow):**
+    *   Targets an existing `Technology` record by ID (e.g., Weaviate `id: "cm5c8if6q7p9m07looqyq23aq"`).
+    *   Uses nested `create` within the `data` argument.
+    *   **Structure Example:**
+        ```graphql
+        mutation AddUseCaseDeep($techId: ID!, ...) {
+          updateTechnology(
+            where: { id: $techId }
+            data: {
+              useCases: {
+                create: [
+                  {
+                    title: "...",
+                    description: "...",
+                    queries: ["...", "..."],
+                    capabilities: ["...", "..."],
+                    industry: { connect: { id: "industry_id" } },
+                    architecture: {
+                      create: {
+                        description: "...",
+                        components: {
+                          create: [
+                            { name: "...", description: "...", details: "...", explanation: ["..."] },
+                            # ... more components
+                          ]
+                        },
+                        flow: {
+                          create: [
+                            { step: "...", description: "...", details: "..." },
+                            # ... more flow steps
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ) { id name useCases { id title } } # Query back relevant IDs
+        }
+        ```
+
+2.  **`updateUseCase` (for adding details to a specific Use Case):**
+    *   Targets an existing `UseCase` record by ID (e.g., Med Image Classification `id: "cm9jbv6kphejm08lfwca1mqqh"`).
+    *   Used to add fields like `implementation` (JSON) and `metrics` (`[String!]!`).
+    *   **Structure Example:**
+        ```graphql
+        mutation AddUseCaseDetails($useCaseId: ID!, $implementationData: Json!, $metricsList: [String!]!) {
+          updateUseCase(
+            where: { id: $useCaseId }
+            data: {
+              implementation: $implementationData,
+              metrics: $metricsList
+            }
+          ) { id title implementation metrics }
+        }
+        ```
+
+3.  **`updateTechnology` (for updating top-level Technology fields):**
+    *   Targets an existing `Technology` record by ID.
+    *   Used to add/update fields like `businessMetrics` (which was `String`, not `[String!]!`).
+    *   **Structure Example:**
+        ```graphql
+        mutation AddBusinessMetrics($techId: ID!, $metricsString: String!) {
+          updateTechnology(
+            where: { id: $techId }
+            data: { businessMetrics: $metricsString }
+          ) { id name businessMetrics }
+        }
+        ```
+
+**Common Pitfalls & Lessons Learned:**
+
+*   **Schema vs. Variables:** Always double-check the exact field type in the Hygraph schema (e.g., `String`, `Json`, `[String!]!`) and ensure the GraphQL mutation variable type matches (`String!`, `Json!`, `[String!]!`). Mismatches cause errors (like the `businessMetrics` String vs. Array issue).
+*   **List Formatting:** Provide list inputs directly as JSON arrays (e.g., `"field": ["item1", "item2"]`).
+*   **JSON Formatting:** Ensure JSON data for `Json` fields is valid JSON.
+*   **Connecting Relations:** Use the `{ connect: { id: "..." } }` syntax within the `data` object to link to existing records. Check the schema's `WhereUniqueInput` type for the relation to see if connecting by other fields (like `slug`) is possible.
+*   **Publishing Status:** Content created/updated via mutations might initially be in the `DRAFT` stage. Ensure records (Technology, UseCase, etc.) are **Published** in the Hygraph UI to be visible to standard read queries.
+*   **GraphQL Caching:** Client-side libraries (like `graphql-request`) often cache query results. Stale data can cause confusion after mutations.
+    *   **Debugging:** Use hard refresh (Ctrl+Shift+R), check network requests.
+    *   **Fix (Temporary):** Disable cache via client config (`fetchOptions: { cache: 'no-store' }` for `graphql-request`).
+    *   **Fix (Robust):** Implement proper cache invalidation strategies if using a more advanced client (like Apollo Client).
+    *   **Fix (Header):** Explicitly request the desired stage using the `gcms-stage: PUBLISHED` header in the client config.
+*   **Frontend Data Merging:** Be cautious when merging data from multiple sources (e.g., Hygraph + local constants). Ensure the merge logic correctly prioritizes data and handles potential type mismatches or null values. Use spread syntax carefully (`{ ...localData, ...hygraphData }` prioritizes `hygraphData` for overlapping simple fields).
+*   **Frontend Rendering:** Add type checks (`typeof`, `Array.isArray`) before using type-specific methods (`.split()`, `.map()`) to prevent runtime errors when data might have unexpected types due to merging or API inconsistencies.
+
+# Scratchpad: Frontend Hygraph Integration Plan
+
+**Goal:** Understand the current frontend implementation for displaying industry and use case data, map it to our Hygraph models, and create a plan to refactor the frontend to use Hygraph as the primary data source, improving clarity and reducing redundancy.
+
+**Phase 1: Analyze Frontend Code (Understand the "As-Is")**
+
+*   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
+*   **Steps:**
+    *   [ ] **1.1. Identify Core Components:** Locate the React components responsible for rendering:
+        *   [ ] Navbar (Industries dropdown/menu): `src/components/Header.jsx`
+        *   [ ] `/industries` page (Industry cards): `src/features/industries/pages/IndustriesOverview.jsx` (Note: Route is `/industries/*`, likely matching this component)
+        *   [ ] `/industries/:industrySlug` page (Industry overview + tabs): `src/features/industries/pages/IndustryPage.jsx`
+        *   [ ] `/industries/:industrySlug/:useCaseSlug` page (Use Case detail + tabs): `src/features/industries/pages/SolutionPage.jsx` (Note: Uses `:solutionId` in code, maps to use case slug)
+        *   [ ] Any relevant shared layout components: `src/App.jsx` (handles main layout, Header, Footer)
+    *   [ ] **1.2. Trace Data Flow:** For each component above, determine where its data comes from:
+        *   [X] Hardcoded data within components? (Some transformation logic, e.g., in Header)
+        *   [X] Imported from constants files? (Yes: Primarily `src/constants/industry.js` and files within `src/constants/registry/`)
+        *   [ ] Fetched via GraphQL queries? (No, not for industries/solutions. GraphQL queries exist in `src/graphql/queries/` but are not used for this section). `src/services/` contains fetching logic but appears unused for industries/solutions.
+        *   [X] Passed via props or context? (Yes, data from constants/registries is processed and passed down)
+    *   [ ] **1.3. Analyze Rendering Logic:** Understand how data is used to render UI:
+        *   [X] How is the Industries navbar list generated? (From `src/constants/industry.js`, transformed in `Header.jsx`)
+        *   [ ] How are the `/industries/:industrySlug` tabs generated/populated? (`IndustryPage.jsx` renders `IndustryHero` and `IndustrySolutions`, passing data from constants/registries. No explicit tabs found here yet, might be within child components)
+        *   [X] How are the `/industries/:industrySlug/:useCaseSlug` main content, sidebar ("Key Capabilities"), and nested tabs ("Documentation", "Case Studies", "Technical") rendered? (`SolutionPage.jsx` uses data from constants/registries. Renders main title/desc. Renders Tabs component with child components: `SolutionOverview`, `DocumentationTab`, `CaseStudiesTab`, `TechnicalTab`. Sidebar content needs further investigation within these tabs/components.)
+        *   [X] Where does the live code editor content originate? (Likely from `solutionConfig.implementation` sourced via `getSolutionConfig` in `src/constants/registry/solutionRegistry.js`, passed to `TechnicalTab`)
+        *   [X] Where does the architecture diagram data originate? (Likely from `solutionConfig.diagrams` sourced via `getSolutionConfig` in `src/constants/registry/solutionRegistry.js`, passed to `TechnicalTab`, potentially also `getIndustryDiagram` in `IndustryPage.jsx`)
+        *   [ ] Identify the multiple places "technologies" are displayed on the use case page. (Needs further investigation within `SolutionPage.jsx`'s child components/tabs)
+    *   [X] **1.4. Review Routing:** Confirm `react-router-dom` (or equivalent) setup for these routes. (Yes, in `src/App.jsx` and `src/features/industries/routes.jsx`)
+
+**Phase 2: Map Frontend UI to Hygraph Model (Define the "To-Be")**
+
+*   **Goal:** Define how Hygraph models (`Industry`, `UseCase`, `Technology`, `Architecture`, etc.) will replace the hardcoded data in `src/constants/` and `src/constants/registry/`, populating the UI elements identified in Phase 1. Make decisions on page structure and content sources.
+*   **Focus Order:** Prioritize mapping the `/industries/:industrySlug/:useCaseSlug` page (`SolutionPage.jsx`) first.
+*   **Steps & Decisions:**
+    *   [ ] **2.1. `/industries/:industrySlug/:useCaseSlug` Page (`SolutionPage.jsx`) Mapping:**
+        *   **Map Core Fields:**
+            *   [ ] Breadcrumbs -> Fetch `Industry.title`, `UseCase.title` based on slugs.
+            *   [ ] Main Title/Description -> `UseCase.title`, `UseCase.description`.
+        *   **Map Tabs Content:**
+            *   [ ] **"Overview" Tab (`SolutionOverview` component):**
+                *   [X] **Action:** Read `src/features/industries/components/SolutionOverview.jsx` to confirm its content (Main overview, Workflow steps, Key Capabilities section with metrics).
+                *   [ ] Map confirmed content to Hygraph fields:
+                    *   [ ] Main Title/Desc -> `UseCase.title`, `UseCase.description` (Covered by core mapping).
+                    *   [ ] Workflow (`config.workflow`) -> **Decision:** Use new `UseCase.workflowOverview` (JSON field) in Hygraph.
+                    *   [ ] Key Capabilities (`config.keyPoints`) -> **Decision:** Use new related `Capability` model (`title`, `description`, `icon`, `metrics: [String!]!`) in Hygraph.
+                    *   [ ] Technology Mentions (`step.technologies.core`) -> **Decision:** Map to `UseCase.primaryTechnology.name`, `UseCase.relatedTechnologies { name }`.
+                *   [X] Define *which* technology details belong here vs. the "Technical" tab to avoid redundancy. **Decision:** Only technology names here.
+            *   [ ] **"Documentation" Tab (`DocumentationTab` component):**
+                *   [X] **Action:** Read `src/pages/solutions/tabs/DocumentationTab.jsx` to confirm structure (Nested tabs based on industry sections, renders content from various registries, includes CodeBlocks/LiveEditor, shows diagram).
+                *   [ ] Decide source for main content/nested tabs:
+                    *   Options: `UseCase.architecture { components { ... }, flow { ... } }`, `UseCase.documentation` (Rich Text/Markdown), other?
+                    *   **Decision:** Use structured `UseCase.architecture` data (components, flow) primarily. May need schema additions (e.g., `icon` field).
+                *   [ ] Decide source for Live Code Editor:
+                    *   Options: `UseCase.implementation` (JSON field)?
+                    *   **Decision:** Use `UseCase.implementation` (JSON field).
+                *   [ ] Decide source for Architecture Diagram:
+                    *   **Decision:** Remove Diagram from this tab (redundant with Technical tab).
+            *   [ ] **"Case Studies" Tab (`CaseStudiesTab` component):**
+                *   [X] **Action:** Read `src/pages/solutions/tabs/CaseStudiesTab.jsx` to confirm structure (simple list of title, desc, results, image).
+                *   [ ] Decide fate: Hide, repurpose, or plan for fetching from a future `CaseStudy` model related to `UseCase`.
+                *   **Decision:** Hide tab initially. Plan for fetching from a future `CaseStudy` model (`title`, `description`, `results`, `image`) in Hygraph.
+            *   [ ] **"Technical" Tab (`TechnicalTab` component):**
+                *   [X] **Action:** Read `src/pages/solutions/tabs/TechnicalTab.jsx` to confirm structure (Nested tabs for Implementation, Deployment, Examples, Patterns, Learning; renders components/tech names, flow steps; NO diagram currently).
+                *   [ ] Decide source/generation method for Architecture Diagram:
+                    *   Finding: Currently no diagram shown here.
+                    *   Options: Dynamic from `UseCase.architecture`, static `UseCase.architectureDiagramUrl` (String).
+                    *   **Decision:** Add diagram rendering here. Use **new static `UseCase.architectureDiagramUrl` field** in Hygraph initially.
+                *   [ ] Resolve Technology display:
+                    *   Finding: Currently shows tech names per component.
+                    *   **Decision:** Display `UseCase.primaryTechnology` details. List `UseCase.relatedTechnologies`. Map component-specific tech via `UseCase.architecture.components { technologies { name } }` (requires Component->Technology relation).
+                    *   [ ] Map Nested Tabs Content:
+                        *   Implementation Details -> `UseCase.architecture.components { ... }`
+                        *   Deployment Flow -> `UseCase.architecture.flow { ... }`
+                        *   Examples/Patterns -> **New `UseCase.examples` field/model** needed.
+                        *   Learning Resources -> Map to `UseCase.documentation` (Rich Text/Markdown) or new field.
+    *   [ ] **2.2. Navbar (`Header.jsx`):**
+        *   [ ] Fetch `industries(select: {title, slug, useCases {title, slug}})` from Hygraph to populate dropdown. Consider filtering logic if needed. (Replaces filtered `constants/industry.js`).
+        *   **Decision:** Confirmed. Fetch required data.
+    *   [ ] **2.3. `/industries/:industrySlug` Page (`IndustryPage.jsx`):**
+        *   [ ] Re-evaluate necessity. Could `SolutionPage.jsx` handle everything if fetched directly via slugs?
+        *   **Decision:** Remove this page and component. Update Navbar/routing to link directly to use case pages (e.g., `/industries/:industrySlug/:firstUseCaseSlug`).
+    *   [ ] **2.4. `/industries` Overview Page (`IndustriesOverview.jsx`):**
+        *   [ ] Re-evaluate purpose. Keep/remove/modify?
+        *   **Decision:** Keep this page. Update to fetch `industries { title, slug, description, icon }` from Hygraph.
+
+**Phase 3: Develop Refactoring Strategy**
+
+*   **Goal:** Outline the steps to modify the frontend to use Hygraph data effectively.
+*   **Steps:**
+    *   [ ] **3.1. Plan Data Fetching:** Define necessary GraphQL queries (using slugs from URL params) for components identified in Phase 1 & 2.
+    *   [ ] **3.2. Plan Component Updates:** List components needing modification to use fetched Hygraph data instead of local/hardcoded data. Plan removal of old data sources.
+    *   [ ] **3.3. Plan Redundancy Removal:** Define the specific changes to eliminate duplicate technology displays.
+    *   [ ] **3.4. Plan Navigation Refinement:** Outline any changes to navbar, routing, or page structure based on Phase 2 decisions.
+    *   [ ] **3.5. Plan Content Mapping Implementation:** Detail how tab content (Documentation, Technical, etc.) will be rendered using the chosen Hygraph fields.
+
+---
+```
+
+Now, to proceed with **Phase 1**, please provide the file paths for the components I listed (Navbar, Industry List, Industry Detail, Use Case Detail, GraphQL client/hooks, Router setup). Knowing these paths will allow me to start analyzing the code.
+
+# ... (keep existing content like Instructions, Tools, Lessons, other Scratchpad sections) ...
+
+# Scratchpad: Frontend Hygraph Integration Plan
+
+**Goal:** Understand the current frontend implementation for displaying industry and use case data, map it to our Hygraph models, and create a plan to refactor the frontend to use Hygraph as the primary data source, improving clarity and reducing redundancy.
+
+**Phase 1: Analyze Frontend Code (Understand the "As-Is")**
+
+*   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
+*   **Steps:**
+    *   [X] **1.1. Identify Core Components:** Located components:
+        *   [X] Navbar: `src/components/layout/Navbar.jsx`
+        *   [X] `/industries` page: `src/pages/IndustriesPage.jsx`
+        *   [X] `/industries/:industrySlug` page: `src/pages/IndustryDetailPage.jsx`
+        *   [X] `/industries/:industrySlug/:useCaseSlug` page: `src/pages/UseCaseDetailPage.jsx`
+        *   [X] Shared layout/common components identified.
+    *   [X] **1.2. Trace Data Flow:** Confirmed heavy reliance on `src/constants/industries.js`. No Hygraph fetching for this section currently. Data passed via props after filtering based on URL params.
+    *   [X] **1.3. Analyze Rendering Logic:** Confirmed rendering logic maps directly to the structure within `src/constants/industries.js`. Identified multiple sources for "technology" display.
+    *   [X] **1.4. Review Routing:** Confirmed `react-router-dom` setup in `src/App.jsx`.
+
+**Phase 2: Map Frontend UI to Hygraph Model (Define the "To-Be")**
+
+*   **Goal:** Define how the fields in our Hygraph models (`Technology`, `Industry`, `UseCase`, `Architecture`, `Component`, `Flow`) should ideally populate the existing frontend layout elements.
+*   **Steps & Decisions:**
+    *   [X] **2.1. Navbar (`src/components/layout/Navbar.jsx`):**
+        *   **Decision:** Fetch `industries(stage: PUBLISHED) { name, slug }` from Hygraph.
+        *   **Mapping:** Use `name` for display, `slug` for link (`/industries/${slug}`).
+    *   [X] **2.2. `/industries` Overview Page (`src/pages/IndustriesPage.jsx`):**
+        *   **Decision:** Keep page. Fetch `industries(stage: PUBLISHED) { name, slug, description }` from Hygraph. (Note: May need to add `description` field to `Industry` model in Hygraph).
+        *   **Mapping:** Display cards using `name`, `description`. Link using `slug` (`/industries/${slug}`).
+    *   [X] **2.3. `/industries/:industrySlug` Page (`src/pages/IndustryDetailPage.jsx`):**
+        *   **Decision:** Keep page. Fetch `industry(where: {slug: $slug}, stage: PUBLISHED) { name, slug, description, sections, useCases { title, slug, description } }`.
+        *   **Mapping:**
+            *   Display `Industry.name`, `Industry.description`.
+            *   **Tabs:** Use static tabs: "Overview" (showing `Industry.description`) and "Use Cases" (listing `useCases` linked to this industry).
+            *   List associated `useCases` with `title`, `description`, linking to `/industries/:industrySlug/${useCase.slug}`.
+        *   **Confirmation Needed:** Confirm this tab structure ("Overview", "Use Cases") is preferred over dynamically using `Industry.sections`. (Recommendation: Use static tabs for now).
+    *   [X] **2.4. `/industries/:industrySlug/:useCaseSlug` Page (`src/pages/UseCaseDetailPage.jsx`):**
+        *   **Decision:** Fetch `useCase(where: {slug: $slug}, stage: PUBLISHED) { title, slug, description, capabilities, metrics, implementation, architecture { description, components { name, description, details, explanation }, flow { step, description, details } }, industry { name, slug }, technologies(first: 10) { name, slug, icon } }`. (Note: Requires `UseCase.slug` field, ensure uniqueness or fetch by ID).
+        *   **Mapping:**
+            *   Main Title/Description -> `UseCase.title`, `UseCase.description`.
+            *   Sidebar ("Key Capabilities") -> `UseCase.capabilities`.
+            *   Sidebar ("Metrics") -> `UseCase.metrics`.
+            *   Sidebar ("Technologies Used") -> `UseCase.technologies` relation (list name, icon, link via slug).
+            *   **"Documentation" Tab:**
+                *   Remove current nested tabs.
+                *   Display `UseCase.architecture.description`.
+                *   Display `UseCase.architecture.components` list (name, desc, details, explanation).
+                *   Display `UseCase.architecture.flow` list (step, desc, details).
+                *   Live Code Editor: Display content from `UseCase.implementation.codeSnippet` (requires adding this key/value to the JSON).
+            *   **"Case Studies" Tab:** Hide this tab.
+            *   **"Technical" Tab:**
+                *   Architecture Diagram: Display based on `UseCase.implementation.architectureDiagramUrl` (requires adding this key/value to the JSON).
+                *   Deployment Tab: Remove this nested tab.
+        *   **Confirmation Needed:** Confirm approach for Architecture Diagram (static URL stored in `implementation` JSON).
+        *   **Confirmation Needed:** Confirm adding a unique `slug` field to the `UseCase` model in Hygraph.
+
+**Phase 3: Develop Refactoring Strategy**
+
+*   **Goal:** Outline the steps to modify the frontend to use Hygraph data effectively.
+*   **Steps:**
+    *   [ ] **3.1. Plan Data Fetching:** Define necessary GraphQL queries (using slugs from URL params) for components identified in Phase 1 & 2.
+    *   [ ] **3.2. Plan Component Updates:** List components needing modification to use fetched Hygraph data instead of local/hardcoded data. Plan removal of old data sources (`src/constants/industries.js`).
+    *   [ ] **3.3. Plan Redundancy Removal:** Define the specific changes to eliminate duplicate technology displays (remove "Deployment" tab, rely on sidebar).
+    *   [ ] **3.4. Plan Navigation Refinement:** Outline any changes to navbar links based on fetched data.
+    *   [ ] **3.5. Plan Content Mapping Implementation:** Detail how tab content (Documentation, Technical) will be rendered using the chosen Hygraph fields (`architecture`, `implementation`).
+
+---
+
+```
+
+The `.cursorrules` file is now updated with the detailed Phase 2 mapping. Please review the **Confirmation Needed** points:
+
+1.  **/industries/:industrySlug Page Tabs:** Static tabs ("Overview", "Use Cases") okay?
+2.  **Architecture Diagram:** Static URL in `UseCase.implementation` okay?
+3.  **UseCase Slug:** Add unique `slug` field to `UseCase` model okay?
+
+Once these are confirmed, we can proceed to **Phase 3: Develop Refactoring Strategy**, starting with defining the GraphQL queries needed.

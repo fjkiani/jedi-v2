@@ -1,124 +1,166 @@
-import React, { useState, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import { TabsRoot, TabsList, TabTrigger, TabsContent, TabPanel } from '@/components/ui/Tabs';
-import SolutionOverview from '../components/SolutionOverview';
-import CaseStudiesTab from '@/pages/solutions/tabs/CaseStudiesTab';
-import DocumentationTab from '@/pages/solutions/tabs/DocumentationTab';
-import TechnicalTab from '@/pages/solutions/tabs/TechnicalTab';
-import { getSolutionConfig } from '@/constants/registry/solutionRegistry';
-import { industriesList } from '@/constants/industry';
+import SolutionDetail from '../components/SolutionDetail.jsx';
+import SolutionSidebar from '../components/SolutionSidebar.jsx';
+import Heading from '@/components/Heading';
+// import Breadcrumbs from '@/components/Breadcrumbs'; // Comment out missing component import
+import { ArrowLeft } from 'lucide-react';
+import SEO from '@/components/SEO';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
+
+const GetUseCaseDetail = gql`
+  query GetUseCaseDetail($slug: String!) {
+    useCase(where: { slug: $slug }, stage: PUBLISHED) {
+      id
+      title
+      slug
+      description
+      capabilities
+      metrics
+      implementation # JSON field
+      industry {
+        name
+        slug
+      }
+      technologies(first: 10) {
+        id
+        name
+        slug
+        icon 
+      }
+      architecture {
+        id
+        description
+        components(orderBy: name_ASC) {
+          id
+          name
+          description
+          details
+          explanation
+        }
+        flow(orderBy: step_ASC) {
+          id
+          step
+          description
+          details
+        }
+      }
+    }
+  }
+`;
 
 const SolutionPage = () => {
   const { industryId, solutionId } = useParams();
-  const [activeTab, setActiveTab] = useState('overview');
-  const [selectedComponent, setSelectedComponent] = useState(null);
+  const navigate = useNavigate();
+  const [useCaseData, setUseCaseData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Get industry and solution data
-  const industry = industriesList.find(ind => ind.id === industryId);
-  const solution = industry?.solutions?.find(s => s.id === solutionId);
-  
-  // Get solution configuration from registry
-  const solutionConfig = useMemo(() => {
-    return getSolutionConfig(industryId, solutionId);
-  }, [industryId, solutionId]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!solutionId) {
+        setError("Solution ID (slug) is missing from URL.");
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      setError(null);
+      try {
+        const variables = { slug: solutionId };
+        const data = await hygraphClient.request(GetUseCaseDetail, variables);
 
-  const handleComponentClick = (component) => {
-    setSelectedComponent(component);
-    setActiveTab('documentation');
-  };
+        if (data && data.useCase) {
+          setUseCaseData(data.useCase);
+        } else {
+          setError(`Solution with slug "${solutionId}" not found.`);
+        }
+      } catch (err) {
+        console.error("Error fetching solution details:", err);
+        setError("Failed to load solution details. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [solutionId]);
+
+  if (loading) {
+    return (
+      <Section className="pt-12">
+        <div className="container mx-auto text-center">Loading solution details...</div>
+      </Section>
+    );
+  }
+
+  if (error) {
+    return (
+      <Section className="pt-12">
+        <div className="container mx-auto text-center text-red-500">
+          Error: {error}
+          <button onClick={() => navigate('/industries')} className="mt-4 btn">
+            Go back to Industries
+          </button>
+        </div>
+      </Section>
+    );
+  }
+
+  if (!useCaseData) {
+    return (
+      <Section className="pt-12">
+        <div className="container mx-auto text-center">
+          Solution not found.
+          <button onClick={() => navigate('/industries')} className="btn">
+            Go back to Industries
+          </button>
+        </div>
+      </Section>
+    );
+  }
 
   return (
     <>
-      <Section className="overflow-hidden pt-[8rem]">
-        <div className="container">
-          {/* Breadcrumb */}
-          <div className="text-n-3 mb-6 flex items-center gap-2">
-            <Link to="/industries" className="hover:text-n-1">Industries</Link>
-            <Icon name="arrow-right" className="w-4 h-4" />
-            <Link to={`/industries/${industryId}`} className="hover:text-n-1">
-              {industry?.title}
-            </Link>
-            <Icon name="arrow-right" className="w-4 h-4" />
-            <span className="text-n-1">{solution?.title}</span>
-          </div>
+      <SEO
+        title={`${useCaseData.title} - ${useCaseData.industry?.name || 'Industry'} | Jedi Labs`}
+        description={useCaseData.description || `Learn about ${useCaseData.title} solutions for the ${useCaseData.industry?.name || 'relevant'} industry.`}
+        ogUrl={`https://www.jedilabs.org/industries/${useCaseData.industry?.slug}/${useCaseData.slug}`}
+      />
 
-          {/* Hero Content */}
-          <div className="relative z-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-[45rem]"
+      <Section className="pt-12 -mt-10 lg:-mt-15 xl:-mt-20">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => navigate(`/industries/${useCaseData.industry?.slug || industryId}`)}
+              className="flex items-center text-sm font-medium text-n-3 hover:text-primary-1 transition-colors"
             >
-              <h1 className="h1 mb-6">{solution?.title}</h1>
-              <p className="body-1 text-n-3 mb-8">
-                {solution?.description}
-              </p>
-            </motion.div>
+              <ArrowLeft size={16} className="mr-1" />
+              Back to {useCaseData.industry?.name || 'Industry'}
+            </button>
           </div>
-        </div>
-      </Section>
 
-      {/* Tabs Section */}
-      <Section>
-        <div className="container">
-          <TabsRoot value={activeTab} onValueChange={setActiveTab}>
-            <TabsList>
-              <TabTrigger value="overview">
-                <span className="flex items-center gap-2">
-                  <Icon name="layout" className="w-4 h-4" />
-                  Overview
-                </span>
-              </TabTrigger>
-              <TabTrigger value="documentation">
-                <span className="flex items-center gap-2">
-                  <Icon name="file-text" className="w-4 h-4" />
-                  Documentation
-                </span>
-              </TabTrigger>
-              <TabTrigger value="case-studies">
-                <span className="flex items-center gap-2">
-                  <Icon name="book-open" className="w-4 h-4" />
-                  Case Studies
-                </span>
-              </TabTrigger>
-              <TabTrigger value="technical">
-                <span className="flex items-center gap-2">
-                  <Icon name="code" className="w-4 h-4" />
-                  Technical
-                </span>
-              </TabTrigger>
-            </TabsList>
+          <Heading
+            className="text-center md:text-left mb-2"
+            title={useCaseData.title}
+          />
+          <p className="body-1 text-n-3 mb-8 text-center md:text-left">
+            {useCaseData.description}
+          </p>
 
-            <TabsContent>
-              <TabPanel value="overview">
-                <SolutionOverview 
-                  industry={{ id: industryId }}
-                  solution={{ id: solutionId }}
-                  onComponentClick={handleComponentClick}
-                />
-              </TabPanel>
-              <TabPanel value="documentation">
-                <DocumentationTab 
-                  documentation={solutionConfig?.documentation}
-                  selectedComponent={selectedComponent}
-                  industry={{ id: industryId }}
-                />
-              </TabPanel>
-              <TabPanel value="case-studies">
-                <CaseStudiesTab solution={solution} />
-              </TabPanel>
-              <TabPanel value="technical">
-                <TechnicalTab 
-                  solution={{ id: solutionId }}
-                  implementation={solutionConfig?.implementation}
-                  diagrams={solutionConfig?.diagrams}
-                />
-              </TabPanel>
-            </TabsContent>
-          </TabsRoot>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 xl:gap-16">
+            <div className="lg:col-span-2">
+              <SolutionDetail useCase={useCaseData} />
+            </div>
+
+            <div className="lg:col-span-1">
+              <SolutionSidebar useCase={useCaseData} />
+            </div>
+          </div>
         </div>
       </Section>
     </>

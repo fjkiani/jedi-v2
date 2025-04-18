@@ -252,11 +252,33 @@ const EnhancedTechnologyDetail = () => {
                   {technology.businessMetrics && technology.businessMetrics.length > 0 && (
                     <>
                       <h3 className={`text-xl font-semibold mt-8 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Business Impact</h3>
-                      <ul className="list-disc pl-6">
-                        {technology.businessMetrics.map((metric, index) => (
-                          <li key={index} className={`mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{metric}</li>
-                        ))}
-                      </ul>
+                      <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                        <ul className="space-y-2">
+                          {/* Check if it's a string before splitting */}
+                          {typeof technology.businessMetrics === 'string' ? (
+                            technology.businessMetrics.split('\n').map((metric, index) => (
+                              <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                <span className="text-primary-1">•</span>
+                                <span>{metric}</span>
+                              </li>
+                            ))
+                          ) : /* Optional: Handle if it's an array (from local constants) */
+                          Array.isArray(technology.businessMetrics) ? (
+                            technology.businessMetrics.map((metric, index) => (
+                              <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                <span className="text-primary-1">•</span>
+                                <span>{metric}</span>
+                              </li>
+                            ))
+                          ) : (
+                            /* Fallback if it's neither string nor array but exists */
+                            <li className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                              <span className="text-primary-1">•</span>
+                              <span>Invalid business metrics format</span>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
                     </>
                   )}
 

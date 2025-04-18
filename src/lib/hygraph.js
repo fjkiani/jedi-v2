@@ -14,6 +14,9 @@ const hygraphClient = new GraphQLClient(endpoint || '', {
   headers: {
     Authorization: `Bearer ${token || ''}`,
   },
+  fetchOptions: {
+    cache: 'no-store',
+  },
 });
 
 // Test function to check connection
