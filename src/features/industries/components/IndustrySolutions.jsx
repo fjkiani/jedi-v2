@@ -1,140 +1,118 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph'; // Assuming client is exported
 import Section from '@/components/Section';
 import IndustrySolutionCard from './IndustrySolutionCard';
-import { getTechConfig } from '@/constants/registry/techConfigFactory';
-import { 
-  TECH_IDS, 
-  TECH_CATEGORY_MAPPING,
-  USE_CASE_REQUIREMENTS 
-} from '@/constants/registry/techRegistry';
-import { 
-  USE_CASE_TECH_MAPPING,
-  getUseCaseImplementation 
-} from '@/constants/registry/useCaseRegistry';
+// Removed imports: useMemo, getTechConfig, constants/registry
+
+// Define the GraphQL query to fetch UseCases for a specific Industry slug
+const GetUseCasesForIndustry = gql`
+  query GetUseCasesForIndustry($industrySlug: String!) {
+    useCaseS(where: { industry: { slug: $industrySlug } }, stage: PUBLISHED) {
+      id
+      title
+      slug
+      description
+      # Add other fields needed by IndustrySolutionCard later, e.g., icon { url }
+    }
+  }
+`;
 
 const IndustrySolutions = ({ industry }) => {
-  // Enhanced solution relationships with registry integration
-  const solutionRelationships = useMemo(() => {
-    if (!industry?.solutions) return [];
+  const [useCases, setUseCases] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return industry.solutions.map(solution => {
-      // Get all technologies for this solution
-      const techStack = {
-        primary: [],
-        supporting: [],
-        implementations: []
-      };
+  useEffect(() => {
+    if (!industry?.slug) {
+      console.log("[IndustrySolutions] useEffect skipped: industry slug not available.");
+      setLoading(false);
+      // Optionally set an error or leave empty
+      return;
+    }
 
-      // Map solution technologies to registry tech configurations
-      solution.techStack?.primary && techStack.primary.push({
-        config: getTechConfig(solution.techStack.primary.id),
-        usage: solution.techStack.primary.usage
-      });
-
-      solution.techStack?.supporting?.forEach(tech => {
-        techStack.supporting.push({
-          config: getTechConfig(tech.id),
-          usage: tech.usage,
-          features: tech.features
+    const fetchUseCases = async () => {
+      setLoading(true);
+      setError(null);
+      setUseCases([]);
+      console.log(`[IndustrySolutions] Fetching use cases for industry slug: ${industry.slug}`);
+      try {
+        const data = await hygraphClient.request(GetUseCasesForIndustry, {
+          industrySlug: industry.slug,
         });
-      });
+        console.log("[IndustrySolutions] Raw use case data received:", data);
 
-      // Get use case implementations
-      solution.benefits?.forEach(benefit => {
-        benefit.enabledBy?.forEach(techId => {
-          const useCases = Object.entries(USE_CASE_TECH_MAPPING)
-            .filter(([_, mapping]) => 
-              mapping.primaryTech === techId || 
-              mapping.relatedTech.includes(techId)
-            )
-            .map(([useCase]) => ({
-              title: useCase,
-              implementation: getUseCaseImplementation(useCase, techId)
-            }))
-            .filter(uc => uc.implementation);
+        if (!data || !data.useCaseS || data.useCaseS.length === 0) {
+          console.warn(`[IndustrySolutions] No use cases found (or data.useCaseS is empty) for industry: ${industry.slug}`);
+          setUseCases([]); // Set empty array if none found or key missing
+        } else {
+          console.log("[IndustrySolutions] Setting useCases state with:", data.useCaseS);
+          setUseCases(data.useCaseS);
+        }
+      } catch (err) {
+        console.error("[IndustrySolutions] Error fetching use cases:", err);
+        setError("Failed to load solutions for this industry.");
+      } finally {
+        setLoading(false);
+        console.log("[IndustrySolutions] Fetch attempt finished.");
+      }
+    };
 
-          techStack.implementations.push(...useCases);
-        });
-      });
+    fetchUseCases();
+  }, [industry?.slug]); // Depend on industry.slug
 
-      // Validate tech stack against use case requirements
-      const validations = solution.useCases?.map(useCase => {
-        const requirements = USE_CASE_REQUIREMENTS[useCase.type];
-        const allTechIds = [
-          solution.techStack?.primary?.id,
-          ...(solution.techStack?.supporting?.map(tech => tech.id) || [])
-        ];
+  // Removed useMemo hook (solutionRelationships)
 
-        return {
-          useCase: useCase.type,
-          isValid: requirements?.requiredCategories.every(category =>
-            allTechIds.some(techId => 
-              TECH_CATEGORY_MAPPING[techId] === category
-            )
-          ),
-          missingCategories: requirements?.requiredCategories.filter(category =>
-            !allTechIds.some(techId => 
-              TECH_CATEGORY_MAPPING[techId] === category
-            )
-          )
-        };
-      });
+  if (loading) {
+    return (
+      <div className="container text-center py-10">
+        <p className="text-n-3">Loading solutions...</p>
+        {/* Optional: Add a spinner */}
+      </div>
+    );
+  }
 
-      // Add technical implementation details
-      const technicalDetails = solution.techStack?.primary && {
-        architecture: {
-          components: solution.architecture?.components?.map(comp => ({
-            ...comp,
-            technologies: comp.technologies?.map(techId => ({
-              id: techId,
-              config: getTechConfig(techId),
-              implementation: getUseCaseImplementation(solution.id, techId)
-            }))
-          })),
-          dataFlow: solution.architecture?.dataFlow?.map(flow => ({
-            ...flow,
-            technologies: flow.technologies?.map(techId => ({
-              id: techId,
-              config: getTechConfig(techId),
-              implementation: getUseCaseImplementation(solution.id, techId)
-            }))
-          }))
-        },
-        performance: solution.metrics?.map(metric => ({
-          ...metric,
-          technicalDetails: getTechConfig(solution.techStack.primary.id)
-            ?.performance?.[metric.type]
-        }))
-      };
+  if (error) {
+    return (
+      <div className="container text-center py-10">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
-      return {
-        techStack,
-        validations,
-        implementations: techStack.implementations,
-        technicalDetails
-      };
-    });
-  }, [industry]);
+  if (!useCases || useCases.length === 0) {
+    return (
+      <div className="container text-center py-10">
+        <p className="text-n-3">No specific solutions found for this industry yet.</p>
+      </div>
+    );
+  }
 
-  if (!industry || !industry.solutions) return null;
-
+  // Render fetched use cases
   return (
-    <div className="container relative">
+    <div className="container relative pb-10"> {/* Added pb-10 for spacing */}
+      <h2 className="h2 text-center mb-8">Industry Solutions & Use Cases</h2>
       <div className="grid md:grid-cols-2 gap-6">
-        {industry.solutions.map((solution, index) => (
+        {useCases.map((useCase, index) => (
           <IndustrySolutionCard
-            key={solution.id}
-            solution={solution}
-            industry={industry}
-            relationships={solutionRelationships[index]}
+            key={useCase.id}
+            // Pass simplified props based on fetched useCase data
+            // Note: IndustrySolutionCard will need refactoring to accept these props
+            title={useCase.title}
+            description={useCase.description}
+            industrySlug={industry.slug} // For linking
+            useCaseSlug={useCase.slug}   // For linking
+            // Pass index for potential animation delays if needed
             index={index}
+            // Remove old props: solution={solution}, industry={industry}, relationships={...}
           />
         ))}
       </div>
 
-      <div className="absolute top-0 right-0 w-[70%] h-[70%] 
-        bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none" />
+      {/* Keep the background gradient if desired */}
+      <div className="absolute top-0 right-0 w-[70%] h-[70%]
+        bg-radial-gradient from-primary-1/30 to-transparent blur-xl pointer-events-none -z-1" />
     </div>
   );
 };

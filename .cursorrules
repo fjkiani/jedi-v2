@@ -1,0 +1,276 @@
+# Instructions
+
+During you interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file so you will not make the same mistake again. 
+
+You should also use the `.cursorrules` file as a scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Tools
+
+Note all the tools are in python. So in the case you need to do batch processing, you can always consult the python files and write your own script.
+
+## Screenshot Verification
+The screenshot verification workflow allows you to capture screenshots of web pages and verify their appearance using LLMs. The following tools are available:
+
+1. Screenshot Capture:
+```bash
+venv/bin/python tools/screenshot_utils.py URL [--output OUTPUT] [--width WIDTH] [--height HEIGHT]
+```
+
+2. LLM Verification with Images:
+```bash
+venv/bin/python tools/llm_api.py --prompt "Your verification question" --provider {openai|anthropic} --image path/to/screenshot.png
+```
+
+Example workflow:
+```python
+from screenshot_utils import take_screenshot_sync
+from llm_api import query_llm
+
+# Take a screenshot
+screenshot_path = take_screenshot_sync('https://example.com', 'screenshot.png')
+
+# Verify with LLM
+response = query_llm(
+    "What is the background color and title of this webpage?",
+    provider="openai",  # or "anthropic"
+    image_path=screenshot_path
+)
+print(response)
+```
+
+## LLM
+
+You always have an LLM at your side to help you with the task. For simple tasks, you could invoke the LLM by running the following command:
+```
+venv/bin/python ./tools/llm_api.py --prompt "What is the capital of France?" --provider "anthropic"
+```
+
+The LLM API supports multiple providers:
+- OpenAI (default, model: gpt-4o)
+- Azure OpenAI (model: configured via AZURE_OPENAI_MODEL_DEPLOYMENT in .env file, defaults to gpt-4o-ms)
+- DeepSeek (model: deepseek-chat)
+- Anthropic (model: claude-3-sonnet-20240229)
+- Gemini (model: gemini-pro)
+- Local LLM (model: Qwen/Qwen2.5-32B-Instruct-AWQ)
+
+But usually it's a better idea to check the content of the file and use the APIs in the `tools/llm_api.py` file to invoke the LLM if needed.
+
+## Web browser
+
+You could use the `tools/web_scraper.py` file to scrape the web.
+```
+venv/bin/python ./tools/web_scraper.py --max-concurrent 3 URL1 URL2 URL3
+```
+This will output the content of the web pages.
+
+## Search engine
+
+You could use the `tools/search_engine.py` file to search the web.
+```
+venv/bin/python ./tools/search_engine.py "your search keywords"
+```
+This will output the search results in the following format:
+```
+URL: https://example.com
+Title: This is the title of the search result
+Snippet: This is a snippet of the search result
+```
+If needed, you can further use the `web_scraper.py` file to scrape the web page content.
+
+# Lessons
+
+## User Specified Lessons
+
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+
+## Cursor learned
+
+- **Verify Field Types:** Double-check Hygraph schema not just for field API IDs but also their *types* (e.g., Relation, String, List of Strings). Assuming a field is a relation when it's a simple type (like `sections` being an array instead of linking to UseCases) leads to incorrect GraphQL queries and 400 errors when trying to access nested fields. Test simple field access first in the playground.
+- **Unique Fields for Filtering:** When querying a single item (e.g., `model(where: { ... })`), the `where` clause requires a field marked as unique in the schema (like `id`). For filtering by non-unique fields (like `slug` in this case), use the plural query (`models(where: { nonUniqueField: ... }, first: 1)`).
+
+# Scratchpad: Hygraph Data Population Plan
+
+**Goal:** Populate Hygraph with detailed technology information, including nested use cases, architectures, components, flows, metrics, and implementation details.
+
+**Key Mutations Used:**
+
+1.  **`updateTechnology` (for adding nested Use Case, Architecture, Components, Flow):**
+    *   Targets an existing `Technology` record by ID (e.g., Weaviate `id: "cm5c8if6q7p9m07looqyq23aq"`).
+    *   Uses nested `create` within the `data` argument.
+    *   **Structure Example:**
+        ```graphql
+        mutation AddUseCaseDeep($techId: ID!, ...) {
+          updateTechnology(
+            where: { id: $techId }
+            data: {
+              useCases: {
+                create: [
+                  {
+                    title: "...",
+                    description: "...",
+                    queries: ["...", "..."],
+                    capabilities: ["...", "..."],
+                    industry: { connect: { id: "industry_id" } },
+                    architecture: {
+                      create: {
+                        description: "...",
+                        components: {
+                          create: [
+                            { name: "...", description: "...", details: "...", explanation: ["..."] },
+                            # ... more components
+                          ]
+                        },
+                        flow: {
+                          create: [
+                            { step: "...", description: "...", details: "..." },
+                            # ... more flow steps
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ) { id name useCases { id title } } # Query back relevant IDs
+        }
+        ```
+
+2.  **`updateUseCase` (for adding details to a specific Use Case):**
+    *   Targets an existing `UseCase` record by ID (e.g., Med Image Classification `id: "cm9jbv6kphejm08lfwca1mqqh"`).
+    *   Used to add fields like `implementation` (JSON) and `metrics` (`[String!]!`).
+    *   **Structure Example:**
+        ```graphql
+        mutation AddUseCaseDetails($useCaseId: ID!, $implementationData: Json!, $metricsList: [String!]!) {
+          updateUseCase(
+            where: { id: $useCaseId }
+            data: {
+              implementation: $implementationData,
+              metrics: $metricsList
+            }
+          ) { id title implementation metrics }
+        }
+        ```
+
+3.  **`updateTechnology` (for updating top-level Technology fields):**
+    *   Targets an existing `Technology` record by ID.
+    *   Used to add/update fields like `businessMetrics` (which was `String`, not `[String!]!`).
+    *   **Structure Example:**
+        ```graphql
+        mutation AddBusinessMetrics($techId: ID!, $metricsString: String!) {
+          updateTechnology(
+            where: { id: $techId }
+            data: { businessMetrics: $metricsString }
+          ) { id name businessMetrics }
+        }
+        ```
+
+**Common Pitfalls & Lessons Learned:**
+
+*   **Schema vs. Variables:** Always double-check the exact field type in the Hygraph schema (e.g., `String`, `Json`, `[String!]!`) and ensure the GraphQL mutation variable type matches (`String!`, `Json!`, `[String!]!`). Mismatches cause errors (like the `businessMetrics` String vs. Array issue).
+*   **List Formatting:** Provide list inputs directly as JSON arrays (e.g., `"field": ["item1", "item2"]`).
+*   **JSON Formatting:** Ensure JSON data for `Json` fields is valid JSON.
+*   **Connecting Relations:** Use the `{ connect: { id: "..." } }` syntax within the `data` object to link to existing records. Check the schema's `WhereUniqueInput` type for the relation to see if connecting by other fields (like `slug`) is possible.
+*   **Publishing Status:** Content created/updated via mutations might initially be in the `DRAFT` stage. Ensure records (Technology, UseCase, etc.) are **Published** in the Hygraph UI to be visible to standard read queries.
+*   **GraphQL Caching:** Client-side libraries (like `graphql-request`) often cache query results. Stale data can cause confusion after mutations.
+    *   **Debugging:** Use hard refresh (Ctrl+Shift+R), check network requests.
+    *   **Fix (Temporary):** Disable cache via client config (`fetchOptions: { cache: 'no-store' }` for `graphql-request`).
+    *   **Fix (Robust):** Implement proper cache invalidation strategies if using a more advanced client (like Apollo Client).
+    *   **Fix (Header):** Explicitly request the desired stage using the `gcms-stage: PUBLISHED` header in the client config.
+*   **Frontend Data Merging:** Be cautious when merging data from multiple sources (e.g., Hygraph + local constants). Ensure the merge logic correctly prioritizes data and handles potential type mismatches or null values. Use spread syntax carefully (`{ ...localData, ...hygraphData }` prioritizes `hygraphData` for overlapping simple fields).
+*   **Frontend Rendering:** Add type checks (`typeof`, `Array.isArray`) before using type-specific methods (`.split()`, `.map()`) to prevent runtime errors when data might have unexpected types due to merging or API inconsistencies.
+
+# Scratchpad: Frontend Hygraph Integration Plan
+
+**Goal:** Understand the current frontend implementation for displaying industry and use case data, map it to our Hygraph models, and create a plan to refactor the frontend to use Hygraph as the primary data source, improving clarity and reducing redundancy.
+
+**Phase 1: Analyze Frontend Code (Understand the "As-Is")**
+
+*   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
+*   **Steps:**
+    *   [✅] **1.1. Identify Core Components:** Located components:
+        *   [✅] Navbar: `src/components/layout/Navbar.jsx`
+        *   [✅] `/industries` page: `src/pages/IndustriesPage.jsx` (Likely uses `src/features/industries/components/IndustryOverview.jsx`)
+        *   [✅] `/industries/:industrySlug` page: `src/pages/IndustryDetailPage.jsx` (Likely uses `src/features/industries/components/IndustryHero.jsx` and `IndustrySolutions.jsx`)
+        *   [✅] `/industries/:industrySlug/:useCaseSlug` page: `src/features/industries/pages/SolutionPage.jsx` (Previously `src/pages/solutions/SolutionPage.jsx`)
+        *   [✅] Shared layout/common components identified.
+    *   [✅] **1.2. Trace Data Flow:** Confirmed heavy reliance on `src/constants/industries.js` for most pages initially. `SolutionPage.jsx` now refactored.
+    *   [✅] **1.3. Analyze Rendering Logic:** Confirmed rendering logic maps directly to the structure within `src/constants/industries.js` initially. `SolutionPage.jsx` now uses Hygraph data structure.
+    *   [✅] **1.4. Review Routing:** Confirmed `react-router-dom` setup in `src/App.jsx` and `src/features/industries/routes.jsx`.
+
+**Phase 2: Map Frontend UI to Hygraph Model (Define the "To-Be")**
+
+*   **Goal:** Define how the fields in our Hygraph models (`Technology`, `Industry`, `UseCase`, `Architecture`, `Component`, `Flow`) should ideally populate the existing frontend layout elements.
+*   **Steps & Decisions:**
+    *   [✅] **2.1. Navbar (`src/components/layout/Navbar.jsx`):** Fetch `industries { name, slug }`.
+    *   [✅] **2.2. `/industries` Overview Page (`src/pages/IndustriesPage.jsx` / `IndustryOverview.jsx`):** Fetch `industries { name, slug, description, icon? }`.
+    *   [✅] **2.3. `/industries/:industrySlug` Page (`src/pages/IndustryDetailPage.jsx` / `IndustryHero.jsx` / `IndustrySolutions.jsx`):** Fetch `industry(where: {slug: $slug}) { name, slug, description, useCases { title, slug, description, icon? } }`.
+    *   [✅] **2.4. `/industries/:industrySlug/:useCaseSlug` Page (`src/features/industries/pages/SolutionPage.jsx`):** Fetch `useCase(where: {slug: $slug}) { ... detailed fields ... }`. **(Refactoring Complete)**
+
+**Phase 3: Develop Refactoring Strategy**
+
+*   **Goal:** Outline the steps to modify the frontend to use Hygraph data effectively.
+*   **Steps:**
+    *   [✅] **3.1. Plan Data Fetching:** Define necessary GraphQL queries. (Queries defined for all relevant pages).
+    *   [✅] **3.2. Plan Component Updates:** List components needing modification.
+        *   **Step 3.2.1: Locate and Analyze Use Case Detail Component** (Completed)
+        *   **Step 3.2.2: Refactor Use Case Detail Component (`SolutionPage.jsx`)** (Completed & Verified Working)
+        *   **Step 3.2.3: Locate and Analyze Industry Detail Page (`IndustryPage.jsx`)** (Completed)
+        *   **Step 3.2.4: Refactor Industry Detail Page Data Fetching (`IndustryPage.jsx`)** (Completed & Verified Working)
+        *   **Next Components:**
+            *   [✅] **Industry Detail Page - Hero (`IndustryHero.jsx`):** Refactored component to use `industry` prop. Simplified significantly. (Completed & Verified Working)
+            *   [✅] **Industry Detail Page - Solutions (`IndustrySolutions.jsx`):** Refactored component to fetch related `useCaseS` via GraphQL based on `industry.slug`. (Completed & Verified Working)
+            *   [✅] **Industry Detail Page - Solution Card (`IndustrySolutionCard.jsx`):** Refactored component to accept simplified props (`title`, `description`, `industrySlug`, `useCaseSlug`) from `IndustrySolutions`. (Completed & Verified Working)
+            *   [->] **`/industries` Overview Page:** Refactor component rendering `/industries` (likely `IndustryOverview.jsx` or similar) to fetch and display industries from Hygraph.
+            *   [ ] **Navbar:** Update `Navbar.jsx` to fetch industries for dropdown/links.
+    *   [ ] **3.3. Plan Redundancy Removal:** To be addressed as components are refactored.
+    *   [ ] **3.4. Plan Navigation Refinement:** To be addressed during Navbar update.
+    *   [ ] **3.5. Plan Content Mapping Implementation:** Implemented for `SolutionPage.jsx` and `IndustryPage.jsx` children. Pending for `IndustryOverview`, `Navbar`.
+
+---
+
+**Summary of Recent Progress (Industry Detail Page Refactor):**
+
+*   Successfully refactored the data fetching logic in `src/features/industries/pages/IndustryPage.jsx` to fetch basic industry details (`id`, `name`, `slug`, `sections` array).
+*   Refactored `IndustryHero.jsx` to display the industry name from the fetched data, removing outdated logic.
+*   Refactored `IndustrySolutions.jsx` to perform a secondary GraphQL query, fetching `useCaseS` related to the current industry slug.
+*   Refactored `IndustrySolutionCard.jsx` to accept simplified props from `IndustrySolutions` and display the use case title, description, and a correct link to the detail page.
+*   The `/industries/:industrySlug` page now successfully displays dynamic data fetched entirely from Hygraph.
+
+**Next Step:**
+
+*   Refactor the **`/industries` Overview Page**. This likely involves identifying the main component responsible for rendering this page (e.g., `src/features/industries/pages/IndustriesOverview.jsx` or `src/features/industries/components/IndustryOverview.jsx`), implementing GraphQL fetching for all industries (`id`, `name`, `slug`, maybe `description` or `icon`), and updating the rendering logic to use the fetched data instead of constants.
+
+---
+
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review for Removal Later):**
+
+*   `src/constants/industries.js`: Likely becoming obsolete as data moves to Hygraph.
+*   `src/constants/categoryIcons.js`: Check if icons are now fetched from Hygraph or if this is still needed.
+*   `src/constants/implementations/`: Entire directory might be replaced by Hygraph data for architectures, flows, etc. (e.g., `financialOverview`, `healthcareOverview`).
+*   `src/constants/registry/`: Directories like `industryDiagramsRegistry`, `techConfigFactory`, `techRegistry`, `useCaseRegistry` seem heavily tied to the old constant-based structure. Review their usage after refactoring.
+*   Complex logic within `IndustryHero.jsx` (removed): Tabs, SectionDetails, diagram rendering, AIResponse integration. These features might need to be re-implemented differently if required, potentially on the specific Solution/UseCase page.
+*   Complex logic within `IndustrySolutionCard.jsx` (removed): Displaying detailed tech stack, metrics, benefits based on constants.
+
+**Reusable Components (Confirmed or Potential):**
+
+*   `src/components/Section.jsx`: General layout component.
+*   `src/components/Icon.jsx`: Used for displaying SVG icons.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Refactored to be a simple display card linking to a use case. Reusable for listing use cases.
+*   `src/features/industries/components/IndustryHero.jsx`: Refactored to display a simple title/breadcrumb. Reusable as a basic page hero.
+*   `src/lib/hygraph.js`: Core client for Hygraph interaction.
+*   `src/components/layout/Navbar.jsx`: Will be refactored to use Hygraph data.
+*   `src/components/transitions/PageTransition.jsx`: Used for page animations.
+
+**(Rest of file remains the same)**

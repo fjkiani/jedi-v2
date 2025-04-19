@@ -53,7 +53,7 @@ const IndustryPage = () => {
         console.log(`[IndustryPage] Requesting from Endpoint: ${hygraphEndpoint}`);
         console.log(`[IndustryPage] Query: ${GetIndustryDetail}`);
         console.log(`[IndustryPage] Variables: ${JSON.stringify({ slugParam: industryId })}`);
-        console.log("[IndustryPage] Attempting hygraphClient.request (using plural query, 'sections' relation)...");
+        console.log("[IndustryPage] Attempting hygraphClient.request (fetching 'sections' as simple array)...");
         const data = await hygraphClient.request(GetIndustryDetail, { slugParam: industryId });
         console.log("[IndustryPage] Raw data received (plural):", data);
 

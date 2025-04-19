@@ -16,7 +16,7 @@ export default defineConfig({
     outDir: 'dist',
   },
   server: {
-    port: 3001,
+    port: 3007,
     historyApiFallback: true,
     hmr: {
       protocol: 'ws',
