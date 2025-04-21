@@ -189,88 +189,101 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 *   **Frontend Data Merging:** Be cautious when merging data from multiple sources (e.g., Hygraph + local constants). Ensure the merge logic correctly prioritizes data and handles potential type mismatches or null values. Use spread syntax carefully (`{ ...localData, ...hygraphData }` prioritizes `hygraphData` for overlapping simple fields).
 *   **Frontend Rendering:** Add type checks (`typeof`, `Array.isArray`) before using type-specific methods (`.split()`, `.map()`) to prevent runtime errors when data might have unexpected types due to merging or API inconsistencies.
 
-# Scratchpad: Frontend Hygraph Integration Plan
+# Scratchpad: Refined Jedi Labs Website Roadmap
 
-**Goal:** Understand the current frontend implementation for displaying industry and use case data, map it to our Hygraph models, and create a plan to refactor the frontend to use Hygraph as the primary data source, improving clarity and reducing redundancy.
-
-**Phase 1: Analyze Frontend Code (Understand the "As-Is")**
-
-*   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
-*   **Steps:**
-    *   [✅] **1.1. Identify Core Components:** Located components:
-        *   [✅] Navbar: `src/components/layout/Navbar.jsx`
-        *   [✅] `/industries` page: `src/pages/IndustriesPage.jsx` (Likely uses `src/features/industries/components/IndustryOverview.jsx`)
-        *   [✅] `/industries/:industrySlug` page: `src/pages/IndustryDetailPage.jsx` (Likely uses `src/features/industries/components/IndustryHero.jsx` and `IndustrySolutions.jsx`)
-        *   [✅] `/industries/:industrySlug/:useCaseSlug` page: `src/features/industries/pages/SolutionPage.jsx` (Previously `src/pages/solutions/SolutionPage.jsx`)
-        *   [✅] Shared layout/common components identified.
-    *   [✅] **1.2. Trace Data Flow:** Confirmed heavy reliance on `src/constants/industries.js` for most pages initially. `SolutionPage.jsx` now refactored.
-    *   [✅] **1.3. Analyze Rendering Logic:** Confirmed rendering logic maps directly to the structure within `src/constants/industries.js` initially. `SolutionPage.jsx` now uses Hygraph data structure.
-    *   [✅] **1.4. Review Routing:** Confirmed `react-router-dom` setup in `src/App.jsx` and `src/features/industries/routes.jsx`.
-
-**Phase 2: Map Frontend UI to Hygraph Model (Define the "To-Be")**
-
-*   **Goal:** Define how the fields in our Hygraph models (`Technology`, `Industry`, `UseCase`, `Architecture`, `Component`, `Flow`) should ideally populate the existing frontend layout elements.
-*   **Steps & Decisions:**
-    *   [✅] **2.1. Navbar (`src/components/layout/Navbar.jsx`):** Fetch `industries { name, slug }`.
-    *   [✅] **2.2. `/industries` Overview Page (`src/pages/IndustriesPage.jsx` / `IndustryOverview.jsx`):** Fetch `industries { name, slug, description, icon? }`.
-    *   [✅] **2.3. `/industries/:industrySlug` Page (`src/pages/IndustryDetailPage.jsx` / `IndustryHero.jsx` / `IndustrySolutions.jsx`):** Fetch `industry(where: {slug: $slug}) { name, slug, description, useCases { title, slug, description, icon? } }`.
-    *   [✅] **2.4. `/industries/:industrySlug/:useCaseSlug` Page (`src/features/industries/pages/SolutionPage.jsx`):** Fetch `useCase(where: {slug: $slug}) { ... detailed fields ... }`. **(Refactoring Complete)**
-
-**Phase 3: Develop Refactoring Strategy**
-
-*   **Goal:** Outline the steps to modify the frontend to use Hygraph data effectively.
-*   **Steps:**
-    *   [✅] **3.1. Plan Data Fetching:** Define necessary GraphQL queries. (Queries defined for all relevant pages).
-    *   [✅] **3.2. Plan Component Updates:** List components needing modification.
-        *   **Step 3.2.1: Locate and Analyze Use Case Detail Component** (Completed)
-        *   **Step 3.2.2: Refactor Use Case Detail Component (`SolutionPage.jsx`)** (Completed & Verified Working)
-        *   **Step 3.2.3: Locate and Analyze Industry Detail Page (`IndustryPage.jsx`)** (Completed)
-        *   **Step 3.2.4: Refactor Industry Detail Page Data Fetching (`IndustryPage.jsx`)** (Completed & Verified Working)
-        *   **Next Components:**
-            *   [✅] **Industry Detail Page - Hero (`IndustryHero.jsx`):** Refactored component to use `industry` prop. Simplified significantly. (Completed & Verified Working)
-            *   [✅] **Industry Detail Page - Solutions (`IndustrySolutions.jsx`):** Refactored component to fetch related `useCaseS` via GraphQL based on `industry.slug`. (Completed & Verified Working)
-            *   [✅] **Industry Detail Page - Solution Card (`IndustrySolutionCard.jsx`):** Refactored component to accept simplified props (`title`, `description`, `industrySlug`, `useCaseSlug`) from `IndustrySolutions`. (Completed & Verified Working)
-            *   [->] **`/industries` Overview Page:** Refactor component rendering `/industries` (likely `IndustryOverview.jsx` or similar) to fetch and display industries from Hygraph.
-            *   [ ] **Navbar:** Update `Navbar.jsx` to fetch industries for dropdown/links.
-    *   [ ] **3.3. Plan Redundancy Removal:** To be addressed as components are refactored.
-    *   [ ] **3.4. Plan Navigation Refinement:** To be addressed during Navbar update.
-    *   [ ] **3.5. Plan Content Mapping Implementation:** Implemented for `SolutionPage.jsx` and `IndustryPage.jsx` children. Pending for `IndustryOverview`, `Navbar`.
+**Vision:** Create a dynamic, Hygraph-powered website showcasing Jedi Labs' AI solutions, emphasizing clarity, usability, and showcasing expertise across industries and technologies.
 
 ---
 
-**Summary of Recent Progress (Industry Detail Page Refactor):**
+## Phase 1: Content & Navigation Foundation (Completed)
+*   [✅] Set up Hygraph schema & initial content migration.
+*   [✅] Refactor core pages (Industries, Use Cases) to use Hygraph data.
+*   [✅] Enhance `/industries` overview page.
+*   [✅] Implement dynamic Header navigation (Industries, Use Cases, simplified Technology Subcategories) fetching data from Hygraph.
 
-*   Successfully refactored the data fetching logic in `src/features/industries/pages/IndustryPage.jsx` to fetch basic industry details (`id`, `name`, `slug`, `sections` array).
-*   Refactored `IndustryHero.jsx` to display the industry name from the fetched data, removing outdated logic.
-*   Refactored `IndustrySolutions.jsx` to perform a secondary GraphQL query, fetching `useCaseS` related to the current industry slug.
-*   Refactored `IndustrySolutionCard.jsx` to accept simplified props from `IndustrySolutions` and display the use case title, description, and a correct link to the detail page.
-*   The `/industries/:industrySlug` page now successfully displays dynamic data fetched entirely from Hygraph.
+---
+
+## Phase 2: Technology Integration & Component Reuse (Current Focus)
+
+*   **Goal:** Build out the Technology section, reuse existing UI patterns effectively, and improve Use Case presentation.
+*   **Steps:**
+    *   [->] **2.1. Create Technology Landing Page (`/technology`):**
+        *   [ ] **Sub-Step 1:** Design page layout to display Technology Subcategories.
+        *   [ ] **Sub-Step 2:** Create/Enhance component for `/technology` route.
+        *   [ ] **Sub-Step 3:** Fetch `TechnologySubcategories` (name, slug, description, features - *Requires content population in 2.3*).
+        *   [ ] **Sub-Step 4:** Display subcategories with `id={slug}` for anchor links from Header.
+        *   [ ] **Sub-Step 5:** (Optional) Display related `Technologies` or `UseCases` under each subcategory.
+    *   [ ] **2.2. Adapt Reusable UI Components:**
+        *   [ ] **Sub-Step 1:** Review old components (e.g., `IndustryHero`, `IndustrySolutionCard`) for useful UI patterns (tabs, detailed cards, grids).
+        *   [ ] **Sub-Step 2:** Adapt chosen patterns into reusable components that accept Hygraph data as props.
+        *   [ ] **Sub-Step 3:** Integrate these adapted components where appropriate (e.g., on `/technology` page, potentially enhancing `/industries` or Use Case pages later).
+    *   [ ] **2.3. Enhance Content in Hygraph (Ongoing - Supports 2.1 & future phases):**
+        *   [ ] **Sub-Step 1:** Add descriptive content (`description`, `features`) to `TechnologySubcategory` records.
+        *   [ ] **Sub-Step 2:** Add more `UseCase` details (metrics, implementation). Link to `Industry`/`Technology`.
+        *   [ ] **Sub-Step 3:** Decide Architecture display location & link records.
+        *   [ ] **Sub-Step 4:** Ensure all new/updated content is **Published**.
+    *   [ ] **2.4. (Future - Part of Phase 3) Enhance Use Case Presentation:**
+        *   [ ] Create dedicated `/use-cases` landing page.
+        *   [ ] Improve architecture display.
+        *   [ ] Add filtering.
+
+---
+
+## Phase 3: Content Expansion & Landing Page (Future)
+
+*   **Goal:** Significantly expand content depth and revamp the homepage.
+*   **Steps:**
+    *   [ ] **3.1. Create More Use Cases:** Use Python scripts/Hygraph UI to add more examples, ensuring links.
+    *   [ ] **3.2. Update Landing Page (`/`):** Redesign with clear messaging, featured content, CTAs.
+    *   [ ] **3.3. Add Architecture Visualization:** Implement based on decision in 2.3.
+
+---
+
+## Phase 4: Polish & Optimization (Future)
+
+*   **Goal:** Refine the user experience, ensure consistency, and optimize performance.
+*   **Steps:**
+    *   [ ] **4.1. Visual Consistency & Styling:** Ensure consistent styling, dark/light modes, responsiveness.
+    *   [ ] **4.2. Performance Optimization:** Caching, image optimization, loading states, error handling.
+    *   [ ] **4.3. SEO & Analytics:** Sitemap, metadata, analytics integration.
+    *   [ ] **4.4. Code Cleanup:** Remove unused constants (`navigation` source, `industries.js`, etc.), refactor.
+
+---
+
+**Summary of Recent Progress:**
+
+*   Completed foundational setup and refactoring.
+*   Implemented dynamic navigation using Hygraph data.
+*   Enhanced the `/industries` overview page.
+*   Defined a phased roadmap focusing on Technology integration, component reuse, content expansion, and polish.
 
 **Next Step:**
 
-*   Refactor the **`/industries` Overview Page**. This likely involves identifying the main component responsible for rendering this page (e.g., `src/features/industries/pages/IndustriesOverview.jsx` or `src/features/industries/components/IndustryOverview.jsx`), implementing GraphQL fetching for all industries (`id`, `name`, `slug`, maybe `description` or `icon`), and updating the rendering logic to use the fetched data instead of constants.
+*   [->] **Execute Step 2.1: Create Technology Landing Page (`/technology`)**. This requires parallel effort on **Step 2.3 (Enhance Content)** to ensure `TechnologySubcategory` records have descriptions/features to display. Let's start by designing the page layout and creating the basic component structure.
 
 ---
-
 # Scratchpad: Component Refactoring Notes
 
-**Potentially Unused Components/Constants (Review for Removal Later):**
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.3):**
 
-*   `src/constants/industries.js`: Likely becoming obsolete as data moves to Hygraph.
-*   `src/constants/categoryIcons.js`: Check if icons are now fetched from Hygraph or if this is still needed.
-*   `src/constants/implementations/`: Entire directory might be replaced by Hygraph data for architectures, flows, etc. (e.g., `financialOverview`, `healthcareOverview`).
-*   `src/constants/registry/`: Directories like `industryDiagramsRegistry`, `techConfigFactory`, `techRegistry`, `useCaseRegistry` seem heavily tied to the old constant-based structure. Review their usage after refactoring.
-*   Complex logic within `IndustryHero.jsx` (removed): Tabs, SectionDetails, diagram rendering, AIResponse integration. These features might need to be re-implemented differently if required, potentially on the specific Solution/UseCase page.
-*   Complex logic within `IndustrySolutionCard.jsx` (removed): Displaying detailed tech stack, metrics, benefits based on constants.
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
 
-**Reusable Components (Confirmed or Potential):**
+**Reusable Components / Patterns (Confirmed):**
 
-*   `src/components/Section.jsx`: General layout component.
-*   `src/components/Icon.jsx`: Used for displaying SVG icons.
-*   `src/features/industries/components/IndustrySolutionCard.jsx`: Refactored to be a simple display card linking to a use case. Reusable for listing use cases.
-*   `src/features/industries/components/IndustryHero.jsx`: Refactored to display a simple title/breadcrumb. Reusable as a basic page hero.
-*   `src/lib/hygraph.js`: Core client for Hygraph interaction.
-*   `src/components/layout/Navbar.jsx`: Will be refactored to use Hygraph data.
-*   `src/components/transitions/PageTransition.jsx`: Used for page animations.
-
-**(Rest of file remains the same)**
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.

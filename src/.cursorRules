@@ -435,107 +435,6 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 
 *   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
 *   **Steps:**
-    *   [ ] **1.1. Identify Core Components:** Locate the React components responsible for rendering:
-        *   [ ] Navbar (Industries dropdown/menu): `src/components/Header.jsx`
-        *   [ ] `/industries` page (Industry cards): `src/features/industries/pages/IndustriesOverview.jsx` (Note: Route is `/industries/*`, likely matching this component)
-        *   [ ] `/industries/:industrySlug` page (Industry overview + tabs): `src/features/industries/pages/IndustryPage.jsx`
-        *   [ ] `/industries/:industrySlug/:useCaseSlug` page (Use Case detail + tabs): `src/features/industries/pages/SolutionPage.jsx` (Note: Uses `:solutionId` in code, maps to use case slug)
-        *   [ ] Any relevant shared layout components: `src/App.jsx` (handles main layout, Header, Footer)
-    *   [ ] **1.2. Trace Data Flow:** For each component above, determine where its data comes from:
-        *   [X] Hardcoded data within components? (Some transformation logic, e.g., in Header)
-        *   [X] Imported from constants files? (Yes: Primarily `src/constants/industry.js` and files within `src/constants/registry/`)
-        *   [ ] Fetched via GraphQL queries? (No, not for industries/solutions. GraphQL queries exist in `src/graphql/queries/` but are not used for this section). `src/services/` contains fetching logic but appears unused for industries/solutions.
-        *   [X] Passed via props or context? (Yes, data from constants/registries is processed and passed down)
-    *   [ ] **1.3. Analyze Rendering Logic:** Understand how data is used to render UI:
-        *   [X] How is the Industries navbar list generated? (From `src/constants/industry.js`, transformed in `Header.jsx`)
-        *   [ ] How are the `/industries/:industrySlug` tabs generated/populated? (`IndustryPage.jsx` renders `IndustryHero` and `IndustrySolutions`, passing data from constants/registries. No explicit tabs found here yet, might be within child components)
-        *   [X] How are the `/industries/:industrySlug/:useCaseSlug` main content, sidebar ("Key Capabilities"), and nested tabs ("Documentation", "Case Studies", "Technical") rendered? (`SolutionPage.jsx` uses data from constants/registries. Renders main title/desc. Renders Tabs component with child components: `SolutionOverview`, `DocumentationTab`, `CaseStudiesTab`, `TechnicalTab`. Sidebar content needs further investigation within these tabs/components.)
-        *   [X] Where does the live code editor content originate? (Likely from `solutionConfig.implementation` sourced via `getSolutionConfig` in `src/constants/registry/solutionRegistry.js`, passed to `TechnicalTab`)
-        *   [X] Where does the architecture diagram data originate? (Likely from `solutionConfig.diagrams` sourced via `getSolutionConfig` in `src/constants/registry/solutionRegistry.js`, passed to `TechnicalTab`, potentially also `getIndustryDiagram` in `IndustryPage.jsx`)
-        *   [ ] Identify the multiple places "technologies" are displayed on the use case page. (Needs further investigation within `SolutionPage.jsx`'s child components/tabs)
-    *   [X] **1.4. Review Routing:** Confirm `react-router-dom` (or equivalent) setup for these routes. (Yes, in `src/App.jsx` and `src/features/industries/routes.jsx`)
-
-**Phase 2: Map Frontend UI to Hygraph Model (Define the "To-Be")**
-
-*   **Goal:** Define how Hygraph models (`Industry`, `UseCase`, `Technology`, `Architecture`, etc.) will replace the hardcoded data in `src/constants/` and `src/constants/registry/`, populating the UI elements identified in Phase 1. Make decisions on page structure and content sources.
-*   **Focus Order:** Prioritize mapping the `/industries/:industrySlug/:useCaseSlug` page (`SolutionPage.jsx`) first.
-*   **Steps & Decisions:**
-    *   [ ] **2.1. `/industries/:industrySlug/:useCaseSlug` Page (`SolutionPage.jsx`) Mapping:**
-        *   **Map Core Fields:**
-            *   [ ] Breadcrumbs -> Fetch `Industry.title`, `UseCase.title` based on slugs.
-            *   [ ] Main Title/Description -> `UseCase.title`, `UseCase.description`.
-        *   **Map Tabs Content:**
-            *   [ ] **"Overview" Tab (`SolutionOverview` component):**
-                *   [X] **Action:** Read `src/features/industries/components/SolutionOverview.jsx` to confirm its content (Main overview, Workflow steps, Key Capabilities section with metrics).
-                *   [ ] Map confirmed content to Hygraph fields:
-                    *   [ ] Main Title/Desc -> `UseCase.title`, `UseCase.description` (Covered by core mapping).
-                    *   [ ] Workflow (`config.workflow`) -> **Decision:** Use new `UseCase.workflowOverview` (JSON field) in Hygraph.
-                    *   [ ] Key Capabilities (`config.keyPoints`) -> **Decision:** Use new related `Capability` model (`title`, `description`, `icon`, `metrics: [String!]!`) in Hygraph.
-                    *   [ ] Technology Mentions (`step.technologies.core`) -> **Decision:** Map to `UseCase.primaryTechnology.name`, `UseCase.relatedTechnologies { name }`.
-                *   [X] Define *which* technology details belong here vs. the "Technical" tab to avoid redundancy. **Decision:** Only technology names here.
-            *   [ ] **"Documentation" Tab (`DocumentationTab` component):**
-                *   [X] **Action:** Read `src/pages/solutions/tabs/DocumentationTab.jsx` to confirm structure (Nested tabs based on industry sections, renders content from various registries, includes CodeBlocks/LiveEditor, shows diagram).
-                *   [ ] Decide source for main content/nested tabs:
-                    *   Options: `UseCase.architecture { components { ... }, flow { ... } }`, `UseCase.documentation` (Rich Text/Markdown), other?
-                    *   **Decision:** Use structured `UseCase.architecture` data (components, flow) primarily. May need schema additions (e.g., `icon` field).
-                *   [ ] Decide source for Live Code Editor:
-                    *   Options: `UseCase.implementation` (JSON field)?
-                    *   **Decision:** Use `UseCase.implementation` (JSON field).
-                *   [ ] Decide source for Architecture Diagram:
-                    *   **Decision:** Remove Diagram from this tab (redundant with Technical tab).
-            *   [ ] **"Case Studies" Tab (`CaseStudiesTab` component):**
-                *   [X] **Action:** Read `src/pages/solutions/tabs/CaseStudiesTab.jsx` to confirm structure (simple list of title, desc, results, image).
-                *   [ ] Decide fate: Hide, repurpose, or plan for fetching from a future `CaseStudy` model related to `UseCase`.
-                *   **Decision:** Hide tab initially. Plan for fetching from a future `CaseStudy` model (`title`, `description`, `results`, `image`) in Hygraph.
-            *   [ ] **"Technical" Tab (`TechnicalTab` component):**
-                *   [X] **Action:** Read `src/pages/solutions/tabs/TechnicalTab.jsx` to confirm structure (Nested tabs for Implementation, Deployment, Examples, Patterns, Learning; renders components/tech names, flow steps; NO diagram currently).
-                *   [ ] Decide source/generation method for Architecture Diagram:
-                    *   Finding: Currently no diagram shown here.
-                    *   Options: Dynamic from `UseCase.architecture`, static `UseCase.architectureDiagramUrl` (String).
-                    *   **Decision:** Add diagram rendering here. Use **new static `UseCase.architectureDiagramUrl` field** in Hygraph initially.
-                *   [ ] Resolve Technology display:
-                    *   Finding: Currently shows tech names per component.
-                    *   **Decision:** Display `UseCase.primaryTechnology` details. List `UseCase.relatedTechnologies`. Map component-specific tech via `UseCase.architecture.components { technologies { name } }` (requires Component->Technology relation).
-                    *   [ ] Map Nested Tabs Content:
-                        *   Implementation Details -> `UseCase.architecture.components { ... }`
-                        *   Deployment Flow -> `UseCase.architecture.flow { ... }`
-                        *   Examples/Patterns -> **New `UseCase.examples` field/model** needed.
-                        *   Learning Resources -> Map to `UseCase.documentation` (Rich Text/Markdown) or new field.
-    *   [ ] **2.2. Navbar (`Header.jsx`):**
-        *   [ ] Fetch `industries(select: {title, slug, useCases {title, slug}})` from Hygraph to populate dropdown. Consider filtering logic if needed. (Replaces filtered `constants/industry.js`).
-        *   **Decision:** Confirmed. Fetch required data.
-    *   [ ] **2.3. `/industries/:industrySlug` Page (`IndustryPage.jsx`):**
-        *   [ ] Re-evaluate necessity. Could `SolutionPage.jsx` handle everything if fetched directly via slugs?
-        *   **Decision:** Remove this page and component. Update Navbar/routing to link directly to use case pages (e.g., `/industries/:industrySlug/:firstUseCaseSlug`).
-    *   [ ] **2.4. `/industries` Overview Page (`IndustriesOverview.jsx`):**
-        *   [ ] Re-evaluate purpose. Keep/remove/modify?
-        *   **Decision:** Keep this page. Update to fetch `industries { title, slug, description, icon }` from Hygraph.
-
-**Phase 3: Develop Refactoring Strategy**
-
-*   **Goal:** Outline the steps to modify the frontend to use Hygraph data effectively.
-*   **Steps:**
-    *   [ ] **3.1. Plan Data Fetching:** Define necessary GraphQL queries (using slugs from URL params) for components identified in Phase 1 & 2.
-    *   [ ] **3.2. Plan Component Updates:** List components needing modification to use fetched Hygraph data instead of local/hardcoded data. Plan removal of old data sources.
-    *   [ ] **3.3. Plan Redundancy Removal:** Define the specific changes to eliminate duplicate technology displays.
-    *   [ ] **3.4. Plan Navigation Refinement:** Outline any changes to navbar, routing, or page structure based on Phase 2 decisions.
-    *   [ ] **3.5. Plan Content Mapping Implementation:** Detail how tab content (Documentation, Technical, etc.) will be rendered using the chosen Hygraph fields.
-
----
-```
-
-Now, to proceed with **Phase 1**, please provide the file paths for the components I listed (Navbar, Industry List, Industry Detail, Use Case Detail, GraphQL client/hooks, Router setup). Knowing these paths will allow me to start analyzing the code.
-
-# ... (keep existing content like Instructions, Tools, Lessons, other Scratchpad sections) ...
-
-# Scratchpad: Frontend Hygraph Integration Plan
-
-**Goal:** Understand the current frontend implementation for displaying industry and use case data, map it to our Hygraph models, and create a plan to refactor the frontend to use Hygraph as the primary data source, improving clarity and reducing redundancy.
-
-**Phase 1: Analyze Frontend Code (Understand the "As-Is")**
-
-*   **Goal:** Identify the key React components, data sources, and rendering logic for the industry/use case pages.
-*   **Steps:**
     *   [X] **1.1. Identify Core Components:** Located components:
         *   [X] Navbar: `src/components/layout/Navbar.jsx`
         *   [X] `/industries` page: `src/pages/IndustriesPage.jsx`
@@ -593,14 +492,45 @@ Now, to proceed with **Phase 1**, please provide the file paths for the componen
     *   [ ] **3.4. Plan Navigation Refinement:** Outline any changes to navbar links based on fetched data.
     *   [ ] **3.5. Plan Content Mapping Implementation:** Detail how tab content (Documentation, Technical) will be rendered using the chosen Hygraph fields (`architecture`, `implementation`).
 
----
+# Scratchpad: Use Case Page Consolidation
 
-```
+**Goal:** Enhance the primary Use Case page (`/industries/:industrySlug/:solutionSlug`, rendered by `src/features/industries/pages/SolutionPage.jsx`) by incorporating visual components (Tabs, ReactFlow) from the secondary view (`/technology/:slug/use-case/:useCaseSlug`, rendered by `src/pages/technology/TechnologyDetail.jsx`), while ensuring all data is fetched directly from Hygraph using the current schema.
 
-The `.cursorrules` file is now updated with the detailed Phase 2 mapping. Please review the **Confirmation Needed** points:
+**Target Component:** `src/features/industries/pages/SolutionPage.jsx`
 
-1.  **/industries/:industrySlug Page Tabs:** Static tabs ("Overview", "Use Cases") okay?
-2.  **Architecture Diagram:** Static URL in `UseCase.implementation` okay?
-3.  **UseCase Slug:** Add unique `slug` field to `UseCase` model okay?
+**Source of Components/Logic:** `src/pages/technology/TechnologyDetail.jsx`
 
-Once these are confirmed, we can proceed to **Phase 3: Develop Refactoring Strategy**, starting with defining the GraphQL queries needed.
+**Key Steps:**
+
+1.  **[X] Step 1: Update Hygraph Query in `SolutionPage.jsx`:**
+    *   Add `metrics`, `implementation`, and `architecture { flow }` fields to the `GetSolutionBySlug` query. (Applied, verified data loading).
+2.  **[X] Step 2: Add Tab Structure to `SolutionPage.jsx`:**
+    *   Import necessary components (`useState`, `AnimatePresence`, `motion`).
+    *   Add state hook: `const [activeTab, setActiveTab] = useState('architecture');`
+    *   Copy the Tab button rendering logic from `TechnologyDetail.jsx`. Place below the card layout.
+    *   Wrap the tab content area with `<AnimatePresence mode="wait">` and `<motion.div>`. (Applied).
+3.  **[X] Step 3: Implement Tab Content in `SolutionPage.jsx`:**
+    *   **[X] Architecture Tab:**
+        *   Import `ReactFlow`, `Background`, `Controls`, `MiniMap` and styles.
+        *   Copy/adapt the `createWorkflowDiagram` function from `TechnologyDetail.jsx`.
+        *   Render `<ReactFlow>` using `useCaseData.architecture.flow` data. (Applied).
+    *   **[X] Details Tab (New Name):**
+        *   Render the `useCaseData.implementation` JSON data (e.g., using `<pre><code>{JSON.stringify(useCaseData.implementation, null, 2)}</code></pre>`). (Applied).
+    *   **[X] Benefits Tab:**
+        *   Render the `useCaseData.metrics` array (e.g., as a list). (Applied).
+4.  **[->] Step 4: Styling and Refinement:**
+    *   **[ ] Fix Duplicate Import Error in `App.jsx`.**
+    *   [ ] Adjust styles for consistency.
+    *   [ ] Add loading/empty states for tab content if needed.
+5.  **[ ] Step 5: Deprecate Old Route (Optional Later):**
+    *   Consider removing or redirecting `/technology/:slug/use-case/:useCaseSlug`.
+
+**Data Mapping:**
+
+*   `TechnologyDetail.jsx` (`useCase.implementation.architecture.flow`) -> `SolutionPage.jsx` (`useCaseData.architecture.flow`)
+*   `TechnologyDetail.jsx` (`useCase.implementation.overview`) -> `SolutionPage.jsx` (`useCaseData.description` - already displayed)
+*   `TechnologyDetail.jsx` (`useCase.implementation.queries`) -> `SolutionPage.jsx` (`useCaseData.queries` - **Note:** `queries` field was removed from `SolutionPage` query, needs re-adding if desired in sidebar/cards)
+*   `TechnologyDetail.jsx` (`useCase.implementation.benefits`) -> `SolutionPage.jsx` (`useCaseData.metrics`)
+*   `TechnologyDetail.jsx` (Interactive Demo) -> `SolutionPage.jsx` (Static `useCaseData.implementation` JSON display)
+
+# ... (rest of the file) ...

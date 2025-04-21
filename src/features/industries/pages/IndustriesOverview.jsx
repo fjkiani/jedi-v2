@@ -6,14 +6,19 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { useTheme } from '@/context/ThemeContext';
 
-// Simplified query with only fields we know work
+// Query using the new 'relatedUseCases' relation field
 const GetAllIndustries = gql`
   query GetAllIndustries {
-    industries {
+    industries(stage: PUBLISHED, orderBy: name_ASC) {
       id
       slug
       name
-      sections
+      # Fetch slug along with id and title for linking
+      relatedUseCases(first: 3) {
+        id
+        title
+        slug # <-- Add slug here
+      }
     }
   }
 `;
@@ -28,7 +33,7 @@ const IndustriesOverview = () => {
     const fetchIndustries = async () => {
       setLoading(true);
       setError(null);
-      console.log("[IndustriesOverview] Fetching all industries...");
+      console.log("[IndustriesOverview] Fetching all industries with related use cases...");
       try {
         const data = await hygraphClient.request(GetAllIndustries);
         console.log("[IndustriesOverview] Raw data received:", data);
@@ -48,7 +53,7 @@ const IndustriesOverview = () => {
     };
 
     fetchIndustries();
-  }, []); // Empty dependency array means fetch once on mount
+  }, []);
 
   if (loading) {
     return (
@@ -68,85 +73,60 @@ const IndustriesOverview = () => {
   }
 
   return (
-    <Section className="overflow-hidden pt-12 pb-12">
-      <div className="container">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className={`h1 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Industries Overview</h1>
-          <p className="body-1 text-n-3 md:max-w-[571px] mx-auto">
-            Explore how our AI solutions transform different industries
+    <Section className="pt-[12rem] -mt-[5.25rem]" crosses crossesOffset="lg:translate-y-[5.25rem]" customPaddings id="industries">
+      <div className="container relative">
+        <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
+          <h1 className="h1 mb-6">
+            Industries Overview
+          </h1>
+          {/* Update introductory text */}
+          <p className="body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8">
+            Jedi Labs drives breakthrough innovation across diverse sectors. Explore our tailored AI solutions impacting key industries:
           </p>
         </div>
 
-        {/* Industries List - Map over fetched data */}
-        <div className="grid gap-8">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {industries.map((industry) => (
             <div
               key={industry.id}
-              className={`p-8 rounded-2xl ${isDarkMode ? 'bg-n-7' : 'bg-white'}
-                border ${isDarkMode ? 'border-n-6' : 'border-n-3'}
-                transition-colors duration-200`}
+              className={`block relative p-0.5 rounded-2xl transition-colors duration-300 ${
+                isDarkMode ? 'bg-gradient-to-r from-color-7 to-color-8 hover:bg-gradient-to-r hover:from-color-8 hover:to-color-7' : 'bg-gradient-to-r from-color-1/70 to-color-3/70 hover:from-color-3/70 hover:to-color-1/70'
+              }`}
             >
-              <div className="flex flex-col sm:flex-row items-start gap-6">
-                {/* Icon - Use a default icon since we don't have icon field */}
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br from-primary-1 to-primary-2
-                  flex items-center justify-center flex-shrink-0
-                  transform hover:scale-105 transition-transform duration-200`}>
-                  {/* Use a default icon based on industry name or slug */}
-                  <Icon 
-                    name={
-                      industry.slug === 'healthcare' ? 'heart' :
-                      industry.slug === 'financial' || industry.slug === 'financial-services' ? 'chart-bar' :
-                      industry.slug === 'technology' ? 'chip' : 'tag'
-                    } 
-                    className="w-8 h-8 text-n-1" 
-                  />
-                </div>
-
-                <div className="flex-grow">
-                  {/* Title */}
-                  <h3 className={`h3 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    {industry.name}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="body-2 text-n-3 mb-6">
-                    {industry.description || "No description available."}
-                  </p>
-
-                  {/* Display sections if available */}
-                  {industry.sections && industry.sections.length > 0 && (
-                    <div className="mb-6">
-                      <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-n-2' : 'text-n-5'}`}>
-                        Key Focus Areas:
-                      </h4>
-                      <div className="grid sm:grid-cols-2 gap-x-4 gap-y-2">
-                        {industry.sections.map((section, idx) => (
-                          <div key={idx} className="flex items-center gap-3">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary-1 flex-shrink-0" />
-                            <span className={`text-sm ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
-                              {/* Format section name for display */}
-                              {section
-                                .split('-')
-                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                .join(' ')}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Learn More */}
-                  <Link
-                    to={`/industries/${industry.slug}`}
-                    className="button button-primary mt-4 inline-flex"
-                  >
-                    Learn More
-                    <Icon name="arrow-right" className="w-4 h-4 ml-2" />
-                  </Link>
-                </div>
+              <div className={`relative z-2 flex flex-col min-h-[22rem] p-[2.4rem] pointer-events-none rounded-2xl ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+                <h5 className={`h5 mb-5 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{industry.name}</h5>
+                {/* Check if relatedUseCases exist and have items */}
+                {industry.relatedUseCases && industry.relatedUseCases.length > 0 && (
+                  <div className="mt-auto">
+                    <p className={`body-2 mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Example Use Cases:</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      {industry.relatedUseCases.map((useCase) => (
+                        <li key={useCase.id} className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                          {/* Make the use case title a link */}
+                          <Link
+                            to={`/industries/${industry.slug}/${useCase.slug}`}
+                            className={`pointer-events-auto hover:text-color-1 transition-colors ${isDarkMode ? 'text-n-3 hover:text-color-4' : 'text-n-6 hover:text-color-1'}`}
+                          >
+                            {useCase.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {/* Fallback if no use cases */}
+                {(!industry.relatedUseCases || industry.relatedUseCases.length === 0) && (
+                   <p className={`body-2 mt-auto ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                     More use cases coming soon.
+                   </p>
+                )}
               </div>
+              {/* Keep the "Learn More" link pointing to the industry detail page */}
+              <Link
+                to={`/industries/${industry.slug}`}
+                className="absolute inset-0 z-10 rounded-2xl" // Clickable overlay link
+                aria-label={`Learn more about ${industry.name}`}
+              />
             </div>
           ))}
         </div>

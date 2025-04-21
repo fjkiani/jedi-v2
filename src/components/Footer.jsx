@@ -4,30 +4,55 @@ import Section from "./Section";
 import { socials, navigation } from "../constants";
 import { logo } from "../assets";
 
-const FooterColumn = ({ title, items }) => (
+const FooterColumn = ({ title, items = [] }) => (
   <div className="flex flex-col gap-4">
     <h5 className="text-n-1 font-semibold">{title}</h5>
-    <ul className="flex flex-col gap-3">
-      {items.map((item, index) => (
-        <li key={index}>
-          {item.description ? (
-            <div className="flex items-center gap-2">
-              <span className="text-n-4/75 cursor-not-allowed">{item.title}</span>
-              <span className="text-[0.625rem] px-2 py-0.5 bg-primary-1/10 text-primary-1 rounded-full whitespace-nowrap">
-                Coming Soon
-              </span>
-            </div>
-          ) : (
-            <Link 
-              to={item.url} 
-              className="text-n-4 hover:text-n-1 transition-colors"
-            >
-              {item.title}
-            </Link>
-          )}
-        </li>
-      ))}
-    </ul>
+    {items && items.length > 0 ? (
+      <ul className="flex flex-col gap-3">
+        {items.map((item, index) => (
+          <li key={index}>
+            {item.description ? (
+              <div className="flex items-center gap-2">
+                <span className="text-n-4/75 cursor-not-allowed">{item.title}</span>
+                <span className="text-[0.625rem] px-2 py-0.5 bg-primary-1/10 text-primary-1 rounded-full whitespace-nowrap">
+                  Coming Soon
+                </span>
+              </div>
+            ) : (
+              <div>
+                <Link 
+                  to={item.url} 
+                  className="text-n-4 hover:text-n-1 transition-colors"
+                >
+                  {item.title}
+                </Link>
+                {item.useCases && item.useCases.length > 0 && (
+                  <ul className="ml-4 mt-2 space-y-2">
+                    {item.useCases.map((useCase, useCaseIndex) => (
+                      <li key={useCaseIndex}>
+                        <Link
+                          to={useCase.url}
+                          className="text-n-4 hover:text-n-1 transition-colors text-sm"
+                        >
+                          {useCase.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <Link 
+        to={`/${title.toLowerCase()}`} 
+        className="text-n-4 hover:text-n-1 transition-colors"
+      >
+        {title}
+      </Link>
+    )}
   </div>
 );
 

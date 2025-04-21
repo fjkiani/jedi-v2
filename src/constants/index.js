@@ -72,69 +72,22 @@ export const navigation = [
     ]
   },
   {
-    id: "1",
+    id: "technology",
     title: "Technology",
     url: "/technology",
-    dropdownItems: [
-      {
-        title: "AI Platforms",
-        items: [
-          { title: "OpenAI", url: "/technology/openai" },
-          { title: "LangChain", url: "/technology/langchain" },
-          { title: "Hugging Face", url: "/technology/huggingface" }
-        ]
-      },
-      {
-        title: "Data & Infrastructure",
-        items: [
-          { title: "Pinecone", url: "/technology/pinecone" },
-          { title: "Weaviate", url: "/technology/weaviate" },
-          { title: "Kubernetes", description: "Coming Soon" }
-        ]
-      }
-    ]
   },
   {
-    id: "2",
+    id: "industries",
     title: "Industries",
     url: "/industries",
-    dropdownItems: [
-      {
-        title: "Financial Services",
-        url: "/industries/financial",
-        useCases: [
-          { title: "Fraud Detection", url: "/industries/financial/fraud-detection" },
-          { title: "Risk Analysis", url: "/industries/financial/risk-analysis" }
-        ]
-      },
-      {
-        title: "Healthcare",
-        url: "/industries/healthcare",
-        useCases: [
-          { title: "Disease Prediction", url: "/industries/healthcare/disease-prediction" },
-          { title: "Patient Care", url: "/industries/healthcare/patient-care" }
-        ]
-      },
-      {
-        title: "Manufacturing & Industry 4.0",
-        description: "Coming Soon"
-      },
-      {
-        title: "Retail & E-commerce",
-        description: "Coming Soon"
-      },
-      {
-        title: "Energy & Utilities",
-        description: "Coming Soon"
-      },
-      {
-        title: "Insurance",
-        description: "Coming Soon"
-      }
-    ]
   },
   {
-    id: "3",
+    id: "use-cases",
+    title: "Use Cases",
+    url: "#",
+  },
+  {
+    id: "company",
     title: "Company",
     url: "#",
     dropdownItems: [
@@ -145,7 +98,7 @@ export const navigation = [
     ]
   },
   {
-    id: "4",
+    id: "resources",
     title: "Resources",
     url: "#",
     dropdownItems: [
