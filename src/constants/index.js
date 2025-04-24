@@ -84,7 +84,7 @@ export const navigation = [
   {
     id: "use-cases",
     title: "Use Cases",
-    url: "#",
+    url: "/usecases",
   },
   {
     id: "company",

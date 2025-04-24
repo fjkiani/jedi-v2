@@ -49,6 +49,7 @@ import TechStackDetail from './pages/technology/TechStackDetail';
 import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
 import { TestSEO } from '@/components/SEO/TestSEO';
+import UseCasesPage from './pages/UseCasesPage';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -218,13 +219,13 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 } 
               />
 
-              <Route
-                path="/industries/*"
+              <Route 
+                path="/industries/*" 
                 element={
                   <PageTransition>
                     <IndustryRoutes />
                   </PageTransition>
-                }
+                } 
               />
 
               <Route path="/tech-test" element={<TechStackTest />} />
@@ -269,6 +270,15 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <ContactUs />
                   </PageTransition>
                 } 
+              />
+
+              <Route
+                path="/usecases"
+                element={
+                  <PageTransition>
+                    <UseCasesPage />
+                  </PageTransition>
+                }
               />
             </Routes>
           </AnimatePresence>

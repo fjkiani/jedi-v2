@@ -16,10 +16,8 @@ import { hygraphClient } from '@/lib/hygraph';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { FiCopy, FiCheck } from 'react-icons/fi'; // Keep FiCheck if used elsewhere
-
-// Import the logo image
 import jediLabsLogo from '@/assets/logo/logo.png'; // Adjust path relative to src if needed
+
 
 const GetUseCaseDetail = gql`
   query GetUseCaseDetail($slug: String!) {
@@ -205,7 +203,7 @@ const SolutionPage = () => {
     setExpandedComponentId(currentId => (currentId === componentId ? null : componentId));
   };
 
-  // Re-add handleCopy function
+  // Handle copy confirmation
   const handleCopy = (key) => {
     setCopiedStates(prev => ({ ...prev, [key]: true }));
     setTimeout(() => {
@@ -247,54 +245,62 @@ const SolutionPage = () => {
 
     // Helper for code/config sections
     const renderCodeSection = (key, title, lang, isConfig = false) => {
-       if (implementationData[key]) {
-         renderedKeys.add(key);
-         if (isConfig) renderedKeys.add('language'); // Mark language if it's the main code snippet
-         const content = typeof implementationData[key] === 'object'
-           ? JSON.stringify(implementationData[key], null, 2)
-           : String(implementationData[key]);
-         return (
-           <div>
-             <h5 className="h6 mb-2 text-n-2">{title}</h5>
-             <div className="relative bg-n-9 rounded-lg border border-n-6 group text-sm">
-               <SyntaxHighlighter language={lang} style={vscDarkPlus} customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '0.875rem' }} wrapLongLines={true}>
-                 {content}
-               </SyntaxHighlighter>
-               <CopyToClipboard text={content} onCopy={() => handleCopy(key)}>
-                 <button className="absolute top-2 right-2 p-1.5 bg-n-7 rounded text-n-4 hover:text-primary-1 opacity-50 group-hover:opacity-100 transition-opacity">
-                   {copiedStates[key] ? <FiCheck size={14} className="text-green-400"/> : <FiCopy size={14} />}
-                 </button>
-               </CopyToClipboard>
-             </div>
-           </div>
-         );
-       }
-       return null;
-     };
+      if (implementationData[key]) {
+        renderedKeys.add(key);
+        if (isConfig) renderedKeys.add('language'); // Mark language if it's the main code snippet
+        const content = typeof implementationData[key] === 'object'
+          ? JSON.stringify(implementationData[key], null, 2)
+          : String(implementationData[key]);
+        return (
+          <div>
+            <h5 className="h6 mb-2 text-n-2">{title}</h5>
+            <div className="relative bg-n-9 rounded-lg border border-n-6 group text-sm">
+              <SyntaxHighlighter language={lang} style={vscDarkPlus} customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '0.875rem' }} wrapLongLines={true}>
+                {content}
+              </SyntaxHighlighter>
+              <CopyToClipboard text={content} onCopy={() => handleCopy(key)}>
+                <button className="absolute top-2 right-2 p-1.5 bg-n-7 rounded text-n-4 hover:text-primary-1 opacity-50 group-hover:opacity-100 transition-opacity">
+                  {copiedStates[key] ? <FiCheck size={14} className="text-green-400"/> : <FiCopy size={14} />}
+                </button>
+              </CopyToClipboard>
+            </div>
+          </div>
+        );
+      }
+      return null;
+    };
+
 
     return (
       <div className="space-y-8">
 
         {/* --- Standard Sections --- */}
         {renderCodeSection('codeSnippet', 'Example Code Snippet', codeLang, true)}
-        {/* Setup Instructions (can be array or string) */}
+        {/* Setup Instructions */}
         {implementationData.setupInstructions && (() => {
           renderedKeys.add('setupInstructions');
           return (
             <div>
-              <h5 className="h6 mb-3 text-n-2 flex items-center"><FiList className="mr-2 text-primary-1/80" size={16}/>Setup Instructions</h5>
+              <h5 className="h6 mb-2 text-n-2">Setup Instructions</h5>
               <div className="p-4 bg-n-7 rounded-lg border border-n-6 text-sm text-n-3">
                 {Array.isArray(implementationData.setupInstructions) ? (
-                  <ol className="list-decimal list-inside space-y-1.5">
-                    {implementationData.setupInstructions.map((step, index) => <li key={index}>{step}</li>)}
+                  <ol className="list-decimal list-inside space-y-1">
+                    {implementationData.setupInstructions.map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
                   </ol>
-                ) : ( <p className="whitespace-pre-wrap">{String(implementationData.setupInstructions)}</p> )}
+                ) : (
+                  // Treat as single block of text if not an array
+                  <p className="whitespace-pre-wrap">{String(implementationData.setupInstructions)}</p>
+                )}
               </div>
-            </div> );
+            </div>
+          );
         })()}
         {renderListSection('dependencies', 'Dependencies', FiGitBranch)}
         {renderCodeSection('configuration', 'Configuration', 'json')}
         {renderListSection('apiEndpoints', 'API Endpoints', FiZap)}
+        {renderListSection('requirements', 'Requirements', FiCheckCircle)}
 
         {/* --- Jedi Labs Role Section --- */}
         <div className="p-6 bg-gradient-to-br from-n-7 to-n-8 rounded-lg border border-n-6 shadow-lg">
@@ -326,10 +332,8 @@ const SolutionPage = () => {
            </ul>
         </div>
 
-        {/* --- Custom Visualizations --- */}
 
-        {/* Requirements (List with Icon) */}
-        {renderListSection('requirements', 'Requirements', FiCheckCircle)}
+        {/* --- Custom Visualizations --- */}
 
         {/* Integration Points (Diagram - Modified) */}
         {implementationData.integration_points && Array.isArray(implementationData.integration_points) && implementationData.integration_points.length > 0 && (() => {
@@ -365,13 +369,12 @@ const SolutionPage = () => {
         {/* Success Metrics (Cards/Badges) */}
         {implementationData.success_metrics && Array.isArray(implementationData.success_metrics) && implementationData.success_metrics.length > 0 && (() => {
           renderedKeys.add('success_metrics');
-          // Simple icon mapping based on keywords
           const getMetricIcon = (metric) => {
-            const lowerMetric = metric.toLowerCase();
-            if (lowerMetric.includes('time') || lowerMetric.includes('speed')) return FiClock;
-            if (lowerMetric.includes('accura') || lowerMetric.includes('quality')) return FiTarget;
-            if (lowerMetric.includes('rate') || lowerMetric.includes('coverage') || lowerMetric.includes('complete')) return FiTrendingUp;
-            return FiCheckCircle; // Default
+            if (metric.includes('Increase')) return FiTrendingUp;
+            if (metric.includes('Efficiency')) return FiClock;
+            if (metric.includes('Accuracy')) return FiCheckCircle;
+            if (metric.includes('Satisfaction')) return FiMessageSquare;
+            return FiStar;
           };
           return (
             <div>
@@ -396,12 +399,12 @@ const SolutionPage = () => {
         {Object.entries(implementationData)
           .filter(([key]) => !renderedKeys.has(key))
           .map(([key, value]) => (
-             renderListSection(key, key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())) // Use list section as default fallback
+             renderListSection(key, key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()))
         ))}
 
         {/* --- Call to Action --- */}
         <div className="mt-10 pt-6 border-t border-n-6 text-center">
-           <h5 className="h5 mb-4 text-n-1">Ready to Automate with Jedi Labs?</h5>
+           <h5 className="h5 mb-4 text-n-1">Ready to Automate with Jedi Labs?</h5> {/* Updated CTA Title */}
            <p className="body-2 text-n-4 mb-6 max-w-md mx-auto">
              Let our experts tailor this solution and implement our powerful automation platform for your specific needs.
            </p>
@@ -672,3 +675,5 @@ const SolutionPage = () => {
 };
 
 export default SolutionPage;
+
+
