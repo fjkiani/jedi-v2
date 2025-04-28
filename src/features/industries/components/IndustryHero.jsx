@@ -4,8 +4,8 @@ import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import { Link } from 'react-router-dom';
 
-const IndustryHero = ({ industry }) => {
-  if (!industry) {
+const IndustryHero = ({ industryName, industryDescription }) => {
+  if (!industryName) {
     return null;
   }
 
@@ -16,7 +16,7 @@ const IndustryHero = ({ industry }) => {
         <div className="text-n-3 mb-6 flex items-center gap-2">
           <Link to="/industries" className="hover:text-n-1">Industries</Link>
           <Icon name="arrow-right" className="w-4 h-4" />
-          <span className="text-n-1">{industry.name}</span>
+          <span className="text-n-1">{industryName}</span>
         </div>
 
         <motion.h1
@@ -24,8 +24,19 @@ const IndustryHero = ({ industry }) => {
           animate={{ opacity: 1, y: 0 }}
           className="h1 mb-6"
         >
-          {industry.name}
+          {industryName}
         </motion.h1>
+
+        {industryDescription && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="body-1 max-w-3xl text-n-2"
+          >
+            {industryDescription}
+          </motion.p>
+        )}
       </div>
     </Section>
   );

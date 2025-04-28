@@ -196,57 +196,79 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 ---
 
 ## Phase 1: Content & Navigation Foundation (Completed)
-*   [✅] Set up Hygraph schema & initial content migration.
-*   [✅] Refactor core pages (Industries, Use Cases) to use Hygraph data.
+*   [✅] Set up Hygraph schema & initial content migration (`industries.py` created basic entries).
+*   [✅] Refactor core pages (Industries Overview, Use Cases) to use Hygraph data.
 *   [✅] Enhance `/industries` overview page.
-*   [✅] Implement dynamic Header navigation (Industries, Use Cases, simplified Technology Subcategories) fetching data from Hygraph.
+*   [✅] Implement dynamic Header navigation.
+*   [✅] Create dedicated `/usecases` page with dynamic data & grid layout.
 
 ---
 
-## Phase 2: Technology Integration & Component Reuse (Current Focus)
+## Phase 2: Industry & Technology Deep Dive (Current Focus)
 
-*   **Goal:** Build out the Technology section, reuse existing UI patterns effectively, and improve Use Case presentation.
+*   **Goal:** Populate individual Industry pages with rich content, build out the Technology section, and reuse UI components effectively.
 *   **Steps:**
-    *   [->] **2.1. Create Technology Landing Page (`/technology`):**
-        *   [ ] **Sub-Step 1:** Design page layout to display Technology Subcategories.
-        *   [ ] **Sub-Step 2:** Create/Enhance component for `/technology` route.
-        *   [ ] **Sub-Step 3:** Fetch `TechnologySubcategories` (name, slug, description, features - *Requires content population in 2.3*).
-        *   [ ] **Sub-Step 4:** Display subcategories with `id={slug}` for anchor links from Header.
-        *   [ ] **Sub-Step 5:** (Optional) Display related `Technologies` or `UseCases` under each subcategory.
-    *   [ ] **2.2. Adapt Reusable UI Components:**
-        *   [ ] **Sub-Step 1:** Review old components (e.g., `IndustryHero`, `IndustrySolutionCard`) for useful UI patterns (tabs, detailed cards, grids).
-        *   [ ] **Sub-Step 2:** Adapt chosen patterns into reusable components that accept Hygraph data as props.
-        *   [ ] **Sub-Step 3:** Integrate these adapted components where appropriate (e.g., on `/technology` page, potentially enhancing `/industries` or Use Case pages later).
-    *   [ ] **2.3. Enhance Content in Hygraph (Ongoing - Supports 2.1 & future phases):**
-        *   [ ] **Sub-Step 1:** Add descriptive content (`description`, `features`) to `TechnologySubcategory` records.
-        *   [ ] **Sub-Step 2:** Add more `UseCase` details (metrics, implementation). Link to `Industry`/`Technology`.
-        *   [ ] **Sub-Step 3:** Decide Architecture display location & link records.
-        *   [ ] **Sub-Step 4:** Ensure all new/updated content is **Published**.
-    *   [ ] **2.4. (Future - Part of Phase 3) Enhance Use Case Presentation:**
-        *   [ ] Create dedicated `/use-cases` landing page.
+    *   [->] **2.1: Enhance Individual Industry Pages (`/industries/:slug`)**
+        *   **Goal:** Populate individual industry pages with rich, dynamic content from Hygraph, using a tabbed interface.
+        *   [✅] **Sub-Step 1: Hygraph Schema Modification (Manual/Verified)**
+            *   [✅] Review/Add fields to `Industry` model (`description`, `fullDescription`, `benefits`, `capabilities`, `keyFeaturesJson`, `statisticsJson`, `industryApplication` relation).
+            *   [✅] Review/Add `IndustryApplication` model and `JediComponent` model.
+        *   [✅] **Sub-Step 2: Frontend Integration (`IndustryPage.jsx`)**
+            *   [✅] Update `GET_INDUSTRY_DETAIL_WITH_APPLICATIONS` query to fetch `Industry` details and related `industryApplication`s.
+            *   [✅] Implement tabbed layout using `TabsRoot` and `TabPanel` components.
+            *   [✅] Render `OverviewTab` component for the "Overview" panel, passing fetched `industryData`.
+            *   [✅] Render linked `industryApplication` data in the "Our Approach" panel.
+            *   [✅] Resolve issues with tab switching logic and component hierarchy (missing `Tab.Group` parent).
+        *   [->] **Sub-Step 3: Content Population (`IndustryApplication` - Immediate)**
+            *   [ ] Populate `IndustryApplication` entries in Hygraph with real content (replace placeholders).
+            *   [X] **Publish** the populated `IndustryApplication` entries. (Issue resolved - approach tab now shows data).
+            *   **Focus:** Update the placeholder text within the published `IndustryApplication` entries in Hygraph (e.g., for "Accelerating Drug Target Identification") with the actual, detailed content.
+            *   **Content Plan (`Accelerating Drug Target Identification`):**
+                *   `industryChallenge`: Detail high costs, long timelines, high failure rates, data volume issues, and limitations of traditional drug target ID methods.
+                *   `jediApproach`: Explain how `ProteinBind` (in silico screening) and `JEDI Ensemble™` (data analysis, pathway identification) address the challenge, highlighting speed, cost reduction, and de-risking. Link the `ProteinBind` and `JEDI Ensemble™` components via the relation field.
+            *   **Action:** Edit content directly in Hygraph UI and re-publish, or update & run the `populate_industry_applications.py` script.
+            *   **Component Reuse Consideration:** Evaluate the current layout of the "Our Approach" tab. If needed, consider creating a dedicated `IndustryApplicationCard.jsx` component and potentially reusing tag/pill styling for linked Jedi Components. Populate content first, then decide on layout refactoring.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [ ] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [ ] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [ ] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+    *   [ ] **2.2. Create Technology Landing Page (`/technology`):** (Moved after Industry details)
+        *   [ ] Design page layout.
+        *   [ ] Create/Enhance component.
+        *   [ ] Fetch `TechnologySubcategories`.
+        *   [ ] Display subcategories.
+    *   [ ] **2.3. Adapt Reusable UI Components:** (Parallel/Later)
+        *   [ ] Review/Adapt patterns.
+        *   [ ] Integrate where needed.
+    *   [ ] **2.4. Enhance Content in Hygraph (Ongoing):**
+        *   [ ] Add descriptions/features to `TechnologySubcategory`.
+        *   [ ] Add more `UseCase` details (metrics, implementation, challenge, solution, results, icon).
+        *   [ ] Link Architectures.
+        *   [ ] Ensure all content is Published.
+    *   [ ] **2.5. (Future) Enhance Use Case Presentation:**
         *   [ ] Improve architecture display.
-        *   [ ] Add filtering.
+        *   [ ] Add filtering/sorting to `/usecases`.
+        *   [ ] Display more fields on Use Case pages/cards.
 
 ---
 
 ## Phase 3: Content Expansion & Landing Page (Future)
-
-*   **Goal:** Significantly expand content depth and revamp the homepage.
-*   **Steps:**
-    *   [ ] **3.1. Create More Use Cases:** Use Python scripts/Hygraph UI to add more examples, ensuring links.
-    *   [ ] **3.2. Update Landing Page (`/`):** Redesign with clear messaging, featured content, CTAs.
-    *   [ ] **3.3. Add Architecture Visualization:** Implement based on decision in 2.3.
+*   [ ] Add more Use Cases via script/UI.
+*   [ ] Redesign Landing Page.
+*   [ ] Add Architecture Visualization.
 
 ---
 
 ## Phase 4: Polish & Optimization (Future)
-
-*   **Goal:** Refine the user experience, ensure consistency, and optimize performance.
-*   **Steps:**
-    *   [ ] **4.1. Visual Consistency & Styling:** Ensure consistent styling, dark/light modes, responsiveness.
-    *   [ ] **4.2. Performance Optimization:** Caching, image optimization, loading states, error handling.
-    *   [ ] **4.3. SEO & Analytics:** Sitemap, metadata, analytics integration.
-    *   [ ] **4.4. Code Cleanup:** Remove unused constants (`navigation` source, `industries.js`, etc.), refactor.
+*   [ ] Visual Consistency & Styling.
+*   [ ] Performance Optimization.
+*   [ ] SEO & Analytics.
+*   [ ] Code Cleanup.
 
 ---
 
@@ -255,16 +277,20 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 *   Completed foundational setup and refactoring.
 *   Implemented dynamic navigation using Hygraph data.
 *   Enhanced the `/industries` overview page.
-*   Defined a phased roadmap focusing on Technology integration, component reuse, content expansion, and polish.
+*   Created the dedicated `/usecases` page with dynamic data.
+*   **Successfully implemented the tabbed interface (`TabsRoot`, `TabPanel`) on the individual `IndustryPage.jsx`.**
+*   **Integrated `OverviewTab.jsx` for the "Overview" panel.**
+*   **Resolved the issue where the "Our Approach" tab appeared empty by ensuring linked `IndustryApplication` entries were PUBLISHED in Hygraph.**
+*   **The "Our Approach" tab now correctly displays data fetched from linked `IndustryApplication` records.**
 
 **Next Step:**
 
-*   [->] **Execute Step 2.1: Create Technology Landing Page (`/technology`)**. This requires parallel effort on **Step 2.3 (Enhance Content)** to ensure `TechnologySubcategory` records have descriptions/features to display. Let's start by designing the page layout and creating the basic component structure.
+*   [->] **Execute Step 2.1, Sub-Step 3: Populate `IndustryApplication` Content.** Update the placeholder text within the published `IndustryApplication` entries in Hygraph (e.g., for "Accelerating Drug Target Identification") with the actual, detailed content for the "The Challenge" and "The Jedi Approach" sections. Re-publish if necessary. (See detailed plan within Sub-Step 3 above).
 
 ---
 # Scratchpad: Component Refactoring Notes
 
-**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.3):**
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
 
 *   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
 *   `src/constants/industries.js`: Likely obsolete.
@@ -287,3 +313,1054 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 *   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
 *   `src/components/Button.jsx`: Standard button.
 *   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [ ] Test individual industry pages (`/industries/:slug`) thoroughly.
+            *   [ ] Verify all content displays correctly in both tabs.
+            *   [ ] Debug any remaining layout or data issues.
+
+---
+# Scratchpad: Component Refactoring Notes
+
+**Potentially Unused Components/Constants (Review during Cleanup - Phase 4.4):**
+
+*   Source file for `navigation` constant (Industry list part) - To be cleaned after identification.
+*   `src/constants/industries.js`: Likely obsolete.
+*   `src/constants/categoryIcons.js`: Likely unused.
+*   `src/constants/implementations/`: Likely unused.
+*   `src/constants/registry/`: Likely unused.
+*   UI Patterns from old `IndustryHero` (Tabs?) / `IndustrySolutionCard` (Detailed lists?) - Check if needed elsewhere.
+
+**Reusable Components / Patterns (Confirmed):**
+
+*   `src/components/Header.jsx`: Main site header.
+    *   `DropdownMenu` / `MobileMenu`: Handle complex nested navigation rendering.
+    *   `ThemeToggle`: Theme switching logic.
+*   `src/components/Section.jsx`: Layout wrapper.
+*   `src/components/Icon.jsx`: SVG icons.
+*   `src/lib/hygraph.js`: GraphQL client.
+*   `src/features/industries/pages/IndustriesOverview.jsx`: Pattern for listing items with cards.
+*   `src/features/industries/components/IndustryHero.jsx`: Simple page hero.
+*   `src/features/industries/components/IndustrySolutions.jsx`: Pattern for fetching/displaying related items.
+*   `src/features/industries/components/IndustrySolutionCard.jsx`: Simple link card.
+*   `src/components/Button.jsx`: Standard button.
+*   `src/components/transitions/PageTransition.jsx`: Page animations.
+
+---
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   [ ] Refine content as needed.
+        *   [ ] **Sub-Step 4: Content Population (`Industry` Details - Next)**
+            *   [ ] Create `populate_industry_details.py` script.
+            *   [✅] Define `INDUSTRY_DETAILS` data structure (or load from JSON) with rich content for `Industry` fields (benefits, capabilities, features, stats, `fullDescription`).
+            *   [✅] Implement script logic (fetch ID, `updateIndustry`, `publishIndustry`).
+            *   [✅] Run script to populate `Industry` data.
+        *   [ ] **Sub-Step 5: Testing & Refinement**
+            *   [

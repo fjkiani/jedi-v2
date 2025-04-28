@@ -468,10 +468,10 @@ const SolutionPage = () => {
 
             <div className="bg-n-8 rounded-xl p-4 md:p-6 border border-n-6 min-h-[400px]">
               <AnimatePresence mode="wait">
-                <motion.div
+            <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -664,7 +664,7 @@ const SolutionPage = () => {
                       )}
                     </div>
                   )}
-                </motion.div>
+            </motion.div>
               </AnimatePresence>
             </div>
           </div>

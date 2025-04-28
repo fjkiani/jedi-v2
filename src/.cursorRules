@@ -533,4 +533,108 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 *   `TechnologyDetail.jsx` (`useCase.implementation.benefits`) -> `SolutionPage.jsx` (`useCaseData.metrics`)
 *   `TechnologyDetail.jsx` (Interactive Demo) -> `SolutionPage.jsx` (Static `useCaseData.implementation` JSON display)
 
-# ... (rest of the file) ...
+# Scratchpad: Enhanced Industry Page Strategy (NEW PLAN)
+
+**Goal:** Refactor Industry pages (`/industries/:slug`) to showcase Jedi Labs' unique value proposition by detailing *how* its proprietary AI stack and components solve specific industry challenges, moving away from generic descriptions.
+
+**New Hygraph Models:**
+
+1.  **`JediComponent` Model:**
+    *   **Purpose:** Central repository for defining core proprietary JEDI™ components and products (e.g., JEDI Ensemble™, ProteinBind, JEDI Rules™). Allows for consistent naming, description, and categorization.
+    *   **Key Fields:**
+        *   `name`
+            *   **Type:** Single line text
+            *   **Config:** Required, Unique
+            *   **Description:** The display name of the component (e.g., "JEDI Ensemble™").
+        *   `slug`
+            *   **Type:** Slug
+            *   **Config:** Required, Unique, Generate from `name` field.
+            *   **Description:** URL-friendly identifier.
+        *   `parentEngine`
+            *   **Type:** Single line text (or Text Select with allowed values)
+            *   **Config:** Required.
+            *   **Description:** Categorizes the component under its main engine/area. 
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration", "Core Product", "Application Area".
+        *   `tagline`
+            *   **Type:** Single line text
+            *   **Config:** Optional.
+            *   **Description:** A concise summary or value statement (e.g., "Advanced ML fusion for superior predictive power").
+        *   `description`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Detailed explanation of what the component does, its purpose, and its core value proposition.
+        *   `implementationHighlights`
+            *   **Type:** Rich Text
+            *   **Config:** Optional.
+            *   **Description:** Briefly mention key underlying technologies or frameworks (e.g., TensorFlow, PyTorch, Drools, KubeFlow) for context, without excessive technical jargon.
+        *   `icon`
+            *   **Type:** Asset Picker (Images only)
+            *   **Config:** Optional.
+            *   **Description:** A visual icon representing the component.
+
+2.  **`IndustryApplication` Model:**
+    *   **Purpose:** Bridges the gap between broad industry challenges and specific Jedi Labs solutions. Explains *how* Jedi technology is applied in a particular industry context.
+    *   **Key Fields:**
+        *   `industry`
+            *   **Type:** Relation (One-to-Many from Industry's perspective)
+            *   **Config:** Required. Connects to the `Industry` model.
+            *   **Description:** The specific industry this application pertains to.
+        *   `applicationTitle`
+            *   **Type:** Single line text
+            *   **Config:** Required.
+            *   **Description:** A clear title for the specific solution/application being described (e.g., "Accelerating Drug Target Identification", "Real-time Fraud Detection").
+        *   `relevantEngine`
+            *   **Type:** Single line text (or Text Select)
+            *   **Config:** Required.
+            *   **Description:** The primary Jedi Engine most relevant to this application.
+            *   **Suggested Values:** "AI Analysis Engine", "Decision Engine", "Data Collection & Integration".
+        *   `industryChallenge`
+            *   **Type:** Rich Text
+            *   **Config:** Required.
+            *   **Description:** Describe the specific problem, pain point, or opportunity within the target industry that this application addresses.
+        *   `jediApproach`
+            *   **Type:** Rich Text
+            *   **Config:** Required. **(Crucial Field)**
+            *   **Description:** Explain *how* the specified `relevantEngine` and specific `JediComponent`s are used together to solve the `industryChallenge`. Detail the methodology and highlight the unique value Jedi Labs brings.
+        *   `relevantJediComponents`
+            *   **Type:** Relation (Many-to-Many)
+            *   **Config:** Optional. Connects to the `JediComponent` model.
+            *   **Description:** Links to the specific JEDI™ components mentioned in the `jediApproach`.
+        *   `keyTechnologies`
+            *   **Type:** Relation (Many-to-Many)
+            *   **Config:** Optional. Connects to the `Technology` model.
+            *   **Description:** Links to general underlying technologies (e.g., Deep Learning, NLP) used in this application.
+        *   `relatedUseCases`
+            *   **Type:** Relation (Many-to-Many)
+            *   **Config:** Optional. Connects to the `UseCase` model.
+            *   **Description:** Links to detailed, specific examples or case studies related to this application.
+
+**Revised Frontend (`IndustryPage.jsx`):**
+
+*   **Layout:** Simplify to a 2-tab structure.
+*   **Tab 1: "Overview"**
+    *   Content: `IndustryHero` (name, description), Industry Impact (`Industry.fullDescription`), potentially Key Benefits/Statistics if not better suited to specific applications.
+*   **Tab 2: "Our Approach" / "Solutions"**
+    *   Content: Query `IndustryApplication` entries related to the current `Industry`. Display each application's `applicationTitle`, `industryChallenge`, `jediApproach`, and potentially links to `relevantJediComponents` / `relatedUseCases`.
+
+**Revised Roadmap Integration:**
+
+*   This enhanced content strategy replaces the previous plan of populating generic fields on the `Industry` model.
+*   Focus shifts to creating the new models, populating them with specific JEDI™ IP and application details, and refactoring the frontend.
+
+**Progress & Next Steps:**
+
+1.  [✅] **Create `JediComponent` Model:** Defined the model and fields (as detailed above) in the Hygraph UI.
+2.  [✅] **Populate `JediComponent` Model:** Successfully added entries for core JEDI™ components/products using `scripts/migrations/hygraph/populate_jedi_components.py`.
+3.  [ ] **Create `IndustryApplication` Model:** Define the model and fields (as detailed above) in the Hygraph UI. **(Manual Step - Verify if done)**
+4.  [->] **Populate `IndustryApplication` Model (Scripting):**
+    *   [ ] **Sub-Step 4.1:** Define Python data structure (dict) for sample `IndustryApplication` entries (e.g., for Healthcare).
+    *   [ ] **Sub-Step 4.2:** Define GraphQL mutation (`createIndustryApplication`) in a new script (`populate_industry_applications.py`).
+    *   [ ] **Sub-Step 4.3:** Implement the Python script logic (connect to Hygraph, loop through data, prepare variables including relation connections, execute mutation, publish).
+    *   [ ] **Sub-Step 4.4:** Run the script to populate Hygraph.
+5.  [ ] **Frontend Refactor (`IndustryPage.jsx`):**
+    *   [ ] Update component query to fetch related `IndustryApplication` data.
+    *   [ ] Implement the 2-tab layout ("Overview", "Our Approach").
+    *   [ ] Display fetched `IndustryApplication` data in the "Our Approach" tab.
+
+---
