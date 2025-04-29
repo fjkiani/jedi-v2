@@ -55,7 +55,7 @@
     "simple-icons": "^13.18.0",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.0",
-    "tailwind-merge": "^2.5.5",
+    "tailwind-merge": "^2.6.0",
     "typewriter-effect": "^2.21.0",
     "vite-plugin-sitemap": "^0.7.1"
   },

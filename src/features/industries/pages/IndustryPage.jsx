@@ -9,7 +9,7 @@ import IndustryHero from '../components/IndustryHero';
 import { TabsRoot, TabsList, TabTrigger, TabsContent, TabPanel } from '@/components/ui/Tabs';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import OverviewTab from './tabs/OverviewTab';
-import IndustryApplicationCard from '../components/IndustryApplicationCard';
+import ApplicationDisplay from '../components/ApplicationDisplay';
 
 // Define GraphQL Query - Fixed to match actual schema and use plural form
 const GET_INDUSTRY_DETAIL_WITH_APPLICATIONS = gql`
@@ -48,6 +48,12 @@ const GET_INDUSTRY_DETAIL_WITH_APPLICATIONS = gql`
         # Optionally fetch linked technologies or use cases if needed later
         # technology { id name slug }
         # useCase { id title slug }
+        technology { # Assuming 'technology' is the API ID of the relation
+          id
+          name
+          slug
+          icon # Fetch the whole icon object if available, or adjust as needed
+        }
       }
     }
   }
@@ -66,7 +72,7 @@ const IndustryPage = () => {
   const [industryData, setIndustryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('approach');
 
   useEffect(() => {
     console.log(`[IndustryPage] useEffect triggered. Param value (industryId): ${industryId}`);
@@ -87,18 +93,18 @@ const IndustryPage = () => {
         console.log(`[IndustryPage] Requesting from Endpoint: ${hygraphEndpoint}`);
         console.log(`[IndustryPage] Query: ${GET_INDUSTRY_DETAIL_WITH_APPLICATIONS}`);
         console.log(`[IndustryPage] Variables: ${JSON.stringify({ slug: industryId })}`);
-        console.log("[IndustryPage] Attempting hygraphClient.request (fetching 'sections' as simple array)...");
+        console.log("[IndustryPage] Attempting hygraphClient.request...");
         const data = await hygraphClient.request(GET_INDUSTRY_DETAIL_WITH_APPLICATIONS, { slug: industryId });
-        console.log("[IndustryPage] Raw data received (plural):", data);
+        console.log("[IndustryPage] Raw data received:", data);
 
-        if (!data || !data.industries) {
+        if (!data || !data.industries || data.industries.length === 0) { // Check length
           console.warn(`[IndustryPage] Industry not found for identifier: ${industryId}`);
           throw new Error(`Industry with identifier "${industryId}" not found in Hygraph.`);
         }
 
-        const industryData = data.industries[0];
-        console.log("[IndustryPage] Setting industry state:", industryData);
-        setIndustryData(industryData);
+        const fetchedIndustryData = data.industries[0];
+        console.log("[IndustryPage] Setting industry state:", fetchedIndustryData);
+        setIndustryData(fetchedIndustryData);
 
       } catch (err) {
         console.error("[IndustryPage] Caught error during fetch:", err);
@@ -142,6 +148,7 @@ const IndustryPage = () => {
   const colorClass = colorMap[industryId] || colorMap['default'];
   console.log(`[IndustryPage] Rendering Industry Details for: ${industryData.name}`);
   console.log("[IndustryPage] Industry data being passed down:", industryData);
+  console.log(`[IndustryPage] Current active tab: ${activeTab}`);
 
   return (
     <>
@@ -163,11 +170,11 @@ const IndustryPage = () => {
 
             <TabsContent>
               <AnimatePresence mode="wait">
-                <motion.div 
-                  key={activeTab} 
-                  initial={{ opacity: 0, y: 20 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  exit={{ opacity: 0, y: -20 }} 
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
                   <TabPanel value="overview">
@@ -176,10 +183,11 @@ const IndustryPage = () => {
 
                   <TabPanel value="approach">
                     <div className="space-y-12">
-                      {console.log("[IndustryPage] Approach Tab - Rendering IndustryApplicationCards...")}
+                      {/* Render using the new ApplicationDisplay component */}
+                      {console.log("[IndustryPage] Approach Tab - Rendering ApplicationDisplay...")}
                       {industryData.industryApplication && industryData.industryApplication.length > 0 ? (
                         industryData.industryApplication.map((app) => (
-                          <IndustryApplicationCard key={app.id} application={app} />
+                          <ApplicationDisplay key={app.id} application={app} />
                         ))
                       ) : (
                         <p className="text-center text-n-4 py-8">No specific applications detailed for this industry yet.</p>

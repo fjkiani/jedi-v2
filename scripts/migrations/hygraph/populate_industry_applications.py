@@ -653,26 +653,26 @@ def main():
         else:
             # --- CREATE ---
             create_variables = { "industry": { "id": industry_id }, **common_data }
-            try:
-                logging.info(f"  Creating application '{details['applicationTitle']}'...")
+        try:
+            logging.info(f"  Creating application '{details['applicationTitle']}'...")
                 create_result = client.execute(CREATE_INDUSTRY_APPLICATION_MUTATION, variable_values=create_variables)
-                if create_result and create_result.get("createIndustryApplication"):
-                    application_id = create_result["createIndustryApplication"]["id"]
-                    logging.info(f"    Successfully created application '{details['applicationTitle']}' with ID: {application_id}")
-                    created_count += 1
+            if create_result and create_result.get("createIndustryApplication"):
+                application_id = create_result["createIndustryApplication"]["id"]
+                logging.info(f"    Successfully created application '{details['applicationTitle']}' with ID: {application_id}")
+                created_count += 1
                     mutation_successful = True
-                else:
-                    error_message = "Unknown error during creation."
-                    if isinstance(create_result, dict) and create_result.get('errors'):
-                        error_message = create_result['errors'][0].get('message', error_message)
-                    logging.error(f"    Failed to create application '{details['applicationTitle']}'. Error: {error_message}")
-                    logging.debug(f"    Full error details: {create_result.get('errors')}")
-                    failed_create_count += 1
-            except Exception as e:
-                logging.error(f"  Unexpected error creating application '{app_key}': {e}")
-                if hasattr(e, 'errors'): logging.error(f"    GraphQL Errors: {e.errors}")
-                if hasattr(e, 'response'): logging.error(f"    Response Content: {e.response.content}")
+            else:
+                error_message = "Unknown error during creation."
+                if isinstance(create_result, dict) and create_result.get('errors'):
+                    error_message = create_result['errors'][0].get('message', error_message)
+                logging.error(f"    Failed to create application '{details['applicationTitle']}'. Error: {error_message}")
+                logging.debug(f"    Full error details: {create_result.get('errors')}")
                 failed_create_count += 1
+        except Exception as e:
+            logging.error(f"  Unexpected error creating application '{app_key}': {e}")
+            if hasattr(e, 'errors'): logging.error(f"    GraphQL Errors: {e.errors}")
+            if hasattr(e, 'response'): logging.error(f"    Response Content: {e.response.content}")
+            failed_create_count += 1
 
         # 4. Publish if Create or Update was successful
         if mutation_successful and application_id:
