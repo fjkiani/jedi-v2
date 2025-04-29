@@ -160,13 +160,10 @@ const CaseStudies = () => {
                           {useCase.slug && (
                             <div className="mt-auto pt-6 border-t border-n-6/50">
                               <button
-                                onClick={() => {
-                                  console.warn("Detailed data not fetched yet, cannot show full details.");
-                                }}
-                                className="inline-flex items-center text-sm font-bold text-primary-1 hover:text-primary-2 transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
-                                disabled={true}
+                                onClick={() => setSelectedUseCase(useCase)}
+                                className="inline-flex items-center text-sm font-bold text-primary-1 hover:text-primary-2 transition-colors group"
                               >
-                                View Details (WIP)
+                                View Details
                                 <FiArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                               </button>
                             </div>

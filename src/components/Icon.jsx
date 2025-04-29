@@ -12,7 +12,15 @@ import {
   RocketLaunchIcon,
   CircleStackIcon,
   BeakerIcon,
-  CommandLineIcon
+  CommandLineIcon,
+  HeartIcon,
+  FilmIcon,
+  BoltIcon,
+  ArrowRightIcon,
+  CheckCircleIcon,
+  Squares2X2Icon,
+  ChevronRightIcon,
+  CheckBadgeIcon
 } from '@heroicons/react/24/outline';
 
 const iconMap = {
@@ -20,22 +28,31 @@ const iconMap = {
   tool: WrenchIcon,
   lightbulb: LightBulbIcon,
   check: CheckIcon,
+  'check-circle': CheckCircleIcon,
+  'check-square': CheckBadgeIcon,
   server: ServerIcon,
   cloud: CloudIcon,
   shield: ShieldCheckIcon,
   code: CodeBracketIcon,
   cpu: CpuChipIcon,
+  chip: CpuChipIcon,
   rocket: RocketLaunchIcon,
   database: CircleStackIcon,
   huggingface: BeakerIcon,
-  langchain: CommandLineIcon
+  langchain: CommandLineIcon,
+  heart: HeartIcon,
+  film: FilmIcon,
+  zap: BoltIcon,
+  'arrow-right': ArrowRightIcon,
+  grid: Squares2X2Icon,
+  chevron: ChevronRightIcon
 };
 
 export const Icon = ({ name, className }) => {
   const IconComponent = iconMap[name];
   
   if (!IconComponent) {
-    // console.warn(`Icon "${name}" not found`);
+    console.warn(`Icon "${name}" not found in iconMap`);
     return null;
   }
 

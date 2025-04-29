@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Slider from "react-slick";
-import { curve, heroBackground } from "../assets";
+// import { curve, heroBackground } from "../assets";
 import Button from "./Button";
 import Section from "./Section";
 import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
@@ -15,6 +15,17 @@ import Icon from "./Icon";
 // Import the slick-carousel CSS files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+// Helper function for text formatting
+const formatText = (text) => {
+  if (!text) return '';
+  return text.split('\n').map((line, i) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < text.split('\n').length - 1 && <br />}
+    </React.Fragment>
+  ));
+};
 
 // Custom arrow components with larger size
 const NextArrow = (props) => {
@@ -44,69 +55,16 @@ const PrevArrow = (props) => {
 };
 
 const Hero = () => {
-  const [displayedTitle, setDisplayedTitle] = useState('');
-  const [isVisible, setIsVisible] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
 
-  const heroContent = [
-    {
-      title: "100x Your Business Potential",
-      subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "100x Your Business Potential",
-      subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
-      video: "/videos/coding2.mp4",
-    }
-  ];
-
-  useEffect(() => {
-    const fadeTimeout = 8000;    // Increased to 8 seconds for more reading time
-    const fadeTransition = 1000; // Smooth 1-second transition
-
-    // Set initial title
-    setDisplayedTitle(heroContent[currentIndex].title);
-
-    const fadeLoop = () => {
-      // Start fade out
-      setIsVisible(false);
-      
-      // After fade out, change text and start fade in
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % heroContent.length);
-        setDisplayedTitle(heroContent[(currentIndex + 1) % heroContent.length].title);
-        setIsVisible(true);
-      }, fadeTransition);
-    };
-
-    // Set up the interval for changing text
-    const interval = setInterval(fadeLoop, fadeTimeout);
-
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+  const heroContent = {
+    title: "100x Your Business Potential",
+    subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
+    video: "/videos/coding2.mp4",
+  };
 
   // Create a ref for the video element
   const videoRef = useRef(null);
-
-  // Slider settings
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    customPaging: (i) => <div className="dot"></div>,
-    dotsClass: "slick-dots custom-dots",
-    autoplay: true,
-    autoplaySpeed: 8000,
-    pauseOnHover: true,
-    cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
-  };
 
   // Play the video when the section loads
   useEffect(() => {
@@ -124,78 +82,66 @@ const Hero = () => {
       id="hero"
     >
       <div className="container relative">
-        <Slider {...settings}>
-          {heroContent.map((content, index) => (
-            <div key={index}>
-              <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
-                <h1 className={`h1 mb-6 theme-text-primary transition-opacity duration-500 ease-in-out ${
-                  isVisible ? 'opacity-100' : 'opacity-0'
-                }`}>
-                  {displayedTitle}
-                </h1>
-                <p className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 transition-opacity duration-500 ease-in-out ${
-                  isVisible ? 'opacity-100' : 'opacity-0'
-                }`}>
-                  {heroContent[currentIndex].subtitle}
-                </p>
-                <Button href="/contact" white>
-                  Get started
-                </Button>
-              </div>
-              {/* Video section and surrounding containers commented out
-              <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
-                <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
-                  <div className="relative theme-bg-secondary rounded-[1rem]">
-                    <div className="h-[1.4rem] bg-n-10 rounded-t-[0.9rem]" />
+        <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
+          <h1 className="h1 mb-6 theme-text-primary">
+            {heroContent.title}
+          </h1>
+          <p className="body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8">
+            {formatText(heroContent.subtitle)}
+          </p>
+          <Button href="/contact" white>
+            Get started
+          </Button>
+        </div>
+        <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
+          <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
+            <div className="relative theme-bg-secondary rounded-[1rem]">
+              <div className="h-[1.4rem] bg-n-10 rounded-t-[0.9rem]" />
 
-                    <div className="aspect-[33/40] rounded-b-[0.9rem] overflow-hidden md:aspect-[688/490] lg:aspect-[1024/490]">
-                      {isVideoLoading && (
-                        <div className="w-full h-full bg-n-8 animate-pulse flex items-center justify-center">
-                          <Icon 
-                            name="loader" 
-                            className="w-10 h-10 text-primary-1 animate-spin" 
-                          />
-                        </div>
-                      )}
-                      <video
-                        ref={videoRef}
-                        className={`w-full h-full object-cover transition-opacity duration-300 ${
-                          isVideoLoading ? 'opacity-0' : 'opacity-100'
-                        }`}
-                        src="/videos/coding2.mp4"
-                        controls
-                        muted
-                        autoPlay
-                        preload="none"
-                        onLoadedData={() => setIsVideoLoading(false)}
-                        playsInline
-                        alt="Hero video"
-                      />
-                      <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
-
-                      <ScrollParallax isAbsolutelyPositioned>
-                        <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 theme-bg-secondary backdrop-blur border theme-border rounded-2xl xl:flex">
-                        </ul>
-                      </ScrollParallax>
-
-                      <ScrollParallax isAbsolutelyPositioned>
-                      </ScrollParallax>
-                    </div>
+              <div className="aspect-[33/40] rounded-b-[0.9rem] overflow-hidden md:aspect-[688/490] lg:aspect-[1024/490]">
+                {isVideoLoading && (
+                  <div className="w-full h-full bg-n-8 animate-pulse flex items-center justify-center">
+                    <Icon 
+                      name="loader" 
+                      className="w-10 h-10 text-primary-1 animate-spin" 
+                    />
                   </div>
+                )}
+                <video
+                  ref={videoRef}
+                  className={`w-full h-full object-cover transition-opacity duration-300 ${
+                    isVideoLoading ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  src="/videos/coding2.mp4"
+                  controls
+                  muted
+                  autoPlay
+                  preload="none"
+                  onLoadedData={() => setIsVideoLoading(false)}
+                  playsInline
+                  alt="Hero video"
+                />
+                <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
 
-                  <Gradient />
-                </div>
-                <div className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
-                </div>
+                <ScrollParallax isAbsolutelyPositioned>
+                  <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 theme-bg-secondary backdrop-blur border theme-border rounded-2xl xl:flex">
+                  </ul>
+                </ScrollParallax>
 
-                <BackgroundCircles />
+                <ScrollParallax isAbsolutelyPositioned>
+                </ScrollParallax>
               </div>
-              */}
-
-              <BackgroundCircles />
             </div>
-          ))}
-        </Slider>
+
+            <Gradient />
+          </div>
+          <div className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
+          </div>
+
+          <BackgroundCircles />
+        </div>
+
+        <BackgroundCircles />
 
         <CompanyLogos className="hidden relative z-10 mt-20 lg:block" />
       </div>

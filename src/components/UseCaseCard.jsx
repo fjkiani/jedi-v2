@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from './Icon';
 
-const UseCaseCard = ({ useCase, onQueryClick }) => {
+const UseCaseCard = ({ useCase, onQueryClick, onClick }) => {
   const {
     title,
     queries,
@@ -10,7 +10,10 @@ const UseCaseCard = ({ useCase, onQueryClick }) => {
   } = useCase;
 
   return (
-    <div className="bg-n-7 rounded-xl p-6 border border-n-6 hover:border-primary-1 transition-all h-full">
+    <div 
+      className="bg-n-7 rounded-xl p-6 border border-n-6 hover:border-primary-1 transition-all h-full cursor-pointer"
+      onClick={onClick}
+    >
       <h2 className="h4 mb-6 text-n-1">{title}</h2>
       
       <div className="mb-6">
@@ -70,6 +73,7 @@ UseCaseCard.propTypes = {
     ),
   }).isRequired,
   onQueryClick: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default UseCaseCard; 
