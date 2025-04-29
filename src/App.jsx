@@ -13,6 +13,7 @@ import Roadmap from "./components/Roadmap";
 import Services from "./components/Services";
 import WhyChooseUs from "./components/WhyChooseUs";
 import CaseStudies from "./components/CaseStudies";
+import TransformationMethodology from "./components/TransformationMethodology";
 import PostCard from "@/components/hyGraph/PostCard";
 import PostDetail from "@/components/hyGraph/PostDetail";
 import { getPosts } from "./services";
@@ -48,6 +49,7 @@ import TechStackDetail from './pages/technology/TechStackDetail';
 import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
 import { TestSEO } from '@/components/SEO/TestSEO';
+import UseCasesPage from './pages/UseCasesPage';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -159,16 +161,17 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     >
                       {/* <SolutionsNavigator /> */}
                     </motion.div>
-                    <WhatWeDo />
+                    <Services />
+                    {/* <TransformationMethodology /> */}
+                    {/* <WhatWeDo /> */}
+                    <CaseStudies />
                     <Collaboration />
-                    <NextGenAIStack />
-                    <IndustryOverview />
+                    {/* <NextGenAIStack /> */}
+                    {/* <IndustryOverview /> */}
                     {/* <WhyChooseUs /> */}
-                    {/* <CaseStudies /> */}
                     {/* <Pricing /> */}
-                    {/* <Services /> */}
                     <Roadmap />
-                    <Contact />
+                    {/* <Contact /> */}
                     {/* <StarsCanvas /> */}
                   </>
                 }
@@ -180,7 +183,8 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionsPage />
                     <WhyChooseUs />
-                    {/* <CaseStudies /> */}
+                    <TransformationMethodology />
+                    <CaseStudies />
                     <Contact />
                   </PageTransition>
                 } 
@@ -267,10 +271,19 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   </PageTransition>
                 } 
               />
+
+              <Route
+                path="/usecases"
+                element={
+                  <PageTransition>
+                    <UseCasesPage />
+                  </PageTransition>
+                }
+              />
             </Routes>
           </AnimatePresence>
           
-          <Footer />
+          {/* <Footer /> */}
         </div>
         <ButtonGradient />
       </HelmetProvider>

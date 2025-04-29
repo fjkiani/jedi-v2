@@ -333,4 +333,5 @@ const TechnologyDetail = () => {
   );
 };
 
+
 export default TechnologyDetail;

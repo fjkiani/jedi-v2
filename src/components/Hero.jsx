@@ -51,38 +51,13 @@ const Hero = () => {
 
   const heroContent = [
     {
-      title: "You imagine, We Engineer",
-      subtitle: "We are a team of AI engineers, best-in-class designers, and web developers who are passionate about building products that are both meaningful and impactful.",
+      title: "100x Your Business Potential",
+      subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
       video: "/videos/coding2.mp4",
     },
     {
-      title: "Knowledge as a Service for Enterprise AI",
-      subtitle: "JediLabs transforms how enterprises harness AI by combining cutting-edge technology with deep domain expertise. Our platform turns complex AI capabilities into actionable business solutions.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Enterprise-Grade AI/ML Solutions",
-      subtitle: "From intelligent document processing to predictive analytics, we build custom AI solutions that scale. Achieve 80% faster deployment, 60% cost reduction, and 95% automation accuracy.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Autonomous AI Agents & Orchestration",
-      subtitle: "Deploy self-improving AI agents that handle complex workflows 24/7. Our agents integrate with your existing tools, reducing manual intervention by 90% while maintaining enterprise security standards.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Intelligent Data Engineering Pipeline",
-      subtitle: "Transform raw data into business intelligence with our end-to-end data solutions. Process millions of records in real-time, ensure 99.9% data accuracy, and generate insights 10x faster.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Custom LLM Development & Integration",
-      subtitle: "Build and deploy domain-specific language models tailored to your industry. Our LLMs understand your business context, compliance requirements, and specialized terminology.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "AI Strategy & Digital Transformation",
-      subtitle: "Partner with our experts to develop your AI roadmap. We help you identify high-impact use cases, build proof of concepts, and scale successful implementations across your organization.",
+      title: "100x Your Business Potential",
+      subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
       video: "/videos/coding2.mp4",
     }
   ];

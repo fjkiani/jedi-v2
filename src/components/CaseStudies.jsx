@@ -1,129 +1,202 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
 import Section from './Section';
+import { fadeIn } from '@/utils/motion';
 import { Link } from 'react-router-dom';
-import Arrow from '../assets/svg/Arrow';
+import { FiArrowRight, FiCpu, FiX } from 'react-icons/fi';
+import UseCaseDetailView from './UseCaseDetailView';
 
-const caseStudies = [
-  {
-    title: "AI-Powered Customer Service",
-    client: "Fortune 500 Retailer",
-    metrics: [
-      { value: "45%", label: "reduction in response time" },
-      { value: "92%", label: "customer satisfaction" },
-      { value: "$100k", label: "potential annual savings" }
-    ],
-    image: "/images/case-studies/retail.jpg",
-    slug: "retail-customer-service",
-    color: "blue"
-  },
-  // Add more case studies
-];
+const GetAllUseCases = gql`
+  query GetAllUseCases {
+    useCaseS(stage: PUBLISHED, orderBy: publishedAt_DESC) {
+      id
+      title
+      slug
+      description
+      industry {
+        name
+        slug
+      }
+      technologies(first: 6) {
+        id
+        name
+        icon
+        slug
+      }
+    }
+  }
+`;
 
 const CaseStudies = () => {
+  const [useCasesData, setUseCasesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedUseCase, setSelectedUseCase] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await hygraphClient.request(GetAllUseCases);
+        setUseCasesData(data.useCaseS || []);
+      } catch (err) {
+        console.error("Error fetching use cases:", err);
+        setError("Failed to load success stories. Please try again later.");
+        setUseCasesData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleCloseDetail = () => {
+    setSelectedUseCase(null);
+  };
+
   return (
     <Section className="overflow-hidden">
       <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          variants={fadeIn('up')}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center mb-12"
+          className="text-center mb-12 md:mb-20"
         >
-          <h2 className="h2 mb-4 inline-block bg-clip-text text-transparent 
-            bg-gradient-to-r from-primary-1 to-n-1">
-            Success Stories
-          </h2>
-          <p className="body-1 text-n-3 md:max-w-md lg:max-w-2xl mx-auto">
-            See how we've helped organizations achieve extraordinary results
+          <h2 className="h2 mb-4">Use Cases</h2>
+          <p className="body-1 text-n-4 md:max-w-3xl mx-auto">
+            Explore how our AI solutions address specific industry challenges and deliver tangible results.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {caseStudies.map((study, index) => (
-            <motion.div
-              key={study.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ 
-                delay: index * 0.2,
-                duration: 0.7,
-                ease: "easeOut"
-              }}
-            >
-              <Link 
-                to={`/case-studies/${study.slug}`}
-                className="group block relative rounded-3xl overflow-hidden"
+        {loading && (
+          <div className="text-center py-10 text-n-4">Loading Success Stories...</div>
+        )}
+
+        {error && (
+          <div className="text-center py-10 text-red-500 bg-n-8 border border-red-500/30 rounded-lg p-4">
+            Error: {error}
+          </div>
+        )}
+
+        {!loading && !error && (
+          <AnimatePresence mode="wait">
+            {selectedUseCase ? (
+              <motion.div
+                key="detail"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
               >
-                {/* Background Image with Overlay */}
-                <div className="relative h-[400px] overflow-hidden">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                    className="absolute inset-0"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-n-8/95 to-n-8/75 
-                      mix-blend-multiply group-hover:from-n-8/90 group-hover:to-n-8/70 
-                      transition-colors duration-700" />
-                    <img 
-                      src={study.image} 
-                      alt="" 
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                </div>
-
-                {/* Content */}
-                <div className="absolute inset-0 p-8 flex flex-col">
-                  <motion.div 
-                    className="mb-auto"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <h3 className="h4 mb-4 text-n-1">{study.title}</h3>
-                    <p className="text-n-3">{study.client}</p>
-                  </motion.div>
-
-                  <div>
-                    <div className="mb-8 space-y-4">
-                      {study.metrics.map((metric, i) => (
-                        <motion.div 
-                          key={i}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.2 }}
-                          className="flex items-baseline gap-4"
-                        >
-                          <span className="text-2xl font-bold text-primary-1">
-                            {metric.value}
-                          </span>
-                          <span className="text-n-3">{metric.label}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center gap-4 text-n-1">
-                      <motion.span 
-                        className="font-bold relative"
-                        whileHover={{ x: 5 }}
-                        transition={{ duration: 0.3 }}
+                <UseCaseDetailView 
+                  useCase={selectedUseCase} 
+                  onClose={handleCloseDetail} 
+                />
+              </motion.div>
+            ) : (
+              <motion.div 
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
+                  {useCasesData.length === 0 ? (
+                    <p className="md:col-span-2 text-center text-n-4 py-10">No use cases available at the moment.</p>
+                  ) : (
+                    useCasesData.map((useCase) => (
+                      <motion.div
+                        key={useCase.id}
+                        variants={fadeIn('up')}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true }}
+                        className="flex"
                       >
-                        READ CASE STUDY
-                        <span className="absolute left-0 right-0 bottom-0 h-px bg-primary-1 
-                          transform origin-left scale-x-0 transition-transform duration-500 
-                          group-hover:scale-x-100" />
-                      </motion.span>
-                      <Arrow className="transition-transform duration-300 
-                        group-hover:translate-x-2" />
-                    </div>
-                  </div>
+                        <div className="bg-n-7 rounded-2xl overflow-hidden h-full w-full p-8 lg:p-10 flex flex-col">
+                          <div className="mb-6">
+                            <span className="text-xs uppercase tracking-wider text-n-3 mb-2 block">
+                              {useCase.industry?.name || 'Industry'}
+                            </span>
+                            <h3 className="h3 mb-2">{useCase.title}</h3>
+                          </div>
+                          
+                          {useCase.description && (
+                            <div className="mb-8">
+                              <h4 className="text-lg font-semibold text-color-1 mb-2">Overview</h4>
+                              <p className="body-2 text-n-3 whitespace-pre-wrap">{useCase.description}</p>
+                            </div>
+                          )}
+
+                          {useCase.technologies && useCase.technologies.length > 0 && (
+                            <div className="mb-8 flex-grow">
+                              <h4 className="text-lg font-semibold text-color-1 mb-2 flex items-center">
+                                <FiCpu className="mr-2 opacity-80" size={18}/> Technologies Used
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {useCase.technologies.map((tech) => (
+                                  <Link
+                                    key={tech.id}
+                                    to={`/technology/${tech.slug}`}
+                                    className="flex items-center bg-n-6 px-3 py-1 rounded-full text-xs text-n-3 hover:text-primary-1 hover:bg-n-5 transition-colors"
+                                    title={tech.name}
+                                  >
+                                    {tech.icon && (
+                                      <img src={tech.icon} alt="" className="w-4 h-4 mr-1.5 object-contain" />
+                                    )}
+                                    <span className="truncate">{tech.name}</span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {useCase.slug && (
+                            <div className="mt-auto pt-6 border-t border-n-6/50">
+                              <button
+                                onClick={() => {
+                                  console.warn("Detailed data not fetched yet, cannot show full details.");
+                                }}
+                                className="inline-flex items-center text-sm font-bold text-primary-1 hover:text-primary-2 transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={true}
+                              >
+                                View Details (WIP)
+                                <FiArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
                 </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
+        
+        {!loading && (
+          <motion.div
+            variants={fadeIn('up')}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="mt-16 text-center"
+          >
+            <a 
+              href="/contact" 
+              className="button button-primary button-lg"
+            >
+              Become Our Next Success Story
+            </a>
+          </motion.div>
+        )}
       </div>
     </Section>
   );

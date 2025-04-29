@@ -1,75 +1,91 @@
 // src/metadata.ts
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: {
-    default: "Digital Transformation Solutions",
-  },
-  description: 'Enhance your business with digital transformation, API integration, and machine learning. Improve SEO, automate customer journeys, and gain insights from your data.',
+export const metadata = {
+  title: 'JediLabs - 100x Business Transformation Solutions',
+  description: 'JediLabs helps businesses achieve exponential growth through AI-powered solutions, strategic consulting, and innovative services. Transform your organization and unlock your 100x potential.',
   keywords: [
-    'Digital Transformation',
-    "website developers near me",
-    "website development company in New York",
-    "web development company in New Jersey",
-    "wordpress website designer near me",
-    "wordpress website designer",
-    "ecommerce web developer",
-    'SEO Optimization',
-    "seo marketing",
-    "website design company",
-    "seo companies",
-    "seo agencies",
-    "website design firms",
-    "website creation company",
-    "shopify expert developer",
-    "machine learning what is",
-    "seo what is it",
-    "web developers near me",
-    "google search engine optimization",
-    "seo optimization companies",
-    "grubhub merchant",
-    "seo engine optimization",
-    'Data Integration',
-    'Web development near me',
-    'web development for small business',
-    'API Integration',
-    'Machine Learning',
-    'unified dashboard',
-    'affordable web development',
-    'website optimization',
-    'business growth through digital transformation',
-    'digital solutions for enterprises',
-    'Predictive Analytics',
-    'Customer Personalization',
-    'Financial Insights',
-    'Web Architecture',
-    'Customer Journey Automation',
-    'cloud integration services',
-    'e-commerce web development',
-    'AI-driven analytics',
-    'big data solutions',
-    'Unified Dashboard'
+    '100x business growth',
+    'business transformation',
+    'exponential growth',
+    'AI solutions',
+    'strategic consulting',
+    'digital transformation',
+    'operational excellence',
+    'process optimization',
+    'business innovation',
+    'growth strategy',
+    'technology implementation',
+    'customer experience transformation',
+    'data-driven decisions',
+    'enterprise AI',
+    'business acceleration'
   ],
-  author: 'Your Company Name',
+  authors: [
+    {
+      name: 'JediLabs',
+      url: 'https://jedilabs.org',
+    },
+  ],
+  creator: 'JediLabs',
+  publisher: 'JediLabs',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: 'https://jedilabs.org',
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+    },
+  },
   openGraph: {
-    title: 'Digital Transformation Solutions',
-    description: 'Enhance your business with digital transformation, API integration, and machine learning. Improve SEO, automate customer journeys, and gain insights from your data.',
+    title: 'JediLabs - 100x Business Transformation Solutions',
+    description: 'Transform your business and achieve exponential growth with JediLabs. Our AI-powered solutions and strategic consulting help organizations unlock their 100x potential.',
+    url: 'https://jedilabs.org',
+    siteName: 'JediLabs',
     images: [
       {
-        url: '/opengraph-image.png',
-        width: 800,
-        height: 600,
-        alt: 'Digital Transformation'
-      }
+        url: 'https://jedilabs.org/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'JediLabs - 100x Business Transformation',
+      },
     ],
+    locale: 'en_US',
     type: 'website',
-    site_name: 'Your Company Name'
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@yourcompany',
-    title: 'Digital Transformation Solutions',
-    description: 'Enhance your business with web development, digital transformation, and API integration. Improve SEO, automate customer journeys, and gain insights from your data.',
-    image: '/opengraph-image.png'
-  }
+    title: 'JediLabs - 100x Business Transformation Solutions',
+    description: 'Transform your business and achieve exponential growth with JediLabs. Our AI-powered solutions and strategic consulting help organizations unlock their 100x potential.',
+    creator: '@jedilabs',
+    images: ['https://jedilabs.org/twitter-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
+  verification: {
+    google: 'google-site-verification-code',
+    yandex: 'yandex-verification-code',
+  },
+  other: {
+    'msapplication-TileColor': '#000000',
+    'msapplication-config': '/browserconfig.xml',
+    'theme-color': '#000000',
+  },
 };

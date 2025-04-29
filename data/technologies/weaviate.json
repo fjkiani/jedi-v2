@@ -1,0 +1,114 @@
+{
+  "technologySlug": "weaviate",
+  "businessMetrics": "Test AI application development with efficient vector search\nImprove recommendation engine relevance and user engagement\nEnable semantic search capabilities for enhanced information retrieval\nReduce infrastructure costs compared to traditional keyword-based search at scale for certain tasks\nUnlock insights from unstructured data (text, images, audio)",
+  "useCases": [
+    {
+      "title": "Test Medical Image Classification",
+      "description": "Classify medical images using external models and leverage Weaviate for similarity search.",
+      "industryId": "cm57dipbs127207n55nxkrbjg", 
+      "queries": [
+        "Find similar X-rays based on image content",
+        "Retrieve images classified as 'malignant tumor'",
+        "Search for cases comparable to the current patient's scan"
+      ],
+      "capabilities": [
+        "Test "
+      ],
+      "metrics": [
+        "Classification Accuracy > 95%",
+        "Similarity Search Latency < 100ms",
+        "Reduced diagnostic time by 15%"
+      ],
+      "implementation": {
+        "modelUsed": "External ResNet50 (or similar CNN)",
+        "preprocessingSteps": [
+          "DICOM to PNG/JPG conversion",
+          "Pixel value normalization",
+          "Image resizing"
+        ],
+        "weaviateSchema": {
+          "class": "MedicalImage",
+          "properties": [
+            {"name": "image_id", "dataType": ["string"]},
+            {"name": "source_modality", "dataType": ["string"]},
+            {"name": "classification_label", "dataType": ["string"]},
+            {"name": "patient_id", "dataType": ["string"]}
+          ],
+          "vectorizer": "img2vec-neural",
+          "moduleConfig": {
+             "img2vec-neural": { "imageFields": ["image"] }
+          }
+        },
+        "notes": "External model performs classification; Weaviate stores vectors and metadata for search."
+      },
+      "architecture": {
+        "description": "An external classification model provides labels, while Weaviate enables vector-based similarity search on the images.",
+        "components": [
+          {
+            "name": "Image Ingestion API",
+            "description": "Receives new medical images and metadata.",
+            "details": "REST API endpoint accepting image uploads and patient info.",
+            "explanation": ["Entry point for new data."]
+          },
+          {
+            "name": "Image Preprocessor",
+            "description": "Converts images to standard format and normalizes them.",
+            "details": "Handles DICOM, JPG, PNG. Normalizes pixel values. Resizes if needed.",
+            "explanation": ["Ensures consistent input for classification and vectorization."]
+          },
+          {
+            "name": "Classification Model Service",
+            "description": "External service hosting the trained classification model.",
+            "details": "Example: TensorFlow Serving or TorchServe hosting a ResNet/VGG model.",
+            "explanation": ["Provides the primary classification label (e.g., 'tumor', 'normal')."]
+          },
+          {
+            "name": "Weaviate Instance",
+            "description": "Vector database storing image vectors and associated metadata.",
+            "details": "Configured with img2vec-neural module. Schema includes classification labels.",
+            "explanation": ["Enables similarity search and metadata filtering."]
+          },
+           {
+            "name": "Query Interface",
+            "description": "Frontend or API allowing users to search.",
+            "details": "Web application or API endpoint for submitting query images or criteria.",
+            "explanation": ["Allows users to leverage the indexed data."]
+          }
+        ],
+        "flow": [
+          {
+            "step": "1. Image Upload",
+            "description": "User/System uploads a new medical image via the Ingestion API.",
+            "details": "Includes patient ID and other relevant metadata."
+          },
+          {
+            "step": "2. Preprocessing",
+            "description": "The Image Preprocessor standardizes the uploaded image.",
+            "details": "Format conversion, normalization, resizing."
+          },
+          {
+            "step": "3. Classification",
+            "description": "The preprocessed image is sent to the Classification Model Service.",
+            "details": "The service returns the predicted classification label(s)."
+          },
+          {
+            "step": "4. Indexing",
+            "description": "The preprocessed image, metadata, and classification label are sent to Weaviate.",
+            "details": "Weaviate's img2vec module generates the vector. Data is stored."
+          },
+          {
+            "step": "5. Similarity Search",
+            "description": "User uploads a query image via the Query Interface.",
+            "details": "Interface preprocesses query image, sends vector query to Weaviate."
+          },
+           {
+            "step": "6. Metadata Filtering",
+            "description": "User filters images based on criteria (e.g., label, patient ID) via Query Interface.",
+            "details": "Interface constructs and sends metadata filter query to Weaviate."
+          }
+        ]
+      }
+    }
+
+  ]
+} 

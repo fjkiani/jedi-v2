@@ -39,10 +39,10 @@ const TeamPage = () => {
             animate="show"
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h1 className="h1 mb-6">Our Leadership Team</h1>
+            <h1 className="h1 mb-6">Our 100x Transformation Team</h1>
             <p className="body-1 text-n-4">
-              Meet the experts driving secure innovation at JediLabs. Our team combines deep expertise in AI, 
-              security, and enterprise solutions to deliver cutting-edge technology that serves everyone.
+              Meet the experts who help businesses achieve exponential growth. Our team combines deep expertise in AI, 
+              business strategy, and digital transformation to deliver solutions that drive 100x results.
             </p>
           </motion.div>
 

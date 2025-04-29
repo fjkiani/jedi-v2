@@ -78,6 +78,7 @@ const GET_USE_CASES_BY_TECH = `
       description
       queries
       capabilities
+      implementation
       architecture {
         description
         components {
@@ -136,6 +137,8 @@ const GET_USE_CASE_BY_SLUG = `
       description
       queries
       capabilities
+      metrics
+      implementation
       architecture {
         description
         components {
@@ -222,7 +225,13 @@ class TechnologyService {
         relatedUseCases: useCaseS.map(useCase => ({
           id: useCase.id,
           title: useCase.title,
-          implementation: {
+          implementation: useCase.implementation ? {
+            overview: useCase.description,
+            architecture: useCase.architecture,
+            queries: useCase.queries,
+            capabilities: useCase.capabilities,
+            ...(typeof useCase.implementation === 'object' ? useCase.implementation : {})
+          } : {
             overview: useCase.description,
             architecture: useCase.architecture,
             queries: useCase.queries,
@@ -300,16 +309,25 @@ class TechnologyService {
         return null;
       }
 
-      console.log('Selected use case:', useCase);
+      console.log('Selected use case (raw data from Hygraph):', useCase);
+
+      // Return the data, ensuring metrics and full implementation are included
       return {
         id: useCase.id,
         title: useCase.title,
-        implementation: {
+        implementation: useCase.implementation ? {
+          overview: useCase.description,
+          architecture: useCase.architecture,
+          queries: useCase.queries,
+          capabilities: useCase.capabilities,
+          ...(typeof useCase.implementation === 'object' ? useCase.implementation : {})
+        } : {
           overview: useCase.description,
           architecture: useCase.architecture,
           queries: useCase.queries,
           capabilities: useCase.capabilities
         },
+        metrics: useCase.metrics || [],
         technologies: useCase.technologies
       };
     } catch (error) {

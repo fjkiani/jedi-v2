@@ -1,59 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { useTheme } from "../context/ThemeContext";
 import { logo } from "../assets";
 import { navigation } from "../constants";
-import { industriesList } from "../constants/industry";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { Link } from 'react-router-dom';
 import { technologyService } from '@/services/technologyService';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
 
-// Transform industries data into dropdown format
-const transformIndustriesData = (industries) => {
-  // Filter to only include financial and healthcare
-  const activeIndustries = industries.filter(industry => 
-    ['financial', 'healthcare'].includes(industry.id)
-  );
-
-  // Transform active industries
-  const transformedIndustries = activeIndustries.map(industry => ({
-    title: industry.title,
-    url: `/industries/${industry.id}`,
-    useCases: industry.solutions?.map(solution => ({
-      title: solution.title,
-      url: `/industries/${industry.id}/${solution.id}`
-    })) || []
-  }));
-
-  // Add coming soon placeholders
-  const comingSoonIndustries = [
-    {
-      title: "Manufacturing & Industry 4.0",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Retail & E-commerce",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Energy & Utilities",
-      url: "#",
-      description: "Coming Soon"
-    },
-    {
-      title: "Education",
-      url: "#",
-      description: "Coming Soon"
+// Define CORRECTED GraphQL Query
+const GetNavbarData = gql`
+   query GetNavbarData {
+    industries(stage: PUBLISHED, orderBy: name_ASC) {
+      id
+      name
+      slug
     }
-  ];
-
-  return [...transformedIndustries, ...comingSoonIndustries];
-};
+    # Correct typo and add missing fields
+    useCaseS(stage: PUBLISHED, orderBy: title_ASC) {
+      id
+      title
+      slug
+      industry {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -90,278 +69,105 @@ const ThemeToggle = () => {
 };
 
 const DropdownMenu = ({ items, categories }) => {
-  // If this is the Technology dropdown and we have categories, use those instead
-  if (items[0]?.title === "AI Platforms" && categories?.length > 0) {
+  // Handle Technology category structure if needed
+  if (categories?.length > 0) {
+    // Assuming 'categories' is structured for the Technology dropdown
+    // Render based on 'categories' prop
     return (
       <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[200px]">
         {categories.map((category) => (
+          // ... complex rendering for technology categories/sub-items ...
           <div key={category.slug} className="relative group/nested">
-            <Link 
-              to={`/technology#${category.slug}`}
-              className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-            >
-              {category.name}
-              {category.technologies?.length > 0 && (
+             <Link
+               to={`/technology#${category.slug}`} // Example link
+               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+             >
+               {category.name}
+               {/* Add arrow or indicator if it has sub-items */}
+             </Link>
+             {/* Nested dropdown for technologies within the category */}
+             {category.technologies?.length > 0 && (
                 <div className="absolute left-full top-0 hidden group-hover/nested:block">
-                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
-                    {category.technologies.map((tech) => (
-                      <div key={tech.slug} className="relative group/tech">
-                        <Link
-                          to={`/technology/${tech.slug}`}
-                          className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span>{tech.name}</span>
-                            {tech.useCases?.length > 0 && (
-                              <svg 
-                                className="w-4 h-4 text-n-3" 
-                                fill="none" 
-                                viewBox="0 0 24 24" 
-                                stroke="currentColor"
-                              >
-                                <path 
-                                  strokeLinecap="round" 
-                                  strokeLinejoin="round" 
-                                  strokeWidth={2} 
-                                  d="M9 5l7 7-7 7" 
-                                />
-                              </svg>
-                            )}
-                          </div>
-                        </Link>
-                        {tech.useCases?.length > 0 && (
-                          <div className="absolute left-full top-0 hidden group-hover/tech:block">
-                            <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[280px]">
-                              <div className="px-4 py-2 border-b border-n-6">
-                                <h4 className="text-sm font-medium text-n-1">Use Cases</h4>
-                              </div>
-                              {tech.useCases.map((useCase) => (
-                                <Link
-                                  key={useCase.id}
-                                  to={`/technology/${tech.slug}/use-case/${useCase.slug}`}
-                                  className="block px-4 py-2 hover:bg-n-7/50"
-                                >
-                                  <div className="text-n-1/70 hover:text-n-1">
-                                    <span className="block font-medium">{useCase.title}</span>
-                                    {useCase.industry && (
-                                      <span className="block text-xs text-n-3 mt-0.5">
-                                        {useCase.industry.name}
-                                      </span>
-                                    )}
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                   <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
+                      {category.technologies.map((tech) => (
+                         <Link
+                            key={tech.id}
+                            to={`/technology/${tech.slug}`} // Example link
+                            className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                         >
+                            {tech.name}
+                         </Link>
+                      ))}
+                   </div>
                 </div>
-              )}
-            </Link>
+             )}
           </div>
         ))}
       </div>
     );
   }
 
-  // Default dropdown menu for other items
+  // --- Default rendering for simple list of items (Industries, Use Cases) ---
   return (
     <div className="absolute top-full left-0 bg-n-8/90 backdrop-blur-sm rounded-lg py-2 hidden group-hover:block min-w-[200px]">
-      {items.map((item, index) => (
-        <div key={index}>
-          {item.items ? (
-            <div className="relative group/nested">
-              <Link 
-                to={item.url} 
-                className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-              >
-                {item.title}
-                <div className="absolute left-full top-0 hidden group-hover/nested:block">
-                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
-                    {item.items.map((subItem, subIndex) => (
-                      <Link
-                        key={subIndex}
-                        to={subItem.url}
-                        className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                      >
-                        {subItem.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </Link>
-            </div>
-          ) : item.useCases ? (
-            <div className="relative group/nested">
-              <Link 
-                to={item.url} 
-                className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-              >
-                {item.title}
-                <div className="absolute left-full top-0 hidden group-hover/nested:block">
-                  <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
-                    {item.useCases.map((useCase, useCaseIndex) => (
-                      <Link
-                        key={useCaseIndex}
-                        to={useCase.url}
-                        className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                      >
-                        {useCase.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </Link>
-            </div>
-          ) : item.description ? (
-            // Coming Soon items
-            <div className="block px-4 py-2 cursor-default text-n-1/70">
-              {item.title}
-              <span className="block text-xs text-color-1 mt-0.5 font-medium">
-                {item.description}
-              </span>
-            </div>
-          ) : (
-            // Regular menu items
-            <Link 
-              to={item.url}
-              className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-            >
-              {item.title}
-            </Link>
-          )}
-        </div>
+      {items.map((item) => (
+        <Link
+          key={item.id || item.url} // Use id if available, fallback to url
+          to={item.url}
+          className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+        >
+          {item.title}
+        </Link>
       ))}
     </div>
   );
 };
 
 const MobileMenu = ({ items, categories }) => {
-  const [openItem, setOpenItem] = useState(null);
-  const [openSubItem, setOpenSubItem] = useState(null);
-
-  const handleItemClick = (title) => {
-    setOpenItem(openItem === title ? null : title);
-    setOpenSubItem(null); // Reset sub-item when main item changes
-  };
-
-  const handleSubItemClick = (e, title) => {
-    e.preventDefault(); // Prevent navigation when clicking items with use cases
-    setOpenSubItem(openSubItem === title ? null : title);
-  };
-
-  // Get items with proper structure
-  const getMenuItems = (items) => {
-    if (items[0]?.title === "AI Platforms" && categories?.length > 0) {
-      return categories.map(category => ({
-        title: category.name,
-        url: `/technology#${category.slug}`,
-        items: category.technologies?.map(tech => ({
-          title: tech.name,
-          url: `/technology/${tech.slug}`,
-          useCases: tech.useCases
-        }))
-      }));
-    }
-    return items;
-  };
-
-  const menuItems = getMenuItems(items);
-
-  return (
-    <div className="lg:hidden w-full">
-      {menuItems.map((item, index) => (
-        <div key={index} className="border-t border-n-6">
-          {item.items || item.useCases ? (
-            <div>
-              <button
-                onClick={() => handleItemClick(item.title)}
-                className="flex items-center justify-between w-full px-6 py-4 text-n-1/75"
-              >
-                <span>{item.title}</span>
-                <svg 
-                  className={`w-3 h-3 transition-transform ${openItem === item.title ? 'rotate-180' : ''}`}
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {openItem === item.title && (
-                <div className="bg-n-8/50">
-                  {item.items?.map((subItem, subIndex) => (
-                    <div key={subIndex}>
-                      {subItem.useCases ? (
-                        <>
-                          <button
-                            onClick={(e) => handleSubItemClick(e, subItem.title)}
-                            className="flex items-center justify-between w-full px-8 py-3 text-n-1/75 hover:text-n-1"
+   // Handle Technology category structure if needed
+  if (categories?.length > 0) {
+     // Render based on 'categories' prop for mobile
+     return (
+        <div className="mt-2 pl-4 border-l border-n-6">
+           {categories.map((category) => (
+              <div key={category.slug} className="py-1">
+                 <Link
+                    to={`/technology#${category.slug}`} // Example link
+                    className="block text-sm text-n-3 hover:text-n-1"
+                 >
+                    {category.name}
+                 </Link>
+                 {/* Render sub-items if needed for mobile */}
+                 {category.technologies?.length > 0 && (
+                    <div className="pl-4 mt-1">
+                       {category.technologies.map((tech) => (
+                          <Link
+                             key={tech.id}
+                             to={`/technology/${tech.slug}`} // Example link
+                             className="block text-xs text-n-4 hover:text-n-1 py-0.5"
                           >
-                            <span>{subItem.title}</span>
-                            <svg 
-                              className={`w-2.5 h-2.5 transition-transform ${openSubItem === subItem.title ? 'rotate-180' : ''}`}
-                              fill="none" 
-                              viewBox="0 0 24 24" 
-                              stroke="currentColor"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                          </button>
-                          {openSubItem === subItem.title && (
-                            <div className="bg-n-8/30 py-1">
-                              {subItem.useCases.map((useCase, useCaseIndex) => (
-                                <Link
-                                  key={useCaseIndex}
-                                  to={`${subItem.url}/use-case/${useCase.slug}`}
-                                  className="block px-10 py-2 text-sm text-n-1/60 hover:text-n-1"
-                                >
-                                  {useCase.title}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <Link
-                          to={subItem.url}
-                          className="block px-8 py-3 text-n-1/75 hover:text-n-1"
-                        >
-                          {subItem.title}
-                        </Link>
-                      )}
+                             {tech.name}
+                          </Link>
+                       ))}
                     </div>
-                  ))}
-                  {item.useCases?.map((useCase, useCaseIndex) => (
-                    <Link
-                      key={useCaseIndex}
-                      to={useCase.url}
-                      className="block px-8 py-3 text-n-1/75 hover:text-n-1"
-                    >
-                      {useCase.title}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : item.description ? (
-            <div className="px-6 py-4 text-n-1/75">
-              {item.title}
-              <span className="block text-xs text-color-1 mt-0.5">
-                {item.description}
-              </span>
-            </div>
-          ) : (
-            <Link
-              to={item.url}
-              className="block px-6 py-4 text-n-1/75 hover:text-n-1"
-            >
-              {item.title}
-            </Link>
-          )}
+                 )}
+              </div>
+           ))}
         </div>
+     );
+  }
+
+  // Default rendering for simple list of items (Industries, Use Cases)
+  return (
+    <div className="mt-2 pl-4 border-l border-n-6">
+      {items.map((item) => (
+        <Link
+          key={item.id || item.url}
+          to={item.url}
+          className="block py-1 text-sm text-n-3 hover:text-n-1"
+        >
+          {item.title}
+        </Link>
       ))}
     </div>
   );
@@ -370,30 +176,105 @@ const MobileMenu = ({ items, categories }) => {
 const Header = () => {
   const location = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // For Technology dropdown
+  const [navIndustries, setNavIndustries] = useState([]);
+  const [navUseCases, setNavUseCases] = useState([]); // State for VALID use cases
+  const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
 
-  // Transform navigation to include dynamic industries
-  const dynamicNavigation = navigation.map(item => {
-    if (item.title === "Industries") {
-      return {
-        ...item,
-        dropdownItems: transformIndustriesData(industriesList)
-      };
-    }
-    return item;
-  });
+  // Fetch industries and use cases from Hygraph
+  useEffect(() => {
+    const fetchNavData = async () => {
+      setLoading(true);
+      try {
+        console.log("[Header] Fetching navbar data...");
+        const data = await hygraphClient.request(GetNavbarData); // Uses CORRECTED query
+        console.log("[Header] Raw navbar data received:", data);
 
+        const fetchedIndustries = data.industries || [];
+        const fetchedUseCases = data.useCaseS || []; // Uses CORRECT key 'useCases'
+
+        // Filter use cases to ensure they have the necessary industry slug
+        const validUseCases = fetchedUseCases.filter(uc => {
+          const hasIndustryAndSlug = uc.industry && uc.industry.slug;
+          if (!hasIndustryAndSlug) {
+            console.warn(`[Header] Filtering out use case "${uc.title}" (ID: ${uc.id}) due to missing or invalid industry link.`);
+          }
+          return hasIndustryAndSlug;
+        });
+
+        setNavIndustries(fetchedIndustries);
+        setNavUseCases(validUseCases); // Set state ONLY with valid use cases
+        console.log("[Header] Set navIndustries:", fetchedIndustries);
+        console.log("[Header] Set navUseCases (filtered):", validUseCases);
+
+      } catch (error) {
+        console.error('Error fetching navbar data:', error);
+        setNavIndustries([]);
+        setNavUseCases([]); // Set empty on error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNavData();
+  }, []); // Runs once on mount
+
+  // Prepare navigation data using useMemo
+  const dynamicNavigation = useMemo(() => {
+    console.log("[Header] Recalculating dynamicNavigation...");
+    // Start with the base structure from constants
+    const baseNav = navigation.map(item => ({ ...item }));
+
+    const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
+    const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
+
+    // Inject Industries if found and not loading
+    if (industriesIndex !== -1 && !loading) {
+      baseNav[industriesIndex].dropdownItems = navIndustries.map(industry => ({
+        id: industry.id,
+        title: industry.name,
+        url: `/industries/${industry.slug}`
+      }));
+    } else if (industriesIndex !== -1) {
+      // Ensure dropdownItems is an empty array while loading or if fetch fails
+      baseNav[industriesIndex].dropdownItems = [];
+    }
+
+    // Inject Use Cases if found and not loading
+    if (useCasesIndex !== -1 && !loading) {
+      baseNav[useCasesIndex].dropdownItems = navUseCases.map(useCase => ({ // Map the filtered navUseCases
+        id: useCase.id,
+        title: useCase.title,
+        url: `/industries/${useCase.industry.slug}/${useCase.slug}`,
+      }));
+      console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases into dropdown.`);
+    } else if (useCasesIndex !== -1) {
+      // Ensure dropdownItems is an empty array while loading or if fetch fails
+      baseNav[useCasesIndex].dropdownItems = [];
+    }
+
+    // Technology dropdown is handled differently - it uses the 'categories' prop
+    // passed to DropdownMenu/MobileMenu, populated by fetchCategories effect.
+    // We don't need to inject into dropdownItems here for Technology.
+
+    console.log("[Header] Final dynamicNavigation structure:", baseNav);
+    return baseNav;
+  }, [navIndustries, navUseCases, loading]); // REMOVED 'categories' from dependency array as it's not directly used here
+
+
+  // Fetch categories for Technology dropdown
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        // Assuming technologyService fetches data structured for the 'categories' prop
         const data = await technologyService.getAllCategories();
         setCategories(data || []);
+        console.log("[Header] Fetched Technology categories:", data);
       } catch (error) {
         console.error('Error fetching categories:', error);
+        setCategories([]); // Set empty on error
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -409,7 +290,6 @@ const Header = () => {
 
   const handleClick = () => {
     if (!openNavigation) return;
-
     enablePageScroll();
     setOpenNavigation(false);
   };
@@ -425,6 +305,7 @@ const Header = () => {
           <img src={logo} width={190} height={40} alt="JediLabs" />
         </Link>
 
+        {/* Render using the dynamicNavigation from useMemo */}
         <nav className={`${
           openNavigation ? "flex" : "hidden"
         } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
@@ -434,26 +315,33 @@ const Header = () => {
                 <Link
                   to={item.url}
                   onClick={handleClick}
-                  className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 
-                    px-6 py-4 lg:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold 
-                    ${location.pathname === item.url ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
+                  className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1
+                    px-6 py-4 lg:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold
+                    ${location.pathname.startsWith(item.url) && item.url !== '#' && item.url !== '/' ? "z-2 lg:text-n-1" : (location.pathname === '/' && item.url === '/') ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
                     lg:leading-5 lg:hover:text-n-1 xl:px-12`}
                 >
                   {item.title}
                 </Link>
-                {item.dropdownItems && (
+                {/* Render dropdowns conditionally based on data and type */}
+                {/* Check for Technology specifically to pass 'categories' */}
+                {item.id === 'technology' && categories.length > 0 && (
+                   <>
+                      <div className="hidden lg:block">
+                         <DropdownMenu categories={categories} items={[]} /> {/* Pass categories */}
+                      </div>
+                      <div className="lg:hidden">
+                         <MobileMenu categories={categories} items={[]} /> {/* Pass categories */}
+                      </div>
+                   </>
+                )}
+                {/* Check for other items with dynamically populated dropdownItems */}
+                {item.id !== 'technology' && item.dropdownItems && item.dropdownItems.length > 0 && (
                   <>
                     <div className="hidden lg:block">
-                      <DropdownMenu 
-                        items={item.dropdownItems} 
-                        categories={item.title === "Technology" ? categories : null}
-                      />
+                      <DropdownMenu items={item.dropdownItems} categories={null} /> {/* Pass items */}
                     </div>
                     <div className="lg:hidden">
-                      <MobileMenu 
-                        items={item.dropdownItems}
-                        categories={item.title === "Technology" ? categories : null}
-                      />
+                      <MobileMenu items={item.dropdownItems} categories={null} /> {/* Pass items */}
                     </div>
                   </>
                 )}
@@ -462,6 +350,7 @@ const Header = () => {
           </div>
         </nav>
 
+        {/* Right side elements */}
         <div className="flex items-center ml-auto">
           <ThemeToggle />
           <Button className="hidden lg:flex ml-4" href="/contact">
