@@ -156,6 +156,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <>
                     <Hero />
                     <FeaturedApplications />
+                    <SolutionsPage isHomepage={true} />
                     {/* <Services /> */}
                     {/* <TransformationMethodology /> */}
                     {/* <WhatWeDo /> */}
@@ -163,7 +164,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <Collaboration />
                     {/* <NextGenAIStack /> */}
                     {/* <IndustryOverview /> */}
-                    {/* <WhyChooseUs /> */}
+                    <WhyChooseUs />
                     {/* <Pricing /> */}
                     <Roadmap />
                     {/* <Contact /> */}
@@ -180,7 +181,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <WhyChooseUs />
                     <TransformationMethodology />
                     <CaseStudies />
-                    <Contact />
+                    {/* <Contact /> */}
                   </PageTransition>
                 } 
               />
@@ -191,7 +192,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionPage />
                     {/* <CaseStudies /> */}
-                    <Contact />
+                    {/* <Contact /> */}
                   </PageTransition>
                 } 
               />
@@ -278,7 +279,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
             </Routes>
           </AnimatePresence>
           
-          <Footer />
+          {/* <Footer /> */}
         </div>
         <ButtonGradient />
       </HelmetProvider>

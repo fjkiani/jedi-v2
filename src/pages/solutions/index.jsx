@@ -5,10 +5,70 @@ import { getAllSolutions } from '@/constants/solutions/index';
 import { Icon } from '@/components/Icon';
 import Section from '@/components/Section';
 import { useTheme } from '@/context/ThemeContext';
+import Button from '@/components/Button';
 
-const SolutionsPage = () => {
+const SolutionsPage = ({ isHomepage = false }) => {
   const { isDarkMode } = useTheme();
-  const solutions = getAllSolutions();
+  const allSolutions = getAllSolutions();
+
+  // Determine which solutions to display
+  const solutionsToDisplay = isHomepage ? allSolutions.slice(0, 3) : allSolutions;
+
+  const pageTitle = isHomepage ? "AI/ML Solutions" : "Enterprise Solutions";
+  const pageDescription = isHomepage ? 
+    "Enterprise-grade AI and machine learning solutions for intelligent automation and decision-making."
+    : "Explore our comprehensive suite of enterprise-grade solutions powered by cutting-edge AI technologies.";
+
+  // Helper function to flatten tech stack and get icons (REVISED LOGIC)
+  const getTechIcons = (techStack) => {
+    if (!techStack || typeof techStack !== 'object') return [];
+    
+    const iconsToShow = [];
+    const MAX_ICONS = 3;
+
+    // Iterate through categories first
+    const categories = Object.values(techStack);
+    for (const category of categories) {
+      if (iconsToShow.length >= MAX_ICONS) break; // Stop if we have enough
+
+      if (typeof category === 'object' && category !== null) {
+        // Get the first tech with an icon from this category
+        const firstTechEntry = Object.entries(category).find(([name, details]) => 
+          details && typeof details === 'object' && details.icon
+        );
+
+        if (firstTechEntry) {
+          const [name, details] = firstTechEntry;
+          // Add only if not already added (based on icon URL to avoid duplicates)
+          if (!iconsToShow.some(tech => tech.icon === details.icon)) {
+             iconsToShow.push({ name, icon: details.icon });
+          }
+        }
+      }
+    }
+
+    // If we still need more icons, fill with remaining unique ones
+    if (iconsToShow.length < MAX_ICONS) {
+        const allOtherTech = [];
+         Object.values(techStack).forEach(category => {
+           if (typeof category === 'object' && category !== null) {
+             Object.entries(category).forEach(([name, details]) => {
+               if (details && typeof details === 'object' && details.icon) {
+                 // Add if not already in iconsToShow and not already in allOtherTech (based on icon URL)
+                 if (!iconsToShow.some(tech => tech.icon === details.icon) && !allOtherTech.some(tech => tech.icon === details.icon)) {
+                    allOtherTech.push({ name, icon: details.icon });
+                 }
+               }
+             });
+           }
+         });
+         // Add remaining unique icons until max is reached
+         iconsToShow.push(...allOtherTech.slice(0, MAX_ICONS - iconsToShow.length));
+    }
+
+    console.log("Icons selected for card:", iconsToShow); // Add logging
+    return iconsToShow; 
+  };
 
   return (
     <Section className="overflow-hidden">
@@ -20,108 +80,125 @@ const SolutionsPage = () => {
           className="text-center mb-12"
         >  
           <h1 className={`h1 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-            Enterprise Solutions
+            {pageTitle}
           </h1>
           <p className={`body-1 ${isDarkMode ? 'text-n-3' : 'text-n-5'} md:max-w-md lg:max-w-2xl mx-auto`}>
-            Explore our comprehensive suite of enterprise-grade solutions powered by cutting-edge AI technologies.
+            {pageDescription}
           </p>
         </motion.div>
 
         {/* Solutions Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {solutions.map((solution, index) => (
-            <motion.div
-              key={solution.slug}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Link 
-                to={`/solutions/${solution.slug}`}
-                className={`block ${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-6 
-                  border ${isDarkMode ? 'border-n-6 hover:border-n-5' : 'border-n-3 hover:border-n-4'} 
-                  transition-colors group`}
+          {solutionsToDisplay.map((solution, index) => {
+            // Get icons using the helper function
+            const techIconsToShow = getTechIcons(solution.techStack);
+
+            return (
+              <motion.div
+                key={solution.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="hover:-translate-y-1 transition-transform duration-300 group"
               >
-                {/* Solution Header */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6 group-hover:bg-n-5' : 'bg-n-2 group-hover:bg-n-3'} 
-                    rounded-xl flex items-center justify-center transition-colors`}>
-                    <Icon name={solution.icon} className="w-6 h-6 text-primary-1" />
+                <Link 
+                  to={`/solutions/${solution.slug}`}
+                  className={`block h-full flex flex-col ${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-6 
+                    border ${isDarkMode ? 'border-n-6 hover:border-primary-1/50' : 'border-n-3 hover:border-primary-1/50'} 
+                    transition-colors`}
+                >
+                  {/* Solution Header */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6 group-hover:bg-n-5' : 'bg-n-2 group-hover:bg-n-3'} 
+                      rounded-xl flex items-center justify-center transition-colors`}>
+                      <Icon name={solution.icon} className="w-6 h-6 text-primary-1" />
+                    </div>
+                    <div>
+                      <h3 className={`h4 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{solution.title}</h3>
+                      <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                        {solution.categories.join(' • ')}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className={`h4 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{solution.title}</h3>
-                    <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                      {solution.categories.join(' • ')}
-                    </p>
-                  </div>
-                </div>
 
-                {/* Description */}
-                <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6`}>
-                  {solution.description}
-                </p>
+                  {/* Description */}
+                  <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6 flex-grow`}>
+                    {solution.description}
+                  </p>
 
-                {/* Key Metrics */}
-                <div className="space-y-3">
-                  <h4 className={`text-sm font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Key Benefits</h4>
-                  <ul className="space-y-2">
-                    {solution.businessValue.metrics.slice(0, 3).map((metric, i) => (
-                      <li key={i} className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                        <Icon name="check" className="w-4 h-4 text-primary-1" />
-                        <span>{metric}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Footer with Tech Icons */}
-                <div className={`mt-6 pt-6 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'} 
-                  flex justify-between items-center`}>
-                  <div className="flex gap-3">
-                    {Object.values(solution.techStack)[0] && 
-                      Object.values(Object.values(solution.techStack)[0])
-                        .slice(0, 3)
-                        .map((tech, i) => (
-                          <img
-                            key={i}
-                            src={tech.icon}
-                            alt=""
-                            className="w-6 h-6"
-                          />
+                  {/* Conditionally render Key Metrics */}
+                  {!isHomepage && (
+                    <div className="space-y-3">
+                      <h4 className={`text-sm font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Key Benefits</h4>
+                      <ul className="space-y-2">
+                        {solution.businessValue.metrics.slice(0, 3).map((metric, i) => (
+                          <li key={i} className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                            <Icon name="check" className="w-4 h-4 text-primary-1" />
+                            <span>{metric}</span>
+                          </li>
                         ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Footer with Tech Icons - Uses updated logic */}
+                  <div className={`mt-6 pt-6 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'} 
+                    flex justify-between items-center`}>
+                    <div className="flex gap-3">
+                      {techIconsToShow.map((tech) => (
+                        <img
+                          key={tech.name} // Use tech name as key
+                          src={tech.icon} // Use icon URL
+                          alt={tech.name} // Use tech name for alt text
+                          title={tech.name} // Add tooltip
+                          className="w-6 h-6 object-contain" // Added object-contain
+                        />
+                      ))}
+                    </div>
+                    <Icon 
+                      name="arrow-right" 
+                      className={`w-5 h-5 ${isDarkMode ? 'text-n-3' : 'text-n-5'} 
+                        group-hover:text-primary-1 transition-colors`} 
+                    />
                   </div>
-                  <Icon 
-                    name="arrow-right" 
-                    className={`w-5 h-5 ${isDarkMode ? 'text-n-3' : 'text-n-5'} 
-                      group-hover:text-primary-1 transition-colors`} 
-                  />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-20 text-center"
-        >
-          <div className={`${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-8 
-            border ${isDarkMode ? 'border-n-6' : 'border-n-3'} max-w-3xl mx-auto`}>
-            <h2 className={`h3 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Need a Custom Solution?</h2>
-            <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6`}>
-              Our team can help you build a tailored solution that meets your specific needs.
-            </p>
-            <Link 
-              to="/contact" 
-              className="button button-gradient"
-            >
-              Contact Us
-            </Link>
+        {/* Conditionally render "Learn More" Button */}
+        {isHomepage && (
+          <div className="mt-12 text-center">
+            <Button href="/solutions" white={!isDarkMode} >
+              Explore All Solutions
+            </Button>
           </div>
-        </motion.div>
+        )}
+
+        {/* Conditionally render CTA Section */}
+        {!isHomepage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="mt-20 text-center"
+          >
+            <div className={`${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-8 
+              border ${isDarkMode ? 'border-n-6' : 'border-n-3'} max-w-3xl mx-auto`}>
+              <h2 className={`h3 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Need a Custom Solution?</h2>
+              <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6`}>
+                Our team can help you build a tailored solution that meets your specific needs.
+              </p>
+              <Link 
+                to="/contact" 
+                className="button button-gradient"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
       </div>
     </Section>
   );

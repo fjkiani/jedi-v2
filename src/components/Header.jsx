@@ -179,10 +179,11 @@ const Header = () => {
   const [categories, setCategories] = useState([]); // For Technology dropdown
   const [navIndustries, setNavIndustries] = useState([]);
   const [navUseCases, setNavUseCases] = useState([]); // State for VALID use cases
+  const [navApplications, setNavApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
 
-  // Fetch industries and use cases from Hygraph
+  // Fetch industries, use cases, AND applications from Hygraph
   useEffect(() => {
     const fetchNavData = async () => {
       setLoading(true);
@@ -222,13 +223,13 @@ const Header = () => {
   // Prepare navigation data using useMemo
   const dynamicNavigation = useMemo(() => {
     console.log("[Header] Recalculating dynamicNavigation...");
-    // Start with the base structure from constants
-    const baseNav = navigation.map(item => ({ ...item }));
+    const baseNav = navigation.map(item => ({ ...item })); 
 
     const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
     const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
+    const solutionsIndex = baseNav.findIndex(item => item.id === '0'); 
 
-    // Inject Industries if found and not loading
+    // Inject Industries
     if (industriesIndex !== -1 && !loading) {
       baseNav[industriesIndex].dropdownItems = navIndustries.map(industry => ({
         id: industry.id,
@@ -236,30 +237,37 @@ const Header = () => {
         url: `/industries/${industry.slug}`
       }));
     } else if (industriesIndex !== -1) {
-      // Ensure dropdownItems is an empty array while loading or if fetch fails
       baseNav[industriesIndex].dropdownItems = [];
     }
 
-    // Inject Use Cases if found and not loading
+    // Inject Use Cases 
     if (useCasesIndex !== -1 && !loading) {
-      baseNav[useCasesIndex].dropdownItems = navUseCases.map(useCase => ({ // Map the filtered navUseCases
+      baseNav[useCasesIndex].dropdownItems = navUseCases.map(useCase => ({
         id: useCase.id,
         title: useCase.title,
-        url: `/industries/${useCase.industry.slug}/${useCase.slug}`,
+        url: useCase.industry?.slug ? `/industries/${useCase.industry.slug}/${useCase.slug}` : '#'
       }));
-      console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases into dropdown.`);
+      console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases.`);
     } else if (useCasesIndex !== -1) {
-      // Ensure dropdownItems is an empty array while loading or if fetch fails
-      baseNav[useCasesIndex].dropdownItems = [];
+       baseNav[useCasesIndex].dropdownItems = [];
     }
+    
+    // --- Inject IndustryApplications into Solutions --- 
+    if (solutionsIndex !== -1 && !loading) {
+      baseNav[solutionsIndex].dropdownItems = navApplications.map(app => ({
+        id: app.id, 
+        title: app.applicationTitle,
+        url: `/industries/${app.industry.slug}#application-${app.id}` 
+      }));
+      console.log(`[Header] Injected ${baseNav[solutionsIndex].dropdownItems?.length || 0} applications into Solutions.`);
+    } else if (solutionsIndex !== -1) {
+       baseNav[solutionsIndex].dropdownItems = [];
+    }
+    // --- End Solutions Injection --- 
 
-    // Technology dropdown is handled differently - it uses the 'categories' prop
-    // passed to DropdownMenu/MobileMenu, populated by fetchCategories effect.
-    // We don't need to inject into dropdownItems here for Technology.
-
-    console.log("[Header] Final dynamicNavigation structure:", baseNav);
+    console.log("[Header] Final dynamicNavigation:", baseNav);
     return baseNav;
-  }, [navIndustries, navUseCases, loading]); // REMOVED 'categories' from dependency array as it's not directly used here
+  }, [loading, navIndustries, navUseCases, navApplications]);
 
 
   // Fetch categories for Technology dropdown

@@ -6,27 +6,27 @@ import { GradientLight } from './design/Benefits';
 
 const features = [
   {
-    icon: 'shield',
-    title: 'Enterprise-Grade Security',
-    description: 'Bank-level security with SOC 2 compliance and end-to-end encryption',
+    icon: 'cpu',
+    title: 'Proprietary JEDI AI Platform',
+    description: 'Leverage our unique JEDI Ensemble™ and Rules™ engines for unparalleled AI capabilities and flexibility.',
     gradient: 'from-[#58a4ff] to-[#a658ff]'
   },
   {
-    icon: 'rocket',
-    title: 'Rapid Development',
-    description: 'Launch production-ready solutions in weeks, not months',
+    icon: 'target',
+    title: 'Use Case Driven Solutions',
+    description: 'We focus on solving specific, high-value business problems with tailored AI applications, not generic tools.',
     gradient: 'from-[#ff3d9a] to-[#ff9b3d]'
   },
   {
-    icon: 'cpu',
-    title: 'Cutting-Edge Tech Stack',
-    description: 'Built with the latest technologies and best practices',
+    icon: 'git-branch',
+    title: 'Seamless Integration Expertise',
+    description: 'Deep experience in integrating advanced AI smoothly into your existing workflows and technology stack.',
     gradient: 'from-[#58ff6d] to-[#58fff4]'
   },
   {
-    icon: 'chart',
-    title: 'Scalable Architecture',
-    description: 'Designed to handle enterprise workloads and growing demands',
+    icon: 'trending-up',
+    title: 'Continuous Performance & Adaptation',
+    description: 'Our solutions learn and improve, backed by robust monitoring and MLOps practices for lasting value.',
     gradient: 'from-[#ff583d] to-[#ff58c4]'
   }
 ];
@@ -48,11 +48,11 @@ const WhyChooseUs = () => {
         >
           <h2 className="h2 mb-4 inline-block bg-clip-text text-transparent 
             bg-gradient-to-r from-primary-1 to-n-1">
-            Why Choose Us
+            Why Choose Jedi Labs
           </h2>
           <p className="body-1 text-n-3 md:max-w-md lg:max-w-2xl mx-auto">
-            We combine technical excellence with deep industry expertise to deliver 
-            transformative solutions that drive real business value.
+            We combine our powerful JEDI AI platform with deep industry expertise
+            to deliver transformative solutions that drive tangible business value.
           </p>
         </motion.div>
 
@@ -68,17 +68,18 @@ const WhyChooseUs = () => {
                 duration: 0.7,
                 ease: "easeOut"
               }}
+              className="hover:-translate-y-1 transition-transform duration-300"
             >
               <div className="relative p-[1px] rounded-3xl overflow-hidden 
-                bg-gradient-to-b from-n-1/15 to-n-1/0 hover:from-n-1/20 hover:to-n-1/5
-                transition-colors duration-500">
+                bg-gradient-to-b from-n-1/15 to-n-1/0 hover:from-primary-1/15 hover:to-primary-1/5
+                transition-colors duration-500 group">
                 <div className="relative p-8 rounded-[23px] bg-n-7 overflow-hidden">
                   {/* Card Content */}
                   <div className="relative z-2">
                     <div className="mb-8 relative">
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient}
                         flex items-center justify-center transform transition-transform duration-500
-                        hover:scale-110 hover:rotate-[10deg]`}>
+                        hover:scale-115 hover:rotate-[10deg]`}>
                         <Icon name={feature.icon} className="w-6 h-6 text-n-1" />
                       </div>
                       <div className="absolute w-px h-[100px] bg-gradient-to-b from-n-1/15 to-n-1/0 
@@ -90,7 +91,7 @@ const WhyChooseUs = () => {
 
                   {/* Background Elements */}
                   <div className="absolute inset-0 bg-gradient-to-br opacity-[0.08] 
-                    transition-opacity duration-500 group-hover:opacity-[0.12]" />
+                    transition-opacity duration-500 group-hover:opacity-[0.15]" />
                   <GradientLight />
                 </div>
               </div>
