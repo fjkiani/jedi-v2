@@ -72,7 +72,7 @@ const IndustryPage = () => {
   const [industryData, setIndustryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('approach');
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     console.log(`[IndustryPage] useEffect triggered. Param value (industryId): ${industryId}`);

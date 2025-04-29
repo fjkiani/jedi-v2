@@ -56,33 +56,8 @@ const Hero = () => {
       video: "/videos/coding2.mp4",
     },
     {
-      title: "From Incremental to Exponential Growth",
-      subtitle: "Our proven methodologies help businesses achieve 100x improvements in efficiency, revenue, and market reach. We don't just optimize - we completely transform your business model.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "AI-Powered Business Acceleration",
-      subtitle: "Leverage our enterprise-grade AI solutions to automate processes, uncover hidden opportunities, and make data-driven decisions that drive 100x ROI on your technology investments.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Exponential Innovation Framework",
-      subtitle: "Our proprietary framework identifies and eliminates bottlenecks while amplifying your strengths, helping you achieve in months what would normally take years.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "100x Operational Excellence",
-      subtitle: "Transform your operations with intelligent automation that reduces costs by up to 90% while improving quality, speed, and customer satisfaction by orders of magnitude.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Strategic Digital Transformation",
-      subtitle: "Partner with our experts to develop your 100x roadmap. We help you identify high-impact opportunities and implement solutions that create exponential value across your organization.",
-      video: "/videos/coding2.mp4",
-    },
-    {
-      title: "Unlock Your 100x Potential Today",
-      subtitle: "Join the growing list of businesses that have achieved exponential growth with Jedi Labs. Our team of experts is ready to help you transform your vision into reality.",
+      title: "100x Your Business Potential",
+      subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
       video: "/videos/coding2.mp4",
     }
   ];

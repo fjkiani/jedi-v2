@@ -162,16 +162,16 @@ const AppContent = ({ posts, location, helmetContext }) => {
                       {/* <SolutionsNavigator /> */}
                     </motion.div>
                     <Services />
-                    <TransformationMethodology />
-                    <WhatWeDo />
+                    {/* <TransformationMethodology /> */}
+                    {/* <WhatWeDo /> */}
                     <CaseStudies />
                     <Collaboration />
-                    <NextGenAIStack />
-                    <IndustryOverview />
+                    {/* <NextGenAIStack /> */}
+                    {/* <IndustryOverview /> */}
                     {/* <WhyChooseUs /> */}
                     {/* <Pricing /> */}
                     <Roadmap />
-                    <Contact />
+                    {/* <Contact /> */}
                     {/* <StarsCanvas /> */}
                   </>
                 }

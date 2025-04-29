@@ -303,7 +303,7 @@ const ApplicationSidebar = ({ application, activeComponentId, setActiveComponent
         {renderList(expectedResults, 'award', '', 'text-yellow-500')}
       </div>
 
-      {/* --- NEW Technologies Used Section --- */}
+      {/* --- Technologies Used Section (Modified Styling) --- */}
       {technology && technology.length > 0 && (
         <div>
           <h3 className={`h5 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Technologies Used</h3>
@@ -312,13 +312,13 @@ const ApplicationSidebar = ({ application, activeComponentId, setActiveComponent
               <Link
                 key={tech.id}
                 to={`/technology/${tech.slug}`}
-                className={`flex items-center gap-2 px-3 py-1.5 ${isDarkMode ? 'bg-n-6 border-n-5 text-n-2 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-6 hover:text-n-8'} rounded-full border hover:border-primary-1 transition-colors`}
+                className="flex items-center gap-2 px-3 py-1 bg-n-6 rounded-full border border-n-5 text-n-2 hover:border-primary-1 transition-colors"
                 title={tech.name}
               >
                 {tech.icon?.url ? (
                   <img src={tech.icon.url} alt={tech.name} className="w-5 h-5 object-contain" />
                 ) : (
-                  <Icon name="tool" className={`w-4 h-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`} />
+                  <Icon name="code" className="w-4 h-4 text-n-3" />
                 )}
                 <span className="text-xs font-medium truncate max-w-[100px]">{tech.name}</span>
               </Link>
@@ -326,7 +326,7 @@ const ApplicationSidebar = ({ application, activeComponentId, setActiveComponent
           </div>
         </div>
       )}
-      {/* --- END NEW Section --- */}
+      {/* --- END Modified Section --- */}
     </div>
   );
 };
