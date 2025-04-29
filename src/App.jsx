@@ -283,7 +283,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
             </Routes>
           </AnimatePresence>
           
-          <Footer />
+          {/* <Footer /> */}
         </div>
         <ButtonGradient />
       </HelmetProvider>
