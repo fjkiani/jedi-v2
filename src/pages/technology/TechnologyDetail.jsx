@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown, FiServer } from 'react-icons/fi';
+import { FiChevronDown, FiServer, FiCheckCircle } from 'react-icons/fi';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { openAIService } from '@/services/openAIService.jsx';
@@ -9,6 +9,8 @@ import { technologyService } from '@/services/technologyService';
 import AIResponse from '@/components/response/AIResponse';
 import Section from '@/components/Section';
 import { RootSEO } from '@/components/SEO/RootSEO';
+import { useTheme } from '@/context/ThemeContext';
+import { RingLoader } from 'react-spinners';
 
 const TechnologyDetail = () => {
   const { slug, useCaseSlug } = useParams();
@@ -22,6 +24,7 @@ const TechnologyDetail = () => {
   const [loading, setLoading] = useState(true);
   const [useCase, setUseCase] = useState(null);
   const [error, setError] = useState(null);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const fetchUseCase = async () => {
@@ -48,13 +51,16 @@ const TechnologyDetail = () => {
       fetchUseCase();
     } else {
       console.log('No useCaseSlug provided');
+      setError('Use case identifier missing from URL.');
+      setLoading(false);
     }
   }, [useCaseSlug]);
 
   if (loading) {
     return (
-      <Section className="text-center">
-        <div className="animate-pulse">Loading use case details...</div>
+      <Section className="text-center flex justify-center items-center min-h-[60vh]">
+        <RingLoader color={isDarkMode ? "#FFF" : "#000"} size={60} />
+        <span className={`ml-4 text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading use case...</span>
       </Section>
     );
   }
@@ -62,8 +68,12 @@ const TechnologyDetail = () => {
   if (error) {
     return (
       <Section className="text-center">
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <p className="text-red-500">{error}</p>
+        <div className={`border rounded-lg p-6 max-w-md mx-auto ${isDarkMode ? 'bg-red-900/20 border-red-500/30' : 'bg-red-50 border-red-200'}`}>
+          <p className="text-red-500 font-medium">Error Loading Details</p>
+          <p className={`mt-2 text-sm ${isDarkMode ? 'text-red-300/80' : 'text-red-700/80'}`}>{error}</p>
+          <Link to="/technology" className={`inline-block mt-4 px-4 py-2 rounded text-sm transition-colors ${isDarkMode ? 'bg-n-6 text-n-2 hover:bg-n-5' : 'bg-n-2 text-n-6 hover:bg-n-3'}`}>
+            Back to Technologies
+          </Link>
         </div>
       </Section>
     );
@@ -72,8 +82,14 @@ const TechnologyDetail = () => {
   if (!useCase) {
     return (
       <Section className="text-center">
-        <div className="bg-n-6 rounded-lg p-4">
-          <p className="text-n-3">Use case not found</p>
+        <div className={`rounded-lg p-6 max-w-md mx-auto ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
+          <p className={`font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Use Case Not Found</p>
+          <p className={`mt-2 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+             The requested use case could not be found.
+          </p>
+          <Link to="/technology" className={`inline-block mt-4 px-4 py-2 rounded text-sm transition-colors ${isDarkMode ? 'bg-n-6 text-n-2 hover:bg-n-5' : 'bg-n-2 text-n-6 hover:bg-n-3'}`}>
+            Back to Technologies
+          </Link>
         </div>
       </Section>
     );
@@ -87,7 +103,8 @@ const TechnologyDetail = () => {
         id: `${index}`,
         data: { 
           label: (
-            <div className="bg-transparent p-4 rounded-lg text-sm text-n-3 border border-dashed border-n-6 min-w-[200px]">
+            <div className={`p-4 rounded-lg text-sm border min-w-[200px] shadow-sm ${isDarkMode ? 'bg-n-7 border-n-6 text-n-3' : 'bg-white border-n-3 text-n-6'}`}>
+              <div className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{step.step || `Step ${index + 1}`}</div>
               {step.description}
             </div>
           )
@@ -108,7 +125,7 @@ const TechnologyDetail = () => {
         source: `${i}`,
         target: `${i+1}`,
         type: 'smoothstep',
-        style: { stroke: '#6366f1' },
+        style: { stroke: isDarkMode ? '#8B5CF6' : '#6D28D9', strokeWidth: 1.5 }, 
         animated: true,
       })),
     };
@@ -172,7 +189,7 @@ const TechnologyDetail = () => {
     if (!currentState.result) return null;
 
     return (
-      <div className="bg-n-6 p-6 rounded-lg border border-n-5">
+      <div className={`p-6 rounded-lg border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
         <AIResponse response={currentState.result} />
       </div>
     );
@@ -181,36 +198,34 @@ const TechnologyDetail = () => {
   return (
     <>
       <RootSEO slug={slug} type="technology" />
-      <Section className="overflow-hidden">
+      <Section className="overflow-hidden pt-20">
         <div className="container">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-n-3 mb-4"
+            className={`text-sm mb-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}
           >
-            <Link to="/technology" className="hover:text-color-1">Technologies</Link>
+            <Link to="/technology" className={`hover:text-primary-1 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Technologies</Link>
             <span className="mx-2">/</span>
-            <Link to={`/technology/${slug}`} className="hover:text-color-1">{slug}</Link>
+            <Link to={`/technology/${slug}`} className={`hover:text-primary-1 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{slug}</Link>
             <span className="mx-2">/</span>
-            <span className="text-n-1">{useCase.title}</span>
+            <span className={isDarkMode ? 'text-n-1' : 'text-n-8'}>{useCase.title}</span>
           </motion.div>
 
           <div className="space-y-12">
-            {/* Use Case Content */}
-            <div className="bg-n-8 rounded-xl p-6 border border-n-6">
-              <h2 className="text-2xl font-bold mb-6">{useCase.title}</h2>
-              <p className="text-n-3 mb-6">{useCase.implementation.overview}</p>
+            <div className={`rounded-xl p-6 md:p-10 border ${isDarkMode ? 'bg-n-8 border-n-6' : 'bg-white border-n-3'} shadow-lg`}>
+              <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{useCase.title}</h2>
+              <p className={`body-1 mb-8 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{useCase.implementation.overview}</p>
 
-              {/* Tabs */}
-              <div className="flex space-x-4 mb-6">
+              <div className="flex flex-wrap gap-3 mb-8 border-b pb-6 border-n-6/30">
                 {['architecture', 'implementation', 'benefits'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-2 rounded-lg transition-all ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${ 
                       activeTab === tab 
-                        ? 'bg-primary-1 text-white' 
-                        : 'bg-n-7 text-n-3 hover:bg-n-6'
+                        ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-white shadow-md') 
+                        : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-1 text-n-5 hover:bg-n-2')
                     }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -218,7 +233,6 @@ const TechnologyDetail = () => {
                 ))}
               </div>
 
-              {/* Tab Content */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -228,99 +242,124 @@ const TechnologyDetail = () => {
                   transition={{ duration: 0.3 }}
                 >
                   {activeTab === 'architecture' && (
-                    <div className="space-y-6">
-                      {/* Flow Diagram */}
+                    <div className="space-y-8">
+                      <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Architecture Overview</h3>
+                      {useCase.implementation.architecture?.description && (
+                        <p className={`mb-6 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{useCase.implementation.architecture.description}</p>
+                      )}
+                      
                       {useCase.implementation.architecture?.flow && (
-                        <div className="h-[400px] bg-n-7 rounded-lg p-4">
-                          <ReactFlow 
-                            nodes={createWorkflowDiagram(useCase.implementation.architecture.flow).nodes}
-                            edges={createWorkflowDiagram(useCase.implementation.architecture.flow).edges}
-                            fitView
-                            className="react-flow-dark"
-                          >
-                            <Background color="#4b5563" gap={16} />
-                            <Controls className="react-flow-controls" />
-                            <MiniMap className="react-flow-minimap" />
-                          </ReactFlow>
+                        <div>
+                          <h4 className={`h5 mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Workflow</h4>
+                          <div className={`h-[450px] rounded-lg border relative overflow-hidden ${isDarkMode ? 'bg-n-9 border-n-6' : 'bg-gray-50 border-gray-200'}`}>
+                            <ReactFlow 
+                              nodes={createWorkflowDiagram(useCase.implementation.architecture.flow).nodes}
+                              edges={createWorkflowDiagram(useCase.implementation.architecture.flow).edges}
+                              fitView
+                              className={isDarkMode ? 'react-flow-dark-themed' : 'react-flow-light-themed'}
+                            >
+                              <Background color={isDarkMode ? '#374151' : '#e5e7eb'} gap={16} variant="dots" />
+                              <Controls 
+                                showInteractive={false} 
+                                className={`react-flow-controls ${isDarkMode ? '!bg-n-7 !border-n-6 !text-n-3' : '!bg-white !border-gray-300 !text-gray-700'}`}
+                              />
+                              <MiniMap 
+                                nodeColor={isDarkMode ? '#A78BFA' : '#8b5cf6'} 
+                                className={`react-flow-minimap ${isDarkMode ? '!bg-n-10 !border-n-7' : '!bg-gray-100 !border-gray-300'}`} 
+                                nodeBorderRadius={2}
+                              />
+                            </ReactFlow>
+                          </div>
                         </div>
                       )}
 
-                      {/* Components */}
                       {useCase.implementation.architecture?.components && (
-                        <div className="grid md:grid-cols-2 gap-4">
-                          {useCase.implementation.architecture.components.map((component, idx) => (
-                            <motion.div
-                              key={idx}
-                              whileHover={{ scale: 1.02 }}
-                              className="bg-n-7 rounded-lg p-4 cursor-pointer"
-                            >
-                              <h4 className="text-white font-medium mb-2 flex items-center">
-                                <FiServer className="mr-2" />
-                                {component.name}
-                              </h4>
-                              <p className="text-n-3 mb-2">{component.role || component.description}</p>
-                            </motion.div>
-                          ))}
+                        <div>
+                          <h4 className={`h5 mt-8 mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Key Components</h4>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            {useCase.implementation.architecture.components.map((comp, idx) => (
+                              <div key={idx} className={`p-4 rounded-lg border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'} shadow-sm`}>
+                                <h5 className={`font-medium mb-2 flex items-center ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                                  <FiServer size={16} className="mr-2 text-primary-1 opacity-80"/>
+                                  {comp.name}
+                                </h5>
+                                <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{comp.description}</p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
                   )}
 
                   {activeTab === 'implementation' && (
-                    <div className="space-y-6">
-                      <div className="bg-n-7 rounded-lg p-4 space-y-4">
-                        <h3 className="text-xl font-semibold text-white">Try the Use Case</h3>
-                        <p className="text-n-3">Select a sample query to run:</p>
-                        
-                        {/* Sample Queries Grid */}
-                        <div className="grid grid-cols-1 gap-3">
-                          {useCase.implementation.queries?.map((sample, sampleIndex) => (
-                            <button
-                              key={sampleIndex}
-                              onClick={() => {
-                                console.log('Sample query clicked:', sample);
-                                runOpenAIDemo('gpt-4', sample);
-                              }}
-                              className="text-left p-3 rounded-lg bg-n-8 border border-n-6 hover:border-primary-1 transition-colors duration-200 w-full"
-                            >
-                              <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-primary-1"></div>
-                                <p className="text-n-1">{sample}</p>
-                              </div>
-                            </button>
-                          ))}
+                    <div className="space-y-8">
+                      <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Implementation Details</h3>
+                      {useCase.implementation?.capabilities && (
+                        <div>
+                          <h4 className={`h5 mb-3 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Capabilities</h4>
+                          <ul className="space-y-2">
+                            {useCase.implementation.capabilities.map((cap, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <FiCheckCircle size={16} className="text-green-500 mt-0.5 flex-shrink-0"/>
+                                <span className={isDarkMode ? 'text-n-3' : 'text-n-6'}>{cap}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-
-                        {/* Loading State */}
-                        {useCaseState.loading && (
-                          <div className="flex items-center justify-center p-4">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-1"></div>
-                            <p className="ml-3 text-n-3">Analyzing query...</p>
+                      )}
+                      <div className={`p-6 rounded-lg border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
+                        <h4 className={`h5 mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Try it Live (Demo)</h4>
+                        {useCase.implementation.queries?.length > 0 && (
+                          <div className="mb-4">
+                             <p className={`text-sm mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Select a sample query:</p>
+                             <div className="flex flex-wrap gap-2">
+                              {useCase.implementation.queries.map((q, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => runOpenAIDemo('gpt-4', q)} 
+                                  className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${isDarkMode ? 'bg-n-6 border-n-5 text-n-3 hover:bg-n-5 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-5 hover:bg-n-3 hover:text-n-7'}`}
+                                >
+                                  {q}
+                                </button>
+                              ))}
+                            </div>
                           </div>
                         )}
-
-                        {/* AI Response */}
-                        {useCaseState.result && renderAIResponse(useCaseState)}
+                        {useCaseState.loading ? (
+                          <div className="flex justify-center items-center p-4">
+                            <RingLoader color={isDarkMode ? "#FFF" : "#000"} size={30} />
+                            <span className={`ml-3 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Generating response...</span>
+                          </div>
+                        ) : renderAIResponse(useCaseState)}
                       </div>
                     </div>
                   )}
 
                   {activeTab === 'benefits' && (
                     <div className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {useCase.implementation.benefits?.map((benefit, idx) => (
-                          <motion.div
-                            key={idx}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-n-7 rounded-lg p-4"
-                          >
-                            <div className="flex items-center space-x-2">
-                              <FiServer className="text-primary-1" />
-                              <p className="text-n-3">{benefit}</p>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
+                       <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Benefits & Metrics</h3>
+                       
+                       {/* Check if metrics exist AND have items */}
+                       {useCase.implementation?.metrics && useCase.implementation.metrics.length > 0 ? (
+                        // Render the list if metrics exist
+                        <div>
+                          <h4 className={`h5 mb-3 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Success Metrics</h4>
+                          <ul className="space-y-2">
+                            {useCase.implementation.metrics.map((metric, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <FiCheckCircle size={16} className="text-blue-500 mt-0.5 flex-shrink-0"/>
+                                <span className={isDarkMode ? 'text-n-3' : 'text-n-6'}>{metric}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                       ) : (
+                         // Render the fallback message if no metrics
+                         <p className={isDarkMode ? 'text-n-4' : 'text-n-5'}>
+                           No specific benefits or metrics listed for this use case.
+                         </p>
+                       )}
                     </div>
                   )}
                 </motion.div>
@@ -332,6 +371,5 @@ const TechnologyDetail = () => {
     </>
   );
 };
-
 
 export default TechnologyDetail;

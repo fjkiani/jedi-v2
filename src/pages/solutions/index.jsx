@@ -6,6 +6,7 @@ import { Icon } from '@/components/Icon';
 import Section from '@/components/Section';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
+import CallToAction from '@/components/CallToAction';
 
 const SolutionsPage = ({ isHomepage = false }) => {
   const { isDarkMode } = useTheme();
@@ -182,21 +183,9 @@ const SolutionsPage = ({ isHomepage = false }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="mt-20 text-center"
+            className="mt-20"
           >
-            <div className={`${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-8 
-              border ${isDarkMode ? 'border-n-6' : 'border-n-3'} max-w-3xl mx-auto`}>
-              <h2 className={`h3 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Need a Custom Solution?</h2>
-              <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6`}>
-                Our team can help you build a tailored solution that meets your specific needs.
-              </p>
-              <Link 
-                to="/contact" 
-                className="button button-gradient"
-              >
-                Contact Us
-              </Link>
-            </div>
+            <CallToAction />
           </motion.div>
         )}
       </div>
