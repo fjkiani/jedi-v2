@@ -8,13 +8,63 @@ import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
 import CallToAction from '@/components/CallToAction';
 
+// Import Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Add custom styles for Swiper navigation/pagination
+const swiperNavStyles = `
+  .homepage-solutions-swiper .swiper-button-prev,
+  .homepage-solutions-swiper .swiper-button-next {
+    color: var(--swiper-navigation-color, inherit);
+    width: 28px; height: 28px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 4px;
+    transition: background-color 0.2s;
+    top: calc(50% - 14px); /* Adjust vertical position */
+  }
+  .homepage-solutions-swiper .swiper-button-prev:hover,
+  .homepage-solutions-swiper .swiper-button-next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .homepage-solutions-swiper .swiper-button-prev::after,
+  .homepage-solutions-swiper .swiper-button-next::after {
+    font-size: 12px; font-weight: bold;
+  }
+  .homepage-solutions-swiper .swiper-button-prev { left: 8px; }
+  .homepage-solutions-swiper .swiper-button-next { right: 8px; }
+  .homepage-solutions-swiper .swiper-pagination-bullet {
+    background-color: var(--swiper-pagination-bullet-inactive-color, #ccc);
+    opacity: 0.7;
+  }
+  .homepage-solutions-swiper .swiper-pagination-bullet-active {
+    background-color: var(--swiper-pagination-color, #007aff);
+    opacity: 1;
+  }
+`;
+
 const SolutionsPage = ({ isHomepage = false }) => {
   const { isDarkMode } = useTheme();
   const allSolutions = getAllSolutions();
 
-  // Determine which solutions to display
-  const solutionsToDisplay = isHomepage ? allSolutions.slice(0, 3) : allSolutions;
+  // Add theme-aware colors to styles
+  const themeAwareSwiperNavStyles = swiperNavStyles.replace(
+    'var(--swiper-navigation-color, inherit)',
+    isDarkMode ? '#FFFFFF' : '#000000'
+  ).replace(
+    'var(--swiper-pagination-color, #007aff)',
+    isDarkMode ? '#8E55EA' : '#6C2BD9'
+  ).replace(
+    'var(--swiper-pagination-bullet-inactive-color, #ccc)',
+    isDarkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.3)'
+  );
 
+  // Determine solutions and page info based on context
+  const solutionsToDisplay = isHomepage ? allSolutions.slice(0, 3) : allSolutions;
   const pageTitle = isHomepage ? "AI/ML Solutions" : "Enterprise Solutions";
   const pageDescription = isHomepage ? 
     "Enterprise-grade AI and machine learning solutions for intelligent automation and decision-making."
@@ -73,6 +123,7 @@ const SolutionsPage = ({ isHomepage = false }) => {
 
   return (
     <Section className="overflow-hidden">
+      <style>{themeAwareSwiperNavStyles}</style> {/* Inject styles */} 
       <div className="container">
         {/* Header */}
         <motion.div 
@@ -88,87 +139,79 @@ const SolutionsPage = ({ isHomepage = false }) => {
           </p>
         </motion.div>
 
-        {/* Solutions Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {solutionsToDisplay.map((solution, index) => {
-            // Get icons using the helper function
-            const techIconsToShow = getTechIcons(solution.techStack);
-
-            return (
-              <motion.div
-                key={solution.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="hover:-translate-y-1 transition-transform duration-300 group"
-              >
-                <Link 
-                  to={`/solutions/${solution.slug}`}
-                  className={`block h-full flex flex-col ${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-6 
-                    border ${isDarkMode ? 'border-n-6 hover:border-primary-1/50' : 'border-n-3 hover:border-primary-1/50'} 
-                    transition-colors`}
+        {/* Solutions Swiper - RENDERED IN BOTH CASES */}
+        <div className="relative">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={30}
+            slidesPerView={1} // Start with 1 on mobile
+            navigation
+            pagination={{ clickable: true }}
+            breakpoints={{
+              640: { slidesPerView: 1, spaceBetween: 20 },
+              768: { slidesPerView: 2, spaceBetween: 30 },
+              1024: { slidesPerView: 3, spaceBetween: 30 },
+            }}
+            className="homepage-solutions-swiper !pb-10 md:!pb-12"
+          >
+            {solutionsToDisplay.map((solution, index) => (
+              <SwiperSlide key={solution.slug} className="h-auto flex pb-2">
+                <motion.div
+                  className="hover:-translate-y-1 transition-transform duration-300 group w-full"
                 >
-                  {/* Solution Header */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6 group-hover:bg-n-5' : 'bg-n-2 group-hover:bg-n-3'} 
-                      rounded-xl flex items-center justify-center transition-colors`}>
-                      <Icon name={solution.icon} className="w-6 h-6 text-primary-1" />
+                  <Link
+                    to={`/solutions/${solution.slug}`}
+                    className={`block h-full flex flex-col ${isDarkMode ? 'bg-n-7' : 'bg-white'} rounded-2xl p-6 
+                        border ${isDarkMode ? 'border-n-6 hover:border-primary-1/50' : 'border-n-3 hover:border-primary-1/50'} 
+                        transition-colors`}
+                  >
+                    {/* Solution Header */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6 group-hover:bg-n-5' : 'bg-n-2 group-hover:bg-n-3'} rounded-xl flex items-center justify-center transition-colors`}>
+                        <Icon name={solution.icon} className="w-6 h-6 text-primary-1" />
+                      </div>
+                      <div>
+                        <h3 className={`h4 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{solution.title}</h3>
+                        <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                          {solution.categories.join(' • ')}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className={`h4 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{solution.title}</h3>
-                      <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                        {solution.categories.join(' • ')}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6 flex-grow`}>
-                    {solution.description}
-                  </p>
-
-                  {/* Conditionally render Key Metrics */}
-                  {!isHomepage && (
-                    <div className="space-y-3">
-                      <h4 className={`text-sm font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Key Benefits</h4>
-                      <ul className="space-y-2">
-                        {solution.businessValue.metrics.slice(0, 3).map((metric, i) => (
-                          <li key={i} className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                            <Icon name="check" className="w-4 h-4 text-primary-1" />
-                            <span>{metric}</span>
-                          </li>
+                    {/* Description */}
+                    <p className={`${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-6 flex-grow`}>
+                      {solution.description}
+                    </p>
+                    {/* Conditional Key Metrics (Only shown on standalone page) */}
+                    {!isHomepage && solution.businessValue?.metrics && (
+                      <div className="space-y-3 mb-6">
+                        <h4 className={`text-sm font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Key Benefits</h4>
+                        <ul className="space-y-2">
+                          {solution.businessValue.metrics.slice(0, 3).map((metric, i) => (
+                            <li key={i} className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                              <Icon name="check" className="w-4 h-4 text-primary-1" />
+                              <span>{metric}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {/* Footer with Tech Icons */}
+                    <div className={`mt-auto pt-6 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'} flex justify-between items-center`}>
+                      <div className="flex gap-3">
+                        {getTechIcons(solution.techStack).map((tech) => (
+                          <img key={tech.name} src={tech.icon} alt={tech.name} title={tech.name} className="w-6 h-6 object-contain" />
                         ))}
-                      </ul>
+                      </div>
+                      <Icon name="arrow-right" className={`w-5 h-5 ${isDarkMode ? 'text-n-3' : 'text-n-5'} group-hover:text-primary-1 transition-colors`} />
                     </div>
-                  )}
-
-                  {/* Footer with Tech Icons - Uses updated logic */}
-                  <div className={`mt-6 pt-6 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'} 
-                    flex justify-between items-center`}>
-                    <div className="flex gap-3">
-                      {techIconsToShow.map((tech) => (
-                        <img
-                          key={tech.name} // Use tech name as key
-                          src={tech.icon} // Use icon URL
-                          alt={tech.name} // Use tech name for alt text
-                          title={tech.name} // Add tooltip
-                          className="w-6 h-6 object-contain" // Added object-contain
-                        />
-                      ))}
-                    </div>
-                    <Icon 
-                      name="arrow-right" 
-                      className={`w-5 h-5 ${isDarkMode ? 'text-n-3' : 'text-n-5'} 
-                        group-hover:text-primary-1 transition-colors`} 
-                    />
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+                  </Link>
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
-        {/* Conditionally render "Learn More" Button */}
+        {/* Conditional "Learn More" Button (Only shows on Homepage) */}
         {isHomepage && (
           <div className="mt-12 text-center">
             <Button href="/solutions" white={!isDarkMode} >
@@ -177,7 +220,7 @@ const SolutionsPage = ({ isHomepage = false }) => {
           </div>
         )}
 
-        {/* Conditionally render CTA Section */}
+        {/* Conditional CTA Section (Only shows on Standalone page) */}
         {!isHomepage && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

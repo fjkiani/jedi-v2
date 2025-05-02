@@ -6,8 +6,8 @@ export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Check localStorage first
     const savedTheme = localStorage.getItem('theme');
-    // Default to dark mode if no theme is saved
-    return savedTheme ? savedTheme === 'dark' : true;
+    // Default to LIGHT mode (false) if no theme is saved
+    return savedTheme ? savedTheme === 'dark' : false;
   });
 
   // Apply theme changes

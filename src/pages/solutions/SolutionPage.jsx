@@ -26,6 +26,42 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import jediLabsLogo from '@/assets/logo/logo.png';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+const swiperNavStyles = `
+  .solution-use-cases-swiper .swiper-button-prev,
+  .solution-use-cases-swiper .swiper-button-next {
+    color: var(--swiper-navigation-color, inherit);
+    width: 28px; height: 28px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 4px;
+    transition: background-color 0.2s;
+    top: calc(50% - 14px); /* Adjust vertical position */
+  }
+  .solution-use-cases-swiper .swiper-button-prev:hover,
+  .solution-use-cases-swiper .swiper-button-next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .solution-use-cases-swiper .swiper-button-prev::after,
+  .solution-use-cases-swiper .swiper-button-next::after {
+    font-size: 12px; font-weight: bold;
+  }
+  .solution-use-cases-swiper .swiper-button-prev { left: 8px; }
+  .solution-use-cases-swiper .swiper-button-next { right: 8px; }
+  .solution-use-cases-swiper .swiper-pagination-bullet {
+    background-color: var(--swiper-pagination-bullet-inactive-color, #ccc);
+    opacity: 0.7;
+  }
+  .solution-use-cases-swiper .swiper-pagination-bullet-active {
+    background-color: var(--swiper-pagination-color, #007aff);
+    opacity: 1;
+  }
+`;
 
 const GET_USE_CASES = gql`
   query GetUseCases {
@@ -115,6 +151,17 @@ const SolutionPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isDarkMode } = useTheme();
+
+  const themeAwareSwiperNavStyles = swiperNavStyles.replace(
+    'var(--swiper-navigation-color, inherit)',
+    isDarkMode ? '#FFFFFF' : '#000000'
+  ).replace(
+    'var(--swiper-pagination-color, #007aff)',
+    isDarkMode ? '#8E55EA' : '#6C2BD9'
+  ).replace(
+    'var(--swiper-pagination-bullet-inactive-color, #ccc)',
+    isDarkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.3)'
+  );
 
   useEffect(() => {
     const fetchUseCases = async () => {
@@ -227,15 +274,30 @@ const SolutionPage = () => {
                   {error}
                 </div>
               ) : useCases.length > 0 ? (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {useCases.map((useCase) => (
-                    <UseCaseCard 
-                      key={useCase.id}
-                      useCase={useCase} 
-                      onQueryClick={() => handleQueryClick(useCase)} 
-                      onClick={() => handleUseCaseClick(useCase)} 
-                    />
-                  ))}
+                <div className="relative">
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      640: { slidesPerView: 1, spaceBetween: 20 },
+                      768: { slidesPerView: 2, spaceBetween: 30 },
+                      1024: { slidesPerView: 3, spaceBetween: 30 },
+                    }}
+                    className="solution-use-cases-swiper !pb-10"
+                  >
+                    {useCases.map((useCase) => (
+                      <SwiperSlide key={useCase.id} className="h-auto flex pb-2">
+                        <UseCaseCard 
+                          useCase={useCase} 
+                          onQueryClick={() => handleQueryClick(useCase)} 
+                          onClick={() => handleUseCaseClick(useCase)} 
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </div>
               ) : (
                 <div className={`text-center ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>No use cases found</div>
@@ -431,6 +493,8 @@ const SolutionPage = () => {
           </motion.div>
         </div>
       </Section>
+
+      <style>{themeAwareSwiperNavStyles}</style>
     </>
   );
 };

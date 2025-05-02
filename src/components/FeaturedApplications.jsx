@@ -10,6 +10,55 @@ import { Link } from 'react-router-dom';
 import ApplicationDisplay from '../features/industries/components/ApplicationDisplay';
 import { RingLoader } from 'react-spinners';
 import { RichText } from '@graphcms/rich-text-react-renderer';
+import Button from '@/components/Button';
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Add custom styles for Swiper navigation arrows
+const swiperNavStyles = `
+  .mySwiper .swiper-button-prev,
+  .mySwiper .swiper-button-next {
+    color: var(--swiper-navigation-color, inherit); /* Use theme color or default */
+    width: 28px; /* Adjust size */
+    height: 28px;
+    background-color: rgba(0, 0, 0, 0.3); /* Optional: Semi-transparent background */
+    border-radius: 50%;
+    padding: 4px;
+    transition: background-color 0.2s;
+    top: calc(50% - 14px); /* Vertically center (half of height) */
+  }
+  .mySwiper .swiper-button-prev:hover,
+  .mySwiper .swiper-button-next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .mySwiper .swiper-button-prev::after,
+  .mySwiper .swiper-button-next::after {
+    font-size: 12px; /* Adjust arrow icon size */
+    font-weight: bold;
+  }
+  .mySwiper .swiper-button-prev {
+    left: 8px; /* Adjust position */
+  }
+  .mySwiper .swiper-button-next {
+    right: 8px; /* Adjust position */
+  }
+  /* Adjust pagination bullet colors if needed */
+  .mySwiper .swiper-pagination-bullet {
+    background-color: var(--swiper-pagination-bullet-inactive-color, #ccc);
+    opacity: 0.7;
+  }
+  .mySwiper .swiper-pagination-bullet-active {
+    background-color: var(--swiper-pagination-color, #007aff); /* Use primary color */
+    opacity: 1;
+  }
+`;
 
 // --- Concise Application View for Modal ---
 const ConciseApplicationView = ({ application }) => {
@@ -282,7 +331,8 @@ const ApplicationCard = ({ application, industryName, onClick }) => {
     tagline,
     publishedAt,
     jediComponent = [],
-    technology
+    technology,
+    industryChallenge
   } = application;
 
   // Determine industry name: Use passed prop directly if available (from 'All' query or parent)
@@ -291,48 +341,64 @@ const ApplicationCard = ({ application, industryName, onClick }) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className={`p-5 rounded-xl border cursor-pointer transition-colors h-full flex flex-col justify-between ${
+      className={`p-5 rounded-xl border cursor-pointer transition-colors h-full flex flex-col justify-between ${ 
         isDarkMode 
           ? 'bg-n-7 border-n-6 hover:border-primary-1' 
           : 'bg-n-1 border-n-3 hover:border-primary-1'
       }`}
       onClick={onClick}
     >
-      <div>
-        {/* Top part: Date, Industry */}
-        <div className="flex gap-3 items-start mb-3">
-          <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${
-            isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5'
-          }`}>
-            {formatDate(publishedAt)}
+      {/* Top section content */}
+      <div className="mb-4"> 
+        {/* Date and Industry tags - Centered */}
+        <div className="flex gap-2 items-center justify-center mb-4 flex-wrap"> {/* Increased bottom margin */}
+          <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${ isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5' }`}>
+             {formatDate(publishedAt)}
           </div>
           {displayIndustryName && (
-            <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${
-              isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1'
-            }`}>
-              {displayIndustryName}
-            </div>
-          )}
+             <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${ isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1' }`}>
+                 {displayIndustryName}
+             </div>
+           )}
         </div>
         
-        {/* Main Content: Title, Tagline */}
-        <h4 className={`font-medium mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+        {/* Main Content: Title, Tagline (Left-aligned by default) */}
+        <h4 className={`h4 font-semibold mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}> {/* Use h4 for slightly smaller title? or keep font-medium */}
           {applicationTitle}
         </h4>
         {tagline && (
-          <p className="text-sm text-primary-1 mb-3">{tagline}</p>
+          <p className="text-sm text-primary-1 mb-4">{tagline}</p>
         )}
+        
+        {/* Industry Challenge Section (Left-aligned) */}
+         {industryChallenge?.raw && (
+             <div className="mb-4"> {/* Removed text-left, default now */}
+                 <h5 className={`text-xs font-semibold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>The Challenge</h5>
+                 {/* Removed max-w-none from prose */}
+                 <div className={`prose prose-sm line-clamp-3 ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}> 
+                    <RichText content={industryChallenge.raw} />
+                 </div>
+             </div>
+         )}
       </div>
 
-      {/* Bottom section: Keep minimal, maybe just the technology icon if needed */}
-      <div className="flex items-end justify-end mt-auto pt-3"> {/* Only show icon if available */}
-         {/* Technology Icon (bottom right) */}
-         {technology?.icon?.url && (
-           <img 
-             src={technology.icon.url} 
-             alt="Technology icon" 
-             className="w-5 h-5 ml-2 opacity-60 flex-shrink-0" 
-           />
+      {/* Bottom section grouped and centered */}
+      <div className="mt-auto pt-4 text-center"> {/* Added text-center here */}
+        {/* Jedi Component Tags */}
+         {jediComponent && jediComponent.length > 0 && (
+             <div className="flex flex-wrap gap-1.5 justify-center mb-4"> {/* Increased bottom margin */}
+                 {jediComponent.slice(0, 3).map(comp => (
+                     <span key={comp.id} className={`text-xxs px-2 py-0.5 rounded-full border ${ isDarkMode ? 'border-n-5 bg-n-6 text-n-3' : 'border-n-3 bg-n-2 text-n-5' }`}>
+                         {comp.name}
+                     </span>
+                 ))}
+             </div>
+         )}
+        {/* Technology Icon */}
+        {technology?.icon?.url && (
+             <div className="flex justify-center"> {/* Keep icon centered */}
+                 <img src={technology.icon.url} alt="Technology icon" className="w-5 h-5 opacity-60 flex-shrink-0" />
+             </div>
          )}
       </div>
     </motion.div>
@@ -350,6 +416,18 @@ const FeaturedApplications = () => {
   const [loadingApplications, setLoadingApplications] = useState(false);
   const [error, setError] = useState(null);
   const { isDarkMode } = useTheme();
+
+  // Add theme-aware colors to styles
+  const themeAwareSwiperNavStyles = swiperNavStyles.replace(
+    'var(--swiper-navigation-color, inherit)',
+    isDarkMode ? '#FFFFFF' : '#000000'
+  ).replace(
+    'var(--swiper-pagination-color, #007aff)', // Default active bullet color
+    isDarkMode ? '#8E55EA' : '#6C2BD9' // Use primary color variables if available, otherwise hardcode
+  ).replace(
+    'var(--swiper-pagination-bullet-inactive-color, #ccc)', // Default inactive bullet color
+    isDarkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.3)'
+  );
 
   useEffect(() => {
     const fetchIndustries = async () => {
@@ -445,6 +523,7 @@ const FeaturedApplications = () => {
 
   return (
     <Section className="overflow-hidden" id="featured-applications">
+      <style>{themeAwareSwiperNavStyles}</style> {/* Inject the styles */}
       <div className="container">
         <Heading 
           title="Featured AI Applications" 
@@ -466,9 +545,8 @@ const FeaturedApplications = () => {
         )}
 
         {!loadingIndustries && !error && industries.length > 0 && (
-          <div>
-            <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide justify-center flex-wrap">
-              {/* "All" Tab Button */}
+          <div className={`rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'} p-4 sm:p-6 lg:p-8 shadow-lg`}>
+            <div className="flex flex-wrap border-b mb-6 pb-3 -mx-2">
               <button
                 key="all-tab"
                 onClick={() => setActiveIndustrySlug("all")}
@@ -481,7 +559,6 @@ const FeaturedApplications = () => {
                  <span>All Recent</span>
               </button>
 
-              {/* Industry Specific Tabs */}
               {!loadingIndustries && industries.map((industry) => (
                 <button
                   key={industry.id}
@@ -497,34 +574,64 @@ const FeaturedApplications = () => {
               ))}
             </div>
 
-            <div className="mt-4">
-              {loadingApplications ? (
-                 <div className="flex justify-center items-center p-8">
-                   <RingLoader color={isDarkMode ? "#FFFFFF" : "#000000"} size={40} />
-                   <span className={`ml-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading applications...</span>
-                 </div>
-              ) : applications.length === 0 ? (
-                <p className={`text-center p-6 rounded-lg border ${
-                  isDarkMode ? 'border-n-6 bg-n-7 text-n-4' : 'border-n-3 bg-n-1 text-n-5'
-                }`}>
-                  No featured applications found {activeIndustrySlug === "all" ? "recently" : `for ${currentIndustry?.name || 'this industry'}`} yet.
-                </p>
-              ) : (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> 
-                   {applications.map((app) => (
-                      <ApplicationCard
-                        key={app.id}
-                        application={app}
-                        // Pass industry name explicitly for the 'All' tab, otherwise use currentIndustry
-                        industryName={activeIndustrySlug === 'all' ? app.industry?.name : currentIndustry?.name}
-                        onClick={() => handleOpenModal(app)}
-                      />
-                   ))}
-                </div>
-              )}
+            {/* Content Area: Use AnimatePresence for transitions */}
+            <div className="mt-4 min-h-[250px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndustrySlug}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {loadingApplications ? (
+                    <div className="flex justify-center items-center p-8">
+                      <RingLoader color={isDarkMode ? "#FFFFFF" : "#000000"} size={40} />
+                      <span className={`ml-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading applications...</span>
+                    </div>
+                  ) : applications.length === 0 ? (
+                    <p className={`text-center p-6 rounded-lg border ${ 
+                      isDarkMode ? 'border-n-6 bg-n-8 text-n-4' : 'border-n-3 bg-n-2 text-n-5'
+                    }`}>
+                      No featured applications found {activeIndustrySlug === "all" ? "recently" : `for ${currentIndustry?.name || 'this industry'}`} yet.
+                    </p>
+                  ) : (
+                    <Swiper
+                      modules={[Navigation, Pagination]}
+                      spaceBetween={30}
+                      slidesPerView={1}
+                      navigation
+                      pagination={{ clickable: true }}
+                      breakpoints={{
+                        640: { slidesPerView: 1, spaceBetween: 20 },
+                        768: { slidesPerView: 2, spaceBetween: 30 },
+                        1024: { slidesPerView: 3, spaceBetween: 30 },
+                      }}
+                      className="mySwiper !pb-10"
+                    >
+                      {applications.map((app) => (
+                        <SwiperSlide key={app.id} className="h-auto flex">
+                          <ApplicationCard
+                            application={app}
+                            industryName={activeIndustrySlug === 'all' ? app.industry?.name : currentIndustry?.name}
+                            onClick={() => handleOpenModal(app)}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-             {/* Optional: Link to full industry page (Hide when "All" is active) */}
+            {/* "Explore All" Button - Added Below Slider */}
+            <div className="mt-12 text-center"> {/* Increased margin-top */}
+              <Button as={Link} href="/industries" secondary> {/* Use Button component if available, or Link */}
+                Explore All Industries
+              </Button>
+            </div>
+
+             {/* Optional: Link to full industry page (Hide when "All" is active) - This might be redundant now? Review if needed */}
              {currentIndustry && activeIndustrySlug !== "all" && applications.length > 0 && (
                <div className="mt-10 text-center">
                  <Link

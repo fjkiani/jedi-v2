@@ -51,6 +51,7 @@ import SEO, { RootSEO } from "@/components/SEO";
 import { TestSEO } from '@/components/SEO/TestSEO';
 import UseCasesPage from './pages/UseCasesPage';
 import FeaturedApplications from "./components/FeaturedApplications";
+import CallToAction from "./components/CallToAction";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -161,7 +162,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     {/* <TransformationMethodology /> */}
                     {/* <WhatWeDo /> */}
                     <CaseStudies />
-                    <Collaboration />
+                    <CallToAction />
                     {/* <NextGenAIStack /> */}
                     {/* <IndustryOverview /> */}
                     <WhyChooseUs />
@@ -179,7 +180,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionsPage />
                     <WhyChooseUs />
-                    <TransformationMethodology />
+                    {/* <TransformationMethodology /> */}
                     <CaseStudies />
                     {/* <Contact /> */}
                   </PageTransition>
@@ -279,7 +280,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
             </Routes>
           </AnimatePresence>
           
-          {/* <Footer /> */}
+          <Footer />
         </div>
         <ButtonGradient />
       </HelmetProvider>
