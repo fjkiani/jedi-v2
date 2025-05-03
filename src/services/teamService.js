@@ -3,7 +3,7 @@ import { hygraphClient } from '@/lib/hygraph';
 
 const GET_TEAM_MEMBER_BY_SLUG = gql`
   query TeamMemberBySlug($slug: String!) {
-    teamMember(where: {slug: $slug}) {
+    teamMembers(where: {slug: $slug}, first: 1) {
       name
       role
       slug
@@ -22,53 +22,6 @@ const GET_TEAM_MEMBER_BY_SLUG = gql`
         value
         label
       }
-      workExperience {
-        ... on WorkExperience {
-          id
-          title
-          company
-          location
-          startDate
-          endDate
-          highlights
-          description {
-            html
-          }
-          skills {
-            ... on Technology {
-              name
-              slug
-              icon
-              description
-            }
-            ... on UseCase {
-              title
-              description
-            }
-            ... on Projects {
-              title
-              description
-            }
-          }
-        }
-      }
-      portfolioAsset {
-        title
-        description {
-          html
-        }
-        image {
-          url
-        }
-        projectUrl
-        workExperience {
-          ... on WorkExperience {
-            id
-            title
-            company
-          }
-        }
-      }
       certification {
         name
         description {
@@ -79,31 +32,42 @@ const GET_TEAM_MEMBER_BY_SLUG = gql`
           url
         }
       }
-      teamProfile {
-        ... on Industry {
-          name
-        }
-        ... on Projects {
-          title
-          description
-        }
-        ... on Post {
-          title
-          excerpt
-          slug
-          featuredImage {
-            url
-          }
-          createdAt
-          author {
-            name
-          }
-          categories {
-            name
-            slug
-          }
-        }
-      }
+      # workExperience {
+      #   ... on WorkExperience {
+      #     id
+      #     title
+      #     company
+      #     location
+      #     startDate
+      #     endDate
+      #     highlights
+      #     description {
+      #       html
+      #     }
+      #     skills {
+      #       ... on Technology {
+      #         name
+      #         slug
+      #         icon
+      #         description
+      #       }
+      #       ... on UseCase {
+      #         title
+      #         description
+      #       }
+      #       ... on Projects {
+      #         title
+      #         description
+      #       }
+      #     }
+      #   }
+      # }
+      # portfolioAsset {
+      #   # ... portfolio asset fields ...
+      # }
+      # certification {
+      #   # ... certification fields ...
+      # }
     }
   }
 `;
@@ -155,9 +119,9 @@ export const teamService = {
   getTeamMemberBySlug: async (slug) => {
     try {
       console.log('Fetching team member with slug:', slug);
-      const { teamMember } = await hygraphClient.request(GET_TEAM_MEMBER_BY_SLUG, { slug });
-      console.log('Team member data:', teamMember);
-      return teamMember;
+      const { teamMembers } = await hygraphClient.request(GET_TEAM_MEMBER_BY_SLUG, { slug });
+      console.log('Team members data (plural query):', teamMembers);
+      return teamMembers && teamMembers.length > 0 ? teamMembers[0] : null;
     } catch (error) {
       console.error('Error fetching team member:', error);
       throw error;

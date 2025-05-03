@@ -182,9 +182,19 @@ const UseCaseDetailView = ({ useCase, onClose }) => {
         </div>
       </div>
 
-       {/* Optional: Add a more prominent close button at the bottom */}
+       {/* CHANGE Button to Link for full page navigation */}
        <div className="mt-10 text-center">
-            <Button onClick={onClose} variant="secondary">Close Details</Button>
+            {/* Ensure industry and use case slugs exist before rendering link */}
+            {useCase.industry?.slug && useCase.slug && (
+              <Link
+                to={`/industries/${useCase.industry.slug}/${useCase.slug}`}
+                // Apply button styles to the Link
+                className="button button-secondary flex items-center gap-2 mx-auto"
+              >
+                <span>View Full Use Case</span>
+                <Icon name="arrow-right" className="w-4 h-4" /> 
+              </Link>
+            )}
        </div>
     </motion.div>
   );

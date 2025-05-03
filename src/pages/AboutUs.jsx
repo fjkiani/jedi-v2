@@ -12,10 +12,14 @@ import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
 import { securityArchitecture } from '@/constants/solutions/security-architecture';
 import { jediEmpower, jediVision } from '@/assets';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@/context/ThemeContext';
+import CallToAction from '@/components/CallToAction';
+import { RingLoader } from 'react-spinners';
 
 const AboutUs = () => {
   const [aboutData, setAboutData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +35,15 @@ const AboutUs = () => {
 
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <Section className="pt-[12rem] -mt-[5.25rem] flex justify-center items-center min-h-screen">
+        <RingLoader color={isDarkMode ? "#FFF" : "#000"} size={60} />
+        <span className={`ml-4 text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading About Us...</span>
+      </Section>
+    );
+  }
 
   return (
     <>
@@ -65,23 +78,23 @@ const AboutUs = () => {
               />
             </motion.div>
 
-            <h1 className="h1 mb-6">
+            <h1 className={`h1 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
               {aboutContent.hero.title}{' '}
               <span className="inline-block relative">
                 {aboutContent.hero.highlightText}
                 <svg className="absolute left-0 right-0 bottom-0 -z-10" viewBox="0 0 100% 100%">
-                  <circle className="stroke-n-1/10 dark:stroke-n-6" cx="50%" cy="50%" r="45%" pathLength="100" strokeDasharray="100" strokeDashoffset="0" fill="none" strokeWidth="0.5"/>
+                  <circle className={`stroke-1 ${isDarkMode ? 'stroke-n-6' : 'stroke-n-1/10'}`} cx="50%" cy="50%" r="45%" pathLength="100" strokeDasharray="100" strokeDashoffset="0" fill="none" strokeWidth="0.5"/>
                 </svg>
               </span>
             </h1>
-            <p className="body-1 text-n-4 mb-6">
+            <p className={`body-1 mb-6 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               {aboutContent.hero.description}
             </p>
             <div className="flex justify-center gap-8">
               {aboutContent.hero.stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="h3 mb-2">{stat.value}</div>
-                  <div className="caption text-n-4">{stat.label}</div>
+                  <div className={`h3 mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{stat.value}</div>
+                  <div className={`caption ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -100,32 +113,32 @@ const AboutUs = () => {
             className="relative grid gap-10 md:grid-cols-2 md:gap-16 items-center"
           >
             <div className="relative z-1">
-              <h2 className="h2 mb-6">{aboutContent.vision.title}</h2>
-              <p className="body-2 text-n-4 mb-10">
+              <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.vision.title}</h2>
+              <p className={`body-2 mb-10 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                 {aboutContent.vision.description}
               </p>
               <div className="flex flex-wrap gap-6">
                 {aboutContent.vision.highlights.map((highlight) => (
                   <div key={highlight.id} className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-n-2 dark:bg-n-7">
+                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${isDarkMode ? 'bg-n-7' : 'bg-n-2'}`}>
                       <AboutIcon 
                         path={highlight.icon.path}
                         viewBox={highlight.icon.viewBox}
-                        className="w-6 h-6 text-color-1"
+                        className="w-6 h-6 text-primary-1"
                       />
                     </div>
-                    <div className="caption text-n-4">{highlight.text}</div>
+                    <div className={`caption ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{highlight.text}</div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="relative aspect-square">
-              <div className="absolute inset-0 bg-gradient-to-br from-color-1/40 to-color-2/40 rounded-3xl -z-10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-1/20 to-primary-2/20 rounded-3xl -z-10 blur-lg" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <img 
                   src={jediVision}
                   alt="JEDI Vision"
-                  className="w-full h-full object-cover rounded-3xl"
+                  className="w-full h-full object-cover rounded-3xl shadow-xl"
                 />
               </div>
             </div>
@@ -143,8 +156,8 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">{aboutContent.values.title}</h2>
-            <p className="body-2 text-n-4">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.values.title}</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               {aboutContent.values.subtitle}
             </p>
           </motion.div>
@@ -159,17 +172,17 @@ const AboutUs = () => {
             {aboutContent.values.items.map((value, index) => (
               <div 
                 key={index}
-                className="relative flex flex-col items-center text-center p-8 rounded-3xl bg-n-2 dark:bg-n-7"
+                className={`relative flex flex-col items-center text-center p-8 rounded-3xl ${isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-n-1 border border-n-3'} shadow-md hover:shadow-xl transition-shadow`}
               >
-                <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-n-1 dark:bg-n-6 mb-6">
+                <div className={`flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${isDarkMode ? 'bg-n-6' : 'bg-n-2'}`}>
                   <AboutIcon 
                     path={value.icon.path}
                     viewBox={value.icon.viewBox}
-                    className="w-8 h-8 text-color-1"
+                    className="w-8 h-8 text-primary-1"
                   />
                 </div>
-                <h3 className="h4 mb-4">{value.title}</h3>
-                <p className="body-2 text-n-4">{value.description}</p>
+                <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{value.title}</h3>
+                <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{value.description}</p>
               </div>
             ))}
           </motion.div>
@@ -198,7 +211,7 @@ const AboutUs = () => {
             whileInView="show"
             viewport={{ once: true }}
           >
-            <JEDIDiagramView diagram={jediArchitecture} />
+            <JEDIDiagramView diagram={jediArchitecture} isDarkMode={isDarkMode} />
           </motion.div>
         </div>
       </Section>
@@ -225,7 +238,7 @@ const AboutUs = () => {
             whileInView="show"
             viewport={{ once: true }}
           >
-            <JEDIDiagramView diagram={securityArchitecture} />
+            <JEDIDiagramView diagram={securityArchitecture} isDarkMode={isDarkMode} />
           </motion.div>
         </div>
       </Section>
@@ -240,8 +253,8 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">{aboutContent.expertise.title}</h2>
-            <p className="body-2 text-n-4">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.expertise.title}</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               {aboutContent.expertise.subtitle}
             </p>
           </motion.div>
@@ -256,10 +269,19 @@ const AboutUs = () => {
             {aboutContent.expertise.areas.map((area, index) => (
               <div 
                 key={index}
-                className="relative flex flex-col items-center text-center p-8 rounded-3xl bg-n-2 dark:bg-n-7"
+                className={`p-6 rounded-xl border transition-shadow hover:shadow-lg ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}
               >
-                <h3 className="h4 mb-4">{area.title}</h3>
-                <p className="body-2 text-n-4 mb-6">{area.description}</p>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-lg ${isDarkMode ? 'bg-n-6' : 'bg-n-2'}`}>
+                    <AboutIcon 
+                      path="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                      viewBox="0 0 24 24"
+                      className="w-5 h-5 text-primary-1"
+                    />
+                  </div>
+                  <h4 className={`h6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{area.title}</h4>
+                </div>
+                <p className={`body-2 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{area.description}</p>
                 <div className="space-y-3">
                   {area.features.map((feature, idx) => (
                     <div 
@@ -269,7 +291,7 @@ const AboutUs = () => {
                       <AboutIcon 
                         path="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
                         viewBox="0 0 24 24"
-                        className="w-5 h-5 text-color-1"
+                        className="w-5 h-5 text-primary-1"
                       />
                       {feature}
                     </div>
@@ -338,6 +360,18 @@ const AboutUs = () => {
           </div>
         </Section>
       )}
+
+      <Section>
+        <div className="container">
+          <CallToAction 
+            title="Meet Our Team"
+            description="Learn more about the experts driving innovation at Jedi Labs."
+            buttonText="View Team Page"
+            buttonLink="/team"
+            buttonStyle="primary"
+          />
+        </div>
+      </Section>
     </>
   );
 };

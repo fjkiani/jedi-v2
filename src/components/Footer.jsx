@@ -1,178 +1,209 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Section from "./Section";
-import { socials, navigation } from "../constants";
+import { socials } from "../constants";
 import { logo } from "../assets";
 import { gql } from 'graphql-request';
 import { hygraphClient } from '@/lib/hygraph';
-import { useTheme } from '@/context/ThemeContext';
+import { technologyService } from '@/services/technologyService';
 
-// Simple GraphQL Query - similar to Header approach
-const GetFooterData = gql`
-  query GetFooterData {
-    # Optional: Fetch copyright info if needed
-    footerInfo: footerSettings(first: 1) {
+const FooterColumn = ({ title, url, items = [] }) => (
+  <div className="flex flex-col gap-4">
+    <h5 className="text-n-1 font-semibold">
+      {items && items.length > 0 ? (
+        title
+      ) : url ? (
+        <Link to={url} className="hover:text-n-1 transition-colors">{title}</Link>
+      ) : (
+        <span className="cursor-default">{title}</span>
+      )}
+    </h5>
+    {items && items.length > 0 && (
+      <ul className="flex flex-col gap-3">
+        {items.map((item, index) => (
+          <li key={item.id || index}>
+            <div>
+              <Link
+                to={item.url}
+                className="text-n-4 hover:text-n-1 transition-colors"
+              >
+                {item.title}
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+);
+
+const GetFooterNavData = gql`
+  query GetFooterNavData {
+    industries(stage: PUBLISHED, orderBy: name_ASC) {
       id
-      copyrightText
+      name
+      slug
     }
-    
-    # Optional: Fetch social links if they exist as a model
-    socialLinks(orderBy: displayOrder_ASC) {
+    useCaseS(stage: PUBLISHED, orderBy: title_ASC) {
       id
-      platform
-      url
-      icon
+      title
+      slug
+      industry {
+        slug
+      }
     }
   }
 `;
 
-const FooterColumn = ({ title, items = [] }) => {
-  const { isDarkMode } = useTheme();
-  return (
-    <div className="flex flex-col gap-4">
-      <h5 className={`font-semibold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{title}</h5>
-      {items && items.length > 0 ? (
-        <ul className="flex flex-col gap-3">
-          {items.map((item, index) => (
-            <li key={index}>
-              {item.description ? (
-                <div className="flex items-center gap-2">
-                  <span className={`cursor-not-allowed ${isDarkMode ? 'text-n-4/75' : 'text-n-5/75'}`}>{item.title}</span>
-                  <span className="text-[0.625rem] px-2 py-0.5 bg-primary-1/10 text-primary-1 rounded-full whitespace-nowrap">
-                    Coming Soon
-                  </span>
-                </div>
-              ) : (
-                <div>
-                  <Link 
-                    to={item.url} 
-                    className={`${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'} transition-colors`}
-                  >
-                    {item.title}
-                  </Link>
-                  {item.useCases && item.useCases.length > 0 && (
-                    <ul className="ml-4 mt-2 space-y-2">
-                      {item.useCases.map((useCase, useCaseIndex) => (
-                        <li key={useCaseIndex}>
-                          <Link
-                            to={useCase.url}
-                            className={`text-sm ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'} transition-colors`}
-                          >
-                            {useCase.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <Link 
-          to={`/${title.toLowerCase()}`} 
-          className={`${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'} transition-colors`}
-        >
-          {title}
-        </Link>
-      )}
-    </div>
-  );
-};
-
 const Footer = () => {
-  const [dynamicSocials, setDynamicSocials] = useState(null);
-  const [copyrightText, setCopyrightText] = useState(null);
+  const [footerNavData, setFooterNavData] = useState({
+    industries: [],
+    useCases: [],
+    techCategories: [],
+  });
   const [loading, setLoading] = useState(true);
-  const { isDarkMode } = useTheme();
 
-  // Fetch footer data
   useEffect(() => {
     const fetchFooterData = async () => {
       setLoading(true);
       try {
-        console.log("[Footer] Fetching footer data...");
-        const data = await hygraphClient.request(GetFooterData);
-        console.log("[Footer] Raw footer data received:", data);
+        console.log("[Footer] Fetching navigation data...");
+        const mainData = await hygraphClient.request(GetFooterNavData);
+        console.log("[Footer] Raw main nav data received:", mainData);
 
-        // Set social links if available, otherwise use constants
-        if (data.socialLinks && data.socialLinks.length > 0) {
-          setDynamicSocials(data.socialLinks);
-        }
+        const techData = await technologyService.getAllCategories();
+        console.log("[Footer] Fetched Technology categories:", techData);
 
-        // Set copyright text if available
-        if (data.footerInfo && data.footerInfo.length > 0 && data.footerInfo[0].copyrightText) {
-          setCopyrightText(data.footerInfo[0].copyrightText);
-        }
+        const validUseCases = (mainData?.useCaseS || []).filter(uc => {
+          const hasIndustryAndSlug = uc.industry && uc.industry.slug;
+          if (!hasIndustryAndSlug) {
+            console.warn(`[Footer] Filtering out use case "${uc.title}" (ID: ${uc.id}) due to missing or invalid industry link for URL.`);
+          }
+          return hasIndustryAndSlug;
+        });
+
+        setFooterNavData({
+          industries: mainData?.industries || [],
+          useCases: validUseCases,
+          techCategories: techData || [],
+        });
 
       } catch (error) {
-        console.error('Error fetching footer data:', error);
-        // Fallback to constants - already imported
+        console.error('Error fetching footer navigation data:', error);
+        setFooterNavData({ industries: [], useCases: [], techCategories: [] });
       } finally {
         setLoading(false);
+        console.log("[Footer] Loading complete.");
       }
     };
-
     fetchFooterData();
   }, []);
 
-  // Determine which social links to use
-  const displaySocials = dynamicSocials || socials;
-  
-  // Get current year for copyright
-  const currentYear = new Date().getFullYear();
+  const footerColumns = useMemo(() => {
+    if (loading) return [];
+
+    console.log("[Footer] Preparing footer columns with data:", footerNavData);
+
+    const columns = [];
+
+    columns.push({
+      id: 'company',
+      title: 'Company',
+      url: '/about',
+      items: [
+        { id: 'about-us', title: 'About Us', url: '/about' },
+        { id: 'careers', title: 'Careers', url: '/careers' },
+        { id: 'contact', title: 'Contact', url: '/contact' },
+      ]
+    });
+
+    if (footerNavData.industries.length > 0) {
+      columns.push({
+        id: 'industries',
+        title: 'Industries',
+        url: '/industries',
+        items: footerNavData.industries.map(ind => ({
+          id: ind.id,
+          title: ind.name,
+          url: `/industries/${ind.slug}`,
+        })),
+      });
+    }
+
+    if (footerNavData.useCases.length > 0) {
+      columns.push({
+        id: 'use-cases',
+        title: 'Use Cases',
+        url: '/usecases',
+        items: footerNavData.useCases.map(uc => ({
+          id: uc.id,
+          title: uc.title,
+          url: `/industries/${uc.industry.slug}/${uc.slug}`,
+        })),
+      });
+    }
+
+    if (footerNavData.techCategories.length > 0) {
+      columns.push({
+        id: 'technology',
+        title: 'Technology',
+        url: '/technology',
+        items: footerNavData.techCategories.map(cat => ({
+          id: cat.id || cat.slug,
+          title: cat.name,
+          url: `/technology#${cat.slug}`,
+        })),
+      });
+    }
+
+    columns.push({
+      id: 'resources',
+      title: 'Resources',
+      url: '/resources',
+      items: [
+        { id: 'blog', title: 'Blog', url: '/blog' },
+        { id: 'whitepapers', title: 'Whitepapers', url: '/whitepapers' },
+        { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
+      ]
+    });
+
+    console.log("[Footer] Prepared footer columns:", columns);
+    return columns;
+  }, [loading, footerNavData]);
 
   return (
-    <Section crosses className={`!px-0 !py-10 ${isDarkMode ? 'bg-n-8' : 'bg-n-1'}`}>
+    <Section crosses className="!px-0 !py-10">
       <div className="container">
         <div className="flex flex-col items-center gap-10">
-          
-          {/* Navigation Grid - Using constants-based navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 w-full">
-            {navigation.map((item) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 w-full">
+            {!loading && footerColumns.map((item) => (
               <FooterColumn
                 key={item.id}
                 title={item.title}
-                items={item.dropdownItems}
+                url={item.url}
+                items={item.items}
               />
             ))}
+            {loading && (
+              <div className="col-span-full text-center text-n-4">Loading footer...</div>
+            )}
           </div>
 
-          {/* Bottom Bar */}
-          <div className={`flex flex-col sm:flex-row items-center justify-between gap-6 w-full pt-10 mt-10 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
-            {/* Copyright - Dynamic if available, otherwise fallback */}
-            <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-              {copyrightText ? (
-                copyrightText.replace('[YEAR]', currentYear)
-              ) : (
-                `© ${currentYear} JediLabs. All rights reserved.`
-              )}
+          <div className="flex flex-col items-start sm:items-center sm:flex-row justify-between gap-6 w-full pt-10 mt-10 border-t border-n-6">
+            <p className="text-n-4 text-sm">
+              © {new Date().getFullYear()} JediLabs. All rights reserved.
             </p>
 
-            {/* Social Links - Dynamic if available, otherwise fallback */}
             <ul className="flex gap-5 flex-wrap">
-              {displaySocials.map((item) => (
+              {socials.map((item) => (
                 <a
                   key={item.id}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                    isDarkMode ? 'bg-n-7 hover:bg-n-6' : 'bg-n-3 hover:bg-n-4'
-                  }`}
-                  aria-label={item.platform || item.title}
+                  className="flex items-center justify-center w-10 h-10 bg-n-7 rounded-full transition-colors hover:bg-n-6"
                 >
-                  {/* Support both icon URL and icon name */}
-                  {item.iconUrl ? (
-                    <img src={item.iconUrl} width={16} height={16} alt={item.title} />
-                  ) : item.icon ? (
-                    <img src={item.icon} width={16} height={16} alt={item.platform} />
-                  ) : (
-                    <span className={`${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                      {item.platform?.charAt(0) || item.title?.charAt(0) || '#'}
-                    </span>
-                  )}
+                  <img src={item.iconUrl} width={16} height={16} alt={item.title} />
                 </a>
               ))}
             </ul>

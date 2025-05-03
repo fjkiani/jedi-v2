@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import Section from '@/components/Section';
@@ -7,7 +7,6 @@ import { fadeIn } from '@/utils/motion';
 import { teamService } from '@/services/teamService';
 import InteractiveTimeline from '@/components/timeline/InteractiveTimeline';
 import CertificationCard from '@/components/CertificationCard';
-import { Link } from 'react-router-dom';
 
 // Helper function to group skills by category
 const groupSkillsByCategory = (skills) => {
@@ -157,18 +156,66 @@ const getExpertiseIcon = (title) => {
 
 const TeamMemberDetail = () => {
   const { slug } = useParams();
-  const [member, setMember] = useState(null);
+  const [currentMember, setCurrentMember] = useState(null);
+  const [allMembers, setAllMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  console.log('[TeamMemberDetail] Slug from useParams:', slug);
 
   useEffect(() => {
-    const fetchMember = async () => {
-      const data = await teamService.getTeamMemberBySlug(slug);
-      setMember(data);
-      setLoading(false);
+    const fetchTeamData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        console.log('[TeamMemberDetail] Fetching all team members for navigation');
+        const allMembersData = await teamService.getAllTeamMembers(); // Fetch list for nav
+        setAllMembers(allMembersData || []);
+
+        console.log('[TeamMemberDetail] Fetching detailed data for slug:', slug);
+        const detailedMemberData = await teamService.getTeamMemberBySlug(slug); // Fetch details for current
+        
+        if (detailedMemberData) {
+          setCurrentMember(detailedMemberData); // Set the detailed data for display
+          console.log('[TeamMemberDetail] Found detailed member:', detailedMemberData.name);
+        } else {
+          console.error(`[TeamMemberDetail] Detailed member data for slug '${slug}' not found.`);
+          setCurrentMember(null); 
+          setError('Team member details not found.'); 
+        }
+
+      } catch (err) {
+        console.error('[TeamMemberDetail] Error fetching team data:', err);
+        setError('Failed to load team data.');
+        setAllMembers([]);
+        setCurrentMember(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchMember();
-  }, [slug]);
+    fetchTeamData();
+  }, [slug]); // Re-run effect if slug changes
+
+  let previousMember = null;
+  let nextMember = null;
+
+  if (currentMember && allMembers.length > 0) {
+    const currentIndex = allMembers.findIndex(m => m.slug === currentMember.slug);
+    
+    if (currentIndex !== -1) {
+      const prevIndex = (currentIndex - 1 + allMembers.length) % allMembers.length;
+      const nextIndex = (currentIndex + 1) % allMembers.length;
+      
+      if (allMembers.length > 1) {
+          previousMember = allMembers[prevIndex];
+          nextMember = allMembers[nextIndex];
+      } else {
+          previousMember = null;
+          nextMember = null;
+      }
+    }
+  }
 
   if (loading) {
     return (
@@ -182,13 +229,18 @@ const TeamMemberDetail = () => {
     );
   }
 
-  if (!member) {
+  if (error || !currentMember) {
     return (
       <Section className="pt-[12rem]">
         <div className="container">
           <div className="text-center">
-            <h1 className="h3 mb-4">Team Member Not Found</h1>
-            <p className="body-2 text-n-4">The team member you're looking for doesn't exist.</p>
+            <h1 className="h3 mb-4">{error ? 'Error' : 'Team Member Not Found'}</h1>
+            <p className="body-2 text-n-4">
+              {error ? error : "The team member you're looking for doesn't exist or couldn't be loaded."}
+            </p>
+            <Link to="/team" className="mt-6 inline-block px-6 py-3 bg-color-1 text-white rounded-lg font-semibold hover:bg-color-1/90 transition-colors">
+              Back to Team Page
+            </Link>
           </div>
         </div>
       </Section>
@@ -198,14 +250,13 @@ const TeamMemberDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{member.name} | JediLabs Leadership</title>
+        <title>{currentMember.name} | JediLabs Leadership</title>
         <meta 
           name="description" 
-          content={`Learn more about ${member.name}, ${member.role} at JediLabs. ${member.bio?.html?.replace(/<[^>]*>/g, '').substring(0, 150)}...`}
+          content={`Learn more about ${currentMember.name}, ${currentMember.role} at JediLabs. ${currentMember.bio?.html?.replace(/<[^>]*>/g, '').substring(0, 150)}...`}
         />
       </Helmet>
 
-      {/* Hero Section */}
       <Section className="pt-[8rem] -mt-[5.25rem]">
         <div className="container">
           <motion.div
@@ -215,26 +266,23 @@ const TeamMemberDetail = () => {
             className="relative grid gap-6 md:grid-cols-2 md:gap-12 items-start mb-12"
           >
             <div>
-              {/* Profile Image */}
               <div className="relative aspect-[4/3] md:aspect-[3/4] mb-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-color-1/40 to-color-2/40 rounded-3xl -z-10" />
                 <img 
-                  src={member.image?.url} 
-                  alt={member.name}
+                  src={currentMember.image?.url} 
+                  alt={currentMember.name}
                   className="w-full h-full object-cover rounded-3xl"
                 />
               </div>
             </div>
 
-            {/* Profile Info */}
             <div className="md:sticky md:top-[8rem]">
-              <h1 className="h2 mb-3">{member.name}</h1>
-              <p className="body-2 text-n-4 mb-4">{member.role}</p>
+              <h1 className="h2 mb-3">{currentMember.name}</h1>
+              <p className="body-2 text-n-4 mb-4">{currentMember.role}</p>
               
-              {/* Social Links */}
-              {member.socialLink && member.socialLink.length > 0 && (
+              {currentMember.socialLink && currentMember.socialLink.length > 0 && (
                 <div className="flex gap-4 mb-6">
-                  {member.socialLink.map((social, index) => (
+                  {currentMember.socialLink.map((social, index) => (
                     <a 
                       key={index}
                       href={social.url}
@@ -262,27 +310,24 @@ const TeamMemberDetail = () => {
                 </div>
               )}
 
-              {/* Bio Section */}
               <div>
                 <h2 className="h4 mb-4">About</h2>
                 
-                {/* Introduction */}
                 <div className="space-y-4">
                   <div 
                     className="body-2 text-n-4 prose dark:prose-invert max-w-none"
                     dangerouslySetInnerHTML={{ 
-                      __html: member.bio?.html?.split(/Core Areas of Expertise/)[0]
+                      __html: currentMember.bio?.html?.split(/Core Areas of Expertise/)[0]
                         .replace(/<p>/g, '<p class="mb-4 leading-relaxed">')
                     }}
                   />
                 </div>
 
-                {/* Quick Stats */}
-                {member.quickStats && member.quickStats.length > 0 && (
+                {currentMember.quickStats && currentMember.quickStats.length > 0 && (
                   <div className="mt-8 pt-6 border-t border-n-3 dark:border-n-6">
                     <h3 className="h5 mb-4">Quick Overview</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {member.quickStats.map((stat, index) => (
+                      {currentMember.quickStats.map((stat, index) => (
                         <motion.div 
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
@@ -301,7 +346,7 @@ const TeamMemberDetail = () => {
             </div>
           </motion.div>
 
-          {/* Core Areas of Expertise - Full Width */}
+          {/* Core Areas of Expertise - Full Width - COMMENTED OUT
           <motion.div
             variants={fadeIn('up')}
             initial="hidden"
@@ -311,7 +356,7 @@ const TeamMemberDetail = () => {
           >
             <h3 className="h3 mb-6">Core Areas of Expertise</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {parseExpertiseAreas(member.bio?.html).map((expertise, index) => (
+              {parseExpertiseAreas(currentMember.bio?.html).map((expertise, index) => (
                 <div 
                   key={index}
                   className="group flex items-center gap-4 p-4 rounded-xl bg-n-1 dark:bg-n-6 hover:bg-n-2 dark:hover:bg-n-5 transition-all duration-200"
@@ -325,7 +370,7 @@ const TeamMemberDetail = () => {
                     </h4>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {expertise.details.map((detail, i) => {
-                        const tech = member.workExperience?.[0]?.skills?.find(
+                        const tech = currentMember.workExperience?.[0]?.skills?.find(
                           s => s.name?.toLowerCase() === detail.toLowerCase() || 
                                s.title?.toLowerCase() === detail.toLowerCase()
                         );
@@ -357,26 +402,28 @@ const TeamMemberDetail = () => {
               ))}
             </div>
           </motion.div>
+          */}
 
-          {/* Work Experience Timeline */}
+          {/* Work Experience Timeline - COMMENTED OUT
           <div className="mb-20">
             <h2 className="h3 mb-6">Work Experience</h2>
             <div className="w-full">
-              {member.workExperience && (
+              {currentMember.workExperience && (
                 <InteractiveTimeline 
-                  experiences={member.workExperience}
-                  portfolioAssets={member.portfolioAsset}
+                  experiences={currentMember.workExperience}
+                  portfolioAssets={currentMember.portfolioAsset}
                 />
               )}
             </div>
           </div>
+          */}
 
           {/* Certifications */}
-          {member.certification && member.certification.length > 0 && (
+          {currentMember.certification && currentMember.certification.length > 0 && (
             <div className="mb-20">
               <h2 className="h3 mb-6">Certifications</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {member.certification.map((cert, index) => (
+                {currentMember.certification.map((cert, index) => (
                   <CertificationCard key={index} certification={cert} />
                 ))}
               </div>
@@ -389,7 +436,7 @@ const TeamMemberDetail = () => {
       <Section className="pt-12">
         <div className="container">
           {/* Team Profile References (Blog Posts) */}
-          {member.teamProfile?.length > 0 && (
+          {currentMember.teamProfile?.length > 0 && (
             <motion.div
               variants={fadeIn('up')}
               initial="hidden"
@@ -398,7 +445,7 @@ const TeamMemberDetail = () => {
             >
               <h2 className="h3 mb-8">Recent Blogs</h2>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {member.teamProfile.map((post, index) => (
+                {currentMember.teamProfile.map((post, index) => (
                   <Link
                     key={index}
                     to={`/blog/post/${post.slug}`}
@@ -474,7 +521,7 @@ const TeamMemberDetail = () => {
           )}
 
           {/* Certifications */}
-          {member.certification?.length > 0 && (
+          {/* {currentMember.certification?.length > 0 && (
             <motion.div
               variants={fadeIn('up')}
               initial="hidden"
@@ -484,7 +531,7 @@ const TeamMemberDetail = () => {
             >
               <h2 className="h4 mb-6">Certifications</h2>
               <div className="grid gap-4">
-                {member.certification.map((cert, index) => (
+                {currentMember.certification.map((cert, index) => (
                   <a
                     key={index}
                     href={cert.credentialUrl}
@@ -514,9 +561,59 @@ const TeamMemberDetail = () => {
                 ))}
               </div>
             </motion.div>
-          )}
+          )} */}
         </div>
       </Section>
+
+      {/* --- ADD TEAM NAVIGATION SLIDER/LINKS SECTION --- */}
+      {(previousMember || nextMember) && (
+        <Section className="py-12 border-t border-n-3 dark:border-n-6">
+          <div className="container flex justify-between items-center">
+            {/* Previous Member Link */}
+            {previousMember ? (
+              <Link 
+                to={`/team/${previousMember.slug}`}
+                className="flex items-center gap-4 p-4 rounded-lg hover:bg-n-2 dark:hover:bg-n-7 transition-colors group"
+              >
+                <svg className="w-6 h-6 text-n-4 group-hover:text-color-1 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <div className="text-right">
+                  <span className="block text-sm text-n-4">Previous</span>
+                  <span className="block font-semibold text-n-6 dark:text-n-1 group-hover:text-color-1 transition-colors">{previousMember.name}</span>
+                </div>
+                {previousMember.image?.url && (
+                   <img src={previousMember.image.url} alt={previousMember.name} className="w-12 h-12 rounded-full object-cover hidden sm:block" />
+                )}
+              </Link>
+            ) : (
+              <div /> // Placeholder to maintain layout
+            )}
+
+            {/* Next Member Link */}
+            {nextMember ? (
+              <Link 
+                to={`/team/${nextMember.slug}`}
+                className="flex items-center gap-4 p-4 rounded-lg hover:bg-n-2 dark:hover:bg-n-7 transition-colors group"
+              >
+                 {nextMember.image?.url && (
+                   <img src={nextMember.image.url} alt={nextMember.name} className="w-12 h-12 rounded-full object-cover hidden sm:block" />
+                 )}
+                <div>
+                  <span className="block text-sm text-n-4">Next</span>
+                  <span className="block font-semibold text-n-6 dark:text-n-1 group-hover:text-color-1 transition-colors">{nextMember.name}</span>
+                </div>
+                <svg className="w-6 h-6 text-n-4 group-hover:text-color-1 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            ) : (
+              <div /> // Placeholder to maintain layout
+            )}
+          </div>
+        </Section>
+      )}
+      {/* --- END TEAM NAVIGATION SLIDER/LINKS SECTION --- */}
     </>
   );
 };

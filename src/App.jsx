@@ -50,6 +50,8 @@ import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
 import { TestSEO } from '@/components/SEO/TestSEO';
 import UseCasesPage from './pages/UseCasesPage';
+import FeaturedApplications from "./components/FeaturedApplications";
+import CallToAction from "./components/CallToAction";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -154,21 +156,16 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <>
                     <Hero />
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 1 }}
-                    >
-                      {/* <SolutionsNavigator /> */}
-                    </motion.div>
-                    <Services />
+                    <FeaturedApplications />
+                    <SolutionsPage isHomepage={true} />
+                    {/* <Services /> */}
                     {/* <TransformationMethodology /> */}
                     {/* <WhatWeDo /> */}
                     <CaseStudies />
-                    <Collaboration />
+                    <CallToAction />
                     {/* <NextGenAIStack /> */}
                     {/* <IndustryOverview /> */}
-                    {/* <WhyChooseUs /> */}
+                    <WhyChooseUs />
                     {/* <Pricing /> */}
                     <Roadmap />
                     {/* <Contact /> */}
@@ -183,9 +180,9 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionsPage />
                     <WhyChooseUs />
-                    <TransformationMethodology />
+                    {/* <TransformationMethodology /> */}
                     <CaseStudies />
-                    <Contact />
+                    {/* <Contact /> */}
                   </PageTransition>
                 } 
               />
@@ -196,7 +193,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   <PageTransition>
                     <SolutionPage />
                     {/* <CaseStudies /> */}
-                    <Contact />
+                    {/* <Contact /> */}
                   </PageTransition>
                 } 
               />
@@ -283,7 +280,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
             </Routes>
           </AnimatePresence>
           
-          {/* <Footer /> */}
+          <Footer />
         </div>
         <ButtonGradient />
       </HelmetProvider>
