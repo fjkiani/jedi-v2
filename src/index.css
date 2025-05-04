@@ -6,6 +6,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'StarJedi';
+  src: url('./assets/STJEDISE.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --font-sora: "Sora", sans-serif;
   --font-code: "Source Code Pro", monospace;

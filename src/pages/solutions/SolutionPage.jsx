@@ -442,7 +442,8 @@ const SolutionPage = () => {
                   key={tab.id} 
                   value={tab.id}
                   className={`px-4 py-2 rounded-lg transition-all text-sm font-medium whitespace-nowrap flex items-center gap-2 
-                    data-[state=active]:bg-primary-1 data-[state=active]:text-white data-[state=active]:shadow-md 
+                    data-[state=active]:bg-primary-1 data-[state=active]:shadow-md 
+                    data-[state=active]:${isDarkMode ? 'text-white' : 'text-white'}
                     ${isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-2 text-n-5 hover:bg-n-3'} 
                     data-[state=inactive]:bg-opacity-100 data-[state=inactive]:hover:bg-opacity-90 
                   `}

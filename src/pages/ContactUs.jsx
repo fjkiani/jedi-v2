@@ -5,10 +5,12 @@ import Section from '@/components/Section';
 import Contact from '@/components/Contact';
 import { fadeIn, staggerContainer, zoomIn } from '@/utils/motion';
 import Button from '@/components/Button';
+import { useTheme } from '@/context/ThemeContext';
 
 const ContactUs = () => {
   const [scrollY, setScrollY] = useState(0);
   const [animateBackground, setAnimateBackground] = useState(false);
+  const { isDarkMode } = useTheme();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +92,7 @@ const ContactUs = () => {
       </div>
 
       {/* Hero Section */}
-      <Section className="pt-[12rem] -mt-[5.25rem] min-h-screen flex items-center">
+      <Section className="pt-[12rem] -mb-[8.25rem] flex items-center">
         <div className="container relative">
           <motion.div
             variants={fadeIn('up')}
@@ -99,82 +101,28 @@ const ContactUs = () => {
             className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.75rem]"
           >
             <motion.h1 
-              className="h1 mb-6"
+              className={`h1 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Ready to{' '}
-              <motion.span 
-                className="inline-block relative"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                100x Your Business?
-                <motion.svg 
-                  className="absolute left-0 right-0 bottom-0 -z-10" 
-                  viewBox="0 0 100% 100%"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                >
-                  <motion.circle 
-                    className="stroke-primary-1 dark:stroke-primary-2" 
-                    cx="50%" 
-                    cy="50%" 
-                    r="45%" 
-                    pathLength="100" 
-                    strokeDasharray="100" 
-                    fill="none" 
-                    strokeWidth="1.5"
-                    initial={{ strokeDashoffset: 100 }}
-                    animate={{ strokeDashoffset: 0 }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                  />
-                </motion.svg>
-              </motion.span>
+              Get in Touch
             </motion.h1>
             <motion.p 
-              className="body-1 text-n-4 mb-6"
+              className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-6 max-w-3xl mx-auto`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Whether you're looking to transform your operations, accelerate growth, or implement cutting-edge AI solutions,
-              we're here to help you achieve exponential results. Let's start your 100x journey today.
+              We're here to answer your questions, discuss your challenges, and explore how Jedi Labs' AI solutions can drive value for your business. Reach out and let's start the conversation.
             </motion.p>
             
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              <Button href="#contact-form" className="min-w-[10rem]">Get Started</Button>
-              <Button href="#testimonials" variant="outline" className="min-w-[10rem]">See Success Stories</Button>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div
-            className="absolute -bottom-20 left-0 right-0 flex justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 1 }}
-          >
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </motion.div>
           </motion.div>
         </div>
       </Section>
 
       {/* Contact Form Section */}
-      <Section id="contact-form" className="py-20">
+      <Section id="contact-form" className="pt-10 pb-20">
         <div className="container">
           <motion.div
             variants={fadeIn('up')}
@@ -183,11 +131,11 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">Let's Connect</h2>
-            <p className="body-2 text-n-4 mb-8">
+            {/* <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Let's Connect</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-8`}>
               Fill out the form below and our team will get back to you within 24 hours.
               We're excited to learn about your business challenges and how we can help.
-            </p>
+            </p> */}
           </motion.div>
           
           <motion.div
@@ -203,7 +151,7 @@ const ContactUs = () => {
         </div>
       </Section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section
       <Section id="testimonials" className="py-20 bg-n-1/50 dark:bg-n-8/50">
         <div className="container">
           <motion.div
@@ -213,8 +161,8 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">What Our Clients Say</h2>
-            <p className="body-2 text-n-4">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>What Our Clients Say</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               Don't just take our word for it. Here's what businesses have achieved with JediLabs.
             </p>
           </motion.div>
@@ -238,19 +186,19 @@ const ContactUs = () => {
                     <span key={i} className="text-yellow-500 text-xl">★</span>
                   ))}
                 </div>
-                <p className="italic text-n-4 mb-6">"{testimonial.quote}"</p>
+                <p className={`italic ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-6`}>"{testimonial.quote}"</p>
                 <div className="mt-auto">
-                  <p className="font-bold">{testimonial.name}</p>
-                  <p className="text-sm text-n-4">{testimonial.company}</p>
+                  <p className={`font-bold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{testimonial.name}</p>
+                  <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{testimonial.company}</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </Section>
+      </Section> */}
 
       {/* Office Locations */}
-      <Section className="py-20">
+      {/* <Section className="py-20">
         <div className="container">
           <motion.div
             variants={fadeIn('up')}
@@ -259,8 +207,8 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">Our Office</h2>
-            <p className="body-2 text-n-4">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Our Office</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               Visit us when in New York or connect with us virtually from anywhere in the world.
             </p>
           </motion.div>
@@ -284,14 +232,14 @@ const ContactUs = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <h3 className="h4 mb-4">New York</h3>
+                <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>New York</h3>
                 <div className="w-20 h-1 bg-gradient-to-r from-primary-1 to-primary-2 mx-auto mb-6"></div>
-                <p className="body-2 text-n-4 mb-6">
+                <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-6`}>
                   Brooklyn, NY<br />
                   &nbsp;
                 </p>
                 <div className="space-y-3">
-                  <p className="text-sm text-n-4">jedi@jedilabs.org</p>
+                  <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>jedi@jedilabs.org</p>
                 </div>
               </motion.div>
               
@@ -309,17 +257,17 @@ const ContactUs = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="mt-16 p-8 rounded-3xl bg-n-2 dark:bg-n-7 text-center"
+            className={`mt-16 p-8 rounded-3xl bg-n-2 dark:bg-n-7 text-center`}
           >
-            <h3 className="h4 mb-4">Global Reach</h3>
-            <p className="body-2 text-n-4 mb-6">
+            <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Global Reach</h3>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-6`}>
               While our physical office is in New York, we work with clients worldwide through our virtual collaboration tools.
               No matter where you are, we can help transform your business.
             </p>
             <Button href="#contact-form">Schedule a Virtual Meeting</Button>
           </motion.div>
         </div>
-      </Section>
+      </Section> */}
 
       {/* FAQ Section */}
       <Section className="py-20 bg-n-1/50 dark:bg-n-8/50">
@@ -331,8 +279,8 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
           >
-            <h2 className="h2 mb-6">Frequently Asked Questions</h2>
-            <p className="body-2 text-n-4">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Frequently Asked Questions</h2>
+            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               Got questions? We've got answers. If you don't see what you're looking for, reach out to us.
             </p>
           </motion.div>
@@ -365,10 +313,10 @@ const ContactUs = () => {
               <motion.div
                 key={index}
                 variants={fadeIn('up')}
-                className="p-6 rounded-2xl bg-white dark:bg-n-7 shadow-sm"
+                className={`p-6 rounded-2xl bg-white dark:bg-n-7 shadow-sm`}
               >
-                <h4 className="font-bold text-lg mb-3">{faq.q}</h4>
-                <p className="text-n-4">{faq.a}</p>
+                <h4 className={`font-bold text-lg mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{faq.q}</h4>
+                <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{faq.a}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -395,8 +343,8 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="relative z-1 max-w-[62rem] mx-auto text-center p-10 rounded-3xl bg-gradient-to-r from-primary-1/10 to-primary-2/10 dark:from-primary-1/20 dark:to-primary-2/20"
           >
-            <h2 className="h2 mb-6">Ready to Transform Your Business?</h2>
-            <p className="body-1 text-n-4 mb-8 max-w-[40rem] mx-auto">
+            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Ready to Transform Your Business?</h2>
+            <p className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-8 max-w-[40rem] mx-auto`}>
               Join the businesses that have achieved extraordinary results with JediLabs. 
               Your 100x journey starts with a conversation.
             </p>

@@ -40,7 +40,7 @@ const swiperNavStyles = `
     width: 6px; height: 6px; /* Smaller dots */
   }
   .why-choose-us-swiper .swiper-pagination-bullet-active {
-    background-color: var(--swiper-pagination-color, #007aff);
+    background-color: var(--swiper-pagination-color,white);
     opacity: 1;
   }
 `;
@@ -48,26 +48,26 @@ const swiperNavStyles = `
 const features = [
   {
     icon: 'cpu',
-    title: 'Proprietary JEDI AI Platform',
+    title: 'JEDI AI Platform',
     description: 'Leverage our unique JEDI Ensemble™ and Rules™ engines for unparalleled AI capabilities and flexibility.',
     gradient: 'from-[#58a4ff] to-[#a658ff]'
   },
   {
-    icon: 'target',
-    title: 'Use Case Driven Solutions',
+    icon: 'cpu',
+    title: 'Value DrivenSolutions',
     description: 'We focus on solving specific, high-value business problems with tailored AI applications, not generic tools.',
     gradient: 'from-[#ff3d9a] to-[#ff9b3d]'
   },
   {
-    icon: 'git-branch',
-    title: 'Seamless Integration Expertise',
+    icon: 'cpu',
+    title: 'Deep Research & Development',
     description: 'Deep experience in integrating advanced AI smoothly into your existing workflows and technology stack.',
     gradient: 'from-[#58ff6d] to-[#58fff4]'
   },
   {
-    icon: 'trending-up',
-    title: 'Continuous Performance & Adaptation',
-    description: 'Our solutions learn and improve, backed by robust monitoring and MLOps practices for lasting value.',
+    icon: 'cpu',
+    title: 'Self-Learning & Improving',
+    description: 'JEDI solutions learn and improve, backed by robust monitoring and MLOps practices for lasting value.',
     gradient: 'from-[#ff583d] to-[#ff58c4]'
   }
 ];
@@ -116,9 +116,12 @@ const WhyChooseUs = () => {
             <h4 className={`h5 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{feature.title}</h4>
             <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{feature.description}</p>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br opacity-[0.08] 
-            transition-opacity duration-500 group-hover:opacity-[0.15]" />
-          <GradientLight />
+          {/* Inner gradient div - TEMPORARILY COMMENTED OUT */}
+          {/* <div className="absolute inset-0 bg-gradient-to-br opacity-[0.08] 
+            transition-opacity duration-500 group-hover:opacity-[0.15]" /> */}
+          
+          {/* Gradient Light at bottom */}
+          {/* <GradientLight />  */}
         </div>
       </div>
     </motion.div>
@@ -128,9 +131,7 @@ const WhyChooseUs = () => {
     <Section className="overflow-hidden">
       <style>{themeAwareSwiperNavStyles}</style>
       <div className="container relative">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-[20%] w-[800px] h-[800px] 
-          bg-radial-gradient from-primary-1/20 to-transparent blur-xl" />
+        {/* Gradient div removed */}
         
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -139,10 +140,10 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center mb-12 relative z-1"
         >
-          <h2 className={`h2 mb-4 inline-block ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          <h2 className={`h2 mb-4 inline-block ${isDarkMode ? 'text-white' : 'text-black'} bg-transparent`}>
             Why Choose Jedi Labs
           </h2>
-          <p className={`body-1 ${isDarkMode ? 'text-n-3' : 'text-n-5'} md:max-w-md lg:max-w-2xl mx-auto`}>
+          <p className={`body-1 ${isDarkMode ? 'text-n-3' : 'text-n-5'} md:max-w-md lg:max-w-2xl mx-auto bg-transparent`}>
             We combine our powerful JEDI AI platform with deep industry expertise
             to deliver transformative solutions that drive tangible business value.
           </p>

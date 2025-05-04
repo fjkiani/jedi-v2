@@ -87,6 +87,11 @@ export const navigation = [
     url: "/usecases",
   },
   {
+    id: "blog",
+    title: "R&D",
+    url: "/blog",
+  },
+  {
     id: "company",
     title: "Company",
     url: "#",
@@ -104,7 +109,6 @@ export const navigation = [
     dropdownItems: [
       { title: "Case Studies", description: "Coming Soon" },
       { title: "Documentation", description: "Coming Soon" },
-      { title: "Blog", url: "/blog" }
     ]
   }
 ];
