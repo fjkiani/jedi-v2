@@ -233,34 +233,22 @@ const GET_INDUSTRIES_WITH_APPLICATIONS = gql`
   }
 `;
 
-// Query 2: Get applications for a SPECIFIC industry slug, newest first
+// Query 2: Get applications for a SPECIFIC industry ID, newest first (SIMPLIFIED)
 const GET_APPLICATIONS_FOR_INDUSTRY = gql`
-  query GetApplicationsForIndustry($industrySlug: String!) {
+  query GetApplicationsForIndustry($industryId: ID!) {
     industryApplications(
-      where: { industry: { slug: $industrySlug } }
+      where: { industry: { id: $industryId } }
       orderBy: publishedAt_DESC
-      first: 6 # Fetch top 6 newest
+      first: 6
       stage: PUBLISHED
     ) {
       id
       applicationTitle
       tagline
-      industryChallenge { raw }
-      jediApproach { raw }
-      keyCapabilities
-      expectedResults
       publishedAt
-      technology { # Fetch technology icon here
-        icon { url } 
-      }
-      jediComponent { # Fetch component details including GENERIC description
-        id
-        name
-        tagline
-        description { raw } # ADDED BACK generic description
-      }
-      industry { # Fetch industry slug for the modal's Learn More link
+      industry { # Keep this to ensure relation works
         slug
+        name
       }
     }
   }
@@ -458,11 +446,27 @@ const FeaturedApplications = () => {
       setIsModalOpen(false);
       
       const isAllTab = activeIndustrySlug === "all";
-      const query = isAllTab ? GET_RECENT_APPLICATIONS_ALL_INDUSTRIES : GET_APPLICATIONS_FOR_INDUSTRY;
-      const variables = isAllTab ? {} : { industrySlug: activeIndustrySlug };
+      let query = isAllTab ? GET_RECENT_APPLICATIONS_ALL_INDUSTRIES : GET_APPLICATIONS_FOR_INDUSTRY;
+      let variables = {};
       const queryName = isAllTab ? 'All Industries' : activeIndustrySlug;
 
-      console.log(`[FeaturedApplications] Fetching applications for: ${queryName}`);
+      // If a specific industry is selected, find its ID and set variables
+      if (!isAllTab) {
+        const selectedIndustry = industries.find(ind => ind.slug === activeIndustrySlug);
+        if (!selectedIndustry || !selectedIndustry.id) {
+           console.error(`[FeaturedApplications] Could not find ID for slug: ${activeIndustrySlug}`);
+           setError(`Could not find data for selected industry filter.`);
+           setLoadingApplications(false);
+           return; // Stop fetching if ID not found
+        }
+        variables = { industryId: selectedIndustry.id }; // Use industryId
+        query = GET_APPLICATIONS_FOR_INDUSTRY; // Ensure correct query is used
+      } else {
+        query = GET_RECENT_APPLICATIONS_ALL_INDUSTRIES;
+      }
+
+      console.log(`[FeaturedApplications] Fetching applications for: ${queryName} using query: ${query === GET_RECENT_APPLICATIONS_ALL_INDUSTRIES ? 'All' : 'Specific'}`);
+      console.log(`[FeaturedApplications] Variables:`, variables);
 
       try {
         const data = await hygraphClient.request(query, variables);
@@ -478,11 +482,18 @@ const FeaturedApplications = () => {
       }
     };
 
-    // Only fetch if industries have loaded or if the "all" tab is initially selected
-    if (!loadingIndustries || activeIndustrySlug === "all") {
+    // Only fetch if industries have loaded OR if the "all" tab is initially selected
+    // If industries haven't loaded AND we are trying to filter, wait for industries
+    if (activeIndustrySlug === "all" || industries.length > 0) {
       fetchApplications();
-    }
-  }, [activeIndustrySlug, loadingIndustries]); // Re-run when slug changes or industries load
+    } else if (activeIndustrySlug !== "all" && industries.length === 0 && !loadingIndustries) {
+      // Handle case where industries finished loading but were empty
+       setError(`Cannot filter by ${activeIndustrySlug}, industry data not available.`);
+       setLoadingApplications(false);
+    } 
+    // If loadingIndustries is true and slug is not 'all', useEffect will re-run when industries load
+
+  }, [activeIndustrySlug, industries, loadingIndustries]); // Add industries and loadingIndustries dependencies
 
   const currentIndustry = useMemo(() => {
     if (activeIndustrySlug === "all") return null;

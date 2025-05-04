@@ -19,7 +19,7 @@ const IndustryRoutes = () => {
             <IndustriesOverview />
             <WhyChooseUs />
             {/* <CaseStudies /> */}
-            <Contact />
+            {/* <Contact /> */}
           </PageTransition>
         } 
       />
@@ -31,7 +31,7 @@ const IndustryRoutes = () => {
           <PageTransition>
             <IndustryPage />
             <CaseStudies />
-            <Contact />
+            {/* <Contact /> */}
           </PageTransition>
         } 
       />
@@ -43,7 +43,7 @@ const IndustryRoutes = () => {
           <PageTransition>
             <SolutionPage />
             <CaseStudies />
-            <Contact />
+            {/* <Contact /> */}
           </PageTransition>
         } 
       />

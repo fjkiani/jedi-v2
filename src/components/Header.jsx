@@ -32,6 +32,12 @@ const GetNavbarData = gql`
         slug
       }
     }
+    # Add posts query
+    posts(stage: PUBLISHED, orderBy: publishedAt_DESC, first: 5) {
+      id
+      title
+      slug
+    }
   }
 `;
 
@@ -181,6 +187,7 @@ const Header = () => {
   const [navIndustries, setNavIndustries] = useState([]);
   const [navUseCases, setNavUseCases] = useState([]); // State for VALID use cases
   const [navApplications, setNavApplications] = useState([]);
+  const [navBlogPosts, setNavBlogPosts] = useState([]); // Add state for blog posts
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
   const [expandedMobileItems, setExpandedMobileItems] = useState({}); // State for mobile expansion
@@ -203,17 +210,18 @@ const Header = () => {
     };
   }, []); // Empty dependency array means this runs once on mount
 
-  // Fetch industries, use cases, AND applications from Hygraph
+  // Fetch industries, use cases, AND blog posts
   useEffect(() => {
     const fetchNavData = async () => {
       setLoading(true);
       try {
         console.log("[Header] Fetching navbar data...");
-        const data = await hygraphClient.request(GetNavbarData); // Uses CORRECTED query
+        const data = await hygraphClient.request(GetNavbarData);
         console.log("[Header] Raw navbar data received:", data);
 
         const fetchedIndustries = data.industries || [];
-        const fetchedUseCases = data.useCaseS || []; // Uses CORRECT key 'useCases'
+        const fetchedUseCases = data.useCaseS || [];
+        const fetchedBlogPosts = data.posts || []; // Get blog posts
 
         // Filter use cases to ensure they have the necessary industry slug
         const validUseCases = fetchedUseCases.filter(uc => {
@@ -226,13 +234,16 @@ const Header = () => {
 
         setNavIndustries(fetchedIndustries);
         setNavUseCases(validUseCases); // Set state ONLY with valid use cases
+        setNavBlogPosts(fetchedBlogPosts); // Set blog post state
         console.log("[Header] Set navIndustries:", fetchedIndustries);
         console.log("[Header] Set navUseCases (filtered):", validUseCases);
+        console.log("[Header] Set navBlogPosts:", fetchedBlogPosts); // Log posts
 
       } catch (error) {
         console.error('Error fetching navbar data:', error);
         setNavIndustries([]);
         setNavUseCases([]); // Set empty on error
+        setNavBlogPosts([]); // Set empty on error
       } finally {
         setLoading(false);
       }
@@ -248,6 +259,7 @@ const Header = () => {
     const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
     const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
     const solutionsIndex = baseNav.findIndex(item => item.id === '0'); 
+    const blogIndex = baseNav.findIndex(item => item.id === 'blog'); // Find the new blog item
 
     // Inject Industries
     if (industriesIndex !== -1 && !loading) {
@@ -283,11 +295,23 @@ const Header = () => {
     } else if (solutionsIndex !== -1) {
        baseNav[solutionsIndex].dropdownItems = [];
     }
+
+    // Inject Blog Posts
+    if (blogIndex !== -1 && !loading) {
+      baseNav[blogIndex].dropdownItems = navBlogPosts.map(post => ({
+        id: post.id,
+        title: post.title,
+        url: `/blog/post/${post.slug}` // Correct URL format
+      }));
+      console.log(`[Header] Injected ${baseNav[blogIndex].dropdownItems?.length || 0} blog posts.`);
+    } else if (blogIndex !== -1) {
+       baseNav[blogIndex].dropdownItems = [];
+    }
     // --- End Solutions Injection --- 
 
     console.log("[Header] Final dynamicNavigation:", baseNav);
     return baseNav;
-  }, [loading, navIndustries, navUseCases, navApplications]);
+  }, [loading, navIndustries, navUseCases, navApplications, navBlogPosts]);
 
 
   // Fetch categories for Technology dropdown

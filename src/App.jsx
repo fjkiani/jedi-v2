@@ -18,7 +18,6 @@ import PostCard from "@/components/hyGraph/PostCard";
 import PostDetail from "@/components/hyGraph/PostDetail";
 import { getPosts } from "./services";
 // import { StarsCanvas} from "./components/canvas";
-import Contact from '@/components/Contact';
 import ScrollToTop from "./components/ScrollToTop";
 import WhatWeDo from './components/WhatWeDo';
 import SolutionsNavigator from "./components/SolutionsNavigator";
