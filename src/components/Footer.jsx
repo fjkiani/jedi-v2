@@ -162,8 +162,8 @@ const Footer = () => {
       url: '/resources',
       items: [
         { id: 'blog', title: 'Blog', url: '/blog' },
-        { id: 'whitepapers', title: 'Whitepapers', url: '/whitepapers' },
-        { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
+        // { id: 'whitepapers', title: 'Whitepapers', url: '/whitepapers' },
+        // { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
       ]
     });
 

@@ -184,6 +184,24 @@ const Header = () => {
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
   const [expandedMobileItems, setExpandedMobileItems] = useState({}); // State for mobile expansion
+  const [scrolled, setScrolled] = useState(false); // State to track scroll
+
+  // Scroll event listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50; // Threshold of 50px
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Initial check in case page loads already scrolled
+    handleScroll(); 
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array means this runs once on mount
 
   // Fetch industries, use cases, AND applications from Hygraph
   useEffect(() => {
@@ -329,13 +347,32 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm transition-colors duration-300 ${
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-        <Link to="/" className="block w-[5rem] xl:mr-8" onClick={handleMobileItemClick}>
-          <img src={logo} width={190} height={40} alt="JediLabs" />
+        <Link 
+          to="/" 
+          className={`block w-[12rem] xl:mr-8`} 
+          onClick={handleMobileItemClick}
+        >
+          <div className="flex flex-col items-center">
+            <img 
+              src={logo} 
+              width={80} 
+              alt="JediLabs Logo" 
+              className={`
+                transition-all duration-300 ease-in-out 
+                ${scrolled ? 'opacity-0 invisible h-0 -translate-y-2' : 'opacity-100 visible h-auto translate-y-0'}
+              `}
+              aria-hidden={scrolled}
+            />
+            <span 
+              className={`mt-1 text-xl text-n-7 dark:text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
+                Jedi Labs
+            </span> 
+          </div>
         </Link>
 
         {/* Render using the dynamicNavigation from useMemo */}
@@ -343,95 +380,64 @@ const Header = () => {
           openNavigation ? "flex" : "hidden"
         } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
           <div className="relative z-2 flex flex-col items-start justify-start py-8 min-h-full w-full lg:flex-row lg:items-center lg:py-0">
-            {dynamicNavigation.map((item) => {
-              // Determine if the item has children for mobile view
-              const hasMobileChildren = (item.id === 'technology' && categories.length > 0) || (item.dropdownItems && item.dropdownItems.length > 0);
-              const isMobileExpanded = !!expandedMobileItems[item.id];
+            {dynamicNavigation
+              .filter(item => item.id !== 'technology')
+              .map((item) => {
+                // Determine if the item has children for mobile view
+                const hasMobileChildren = (item.dropdownItems && item.dropdownItems.length > 0);
+                const isMobileExpanded = !!expandedMobileItems[item.id];
 
-              return (
-                <div key={item.id} className="w-full lg:w-auto relative group">
-                  {/* Desktop Link */}
-                  <Link
-                    to={item.url}
-                    onClick={handleClick} // Desktop behavior
-                    className={`hidden lg:block relative font-code text-xs lg:font-semibold
-                      px-6 py-8 lg:-mr-0.25
-                      ${location.pathname.startsWith(item.url) && item.url !== '#' && item.url !== '/' ? "z-2 lg:text-n-1" : (location.pathname === '/' && item.url === '/') ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
-                      lg:leading-5 lg:hover:text-n-1 xl:px-12`}
-                  >
-                    {item.title}
-                  </Link>
+                return (
+                  <div key={item.id} className="w-full lg:w-auto relative group">
+                    {/* Desktop Link */}
+                    <Link
+                      to={item.url}
+                      onClick={handleClick} // Desktop behavior
+                      className={`hidden lg:block relative font-code text-xs lg:font-semibold
+                        px-6 py-8 lg:-mr-0.25
+                        ${location.pathname.startsWith(item.url) && item.url !== '#' && item.url !== '/' ? "z-2 lg:text-n-1" : (location.pathname === '/' && item.url === '/') ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
+                        lg:leading-5 lg:hover:text-n-1 xl:px-12`}
+                    >
+                      {item.title}
+                    </Link>
 
-                  {/* Mobile Item (either link or toggle button) */}
-                  <div className="lg:hidden">
-                    {hasMobileChildren ? (
-                      // If item has children, make it a button to toggle expansion
-                      <button
-                        onClick={() => toggleMobileItemExpansion(item.id)}
-                        className="flex items-center justify-between w-full px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
-                      >
-                        <span>{item.title}</span>
-                        <Icon
-                          name={isMobileExpanded ? 'chevron-up' : 'chevron-down'}
-                          className={`w-4 h-4 ml-2 transition-transform ${isMobileExpanded ? 'rotate-0' : 'rotate-0'}`} // Keep icon orientation standard
-                        />
-                      </button>
-                    ) : (
-                      // If item has no children, make it a direct link
-                      <Link
-                        to={item.url}
-                        onClick={handleMobileItemClick} // Mobile behavior (close nav)
-                        className="block px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
-                      >
-                        {item.title}
-                      </Link>
-                    )}
-                  </div>
+                    {/* Mobile Item (either link or toggle button) */}
+                    <div className="lg:hidden">
+                      {hasMobileChildren ? (
+                        // If item has children, make it a button to toggle expansion
+                        <button
+                          onClick={() => toggleMobileItemExpansion(item.id)}
+                          className="flex items-center justify-between w-full px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+                        >
+                          <span>{item.title}</span>
+                          <Icon
+                            name={isMobileExpanded ? 'chevron-up' : 'chevron-down'}
+                            className={`w-4 h-4 ml-2 transition-transform ${isMobileExpanded ? 'rotate-0' : 'rotate-0'}`}
+                          />
+                        </button>
+                      ) : (
+                        // If item has no children, make it a direct link
+                        <Link
+                          to={item.url}
+                          onClick={handleMobileItemClick} // Mobile behavior (close nav)
+                          className="block px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+                        >
+                          {item.title}
+                        </Link>
+                      )}
+                    </div>
 
-                  {/* Desktop Dropdown */}
-                  <div className="hidden lg:block">
-                     {item.id === 'technology' && categories.length > 0 && (
-                        <DropdownMenu categories={categories} items={[]} />
-                     )}
-                     {item.id !== 'technology' && item.dropdownItems && item.dropdownItems.length > 0 && (
-                        <DropdownMenu items={item.dropdownItems} categories={null} />
-                     )}
-                  </div>
+                    {/* Desktop Dropdown */}
+                    <div className="hidden lg:block">
+                       {item.dropdownItems && item.dropdownItems.length > 0 && (
+                          <DropdownMenu items={item.dropdownItems} categories={null} />
+                       )}
+                    </div>
 
-                   {/* --- Mobile Sub-Menu (Conditionally Rendered) --- */}
-                   {hasMobileChildren && isMobileExpanded && (
-                     <div className="lg:hidden pl-8 pb-4 border-l border-n-6 ml-6 mr-6 animate-fadeIn"> {/* Added fade-in animation */}
-                       {item.id === 'technology' ? (
-                          // Technology Sub-menu
-                          categories.map((category) => (
-                             <div key={category.slug} className="py-1">
-                                <Link
-                                   to={`/technology#${category.slug}`} // Link to section on tech page
-                                   onClick={handleMobileSubItemClick} // Use specific handler
-                                   className="block text-sm text-n-3 hover:text-n-1 transition-colors py-1"
-                                >
-                                   {category.name}
-                                </Link>
-                                {/* Optional: Further nesting for technologies within category if needed */}
-                                {category.technologies?.length > 0 && (
-                                   <div className="pl-4 mt-1">
-                                      {category.technologies.map((tech) => (
-                                         <Link
-                                            key={tech.id}
-                                            to={`/technology/${tech.slug}`} // Link to specific tech page
-                                            onClick={handleMobileSubItemClick} // Use specific handler
-                                            className="block text-xs text-n-4 hover:text-n-1 py-0.5 transition-colors"
-                                         >
-                                            {tech.name}
-                                         </Link>
-                                      ))}
-                                   </div>
-                                )}
-                             </div>
-                          ))
-                       ) : (
-                          // Other Dropdown Items (Industries, Use Cases)
-                          item.dropdownItems.map((subItem) => (
+                     {/* --- Mobile Sub-Menu (Conditionally Rendered) --- */}
+                     {hasMobileChildren && isMobileExpanded && (
+                       <div className="lg:hidden pl-8 pb-4 border-l border-n-6 ml-6 mr-6 animate-fadeIn">
+                          {item.dropdownItems.map((subItem) => (
                              <Link
                                 key={subItem.id || subItem.url}
                                 to={subItem.url}
@@ -440,14 +446,13 @@ const Header = () => {
                              >
                                 {subItem.title}
                              </Link>
-                          ))
-                       )}
-                     </div>
-                   )}
-                   {/* --- End Mobile Sub-Menu --- */}
+                          ))}
+                       </div>
+                     )}
+                     {/* --- End Mobile Sub-Menu --- */}
 
-                </div>
-              );
+                  </div>
+                );
             })}
           </div>
 

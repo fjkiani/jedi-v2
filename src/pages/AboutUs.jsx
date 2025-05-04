@@ -16,10 +16,16 @@ import { useTheme } from '@/context/ThemeContext';
 import CallToAction from '@/components/CallToAction';
 import { RingLoader } from 'react-spinners';
 
+// Removed Swiper Imports
+
+// Removed Swiper Styles
+
 const AboutUs = () => {
   const [aboutData, setAboutData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
+
+  // Removed Swiper Style Injection
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +61,10 @@ const AboutUs = () => {
         />
       </Helmet>
 
+      {/* Removed style injection */}
+
       {/* Hero Section */}
-      <Section className="pt-[12rem] -mt-[5.25rem]">
+      <Section className="pt-[8rem] -mt-[5.25rem]">
         <div className="container relative">
           <motion.div
             variants={fadeIn('up')}
@@ -65,7 +73,7 @@ const AboutUs = () => {
             className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.75rem] md:mb-[6.25rem]"
           >
             {/* Hero Image */}
-            <motion.div
+            {/* <motion.div
               variants={fadeIn('up')}
               initial="hidden"
               animate="show"
@@ -76,9 +84,9 @@ const AboutUs = () => {
                 alt="JEDI Empowerment"
                 className="w-full h-auto rounded-2xl shadow-xl"
               />
-            </motion.div>
+            </motion.div> */}
 
-            <h1 className={`h1 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+            <h1 className={`h1 mt-10 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
               {aboutContent.hero.title}{' '}
               <span className="inline-block relative">
                 {aboutContent.hero.highlightText}
@@ -102,90 +110,110 @@ const AboutUs = () => {
         </div>
       </Section>
 
-      {/* Vision Section */}
-      <Section className="overflow-hidden">
-        <div className="container">
-          <motion.div 
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="relative grid gap-10 md:grid-cols-2 md:gap-16 items-center"
-          >
-            <div className="relative z-1">
-              <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.vision.title}</h2>
-              <p className={`body-2 mb-10 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-                {aboutContent.vision.description}
-              </p>
-              <div className="flex flex-wrap gap-6">
-                {aboutContent.vision.highlights.map((highlight) => (
-                  <div key={highlight.id} className="flex items-center gap-4">
-                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${isDarkMode ? 'bg-n-7' : 'bg-n-2'}`}>
-                      <AboutIcon 
-                        path={highlight.icon.path}
-                        viewBox={highlight.icon.viewBox}
-                        className="w-6 h-6 text-primary-1"
-                      />
-                    </div>
-                    <div className={`caption ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{highlight.text}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative aspect-square">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-1/20 to-primary-2/20 rounded-3xl -z-10 blur-lg" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img 
-                  src={jediVision}
-                  alt="JEDI Vision"
-                  className="w-full h-full object-cover rounded-3xl shadow-xl"
-                />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* Values Section */}
+      {/* Combined Approach & Values Section */}
       <Section>
         <div className="container">
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
-          >
-            <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.values.title}</h2>
-            <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-              {aboutContent.values.subtitle}
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
-          >
-            {aboutContent.values.items.map((value, index) => (
-              <div 
-                key={index}
-                className={`relative flex flex-col items-center text-center p-8 rounded-3xl ${isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-n-1 border border-n-3'} shadow-md hover:shadow-xl transition-shadow`}
+
+          {/* --- Desktop Grid (Hidden on Mobile) --- */}
+          <div className="hidden lg:grid grid-cols-2 gap-10 lg:gap-16 items-start">
+            {/* Column 1: Approach Content */}
+            <div>
+              <motion.div
+                variants={fadeIn('up')}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="relative"
               >
-                <div className={`flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${isDarkMode ? 'bg-n-6' : 'bg-n-2'}`}>
-                  <AboutIcon 
-                    path={value.icon.path}
-                    viewBox={value.icon.viewBox}
-                    className="w-8 h-8 text-primary-1"
-                  />
+                <div className="relative z-1">
+                  <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.vision.title}</h2>
+                  <p className={`body-2 mb-10 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                    {aboutContent.vision.description}
+                  </p>
+                  <div className="flex flex-wrap gap-6">
+                    {aboutContent.vision.highlights.map((highlight) => (
+                      <div key={highlight.id} className="flex items-center gap-4">
+                        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${isDarkMode ? 'bg-n-7' : 'bg-n-2'}`}>
+                          <AboutIcon
+                            path={highlight.icon.path}
+                            viewBox={highlight.icon.viewBox}
+                            className="w-6 h-6 text-primary-1"
+                          />
+                        </div>
+                        <div className={`caption ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{highlight.text}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{value.title}</h3>
-                <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{value.description}</p>
+              </motion.div>
+            </div>
+
+            {/* Column 2: Values Content */}
+            <div>
+              <motion.div
+                variants={fadeIn('up')}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="relative z-1 max-w-[50rem] mx-auto text-center lg:text-left lg:mx-0 mb-10"
+              >
+                <h2 className={`h2 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.values.title}</h2>
+                <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                  {aboutContent.values.subtitle}
+                </p>
+              </motion.div>
+
+              <motion.div
+                variants={fadeIn('up')}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="grid gap-6 grid-cols-1 sm:grid-cols-2"
+              >
+                {aboutContent.values.items.map((value, index) => (
+                  <div
+                    key={index}
+                    className={`relative flex flex-col items-center text-center p-6 rounded-3xl ${isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-n-1 border border-n-3'} shadow-md hover:shadow-xl transition-shadow h-full`}
+                  >
+                    <div className={`flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${isDarkMode ? 'bg-n-6' : 'bg-n-2'}`}>
+                      <AboutIcon
+                        path={value.icon.path}
+                        viewBox={value.icon.viewBox}
+                        className="w-8 h-8 text-primary-1"
+                      />
+                    </div>
+                    <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{value.title}</h3>
+                    <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{value.description}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+          </div>
+
+          {/* --- Mobile View (Hidden on Large Screens) - Now only shows Approach --- */}
+          <div className="block lg:hidden mt-10">
+            {/* Directly render the 'Approach' content here */}
+            <motion.div className="relative">
+              <div className="relative z-1">
+                <h2 className={`h2 mb-6 text-center ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{aboutContent.vision.title}</h2>
+                <p className={`body-2 mb-10 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                  {aboutContent.vision.description}
+                </p>
+                <div className="flex flex-wrap gap-6 justify-center">
+                  {aboutContent.vision.highlights.map((highlight) => (
+                    <div key={highlight.id} className="flex items-center gap-4">
+                      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${isDarkMode ? 'bg-n-7' : 'bg-n-2'}`}>
+                        <AboutIcon path={highlight.icon.path} viewBox={highlight.icon.viewBox} className="w-6 h-6 text-primary-1"/>
+                      </div>
+                      <div className={`caption ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{highlight.text}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </motion.div>
+            </motion.div>
+          </div>
+
         </div>
       </Section>
 
@@ -306,7 +334,7 @@ const AboutUs = () => {
       {/* Team Section */}
       <Section className="overflow-hidden">
         <div className="container">
-          <motion.div
+          {/* <motion.div
             variants={fadeIn('up')}
             initial="hidden"
             whileInView="show"
@@ -328,7 +356,7 @@ const AboutUs = () => {
               />
               <span className="h5 text-color-1">Meet Our Team</span>
             </Link>
-          </motion.div>
+          </motion.div> */}
         </div>
       </Section>
 

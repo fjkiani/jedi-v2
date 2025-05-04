@@ -523,9 +523,31 @@ const FeaturedApplications = () => {
 
   return (
     <Section className="overflow-hidden" id="featured-applications">
-      <style>{themeAwareSwiperNavStyles}</style> {/* Inject the styles */}
+      <style>{`
+        ${themeAwareSwiperNavStyles}
+        /* Enhanced Arrow Styles */
+        .mySwiper .swiper-button-prev,
+        .mySwiper .swiper-button-next {
+          width: 32px; /* Slightly larger */
+          height: 32px;
+          padding: 6px;
+          background-color: rgba(0, 0, 0, 0.4); /* Slightly darker default bg */
+          transition: background-color 0.2s, transform 0.2s;
+          top: calc(50% - 16px); /* Re-center */
+        }
+        .mySwiper .swiper-button-prev:hover,
+        .mySwiper .swiper-button-next:hover {
+          background-color: rgba(0, 0, 0, 0.6); /* Darker on hover */
+          transform: scale(1.1);
+        }
+        .mySwiper .swiper-button-prev::after,
+        .mySwiper .swiper-button-next::after {
+          font-size: 14px; /* Slightly larger arrow icon */
+        }
+      `}</style>
       <div className="container">
         <Heading 
+          className="text-center md:text-left"
           title="Featured AI Applications" 
           text="Explore examples of how our platform delivers value."
         />

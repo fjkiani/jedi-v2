@@ -466,8 +466,10 @@ const SolutionPage = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 rounded-lg transition-all text-sm font-medium whitespace-nowrap ${ 
                     activeTab === tab
-                      ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-white shadow-md') // Active state seems okay
-                      : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-2 text-n-5 hover:bg-n-3') // Inactive state THEMED
+                      // Active state: Keep primary bg, conditional text color
+                      ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-n-8 shadow-md') 
+                      // Inactive state: Theme-aware
+                      : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-2 text-n-5 hover:bg-n-3')
                   }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}

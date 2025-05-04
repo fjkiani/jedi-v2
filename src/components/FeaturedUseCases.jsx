@@ -255,8 +255,9 @@ const FeaturedUseCases = () => {
     <Section className="overflow-hidden" id="featured-use-cases">
        <style>{themeAwareSwiperNavStyles}</style> {/* Inject styles */}
       <div className="container">
-        {/* TODO: Update Heading */}
+        {/* Add responsive text alignment */}
         <Heading
+          className="text-center md:text-left" // Center on mobile, left on medium+ screens
           title="Explore Use Cases"
           text="Discover how our AI solutions tackle specific challenges across industries."
         />
