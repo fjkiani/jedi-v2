@@ -382,7 +382,7 @@ const Header = () => {
           onClick={handleMobileItemClick}
         >
           <div className="flex flex-col items-center">
-            <img 
+{/*             <img 
               src={logo} 
               width={80} 
               alt="JediLabs Logo" 
@@ -391,7 +391,7 @@ const Header = () => {
                 ${scrolled ? 'opacity-0 invisible h-0 -translate-y-2' : 'opacity-100 visible h-auto translate-y-0'}
               `}
               aria-hidden={scrolled}
-            />
+            /> */}
             <span 
               className={`mt-1 text-xl text-n-7 dark:text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
                 Jedi Labs
