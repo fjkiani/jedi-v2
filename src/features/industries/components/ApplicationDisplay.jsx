@@ -322,7 +322,7 @@ const ApplicationSidebar = ({ application, activeComponentId, setActiveComponent
                 ) : (
                   <Icon name="code" className="w-4 h-4 text-n-3" />
                 )}
-                <span className="text-xs font-medium truncate max-w-[100px]">{tech.name}</span>
+                <span className="text-lg font-medium truncate max-w-[100px]">{tech.name}</span>
               </Link>
             ))}
           </div>
@@ -721,7 +721,7 @@ const ApproachSection = ({ content, isDarkMode }) => {
             </div>
             {section.list.length > 0 && (
                 <div>
-                    <h6 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Key Actions & Benefits:</h6>
+                    <h6 className={`text-lg font-semibold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Key Actions & Benefits:</h6>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"> 
                          {section.list.map((benefit, i) => (
                             <div 

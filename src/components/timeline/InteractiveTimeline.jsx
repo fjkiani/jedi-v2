@@ -89,7 +89,7 @@ const InteractiveTimeline = ({ experiences, portfolioAssets }) => {
                         )}
                         {asset.description?.html && (
                           <div 
-                            className="text-xs text-white/80 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            className="text-lg text-white/80 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                             dangerouslySetInnerHTML={{ __html: asset.description.html }}
                           />
                         )}
@@ -98,7 +98,7 @@ const InteractiveTimeline = ({ experiences, portfolioAssets }) => {
                             href={asset.projectUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-white hover:text-color-1 transition-colors"
+                            className="inline-flex items-center gap-1 text-lg text-white hover:text-color-1 transition-colors"
                           >
                             View Project
                             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">

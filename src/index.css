@@ -27,6 +27,44 @@
 @layer base {
   body {
     @apply bg-white dark:bg-n-8 text-n-6 dark:text-n-1 text-base transition-colors duration-200;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.03;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(120, 119, 198, 0.1) 0%, rgba(236, 72, 153, 0.1) 25%, rgba(59, 130, 246, 0.1) 50%, rgba(120, 119, 198, 0.1) 75%, rgba(236, 72, 153, 0.1) 100%);
+    background-size: 
+      100% 100%,
+      100% 100%, 
+      100% 100%,
+      400% 400%;
+    animation: gradientWave 20s ease-in-out infinite;
+  }
+
+  [data-theme="dark"] body::before {
+    opacity: 0.02;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(120, 119, 198, 0.05) 0%, rgba(236, 72, 153, 0.05) 25%, rgba(59, 130, 246, 0.05) 50%, rgba(120, 119, 198, 0.05) 75%, rgba(236, 72, 153, 0.05) 100%);
+    background-size: 
+      100% 100%,
+      100% 100%, 
+      100% 100%,
+      400% 400%;
+    animation: gradientWave 25s ease-in-out infinite;
   }
 }
 
@@ -128,3 +166,37 @@
   fill: #4B5563;
   stroke: none;
 }
+
+/* Gradient Wave Animation */
+@keyframes gradientWave {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 100%, 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%, 0% 50%, 0% 50%, 100% 50%;
+  }
+  50% {
+    background-position: 50% 0%, 50% 100%, 100% 0%, 50% 100%;
+  }
+  75% {
+    background-position: 0% 100%, 100% 0%, 50% 50%, 0% 0%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%, 50% 100%, 0% 50%;
+  }
+}
+
+/* Animation delay utilities */
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Subtle animated gradient wave background */

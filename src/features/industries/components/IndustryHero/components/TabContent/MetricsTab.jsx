@@ -16,7 +16,7 @@ export const MetricsTab = ({ metrics }) => (
         <div className="text-n-1 font-medium mb-1">{metric.label}</div>
         <div className="text-sm text-n-3">{metric.description}</div>
         {metric.details && (
-          <div className="mt-2 text-xs text-n-4">{metric.details}</div>
+          <div className="mt-2 text-lg text-n-4">{metric.details}</div>
         )}
       </motion.div>
     ))}

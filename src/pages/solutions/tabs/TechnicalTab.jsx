@@ -207,7 +207,7 @@ const TechnicalTab = ({ solution, implementation }) => {
                   <p className="text-sm text-n-3 mb-2">{pattern.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {pattern.indicators.map((indicator, idx) => (
-                      <span key={idx} className="px-2 py-1 rounded-full bg-n-6 text-xs">
+                      <span key={idx} className="px-2 py-1 rounded-full bg-n-6 text-lg">
                         {indicator}
                       </span>
                     ))}

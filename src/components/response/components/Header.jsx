@@ -8,16 +8,16 @@ export const Header = ({ model, icon, title, query, responseId, timestamp, capab
         <div>
           <h4 className="text-white font-medium">JediLabs AI Analysis</h4>
           <div className="flex items-center space-x-2 mt-1">
-            <span className="text-xs text-n-3">Powered by</span>
-            <span className="text-xs text-primary-1">{model.name}</span>
-            <span className="text-xs text-n-3">|</span>
-            <span className="text-xs text-n-3">{model.version}</span>
+            <span className="text-lg text-n-3">Powered by</span>
+            <span className="text-lg text-primary-1">{model.name}</span>
+            <span className="text-lg text-n-3">|</span>
+            <span className="text-lg text-n-3">{model.version}</span>
           </div>
         </div>
       </div>
       <div className="text-right">
-        <span className="text-xs text-n-3 block">Response ID: {responseId}</span>
-        <span className="text-xs text-n-3 block mt-1">
+        <span className="text-lg text-n-3 block">Response ID: {responseId}</span>
+        <span className="text-lg text-n-3 block mt-1">
           {new Date(timestamp).toLocaleString()}
         </span>
       </div>
@@ -32,7 +32,7 @@ export const Header = ({ model, icon, title, query, responseId, timestamp, capab
     
     <div className="flex flex-wrap gap-2 mt-4">
       {capabilities.map((capability, idx) => (
-        <span key={idx} className="px-2 py-1 bg-n-7 rounded-full text-xs text-n-3">
+        <span key={idx} className="px-2 py-1 bg-n-7 rounded-full text-lg text-n-3">
           {capability}
         </span>
       ))}

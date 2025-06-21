@@ -72,28 +72,34 @@ const IndustryApplicationCard = ({ application }) => {
         <div className="lg:col-span-2 space-y-8">
           {/* Challenge */}
           {/* Use theme for background, border, and text */}
-          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-8 border-n-5' : 'bg-n-2 border-n-3'} border`}>
-            <h4 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>The Challenge</h4>
-            {/* Adjust prose theme */}
-            <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none prose-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+          <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-n-8 border-n-5' : 'bg-n-2 border-n-3'} border`}>
+            <h4 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} flex items-center gap-2`}>
+              <span className="text-2xl">🎯</span>
+              Industry Challenge
+            </h4>
+            {/* Increased font size and improved readability */}
+            <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none prose-base ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
               {industryChallenge?.raw ? (
                 <RichText content={industryChallenge.raw} />
               ) : (
-                <p>Details not available.</p>
+                <p className="text-base leading-relaxed">Details not available.</p>
               )}
             </div>
           </div>
 
           {/* Jedi Approach */}
           {/* Use theme for background, border, and text */}
-           <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-8 border-n-5' : 'bg-n-2 border-n-3'} border`}>
-            <h4 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>The Jedi Approach</h4>
-            {/* Adjust prose theme */}
-            <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none prose-sm ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+           <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-purple-500/30' : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200'} border`}>
+            <h4 className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} flex items-center gap-2`}>
+              <span className="text-2xl">🚀</span>
+              JEDI Solution
+            </h4>
+            {/* Increased font size and improved readability with special styling for JEDI solution */}
+            <div className={`prose ${isDarkMode ? 'prose-invert' : ''} max-w-none prose-base ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                {jediApproach?.raw ? (
                 <RichText content={jediApproach.raw} />
                ) : (
-                <p>Details not available.</p>
+                <p className="text-base leading-relaxed">Details not available.</p>
                )}
             </div>
           </div>
@@ -122,7 +128,7 @@ const IndustryApplicationCard = ({ application }) => {
                     key={comp.id}
                     to={`/technology/${comp.slug}`} // Link to technology detail page
                     // Use theme for background, border, text, and hover states
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${isDarkMode ? 'bg-n-6 border-n-5 text-n-2 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-6 hover:text-n-8'} border hover:border-primary-1 transition-colors text-xs font-medium`}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${isDarkMode ? 'bg-n-6 border-n-5 text-n-2 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-6 hover:text-n-8'} border hover:border-primary-1 transition-colors text-lg font-medium`}
                     title={comp.name}
                   >
                     {comp.icon?.url ? (

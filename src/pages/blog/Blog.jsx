@@ -113,7 +113,7 @@ export const Blog = () => {
                     )}
                     <div>
                       <p className={`font-medium text-sm ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>{post.author?.name}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                      <p className={`text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                         {new Date(post.publishedAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -124,7 +124,7 @@ export const Blog = () => {
                       {post.categories.map(category => (
                         <span 
                           key={category.name}
-                          className={`text-xs px-3 py-1 rounded-full ${isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-6'}`}
+                          className={`text-lg px-3 py-1 rounded-full ${isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-6'}`}
                         >
                           {category.name}
                         </span>

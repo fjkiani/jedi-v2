@@ -318,7 +318,7 @@ const TechnologyDetail = () => {
                                 <button
                                   key={idx}
                                   onClick={() => runOpenAIDemo('gpt-4', q)} 
-                                  className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${isDarkMode ? 'bg-n-6 border-n-5 text-n-3 hover:bg-n-5 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-5 hover:bg-n-3 hover:text-n-7'}`}
+                                  className={`px-3 py-1.5 rounded-full text-lg border transition-colors ${isDarkMode ? 'bg-n-6 border-n-5 text-n-3 hover:bg-n-5 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-5 hover:bg-n-3 hover:text-n-7'}`}
                                 >
                                   {q}
                                 </button>

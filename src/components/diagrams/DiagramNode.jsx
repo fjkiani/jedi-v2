@@ -102,7 +102,7 @@ export const DiagramNode = ({ node }) => {
             {/* Metrics */}
             {hasMetrics && (
               <g transform={`translate(${node.x + 20}, ${node.y + 100})`}>
-                <text className="fill-primary-1 text-xs font-medium">Metrics:</text>
+                <text className="fill-primary-1 text-lg font-medium">Metrics:</text>
                 {Object.entries(node.metrics).map(([key, value], idx) => (
                   <text
                     key={key}
@@ -118,7 +118,7 @@ export const DiagramNode = ({ node }) => {
             {/* Features */}
             {hasFeatures && (
               <g transform={`translate(${node.x + 140}, ${node.y + 100})`}>
-                <text className="fill-primary-1 text-xs font-medium">Features:</text>
+                <text className="fill-primary-1 text-lg font-medium">Features:</text>
                 {node.features.slice(0, 4).map((feature, idx) => (
                   <text
                     key={feature}

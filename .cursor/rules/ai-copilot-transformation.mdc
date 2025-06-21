@@ -1,0 +1,222 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# AI Co-Pilot Dynamic Transformation Plan
+
+## Overview
+Transform the current data-dump AI Co-Pilot into a dynamic, conversational, agentic interface that provides a true co-pilot experience using existing Hygraph data.
+
+## Current State Analysis
+- **Current Component**: [AiCoPilotDemo.jsx](mdc:src/components/AiCoPilotDemo.jsx)
+- **Response Handler**: [ResponseVisualizer.jsx](mdc:src/components/ResponseVisualizer.jsx)
+- **Data Service**: [openAIService.jsx](mdc:src/services/openAIService.jsx)
+- **Industry Data**: Rich architecture, components, flow, queries from Hygraph
+
+## True Co-Pilot Layout Vision
+
+### 1. Conversational Chat Interface
+```
+┌─────────────────────────────────────┐
+│ 🤖 JEDI Co-Pilot                   │
+├─────────────────────────────────────┤
+│ User: "How to reduce energy waste?" │
+│                                     │
+│ 🤖 I'll help you optimize energy    │
+│    efficiency. Let me analyze...    │
+│                                     │
+│ ✅ Analysis Complete                │
+│ 📊 Found 3 optimization strategies  │
+│ 🔧 Ready to show implementation     │
+│                                     │
+│ [Show Implementation] [Ask More]    │
+└─────────────────────────────────────┘
+```
+
+### 2. Progressive Disclosure Journey
+- **Step 1**: Understanding (Query analysis + context)
+- **Step 2**: Strategy (High-level approach)
+- **Step 3**: Implementation (Detailed architecture)
+- **Step 4**: Action Items (Next steps)
+
+### 3. Interactive Components Architecture
+
+#### A. Chat Message Components
+- `CoPilotMessage` - AI responses with actions
+- `UserMessage` - User queries
+- `ThinkingIndicator` - Processing animation
+- `ActionCard` - Interactive buttons/choices
+
+#### B. Content Revelation Components
+- `StrategyOverview` - High-level solution summary
+- `ArchitectureDiagram` - Interactive flow visualization
+- `ComponentExplorer` - Clickable system components
+- `ImplementationSteps` - Step-by-step guidance
+- `MetricsPreview` - Expected outcomes
+
+#### C. Industry Context Integration
+- `IndustryInsights` - Contextual industry information
+- `SolutionComparison` - Compare different approaches
+- `BestPractices` - Industry-specific recommendations
+
+## Implementation Plan
+
+### Phase 1: Core Chat Interface
+**Files to Create/Modify:**
+- Create `src/components/copilot/ChatInterface.jsx`
+- Create `src/components/copilot/CoPilotMessage.jsx`
+- Create `src/components/copilot/ProgressiveDisclosure.jsx`
+- Modify [AiCoPilotDemo.jsx](mdc:src/components/AiCoPilotDemo.jsx)
+
+**Features:**
+- Chat-like message flow
+- Typing indicators
+- Message history
+- Progressive revelation of information
+
+### Phase 2: Smart Response Orchestration
+**Files to Create/Modify:**
+- Create `src/services/copilotOrchestrator.js`
+- Modify [openAIService.jsx](mdc:src/services/openAIService.jsx)
+- Create `src/components/copilot/ResponseStrategies.jsx`
+
+**Features:**
+- Intelligent response chunking
+- Context-aware follow-up suggestions
+- Dynamic content organization
+
+### Phase 3: Interactive Visualizations
+**Files to Create/Modify:**
+- Create `src/components/copilot/InteractiveArchitecture.jsx`
+- Create `src/components/copilot/ComponentExplorer.jsx`
+- Enhance [ResponseVisualizer.jsx](mdc:src/components/ResponseVisualizer.jsx)
+
+**Features:**
+- Clickable architecture diagrams
+- Expandable component details
+- Interactive flow navigation
+
+### Phase 4: Industry Context Integration
+**Files to Create/Modify:**
+- Create `src/services/industryContextService.js`
+- Create `src/components/copilot/IndustryInsights.jsx`
+- Integrate with existing industry pages
+
+**Features:**
+- Pull from [ApplicationDisplay.jsx](mdc:src/features/industries/components/ApplicationDisplay.jsx)
+- Integrate Solution Details and Industry Context
+- Cross-reference with use cases
+
+## Component Reuse Strategy
+
+### Existing Components to Leverage
+1. **[ResponseVisualizer.jsx](mdc:src/components/ResponseVisualizer.jsx)** - Transform into interactive cards
+2. **[ApplicationDisplay.jsx](mdc:src/features/industries/components/ApplicationDisplay.jsx)** - Use for industry context
+3. **ReactFlow components** - For interactive architecture diagrams
+4. **[Button.jsx](mdc:src/components/Button.jsx)** - For action buttons
+5. **[Icon.jsx](mdc:src/components/Icon.jsx)** - For visual elements
+
+### New Components to Create
+1. **ChatInterface** - Main conversational container
+2. **CoPilotMessage** - AI message with progressive disclosure
+3. **ActionSuggestions** - Dynamic next steps
+4. **ContextualInsights** - Industry-specific information
+5. **InteractiveGuide** - Step-by-step implementation
+
+## Data Flow Architecture
+
+### 1. Query Processing
+```
+User Query → Context Analysis → Industry Matching → Use Case Selection
+```
+
+### 2. Response Generation
+```
+Selected Use Case → Progressive Response Strategy → Chunked Content → Interactive Elements
+```
+
+### 3. Industry Integration
+```
+Industry Context → Solution Details → Best Practices → Comparative Analysis
+```
+
+## User Experience Flow
+
+### Example: Manufacturing Energy Optimization Query
+
+1. **Initial Response** (Conversational)
+   ```
+   🤖 "I understand you want to reduce energy waste. Based on your 
+       manufacturing context, I've identified 3 proven strategies..."
+   ```
+
+2. **Strategy Selection** (Interactive)
+   ```
+   📊 Predictive Maintenance (30% reduction potential)
+   ⚙️ Process Optimization (25% reduction potential)
+   🔋 Smart Grid Integration (20% reduction potential)
+   
+   [Explore Predictive Maintenance] [Compare All Options]
+   ```
+
+3. **Implementation Guidance** (Progressive)
+   ```
+   🔧 Predictive Maintenance Implementation
+   
+   Phase 1: Sensor Deployment → Phase 2: Data Collection → Phase 3: AI Training
+   
+   [Show Architecture] [View Timeline] [See ROI Calculation]
+   ```
+
+4. **Action Items** (Actionable)
+   ```
+   📋 Your Next Steps:
+   1. Audit current sensor infrastructure
+   2. Identify critical equipment for monitoring
+   3. Evaluate data collection capabilities
+   
+   [Schedule Assessment] [Download Checklist] [Contact Expert]
+   ```
+
+## Integration Points
+
+### Industry Pages Integration
+- Pull context from [IndustryPage.jsx](mdc:src/features/industries/pages/IndustryPage.jsx)
+- Use application data from industry applications
+- Reference solution details and capabilities
+
+### Use Case Integration
+- Leverage existing GraphQL queries from [useCases.js](mdc:src/graphql/queries/useCases.js)
+- Integrate with use case architectures and flows
+- Connect to technology stacks
+
+### Cross-Component Communication
+- Share state between co-pilot and industry pages
+- Enable deep-linking to specific solutions
+- Maintain conversation context across navigation
+
+## Technical Implementation Notes
+
+### State Management
+- Use React Context for conversation state
+- Implement message history persistence
+- Handle progressive disclosure state
+
+### Performance Optimization
+- Lazy load heavy visualizations
+- Cache industry context data
+- Optimize re-renders with React.memo
+
+### Accessibility
+- Keyboard navigation for chat interface
+- Screen reader support for progressive disclosure
+- Focus management for interactive elements
+
+## Success Metrics
+- **Engagement**: Time spent in co-pilot interface
+- **Completion**: Users who reach action items
+- **Conversion**: Clicks to industry pages/contact forms
+- **Satisfaction**: User feedback on helpfulness
+
+This transformation will create a truly conversational, intelligent co-pilot experience while leveraging all existing Hygraph data and industry context.

@@ -81,7 +81,7 @@ const ApplicationSidebar = ({ application }) => {
                   // Use theme for fallback icon
                   <Icon name="cpu" className={`w-4 h-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`} />
                 )}
-                <span className="text-xs font-medium truncate max-w-[100px]">{comp.name}</span>
+                <span className="text-lg font-medium truncate max-w-[100px]">{comp.name}</span>
               </Link>
             ))}
           </div>

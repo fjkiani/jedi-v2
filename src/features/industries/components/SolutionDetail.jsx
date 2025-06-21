@@ -57,9 +57,9 @@ const SolutionDetail = ({ useCase }) => {
               <div key={comp.id} className="p-4 bg-n-6 rounded-lg border border-n-5">
                 <h4 className="font-semibold text-n-1 mb-2">{comp.name}</h4>
                 <p className="text-sm text-n-3 mb-3">{comp.description}</p>
-                {comp.details && <p className="text-xs text-n-4 italic mb-3">Details: {comp.details}</p>}
+                {comp.details && <p className="text-lg text-n-4 italic mb-3">Details: {comp.details}</p>}
                 {comp.explanation && comp.explanation.length > 0 && (
-                   <ul className="list-disc list-inside text-xs text-n-4 space-y-1">
+                   <ul className="list-disc list-inside text-lg text-n-4 space-y-1">
                      {comp.explanation.map((exp, idx) => <li key={idx}>{exp}</li>)}
                    </ul>
                 )}
@@ -79,12 +79,12 @@ const SolutionDetail = ({ useCase }) => {
           <ol className="relative border-l border-n-5 space-y-6 ml-2">
             {flow.map((step, index) => (
               <li key={step.id || index} className="ml-6">
-                <span className="absolute flex items-center justify-center w-6 h-6 bg-primary-1 rounded-full -left-3 ring-4 ring-n-7 text-n-8 font-bold text-xs">
+                <span className="absolute flex items-center justify-center w-6 h-6 bg-primary-1 rounded-full -left-3 ring-4 ring-n-7 text-n-8 font-bold text-lg">
                   {index + 1}
                 </span>
                 <h4 className="font-semibold text-n-1 mb-1">{step.step}</h4>
                 <p className="text-sm text-n-3 mb-2">{step.description}</p>
-                {step.details && <p className="text-xs text-n-4 italic">Details: {step.details}</p>}
+                {step.details && <p className="text-lg text-n-4 italic">Details: {step.details}</p>}
               </li>
             ))}
           </ol>

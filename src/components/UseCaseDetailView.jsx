@@ -72,7 +72,7 @@ const UseCaseDetailView = ({ useCase, onClose }) => {
     // For now, just render the raw JSON structure if available
     // Or preferably, render RichText if implementation is a RichText field
      return (
-       <div className={`p-4 rounded-md ${isDarkMode ? 'bg-n-8' : 'bg-n-2'} text-xs overflow-auto`}>
+       <div className={`p-4 rounded-md ${isDarkMode ? 'bg-n-8' : 'bg-n-2'} text-lg overflow-auto`}>
           <RichText content={impl.raw} />
        </div>
      );
@@ -97,7 +97,7 @@ const UseCaseDetailView = ({ useCase, onClose }) => {
 
       {/* Header */}
       <div className="mb-8 border-b pb-6 border-n-6/50 pr-10">
-        <span className="text-xs uppercase tracking-wider text-n-3 mb-2 block">
+        <span className="text-lg uppercase tracking-wider text-n-3 mb-2 block">
           {industry?.name || 'Use Case Details'}
         </span>
         <h2 className={`h2 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{title}</h2>
@@ -160,7 +160,7 @@ const UseCaseDetailView = ({ useCase, onClose }) => {
                   <Link
                     key={comp.id}
                     to={`/technology/${comp.slug}`} // Assuming technology detail pages exist
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs border ${
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-lg border ${
                       isDarkMode ? 'bg-n-6 border-n-5 text-n-3 hover:text-n-1 hover:border-n-4' : 'bg-n-2 border-n-3 text-n-5 hover:text-n-7 hover:border-n-4'
                     } transition-colors`}
                     title={comp.name}

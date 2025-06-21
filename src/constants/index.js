@@ -98,19 +98,9 @@ export const navigation = [
     dropdownItems: [
       { title: "About Us", url: "/about" },
       { title: "Team", url: "/team" },
-      { title: "Careers", description: "Coming Soon" },
       { title: "Contact", url: "/contact" }
     ]
   },
-  {
-    id: "resources",
-    title: "Resources",
-    url: "#",
-    dropdownItems: [
-      { title: "Case Studies", description: "Coming Soon" },
-      { title: "Documentation", description: "Coming Soon" },
-    ]
-  }
 ];
 
 export const heroIcons = [homeSmile, file02, searchMd, plusSquare];

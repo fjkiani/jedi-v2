@@ -30,7 +30,7 @@ const TechStackTest = () => {
               className="w-16 h-16 object-contain mb-2" 
             />
             <p className="text-sm font-medium">{tech.name}</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-lg text-gray-500 mt-1">
               {tech.solutions.length} solution(s)
             </p>
           </div>

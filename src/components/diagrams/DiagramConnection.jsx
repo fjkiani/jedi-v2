@@ -213,7 +213,7 @@ export const DiagramConnection = ({ connection, fromNode, toNode }) => {
           filter="drop-shadow(0 4px 8px rgba(0,0,0,0.3))"
         />
         <text
-          className="fill-n-3 text-xs font-medium tracking-wide"
+          className="fill-n-3 text-lg font-medium tracking-wide"
           textAnchor="middle"
           y="-12"
         >

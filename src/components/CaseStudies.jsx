@@ -143,9 +143,9 @@ const CaseStudies = () => {
             transition={{ duration: 0.3 }}
             className="relative" // Needed for absolute positioning of nav buttons
           >
-            {useCasesData.length === 0 ? (
+              {useCasesData.length === 0 ? (
               <p className={`text-center ${isDarkMode ? 'text-n-4' : 'text-n-5'} py-10`}>No use cases available at the moment.</p>
-            ) : (
+              ) : (
               <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={30}
@@ -169,66 +169,66 @@ const CaseStudies = () => {
                 {useCasesData.map((useCase) => (
                   <SwiperSlide key={useCase.id} className="h-auto flex pb-2"> {/* Add flex and slight padding bottom */}
                     {/* Use Case Card Content (extracted from the original Link) */}
-                     <Link 
-                        to={useCase.industry?.slug && useCase.slug ? `/industries/${useCase.industry.slug}/${useCase.slug}` : '#'}
+                  <Link 
+                    to={useCase.industry?.slug && useCase.slug ? `/industries/${useCase.industry.slug}/${useCase.slug}` : '#'}
                         className="block h-full group w-full" // Ensure link takes full slide width/height
-                        aria-label={`Learn more about ${useCase.title}`}
-                      >
-                       <motion.div
+                    aria-label={`Learn more about ${useCase.title}`}
+                  >
+                    <motion.div
                           // Optional: keep variants if needed per slide
                           // variants={fadeIn('up')} 
                           // initial="hidden"
                           // whileInView="show"
                           // viewport={{ once: true }}
-                          className="flex h-full hover:-translate-y-1 transition-transform duration-300"
-                        >
+                      className="flex h-full hover:-translate-y-1 transition-transform duration-300"
+                    >
                             <div className={`rounded-2xl overflow-hidden h-full w-full p-6 lg:p-8 flex flex-col transition-all 
-                            ${isDarkMode ? 'bg-n-7 border border-n-6 group-hover:border-primary-1/50' : 'bg-white border border-n-3 group-hover:border-primary-1/50'}
-                            `}>
+                        ${isDarkMode ? 'bg-n-7 border border-n-6 group-hover:border-primary-1/50' : 'bg-white border border-n-3 group-hover:border-primary-1/50'}
+                      `}>
                                 <div className="mb-4">
-                                    <span className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-1 block`}>
-                                        {useCase.industry?.name || 'Industry'}
-                                    </span>
+                                    <span className={`text-lg uppercase tracking-wider ${isDarkMode ? 'text-n-3' : 'text-n-5'} mb-1 block`}>
+                            {useCase.industry?.name || 'Industry'}
+                          </span>
                                     <h3 className={`h4 mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{useCase.title}</h3>
-                                </div>
-                                
-                                {useCase.description && (
+                        </div>
+                        
+                        {useCase.description && (
                                 <div className="mb-6">
                                     <h4 className={`text-base font-semibold ${isDarkMode ? 'text-color-1' : 'text-primary-1'} mb-1`}>Overview</h4>
-                                    <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'} line-clamp-3`}>{useCase.description}</p>
-                                </div>
-                                )}
+                            <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'} line-clamp-3`}>{useCase.description}</p>
+                          </div>
+                        )}
 
-                                {useCase.technologies && useCase.technologies.length > 0 && (
+                        {useCase.technologies && useCase.technologies.length > 0 && (
                                 <div className="mt-auto pt-4"> {/* Pushes tech to bottom */}
                                     <h4 className={`text-base font-semibold ${isDarkMode ? 'text-color-1' : 'text-primary-1'} mb-2 flex items-center`}>
                                     <FiCpu className={`mr-1.5 ${isDarkMode ? 'opacity-80' : 'opacity-100'}`} size={16}/> Technologies
-                                    </h4>
+                            </h4>
                                     <div className="flex flex-wrap gap-1.5">
-                                    {useCase.technologies.map((tech) => (
-                                        <span
-                                        key={tech.id}
+                              {useCase.technologies.map((tech) => (
+                                <span
+                                  key={tech.id}
                                         className={`flex items-center px-2.5 py-0.5 rounded-full text-xxs 
-                                            ${isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-6'}
-                                        `}
-                                        title={tech.name}
-                                        >
-                                        {tech.icon && (
+                                    ${isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-6'}
+                                  `}
+                                  title={tech.name}
+                                >
+                                  {tech.icon && (
                                             <img src={tech.icon} alt={tech.name} className="w-3 h-3 mr-1 object-contain" />
-                                        )}
-                                        <span className="truncate">{tech.name}</span>
-                                        </span>
-                                    ))}
-                                    </div>
-                                </div>
-                                )}
+                                  )}
+                                  <span className="truncate">{tech.name}</span>
+                                </span>
+                              ))}
                             </div>
-                        </motion.div>
-                    </Link>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>
-            )}
+              )}
           </motion.div>
         )}
         

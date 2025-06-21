@@ -60,7 +60,7 @@ const IndustryResponse = ({ response }) => {
               {response.header?.title || response.title || 'AI Analysis'}
             </h3>
           </div>
-          <div className="text-xs text-n-3">
+          <div className="text-lg text-n-3">
             Powered by Industry AI
           </div>
         </div>

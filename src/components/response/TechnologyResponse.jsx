@@ -114,7 +114,7 @@ const TechnologyResponse = ({ response }) => {
                     {item.technologies && item.technologies.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
                         {item.technologies.map((tech, techIndex) => (
-                          <div key={techIndex} className="flex items-center gap-1 px-2 py-1 bg-n-6 rounded text-xs">
+                          <div key={techIndex} className="flex items-center gap-1 px-2 py-1 bg-n-6 rounded text-lg">
                             <span>{tech.icon}</span>
                             <span className="text-primary-1">{tech.name}</span>
                           </div>
@@ -148,7 +148,7 @@ const TechnologyResponse = ({ response }) => {
               {response.header?.title || 'AI Analysis'}
             </h3>
           </div>
-          <div className="text-xs text-n-3">
+          <div className="text-lg text-n-3">
             Powered by Technology AI
           </div>
         </div>

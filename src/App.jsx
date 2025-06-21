@@ -7,7 +7,7 @@ import NextGenAIStack from "./components/NextGenAIStack";
 import Collaboration from "./components/Collaboration";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Hero from "./components/Hero";
+import AiCoPilotDemo from "./components/AiCoPilotDemo";
 import Pricing from "./components/Pricing";
 import Roadmap from "./components/Roadmap";
 import Services from "./components/Services";
@@ -18,6 +18,7 @@ import PostCard from "@/components/hyGraph/PostCard";
 import PostDetail from "@/components/hyGraph/PostDetail";
 import { getPosts } from "./services";
 // import { StarsCanvas} from "./components/canvas";
+import ContactCoPilot from '@/components/ContactCoPilot';
 import ScrollToTop from "./components/ScrollToTop";
 import WhatWeDo from './components/WhatWeDo';
 import SolutionsNavigator from "./components/SolutionsNavigator";
@@ -51,6 +52,8 @@ import { TestSEO } from '@/components/SEO/TestSEO';
 import UseCasesPage from './pages/UseCasesPage';
 import FeaturedApplications from "./components/FeaturedApplications";
 import CallToAction from "./components/CallToAction";
+import LeadCaptureCTA from "./components/LeadCaptureCTA";
+import SidebarConsultant from "./components/SidebarConsultant";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -154,20 +157,20 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 path="/"
                 element={
                   <>
-                    <Hero />
-                    <FeaturedApplications />
-                    <SolutionsPage isHomepage={true} />
+                    <AiCoPilotDemo />
+                    {/* <FeaturedApplications /> */}
+                    {/* <SolutionsPage isHomepage={true} /> */}
                     {/* <Services /> */}
-                    {/* <TransformationMethodology /> */}
-                    {/* <WhatWeDo /> */}
+                    <Collaboration/>
                     <CaseStudies />
                     <CallToAction />
                     {/* <NextGenAIStack /> */}
-                    {/* <IndustryOverview /> */}
+                    <SidebarConsultant/>
+                    <IndustryOverview />
                     <WhyChooseUs />
                     {/* <Pricing /> */}
                     <Roadmap />
-                    {/* <Contact /> */}
+                    {/* <ContactCoPilot /> */}
                     {/* <StarsCanvas /> */}
                   </>
                 }

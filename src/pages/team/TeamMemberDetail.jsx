@@ -50,7 +50,7 @@ const SkillsGroup = ({ skills }) => {
                   />
                 )}
                 <span>{skill.name}</span>
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-n-7 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-n-7 text-white text-lg rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                   {skill.description}
                 </div>
               </div>
@@ -473,7 +473,7 @@ const TeamMemberDetail = () => {
                             {post.categories.map((category, idx) => (
                               <span
                                 key={idx}
-                                className="px-3 py-1 text-xs font-medium text-white bg-n-1/10 backdrop-blur-sm rounded-full"
+                                className="px-3 py-1 text-lg font-medium text-white bg-n-1/10 backdrop-blur-sm rounded-full"
                               >
                                 {category.name}
                               </span>

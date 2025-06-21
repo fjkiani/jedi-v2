@@ -1,0 +1,137 @@
+<div style="font-family: system-ui, sans-serif, Arial; font-size: 12px">
+  <div>A message by {{name}} has been received. Kindly respond at your earliest convenience.</div>
+  <div
+    style="
+      margin-top: 20px;
+      padding: 15px 0;
+      border-width: 1px 0;
+      border-style: dashed;
+      border-color: lightgrey;
+    "
+  >
+    <table role="presentation">
+      <tr>
+        <td style="vertical-align: top">
+          <div
+            style="
+              padding: 6px 10px;
+              margin: 0 10px;
+              background-color: aliceblue;
+              border-radius: 5px;
+              font-size: 26px;
+            "
+            role="img"
+          >
+            &#x1F464;
+          </div>
+        </td>
+        <td style="vertical-align: top">
+          <div style="color: #2c3e50; font-size: 16px">
+            <strong>{{name}}</strong>
+          </div>
+          <div style="color: #cccccc; font-size: 13px">{{time}}</div>
+          <p style="font-size: 16px">{{message}}</p>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <!-- Lead Score Indicator -->
+  <div style="margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff;">
+    <strong style="color: #007bff;">🎯 Lead Score: {{lead_score}}/100</strong> - <strong>{{lead_priority}} Priority</strong>
+    <br>
+    <small style="color: #6c757d;">⏱️ Recommended Response Time: {{response_time}}</small>
+  </div>
+  
+  <!-- Contact Information -->
+  <div style="margin-top: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #007bff; padding-bottom: 5px;">📞 Contact Information</h3>
+    <table style="width: 100%; border-collapse: collapse; background-color: #f8f9fa; border-radius: 5px;">
+      <tr><td style="padding: 8px; font-weight: bold; width: 150px; background-color: #e9ecef;">Name:</td><td style="padding: 8px;">{{name}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e9ecef;">Email:</td><td style="padding: 8px;"><a href="mailto:{{from_email}}" style="color: #007bff; text-decoration: none;">{{from_email}}</a></td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e9ecef;">Company:</td><td style="padding: 8px;">{{company}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e9ecef;">Phone:</td><td style="padding: 8px;">{{phone}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e9ecef;">Industry:</td><td style="padding: 8px;">{{industry}}</td></tr>
+    </table>
+  </div>
+  
+  <!-- Project Details -->
+  <div style="margin-top: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #28a745; padding-bottom: 5px;">🚀 Project Details</h3>
+    <table style="width: 100%; border-collapse: collapse; background-color: #f8fff8; border-radius: 5px;">
+      <tr><td style="padding: 8px; font-weight: bold; width: 150px; background-color: #e8f5e8; vertical-align: top;">Project Scope:</td><td style="padding: 8px;">{{project_scope}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e8f5e8; vertical-align: top;">Primary Challenge:</td><td style="padding: 8px;">{{primary_challenge}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #e8f5e8; vertical-align: top;">Current Solution:</td><td style="padding: 8px;">{{current_solution}}</td></tr>
+    </table>
+  </div>
+  
+  <!-- Requirements & Budget -->
+  <div style="margin-top: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #ffc107; padding-bottom: 5px;">💰 Requirements & Budget</h3>
+    <table style="width: 100%; border-collapse: collapse; background-color: #fffdf0; border-radius: 5px;">
+      <tr><td style="padding: 8px; font-weight: bold; width: 150px; background-color: #fff3cd;">Budget Range:</td><td style="padding: 8px; color: #856404;"><strong>{{budget_range}}</strong></td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #fff3cd;">Timeline:</td><td style="padding: 8px;">{{timeline}}</td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #fff3cd;">Urgency:</td><td style="padding: 8px; color: #721c24;"><strong>{{urgency}}</strong></td></tr>
+      <tr><td style="padding: 8px; font-weight: bold; background-color: #fff3cd;">Team Size:</td><td style="padding: 8px;">{{team_size}}</td></tr>
+    </table>
+  </div>
+  
+  <!-- Additional Details -->
+  <div style="margin-top: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #6f42c1; padding-bottom: 5px;">📋 Additional Details</h3>
+    <div style="background-color: #f8f7ff; padding: 15px; border-radius: 5px;">
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #6f42c1;">Specific Requirements:</strong>
+        <p style="margin: 5px 0; padding: 8px; background-color: white; border-radius: 3px; border-left: 3px solid #6f42c1;">{{specific_requirements}}</p>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #6f42c1;">Expected Outcomes:</strong>
+        <p style="margin: 5px 0; padding: 8px; background-color: white; border-radius: 3px; border-left: 3px solid #6f42c1;">{{expected_outcomes}}</p>
+      </div>
+      <div>
+        <strong style="color: #6f42c1;">Additional Notes:</strong>
+        <p style="margin: 5px 0; padding: 8px; background-color: white; border-radius: 3px; border-left: 3px solid #6f42c1;">{{additional_notes}}</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Conversation Context -->
+  <div style="margin-top: 20px;">
+    <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #17a2b8; padding-bottom: 5px;">💬 AI Co-Pilot Context</h3>
+    <div style="background-color: #f0fcff; padding: 15px; border-radius: 5px;">
+      <div style="margin-bottom: 10px;">
+        <strong style="color: #17a2b8;">Lead Source:</strong> {{lead_source}}
+        <span style="margin-left: 20px;"><strong style="color: #17a2b8;">Capture Type:</strong> {{capture_type}}</span>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <strong style="color: #17a2b8;">Solutions Discussed:</strong>
+        <span style="background-color: white; padding: 4px 8px; border-radius: 3px; margin-left: 5px;">{{discussed_solutions}}</span>
+      </div>
+      <div>
+        <strong style="color: #17a2b8;">Conversation Summary:</strong>
+        <div style="margin: 5px 0; padding: 8px; background-color: white; border-radius: 3px; border-left: 3px solid #17a2b8; font-style: italic; max-height: 100px; overflow-y: auto;">{{conversation_context}}</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Next Steps -->
+  <div style="margin-top: 30px; padding: 15px; background-color: #d1ecf1; border-radius: 5px; border: 1px solid #bee5eb;">
+    <h4 style="color: #0c5460; margin-bottom: 10px; display: flex; align-items: center;">
+      <span style="margin-right: 8px;">🎯</span>
+      Recommended Next Steps
+    </h4>
+    <ul style="margin: 0; padding-left: 20px; color: #0c5460;">
+      <li style="margin-bottom: 5px;">📊 Review lead score ({{lead_score}}/100) and prioritize accordingly</li>
+      <li style="margin-bottom: 5px;">⏰ Respond within <strong>{{response_time}}</strong> based on urgency level</li>
+      <li style="margin-bottom: 5px;">📞 Schedule initial consultation call</li>
+      <li style="margin-bottom: 5px;">📁 Prepare relevant case studies and proposals</li>
+      <li>💼 Assign to appropriate team member based on industry and requirements</li>
+    </ul>
+  </div>
+  
+  <!-- Footer -->
+  <div style="margin-top: 20px; padding: 10px; text-align: center; color: #6c757d; font-size: 11px; border-top: 1px solid #dee2e6;">
+    <p style="margin: 0;">This lead was generated through the JEDI Labs AI Co-Pilot system.</p>
+    <p style="margin: 5px 0 0 0;">For technical support, contact the development team.</p>
+  </div>
+</div> 

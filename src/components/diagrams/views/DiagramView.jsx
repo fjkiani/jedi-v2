@@ -209,19 +209,19 @@ export const DiagramView = ({ diagram }) => {
               <div className="space-y-2">
                 {node.technologies && Object.entries(node.technologies).map(([category, techs]) => (
                   <div key={category}>
-                    <span className="text-xs text-n-4">{category}:</span>
+                    <span className="text-lg text-n-4">{category}:</span>
                     <div className="flex flex-wrap gap-1">
                       {Array.isArray(techs) ? techs.map(tech => (
                         <span
                           key={tech}
-                          className="text-xs bg-n-7 text-n-2 px-2 py-1 rounded"
+                          className="text-lg bg-n-7 text-n-2 px-2 py-1 rounded"
                         >
                           {tech}
                         </span>
                       )) : Object.keys(techs).map(tech => (
                         <span
                           key={tech}
-                          className="text-xs bg-n-7 text-n-2 px-2 py-1 rounded"
+                          className="text-lg bg-n-7 text-n-2 px-2 py-1 rounded"
                         >
                           {tech}
                         </span>

@@ -34,7 +34,7 @@ const TechCatalog = () => {
                   {tech.primaryUses.map((use, index) => (
                     <span 
                       key={index}
-                      className="text-xs bg-gray-100 px-2 py-1 rounded-full"
+                      className="text-lg bg-gray-100 px-2 py-1 rounded-full"
                     >
                       {use}
                     </span>

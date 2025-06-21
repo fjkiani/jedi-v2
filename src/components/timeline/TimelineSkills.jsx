@@ -27,7 +27,7 @@ const SkillTooltip = ({ skill, visible, x, y }) => (
         <div className="max-w-xs">
           <p className="font-medium mb-1">{skill.name}</p>
           {skill.description && (
-            <p className="text-xs opacity-80">{skill.description}</p>
+            <p className="text-lg opacity-80">{skill.description}</p>
           )}
         </div>
         <div 

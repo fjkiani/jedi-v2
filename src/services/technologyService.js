@@ -183,6 +183,21 @@ const GET_CATEGORY_BY_SLUG = `
   }
 `;
 
+const GET_RANDOM_TECHNOLOGIES = `
+  query GetRandomTechnologies($limit: Int = 8) {
+    technologies(first: $limit, stage: PUBLISHED) {
+      id
+      name
+      slug
+      icon {
+        url
+      }
+      description
+      category
+    }
+  }
+`;
+
 class TechnologyService {
   async getAllCategories() {
     try {
@@ -427,6 +442,86 @@ class TechnologyService {
     } catch (error) {
       console.error('Error fetching category:', error);
       throw error;
+    }
+  }
+
+  async getRandomTechnologies(limit = 8) {
+    try {
+      const { technologies } = await hygraphClient.request(GET_RANDOM_TECHNOLOGIES, { limit });
+      
+      // Shuffle the technologies to get random selection
+      const shuffled = technologies.sort(() => 0.5 - Math.random());
+      
+      return shuffled.slice(0, limit);
+    } catch (error) {
+      console.error('Error fetching random technologies:', error);
+      // Return fallback technologies if API fails
+      return [
+        {
+          id: 'fallback-1',
+          name: 'OpenAI',
+          slug: 'openai',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/openai-2.svg' },
+          description: 'Advanced AI Language Models',
+          category: 'AI/ML'
+        },
+        {
+          id: 'fallback-2',
+          name: 'React',
+          slug: 'react',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/react-2.svg' },
+          description: 'Frontend JavaScript Library',
+          category: 'Frontend'
+        },
+        {
+          id: 'fallback-3',
+          name: 'Python',
+          slug: 'python',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/python-5.svg' },
+          description: 'Programming Language',
+          category: 'Programming'
+        },
+        {
+          id: 'fallback-4',
+          name: 'AWS',
+          slug: 'aws',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg' },
+          description: 'Cloud Computing Platform',
+          category: 'Cloud'
+        },
+        {
+          id: 'fallback-5',
+          name: 'Docker',
+          slug: 'docker',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/docker.svg' },
+          description: 'Containerization Platform',
+          category: 'DevOps'
+        },
+        {
+          id: 'fallback-6',
+          name: 'PostgreSQL',
+          slug: 'postgresql',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/postgresql.svg' },
+          description: 'Relational Database',
+          category: 'Database'
+        },
+        {
+          id: 'fallback-7',
+          name: 'TensorFlow',
+          slug: 'tensorflow',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/tensorflow.svg' },
+          description: 'Machine Learning Framework',
+          category: 'AI/ML'
+        },
+        {
+          id: 'fallback-8',
+          name: 'Kubernetes',
+          slug: 'kubernetes',
+          icon: { url: 'https://cdn.worldvectorlogo.com/logos/kubernetes.svg' },
+          description: 'Container Orchestration',
+          category: 'DevOps'
+        }
+      ];
     }
   }
 }

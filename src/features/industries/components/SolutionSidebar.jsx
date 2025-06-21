@@ -64,7 +64,7 @@ const SolutionSidebar = ({ useCase }) => {
                 ) : (
                   <Icon name="code" className="w-4 h-4 text-n-3" /> // Fallback icon
                 )}
-                <span className="text-xs font-medium text-n-2 truncate max-w-[100px]">{tech.name}</span>
+                <span className="text-lg font-medium text-n-2 truncate max-w-[100px]">{tech.name}</span>
               </Link>
             ))}
           </div>

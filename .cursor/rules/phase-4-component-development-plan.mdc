@@ -1,0 +1,173 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+\
+---
+title: Phase 4 UI Component Development Plan
+description: A plan outlining the creation and adaptation of UI components to support the enhanced content strategy (Phase 4) for the Jedi Labs website.
+tags: [UI, Components, Frontend, React, ContentStrategy]
+---
+
+# Phase 4: UI Component Development Plan for Enhanced Content Strategy
+
+**Goal:** To develop and adapt the necessary React UI components to effectively present the enriched content outlined in "Phase 4: Content Strategy & Improvement" of the `[aesthetic-improvement-plan.mdc](mdc:.cursor/rules/aesthetic-improvement-plan.mdc)`. This plan focuses on creating a rich, engaging, and informative user experience.
+
+**Guiding Principles:**
+*   **Reusability:** Prioritize creating flexible components that can be used across multiple content types and pages.
+*   **Semantic Structure:** Ensure components use appropriate HTML5 tags and ARIA attributes for accessibility.
+*   **Styling Consistency:** Components should adhere to the established semantic color palette and typographic styles defined in `[tailwind.config.js](mdc:tailwind.config.js)` and `[src/index.css](mdc:src/index.css)`.
+*   **Responsiveness:** All components must be fully responsive across desktop, tablet, and mobile devices.
+*   **Data-Driven:** Components should be designed to easily consume data from Hygraph or other content sources.
+
+---
+
+## I. General Purpose & Foundational Components (Enhancements)
+
+*   **1. Rich Text Renderer (`RichText` from `@graphcms/rich-text-react-renderer`):**
+    *   **Task:** Review and potentially extend existing renderers.
+    *   **Details:** Create custom renderers for elements like styled pull quotes, block-level callouts, embedded videos (if not handled by a dedicated component), or specialized lists that go beyond standard HTML.
+    *   **Priority:** Medium (as needed per content type).
+*   **2. Modal Component (`[src/components/Modal.jsx](mdc:src/components/Modal.jsx)` or similar):**
+    *   **Task:** Enhance or ensure a robust, reusable modal component.
+    *   **Details:** Needed for quick views of `JediComponent` details, embedded demos, or larger images/diagrams. Should handle various content types and be stylistically consistent.
+    *   **Priority:** Medium.
+*   **3. Image & Asset Display Component:**
+    *   **Task:** Develop a versatile image component or enhance existing image handling.
+    *   **Details:** Needs to support captions, alt text, various aspect ratios, lightboxes for larger views (especially for diagrams/charts), and potentially responsive image loading (`<picture>` element or `srcset`).
+    *   **Priority:** Medium.
+
+---
+
+## II. Homepage Specific Components (`[src/pages/index.jsx](mdc:src/pages/index.jsx)` & children)
+
+*   **1. Testimonial Display (`New: TestimonialCard.jsx`, `New: TestimonialCarousel.jsx`):**
+    *   **Task:** Create components for showcasing client testimonials.
+    *   **`TestimonialCard.jsx`:** Individual card for a single testimonial (quote, author, company, photo).
+    *   **`TestimonialCarousel.jsx`:** (Optional) A slider/carousel if multiple testimonials need to be displayed compactly.
+    *   **Styling:** Professional, trustworthy, highlighting the quote.
+    *   **Priority:** High.
+*   **2. Client/Partner Logo Cloud (`New: LogoCloud.jsx`):**
+    *   **Task:** Create a component to display a collection of client or partner logos.
+    *   **Details:** Should handle a variable number of logos, arrange them pleasingly, and ensure logos are clear and appropriately sized.
+    *   **Styling:** Subtle, professional, non-intrusive.
+    *   **Priority:** Medium.
+*   **3. Process Steps Display (`New: ProcessSteps.jsx`):**
+    *   **Task:** Create a component to visually represent the "How We Work" process.
+    *   **Details:** Likely a horizontal or vertical series of steps, each with an icon, short title, and brief description. Consider using existing `[src/components/Icon.jsx](mdc:src/components/Icon.jsx)`.
+    *   **Styling:** Clear, easy to follow, visually engaging.
+    *   **Priority:** High.
+
+---
+
+## III. Industry & Solution Focused Components
+
+*   **1. Jedi Component Teaser Card (`New: JediComponentTeaserCard.jsx`):**
+    *   **Task:** Create a small, reusable card for `JediComponent` summaries.
+    *   **Details:** To be used within `IndustryApplicationCard.jsx` or other pages linking to Jedi Components. Should display icon, name, tagline, and a link.
+    *   **Styling:** Compact, informative, consistent with main card styles.
+    *   **Priority:** High.
+*   **2. Diagram/Flowchart Display (`New: DiagramDisplay.jsx` or enhance image component):**
+    *   **Task:** Component for embedding and displaying diagrams, solution architectures, or flowcharts.
+    *   **Details:** Could be a styled wrapper around an `<img>` tag if static, or integrate a library if interactive diagrams are needed (lower priority for interactivity initially). Needs to support zoom/lightbox functionality.
+    *   **Priority:** Medium (High if many diagrams are planned early).
+*   **3. Metric Display / Results Highlight (`New: MetricDisplay.jsx`):**
+    *   **Task:** Create a component to visually emphasize key metrics and results.
+    *   **Details:** Used in Use Case pages. E.g., "30% Time Reduction" with a distinct style, icon, or animation to draw attention.
+    *   **Styling:** Impactful, clear, potentially using accent colors.
+    *   **Priority:** Medium.
+
+---
+
+## IV. Use Case & Technology Page Components
+
+*   **1. Image Comparison / Before & After (`New: ImageCompare.jsx`):**
+    *   **Task:** (Optional, lower priority) Component for showing before/after visuals.
+    *   **Details:** Useful for demonstrating tangible impact in use cases. Could use a slider.
+    *   **Priority:** Low.
+*   **2. Dashboard/Graph Snapshot (`New: DashboardSnapshot.jsx`):**
+    *   **Task:** Component to display static images or mockups of dashboards/graphs.
+    *   **Details:** If dynamic charts are needed, this becomes a larger task involving charting libraries (e.g., Recharts, Chart.js) and data integration.
+    *   **Priority:** Medium (for static images), Low (for dynamic/interactive charts initially).
+*   **3. Downloadable Asset Card (`New: DownloadAssetCard.jsx`):**
+    *   **Task:** Styled link/button for offering PDF summaries or other downloadable assets.
+    *   **Details:** Should clearly indicate file type and size if possible, with an appropriate icon.
+    *   **Styling:** Clear CTA, consistent with `[src/components/Button.jsx](mdc:src/components/Button.jsx)` but potentially with more context.
+    *   **Priority:** Medium.
+*   **4. Feature List / Capability Grid (`New: FeatureList.jsx`):**
+    *   **Task:** Component for presenting lists of technical features or capabilities in a structured way.
+    *   **Details:** For Technology/JediComponent pages. Could be a grid or multi-column list with icons and brief descriptions for each feature.
+    *   **Styling:** Organized, easy to scan, visually appealing.
+    *   **Priority:** High.
+*   **5. Code Snippet Display (`New: CodeSnippet.jsx`):**
+    *   **Task:** Component for displaying formatted code snippets.
+    *   **Details:** Should include syntax highlighting (e.g., using Prism.js or highlight.js, possibly via a React wrapper). Allow for language specification and copy-to-clipboard functionality.
+    *   **Styling:** Legible, theme-aware (adapts to light/dark mode from `@tailwindcss/typography` or custom styles).
+    *   **Priority:** Medium.
+*   **6. Embedded Video Player (`New: VideoPlayer.jsx` or enhance Rich Text):**
+    *   **Task:** Ensure robust video embedding.
+    *   **Details:** For product demos or expert interviews. Could be a dedicated component wrapping a library like ReactPlayer, or enhanced Rich Text renderers.
+    *   **Priority:** Medium.
+
+---
+
+## V. About Us & Blog Specific Components
+
+*   **1. Values Display (`New: ValuesCard.jsx` or `New: MissionPillar.jsx`):**
+    *   **Task:** Component to visually showcase core company values or mission pillars.
+    *   **Details:** For About Us page. Could be individual cards or a section with icons and text.
+    *   **Priority:** Low.
+*   **2. Awards/Recognition Display (`New: RecognitionReel.jsx` or use `LogoCloud.jsx`):**
+    *   **Task:** Component to display awards, certifications, or media mentions.
+    *   **Details:** Could be a variation of `LogoCloud.jsx` or a specific design.
+    *   **Priority:** Low.
+*   **3. Interview/Q&A Formatter (Enhance Rich Text or `New: QnABlock.jsx`):**
+    *   **Task:** Style for Q&A sections within blog posts or expert interviews.
+    *   **Details:** Distinct visual treatment for questions and answers.
+    *   **Priority:** Low.
+*   **4. Newsletter Signup Form (`New: NewsletterSignup.jsx`):**
+    *   **Task:** Create a dedicated, well-styled newsletter signup component.
+    *   **Details:** For blog and potentially footer. Should be simple, effective, and integrate with the chosen email marketing service.
+    *   **Styling:** Prominent but not intrusive, clear CTA.
+    *   **Priority:** Medium.
+
+---
+
+## VI. Component Adaptation Strategy (General)
+
+*   **Audit Existing Components:** Before creating new ones, review `[src/components](mdc:src/components)` and `[src/features](mdc:src/features)` for components that can be adapted or extended.
+    *   Example: `[src/components/UseCaseCard.jsx](mdc:src/components/UseCaseCard.jsx)` might be adaptable for some "Featured Wins" on the homepage.
+    *   Example: General layout components like `[src/components/Section.jsx](mdc:src/components/Section.jsx)` and `[src/components/Heading.jsx](mdc:src/components/Heading.jsx)` will be reused extensively.
+*   **Props-Driven Flexibility:** Design new components with props that allow for variations in content, styling (within limits), and behavior to maximize reusability.
+*   **Storybook (Recommended):** Consider setting up Storybook for developing and documenting UI components in isolation. This greatly helps with reusability and consistency.
+
+---
+
+## VII. Prioritization & Phasing
+
+1.  **Phase 1 (High Priority - Core Content Enablement):**
+    *   `TestimonialCard.jsx`
+    *   `ProcessSteps.jsx`
+    *   `JediComponentTeaserCard.jsx`
+    *   `FeatureList.jsx` (for Technology/JediComponent pages)
+    *   Enhancements to `IndustryApplicationCard.jsx` to integrate `JediComponentTeaserCard` and display detailed challenge/approach/benefits effectively.
+    *   Ensure `RichText` renderer adequately supports basic needs for detailed descriptions.
+2.  **Phase 2 (Medium Priority - Enhancing Visuals & Engagement):**
+    *   `LogoCloud.jsx`
+    *   `DiagramDisplay.jsx` (static initially)
+    *   `MetricDisplay.jsx`
+    *   `DownloadAssetCard.jsx`
+    *   `CodeSnippet.jsx`
+    *   `VideoPlayer.jsx` (or robust Rich Text embed)
+    *   `NewsletterSignup.jsx`
+    *   Enhancements to `ModalComponent` and Image Display.
+3.  **Phase 3 (Lower Priority - Nice-to-Haves & Specific Formats):**
+    *   `TestimonialCarousel.jsx`
+    *   `ImageCompare.jsx`
+    *   Dynamic/Interactive `DashboardSnapshot.jsx`
+    *   `ValuesCard.jsx` / `MissionPillar.jsx`
+    *   `RecognitionReel.jsx`
+    *   `QnABlock.jsx`
+
+This plan should be reviewed and adjusted based on the specific content creation timeline and evolving project needs.

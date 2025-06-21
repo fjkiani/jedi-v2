@@ -50,8 +50,8 @@ const NextGenAIStack = () => {
     <Section className="overflow-hidden">
       <div className="container relative z-2">
         <Heading
-          className="md:max-w-md lg:max-w-2xl"
-          title="NextGen AI Stack"
+          className="md:max-w-md lg:max-w-2xl font-starjedi"
+          title="Your ai Stack"
         />
         
         <div className="mt-10">

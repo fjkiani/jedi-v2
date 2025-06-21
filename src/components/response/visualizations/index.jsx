@@ -9,7 +9,7 @@ export const ComponentCard = ({ data }) => (
     <p className="text-n-3 mb-4">{data.description}</p>
     <div className="flex flex-wrap gap-2 mb-4">
       {data.tags.map((tag, idx) => (
-        <span key={idx} className="px-2 py-1 bg-n-6 rounded text-xs text-primary-1">
+        <span key={idx} className="px-2 py-1 bg-n-6 rounded text-lg text-primary-1">
           {tag}
         </span>
       ))}
@@ -42,7 +42,7 @@ export const Timeline = ({ steps }) => (
         <div>
           <h4 className="text-white font-medium">{step.title}</h4>
           <p className="text-n-3 mt-1">{step.description}</p>
-          <p className="text-n-4 mt-1 text-sm">{step.details}</p>
+          <p className="text-n-4 text-lg mt-1">{step.details}</p>
         </div>
       </motion.div>
     ))}
@@ -107,7 +107,7 @@ export const MetricsDisplay = ({ metrics }) => (
         <h4 className="text-n-3 mb-2">{metric.label}</h4>
         <div className="text-2xl font-bold text-primary-1 mb-2">{metric.value}</div>
         <p className="text-n-3 text-sm">{metric.description}</p>
-        <p className="text-n-4 text-xs mt-2">{metric.details}</p>
+        <p className="text-n-4 text-lg mt-2">{metric.details}</p>
       </motion.div>
     ))}
   </div>

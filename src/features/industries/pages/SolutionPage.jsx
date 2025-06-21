@@ -79,10 +79,10 @@ const createWorkflowDiagram = (flowData, isDarkMode) => {
     id: step.id,
     data: {
       label: (
-        <div className={`p-2 rounded border text-xs w-[180px] break-words shadow-sm ${isDarkMode ? 'bg-n-7 border-n-6 text-n-2' : 'bg-white border-n-3 text-n-7'}`}>
+        <div className={`p-2 rounded border text-lg w-[180px] break-words shadow-sm ${isDarkMode ? 'bg-n-7 border-n-6 text-n-2' : 'bg-white border-n-3 text-n-7'}`}>
           <strong className="block mb-1">Step {step.step}:</strong>
           <span className="block">{step.description}</span>
-          {step.details && <p className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'} mt-1 italic`}>{step.details}</p>}
+          {step.details && <p className={`text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'} mt-1 italic`}>{step.details}</p>}
         </div>
       )
     },
@@ -358,7 +358,7 @@ const SolutionPage = () => {
                       {/* Line */}
                       <div className={`absolute bottom-full left-1/2 w-px h-6 mb-[-1px] ${isDarkMode ? 'bg-n-5' : 'bg-n-4'}`}></div>
                       {/* Point Box */}
-                      <div className={`p-2 px-3 border rounded text-xs shadow-sm min-w-[100px] ${isDarkMode ? 'bg-n-8 border-n-6 text-n-3' : 'bg-white border-n-3 text-n-6'}`}>
+                      <div className={`p-2 px-3 border rounded text-lg shadow-sm min-w-[100px] ${isDarkMode ? 'bg-n-8 border-n-6 text-n-3' : 'bg-white border-n-3 text-n-6'}`}>
                         {point}
                       </div>
                     </div>
@@ -466,10 +466,8 @@ const SolutionPage = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 rounded-lg transition-all text-sm font-medium whitespace-nowrap ${ 
                     activeTab === tab
-                      // Active state: Keep primary bg, conditional text color
-                      ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-n-8 shadow-md') 
-                      // Inactive state: Theme-aware
-                      : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-2 text-n-5 hover:bg-n-3')
+                      ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-white shadow-md') // Active state seems okay
+                      : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-2 text-n-5 hover:bg-n-3') // Inactive state THEMED
                   }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -615,7 +613,7 @@ const SolutionPage = () => {
                                     <>
                                       <button
                                         onClick={() => toggleComponentDetails(comp.id)}
-                                        className="mt-auto text-xs font-medium text-primary-1 hover:text-primary-2 self-start flex items-center py-1"
+                                        className="mt-auto text-lg font-medium text-primary-1 hover:text-primary-2 self-start flex items-center py-1"
                                       >
                                         {isExpanded ? 'Hide Details' : 'Show Details'}
                                         {isExpanded ? <FiChevronUp className="ml-1" size={14}/> : <FiChevronDown className="ml-1" size={14}/>}
@@ -633,16 +631,16 @@ const SolutionPage = () => {
                                           >
                                             {comp.details && (
                                               <div className="mb-2">
-                                                <h6 className={`text-xs font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Details:</h6>
-                                                <p className={`text-xs whitespace-pre-wrap ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{comp.details}</p>
+                                                <h6 className={`text-lg font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Details:</h6>
+                                                <p className={`text-lg whitespace-pre-wrap ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{comp.details}</p>
                                               </div>
                                             )}
                                             {comp.explanation && comp.explanation.length > 0 && (
                                               <div>
-                                                <h6 className={`text-xs font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Explanation:</h6>
+                                                <h6 className={`text-lg font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Explanation:</h6>
                                                 <ul className="list-disc list-inside space-y-1">
                                                   {comp.explanation.map((point, idx) => (
-                                                    <li key={idx} className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{point}</li>
+                                                    <li key={idx} className={`text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{point}</li>
                                                   ))}
                                                 </ul>
                                               </div>

@@ -261,7 +261,7 @@ const HygraphTechnologyDetail = () => {
           {tech.primaryUses.slice(0, 3).map(use => (
             <span 
               key={use.id}
-              className="px-2 py-1 bg-n-6 rounded-full text-xs text-n-1"
+              className="px-2 py-1 bg-n-6 rounded-full text-lg text-n-1"
             >
               {use.name}
             </span>

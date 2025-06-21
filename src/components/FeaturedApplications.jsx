@@ -118,7 +118,7 @@ const ConciseApplicationView = ({ application }) => {
                  <button 
                    key={comp.id} 
                    onClick={() => handleComponentClick(comp)}
-                   className={`text-xs px-3 py-1 rounded-full border transition-colors duration-200 ${
+                   className={`text-lg px-3 py-1 rounded-full border transition-colors duration-200 ${
                      selectedComponent?.id === comp.id 
                        ? (isDarkMode ? 'border-primary-1 bg-primary-1/20 text-primary-1' : 'border-primary-1 bg-primary-1/10 text-primary-1')
                        : (isDarkMode ? 'border-n-5 bg-n-6 text-n-2 hover:border-n-4' : 'border-n-3 bg-n-2 text-n-5 hover:border-n-4')
@@ -151,7 +151,7 @@ const ConciseApplicationView = ({ application }) => {
              </div>
              <button 
                 onClick={() => setSelectedComponent(null)}
-                className={`text-xs mt-3 ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-7'}`}
+                className={`text-lg mt-3 ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-7'}`}
              >
                 Close Details
              </button>
@@ -340,11 +340,11 @@ const ApplicationCard = ({ application, industryName, onClick }) => {
       <div className="mb-4"> 
         {/* Date and Industry tags - Centered */}
         <div className="flex gap-2 items-center justify-center mb-4 flex-wrap"> {/* Increased bottom margin */}
-          <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${ isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5' }`}>
+          <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-lg ${ isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5' }`}>
              {formatDate(publishedAt)}
           </div>
           {displayIndustryName && (
-             <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs ${ isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1' }`}>
+             <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-lg ${ isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1' }`}>
                  {displayIndustryName}
              </div>
            )}
@@ -361,7 +361,7 @@ const ApplicationCard = ({ application, industryName, onClick }) => {
         {/* Industry Challenge Section (Left-aligned) */}
          {industryChallenge?.raw && (
              <div className="mb-4"> {/* Removed text-left, default now */}
-                 <h5 className={`text-xs font-semibold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>The Challenge</h5>
+                 <h5 className={`text-lg font-semibold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>The Challenge</h5>
                  {/* Removed max-w-none from prose */}
                  <div className={`prose prose-sm line-clamp-3 ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}> 
                     <RichText content={industryChallenge.raw} />
