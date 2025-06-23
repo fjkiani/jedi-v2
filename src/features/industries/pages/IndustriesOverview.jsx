@@ -5,6 +5,7 @@ import Section from '@/components/Section';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { useTheme } from '@/context/ThemeContext';
+import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 
 // Query to fetch industries, descriptions, and related IndustryApplications
 const GetAllIndustries = gql`
@@ -29,6 +30,14 @@ const IndustriesOverview = () => {
   const [industries, setIndustries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Scroll animations
+  const heroAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 0 });
+  const cardsStaggered = useStaggeredAnimation(industries.length, {
+    baseDelay: 300,
+    staggerDelay: 150,
+    threshold: 0.1
+  });
 
   useEffect(() => {
     const fetchIndustries = async () => {
@@ -77,7 +86,7 @@ const IndustriesOverview = () => {
   return (
     <Section className="pt-[12rem] -mt-[5.25rem]" crosses crossesOffset="lg:translate-y-[5.25rem]" customPaddings id="industries">
       <div className="container relative">
-        <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
+        <div ref={heroAnimation.ref} className={`relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem] ${heroAnimation.animationClasses}`}>
           <h1 className={`h1 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
             Industries Overview
           </h1>
@@ -86,15 +95,15 @@ const IndustriesOverview = () => {
           </p>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {industries.map((industry) => (
+        <div ref={cardsStaggered.containerRef} className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+          {industries.map((industry, index) => (
             <div
               key={industry.id}
               className={`block relative p-0.5 rounded-2xl transition-colors duration-300 group ${
                 isDarkMode 
                   ? 'bg-gradient-to-b from-n-6 to-n-7 hover:from-n-5 hover:to-n-6' 
                   : 'bg-n-2 hover:bg-n-3'
-              }`}
+              } ${cardsStaggered.getItemClasses(index)}`}
             >
               <div className={`relative z-2 flex flex-col h-full p-[1.8rem] rounded-[0.9rem] ${isDarkMode ? 'bg-n-8' : 'bg-n-1'}`}>
                 <h5 className={`h5 mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{industry.name}</h5>

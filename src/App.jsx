@@ -168,6 +168,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <SidebarConsultant/>
                     <IndustryOverview />
                     <WhyChooseUs />
+                    <LeadCaptureCTA />
                     {/* <Pricing /> */}
                     <Roadmap />
                     {/* <ContactCoPilot /> */}

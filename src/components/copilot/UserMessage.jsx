@@ -19,7 +19,7 @@ const UserMessage = ({ message }) => {
           </div>
           
           {/* Timestamp */}
-          <div className="text-lg text-purple-100 mt-2 text-right">
+          <div className="text-xs sm:text-sm text-purple-100 mt-2 text-right">
             {formatTimestamp(message.timestamp)}
           </div>
         </div>

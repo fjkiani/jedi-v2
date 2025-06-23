@@ -72,34 +72,80 @@ const ChatInterface = ({
     // Remove duplicates and return up to 3 queries
     const uniqueQueries = [...new Set(allQueries)].slice(0, 3);
     
+    // Create contextual simulation queries based on available use cases and industry
+    const getContextualSimulationQueries = () => {
+      const industryContext = industries.find(ind => ind.slug === selectedIndustry);
+      const industryName = industryContext?.name || 'your industry';
+      
+      // If we have specific use cases, create simulation queries for them
+      if (filteredUseCases.length > 0) {
+        const topUseCase = filteredUseCases[0]; // Get the first available use case
+        return [
+          `🚀 Run implementation simulation for ${topUseCase.title}`,
+          `📊 Show me success metrics for ${topUseCase.title}`,
+          `🏗️ Walk me through ${topUseCase.title} architecture`,
+          `💰 Analyze costs for implementing ${topUseCase.title}`,
+          `⚡ Simulate ${topUseCase.title} deployment process`
+        ];
+      }
+      
+      // If no use cases but we have industry applications, use those
+      if (industryContext && industryContext.industryApplication && industryContext.industryApplication.length > 0) {
+        const topApp = industryContext.industryApplication[0];
+        return [
+          `🚀 Run implementation simulation for ${topApp.applicationTitle}`,
+          `📊 Show me metrics for ${topApp.applicationTitle}`,
+          `🏗️ Walk me through ${topApp.applicationTitle} technical approach`,
+          `💰 Analyze ROI for ${topApp.applicationTitle}`,
+          `⚡ Simulate ${topApp.applicationTitle} deployment`
+        ];
+      }
+      
+      // Fallback to industry-specific simulation queries
+      return [
+        `🚀 Run AI implementation simulation for ${industryName}`,
+        `📊 Show me AI success metrics for ${industryName}`,
+        `🏗️ Walk me through AI architecture for ${industryName}`,
+        `💰 Analyze AI investment costs for ${industryName}`,
+        `⚡ Simulate AI deployment process for ${industryName}`
+      ];
+    };
+    
+    const simulationQueries = getContextualSimulationQueries();
+    
     // If no queries available, return contextual suggestions based on IndustryApplication data
     if (uniqueQueries.length === 0) {
       const industryContext = industries.find(ind => ind.slug === selectedIndustry);
       
       if (industryContext && industryContext.industryApplication && industryContext.industryApplication.length > 0) {
         // Create lead-capturing suggestions based on actual IndustryApplication data
-        const applications = industryContext.industryApplication.slice(0, 3);
-        return applications.map(app => `Tell me about ${app.applicationTitle}`);
+        const applications = industryContext.industryApplication.slice(0, 2);
+        const appQueries = applications.map(app => `Tell me about ${app.applicationTitle}`);
+        
+        // Mix application queries with contextual simulation queries
+        return [...appQueries, ...simulationQueries.slice(0, 2)];
       }
       
       // If no IndustryApplication data either, return contextual but lead-focused prompts
       if (industryContext) {
         return [
           `What AI solutions work best for ${industryContext.name.toLowerCase()}?`,
-          `Show me successful implementations in ${industryContext.name.toLowerCase()}`,
+          simulationQueries[0], // Use the contextual simulation query
           `How can JEDI help transform ${industryContext.name.toLowerCase()} operations?`
         ];
       }
       
-      // Final fallback - still lead-focused
+      // Final fallback - still lead-focused with simulation options
       return [
         "What industries does JEDI serve?",
-        "Show me your most successful AI implementations",
+        "🚀 Run AI implementation simulation",
         "How can JEDI's AI platform help my business?"
       ];
     }
 
-    return uniqueQueries;
+    // Mix regular queries with contextual simulation queries for more interactive options
+    const mixedQueries = [...uniqueQueries.slice(0, 2), ...simulationQueries.slice(0, 2)];
+    return mixedQueries.slice(0, 4);
   };
 
   // Initialize welcome message when component mounts or industry changes
@@ -230,75 +276,84 @@ const ChatInterface = ({
   };
 
   return (
-    <div className="flex flex-col h-full max-h-[600px] bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 text-med">
-      {/* Chat Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 text-med">
-        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-          <img src={logo} alt="JEDI AI Co-Pilot" className="w-6 h-6" />
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-900 dark:text-white">JEDI AI Co-Pilot</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+    <div className="flex flex-col h-full max-h-[500px] sm:max-h-[600px] lg:max-h-[700px] bg-transparent">
+      {/* Enhanced Chat Header */}
+      <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 lg:p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm">
+        <motion.div 
+          className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <img src={logo} alt="JEDI AI Co-Pilot" className="w-4 h-4 sm:w-5 sm:h-5 lg:w-7 lg:h-7 brightness-0 invert" />
+        </motion.div>
+        <div className="flex-1 min-w-0">
+          <motion.h3 
+            className="font-bold text-base sm:text-lg lg:text-xl text-gray-900 dark:text-white truncate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            JEDI AI Co-Pilot
+          </motion.h3>
+          <motion.p 
+            className="text-xs sm:text-sm lg:text-base text-gray-500 dark:text-gray-400 font-medium truncate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             {selectedIndustry === 'all' ? 'All Industries' : 
              industries.find(ind => ind.slug === selectedIndustry)?.name || 'Industry Focus'}
-          </p>
+          </motion.p>
         </div>
+        <motion.div 
+          className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-green-100 dark:bg-green-900/30 rounded-full"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-xs sm:text-sm font-medium text-green-700 dark:text-green-300">Online</span>
+        </motion.div>
       </div>
 
-      {/* Welcome Message */}
+      {/* Enhanced Welcome Message */}
       <AnimatePresence>
         {showWelcome && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="p-4 mb-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg border border-purple-200 dark:border-purple-700 text-xs"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.5 }}
+            className="m-3 sm:m-4 lg:m-6 p-4 sm:p-5 lg:p-6 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl sm:rounded-2xl border border-purple-200/50 dark:border-purple-700/50 shadow-lg backdrop-blur-sm"
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">AI</span>
+            <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-md flex-shrink-0">
+                <span className="text-white text-sm sm:text-base lg:text-lg">🤖</span>
               </div>
-              <div>
-                <h3 className="font-semibold text-purple-900 dark:text-purple-200">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-sm sm:text-base lg:text-lg text-purple-900 dark:text-purple-200 mb-2">
                   Welcome to JEDI Labs AI Co-Pilot
                 </h3>
-                <p className="text-lg text-purple-700 dark:text-purple-300">
-                  {getWelcomeMessage().content}
+                <p className="text-xs sm:text-sm lg:text-base text-purple-700 dark:text-purple-300 leading-relaxed">
+                  {typeof getWelcomeMessage().content === 'string' ? getWelcomeMessage().content : JSON.stringify(getWelcomeMessage().content)}
                 </p>
               </div>
             </div>
-            
-            {/* Suggested Queries */}
-            {/* <div className="space-y-2">
-              <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
-                Try asking about:
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {getSuggestedQueries().map((query, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSuggestedQuery(query)}
-                    className="px-3 py-1 bg-white dark:bg-gray-800 border border-purple-200 dark:border-purple-600 rounded-full text-sm text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors"
-                  >
-                    {query}
-                  </button>
-                ))}
-              </div>
-            </div> */}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Enhanced Messages Container */}
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-5 lg:space-y-6 bg-gradient-to-b from-transparent to-gray-50/30 dark:to-gray-900/30">
         <AnimatePresence>
-          {messages.map((message) => (
+          {messages.map((message, index) => (
             <motion.div
               key={message.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
             >
               {message.type === 'user' ? (
                 <UserMessage message={message} />
@@ -312,15 +367,43 @@ const ChatInterface = ({
           ))}
         </AnimatePresence>
 
-        {/* Loading Indicator */}
+        {/* Enhanced Loading Indicator */}
         <AnimatePresence>
           {isLoading && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4"
             >
-              <ThinkingIndicator />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                <img src={logo} alt="JEDI AI" className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 brightness-0 invert" />
+              </div>
+              <div className="flex-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex space-x-1">
+                    <motion.div 
+                      className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-purple-500 rounded-full"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                    />
+                    <motion.div 
+                      className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-purple-500 rounded-full"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                    />
+                    <motion.div 
+                      className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-purple-500 rounded-full"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                    />
+                  </div>
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-300 font-medium">
+                    Analyzing your query...
+                  </span>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -328,45 +411,83 @@ const ChatInterface = ({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex gap-2">
-          <textarea
-            value={currentInput}
-            onChange={(e) => setCurrentInput(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e, currentInput);
-              }
-            }}
-            placeholder="Ask me about AI solutions, use cases, or implementation details..."
-            className={`flex-1 resize-none rounded-lg border transition-all duration-200 ${
-              isDarkMode
-                ? 'bg-gray-800 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-purple-500'
-                : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-purple-500'
-            } focus:outline-none focus:ring-2 focus:ring-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed`}
-            rows="2"
-            disabled={isLoading}
-          />
-          <Button
-            type="submit"
-            disabled={isLoading || !currentInput.trim()}
-            className={`px-6 ${isLoading || !currentInput.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
+      {/* Enhanced Input Area */}
+      <motion.div 
+        className="p-3 sm:p-4 lg:p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
+        <div className="flex gap-2 sm:gap-3 lg:gap-4">
+          <div className="flex-1 relative">
+            <textarea
+              value={currentInput}
+              onChange={(e) => setCurrentInput(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e, currentInput);
+                }
+              }}
+              placeholder="Ask me about AI solutions, use cases, or implementation details..."
+              className={`w-full resize-none rounded-xl sm:rounded-2xl border transition-all duration-300 p-3 sm:p-4 text-sm sm:text-base backdrop-blur-sm ${
+                isDarkMode
+                  ? 'bg-gray-800/90 border-gray-600/50 text-gray-100 placeholder-gray-400 focus:border-purple-500 focus:bg-gray-800'
+                  : 'bg-white/90 border-gray-300/50 text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:bg-white'
+              } focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+              rows="2"
+              disabled={isLoading}
+            />
+            {currentInput.trim() && (
+              <motion.div
+                className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+              >
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+              </motion.div>
+            )}
+          </div>
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            {isLoading ? 'Thinking...' : 'Send'}
-          </Button>
+            <Button
+              type="submit"
+              disabled={isLoading || !currentInput.trim()}
+              onClick={(e) => handleSubmit(e, currentInput)}
+              className={`px-4 sm:px-6 lg:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium h-full min-w-[80px] sm:min-w-[100px] lg:min-w-[120px] shadow-lg ${
+                isLoading || !currentInput.trim() 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:shadow-xl transition-shadow duration-300'
+              }`}
+            >
+              {isLoading ? (
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <motion.div
+                    className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/30 border-t-white rounded-full"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
+                  <span className="hidden sm:inline">Sending...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span>🚀</span>
+                  <span className="hidden sm:inline">Send</span>
+                </div>
+              )}
+            </Button>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Lead Capture Modal */}
       <LeadCaptureModal
         isOpen={showLeadModal}
-        onClose={() => {
-          setShowLeadModal(false);
-          setLeadContext({});
-        }}
-        contextData={leadContext}
+        onClose={() => setShowLeadModal(false)}
+        context={leadContext}
         onSubmit={handleLeadSubmit}
       />
     </div>

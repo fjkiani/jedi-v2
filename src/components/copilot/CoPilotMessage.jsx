@@ -48,7 +48,7 @@ const CoPilotMessage = ({ message, onSuggestedQuery }) => {
           {/* Suggested Queries */}
           {message.suggestedQueries && message.suggestedQueries.length > 0 && (
             <div className="mb-3">
-              <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
                 Try asking:
               </p>
               <div className="flex flex-wrap gap-2">
@@ -56,7 +56,7 @@ const CoPilotMessage = ({ message, onSuggestedQuery }) => {
                   <button
                     key={index}
                     onClick={() => onSuggestedQuery(query)}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-lg bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors duration-200 border border-purple-200 dark:border-purple-700"
+                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors duration-200 border border-purple-200 dark:border-purple-700 leading-tight"
                   >
                     {query}
                   </button>
@@ -76,7 +76,7 @@ const CoPilotMessage = ({ message, onSuggestedQuery }) => {
           )}
 
           {/* Timestamp */}
-          <div className="text-lg text-gray-400 dark:text-gray-500 mt-2">
+          <div className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-2">
             {formatTimestamp(message.timestamp)}
           </div>
         </div>

@@ -151,7 +151,7 @@ const IndustryOverview = () => {
               Industry Transformation
             </span>
           </div>
-          <h2 className="h2 mb-4">Industries We Transform</h2>
+          <h2 className="h2 mb-4 font-starjedi dark:text-n-1">industries we transform</h2>
           <p className="body-1 text-n-4 max-w-2xl mx-auto">
             Discover how our AI solutions revolutionize different industries with cutting-edge technology and intelligent automation
           </p>
@@ -183,7 +183,7 @@ const IndustryOverview = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`rounded-2xl border ${isDarkMode ? 'bg-n-8/80 border-n-6' : 'bg-white/80 border-n-3'} shadow-xl overflow-hidden backdrop-blur-sm`}
+            className={`rounded-2xl border ${isDarkMode ? 'bg-n-8/80 border-n-6' : 'bg-white/80 border-n-3'} shadow-xl overflow-hidden backdrop-blur-sm dark:text-n-1`}
           >
             {/* Tab Navigation - More Compact */}
             <div className={`flex flex-wrap border-b ${isDarkMode ? 'border-n-6' : 'border-n-3'} ${isDarkMode ? 'bg-n-7/80' : 'bg-n-2/50'} backdrop-blur-sm`}>

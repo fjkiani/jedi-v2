@@ -20,11 +20,29 @@ import {
   CheckCircleIcon,
   Squares2X2Icon,
   ChevronRightIcon,
-  CheckBadgeIcon
+  CheckBadgeIcon,
+  BookOpenIcon,
+  ChatBubbleLeftRightIcon,
+  ViewfinderCircleIcon,
+  CogIcon,
+  ShoppingCartIcon,
+  BanknotesIcon,
+  ArrowTrendingUpIcon,
+  PuzzlePieceIcon,
+  Bars3Icon,
+  AcademicCapIcon,
+  TrophyIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon,
+  ClockIcon,
+  XCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline';
 
 const iconMap = {
   chart: ChartBarIcon,
+  'bar-chart-2': ChartBarIcon,
   tool: WrenchIcon,
   lightbulb: LightBulbIcon,
   check: CheckIcon,
@@ -33,6 +51,7 @@ const iconMap = {
   server: ServerIcon,
   cloud: CloudIcon,
   shield: ShieldCheckIcon,
+  'shield-check': ShieldCheckIcon,
   code: CodeBracketIcon,
   cpu: CpuChipIcon,
   chip: CpuChipIcon,
@@ -45,7 +64,26 @@ const iconMap = {
   zap: BoltIcon,
   'arrow-right': ArrowRightIcon,
   grid: Squares2X2Icon,
-  chevron: ChevronRightIcon
+  chevron: ChevronRightIcon,
+  book: BookOpenIcon,
+  'message-circle': ChatBubbleLeftRightIcon,
+  target: ViewfinderCircleIcon,
+  settings: CogIcon,
+  cog: CogIcon,
+  'shopping-cart': ShoppingCartIcon,
+  'dollar-sign': BanknotesIcon,
+  activity: ArrowTrendingUpIcon,
+  'trending-up': ArrowTrendingUpIcon,
+  puzzle: PuzzlePieceIcon,
+  layout: Bars3Icon,
+  'git-branch': Bars3Icon,
+  award: TrophyIcon,
+  info: InformationCircleIcon,
+  'alert-triangle': ExclamationTriangleIcon,
+  clock: ClockIcon,
+  'x-circle': XCircleIcon,
+  'chevron-down': ChevronDownIcon,
+  'chevron-up': ChevronUpIcon
 };
 
 export const Icon = ({ name, className }) => {

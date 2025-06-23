@@ -173,9 +173,10 @@ const Footer = () => {
 
   return (
     <Section crosses className="!px-0 !py-10">
-      <div className="container">
-        <div className="flex flex-col items-center gap-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 w-full">
+      <div className="container mx-auto">
+        <div className="flex flex-col items-center gap-10 px-4 sm:px-6">
+          {/* Footer Columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 w-full max-w-6xl">
             {!loading && footerColumns.map((item) => (
               <FooterColumn
                 key={item.id}
@@ -189,12 +190,13 @@ const Footer = () => {
             )}
           </div>
 
-          <div className="flex flex-col items-start sm:items-center sm:flex-row justify-between gap-6 w-full pt-10 mt-10 border-t border-n-6">
-            <p className="text-n-4 text-sm">
+          {/* Footer Bottom */}
+          <div className="flex flex-col items-center sm:flex-row sm:justify-between gap-4 sm:gap-6 w-full max-w-6xl pt-8 sm:pt-10 mt-8 sm:mt-10 border-t border-n-6">
+            <p className="text-n-4 text-sm text-center order-2 sm:order-1 sm:text-left w-full sm:w-auto">
               © {new Date().getFullYear()} JediLabs. All rights reserved.
             </p>
 
-            <ul className="flex gap-5 flex-wrap">
+            <ul className="flex gap-4 sm:gap-5 flex-wrap justify-center sm:justify-end order-1 sm:order-2">
               {socials.map((item) => (
                 <a
                   key={item.id}

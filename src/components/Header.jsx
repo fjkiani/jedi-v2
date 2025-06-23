@@ -351,25 +351,15 @@ const Header = () => {
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
-      <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
+      <div className="flex items-center px-4 sm:px-5 lg:px-7.5 xl:px-10 max-lg:py-3 lg:py-4">
         <Link 
           to="/" 
-          className={`block w-[12rem] xl:mr-8`} 
+          className={`block w-[10rem] sm:w-[12rem] xl:mr-8`} 
           onClick={handleMobileItemClick}
         >
           <div className="flex flex-col items-center">
-            {/* <img 
-              src={logo} 
-              width={80} 
-              alt="JediLabs Logo" 
-              className={`
-                transition-all duration-300 ease-in-out 
-                ${scrolled ? 'opacity-0 invisible h-0 -translate-y-2' : 'opacity-100 visible h-auto translate-y-0'}
-              `}
-              aria-hidden={scrolled}
-            /> */}
             <span 
-              className={`mt-1 text-xl text-n-7 dark:text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
+              className={`text-lg sm:text-xl text-n-7 dark:text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
                 Jedi Labs
             </span> 
           </div>
@@ -378,8 +368,8 @@ const Header = () => {
         {/* Render using the dynamicNavigation from useMemo */}
         <nav className={`${
           openNavigation ? "flex" : "hidden"
-        } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
-          <div className="relative z-2 flex flex-col items-start justify-start py-8 min-h-full w-full lg:flex-row lg:items-center lg:py-0">
+        } fixed top-[4.5rem] sm:top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
+          <div className="relative z-2 flex flex-col items-start justify-start py-6 sm:py-8 min-h-full w-full lg:flex-row lg:items-center lg:py-0">
             {dynamicNavigation.map((item) => {
               // Determine if the item has children for mobile view
               const hasMobileChildren = (item.id === 'technology' && categories.length > 0) || (item.dropdownItems && item.dropdownItems.length > 0);
@@ -391,8 +381,8 @@ const Header = () => {
                   <Link
                     to={item.url}
                     onClick={handleClick} // Desktop behavior
-                    className={`hidden lg:block relative font-code text-lg lg:font-semibold
-                      px-6 py-8 lg:-mr-0.25
+                    className={`hidden lg:block relative font-code text-base lg:text-lg lg:font-semibold
+                      px-4 lg:px-6 py-6 lg:py-8 lg:-mr-0.25
                       ${location.pathname.startsWith(item.url) && item.url !== '#' && item.url !== '/' ? "z-2 lg:text-n-1" : (location.pathname === '/' && item.url === '/') ? "z-2 lg:text-n-1" : "lg:text-n-1/50"}
                       lg:leading-5 lg:hover:text-n-1 xl:px-12`}
                   >
@@ -405,7 +395,7 @@ const Header = () => {
                       // If item has children, make it a button to toggle expansion
                       <button
                         onClick={() => toggleMobileItemExpansion(item.id)}
-                        className="flex items-center justify-between w-full px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+                        className="flex items-center justify-between w-full px-4 sm:px-6 py-3 sm:py-4 font-code text-xl sm:text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
                       >
                         <span>{item.title}</span>
                         <Icon
@@ -418,7 +408,7 @@ const Header = () => {
                       <Link
                         to={item.url}
                         onClick={handleMobileItemClick} // Mobile behavior (close nav)
-                        className="block px-6 py-4 font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+                        className="block px-4 sm:px-6 py-3 sm:py-4 font-code text-xl sm:text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
                       >
                         {item.title}
                       </Link>
@@ -437,7 +427,7 @@ const Header = () => {
 
                    {/* --- Mobile Sub-Menu (Conditionally Rendered) --- */}
                    {hasMobileChildren && isMobileExpanded && (
-                     <div className="lg:hidden pl-8 pb-4 border-l border-n-6 ml-6 mr-6 animate-fadeIn"> {/* Added fade-in animation */}
+                     <div className="lg:hidden pl-6 sm:pl-8 pb-3 sm:pb-4 border-l border-n-6 ml-4 sm:ml-6 mr-4 sm:mr-6 animate-fadeIn"> {/* Added fade-in animation */}
                        {item.id === 'technology' ? (
                           // Technology Sub-menu
                           categories.map((category) => (
@@ -451,13 +441,13 @@ const Header = () => {
                                 </Link>
                                 {/* Optional: Further nesting for technologies within category if needed */}
                                 {category.technologies?.length > 0 && (
-                                   <div className="pl-4 mt-1">
+                                   <div className="pl-3 sm:pl-4 mt-1">
                                       {category.technologies.map((tech) => (
                                          <Link
                                             key={tech.id}
                                             to={`/technology/${tech.slug}`} // Link to specific tech page
                                             onClick={handleMobileSubItemClick} // Use specific handler
-                                            className="block text-lg text-n-4 hover:text-n-1 py-0.5 transition-colors"
+                                            className="block text-sm sm:text-base text-n-4 hover:text-n-1 py-0.5 transition-colors"
                                          >
                                             {tech.name}
                                          </Link>
@@ -489,11 +479,11 @@ const Header = () => {
           </div>
 
            {/* Mobile Fallback/Extra Links (if any, e.g., Contact) */}
-           <div className="lg:hidden px-6 py-4 mt-auto border-t border-n-6">
+           <div className="lg:hidden px-4 sm:px-6 py-3 sm:py-4 mt-auto border-t border-n-6">
               <Link
                  to="/contact"
                  onClick={handleMobileItemClick}
-                 className="block font-code text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+                 className="block font-code text-xl sm:text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
               >
                  Contact Us
               </Link>
@@ -503,10 +493,10 @@ const Header = () => {
         {/* Right side elements */}
         <div className="flex items-center ml-auto">
           <ThemeToggle />
-          <Button className="hidden lg:flex ml-4" href="/contact">
+          <Button className="hidden lg:flex ml-3 sm:ml-4 text-sm lg:text-base" href="/contact">
             Contact Us
           </Button>
-          <button className="ml-6 lg:hidden" onClick={toggleNavigation}>
+          <button className="ml-4 sm:ml-6 lg:hidden p-2" onClick={toggleNavigation}>
             <MenuSvg openNavigation={openNavigation} />
           </button>
         </div>

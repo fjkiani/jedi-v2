@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../Button';
 import InteractiveArchitecture from './InteractiveArchitecture';
+import InteractiveSimulation from './InteractiveSimulation';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection, onSuggestedQuery }) => {
+  const [showSimulation, setShowSimulation] = useState(false);
+  
   if (!responseData) return null;
 
   // Check if this is an application-based response
@@ -337,8 +340,78 @@ const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection
     );
   };
 
+  // Simulation header for interactive experience
+  const renderSimulationHeader = () => {
+    if (!responseData.isSimulation || !responseData.simulationData) return null;
+
+    return (
+      <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200 dark:border-purple-700">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🚀</span>
+            <div>
+              <h4 className="text-lg font-semibold text-purple-900 dark:text-purple-200">
+                Interactive Implementation Simulation
+              </h4>
+              <p className="text-purple-700 dark:text-purple-300 text-sm">
+                {responseData.simulationData.description}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-sm text-purple-600 dark:text-purple-400">
+              Focus: {responseData.simulationData.focusArea}
+            </div>
+            <div className="text-sm text-purple-600 dark:text-purple-400">
+              Duration: {responseData.simulationData.totalDuration}
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex gap-3">
+          <Button
+            onClick={() => setShowSimulation(!showSimulation)}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            {showSimulation ? 'Hide Simulation' : '🚀 Run Interactive Simulation'}
+          </Button>
+          
+          <div className="flex items-center gap-2 text-sm text-purple-600 dark:text-purple-400">
+            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+            <span>Confidence: {responseData.simulationData.confidence}</span>
+          </div>
+        </div>
+
+        {/* Interactive Simulation Component */}
+        <AnimatePresence>
+          {showSimulation && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 overflow-hidden"
+            >
+              <InteractiveSimulation
+                responseData={responseData}
+                onSuggestedQuery={onSuggestedQuery}
+                onComplete={() => {
+                  setShowSimulation(false);
+                  // You could trigger lead capture here
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-4">
+      {/* Interactive Simulation Header */}
+      {renderSimulationHeader()}
+
       {validSections.map((section, index) => {
         const isExpanded = expandedSections.has ? expandedSections.has(section.id) : expandedSections.includes(section.id);
         
@@ -346,7 +419,7 @@ const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection
           <div key={section.id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             <button
               onClick={() => onToggleSection(section.id)}
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors duration-200 flex items-center justify-between text-left"
+              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center justify-between text-left"
             >
               <div className="flex items-center gap-3">
                 <span className="text-lg">{section.icon}</span>
@@ -365,7 +438,7 @@ const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection
                 )}
               </div>
               <ChevronDownIcon 
-                className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${
                   isExpanded ? 'rotate-180' : ''
                 }`}
               />
@@ -387,6 +460,24 @@ const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection
                     <InteractiveArchitecture architecture={responseData.architecture} />
                   </div>
                 )}
+
+                {/* Suggested Queries Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                  {section.suggestedQueries?.map((query, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => onSuggestedQuery(query)}
+                      className="p-2 sm:p-3 text-left text-xs sm:text-sm text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors border border-purple-200/50 dark:border-purple-700/50"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      {query}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -430,7 +521,7 @@ const ProgressiveDisclosure = ({ responseData, expandedSections, onToggleSection
                         </span>
                       )}
                     </div>
-                    <span className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-blue-500 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
                       →
                     </span>
                   </div>

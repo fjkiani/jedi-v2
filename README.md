@@ -43,6 +43,71 @@ To run this project locally, follow these steps:
 
 This guide explains how to add new use cases to the application using Hygraph CMS. For use cases, we need to create a new industry, then create components, flow steps, architecture, and finally the use case.
 
+## ✅ Recent Success: Phase 2 Use Case Expansion Completed
+
+**Achievement**: Successfully created and published 9 comprehensive use cases with complex nested architecture across 8 industries.
+
+**Technical Challenge Solved**: Resolved complex GraphQL schema issues in Hygraph that were preventing use case creation.
+
+### Key Technical Solutions Applied:
+
+1. **Correct GraphQL Input Types**:
+   ```graphql
+   # ✅ CORRECT - Use these input types
+   $architectureComponents: [ComponentCreateInput!]!
+   $architectureFlow: [FlowStepCreateInput!]!
+   
+   # ❌ INCORRECT - Don't use these
+   $architectureComponents: [ComponentCreateManyInlineInput!]! 
+   $architectureFlow: [FlowCreateInput!]!
+   ```
+
+2. **Correct Data Structure Mapping**:
+   ```javascript
+   // ✅ CORRECT - Match Hygraph schema exactly
+   {
+     "name": "Component Name",
+     "description": "Component description", 
+     "details": "Single string value",           // String, not Array
+     "explanation": ["Item 1", "Item 2"]        // Array of Strings
+   }
+   ```
+
+3. **Correct Field Names**:
+   ```graphql
+   # ✅ CORRECT - Hygraph uses plural form
+   query {
+     useCaseS {  # Note the 'S' at the end
+       title
+     }
+   }
+   ```
+
+4. **Consistent Industry Field Mapping**:
+   ```javascript
+   // ✅ CORRECT - Use industrySlug consistently
+   {
+     "title": "Use Case Title",
+     "industrySlug": "healthcare"  // Not "industry"
+   }
+   ```
+
+### Successfully Created Use Cases:
+- **Healthcare**: Drug Discovery Acceleration, Clinical Decision Support System
+- **Manufacturing**: Predictive Maintenance Optimization  
+- **Financial Services**: Advanced Fraud Detection System
+- **Retail**: Intelligent Recommendation Engine
+- **Energy**: Smart Grid Optimization Platform
+- **Transportation & Logistics**: Autonomous Fleet Management System
+- **Technology**: Intelligent DevOps Automation Platform
+- **Agriculture**: Precision Agriculture Intelligence Platform
+
+Each use case includes:
+- Detailed architecture with multiple components
+- Implementation flow with step-by-step processes
+- Comprehensive descriptions and capabilities
+- Industry-specific queries and use cases
+
 ## Schema Setup in Hygraph
 
 ### 1. Models Required
@@ -465,6 +530,69 @@ slug
    - Verify unique constraints
    - Check field types
    - Confirm proper mutation structure
+
+### Advanced Schema Debugging (Based on Recent Success)
+
+When facing complex GraphQL schema issues in Hygraph:
+
+1. **Query Existing Data First**:
+   ```graphql
+   # Always start by examining the actual data structure
+   query ExamineSchema {
+     useCaseS(first: 1) {
+       id
+       title
+       architecture {
+         id
+         description
+         components {
+           name
+           description
+           details      # Check if this is String or Array
+           explanation  # Check if this is String or Array
+         }
+         flow {
+           step
+           description
+           details      # Verify field types
+         }
+       }
+     }
+   }
+   ```
+
+2. **Build Mutations Incrementally**:
+   - Start with simple fields
+   - Add one level of nesting at a time
+   - Test each addition before proceeding
+   - Verify data types match schema exactly
+
+3. **Common Schema Mismatches**:
+   ```javascript
+   // ❌ Common mistakes
+   {
+     "details": ["Array", "of", "strings"],     // Often should be String
+     "explanation": "Single string value"       // Often should be Array
+   }
+   
+   // ✅ Correct approach - match schema exactly
+   {
+     "details": "Single string with all details",
+     "explanation": ["First point", "Second point"]
+   }
+   ```
+
+4. **Input Type Naming Conventions**:
+   - Use `ComponentCreateInput` not `ComponentCreateManyInlineInput`
+   - Use `FlowStepCreateInput` not `FlowCreateInput`
+   - Check Hygraph's GraphQL playground for exact input type names
+
+5. **Field Name Verification**:
+   - Some models use plural forms (e.g., `useCaseS`)
+   - Always verify field names in successful queries
+   - Don't assume standard naming conventions
+
+**Pro Tip**: When debugging complex nested mutations, use Hygraph's GraphQL playground to test queries first. The schema introspection will show you the exact field types and input requirements.
 
 # NOTE: Replace 'relatedUseCases' with the actual field name on your Technology model
 # that links to UseCases.

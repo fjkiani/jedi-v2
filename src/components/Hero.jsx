@@ -10,6 +10,7 @@ import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
 import Icon from "./Icon";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 // import { coding2 } from "../assets/videos";
 
 // Import the slick-carousel CSS files
@@ -57,6 +58,13 @@ const PrevArrow = (props) => {
 const Hero = () => {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
 
+  // Scroll animations
+  const titleAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 0 });
+  const subtitleAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 200 });
+  const buttonAnimation = useScrollAnimation({ animationType: 'fadeInScale', delay: 400 });
+  const videoAnimation = useScrollAnimation({ animationType: 'slideInUp', delay: 600 });
+  const logoAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 800 });
+
   const heroContent = {
     title: "100x Your Business Potential",
     subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
@@ -83,17 +91,19 @@ const Hero = () => {
     >
       <div className="container relative">
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
-          <h1 className="h1 mb-6 theme-text-primary">
+          <h1 ref={titleAnimation.ref} className={`h1 mb-6 theme-text-primary ${titleAnimation.animationClasses}`}>
             {heroContent.title}
           </h1>
-          <p className="body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8">
+          <p ref={subtitleAnimation.ref} className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 ${subtitleAnimation.animationClasses}`}>
             {formatText(heroContent.subtitle)}
           </p>
-          <Button href="/contact" white>
-            Get started
-          </Button>
+          <div ref={buttonAnimation.ref} className={buttonAnimation.animationClasses}>
+            <Button href="/contact" white>
+              Get started
+            </Button>
+          </div>
         </div>
-        <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
+        <div ref={videoAnimation.ref} className={`relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24 ${videoAnimation.animationClasses}`}>
           <div className="relative z-1 p-0.5 rounded-2xl bg-conic-gradient">
             <div className="relative theme-bg-secondary rounded-[1rem]">
               <div className="h-[1.4rem] bg-n-10 rounded-t-[0.9rem]" />
@@ -143,7 +153,9 @@ const Hero = () => {
 
         <BackgroundCircles />
 
-        <CompanyLogos className="hidden relative z-10 mt-20 lg:block" />
+        <div ref={logoAnimation.ref} className={logoAnimation.animationClasses}>
+          <CompanyLogos className="hidden relative z-10 mt-20 lg:block" />
+        </div>
       </div>
 
       <BottomLine />

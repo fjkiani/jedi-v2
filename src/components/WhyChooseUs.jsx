@@ -3,10 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import { logo } from '../assets';
 import { Helmet } from 'react-helmet-async';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const WhyChooseUs = ({ className = "" }) => {
   const { isDarkMode } = useTheme();
   const [activeMetric, setActiveMetric] = useState(0);
+
+  // Scroll animations
+  const headerAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 0 });
+  const contentAnimation = useScrollAnimation({ animationType: 'slideInUp', delay: 300 });
+  const footerAnimation = useScrollAnimation({ animationType: 'fadeInScale', delay: 600 });
 
   // Real industry metrics and value propositions with consistent icons
   const valuePropositions = [
@@ -27,7 +33,7 @@ const WhyChooseUs = ({ className = "" }) => {
       category: "Technical Excellence",
       icon: "⚡",
       title: "JEDI AI Platform Architecture",
-      description: "Our proprietary JEDI™ platform combines multiple AI engines for superior performance.",
+      description: "Our JEDI™ platform combines multiple AI engines for superior performance.",
       realMetrics: [
         { component: "JEDI Ensemble™", capability: "Multi-model AI fusion", performance: "99.9% accuracy", icon: "🧠" },
         { component: "JEDI Rules™", capability: "Intelligent decision orchestration", performance: "<100ms response", icon: "⚙️" },
@@ -169,18 +175,15 @@ const WhyChooseUs = ({ className = "" }) => {
         <div className="container mx-auto px-4">
           {/* SEO-Optimized Header */}
           <motion.header
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            ref={headerAnimation.ref}
+            className={`text-center mb-12 ${headerAnimation.animationClasses}`}
           >
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
                 <img src={logo} alt="JEDI Labs AI Solutions Logo" className="w-6 h-6 brightness-0 invert" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Why Choose <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">JEDI Labs</span>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-black">
+                Why Choose <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-starjedi">jedi labs?</span>
               </h1>
             </div>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -191,7 +194,7 @@ const WhyChooseUs = ({ className = "" }) => {
           </motion.header>
 
           {/* Interactive Value Propositions Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+          <div ref={contentAnimation.ref} className={`grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 ${contentAnimation.animationClasses}`}>
             {/* Navigation Tabs */}
             <motion.nav
               variants={containerVariants}
@@ -229,10 +232,10 @@ const WhyChooseUs = ({ className = "" }) => {
                         </span>
                       </div>
                       <div>
-                        <div className="font-medium text-lg text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                        <div className="font-medium text-sm text-gray-700 dark:text-gray-400 uppercase tracking-wide">
                           {prop.category}
                         </div>
-                        <div className={`font-semibold text-sm ${
+                        <div className={`font-semibold text-base ${
                           activeMetric === index 
                             ? 'text-purple-700 dark:text-purple-300' 
                             : 'text-gray-900 dark:text-white'
@@ -272,7 +275,7 @@ const WhyChooseUs = ({ className = "" }) => {
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                         {activeProposition.title}
                       </h3>
-                    </div>
+                  </div>
                   </header>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
@@ -371,11 +374,11 @@ const WhyChooseUs = ({ className = "" }) => {
                                 </div>
                               </>
                             )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
                 </motion.article>
               </AnimatePresence>
             </div>
@@ -383,11 +386,8 @@ const WhyChooseUs = ({ className = "" }) => {
 
           {/* SEO-Optimized Bottom CTA */}
           <motion.footer
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-center"
+            ref={footerAnimation.ref}
+            className={`text-center ${footerAnimation.animationClasses}`}
           >
             <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
               <img src={logo} alt="JEDI Labs AI Platform Logo" className="w-6 h-6" />
@@ -395,14 +395,14 @@ const WhyChooseUs = ({ className = "" }) => {
                 Ready to experience measurable AI results?
               </span>
             </div>
-            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 dark:text-black">
               Join industry leaders who trust JEDI Labs for enterprise AI solutions
             </p>
           </motion.footer>
-        </div>
+      </div>
       </section>
     </>
   );
 };
 
-export default WhyChooseUs; 
+export default WhyChooseUs;

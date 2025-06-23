@@ -224,7 +224,7 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
 
   return (
     <div className={`${className}`}>
-      <div className="flex flex-col h-[600px] relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col h-[600px] md:h-[700px] lg:h-[800px] w-full max-w-4xl mx-auto relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
         {/* Unique Background Pattern */}
         <div className="absolute inset-0 bg-gradient-to-br from-white via-purple-50/30 to-blue-50/50 dark:from-gray-900 dark:via-purple-900/10 dark:to-blue-900/20"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.05),transparent_50%)]"></div>
@@ -233,18 +233,18 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
         {/* Content Container */}
         <div className="relative z-10 flex flex-col h-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
           {/* Header */}
-          <div className="flex items-center gap-3 p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-            <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-              <img src={logo} alt="JEDI Labs Consultant" className="w-8 h-8 brightness-0 invert" />
+          <div className="flex items-center gap-3 p-4 sm:p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+              <img src={logo} alt="JEDI Labs Consultant" className="w-6 h-6 sm:w-8 sm:h-8 brightness-0 invert" />
             </div>
             <div>
-              <h3 className="font-bold text-xl text-gray-900 dark:text-white">JEDI AI Co-Pilot</h3>
-              <p className="text-base text-gray-500 dark:text-gray-400 font-medium">All Industries</p>
+              <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-white">JEDI AI Co-Pilot</h3>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium">All Industries</p>
             </div>
           </div>
 
           {/* Messages Container */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6" ref={messagesContainerRef}>
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6" ref={messagesContainerRef}>
             <AnimatePresence>
               {messages.map((message) => (
                 <motion.div
@@ -255,44 +255,44 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
                   transition={{ duration: 0.3 }}
                 >
                   {message.type === 'user' ? (
-                    <div className="flex gap-3 mb-6 justify-end">
-                      <div className="max-w-[80%]">
-                        <div className="rounded-2xl p-5 bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg">
-                          <div className="text-base leading-relaxed font-medium">
+                    <div className="flex gap-3 mb-4 sm:mb-6 justify-end">
+                      <div className="max-w-[85%] sm:max-w-[80%]">
+                        <div className="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg">
+                          <div className="text-sm sm:text-base leading-relaxed font-medium">
                             {typeof message.content === 'string' ? message.content : JSON.stringify(message.content)}
                           </div>
                         </div>
                       </div>
                       <div className="flex-shrink-0">
-                        <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                          <span className="text-gray-600 dark:text-gray-300 text-lg">👤</span>
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                          <span className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">👤</span>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex gap-3 mb-6">
+                    <div className="flex gap-3 mb-4 sm:mb-6">
                       <div className="flex-shrink-0">
-                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                          <img src={logo} alt="JEDI AI" className="w-7 h-7 brightness-0 invert" />
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                          <img src={logo} alt="JEDI AI" className="w-6 h-6 sm:w-7 sm:h-7 brightness-0 invert" />
                         </div>
                       </div>
-                      <div className="max-w-[80%]">
-                        <div className="rounded-2xl p-5 bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm shadow-lg">
-                          <div className="text-base leading-relaxed text-gray-800 dark:text-gray-200 mb-4 font-medium">
+                      <div className="max-w-[85%] sm:max-w-[80%]">
+                        <div className="rounded-2xl p-4 sm:p-5 bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm shadow-lg">
+                          <div className="text-sm sm:text-base leading-relaxed text-gray-800 dark:text-gray-200 mb-3 sm:mb-4 font-medium">
                             {message.id === 'welcome' && (
                               <div className="flex items-center gap-2 mb-2">
-                                <span className="text-2xl">🤖</span>
-                                <span className="font-semibold text-lg">Hello! I'm your JEDI AI Co-Pilot.</span>
+                                <span className="text-xl sm:text-2xl">🤖</span>
+                                <span className="font-semibold text-base sm:text-lg">Hello! I'm your JEDI AI Co-Pilot.</span>
                               </div>
                             )}
-                            <div className="text-base leading-relaxed">
+                            <div className="text-sm sm:text-base leading-relaxed">
                               {typeof message.content === 'string' ? message.content : JSON.stringify(message.content)}
                             </div>
                           </div>
                           
                           {message.suggestedQueries && (
                             <div className="space-y-3">
-                              <p className="text-sm font-semibold text-purple-700 dark:text-purple-300">
+                              <p className="text-xs sm:text-sm font-semibold text-purple-700 dark:text-purple-300">
                                 Try asking:
                               </p>
                               <div className="space-y-2">
@@ -300,7 +300,7 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
                                   <button
                                     key={index}
                                     onClick={() => handleSuggestedQuery(query)}
-                                    className="block w-full text-left px-4 py-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg text-sm text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800/30 transition-all duration-200 font-medium"
+                                    className="block w-full text-left px-2 sm:px-4 py-1.5 sm:py-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg text-xs sm:text-sm text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800/30 transition-all duration-200 font-medium leading-tight"
                                   >
                                     {query}
                                   </button>
@@ -323,21 +323,21 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="flex gap-3 mb-6"
+                  className="flex gap-3 mb-4 sm:mb-6"
                 >
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                      <img src={logo} alt="JEDI AI" className="w-7 h-7 brightness-0 invert" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                      <img src={logo} alt="JEDI AI" className="w-6 h-6 sm:w-7 sm:h-7 brightness-0 invert" />
                     </div>
                   </div>
-                  <div className="rounded-2xl p-5 bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
+                  <div className="rounded-2xl p-4 sm:p-5 bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
                     <div className="flex items-center gap-3">
                       <div className="flex space-x-1">
-                        <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce"></div>
-                        <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
-                      <span className="text-base text-gray-500 dark:text-gray-400 font-medium">Thinking...</span>
+                      <span className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium">Thinking...</span>
                     </div>
                   </div>
                 </motion.div>
@@ -348,8 +348,8 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
           </div>
 
           {/* Input Area */}
-          <div className="p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-            <div className="flex gap-3">
+          <div className="p-4 sm:p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+            <div className="flex flex-col sm:flex-row gap-3">
               <textarea
                 value={currentInput}
                 onChange={(e) => setCurrentInput(e.target.value)}
@@ -360,7 +360,7 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
                   }
                 }}
                 placeholder="Tell me about your business challenge..."
-                className={`flex-1 resize-none rounded-xl border transition-all duration-200 backdrop-blur-sm p-4 text-base ${
+                className={`flex-1 resize-none rounded-xl border transition-all duration-200 backdrop-blur-sm p-3 sm:p-4 text-sm sm:text-base ${
                   isDarkMode
                     ? 'bg-gray-800/80 border-gray-600/50 text-gray-100 placeholder-gray-400 focus:border-purple-500'
                     : 'bg-white/80 border-gray-300/50 text-gray-900 placeholder-gray-500 focus:border-purple-500'
@@ -372,7 +372,7 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
                 type="submit"
                 disabled={isLoading || !currentInput.trim()}
                 onClick={(e) => handleSubmit(e, currentInput)}
-                className={`px-8 py-4 text-base font-medium ${isLoading || !currentInput.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium w-full sm:w-auto ${isLoading || !currentInput.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isLoading ? 'Thinking...' : 'Send'}
               </Button>

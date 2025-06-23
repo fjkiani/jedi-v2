@@ -13,7 +13,9 @@ export const analyzeQuery = (query, selectedIndustry = 'all') => {
     urgency: determineUrgency(queryLower),
     complexity: determineComplexity(queryLower),
     industry: selectedIndustry,
-    keywords: extractKeywords(queryLower)
+    keywords: extractKeywords(queryLower),
+    isSimulation: detectSimulation(queryLower),
+    simulationType: getSimulationType(queryLower)
   };
 
   return analysis;
@@ -80,6 +82,35 @@ const extractKeywords = (query) => {
     .split(/\s+/)
     .filter(word => word.length > 2 && !stopWords.includes(word))
     .slice(0, 10); // Limit to 10 keywords
+};
+
+const detectSimulation = (query) => {
+  const simulationTriggers = [
+    'simulation', 'simulate', 'run', 'walk me through', 'step-by-step', 
+    'implementation flow', 'process', 'deployment', 'analyze', 'show me',
+    '🚀', '📊', '🏗️', '💰', '⚡'
+  ];
+  
+  return simulationTriggers.some(trigger => query.includes(trigger));
+};
+
+const getSimulationType = (query) => {
+  if (query.includes('implementation') || query.includes('🚀') || query.includes('deployment')) {
+    return 'implementation';
+  }
+  if (query.includes('metrics') || query.includes('📊') || query.includes('success')) {
+    return 'metrics';
+  }
+  if (query.includes('architecture') || query.includes('🏗️') || query.includes('technical')) {
+    return 'architecture';
+  }
+  if (query.includes('cost') || query.includes('roi') || query.includes('💰') || query.includes('budget')) {
+    return 'cost';
+  }
+  if (query.includes('process') || query.includes('⚡') || query.includes('complete')) {
+    return 'process';
+  }
+  return 'general';
 };
 
 export const findMatchingUseCases = (query, useCases, analysis) => {
@@ -285,6 +316,10 @@ export const generateConversationalResponse = (query, matches, analysis, industr
   // Generate conversational summary
   const summary = generateSummary(query, useCase, analysis);
   
+  // Get industry context - either from the use case's industry or from the analysis
+  const industryContext = useCase.industry || 
+    (analysis.industry !== 'all' ? { name: analysis.industry.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) } : null);
+  
   // Structure the response for progressive disclosure
   const response = {
     summary,
@@ -294,11 +329,15 @@ export const generateConversationalResponse = (query, matches, analysis, industr
     metrics: useCase.metrics || [],
     architecture: useCase.architecture,
     useCase: useCase,
+    industry: industryContext, // Add industry context for simulation system
     matchScore: topMatch.score,
     matchReasons: topMatch.matchReasons,
     alternativeMatches: matches.slice(1, 3), // Include 2 alternatives
     nextSteps: generateNextSteps(useCase, analysis),
-    followUpQueries: generateFollowUpQueries(useCase, analysis)
+    followUpQueries: generateFollowUpQueries(useCase, analysis),
+    isSimulation: analysis.isSimulation,
+    simulationType: analysis.simulationType,
+    simulationData: analysis.isSimulation ? generateSimulationData(useCase, analysis) : null
   };
 
   return response;
@@ -450,7 +489,10 @@ const generateApplicationBasedResponse = (query, applicationMatches, analysis) =
     alternativeMatches: applicationMatches.slice(1), // Include alternatives
     nextSteps: generateApplicationNextSteps(application, industry, analysis),
     followUpQueries: generateApplicationFollowUpQueries(application, industry, analysis),
-    isApplicationBased: true // Flag to help UI components render differently
+    isApplicationBased: true, // Flag to help UI components render differently
+    isSimulation: analysis.isSimulation,
+    simulationType: analysis.simulationType,
+    simulationData: analysis.isSimulation ? generateApplicationSimulationData(application, industry, analysis) : null
   };
 
   return response;
@@ -484,4 +526,315 @@ const generateApplicationFollowUpQueries = (application, industry, analysis) => 
   }
 
   return queries.slice(0, 3);
+};
+
+const generateApplicationSimulationData = (application, industry, analysis) => {
+  const simulationType = analysis.simulationType;
+  
+  const baseSteps = [
+    {
+      id: 'assessment',
+      title: 'Initial Assessment',
+      description: 'Analyzing current infrastructure and requirements',
+      duration: '2-3 weeks',
+      status: 'pending',
+      details: [
+        'Current system evaluation',
+        'Data quality assessment',
+        'Infrastructure compatibility check',
+        'Stakeholder requirement gathering'
+      ]
+    },
+    {
+      id: 'planning',
+      title: 'Solution Design',
+      description: 'Creating customized implementation plan',
+      duration: '1-2 weeks',
+      status: 'pending',
+      details: [
+        'Architecture design',
+        'Integration planning',
+        'Resource allocation',
+        'Timeline establishment'
+      ]
+    },
+    {
+      id: 'development',
+      title: 'Development & Integration',
+      description: 'Building and integrating the AI solution',
+      duration: '4-6 weeks',
+      status: 'pending',
+      details: [
+        'Model development/customization',
+        'API integration',
+        'Data pipeline setup',
+        'Security implementation'
+      ]
+    },
+    {
+      id: 'testing',
+      title: 'Testing & Validation',
+      description: 'Comprehensive testing and performance validation',
+      duration: '2-3 weeks',
+      status: 'pending',
+      details: [
+        'Unit and integration testing',
+        'Performance benchmarking',
+        'User acceptance testing',
+        'Security validation'
+      ]
+    },
+    {
+      id: 'deployment',
+      title: 'Deployment & Go-Live',
+      description: 'Production deployment and launch',
+      duration: '1-2 weeks',
+      status: 'pending',
+      details: [
+        'Production environment setup',
+        'Data migration',
+        'User training',
+        'Go-live support'
+      ]
+    },
+    {
+      id: 'optimization',
+      title: 'Monitoring & Optimization',
+      description: 'Ongoing monitoring and performance optimization',
+      duration: 'Ongoing',
+      status: 'pending',
+      details: [
+        'Performance monitoring',
+        'Model retraining',
+        'User feedback integration',
+        'Continuous improvement'
+      ]
+    }
+  ];
+
+  const successMetrics = application.expectedResults && application.expectedResults.length > 0 ? application.expectedResults : [
+    'Implementation success rate: 95%+',
+    'Time to value: 3-6 months',
+    'ROI achievement: 12-18 months',
+    'User adoption rate: 85%+',
+    'Performance improvement: 30-50%',
+    'Cost reduction: 20-40%'
+  ];
+
+  const costAnalysis = {
+    implementationCost: '$50K - $200K',
+    ongoingCosts: '$10K - $30K/month',
+    expectedROI: '200-400% over 2 years',
+    paybackPeriod: '12-18 months',
+    totalCostOfOwnership: '$150K - $500K over 3 years'
+  };
+
+  const riskFactors = [
+    { risk: 'Data Quality Issues', mitigation: 'Comprehensive data audit and cleansing', probability: 'Medium' },
+    { risk: 'Integration Complexity', mitigation: 'Phased integration approach', probability: 'Low' },
+    { risk: 'User Adoption', mitigation: 'Extensive training and change management', probability: 'Low' },
+    { risk: 'Performance Issues', mitigation: 'Thorough testing and optimization', probability: 'Low' }
+  ];
+
+  // Customize based on simulation type
+  let simulationData = {
+    title: `${application.applicationTitle} Implementation Simulation`,
+    description: `Interactive simulation for implementing ${application.applicationTitle} in ${industry.name}`,
+    steps: baseSteps,
+    successMetrics,
+    costAnalysis,
+    riskFactors,
+    totalDuration: '10-16 weeks',
+    confidence: '92%',
+    recommendedApproach: 'Phased implementation with continuous feedback'
+  };
+
+  // Customize based on simulation type
+  switch (simulationType) {
+    case 'implementation':
+      simulationData.focusArea = 'Implementation Process';
+      simulationData.primarySteps = baseSteps.slice(0, 5);
+      break;
+    case 'metrics':
+      simulationData.focusArea = 'Success Metrics Analysis';
+      simulationData.primarySteps = baseSteps.filter(step => 
+        step.id === 'testing' || step.id === 'deployment' || step.id === 'optimization'
+      );
+      break;
+    case 'architecture':
+      simulationData.focusArea = 'Technical Architecture';
+      simulationData.primarySteps = baseSteps.filter(step => 
+        step.id === 'assessment' || step.id === 'planning' || step.id === 'development'
+      );
+      break;
+    case 'cost':
+      simulationData.focusArea = 'Cost & ROI Analysis';
+      simulationData.primarySteps = baseSteps.slice(0, 3);
+      break;
+    case 'process':
+      simulationData.focusArea = 'Complete Process Flow';
+      simulationData.primarySteps = baseSteps;
+      break;
+    default:
+      simulationData.focusArea = 'General Implementation';
+      simulationData.primarySteps = baseSteps.slice(0, 4);
+  }
+
+  return simulationData;
+};
+
+const generateSimulationData = (useCase, analysis) => {
+  const simulationType = analysis.simulationType;
+  const industry = analysis.industry === 'all' ? 'your industry' : analysis.industry.replace('-', ' ');
+  
+  const baseSteps = [
+    {
+      id: 'assessment',
+      title: 'Initial Assessment',
+      description: 'Analyzing current infrastructure and requirements',
+      duration: '2-3 weeks',
+      status: 'pending',
+      details: [
+        'Current system evaluation',
+        'Data quality assessment',
+        'Infrastructure compatibility check',
+        'Stakeholder requirement gathering'
+      ]
+    },
+    {
+      id: 'planning',
+      title: 'Solution Design',
+      description: 'Creating customized implementation plan',
+      duration: '1-2 weeks',
+      status: 'pending',
+      details: [
+        'Architecture design',
+        'Integration planning',
+        'Resource allocation',
+        'Timeline establishment'
+      ]
+    },
+    {
+      id: 'development',
+      title: 'Development & Integration',
+      description: 'Building and integrating the AI solution',
+      duration: '4-6 weeks',
+      status: 'pending',
+      details: [
+        'Model development/customization',
+        'API integration',
+        'Data pipeline setup',
+        'Security implementation'
+      ]
+    },
+    {
+      id: 'testing',
+      title: 'Testing & Validation',
+      description: 'Comprehensive testing and performance validation',
+      duration: '2-3 weeks',
+      status: 'pending',
+      details: [
+        'Unit and integration testing',
+        'Performance benchmarking',
+        'User acceptance testing',
+        'Security validation'
+      ]
+    },
+    {
+      id: 'deployment',
+      title: 'Deployment & Go-Live',
+      description: 'Production deployment and launch',
+      duration: '1-2 weeks',
+      status: 'pending',
+      details: [
+        'Production environment setup',
+        'Data migration',
+        'User training',
+        'Go-live support'
+      ]
+    },
+    {
+      id: 'optimization',
+      title: 'Monitoring & Optimization',
+      description: 'Ongoing monitoring and performance optimization',
+      duration: 'Ongoing',
+      status: 'pending',
+      details: [
+        'Performance monitoring',
+        'Model retraining',
+        'User feedback integration',
+        'Continuous improvement'
+      ]
+    }
+  ];
+
+  const successMetrics = useCase.metrics && useCase.metrics.length > 0 ? useCase.metrics : [
+    'Implementation success rate: 95%+',
+    'Time to value: 3-6 months',
+    'ROI achievement: 12-18 months',
+    'User adoption rate: 85%+',
+    'Performance improvement: 30-50%',
+    'Cost reduction: 20-40%'
+  ];
+
+  const costAnalysis = {
+    implementationCost: '$50K - $200K',
+    ongoingCosts: '$10K - $30K/month',
+    expectedROI: '200-400% over 2 years',
+    paybackPeriod: '12-18 months',
+    totalCostOfOwnership: '$150K - $500K over 3 years'
+  };
+
+  const riskFactors = [
+    { risk: 'Data Quality Issues', mitigation: 'Comprehensive data audit and cleansing', probability: 'Medium' },
+    { risk: 'Integration Complexity', mitigation: 'Phased integration approach', probability: 'Low' },
+    { risk: 'User Adoption', mitigation: 'Extensive training and change management', probability: 'Low' },
+    { risk: 'Performance Issues', mitigation: 'Thorough testing and optimization', probability: 'Low' }
+  ];
+
+  // Customize based on simulation type
+  let simulationData = {
+    title: `${useCase.title} Implementation Simulation`,
+    description: `Interactive simulation for implementing ${useCase.title} in ${industry}`,
+    steps: baseSteps,
+    successMetrics,
+    costAnalysis,
+    riskFactors,
+    totalDuration: '10-16 weeks',
+    confidence: '92%',
+    recommendedApproach: 'Phased implementation with continuous feedback'
+  };
+
+  // Customize based on simulation type
+  switch (simulationType) {
+    case 'implementation':
+      simulationData.focusArea = 'Implementation Process';
+      simulationData.primarySteps = baseSteps.slice(0, 5);
+      break;
+    case 'metrics':
+      simulationData.focusArea = 'Success Metrics Analysis';
+      simulationData.primarySteps = baseSteps.filter(step => 
+        step.id === 'testing' || step.id === 'deployment' || step.id === 'optimization'
+      );
+      break;
+    case 'architecture':
+      simulationData.focusArea = 'Technical Architecture';
+      simulationData.primarySteps = baseSteps.filter(step => 
+        step.id === 'assessment' || step.id === 'planning' || step.id === 'development'
+      );
+      break;
+    case 'cost':
+      simulationData.focusArea = 'Cost & ROI Analysis';
+      simulationData.primarySteps = baseSteps.slice(0, 3);
+      break;
+    case 'process':
+      simulationData.focusArea = 'Complete Process Flow';
+      simulationData.primarySteps = baseSteps;
+      break;
+    default:
+      simulationData.focusArea = 'General Implementation';
+      simulationData.primarySteps = baseSteps.slice(0, 4);
+  }
+
+  return simulationData;
 }; 

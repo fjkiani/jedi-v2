@@ -12,6 +12,7 @@ import { RichText } from '@graphcms/rich-text-react-renderer'; // If needed by U
 import UseCaseCard from './UseCaseCard'; // Import UseCaseCard
 import UseCaseDetailView from './UseCaseDetailView'; // Import UseCaseDetailView
 import Button from '@/components/Button'; // Corrected import
+import { useScrollAnimation, useStaggeredAnimation } from '../hooks/useScrollAnimation';
 // Remove Modal import if not used directly here for use cases
 // import Modal from './Modal'; 
 
@@ -143,6 +144,19 @@ const FeaturedUseCases = () => {
   const [error, setError] = useState(null);
   const { isDarkMode } = useTheme();
 
+  // Scroll animations
+  const headingAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 0 });
+  const tabsAnimation = useScrollAnimation({ animationType: 'slideInUp', delay: 200 });
+  const contentAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 400 });
+  const buttonAnimation = useScrollAnimation({ animationType: 'fadeInScale', delay: 600 });
+
+  // Staggered animation for use case cards
+  const cardsStaggered = useStaggeredAnimation(useCases.length, {
+    baseDelay: 200,
+    staggerDelay: 100,
+    threshold: 0.1
+  });
+
   // Add theme-aware colors to styles (reuse logic)
   const themeAwareSwiperNavStyles = swiperNavStyles.replace(
     'var(--swiper-navigation-color, inherit)',
@@ -256,11 +270,13 @@ const FeaturedUseCases = () => {
        <style>{themeAwareSwiperNavStyles}</style> {/* Inject styles */}
       <div className="container">
         {/* Add responsive text alignment */}
-        <Heading
-          className="text-center md:text-left" // Center on mobile, left on medium+ screens
-          title="Explore Use Cases"
-          text="Discover how our AI solutions tackle specific challenges across industries."
-        />
+        <div ref={headingAnimation.ref} className={headingAnimation.animationClasses}>
+          <Heading
+            className="text-center md:text-left" // Center on mobile, left on medium+ screens
+            title="Explore Use Cases"
+            text="Discover how our AI solutions tackle specific challenges across industries."
+          />
+        </div>
 
         {/* Loading / Error / No Industries States */}
         {loadingIndustries && (
@@ -278,7 +294,7 @@ const FeaturedUseCases = () => {
 
         {/* Tabs and Content Area */}
         {!loadingIndustries && !error && industries.length > 0 && (
-          <div className={`rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'} p-4 sm:p-6 lg:p-8 shadow-lg`}>
+          <div ref={tabsAnimation.ref} className={`rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'} p-4 sm:p-6 lg:p-8 shadow-lg ${tabsAnimation.animationClasses}`}>
             {/* Industry Tabs */}
              <div className="flex flex-wrap border-b mb-6 pb-3 -mx-2">
                  {/* "All" Tab Button */}
@@ -388,7 +404,7 @@ const FeaturedUseCases = () => {
       </div>
 
       {/* "Explore All Use Cases" Button - Added Below Slider/Details */}
-      <div className="mt-12 text-center"> 
+      <div ref={buttonAnimation.ref} className={`mt-12 text-center ${buttonAnimation.animationClasses}`}> 
           <Button as={Link} href="/usecases" secondary>
              Explore All Use Cases
           </Button>

@@ -32,7 +32,7 @@ client = Client(transport=transport, fetch_schema_from_transport=False)
 # --- GraphQL Query ---
 GET_DATA_QUERY = gql("""
   query GetExistingTechAndIndustries {
-    technologies(stage: PUBLISHED, first: 200) {
+    technologyS(stage: PUBLISHED, first: 200) {
       id
       name
       slug
@@ -57,7 +57,7 @@ def main():
             print(json.dumps(result, indent=2))
 
             # Optional: Extract maps for easier reference
-            tech_map = {t['slug']: t['id'] for t in result.get('technologies', [])}
+            tech_map = {t['slug']: t['id'] for t in result.get('technologyS', [])}
             industry_map = {i['slug']: i['id'] for i in result.get('industries', [])}
 
             if tech_map:

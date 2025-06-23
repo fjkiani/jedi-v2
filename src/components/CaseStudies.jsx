@@ -116,11 +116,11 @@ const CaseStudies = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="text-center mb-12 md:mb-20"
+          className="text-center mb-12 md:mb-20 font-starjedi"
         >
-          <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Use Cases</h2>
-          <p className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'} md:max-w-3xl mx-auto`}>
-            Explore how our AI solutions address specific industry challenges and deliver tangible results.
+          <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>use cases</h2>
+          <p className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'} md:max-w-3xl mx-auto `}>
+            explore how our ai solutions address specific industry challenges and deliver tangible results.
           </p>
         </motion.div>
 

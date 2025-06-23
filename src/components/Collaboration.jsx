@@ -138,7 +138,7 @@ const Collaboration = () => {
               AI Co-Pilot Engineering
             </span>
           </div>
-          <h2 className="h2 mb-6">You Imagine, We Engineer.</h2>
+          <h2 className="h2 mb-6 font-starjedi">You imagine, we engineer.</h2>
           <p className={`body-1 text-n-4 max-w-3xl mx-auto ${isDarkMode ? '' : 'text-gray-600'}`}>
             Our AI co-pilot transforms your ideas into production-ready solutions using cutting-edge technologies and intelligent automation
           </p>
