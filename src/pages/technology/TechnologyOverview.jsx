@@ -335,7 +335,37 @@ const TechnologyOverview = () => {
                 {technology.businessMetrics && (
                   <div className="bg-n-7 rounded-xl p-8 border border-n-6">
                     <h2 className="text-2xl font-bold mb-6">Business Metrics</h2>
-                    <p className="text-n-3">{technology.businessMetrics}</p>
+                    {(() => {
+                      // Handle both string and array formats for businessMetrics
+                      if (Array.isArray(technology.businessMetrics)) {
+                        return (
+                          <ul className="space-y-2">
+                            {technology.businessMetrics.map((metric, index) => (
+                              <li key={index} className="text-n-3 flex items-start gap-2">
+                                <span className="text-primary-1 mt-1">•</span>
+                                <span>{metric}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      } else if (typeof technology.businessMetrics === 'string' && technology.businessMetrics.includes(',')) {
+                        // Handle comma-separated string
+                        const metrics = technology.businessMetrics.split(',').map(m => m.trim()).filter(m => m);
+                        return (
+                          <ul className="space-y-2">
+                            {metrics.map((metric, index) => (
+                              <li key={index} className="text-n-3 flex items-start gap-2">
+                                <span className="text-primary-1 mt-1">•</span>
+                                <span>{metric}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      } else {
+                        // Handle as single string
+                        return <p className="text-n-3">{technology.businessMetrics}</p>;
+                      }
+                    })()}
                   </div>
                 )}
 
@@ -384,7 +414,37 @@ const TechnologyOverview = () => {
                 <h2 className="text-2xl font-bold mb-6">Features</h2>
                 {technology.features ? (
                   <div className="grid gap-6">
-                    <p className="text-n-3">{technology.features}</p>
+                    {(() => {
+                      // Handle both string and array formats for features
+                      if (Array.isArray(technology.features)) {
+                        return (
+                          <ul className="space-y-3">
+                            {technology.features.map((feature, index) => (
+                              <li key={index} className="text-n-3 flex items-start gap-3">
+                                <span className="text-primary-1 mt-1 text-lg">✓</span>
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      } else if (typeof technology.features === 'string' && technology.features.includes(',')) {
+                        // Handle comma-separated string
+                        const features = technology.features.split(',').map(f => f.trim()).filter(f => f);
+                        return (
+                          <ul className="space-y-3">
+                            {features.map((feature, index) => (
+                              <li key={index} className="text-n-3 flex items-start gap-3">
+                                <span className="text-primary-1 mt-1 text-lg">✓</span>
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      } else {
+                        // Handle as single string
+                        return <p className="text-n-3">{technology.features}</p>;
+                      }
+                    })()}
                   </div>
                 ) : (
                   <p className="text-n-3">No features available.</p>

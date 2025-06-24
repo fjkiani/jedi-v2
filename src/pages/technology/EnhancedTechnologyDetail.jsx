@@ -105,14 +105,34 @@ const EnhancedTechnologyDetail = () => {
             relatedUseCases: hygraphData?.relatedUseCases || [],
             // Merge features from both sources if they exist
             features: [
-              ...(localData?.features || []),
-              ...(hygraphData?.features || [])
+              ...(Array.isArray(localData?.features) ? localData.features : []),
+              ...(Array.isArray(hygraphData?.features) ? hygraphData.features : [])
             ],
-            // Merge business metrics/value
-            businessMetrics: [
-              ...(localData?.businessValue || []),
-              ...(hygraphData?.businessMetrics || [])
-            ]
+            // Merge business metrics/value - handle string vs array properly
+            businessMetrics: (() => {
+              const localMetrics = localData?.businessValue || localData?.businessMetrics;
+              const hygraphMetrics = hygraphData?.businessMetrics;
+              
+              const processMetrics = (data) => {
+                if (!data) return [];
+                if (Array.isArray(data)) return data;
+                if (typeof data === 'string') {
+                  if (data.includes(',')) {
+                    return data.split(',').map(m => m.trim()).filter(m => m);
+                  } else if (data.includes('\n')) {
+                    return data.split('\n').map(m => m.trim()).filter(m => m);
+                  } else {
+                    return [data];
+                  }
+                }
+                return [];
+              };
+              
+              return [
+                ...processMetrics(localMetrics),
+                ...processMetrics(hygraphMetrics)
+              ];
+            })()
           };
           console.log('🔄 Merged data being passed to RootSEO:', mergedData);
           setTechnology(mergedData);
@@ -254,29 +274,51 @@ const EnhancedTechnologyDetail = () => {
                       <h3 className={`text-xl font-semibold mt-8 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Business Impact</h3>
                       <div className={`${isDarkMode ? 'bg-n-7' : 'bg-n-2'} rounded-lg p-6 border ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
                         <ul className="space-y-2">
-                          {/* Check if it's a string before splitting */}
-                          {typeof technology.businessMetrics === 'string' ? (
-                            technology.businessMetrics.split('\n').map((metric, index) => (
-                              <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                                <span className="text-primary-1">•</span>
-                                <span>{metric}</span>
-                              </li>
-                            ))
-                          ) : /* Optional: Handle if it's an array (from local constants) */
-                          Array.isArray(technology.businessMetrics) ? (
-                            technology.businessMetrics.map((metric, index) => (
-                              <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                                <span className="text-primary-1">•</span>
-                                <span>{metric}</span>
-                              </li>
-                            ))
-                          ) : (
-                            /* Fallback if it's neither string nor array but exists */
-                            <li className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                              <span className="text-primary-1">•</span>
-                              <span>Invalid business metrics format</span>
-                            </li>
-                          )}
+                          {(() => {
+                            // Handle both string and array formats for businessMetrics
+                            if (Array.isArray(technology.businessMetrics)) {
+                              return technology.businessMetrics.map((metric, index) => (
+                                <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                  <span className="text-primary-1">•</span>
+                                  <span>{metric}</span>
+                                </li>
+                              ));
+                            } else if (typeof technology.businessMetrics === 'string' && technology.businessMetrics.includes(',')) {
+                              // Handle comma-separated string
+                              const metrics = technology.businessMetrics.split(',').map(m => m.trim()).filter(m => m);
+                              return metrics.map((metric, index) => (
+                                <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                  <span className="text-primary-1">•</span>
+                                  <span>{metric}</span>
+                                </li>
+                              ));
+                            } else if (typeof technology.businessMetrics === 'string' && technology.businessMetrics.includes('\n')) {
+                              // Handle newline-separated string
+                              const metrics = technology.businessMetrics.split('\n').map(m => m.trim()).filter(m => m);
+                              return metrics.map((metric, index) => (
+                                <li key={index} className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                  <span className="text-primary-1">•</span>
+                                  <span>{metric}</span>
+                                </li>
+                              ));
+                            } else if (typeof technology.businessMetrics === 'string') {
+                              // Handle as single string
+                              return (
+                                <li className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                  <span className="text-primary-1">•</span>
+                                  <span>{technology.businessMetrics}</span>
+                                </li>
+                              );
+                            } else {
+                              // Fallback for unexpected format
+                              return (
+                                <li className={`flex items-start gap-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                  <span className="text-primary-1">•</span>
+                                  <span>Invalid business metrics format</span>
+                                </li>
+                              );
+                            }
+                          })()}
                         </ul>
                       </div>
                     </>

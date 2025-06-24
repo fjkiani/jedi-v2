@@ -5,6 +5,7 @@ import { gql } from 'graphql-request';
 import { hygraphClient } from '@/lib/hygraph';
 import { check, logo } from '@/assets';
 import { technologyService } from '../services/technologyService';
+import { useCaseService } from '../services/useCaseService';
 import Button from '@/components/Button';
 import Section from '@/components/Section';
 import { LeftCurve, RightCurve } from "./design/Collaboration";
@@ -66,13 +67,16 @@ const Collaboration = () => {
   const [expandedComponent, setExpandedComponent] = useState(null);
   const [categories, setCategories] = useState([]);
   const [industries, setIndustries] = useState([]);
+  const [useCases, setUseCases] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingIndustries, setLoadingIndustries] = useState(true);
+  const [loadingUseCases, setLoadingUseCases] = useState(true);
   const [crisproPilot, setCrisproPilot] = useState(null);
   const [loadingCrisproPilot, setLoadingCrisproPilot] = useState(true);
   const [showLeadCapture, setShowLeadCapture] = useState(false);
   const [showSimulation, setShowSimulation] = useState(false);
   const [showMoreTechs, setShowMoreTechs] = useState({});
+  const [selectedUseCaseTab, setSelectedUseCaseTab] = useState('all');
   const navigate = useNavigate();
 
   // Fetch categories and technologies from Hygraph
@@ -137,6 +141,36 @@ const Collaboration = () => {
     };
 
     fetchCrisPROData();
+  }, []);
+
+  // Add new useEffect for fetching use cases
+  useEffect(() => {
+    const fetchUseCases = async () => {
+      try {
+        setLoadingUseCases(true);
+        await useCaseService.initialize();
+        const allIndustries = await useCaseService.getIndustries();
+        const allUseCases = [];
+        
+        // Fetch use cases from all industries
+        for (const industry of allIndustries) {
+          const industryUseCases = await useCaseService.getUseCasesByIndustry(industry.slug);
+          if (industryUseCases && industryUseCases.length > 0) {
+            allUseCases.push(...industryUseCases);
+          }
+        }
+        
+        console.log('🎯 Fetched all use cases:', allUseCases);
+        setUseCases(allUseCases);
+      } catch (error) {
+        console.error('❌ Error fetching use cases:', error);
+        setUseCases([]);
+      } finally {
+        setLoadingUseCases(false);
+      }
+    };
+
+    fetchUseCases();
   }, []);
 
   // Get technology data for icons and routing
@@ -230,38 +264,82 @@ const Collaboration = () => {
     }));
   };
 
-  // Helper function to get core technologies from categories
+  // Fix the getCoreTechnologies function
   const getCoreTechnologies = () => {
     if (!categories || categories.length === 0) return [];
     
-    const coreTypes = ['machine-learning', 'nlp-nlu', 'ai-agents', 'automation', 'data-engineering', 'system-integration'];
+    console.log('🔧 Debug: Available categories:', categories.map(cat => ({ name: cat.name, slug: cat.slug })));
+    
+    // Expand core technology matching to include more relevant categories
+    const coreTypes = [
+      'machine-learning', 'ml', 'ai', 'artificial-intelligence',
+      'nlp', 'nlu', 'natural-language', 'language-processing',
+      'ai-agents', 'agents', 'automation', 'intelligent-automation',
+      'data-engineering', 'data-processing', 'data-science',
+      'system-integration', 'integration', 'apis',
+      'vector-databases', 'databases', 'search',
+      'frameworks', 'development', 'tools'
+    ];
+    
     const coreTechnologies = [];
     
     categories.forEach(category => {
-      // Check if category matches core types
-      if (coreTypes.some(type => category.slug.toLowerCase().includes(type.replace('-', '')))) {
-        // Add some technologies from this category
+      console.log(`🔍 Checking category: ${category.name} (${category.slug})`);
+      
+      // More flexible matching - check if any core type is contained in the category slug or name
+      const isCore = coreTypes.some(type => 
+        category.slug.toLowerCase().includes(type) || 
+        category.name.toLowerCase().includes(type.replace('-', ' ')) ||
+        type.includes(category.slug.toLowerCase())
+      );
+      
+      if (isCore) {
+        console.log(`✅ Category "${category.name}" matches core types`);
+        
+        // Add technologies from this category
         if (category.technologies && category.technologies.length > 0) {
-          coreTechnologies.push(...category.technologies.slice(0, 2));
+          console.log(`📦 Adding ${category.technologies.length} technologies from ${category.name}`);
+          coreTechnologies.push(...category.technologies.slice(0, 3)); // Take top 3 from each core category
         }
         
         // Also check subcategories
         if (category.technologySubcategory) {
           category.technologySubcategory.forEach(subcat => {
             if (subcat.technology && subcat.technology.length > 0) {
-              coreTechnologies.push(...subcat.technology.slice(0, 1));
+              console.log(`📦 Adding ${subcat.technology.length} technologies from subcategory ${subcat.name}`);
+              coreTechnologies.push(...subcat.technology.slice(0, 2)); // Take top 2 from each subcategory
             }
           });
         }
+      } else {
+        console.log(`❌ Category "${category.name}" does not match core types`);
       }
     });
     
-    // Remove duplicates and limit to 6
+    // Remove duplicates and limit to 8 for better display
     const uniqueTechnologies = coreTechnologies.filter((tech, index, self) => 
       index === self.findIndex(t => t.id === tech.id)
     );
     
-    return uniqueTechnologies.slice(0, 6);
+    console.log('🚀 Final core technologies:', uniqueTechnologies.map(tech => tech.name));
+    return uniqueTechnologies.slice(0, 8);
+  };
+
+  // Get use cases by industry for the new tab
+  const getUseCasesByIndustry = (industrySlug) => {
+    if (industrySlug === 'all') return useCases;
+    return useCases.filter(useCase => useCase.industry?.slug === industrySlug);
+  };
+
+  // Get unique industries from use cases
+  const getUseCaseIndustries = () => {
+    const industryMap = new Map();
+    useCases.forEach(useCase => {
+      if (useCase.industry) {
+        industryMap.set(useCase.industry.slug, useCase.industry);
+      }
+    });
+    return Array.from(industryMap.values());
   };
 
   return (
@@ -293,7 +371,7 @@ const Collaboration = () => {
                 </div>
               </div>
               <p className="text-n-3 text-sm mb-4">
-                Try our CrisPRO Oncology Co-Pilot - an AI system that assists oncologists with treatment planning and clinical decision support.
+                Build your own co-pilot. Inquire about your own use case.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button onClick={handleStartJourney} className="flex-1 sm:flex-none">
@@ -401,6 +479,105 @@ const Collaboration = () => {
                             {industry.name}
                           </Link>
                         ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* New Use Cases Tab */}
+              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-sm">🎯</span>
+                  </div>
+                  <div className="w-full">
+                    <h4 className="font-medium text-n-1 mb-2">Use Cases</h4>
+                    <p className="text-sm text-n-3 mb-3">
+                      Explore real-world implementations across different industries and domains.
+                    </p>
+                    
+                    {loadingUseCases ? (
+                      <div className="space-y-2">
+                        <div className="flex gap-2">
+                          <div className="animate-pulse bg-n-6 rounded h-6 w-12"></div>
+                          <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
+                          <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
+                        </div>
+                        <div className="animate-pulse bg-n-6 rounded h-20 w-full"></div>
+                      </div>
+                    ) : useCases.length === 0 ? (
+                      <div className="text-xs text-n-4 py-2">
+                        No use cases available
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {/* Industry Filter Tabs */}
+                        <div className="flex flex-wrap gap-1">
+                          <button
+                            onClick={() => setSelectedUseCaseTab('all')}
+                            className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                              selectedUseCaseTab === 'all'
+                                ? 'bg-color-1 text-white'
+                                : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                            }`}
+                          >
+                            All ({useCases.length})
+                          </button>
+                          {getUseCaseIndustries().map(industry => {
+                            const industryUseCases = getUseCasesByIndustry(industry.slug);
+                            return (
+                              <button
+                                key={industry.slug}
+                                onClick={() => setSelectedUseCaseTab(industry.slug)}
+                                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                                  selectedUseCaseTab === industry.slug
+                                    ? 'bg-color-1 text-white'
+                                    : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                                }`}
+                              >
+                                {industry.name} ({industryUseCases.length})
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Use Cases List */}
+                        <div className="max-h-32 overflow-y-auto pr-1">
+                          <div className="grid grid-cols-1 gap-1">
+                            {getUseCasesByIndustry(selectedUseCaseTab).slice(0, 6).map(useCase => (
+                              <Link
+                                key={useCase.id}
+                                to={`/industries/${useCase.industry?.slug}/${useCase.slug || useCase.id}`}
+                                className="flex items-center justify-between p-2 bg-n-6 rounded hover:bg-color-1/20 hover:border-color-1/50 transition-all group border border-transparent"
+                              >
+                                <div className="flex items-center gap-2 flex-1 min-w-0">
+                                  <div className="w-2 h-2 bg-color-1 rounded-full flex-shrink-0"></div>
+                                  <span className="text-xs text-n-2 truncate group-hover:text-color-1 transition-colors">
+                                    {useCase.title}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-1 flex-shrink-0">
+                                  {useCase.industry && (
+                                    <span className="text-xs text-n-4 bg-n-7 px-1 rounded">
+                                      {useCase.industry.name}
+                                    </span>
+                                  )}
+                                  <span className="text-xs text-n-4 group-hover:text-color-1 transition-colors">→</span>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                          
+                          {/* Show More Indicator */}
+                          {getUseCasesByIndustry(selectedUseCaseTab).length > 6 && (
+                            <div className="text-center pt-2">
+                              <span className="text-xs text-n-4">
+                                +{getUseCasesByIndustry(selectedUseCaseTab).length - 6} more use cases
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
