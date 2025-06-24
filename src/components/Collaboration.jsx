@@ -1,392 +1,650 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { gql } from 'graphql-request';
+import { hygraphClient } from '@/lib/hygraph';
 import { check, logo } from '@/assets';
-import { collabContent } from "../constants";
+import { technologyService } from '../services/technologyService';
 import Button from '@/components/Button';
 import Section from '@/components/Section';
 import { LeftCurve, RightCurve } from "./design/Collaboration";
 import LeadCaptureModal from './copilot/LeadCaptureModal';
-import { contactFormService } from '../services/contactFormService';
-import { technologyService } from '../services/technologyService';
-import { useTheme } from '@/context/ThemeContext';
-// import { StarsCanvas} from "../components/canvas";
+import InteractiveSimulation from './copilot/InteractiveSimulation';
 
-// Define animation variants outside the component
-const revealItems = () => ({
-  hidden: { opacity: 0, y: 30 },
-  visible: (index) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: index * 0.1,
-      duration: 0.6,
-      ease: "easeOut"
+// GraphQL query to get CrisPRO use case data
+const GET_CRISPRO_USE_CASE = gql`
+  query GetCrisPROUseCase {
+    useCaseS(where: { title_contains: "CrisPRO" }, first: 1) {
+      id
+      title
+      description
+      capabilities
+      queries
+      metrics
+      architecture {
+        description
+        components {
+          name
+          description
+          details
+          explanation
+        }
+        flow {
+          step
+          description
+          details
+        }
+      }
+      technologies {
+        id
+        name
+        slug
+        icon
+      }
+      industry {
+        name
+        slug
+      }
     }
-  })
-});
+  }
+`;
+
+// GraphQL query to fetch industries for Real-World Applications
+const GET_INDUSTRIES = gql`
+  query GetIndustries {
+    industries(stage: PUBLISHED, orderBy: name_ASC, first: 6) {
+      id
+      name
+      slug
+      description
+    }
+  }
+`;
 
 const Collaboration = () => {
-  const { isDarkMode } = useTheme();
-  const [visibleItems, setVisibleItems] = useState([]);
-  const [showLeadModal, setShowLeadModal] = useState(false);
-  const [technologies, setTechnologies] = useState([]);
-  const [loadingTech, setLoadingTech] = useState(true);
-  const [activeTechIndex, setActiveTechIndex] = useState(0);
+  const [selectedLayer, setSelectedLayer] = useState(null);
+  const [expandedComponent, setExpandedComponent] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [industries, setIndustries] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingIndustries, setLoadingIndustries] = useState(true);
+  const [crisproPilot, setCrisproPilot] = useState(null);
+  const [loadingCrisproPilot, setLoadingCrisproPilot] = useState(true);
+  const [showLeadCapture, setShowLeadCapture] = useState(false);
+  const [showSimulation, setShowSimulation] = useState(false);
+  const [showMoreTechs, setShowMoreTechs] = useState({});
+  const navigate = useNavigate();
 
+  // Fetch categories and technologies from Hygraph
   useEffect(() => {
-    const revealItemsSequence = () => {
-      collabContent.forEach((item, index) => {
-        setTimeout(() => {
-          setVisibleItems((prevItems) => [...prevItems, index]);
-        }, index * 300);
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            revealItemsSequence();
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    const section = document.querySelector('#collaboration-section');
-    if (section) {
-      observer.observe(section);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Fetch random technologies from Hygraph
-  useEffect(() => {
-    const fetchTechnologies = async () => {
+    const fetchCategories = async () => {
       try {
-        setLoadingTech(true);
-        const randomTechs = await technologyService.getRandomTechnologies(6);
-        console.log('Fetched technologies from Hygraph:', randomTechs);
-        setTechnologies(randomTechs);
+        setLoadingCategories(true);
+        const categoriesData = await technologyService.getAllCategories();
+        console.log('📊 Fetched categories from Hygraph:', categoriesData);
+        setCategories(categoriesData);
+        
+        // Set first category as default selected layer
+        if (categoriesData.length > 0) {
+          setSelectedLayer(categoriesData[0].slug);
+        }
       } catch (error) {
-        console.error('Error fetching technologies:', error);
-        setTechnologies([]);
+        console.error('❌ Error fetching categories:', error);
+        // Fallback to show at least something
+        setCategories([]);
       } finally {
-        setLoadingTech(false);
+        setLoadingCategories(false);
       }
     };
 
-    fetchTechnologies();
+    fetchCategories();
   }, []);
 
-  // Auto-cycle through technologies
+  // Fetch industries for Real-World Applications
   useEffect(() => {
-    if (technologies.length === 0) return;
-    
-    const interval = setInterval(() => {
-      setActiveTechIndex((prev) => (prev + 1) % technologies.length);
-    }, 3000);
+    const fetchIndustries = async () => {
+      try {
+        setLoadingIndustries(true);
+        const { industries } = await hygraphClient.request(GET_INDUSTRIES);
+        console.log('🏭 Fetched industries from Hygraph:', industries);
+        setIndustries(industries || []);
+      } catch (error) {
+        console.error('❌ Error fetching industries:', error);
+        setIndustries([]);
+      } finally {
+        setLoadingIndustries(false);
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [technologies.length]);
+    fetchIndustries();
+  }, []);
 
-  const handleStartJourney = () => {
-    setShowLeadModal(true);
+  // Fetch CrisPRO use case data
+  useEffect(() => {
+    const fetchCrisPROData = async () => {
+      try {
+        setLoadingCrisproPilot(true);
+        const { useCaseS } = await hygraphClient.request(GET_CRISPRO_USE_CASE);
+        if (useCaseS && useCaseS.length > 0) {
+          setCrisproPilot(useCaseS[0]);
+          console.log('🚀 Fetched CrisPRO data:', useCaseS[0]);
+        }
+      } catch (error) {
+        console.error('❌ Error fetching CrisPRO data:', error);
+      } finally {
+        setLoadingCrisproPilot(false);
+      }
+    };
+
+    fetchCrisPROData();
+  }, []);
+
+  // Get technology data for icons and routing
+  const getTechnologyData = (techName) => {
+    // Search across all categories for the technology
+    for (const category of categories) {
+      // Check direct technologies in category
+      const directTech = category.technologies?.find(tech => 
+        tech.name.toLowerCase().includes(techName.toLowerCase()) ||
+        techName.toLowerCase().includes(tech.name.toLowerCase())
+      );
+      if (directTech) return directTech;
+
+      // Check technologies in subcategories
+      for (const subcategory of category.technologySubcategory || []) {
+        const subTech = subcategory.technology?.find(tech =>
+          tech.name.toLowerCase().includes(techName.toLowerCase()) ||
+          techName.toLowerCase().includes(tech.name.toLowerCase())
+        );
+        if (subTech) return subTech;
+      }
+    }
+    return null;
   };
 
-  const handleLeadSubmit = async (formData) => {
-    try {
-      const enrichedFormData = {
-        ...formData,
-        leadSource: 'AI Co-Pilot Collaboration Section',
-        context: 'User interested in starting their AI engineering journey',
-        captureType: 'collaboration_start_journey',
-        technologies: technologies.map(t => t.name).join(', ')
-      };
+  const getTechnologyIcon = (techName) => {
+    const tech = getTechnologyData(techName);
+    return tech?.icon || null;
+  };
 
-      await contactFormService.submitLead(enrichedFormData);
-      setShowLeadModal(false);
-    } catch (error) {
-      console.error('Error submitting lead:', error);
-      throw error;
+  const getTechnologySlug = (techName) => {
+    const tech = getTechnologyData(techName);
+    return tech?.slug || null;
+  };
+
+  // Handle simulation functionality
+  const handleStartJourney = () => {
+    setShowLeadCapture(true);
+  };
+
+  const handleRunSimulation = () => {
+    if (crisproPilot) {
+      setShowSimulation(true);
+    } else {
+      // Fallback to navigation if no simulation data
+      navigate('/industries/healthcare/solutions/crispro-oncology-copilot');
     }
   };
 
-  const handleTechClick = (index) => {
-    setActiveTechIndex(index);
+  const getSimulationData = () => {
+    if (!crisproPilot) {
+      return {
+        title: "CrisPRO Oncology Co-Pilot",
+        industry: "Healthcare",
+        technologies: ["OpenAI", "Weaviate", "React", "Python"],
+        queries: ["Analyze patient data for treatment recommendations"],
+        capabilities: ["Clinical Decision Support", "Treatment Planning"],
+        architecture: {
+          description: "AI-powered oncology decision support system",
+          components: [],
+          flow: []
+        }
+      };
+    }
+
+    return {
+      title: crisproPilot.title,
+      industry: crisproPilot.industry?.name || "Healthcare",
+      technologies: crisproPilot.technologies?.map(tech => tech.name) || [],
+      queries: crisproPilot.queries || [],
+      capabilities: crisproPilot.capabilities || [],
+      architecture: crisproPilot.architecture || { description: "", components: [], flow: [] }
+    };
+  };
+
+  // Get selected category data
+  const selectedCategory = categories.find(cat => cat.slug === selectedLayer);
+
+  // Helper function to get limited technologies
+  const getLimitedTechnologies = (technologies, categorySlug, limit = 6) => {
+    if (!technologies) return [];
+    const showMore = showMoreTechs[categorySlug];
+    return showMore ? technologies : technologies.slice(0, limit);
+  };
+
+  // Helper function to toggle show more
+  const toggleShowMore = (categorySlug) => {
+    setShowMoreTechs(prev => ({
+      ...prev,
+      [categorySlug]: !prev[categorySlug]
+    }));
+  };
+
+  // Helper function to get core technologies from categories
+  const getCoreTechnologies = () => {
+    if (!categories || categories.length === 0) return [];
+    
+    const coreTypes = ['machine-learning', 'nlp-nlu', 'ai-agents', 'automation', 'data-engineering', 'system-integration'];
+    const coreTechnologies = [];
+    
+    categories.forEach(category => {
+      // Check if category matches core types
+      if (coreTypes.some(type => category.slug.toLowerCase().includes(type.replace('-', '')))) {
+        // Add some technologies from this category
+        if (category.technologies && category.technologies.length > 0) {
+          coreTechnologies.push(...category.technologies.slice(0, 2));
+        }
+        
+        // Also check subcategories
+        if (category.technologySubcategory) {
+          category.technologySubcategory.forEach(subcat => {
+            if (subcat.technology && subcat.technology.length > 0) {
+              coreTechnologies.push(...subcat.technology.slice(0, 1));
+            }
+          });
+        }
+      }
+    });
+    
+    // Remove duplicates and limit to 6
+    const uniqueTechnologies = coreTechnologies.filter((tech, index, self) => 
+      index === self.findIndex(t => t.id === tech.id)
+    );
+    
+    return uniqueTechnologies.slice(0, 6);
   };
 
   return (
-    <Section className={`relative overflow-hidden ${isDarkMode ? 'bg-n-8/90' : 'bg-white/90'} backdrop-blur-sm`} crosses id="collaboration-section">
-      <div className="container relative">
-        
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 mb-6">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <img src={logo} alt="JEDI AI" className="w-5 h-5 brightness-0 invert" />
-            </div>
-            <span className="text-sm font-medium bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              AI Co-Pilot Engineering
-            </span>
-          </div>
-          <h2 className="h2 mb-6 font-starjedi">You imagine, we engineer.</h2>
-          <p className={`body-1 text-n-4 max-w-3xl mx-auto ${isDarkMode ? '' : 'text-gray-600'}`}>
-            Our AI co-pilot transforms your ideas into production-ready solutions using cutting-edge technologies and intelligent automation
+    <Section crosses>
+      <div className="container">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h2 className="h2 mb-4">
+            AI Co-Pilot Architecture
+          </h2>
+          <p className="body-1 text-n-4 max-w-3xl mx-auto">
+            Explore the technology layers that power modern AI co-pilots and experience our flagship healthcare solution
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          
-          {/* Left Side - Capabilities */}
-          <div className="space-y-8">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              {collabContent.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  custom={index}
-                  variants={revealItems()}
-                  className={`group p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-lg ${
-                    isDarkMode 
-                      ? 'bg-n-7/30 border-n-6/50 hover:border-purple-500/30 hover:bg-n-7/50' 
-                      : 'bg-white/50 border-gray-200/50 hover:border-purple-300/50 hover:bg-white/80'
-                  }`}
+        {/* Main Content Layout */}
+        <div className="lg:flex lg:gap-12 items-start">
+          {/* Left Side - Simulation CTA & Education */}
+          <div className="lg:w-1/2 space-y-6 mb-8 lg:mb-0">
+            {/* Simulation CTA Card */}
+            <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">🚀</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-n-1">Experience Our Co-Pilot</h3>
+                  <p className="text-sm text-n-3">Interactive healthcare AI simulation</p>
+                </div>
+              </div>
+              <p className="text-n-3 text-sm mb-4">
+                Try our CrisPRO Oncology Co-Pilot - an AI system that assists oncologists with treatment planning and clinical decision support.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button onClick={handleStartJourney} className="flex-1 sm:flex-none">
+                  🚀 Build Your Co-Pilot
+                </Button>
+                {/* <Button 
+                  onClick={handleRunSimulation}
+                  disabled={loadingCrisproPilot}
+                  className="flex-1 sm:flex-none bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-none disabled:opacity-50"
                 >
-                  <div className="flex items-start gap-4">
-                    <motion.div 
-                      className="w-12 h-12 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                    >
-                      <img 
-                        src={check} 
-                        width={20} 
-                        height={20} 
-                        alt="check"
-                        className={`filter ${isDarkMode ? 'brightness-150' : 'brightness-100'}`}
-                      />
-                    </motion.div>
-                    <div className="flex-1">
-                      <h3 className={`h6 mb-2 group-hover:text-purple-400 transition-colors ${
-                        isDarkMode ? 'text-n-1' : 'text-gray-900'
-                      }`}>
-                        {item.title}
-                      </h3>
-                      {item.text && (
-                        <p className={`body-2 leading-relaxed ${
-                          isDarkMode ? 'text-n-4' : 'text-gray-600'
-                        }`}>
-                          {item.text}
-                        </p>
-                      )}
+                  {loadingCrisproPilot ? '⏳ Loading...' : '🎯 Run CrisPRO Simulation'}
+                </Button> */}
+              </div>
+            </div>
+
+            {/* Co-Pilot Education Cards */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-n-1 mb-4">Understanding AI Co-Pilots</h3>
+              
+              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-sm">🤖</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-n-1 mb-2">What is an AI Co-Pilot?</h4>
+                    <p className="text-sm text-n-3 mb-2">
+                      Intelligent assistants that work alongside humans to enhance decision-making and automate complex workflows.
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {['Context-Aware', 'Adaptive Learning', 'Human-in-Loop'].map(tag => (
+                        <span key={tag} className="px-2 py-1 bg-n-6 rounded text-xs text-n-2">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.8 }}
-              className="pt-4"
-            >
-              <Button onClick={handleStartJourney} className="w-full sm:w-auto">
-                🚀 Start Your AI Journey
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* Right Side - Technology Showcase */}
-          <div className="relative">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              
-              {/* Central AI Hub */}
-              <div className="relative flex justify-center mb-12">
-                <motion.div 
-                  className="relative w-32 h-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full p-1 shadow-2xl"
-                  animate={{ 
-                    boxShadow: [
-                      "0 0 20px rgba(168, 85, 247, 0.4)",
-                      "0 0 40px rgba(236, 72, 153, 0.6)",
-                      "0 0 20px rgba(168, 85, 247, 0.4)"
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <div className={`w-full h-full rounded-full flex items-center justify-center relative overflow-hidden ${
-                    isDarkMode ? 'bg-n-8' : 'bg-white'
-                  }`}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 animate-pulse" />
-                    <motion.img
-                      src={logo}
-                      width={48}
-                      height={48}
-                      alt="JEDI AI Co-Pilot"
-                      className="relative z-10"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    />
-                  </div>
-                </motion.div>
+                </div>
               </div>
 
-              {/* Technology Grid */}
-              {loadingTech ? (
-                <div className="flex justify-center py-8">
-                  <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-                </div>
-              ) : technologies.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
-                  {technologies.map((tech, index) => (
-                    <motion.div
-                      key={tech.id}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
-                      className="relative"
-                    >
-                      <Link
-                        to={`/technology/${tech.slug}`}
-                        className={`block p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 cursor-pointer ${
-                          activeTechIndex === index
-                            ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 shadow-lg shadow-purple-500/25'
-                            : isDarkMode 
-                              ? 'bg-n-7/30 border-n-6/50 hover:border-purple-500/30 hover:bg-n-7/50'
-                              : 'bg-white/50 border-gray-200/50 hover:border-purple-300/50 hover:bg-white/80'
-                        }`}
-                        onMouseEnter={() => handleTechClick(index)}
-                      >
-                        <motion.div
-                          whileHover={{ scale: 1.05, y: -5 }}
-                          className="flex flex-col items-center text-center space-y-3"
-                        >
-                          <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${
-                            activeTechIndex === index 
-                              ? 'bg-gradient-to-r from-purple-500/30 to-pink-500/30' 
-                              : isDarkMode ? 'bg-n-6/50' : 'bg-gray-100/50'
-                          }`}>
-                            {tech.icon?.url ? (
-                              <img
-                                className={`w-10 h-10 object-contain filter ${isDarkMode ? 'brightness-150' : 'brightness-100'}`}
+              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-sm">🧠</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-n-1 mb-2">Core Technologies</h4>
+                    <p className="text-sm text-n-3 mb-2">
+                      Built on foundation models, vector databases, and sophisticated reasoning systems for intelligent automation.
+                    </p>
+                    {loadingCategories ? (
+                      <div className="flex flex-wrap gap-1">
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-18"></div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-1">
+                        {getCoreTechnologies().map(tech => (
+                          <Link
+                            key={tech.id}
+                            to={`/technology/${tech.slug}`}
+                            className="flex items-center gap-1 px-2 py-1 bg-n-6 rounded text-xs text-n-2 hover:bg-color-1 hover:text-white transition-colors"
+                          >
+                            {tech.icon && (
+                              <img 
+                                src={tech.icon} 
                                 alt={tech.name}
-                                src={tech.icon.url}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
+                                className="w-3 h-3 object-contain flex-shrink-0"
                               />
-                            ) : null}
-                            <div 
-                              className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-                              style={{ display: tech.icon?.url ? 'none' : 'flex' }}
-                            >
-                              {tech.name.charAt(0)}
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className={`text-sm font-semibold mb-1 ${
-                              isDarkMode ? 'text-n-1' : 'text-gray-900'
-                            }`}>
-                              {tech.name}
-                            </h4>
-                            <p className={`text-lg leading-relaxed ${
-                              isDarkMode ? 'text-n-4' : 'text-gray-600'
-                            }`}>
-                              {tech.description || tech.category}
-                            </p>
-                          </div>
-                        </motion.div>
-                        
-                        {/* Active indicator */}
-                        {activeTechIndex === index && (
-                          <motion.div
-                            className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: "spring", stiffness: 500 }}
-                          />
-                        )}
-                      </Link>
-                    </motion.div>
-                  ))}
+                            )}
+                            <span className="truncate">{tech.name}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-sm">⚡</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-n-1 mb-2">Real-World Applications</h4>
+                    <p className="text-sm text-n-3 mb-2">
+                      From healthcare diagnosis to financial analysis, co-pilots are transforming professional workflows across industries.
+                    </p>
+                    {loadingIndustries ? (
+                      <div className="flex flex-wrap gap-1">
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
+                        <div className="animate-pulse bg-n-6 rounded h-6 w-24"></div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-1">
+                        {industries.slice(0, 3).map(industry => (
+                          <Link
+                            key={industry.id}
+                            to={`/industries/${industry.slug}`}
+                            className="px-2 py-1 bg-n-6 rounded text-xs text-n-2 hover:bg-color-1 hover:text-white transition-colors"
+                          >
+                            {industry.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Interactive Architecture Stack */}
+          <div className="lg:w-1/2">
+            <div className="bg-n-8 rounded-xl p-6 border border-n-6 max-h-[600px] overflow-hidden">
+              <h3 className="text-lg font-semibold text-n-1 mb-6">Technology Architecture</h3>
+              
+              {loadingCategories ? (
+                <div className="text-center py-8">
+                  <div className="animate-pulse text-n-3">Loading architecture layers...</div>
+                </div>
+              ) : categories.length === 0 ? (
+                <div className="text-center py-8 text-n-3">
+                  No architecture data available
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <p className={isDarkMode ? 'text-n-4' : 'text-gray-600'}>
-                    No technologies available at the moment.
-                  </p>
-                </div>
-              )}
-
-              {/* Technology Details */}
-              <AnimatePresence mode="wait">
-                {technologies.length > 0 && (
-                  <motion.div
-                    key={activeTechIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className={`text-center p-6 backdrop-blur-sm rounded-2xl border ${
-                      isDarkMode 
-                        ? 'bg-n-7/20 border-n-6/30' 
-                        : 'bg-white/20 border-gray-200/30'
-                    }`}
-                  >
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <h3 className="text-lg font-semibold text-purple-400">
-                        {technologies[activeTechIndex]?.name}
-                      </h3>
-                      <Link
-                        to={`/technology/${technologies[activeTechIndex]?.slug}`}
-                        className="text-lg text-purple-300 hover:text-purple-200 transition-colors"
+                <>
+                  {/* Layer Navigation */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {categories.map((category) => (
+                      <button
+                        key={category.slug}
+                        onClick={() => {
+                          setSelectedLayer(category.slug);
+                          setExpandedComponent(null);
+                        }}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
+                          selectedLayer === category.slug
+                            ? 'bg-color-1 text-white shadow-lg'
+                            : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                        }`}
                       >
-                        Learn More →
-                      </Link>
-                    </div>
-                    <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-gray-600'}`}>
-                      {technologies[activeTechIndex]?.description || `Advanced ${technologies[activeTechIndex]?.category} solutions tailored to your needs`}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                        {category.name}
+                      </button>
+                    ))}
+                  </div>
 
-            </motion.div>
+                  {/* Selected Layer Content */}
+                  <div className="overflow-y-auto max-h-[420px] pr-2">
+                    <AnimatePresence mode="wait">
+                      {selectedCategory && (
+                        <motion.div
+                          key={selectedLayer}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                          className="space-y-4"
+                        >
+                          {/* Category Description */}
+                          {selectedCategory.description && (
+                            <div className="bg-n-7 rounded-lg p-3 border border-n-6">
+                              <p className="text-n-3 text-xs">{selectedCategory.description}</p>
+                            </div>
+                          )}
+
+                          {/* Technologies Compact Grid */}
+                          <div className="space-y-4">
+                            {/* Direct technologies in category */}
+                            {selectedCategory.technologies?.length > 0 && (
+                              <div>
+                                <div className="grid grid-cols-2 gap-2 mb-3">
+                                  {getLimitedTechnologies(selectedCategory.technologies, selectedCategory.slug).map((tech) => (
+                                    <div
+                                      key={tech.id}
+                                      className="bg-n-7 rounded-lg p-3 border border-n-6 hover:border-color-1 transition-colors cursor-pointer group"
+                                      onClick={() => setExpandedComponent(expandedComponent === tech.id ? null : tech.id)}
+                                    >
+                                      <div className="flex items-center gap-2 mb-2">
+                                        {tech.icon && (
+                                          <img 
+                                            src={tech.icon} 
+                                            alt={tech.name}
+                                            className="w-4 h-4 object-contain flex-shrink-0"
+                                          />
+                                        )}
+                                        <h4 className="font-medium text-n-1 text-xs truncate">{tech.name}</h4>
+                                      </div>
+                                      <p className="text-xs text-n-3 line-clamp-2 mb-2">
+                                        {tech.description?.substring(0, 80)}...
+                                      </p>
+                                      <div className="flex items-center justify-between">
+                                        {tech.slug && (
+                                          <Link
+                                            to={`/technology/${tech.slug}`}
+                                            className="text-color-1 hover:text-color-2 transition-colors text-xs"
+                                            onClick={(e) => e.stopPropagation()}
+                                          >
+                                            View →
+                                          </Link>
+                                        )}
+                                        <span className="text-n-4 text-xs group-hover:text-color-1 transition-colors">
+                                          {expandedComponent === tech.id ? '−' : '+'}
+                                        </span>
+                                      </div>
+
+                                      {/* Compact Expanded Details */}
+                                      <AnimatePresence>
+                                        {expandedComponent === tech.id && (
+                                          <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="mt-3 pt-3 border-t border-n-6"
+                                          >
+                                            {tech.useCases && tech.useCases.length > 0 && (
+                                              <div className="mb-2">
+                                                <h5 className="text-xs font-medium text-n-2 mb-1">Use Cases:</h5>
+                                                <div className="flex flex-wrap gap-1">
+                                                  {tech.useCases.slice(0, 2).map((useCase, index) => (
+                                                    <span 
+                                                      key={index}
+                                                      className="px-2 py-1 bg-n-6 rounded text-xs text-n-2"
+                                                    >
+                                                      {useCase.title}
+                                                    </span>
+                                                  ))}
+                                                </div>
+                                              </div>
+                                            )}
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                {/* Show More Button for Direct Technologies */}
+                                {selectedCategory.technologies.length > 6 && (
+                                  <button
+                                    onClick={() => toggleShowMore(selectedCategory.slug)}
+                                    className="w-full py-2 text-xs text-color-1 hover:text-color-2 transition-colors border border-color-1/30 rounded-lg hover:border-color-1/50"
+                                  >
+                                    {showMoreTechs[selectedCategory.slug] 
+                                      ? `Show Less (${selectedCategory.technologies.length - 6} hidden)` 
+                                      : `Show ${selectedCategory.technologies.length - 6} More Technologies`
+                                    }
+                                  </button>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Compact Subcategories */}
+                            {selectedCategory.technologySubcategory?.map((subcategory) => (
+                              subcategory.technology?.length > 0 && (
+                                <div key={subcategory.id} className="border-l-2 border-color-1/30 pl-3">
+                                  <h4 className="text-xs font-medium text-color-1 mb-2">{subcategory.name}</h4>
+                                  <div className="grid grid-cols-1 gap-2">
+                                    {getLimitedTechnologies(subcategory.technology, `${selectedCategory.slug}-${subcategory.id}`, 4).map((tech) => (
+                                      <div
+                                        key={tech.id}
+                                        className="bg-n-7 rounded-lg p-2 border border-n-6 hover:border-color-1 transition-colors cursor-pointer group"
+                                        onClick={() => setExpandedComponent(expandedComponent === tech.id ? null : tech.id)}
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2 flex-1 min-w-0">
+                                            {tech.icon && (
+                                              <img 
+                                                src={tech.icon} 
+                                                alt={tech.name}
+                                                className="w-4 h-4 object-contain flex-shrink-0"
+                                              />
+                                            )}
+                                            <div className="min-w-0 flex-1">
+                                              <h5 className="text-xs font-medium text-n-1 truncate">{tech.name}</h5>
+                                              <p className="text-xs text-n-3 truncate">{tech.description?.substring(0, 40)}...</p>
+                                            </div>
+                                          </div>
+                                          <div className="flex items-center gap-1 flex-shrink-0">
+                                            {tech.slug && (
+                                              <Link
+                                                to={`/technology/${tech.slug}`}
+                                                className="text-color-1 hover:text-color-2 transition-colors text-xs"
+                                                onClick={(e) => e.stopPropagation()}
+                                              >
+                                                →
+                                              </Link>
+                                            )}
+                                            <span className="text-n-4 text-xs group-hover:text-color-1 transition-colors">
+                                              {expandedComponent === tech.id ? '−' : '+'}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+
+                                  {/* Show More Button for Subcategories */}
+                                  {subcategory.technology.length > 4 && (
+                                    <button
+                                      onClick={() => toggleShowMore(`${selectedCategory.slug}-${subcategory.id}`)}
+                                      className="w-full mt-2 py-1 text-xs text-color-1 hover:text-color-2 transition-colors"
+                                    >
+                                      {showMoreTechs[`${selectedCategory.slug}-${subcategory.id}`] 
+                                        ? `Show Less` 
+                                        : `+${subcategory.technology.length - 4} more`
+                                      }
+                                    </button>
+                                  )}
+                                </div>
+                              )
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Modals */}
+        {showLeadCapture && (
+          <LeadCaptureModal
+            isOpen={showLeadCapture}
+            onClose={() => setShowLeadCapture(false)}
+            onSubmit={(data) => {
+              console.log('Lead captured:', data);
+              setShowLeadCapture(false);
+              setShowSimulation(true);
+            }}
+          />
+        )}
+
+        {showSimulation && (
+          <InteractiveSimulation
+            isOpen={showSimulation}
+            onClose={() => setShowSimulation(false)}
+            useCase={getSimulationData()}
+          />
+        )}
       </div>
 
-      {/* Lead Capture Modal */}
-      <LeadCaptureModal
-        isOpen={showLeadModal}
-        onClose={() => setShowLeadModal(false)}
-        contextData={{
-          leadSource: 'AI Co-Pilot Collaboration Section',
-          context: 'User interested in starting their AI engineering journey',
-          technologies: technologies.map(t => t.name).join(', ')
-        }}
-        onSubmit={handleLeadSubmit}
-      />
-
-      {/* <StarsCanvas/> */}
+      <LeftCurve />
+      <RightCurve />
     </Section>
   );
 };

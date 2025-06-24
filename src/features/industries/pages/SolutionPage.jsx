@@ -7,7 +7,7 @@ import {
   FiCheckCircle, FiServer, FiList, FiTerminal, FiCpu, FiArrowRight, 
   FiChevronDown, FiChevronUp, FiCopy, FiCheck, FiTarget, FiDatabase, 
   FiGitBranch, FiZap, FiClock, FiTrendingUp, FiMessageSquare, FiStar,
-  FiLayers, FiBox, FiUsers, FiBarChart, FiSettings, FiPlay, FiExternalLink
+  FiLayers, FiBox, FiUsers, FiBarChart, FiSettings, FiPlay, FiExternalLink, FiX
 } from 'react-icons/fi';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
@@ -898,15 +898,27 @@ const SolutionPage = () => {
       </Section>
 
       {showSimulation && (
-        <InteractiveSimulation
-          responseData={simulationData}
-          onSuggestedQuery={(query) => {
-            // Handle suggested query from simulation
-            console.log('Suggested query from simulation:', query);
-            // You could trigger the query response system here
-          }}
-          onComplete={handleSimulationComplete}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
+            {/* Close button */}
+            <button
+              onClick={() => setShowSimulation(false)}
+              className="absolute top-4 right-4 z-10 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <FiX className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            </button>
+            
+            <InteractiveSimulation
+              responseData={simulationData}
+              onSuggestedQuery={(query) => {
+                // Handle suggested query from simulation
+                console.log('Suggested query from simulation:', query);
+                // You could trigger the query response system here
+              }}
+              onComplete={handleSimulationComplete}
+            />
+          </div>
+        </div>
       )}
     </>
   );

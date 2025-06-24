@@ -15,14 +15,33 @@ const TechnologyCard = ({ tech }) => {
   const iconUrl = tech?.icon || defaultIcon;
   const name = tech?.name || 'Unknown Technology';
   const description = tech?.description || '';
-  const features = Array.isArray(tech?.features) ? tech.features : [];
-  const businessMetrics = Array.isArray(tech?.businessMetrics)
-    ? tech.businessMetrics
-    : [];
+  
+  // Properly handle features - can be string or array
+  const features = (() => {
+    if (Array.isArray(tech?.features)) {
+      return tech.features;
+    } else if (typeof tech?.features === 'string' && tech.features.trim()) {
+      // Split by comma and clean up
+      return tech.features.split(',').map(f => f.trim()).filter(f => f);
+    }
+    return [];
+  })();
+  
+  // Properly handle businessMetrics - can be string or array
+  const businessMetrics = (() => {
+    if (Array.isArray(tech?.businessMetrics)) {
+      return tech.businessMetrics;
+    } else if (typeof tech?.businessMetrics === 'string' && tech.businessMetrics.trim()) {
+      // Split by comma and clean up
+      return tech.businessMetrics.split(',').map(m => m.trim()).filter(m => m);
+    }
+    return [];
+  })();
+  
   const useCases = Array.isArray(tech?.useCases) ? tech.useCases : [];
   const slug = tech?.slug || '';
 
-  const isCategory = !tech.icon && !tech.features?.length && !tech.businessMetrics?.length;
+  const isCategory = !tech.icon && !features.length && !businessMetrics.length;
 
   const cardContent = (
     <>

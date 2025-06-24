@@ -4,7 +4,6 @@ import { hygraphClient } from '@/lib/hygraph';
 import ChatInterface from './copilot/ChatInterface';
 import { analyzeQuery, findMatchingUseCases, generateConversationalResponse } from '../services/copilotOrchestrator';
 import { motion } from 'framer-motion';
-import { logo } from '../assets';
 
 // GraphQL query to fetch industries and use cases
 const GET_INDUSTRIES_AND_USECASES = gql`
@@ -183,7 +182,7 @@ const AiCoPilotDemo = () => {
   }
 
   return (
-    <section className="relative py-10 sm:py-16 lg:py-20 overflow-hidden">
+    <section className="relative min-h-screen py-10 sm:py-16 lg:py-20 overflow-hidden">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(120,119,198,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_20%_30%,rgba(120,119,198,0.05),transparent_50%)]"></div>
@@ -220,11 +219,11 @@ const AiCoPilotDemo = () => {
         ))}
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 h-full flex flex-col">
+        <div className="max-w-6xl mx-auto flex-1 flex flex-col">
           {/* Enhanced Header */}
           <motion.div 
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-8 sm:mb-12 flex-shrink-0"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -236,11 +235,11 @@ const AiCoPilotDemo = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                <img src={logo} alt="JEDI Labs Logo" className="w-full h-full" />
+                <span className="text-lg sm:text-xl lg:text-2xl">🤖</span>
               </div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
                 <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-starjedi">
-                  The Jedi ai Co-Pilot
+                  The Jedi  Co-Pilot
                 </span>
               </h1>
             </motion.div>
@@ -264,47 +263,7 @@ const AiCoPilotDemo = () => {
               <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 sm:mb-4 uppercase tracking-wider">
                 Select Industry Focus
               </p>
-              
-              {/* Mobile: Horizontal Scrollable Slider */}
-              <div className="block sm:hidden">
-                <div className="flex gap-3 overflow-x-auto pb-2 px-4 -mx-4 scrollbar-hide">
-                  <motion.button
-                    onClick={() => handleIndustryChange('all')}
-                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                      selectedIndustry === 'all'
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-                        : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 backdrop-blur-sm'
-                    }`}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span className="flex items-center gap-2 whitespace-nowrap">
-                      <span>🌐</span>
-                      <span>All Industries</span>
-                    </span>
-                  </motion.button>
-                  
-                  {industries.map((industry, index) => (
-                    <motion.button
-                      key={industry.id}
-                      onClick={() => handleIndustryChange(industry.slug)}
-                      className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                        selectedIndustry === industry.slug
-                          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-                          : 'bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 backdrop-blur-sm'
-                      }`}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.8 + (index * 0.1) }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span className="whitespace-nowrap">{industry.name}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Desktop: Flex Wrap Layout */}
-              <div className="hidden sm:flex flex-wrap justify-center gap-2 sm:gap-3 px-2 sm:px-0">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2 sm:px-0">
                 <motion.button
                   onClick={() => handleIndustryChange('all')}
                   className={`relative px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
@@ -362,7 +321,7 @@ const AiCoPilotDemo = () => {
 
           {/* Enhanced Chat Interface Container */}
           <motion.div
-            className="relative mx-2 sm:mx-0"
+            className="relative mx-2 sm:mx-0 flex-1 flex flex-col"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
@@ -371,7 +330,7 @@ const AiCoPilotDemo = () => {
             <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl opacity-60 dark:opacity-30"></div>
             
             {/* Chat Interface */}
-            <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+            <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden flex-1 flex flex-col">
               <ChatInterface
                 industries={industries}
                 useCases={useCases}

@@ -99,83 +99,82 @@ const SidebarConsultant = ({
 
   return (
     <>
-      {/* Sidebar Consultant - Always visible with enhanced prominence */}
+      {/* Sidebar Consultant - Mobile Optimized */}
       <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 ${className}`}>
-        {/* Enhanced tab with much better visibility */}
+        {/* Mobile-optimized tab with better sizing */}
         <motion.div
           initial={{ x: 100, opacity: 0 }}
-          animate={{ x: isExpanded ? 0 : 56, opacity: 1 }}
+          animate={{ x: isExpanded ? 0 : 44, opacity: 1 }} // Reduced offset for mobile
           transition={{ duration: 0.5, ease: "easeOut" }}
           className={`relative cursor-pointer shadow-2xl backdrop-blur-sm transition-all duration-300 ${
             isDarkMode 
               ? 'bg-gradient-to-br from-gray-900/95 to-gray-800/95 border-purple-500/30 text-white' 
               : 'bg-gradient-to-br from-white/95 to-gray-50/95 border-purple-300/50 text-gray-900'
-          } border-2 border-l border-t border-b rounded-l-3xl hover:shadow-3xl hover:scale-105 group`}
+          } border-2 border-l border-t border-b rounded-l-2xl sm:rounded-l-3xl hover:shadow-3xl hover:scale-105 group`}
           onClick={handleTabClick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* Much larger and more prominent tab */}
-          <div className="w-28 h-40 flex flex-col items-center justify-center gap-3 p-4">
-            {/* Larger animated logo */}
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg relative">
-              <img src={logo} alt="JEDI" className="w-9 h-9 brightness-0 invert" />
+          {/* Mobile-first tab sizing */}
+          <div className="w-16 h-24 sm:w-20 sm:h-32 lg:w-28 lg:h-40 flex flex-col items-center justify-center gap-1 sm:gap-2 lg:gap-3 p-2 sm:p-3 lg:p-4">
+            {/* Responsive logo */}
+            <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg relative">
+              <img src={logo} alt="JEDI" className="w-4 h-4 sm:w-6 sm:h-6 lg:w-9 lg:h-9 brightness-0 invert" />
               {/* Pulsing ring animation */}
               <div className="absolute inset-0 rounded-full border-2 border-purple-400 animate-ping opacity-75"></div>
               <div className="absolute inset-0 rounded-full border border-pink-400 animate-pulse"></div>
             </div>
             
-            {/* Larger text */}
-            <div className={`text-sm font-bold text-center leading-tight ${
+            {/* Responsive text */}
+            <div className={`text-xs sm:text-sm lg:text-sm font-bold text-center leading-tight ${
               isDarkMode ? 'text-gray-100' : 'text-gray-800'
             } group-hover:text-purple-400 transition-colors`}>
-              JEDI
-              <br />
-              <span className="text-lg">Help</span>
+              <span className="block">JEDI</span>
+              <span className="block text-xs sm:text-sm lg:text-lg">Help</span>
             </div>
             
-            {/* More prominent indicator */}
+            {/* Mobile-optimized indicator */}
             <div className="flex gap-1">
-              <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-ping"></div>
-              <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-ping animation-delay-150"></div>
+              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 lg:w-2 lg:h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-ping"></div>
+              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 lg:w-2 lg:h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-ping animation-delay-150"></div>
             </div>
           </div>
 
-          {/* Expanded content */}
+          {/* Mobile-optimized expanded content */}
           <AnimatePresence>
             {isExpanded && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className={`absolute right-24 top-0 w-96 min-h-[32rem] rounded-2xl shadow-2xl border backdrop-blur-sm overflow-hidden ${
+                className={`absolute right-16 sm:right-20 lg:right-24 top-0 w-80 sm:w-96 min-h-[28rem] sm:min-h-[32rem] rounded-2xl shadow-2xl border backdrop-blur-sm overflow-hidden ${
                   isDarkMode 
                     ? 'bg-gray-900/95 border-gray-600 text-white' 
                     : 'bg-white/95 border-gray-300 text-gray-900'
                 }`}
               >
-                {/* Close button */}
+                {/* Mobile-friendly close button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsExpanded(false);
                   }}
-                  className={`absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-lg font-medium transition-colors z-10 ${
+                  className={`absolute top-3 sm:top-4 right-3 sm:right-4 w-8 h-8 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-lg sm:text-xl font-medium transition-colors z-10 ${
                     isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-300' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
                   }`}
                 >
                   ×
                 </button>
 
-                {/* Header */}
-                <div className="p-6 pb-4">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
-                      <img src={logo} alt="JEDI Consultant" className="w-7 h-7 brightness-0 invert" />
+                {/* Mobile-optimized header */}
+                <div className="p-4 sm:p-6 pb-3 sm:pb-4">
+                  <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
+                      <img src={logo} alt="JEDI Consultant" className="w-5 h-5 sm:w-7 sm:h-7 brightness-0 invert" />
                     </div>
-                    <div className="flex-1">
-                      <div className="font-bold text-sm mb-1">JEDI Labs Consultant</div>
-                      <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm sm:text-base mb-1">JEDI Labs Consultant</div>
+                      <div className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                         How can we help engineer your vision?
                       </div>
                     </div>

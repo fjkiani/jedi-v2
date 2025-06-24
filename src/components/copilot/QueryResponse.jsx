@@ -130,7 +130,7 @@ const QueryResponse = ({
             </span>
             {response.confidence && (
               <span className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'}`}>
-                {Math.round(response.confidence * 100)}% confidence
+                {Math.round(response.confidence * 300)}% confidence
               </span>
             )}
           </div>

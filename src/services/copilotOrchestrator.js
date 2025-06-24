@@ -347,6 +347,13 @@ const generateSummary = (query, useCase, analysis) => {
   const intent = analysis.intent;
   const industry = analysis.industry === 'all' ? 'your industry' : analysis.industry.replace('-', ' ');
   
+  // If this is a simulation query, make the response extremely concise and simulation-focused
+  if (analysis.isSimulation) {
+    return `🚀 **${useCase.title} Implementation Simulation Ready**
+
+Launch the interactive simulation below to experience the complete implementation process.`;
+  }
+  
   const summaryTemplates = {
     'implementation': `I found a perfect solution for implementing ${useCase.title.toLowerCase()} in ${industry}. Let me walk you through the implementation approach and architecture.`,
     'optimization': `Great question! I can help you optimize your operations using ${useCase.title}. This solution has proven results in ${industry}.`,
@@ -454,7 +461,14 @@ const generateApplicationBasedResponse = (query, applicationMatches, analysis) =
   const industry = topMatch.industry;
 
   // Generate conversational summary focused on the application
-  const summary = `Great question! I found "${application.applicationTitle}" as a perfect solution for ${industry.name}. This is one of our most effective implementations that addresses real industry challenges.`;
+  let summary;
+  if (analysis.isSimulation) {
+    summary = `🚀 **${application.applicationTitle} Implementation Simulation Ready**
+
+Launch the interactive simulation below to experience the complete implementation process.`;
+  } else {
+    summary = `Great question! I found "${application.applicationTitle}" as a perfect solution for ${industry.name}. This is one of our most effective implementations that addresses real industry challenges.`;
+  }
 
   // Extract rich text content safely
   const extractRichTextContent = (richTextObj) => {

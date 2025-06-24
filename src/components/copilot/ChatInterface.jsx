@@ -42,6 +42,34 @@ const ChatInterface = ({
     }
   }, [messages]);
 
+  // Smart scroll function for suggested queries
+  const scrollToResponse = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }, 100); // Small delay to ensure message is rendered
+  };
+
+  // Enhanced scroll to bottom function
+  const scrollToBottom = (force = false) => {
+    const scrollContainer = messagesEndRef.current?.parentElement;
+    if (scrollContainer) {
+      if (force) {
+        // Force scroll to bottom
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Check if user is near bottom before auto-scrolling
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+        const isNearBottom = scrollHeight - scrollTop - clientHeight < 150;
+        if (isNearBottom) {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   // Generate welcome message based on selected industry
   const getWelcomeMessage = () => {
     const industryName = selectedIndustry === 'all' ? 'various industries' : 
@@ -173,6 +201,9 @@ const ChatInterface = ({
     setCurrentInput('');
     setIsLoading(true);
 
+    // Force scroll to show user message and loading indicator
+    scrollToBottom(true);
+
     try {
       // Call the parent's query handler
       const response = await onQuerySubmit(query, selectedIndustry);
@@ -188,6 +219,9 @@ const ChatInterface = ({
       };
 
       setMessages(prev => [...prev, copilotMessage]);
+      
+      // Smart scroll to the new response
+      scrollToResponse();
     } catch (error) {
       console.error('Error processing query:', error);
       
@@ -200,6 +234,7 @@ const ChatInterface = ({
       };
 
       setMessages(prev => [...prev, errorMessage]);
+      scrollToResponse();
     } finally {
       setIsLoading(false);
     }
@@ -219,9 +254,14 @@ const ChatInterface = ({
       return;
     }
 
-    // Handle regular queries
+    // Handle regular queries with smart scroll
     setCurrentInput(query);
     handleSubmit(null, query);
+    
+    // Additional scroll to ensure visibility on mobile
+    setTimeout(() => {
+      scrollToBottom(true);
+    }, 200);
   };
 
   const handleLeadSubmit = async (formData) => {
@@ -276,9 +316,9 @@ const ChatInterface = ({
   };
 
   return (
-    <div className="flex flex-col h-full max-h-[500px] sm:max-h-[600px] lg:max-h-[700px] bg-transparent">
+    <div className="flex flex-col h-full min-h-[80vh] bg-transparent">
       {/* Enhanced Chat Header */}
-      <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 lg:p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm">
+      <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 lg:p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm flex-shrink-0">
         <motion.div 
           className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg"
           initial={{ scale: 0.8 }}
@@ -413,7 +453,7 @@ const ChatInterface = ({
 
       {/* Enhanced Input Area */}
       <motion.div 
-        className="p-3 sm:p-4 lg:p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm"
+        className="p-3 sm:p-4 lg:p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm flex-shrink-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}

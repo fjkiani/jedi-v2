@@ -915,4 +915,129 @@ export const sliderSettings = {
   ],
 };
 
+// Co-Pilot Architecture Categories
+export const copilotArchitecture = [
+  {
+    id: "foundation",
+    name: "Foundation Layer",
+    description: "Core AI models and processing capabilities",
+    icon: "🧠",
+    color: "from-blue-500 to-cyan-500",
+    components: [
+      {
+        name: "Large Language Models",
+        description: "GPT-4, Claude, Llama for natural language understanding",
+        technologies: ["OpenAI GPT-4", "Anthropic Claude", "Meta Llama", "Google Gemini"]
+      },
+      {
+        name: "Embedding Models", 
+        description: "Vector representations for semantic understanding",
+        technologies: ["OpenAI Embeddings", "Sentence Transformers", "Cohere Embed", "HuggingFace"]
+      },
+      {
+        name: "Specialized Models",
+        description: "Domain-specific AI models for particular tasks",
+        technologies: ["BERT", "RoBERTa", "T5", "DALL-E", "Whisper", "CodeT5"]
+      }
+    ]
+  },
+  {
+    id: "knowledge",
+    name: "Knowledge Layer",
+    description: "Information storage and retrieval systems",
+    icon: "📚",
+    color: "from-green-500 to-emerald-500",
+    components: [
+      {
+        name: "Vector Databases",
+        description: "Semantic search and similarity matching",
+        technologies: ["Pinecone", "Weaviate", "Chroma", "Qdrant", "Milvus"]
+      },
+      {
+        name: "Knowledge Graphs",
+        description: "Structured relationship mapping and reasoning",
+        technologies: ["Neo4j", "Amazon Neptune", "GraphDB", "ArangoDB"]
+      },
+      {
+        name: "Document Stores",
+        description: "Unstructured data storage and indexing",
+        technologies: ["Elasticsearch", "MongoDB", "PostgreSQL", "Redis"]
+      }
+    ]
+  },
+  {
+    id: "reasoning",
+    name: "Reasoning Layer", 
+    description: "Decision making and cognitive processing",
+    icon: "🤔",
+    color: "from-purple-500 to-violet-500",
+    components: [
+      {
+        name: "Agent Frameworks",
+        description: "Autonomous reasoning and task execution",
+        technologies: ["LangChain", "AutoGPT", "CrewAI", "Microsoft Semantic Kernel"]
+      },
+      {
+        name: "Memory Systems",
+        description: "Context retention and learning from interactions",
+        technologies: ["Mem0", "Zep", "LangChain Memory", "Custom Memory Stores"]
+      },
+      {
+        name: "Planning Engines",
+        description: "Strategic thinking and multi-step problem solving",
+        technologies: ["ReAct", "Tree of Thoughts", "Chain of Thought", "MCTS Planning"]
+      }
+    ]
+  },
+  {
+    id: "integration",
+    name: "Integration Layer",
+    description: "External system connections and tool access",
+    icon: "🔗", 
+    color: "from-orange-500 to-red-500",
+    components: [
+      {
+        name: "API Integrations",
+        description: "Third-party service connections and data exchange",
+        technologies: ["REST APIs", "GraphQL", "Webhooks", "gRPC", "WebSockets"]
+      },
+      {
+        name: "Tool Calling",
+        description: "Function execution and external tool usage",
+        technologies: ["OpenAI Functions", "Anthropic Tools", "LangChain Tools", "Custom Functions"]
+      },
+      {
+        name: "Data Connectors",
+        description: "Database and file system integrations",
+        technologies: ["SQL Connectors", "NoSQL Adapters", "File APIs", "Cloud Storage"]
+      }
+    ]
+  },
+  {
+    id: "interface",
+    name: "Interface Layer",
+    description: "User interaction and experience design",
+    icon: "💬",
+    color: "from-pink-500 to-rose-500", 
+    components: [
+      {
+        name: "Conversational UI",
+        description: "Chat interfaces and natural language interaction",
+        technologies: ["React", "Vue.js", "Streamlit", "Gradio", "Custom Chat UIs"]
+      },
+      {
+        name: "Visualization",
+        description: "Data presentation and interactive dashboards",
+        technologies: ["D3.js", "Plotly", "Chart.js", "Tableau", "Power BI"]
+      },
+      {
+        name: "Personalization",
+        description: "Adaptive interfaces and user preference learning",
+        technologies: ["User Analytics", "A/B Testing", "Recommendation Engines", "Adaptive UX"]
+      }
+    ]
+  }
+];
+
+
 
