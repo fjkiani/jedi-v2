@@ -161,6 +161,7 @@ const Collaboration = () => {
         }
         
         console.log('🎯 Fetched all use cases:', allUseCases);
+        console.log('🔍 Sample use case structure:', allUseCases[0]);
         setUseCases(allUseCases);
       } catch (error) {
         console.error('❌ Error fetching use cases:', error);
@@ -340,6 +341,24 @@ const Collaboration = () => {
       }
     });
     return Array.from(industryMap.values());
+  };
+
+  // Helper function to generate proper use case URL
+  const getUseCaseUrl = (useCase) => {
+    if (!useCase || !useCase.industry?.slug) {
+      console.warn('⚠️ Invalid use case data for URL generation:', useCase);
+      return '#';
+    }
+
+    // Create a slug from the title if slug is not available
+    const slug = useCase.slug || useCase.title
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    
+    const url = `/industries/${useCase.industry.slug}/${slug || useCase.id}`;
+    console.log('🔗 Generated URL for', useCase.title, ':', url);
+    return url;
   };
 
   return (
@@ -548,7 +567,7 @@ const Collaboration = () => {
                             {getUseCasesByIndustry(selectedUseCaseTab).slice(0, 6).map(useCase => (
                               <Link
                                 key={useCase.id}
-                                to={`/industries/${useCase.industry?.slug}/${useCase.slug || useCase.id}`}
+                                to={getUseCaseUrl(useCase)}
                                 className="flex items-center justify-between p-2 bg-n-6 rounded hover:bg-color-1/20 hover:border-color-1/50 transition-all group border border-transparent"
                               >
                                 <div className="flex items-center gap-2 flex-1 min-w-0">
