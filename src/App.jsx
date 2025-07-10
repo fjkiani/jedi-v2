@@ -54,6 +54,7 @@ import FeaturedApplications from "./components/FeaturedApplications";
 import CallToAction from "./components/CallToAction";
 import LeadCaptureCTA from "./components/LeadCaptureCTA";
 import SidebarConsultant from "./components/SidebarConsultant";
+import Hero from "./components/Hero";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -141,7 +142,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
   const { isDarkMode } = useTheme();
 
   return (
-    <div className={`min-h-screen transition-colors duration-200
+    <div className={`min-h-screen transition-colors duration-200 mobile-safe
       ${isDarkMode ? 'bg-n-8 text-n-1' : 'bg-white text-gray-900'}`}>
       <HelmetProvider context={helmetContext}>
         <TestSEO />
@@ -150,13 +151,14 @@ const AppContent = ({ posts, location, helmetContext }) => {
         <Header />
         <ScrollToTop />
 
-        <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+        <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden mobile-safe">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route
                 path="/"
                 element={
                   <>
+                    <Hero />
                     <AiCoPilotDemo />
                     {/* <FeaturedApplications /> */}
                     {/* <SolutionsPage isHomepage={true} /> */}

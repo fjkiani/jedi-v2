@@ -6,6 +6,7 @@ import { hygraphClient } from '@/lib/hygraph';
 import { check, logo } from '@/assets';
 import { technologyService } from '../services/technologyService';
 import { useCaseService } from '../services/useCaseService';
+import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
 import Section from '@/components/Section';
 import { LeftCurve, RightCurve } from "./design/Collaboration";
@@ -63,6 +64,7 @@ const GET_INDUSTRIES = gql`
 `;
 
 const Collaboration = () => {
+  const { isDarkMode } = useTheme();
   const [selectedLayer, setSelectedLayer] = useState(null);
   const [expandedComponent, setExpandedComponent] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -366,10 +368,10 @@ const Collaboration = () => {
       <div className="container">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h2 className="h2 mb-4">
+          <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
             AI Co-Pilot Architecture
           </h2>
-          <p className="body-1 text-n-4 max-w-3xl mx-auto">
+          <p className={`body-1 max-w-3xl mx-auto ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
             Explore the technology layers that power modern AI co-pilots and experience our flagship healthcare solution
           </p>
         </div>
@@ -379,50 +381,43 @@ const Collaboration = () => {
           {/* Left Side - Simulation CTA & Education */}
           <div className="lg:w-1/2 space-y-6 mb-8 lg:mb-0">
             {/* Simulation CTA Card */}
-            <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6">
+            <div className={`bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <span className="text-2xl">🚀</span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-n-1">Experience Our Co-Pilot</h3>
-                  <p className="text-sm text-n-3">Interactive healthcare AI simulation</p>
+                  <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Experience Our Co-Pilot</h3>
+                  <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>Interactive healthcare AI simulation</p>
                 </div>
               </div>
-              <p className="text-n-3 text-sm mb-4">
+              <p className={`text-sm mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                 Build your own co-pilot. Inquire about your own use case.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button onClick={handleStartJourney} className="flex-1 sm:flex-none">
                   🚀 Build Your Co-Pilot
                 </Button>
-                {/* <Button 
-                  onClick={handleRunSimulation}
-                  disabled={loadingCrisproPilot}
-                  className="flex-1 sm:flex-none bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-none disabled:opacity-50"
-                >
-                  {loadingCrisproPilot ? '⏳ Loading...' : '🎯 Run CrisPRO Simulation'}
-                </Button> */}
               </div>
             </div>
 
             {/* Co-Pilot Education Cards */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-n-1 mb-4">Understanding AI Co-Pilots</h3>
+              <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Understanding AI Co-Pilots</h3>
               
-              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+              <div className={`rounded-lg p-4 border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-white border-n-3'}`}>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-sm">🤖</span>
                   </div>
                   <div>
-                    <h4 className="font-medium text-n-1 mb-2">What is an AI Co-Pilot?</h4>
-                    <p className="text-sm text-n-3 mb-2">
+                    <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>What is an AI Co-Pilot?</h4>
+                    <p className={`text-sm mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                       Intelligent assistants that work alongside humans to enhance decision-making and automate complex workflows.
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {['Context-Aware', 'Adaptive Learning', 'Human-in-Loop'].map(tag => (
-                        <span key={tag} className="px-2 py-1 bg-n-6 rounded text-xs text-n-2">
+                        <span key={tag} className={`px-2 py-1 rounded text-xs ${isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-6'}`}>
                           {tag}
                         </span>
                       ))}
@@ -431,21 +426,21 @@ const Collaboration = () => {
                 </div>
               </div>
 
-              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+              <div className={`rounded-lg p-4 border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-white border-n-3'}`}>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-sm">🧠</span>
                   </div>
                   <div>
-                    <h4 className="font-medium text-n-1 mb-2">Core Technologies</h4>
-                    <p className="text-sm text-n-3 mb-2">
+                    <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Core Technologies</h4>
+                    <p className={`text-sm mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                       Built on foundation models, vector databases, and sophisticated reasoning systems for intelligent automation.
                     </p>
                     {loadingCategories ? (
                       <div className="flex flex-wrap gap-1">
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-18"></div>
+                        <div className={`animate-pulse rounded h-6 w-16 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                        <div className={`animate-pulse rounded h-6 w-20 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                        <div className={`animate-pulse rounded h-6 w-18 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-1">
@@ -453,7 +448,11 @@ const Collaboration = () => {
                           <Link
                             key={tech.id}
                             to={`/technology/${tech.slug}`}
-                            className="flex items-center gap-1 px-2 py-1 bg-n-6 rounded text-xs text-n-2 hover:bg-color-1 hover:text-white transition-colors"
+                            className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+                              isDarkMode 
+                                ? 'bg-n-6 text-n-2 hover:bg-color-1 hover:text-white' 
+                                : 'bg-n-2 text-n-6 hover:bg-color-1 hover:text-white'
+                            }`}
                           >
                             {tech.icon && (
                               <img 
@@ -471,21 +470,21 @@ const Collaboration = () => {
                 </div>
               </div>
 
-              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+              <div className={`rounded-lg p-4 border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-white border-n-3'}`}>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-sm">⚡</span>
                   </div>
                   <div>
-                    <h4 className="font-medium text-n-1 mb-2">Real-World Applications</h4>
-                    <p className="text-sm text-n-3 mb-2">
+                    <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Real-World Applications</h4>
+                    <p className={`text-sm mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                       From healthcare diagnosis to financial analysis, co-pilots are transforming professional workflows across industries.
                     </p>
                     {loadingIndustries ? (
                       <div className="flex flex-wrap gap-1">
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
-                        <div className="animate-pulse bg-n-6 rounded h-6 w-24"></div>
+                        <div className={`animate-pulse rounded h-6 w-20 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                        <div className={`animate-pulse rounded h-6 w-16 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                        <div className={`animate-pulse rounded h-6 w-24 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-1">
@@ -493,7 +492,11 @@ const Collaboration = () => {
                           <Link
                             key={industry.id}
                             to={`/industries/${industry.slug}`}
-                            className="px-2 py-1 bg-n-6 rounded text-xs text-n-2 hover:bg-color-1 hover:text-white transition-colors"
+                            className={`px-2 py-1 rounded text-xs transition-colors ${
+                              isDarkMode 
+                                ? 'bg-n-6 text-n-2 hover:bg-color-1 hover:text-white' 
+                                : 'bg-n-2 text-n-6 hover:bg-color-1 hover:text-white'
+                            }`}
                           >
                             {industry.name}
                           </Link>
@@ -504,29 +507,29 @@ const Collaboration = () => {
                 </div>
               </div>
 
-              {/* New Use Cases Tab */}
-              <div className="bg-n-7 rounded-lg p-4 border border-n-6">
+              {/* Use Cases Tab */}
+              <div className={`rounded-lg p-4 border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-white border-n-3'}`}>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-sm">🎯</span>
                   </div>
                   <div className="w-full">
-                    <h4 className="font-medium text-n-1 mb-2">Use Cases</h4>
-                    <p className="text-sm text-n-3 mb-3">
+                    <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Use Cases</h4>
+                    <p className={`text-sm mb-3 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                       Explore real-world implementations across different industries and domains.
                     </p>
                     
                     {loadingUseCases ? (
                       <div className="space-y-2">
                         <div className="flex gap-2">
-                          <div className="animate-pulse bg-n-6 rounded h-6 w-12"></div>
-                          <div className="animate-pulse bg-n-6 rounded h-6 w-16"></div>
-                          <div className="animate-pulse bg-n-6 rounded h-6 w-20"></div>
+                          <div className={`animate-pulse rounded h-6 w-12 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                          <div className={`animate-pulse rounded h-6 w-16 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
+                          <div className={`animate-pulse rounded h-6 w-20 ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
                         </div>
-                        <div className="animate-pulse bg-n-6 rounded h-20 w-full"></div>
+                        <div className={`animate-pulse rounded h-20 w-full ${isDarkMode ? 'bg-n-6' : 'bg-n-3'}`}></div>
                       </div>
                     ) : useCases.length === 0 ? (
-                      <div className="text-xs text-n-4 py-2">
+                      <div className={`text-xs py-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                         No use cases available
                       </div>
                     ) : (
@@ -538,7 +541,9 @@ const Collaboration = () => {
                             className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
                               selectedUseCaseTab === 'all'
                                 ? 'bg-color-1 text-white'
-                                : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                                : isDarkMode 
+                                  ? 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                                  : 'bg-n-2 text-n-5 hover:bg-n-3 hover:text-n-7'
                             }`}
                           >
                             All ({useCases.length})
@@ -552,7 +557,9 @@ const Collaboration = () => {
                                 className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
                                   selectedUseCaseTab === industry.slug
                                     ? 'bg-color-1 text-white'
-                                    : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                                    : isDarkMode 
+                                      ? 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                                      : 'bg-n-2 text-n-5 hover:bg-n-3 hover:text-n-7'
                                 }`}
                               >
                                 {industry.name} ({industryUseCases.length})
@@ -568,21 +575,31 @@ const Collaboration = () => {
                               <Link
                                 key={useCase.id}
                                 to={getUseCaseUrl(useCase)}
-                                className="flex items-center justify-between p-2 bg-n-6 rounded hover:bg-color-1/20 hover:border-color-1/50 transition-all group border border-transparent"
+                                className={`flex items-center justify-between p-2 rounded transition-all group border border-transparent ${
+                                  isDarkMode 
+                                    ? 'bg-n-6 hover:bg-color-1/20 hover:border-color-1/50' 
+                                    : 'bg-n-2 hover:bg-color-1/10 hover:border-color-1/30'
+                                }`}
                               >
                                 <div className="flex items-center gap-2 flex-1 min-w-0">
                                   <div className="w-2 h-2 bg-color-1 rounded-full flex-shrink-0"></div>
-                                  <span className="text-xs text-n-2 truncate group-hover:text-color-1 transition-colors">
+                                  <span className={`text-xs truncate group-hover:text-color-1 transition-colors ${
+                                    isDarkMode ? 'text-n-2' : 'text-n-6'
+                                  }`}>
                                     {useCase.title}
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-1 flex-shrink-0">
                                   {useCase.industry && (
-                                    <span className="text-xs text-n-4 bg-n-7 px-1 rounded">
+                                    <span className={`text-xs px-1 rounded ${
+                                      isDarkMode ? 'text-n-4 bg-n-7' : 'text-n-5 bg-n-1'
+                                    }`}>
                                       {useCase.industry.name}
                                     </span>
                                   )}
-                                  <span className="text-xs text-n-4 group-hover:text-color-1 transition-colors">→</span>
+                                  <span className={`text-xs group-hover:text-color-1 transition-colors ${
+                                    isDarkMode ? 'text-n-4' : 'text-n-5'
+                                  }`}>→</span>
                                 </div>
                               </Link>
                             ))}
@@ -591,7 +608,7 @@ const Collaboration = () => {
                           {/* Show More Indicator */}
                           {getUseCasesByIndustry(selectedUseCaseTab).length > 6 && (
                             <div className="text-center pt-2">
-                              <span className="text-xs text-n-4">
+                              <span className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                                 +{getUseCasesByIndustry(selectedUseCaseTab).length - 6} more use cases
                               </span>
                             </div>
@@ -606,16 +623,18 @@ const Collaboration = () => {
           </div>
 
           {/* Right Side - Interactive Architecture Stack */}
-          <div className="lg:w-1/2">
-            <div className="bg-n-8 rounded-xl p-6 border border-n-6 max-h-[600px] overflow-hidden">
-              <h3 className="text-lg font-semibold text-n-1 mb-6">Technology Architecture</h3>
+          <div className="lg:w-1/2 ">
+            <div className={`rounded-xl p-6 border max-h-[600px] overflow-hidden ${
+              isDarkMode ? 'bg-n-8 border-n-6' : 'bg-white border-n-3'
+            }`}>
+              <h3 className={`text-lg font-semibold mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Technology Architecture</h3>
               
               {loadingCategories ? (
                 <div className="text-center py-8">
-                  <div className="animate-pulse text-n-3">Loading architecture layers...</div>
+                  <div className={`animate-pulse ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>Loading architecture layers...</div>
                 </div>
               ) : categories.length === 0 ? (
-                <div className="text-center py-8 text-n-3">
+                <div className={`text-center py-8 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                   No architecture data available
                 </div>
               ) : (
@@ -632,7 +651,9 @@ const Collaboration = () => {
                         className={`px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                           selectedLayer === category.slug
                             ? 'bg-color-1 text-white shadow-lg'
-                            : 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                            : isDarkMode
+                              ? 'bg-n-6 text-n-3 hover:bg-n-5 hover:text-n-1'
+                              : 'bg-n-2 text-n-5 hover:bg-n-3 hover:text-n-7'
                         }`}
                       >
                         {category.name}
@@ -654,8 +675,10 @@ const Collaboration = () => {
                         >
                           {/* Category Description */}
                           {selectedCategory.description && (
-                            <div className="bg-n-7 rounded-lg p-3 border border-n-6">
-                              <p className="text-n-3 text-xs">{selectedCategory.description}</p>
+                            <div className={`rounded-lg p-3 border ${
+                              isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'
+                            }`}>
+                              <p className={`text-xs ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{selectedCategory.description}</p>
                             </div>
                           )}
 
@@ -668,7 +691,9 @@ const Collaboration = () => {
                                   {getLimitedTechnologies(selectedCategory.technologies, selectedCategory.slug).map((tech) => (
                                     <div
                                       key={tech.id}
-                                      className="bg-n-7 rounded-lg p-3 border border-n-6 hover:border-color-1 transition-colors cursor-pointer group"
+                                      className={`rounded-lg p-3 border hover:border-color-1 transition-colors cursor-pointer group ${
+                                        isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'
+                                      }`}
                                       onClick={() => setExpandedComponent(expandedComponent === tech.id ? null : tech.id)}
                                     >
                                       <div className="flex items-center gap-2 mb-2">
@@ -679,9 +704,9 @@ const Collaboration = () => {
                                             className="w-4 h-4 object-contain flex-shrink-0"
                                           />
                                         )}
-                                        <h4 className="font-medium text-n-1 text-xs truncate">{tech.name}</h4>
+                                        <h4 className={`font-medium text-xs truncate ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{tech.name}</h4>
                                       </div>
-                                      <p className="text-xs text-n-3 line-clamp-2 mb-2">
+                                      <p className={`text-xs line-clamp-2 mb-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                         {tech.description?.substring(0, 80)}...
                                       </p>
                                       <div className="flex items-center justify-between">
@@ -694,7 +719,9 @@ const Collaboration = () => {
                                             View →
                                           </Link>
                                         )}
-                                        <span className="text-n-4 text-xs group-hover:text-color-1 transition-colors">
+                                        <span className={`text-xs group-hover:text-color-1 transition-colors ${
+                                          isDarkMode ? 'text-n-4' : 'text-n-5'
+                                        }`}>
                                           {expandedComponent === tech.id ? '−' : '+'}
                                         </span>
                                       </div>
@@ -707,16 +734,18 @@ const Collaboration = () => {
                                             animate={{ opacity: 1, height: 'auto' }}
                                             exit={{ opacity: 0, height: 0 }}
                                             transition={{ duration: 0.2 }}
-                                            className="mt-3 pt-3 border-t border-n-6"
+                                            className={`mt-3 pt-3 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}
                                           >
                                             {tech.useCases && tech.useCases.length > 0 && (
                                               <div className="mb-2">
-                                                <h5 className="text-xs font-medium text-n-2 mb-1">Use Cases:</h5>
+                                                <h5 className={`text-xs font-medium mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>Use Cases:</h5>
                                                 <div className="flex flex-wrap gap-1">
                                                   {tech.useCases.slice(0, 2).map((useCase, index) => (
                                                     <span 
                                                       key={index}
-                                                      className="px-2 py-1 bg-n-6 rounded text-xs text-n-2"
+                                                      className={`px-2 py-1 rounded text-xs ${
+                                                        isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-6'
+                                                      }`}
                                                     >
                                                       {useCase.title}
                                                     </span>
@@ -755,7 +784,9 @@ const Collaboration = () => {
                                     {getLimitedTechnologies(subcategory.technology, `${selectedCategory.slug}-${subcategory.id}`, 4).map((tech) => (
                                       <div
                                         key={tech.id}
-                                        className="bg-n-7 rounded-lg p-2 border border-n-6 hover:border-color-1 transition-colors cursor-pointer group"
+                                        className={`rounded-lg p-2 border hover:border-color-1 transition-colors cursor-pointer group ${
+                                          isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'
+                                        }`}
                                         onClick={() => setExpandedComponent(expandedComponent === tech.id ? null : tech.id)}
                                       >
                                         <div className="flex items-center justify-between">
@@ -768,8 +799,8 @@ const Collaboration = () => {
                                               />
                                             )}
                                             <div className="min-w-0 flex-1">
-                                              <h5 className="text-xs font-medium text-n-1 truncate">{tech.name}</h5>
-                                              <p className="text-xs text-n-3 truncate">{tech.description?.substring(0, 40)}...</p>
+                                              <h5 className={`text-xs font-medium truncate ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{tech.name}</h5>
+                                              <p className={`text-xs truncate ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{tech.description?.substring(0, 40)}...</p>
                                             </div>
                                           </div>
                                           <div className="flex items-center gap-1 flex-shrink-0">
@@ -782,11 +813,49 @@ const Collaboration = () => {
                                                 →
                                               </Link>
                                             )}
-                                            <span className="text-n-4 text-xs group-hover:text-color-1 transition-colors">
+                                            <span className={`text-xs group-hover:text-color-1 transition-colors ${
+                                              isDarkMode ? 'text-n-4' : 'text-n-5'
+                                            }`}>
                                               {expandedComponent === tech.id ? '−' : '+'}
                                             </span>
                                           </div>
                                         </div>
+
+                                        {/* Add Expanded Details for Subcategory Technologies */}
+                                        <AnimatePresence>
+                                          {expandedComponent === tech.id && (
+                                            <motion.div
+                                              initial={{ opacity: 0, height: 0 }}
+                                              animate={{ opacity: 1, height: 'auto' }}
+                                              exit={{ opacity: 0, height: 0 }}
+                                              transition={{ duration: 0.2 }}
+                                              className={`mt-2 pt-2 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}
+                                            >
+                                              {tech.useCases && tech.useCases.length > 0 && (
+                                                <div className="mb-2">
+                                                  <h5 className={`text-xs font-medium mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>Use Cases:</h5>
+                                                  <div className="flex flex-wrap gap-1">
+                                                    {tech.useCases.slice(0, 2).map((useCase, index) => (
+                                                      <span 
+                                                        key={index}
+                                                        className={`px-1 py-0.5 rounded text-xs ${
+                                                          isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-6'
+                                                        }`}
+                                                      >
+                                                        {useCase.title}
+                                                      </span>
+                                                    ))}
+                                                  </div>
+                                                </div>
+                                              )}
+                                              {tech.description && (
+                                                <p className={`text-xs ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                                                  {tech.description}
+                                                </p>
+                                              )}
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
                                       </div>
                                     ))}
                                   </div>

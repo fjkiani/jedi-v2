@@ -1156,7 +1156,7 @@ const InteractiveSimulation = ({ responseData, onSuggestedQuery, onComplete }) =
 
                       {/* Mobile: Horizontal Scrollable Steps */}
                       <div className="lg:hidden">
-                        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'thin' }}>
+                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 -mx-1 px-1">
                           {steps.map((step, index) => (
                             <motion.button
                               key={step.id}

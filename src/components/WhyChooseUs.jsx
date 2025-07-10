@@ -182,11 +182,11 @@ const WhyChooseUs = ({ className = "" }) => {
               <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
                 <img src={logo} alt="JEDI Labs AI Solutions Logo" className="w-6 h-6 brightness-0 invert" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-black">
+              <h1 className={`text-3xl md:text-4xl font-bold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                 Why Choose <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-starjedi">jedi labs?</span>
               </h1>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className={`text-lg max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
               We deliver <strong>proven AI solutions</strong> with measurable business impact across industries. 
               Our proprietary <strong>JEDI™ platform</strong> and deep domain expertise ensure rapid implementation 
               and long-term success for your AI initiatives.
@@ -205,7 +205,7 @@ const WhyChooseUs = ({ className = "" }) => {
               role="tablist"
               aria-label="JEDI Labs value propositions"
             >
-              <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Our Differentiators</h2>
+              <h2 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Our Differentiators</h2>
               <div className="space-y-2">
                 {valuePropositions.map((prop, index) => (
                   <motion.button
@@ -217,28 +217,28 @@ const WhyChooseUs = ({ className = "" }) => {
                     aria-controls={`panel-${index}`}
                     className={`w-full text-left p-3 rounded-lg transition-all duration-300 ${
                       activeMetric === index
-                        ? 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-700'
-                        : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700'
+                        ? `bg-gradient-to-r ${isDarkMode ? 'from-purple-900/20 to-pink-900/20 border-2 border-purple-700' : 'from-purple-50 to-pink-50 border-2 border-purple-200'}`
+                        : `border transition-colors ${isDarkMode ? 'bg-n-7 border-n-6 hover:border-purple-700' : 'bg-white border-n-3 hover:border-purple-200'}`
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-lg ${
                         activeMetric === index
                           ? 'bg-gradient-to-r from-purple-500 to-pink-500'
-                          : 'bg-gray-100 dark:bg-gray-700'
+                          : isDarkMode ? 'bg-n-6' : 'bg-n-2'
                       }`}>
                         <span className={activeMetric === index ? 'grayscale-0' : 'grayscale'}>
                           {prop.icon}
                         </span>
                       </div>
                       <div>
-                        <div className="font-medium text-sm text-gray-700 dark:text-gray-400 uppercase tracking-wide">
+                        <div className={`font-medium text-sm uppercase tracking-wide ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                           {prop.category}
                         </div>
                         <div className={`font-semibold text-base ${
                           activeMetric === index 
-                            ? 'text-purple-700 dark:text-purple-300' 
-                            : 'text-gray-900 dark:text-white'
+                            ? isDarkMode ? 'text-purple-300' : 'text-purple-700'
+                            : isDarkMode ? 'text-n-1' : 'text-n-8'
                         }`}>
                           {prop.title}
                         </div>
@@ -261,7 +261,11 @@ const WhyChooseUs = ({ className = "" }) => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg"
+                  className={`rounded-xl p-6 border shadow-lg ${
+                    isDarkMode 
+                      ? 'bg-gradient-to-br from-n-8 to-n-7 border-n-6' 
+                      : 'bg-gradient-to-br from-white to-n-1 border-n-3'
+                  }`}
                 >
                   {/* Header */}
                   <header className="flex items-center gap-4 mb-4">
@@ -269,16 +273,16 @@ const WhyChooseUs = ({ className = "" }) => {
                       {activeProposition.icon}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wide">
+                      <div className={`text-sm font-medium uppercase tracking-wide ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                         {activeProposition.category}
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                      <h3 className={`text-xl font-bold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                         {activeProposition.title}
                       </h3>
-                  </div>
+                    </div>
                   </header>
 
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  <p className={`mb-6 leading-relaxed ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                     {activeProposition.description}
                   </p>
 
@@ -290,7 +294,9 @@ const WhyChooseUs = ({ className = "" }) => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-gray-200 dark:border-gray-600"
+                        className={`rounded-lg p-3 border ${
+                          isDarkMode ? 'bg-n-6 border-n-5' : 'bg-white border-n-3'
+                        }`}
                       >
                         <div className="flex items-start gap-3">
                           <span className="text-lg mt-0.5">{metric.icon}</span>
@@ -298,87 +304,87 @@ const WhyChooseUs = ({ className = "" }) => {
                             {/* Dynamic content based on metric structure */}
                             {metric.industry && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.industry}
                                 </div>
-                                <div className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`text-lg font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.result}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.context}
                                 </div>
                               </>
                             )}
                             {metric.component && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.component}
                                 </div>
-                                <div className="font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.capability}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.performance}
                                 </div>
                               </>
                             )}
                             {metric.domain && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.domain}
                                 </div>
-                                <div className="font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.expertise}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.specialization}
                                 </div>
                               </>
                             )}
                             {metric.phase && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.phase}
                                 </div>
-                                <div className="font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.duration}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.deliverable}
                                 </div>
                               </>
                             )}
                             {metric.standard && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.standard}
                                 </div>
-                                <div className="font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.status}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.scope}
                                 </div>
                               </>
                             )}
                             {metric.metric && (
                               <>
-                                <div className="font-semibold text-purple-600 dark:text-purple-400 text-sm">
+                                <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                                   {metric.metric}
                                 </div>
-                                <div className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                                <div className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.value}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.context}
                                 </div>
                               </>
                             )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </motion.article>
               </AnimatePresence>
             </div>
@@ -389,17 +395,21 @@ const WhyChooseUs = ({ className = "" }) => {
             ref={footerAnimation.ref}
             className={`text-center ${footerAnimation.animationClasses}`}
           >
-            <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
+            <div className={`inline-flex items-center gap-4 px-6 py-3 rounded-full border ${
+              isDarkMode 
+                ? 'bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-purple-700' 
+                : 'bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200'
+            }`}>
               <img src={logo} alt="JEDI Labs AI Platform Logo" className="w-6 h-6" />
-              <span className="font-medium text-gray-900 dark:text-white">
+              <span className={`font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                 Ready to experience measurable AI results?
               </span>
             </div>
-            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 dark:text-black">
+            <p className={`mt-3 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
               Join industry leaders who trust JEDI Labs for enterprise AI solutions
             </p>
           </motion.footer>
-      </div>
+        </div>
       </section>
     </>
   );

@@ -66,8 +66,8 @@ const Hero = () => {
   const logoAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 800 });
 
   const heroContent = {
-    title: "100x Your Business Potential",
-    subtitle: "We transform organizations through cutting-edge AI solutions, strategic consulting, and innovative services that deliver exponential growth and operational excellence.",
+    title: "Beyond Chatbots. We Build Your AI Workforce.",
+    subtitle: "Jedi Labs builds bespoke co-pilots that automate tasks, amplify your team's capabilities, and integrate seamlessly into your business.",
     video: "/videos/coding2.mp4",
   };
 
