@@ -1,4 +1,4 @@
-# Instructions
+<!-- # Instructions
 
 During you interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file so you will not make the same mistake again. 
 
@@ -654,4 +654,4 @@ The user wants to enhance the Technology page (like https://jedilabs.org/technol
 ## ✅ Technology Data Rendering Fix (COMPLETED)  
 - Fixed character-by-character rendering issues
 - Comprehensive type checking across components
-- Enhanced UI with proper formatting
+- Enhanced UI with proper formatting -->
