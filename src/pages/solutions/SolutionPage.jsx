@@ -265,7 +265,7 @@ const SolutionPage = () => {
               </div>
             )}
 
-            <div>
+            {/* <div>
               <h3 className={`h4 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Common Use Cases</h3>
               {loading ? (
                 <div className={`text-center ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>Loading use cases...</div>
@@ -302,7 +302,7 @@ const SolutionPage = () => {
               ) : (
                 <div className={`text-center ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>No use cases found</div>
               )}
-            </div>
+            </div> */}
           </div>
         );
 

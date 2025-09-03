@@ -14,85 +14,85 @@ const WhyChooseUs = ({ className = "" }) => {
   const contentAnimation = useScrollAnimation({ animationType: 'slideInUp', delay: 300 });
   const footerAnimation = useScrollAnimation({ animationType: 'fadeInScale', delay: 600 });
 
-  // Real industry metrics and value propositions with consistent icons
+  // Startup-focused value propositions with clear benefits
   const valuePropositions = [
     {
-      category: "Proven Results",
-      icon: "📈",
-      title: "Measurable Business Impact",
-      description: "Our AI solutions deliver quantifiable results across industries with documented ROI.",
-      realMetrics: [
-        { industry: "Healthcare", result: "40% reduction in diagnostic time", context: "Medical imaging analysis", icon: "🏥" },
-        { industry: "Financial Services", result: "99.7% fraud detection accuracy", context: "Real-time transaction monitoring", icon: "🏦" },
-        { industry: "Manufacturing", result: "70% reduction in equipment downtime", context: "Predictive maintenance systems", icon: "🏭" },
-        { industry: "Retail", result: "35% inventory cost reduction", context: "AI-powered demand forecasting", icon: "🛒" }
-      ],
-      seoKeywords: ["AI ROI", "measurable AI results", "AI business impact", "proven AI solutions"]
-    },
-    {
-      category: "Technical Excellence",
-      icon: "⚡",
-      title: "JEDI AI Platform Architecture",
-      description: "Our JEDI™ platform combines multiple AI engines for superior performance.",
-      realMetrics: [
-        { component: "JEDI Ensemble™", capability: "Multi-model AI fusion", performance: "99.9% accuracy", icon: "🧠" },
-        { component: "JEDI Rules™", capability: "Intelligent decision orchestration", performance: "<100ms response", icon: "⚙️" },
-        { component: "JEDI AutoTune™", capability: "Self-optimizing algorithms", performance: "Continuous learning", icon: "🔧" },
-        { component: "ProteinBind™", capability: "Molecular interaction prediction", performance: "Drug discovery acceleration", icon: "🧬" }
-      ],
-      seoKeywords: ["JEDI AI platform", "proprietary AI technology", "AI ensemble methods", "custom AI architecture"]
-    },
-    {
-      category: "Industry Specialization",
-      icon: "🎯",
-      title: "Deep Domain Expertise",
-      description: "We understand your industry's unique challenges, regulations, and compliance requirements.",
-      realMetrics: [
-        { domain: "Healthcare", expertise: "HIPAA compliance", specialization: "Clinical decision support", icon: "🏥" },
-        { domain: "Financial Services", expertise: "SOC 2 certified", specialization: "Real-time fraud prevention", icon: "🏦" },
-        { domain: "Education", expertise: "FERPA compliant", specialization: "Personalized learning paths", icon: "🎓" },
-        { domain: "Manufacturing", expertise: "IoT integration", specialization: "Predictive maintenance", icon: "🏭" }
-      ],
-      seoKeywords: ["industry-specific AI", "AI compliance", "domain expertise", "specialized AI solutions"]
-    },
-    {
-      category: "Implementation Speed",
+      category: "Startup Success",
       icon: "🚀",
-      title: "Rapid Time-to-Value",
-      description: "Get results in weeks, not years, with our battle-tested implementation methodology.",
+      title: "Launch Faster, Scale Smarter",
+      description: "Turn your startup idea into a successful business with AI tools that give you enterprise-level capabilities from day one.",
       realMetrics: [
-        { phase: "Discovery & Design", duration: "2-3 weeks", deliverable: "Technical architecture", icon: "🔍" },
-        { phase: "MVP Development", duration: "4-6 weeks", deliverable: "Working prototype", icon: "🛠️" },
-        { phase: "Production Deployment", duration: "2-4 weeks", deliverable: "Live system", icon: "🌐" },
-        { phase: "Optimization & Scale", duration: "Ongoing", deliverable: "Performance improvements", icon: "📊" }
+        { benefit: "Faster Product Launch", result: "3x quicker time to market", context: "AI-powered development tools", icon: "⚡" },
+        { benefit: "Better Customer Insights", result: "40% higher conversion rates", context: "Smart analytics and personalization", icon: "📊" },
+        { benefit: "Automated Operations", result: "60% less manual work", context: "AI handles routine tasks", icon: "🤖" },
+        { benefit: "Competitive Advantage", result: "Stand out from competitors", context: "Advanced AI capabilities", icon: "🏆" }
       ],
-      seoKeywords: ["fast AI implementation", "rapid AI deployment", "quick AI results", "AI time to market"]
+      seoKeywords: ["startup AI tools", "launch faster", "startup success", "AI for small business"]
     },
     {
-      category: "Security & Compliance",
-      icon: "🛡️",
-      title: "Enterprise-Grade Security",
-      description: "Your data stays protected with bank-level security and industry compliance standards.",
+      category: "AI Made Simple",
+      icon: "🧠",
+      title: "No AI Expertise Required",
+      description: "We handle the complex AI technology so you can focus on building your business. No PhD in machine learning needed.",
       realMetrics: [
-        { standard: "SOC 2 Type II", status: "Certified", scope: "Data processing & storage", icon: "✅" },
-        { standard: "HIPAA", status: "Compliant", scope: "Healthcare data handling", icon: "🏥" },
-        { standard: "GDPR", status: "Compliant", scope: "EU data protection", icon: "🇪🇺" },
-        { standard: "ISO 27001", status: "Aligned", scope: "Information security management", icon: "🔒" }
+        { tool: "Smart Chatbots", capability: "24/7 customer support", benefit: "Never miss a lead", icon: "💬" },
+        { tool: "Predictive Analytics", capability: "Forecast trends", benefit: "Make better decisions", icon: "🔮" },
+        { tool: "Automated Marketing", capability: "Personalized campaigns", benefit: "Higher engagement", icon: "📧" },
+        { tool: "Data Analysis", capability: "Understand your customers", benefit: "Grow your revenue", icon: "📈" }
       ],
-      seoKeywords: ["secure AI", "compliant AI solutions", "enterprise AI security", "data protection AI"]
+      seoKeywords: ["simple AI", "no-code AI", "AI for beginners", "easy AI tools"]
     },
     {
-      category: "Partnership Approach",
-      icon: "🤝",
-      title: "Long-Term Success Partnership",
-      description: "We're invested in your success with ongoing support, training, and optimization.",
+      category: "Cost Effective",
+      icon: "💰",
+      title: "Startup-Friendly Pricing",
+      description: "Get enterprise-level AI capabilities without enterprise-level costs. Pay only for what you use as you grow.",
       realMetrics: [
-        { metric: "Client Retention Rate", value: "95%", context: "Multi-year partnerships", icon: "📈" },
-        { metric: "Support Response Time", value: "<2 hours", context: "Critical issues", icon: "⏱️" },
-        { metric: "Training Programs", value: "100+", context: "Team enablement sessions", icon: "🎓" },
-        { metric: "Success Reviews", value: "Monthly", context: "Performance optimization", icon: "📅" }
+        { cost: "Setup Cost", amount: "From $1000", context: "Milestone payments", icon: "💰" },
+        { cost: "Support Cost", amount: "Starting at $100", context: "Scale as you grow", icon: "📅" },
+        { cost: "ROI Timeline", amount: "2-3 months", context: "See results quickly", icon: "⏰" },
+        { cost: "Support Included", amount: "Always free", context: "We're here to help", icon: "🤝" }
       ],
-      seoKeywords: ["AI partnership", "AI support", "AI training", "long-term AI success"]
+      seoKeywords: ["affordable AI", "startup pricing", "cost-effective AI", "budget-friendly AI"]
+    },
+    {
+      category: "Quick Setup",
+      icon: "⚡",
+      title: "Get Started in Days, Not Months",
+      description: "Our streamlined process gets your AI tools up and running quickly so you can start seeing results immediately.",
+      realMetrics: [
+        { step: "Initial Setup", time: "1-2 days", deliverable: "AI tools configured", icon: "🛠️" },
+        { step: "Data Integration", time: "2-3 days", deliverable: "Your data connected", icon: "🔗" },
+        { step: "Training & Testing", time: "3-5 days", deliverable: "AI learning your business", icon: "🎓" },
+        { step: "Go Live", time: "1 week total", deliverable: "AI working for you", icon: "🎉" }
+      ],
+      seoKeywords: ["quick AI setup", "fast implementation", "rapid deployment", "quick results"]
+    },
+    {
+      category: "Growth Support",
+      icon: "📈",
+      title: "Grow With You",
+      description: "As your startup grows, our AI solutions scale with you. No need to rebuild or start over as you expand.",
+      realMetrics: [
+        { stage: "Early Stage", support: "Basic AI tools", benefit: "Get started quickly", icon: "🌱" },
+        { stage: "Growth Phase", support: "Advanced features", benefit: "Handle more customers", icon: "📊" },
+        { stage: "Scale Up", support: "Enterprise features", benefit: "Compete with big players", icon: "🚀" },
+        { stage: "Success", support: "Custom solutions", benefit: "Stay ahead of competition", icon: "🏆" }
+      ],
+      seoKeywords: ["scalable AI", "grow with AI", "startup scaling", "AI growth support"]
+    },
+    {
+      category: "Expert Guidance",
+      icon: "🎯",
+      title: "Your AI Success Partner",
+      description: "We're not just selling software - we're your partners in success. Get expert guidance every step of the way.",
+      realMetrics: [
+        { support: "Dedicated Success Manager", value: "Personal guidance", context: "Someone who knows your business", icon: "👥" },
+        { support: "Training & Education", value: "Free workshops", context: "Learn how to maximize AI", icon: "🎓" },
+        { support: "24/7 Support", value: "Always available", context: "Get help when you need it", icon: "🆘" },
+        { support: "Success Reviews", value: "Monthly check-ins", context: "Ensure you're getting results", icon: "📅" }
+      ],
+      seoKeywords: ["AI support", "startup guidance", "AI mentorship", "success partnership"]
     }
   ];
 
@@ -123,19 +123,23 @@ const WhyChooseUs = ({ className = "" }) => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "JEDI Labs AI Solutions",
+    "name": "JEDI Labs AI Tools for Startups",
     "provider": {
       "@type": "Organization",
       "name": "JEDI Labs",
       "url": "https://jedilabs.org",
       "logo": "https://jedilabs.org/logo.png"
     },
-    "description": "Enterprise AI solutions with proven business impact, rapid implementation, and industry-specific expertise",
-    "serviceType": "Artificial Intelligence Solutions",
+    "description": "AI tools and solutions designed specifically for startups and small businesses. Launch faster, scale smarter with no technical expertise required.",
+    "serviceType": "Startup AI Solutions",
     "areaServed": "Global",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Startups and Small Businesses"
+    },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "AI Solutions",
+      "name": "Startup AI Tools",
       "itemListElement": valuePropositions.map((prop, index) => ({
         "@type": "Offer",
         "itemOffered": {
@@ -145,6 +149,18 @@ const WhyChooseUs = ({ className = "" }) => {
           "category": prop.category
         }
       }))
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "99",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "99",
+        "priceCurrency": "USD",
+        "billingIncrement": "1",
+        "unitCode": "MON"
+      }
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -157,14 +173,14 @@ const WhyChooseUs = ({ className = "" }) => {
   return (
     <>
       <Helmet>
-        <title>Why Choose JEDI Labs | Enterprise AI Solutions with Proven Results</title>
+        <title>Why Choose JEDI Labs | AI Tools for Startups & Small Business Success</title>
         <meta 
           name="description" 
-          content="Discover why businesses choose JEDI Labs for AI solutions. Proven results with 40% faster diagnostics, 99.7% fraud detection accuracy, and rapid 2-3 week implementation." 
+          content="Launch your startup faster with AI tools that actually work. No technical expertise needed - get 3x faster time to market, 40% higher conversion rates, and startup-friendly pricing from $99/month." 
         />
         <meta 
           name="keywords" 
-          content="JEDI Labs AI, enterprise AI solutions, proven AI results, rapid AI implementation, AI business impact, JEDI platform, AI compliance, industry-specific AI" 
+          content="AI for startups, startup AI tools, small business AI, no-code AI, affordable AI, startup success, AI launch faster, business AI solutions" 
         />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
@@ -187,9 +203,8 @@ const WhyChooseUs = ({ className = "" }) => {
               </h1>
             </div>
             <p className={`text-lg max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-              We deliver <strong>proven AI solutions</strong> with measurable business impact across industries. 
-              Our proprietary <strong>JEDI™ platform</strong> and deep domain expertise ensure rapid implementation 
-              and long-term success for your AI initiatives.
+              Turn your startup idea into a successful business with <strong>AI tools that actually work</strong>. 
+              No technical expertise needed - we handle the complex stuff so you can focus on <strong>building and growing your business</strong>.
             </p>
           </motion.header>
 
@@ -205,7 +220,7 @@ const WhyChooseUs = ({ className = "" }) => {
               role="tablist"
               aria-label="JEDI Labs value propositions"
             >
-              <h2 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Our Differentiators</h2>
+              <h2 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Why Startups Choose Us</h2>
               <div className="space-y-2">
                 {valuePropositions.map((prop, index) => (
                   <motion.button
@@ -302,10 +317,10 @@ const WhyChooseUs = ({ className = "" }) => {
                           <span className="text-lg mt-0.5">{metric.icon}</span>
                           <div className="flex-1">
                             {/* Dynamic content based on metric structure */}
-                            {metric.industry && (
+                            {metric.benefit && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.industry}
+                                  {metric.benefit}
                                 </div>
                                 <div className={`text-lg font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.result}
@@ -315,64 +330,64 @@ const WhyChooseUs = ({ className = "" }) => {
                                 </div>
                               </>
                             )}
-                            {metric.component && (
+                            {metric.tool && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.component}
+                                  {metric.tool}
                                 </div>
                                 <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.capability}
                                 </div>
                                 <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                                  {metric.performance}
+                                  {metric.benefit}
                                 </div>
                               </>
                             )}
-                            {metric.domain && (
+                            {metric.cost && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.domain}
+                                  {metric.cost}
                                 </div>
                                 <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                                  {metric.expertise}
+                                  {metric.amount}
                                 </div>
                                 <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                                  {metric.specialization}
+                                  {metric.context}
                                 </div>
                               </>
                             )}
-                            {metric.phase && (
+                            {metric.step && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.phase}
+                                  {metric.step}
                                 </div>
                                 <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                                  {metric.duration}
+                                  {metric.time}
                                 </div>
                                 <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                                   {metric.deliverable}
                                 </div>
                               </>
                             )}
-                            {metric.standard && (
+                            {metric.stage && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.standard}
+                                  {metric.stage}
                                 </div>
                                 <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                                  {metric.status}
+                                  {metric.support}
                                 </div>
                                 <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                                  {metric.scope}
+                                  {metric.benefit}
                                 </div>
                               </>
                             )}
-                            {metric.metric && (
+                            {metric.support && (
                               <>
                                 <div className={`font-semibold text-sm ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                                  {metric.metric}
+                                  {metric.support}
                                 </div>
-                                <div className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                                <div className={`font-bold mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                                   {metric.value}
                                 </div>
                                 <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
@@ -402,11 +417,11 @@ const WhyChooseUs = ({ className = "" }) => {
             }`}>
               <img src={logo} alt="JEDI Labs AI Platform Logo" className="w-6 h-6" />
               <span className={`font-medium ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                Ready to experience measurable AI results?
+                Ready to launch your startup with AI?
               </span>
             </div>
             <p className={`mt-3 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-              Join industry leaders who trust JEDI Labs for enterprise AI solutions
+              Join successful startups who chose JEDI Labs to build and grow their business
             </p>
           </motion.footer>
         </div>

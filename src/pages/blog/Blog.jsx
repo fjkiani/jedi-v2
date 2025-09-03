@@ -119,7 +119,7 @@ export const Blog = () => {
                     </div>
                   </div>
 
-                  {post.categories && post.categories.length > 0 && (
+                  {/* {post.categories && post.categories.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {post.categories.map(category => (
                         <span 
@@ -130,7 +130,7 @@ export const Blog = () => {
                         </span>
                       ))}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </Link>
             );

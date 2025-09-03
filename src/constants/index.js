@@ -71,16 +71,16 @@ export const navigation = [
       }
     ]
   },
-  {
-    id: "technology",
-    title: "Technology",
-    url: "/technology",
-  },
-  {
-    id: "industries",
-    title: "Industries",
-    url: "/industries",
-  },
+  // {
+  //   id: "technology",
+  //   title: "Technology",
+  //   url: "/technology",
+  // },
+  // {
+  //   id: "industries",
+  //   title: "Industries",
+  //   url: "/industries",
+  // },
   {
     id: "use-cases",
     title: "Use Cases",

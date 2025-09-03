@@ -144,7 +144,7 @@ export const BlogPost = () => {
         </div>
       </div>
       
-      {post.categories && (
+      {/* {post.categories && (
         <div className="flex flex-wrap gap-2 mb-8">
           {post.categories.map(category => (
             <span 
@@ -155,7 +155,7 @@ export const BlogPost = () => {
             </span>
           ))}
         </div>
-      )}
+      )} */}
       
       <div className={`prose prose-lg max-w-none ${isDarkMode ? 'prose-invert' : ''}`}>
         {post.content?.raw ? (

@@ -159,20 +159,19 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <>
                     <Hero />
-                    <AiCoPilotDemo />
+                    {/* <AiCoPilotDemo /> */}
                     {/* <FeaturedApplications /> */}
                     {/* <SolutionsPage isHomepage={true} /> */}
                     {/* <Services /> */}
-                    <Collaboration/>
+                    {/* <Collaboration/> */}
                     <CaseStudies />
-                    <CallToAction />
                     {/* <NextGenAIStack /> */}
                     <SidebarConsultant/>
-                    <IndustryOverview />
+                    {/* <IndustryOverview /> */}
                     <WhyChooseUs />
-                    <LeadCaptureCTA />
+                    {/* <LeadCaptureCTA /> */}
                     {/* <Pricing /> */}
-                    <Roadmap />
+                    {/* <Roadmap /> */}
                     {/* <ContactCoPilot /> */}
                     {/* <StarsCanvas /> */}
                   </>
