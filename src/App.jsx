@@ -55,6 +55,10 @@ import CallToAction from "./components/CallToAction";
 import LeadCaptureCTA from "./components/LeadCaptureCTA";
 import SidebarConsultant from "./components/SidebarConsultant";
 import Hero from "./components/Hero";
+import JediComponentsShowcase from "./components/JediComponentsShowcase";
+import JediComponentsPage from "./pages/JediComponentsPage";
+import JediComponentPage from "./pages/technology/JediComponentPage";
+import JediPage from "./pages/JediPage";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -159,10 +163,11 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <>
                     <Hero />
+                    {/* <JediComponentsShowcase /> */}
                     {/* <AiCoPilotDemo /> */}
-                    {/* <FeaturedApplications /> */}
-                    {/* <SolutionsPage isHomepage={true} /> */}
-                    {/* <Services /> */}
+                    <FeaturedApplications />
+                    <SolutionsPage isHomepage={true} />
+                    <Services />
                     {/* <Collaboration/> */}
                     <CaseStudies />
                     {/* <NextGenAIStack /> */}
@@ -278,6 +283,51 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <UseCasesPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/jedi"
+                element={
+                  <PageTransition>
+                    <JediPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/jedi-components"
+                element={
+                  <PageTransition>
+                    <JediComponentsPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/technology/jedi-ensemble"
+                element={
+                  <PageTransition>
+                    <JediComponentPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/technology/jedi-rules"
+                element={
+                  <PageTransition>
+                    <JediComponentPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/technology/jedi-automate"
+                element={
+                  <PageTransition>
+                    <JediComponentPage />
                   </PageTransition>
                 }
               />

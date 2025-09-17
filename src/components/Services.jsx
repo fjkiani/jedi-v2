@@ -11,6 +11,10 @@ import { Icon } from '@/components/Icon';
 import { Link } from 'react-router-dom';
 import LeadCaptureModal from './copilot/LeadCaptureModal';
 import { contactFormService } from '../services/contactFormService';
+import { 
+  ALL_JEDI_COMPONENTS,
+  getAllJediImplementations
+} from '../constants/jedi';
 
 // Enhanced query to fetch data for co-pilot style display
 const GetHomepageFeaturedApplications = gql`
@@ -36,7 +40,6 @@ const GetHomepageFeaturedApplications = gql`
       }
     }
   }
-
 `;
 
 // Helper function to render lists with enhanced styling
@@ -48,14 +51,17 @@ const renderCompactList = (items, iconName = 'check-circle', itemClassName = '',
     <ul className="space-y-2">
       {items.map((item, index) => (
         <motion.li 
-          key={index} 
-          initial={{ opacity: 0, x: -10 }}
+          key={index}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: index * 0.1 }}
-          className={`flex items-start gap-3 text-sm text-n-6 dark:text-n-3 ${itemClassName}`}
+          className={`flex items-start gap-3 ${itemClassName}`}
         >
-          <Icon name={iconName} className={`w-4 h-4 ${iconClassName} flex-shrink-0 mt-0.5`} />
-          <span className="leading-relaxed">{item}</span>
+          <Icon 
+            name={iconName} 
+            className={`w-5 h-5 mt-0.5 flex-shrink-0 ${iconClassName}`}
+          />
+          <span className="text-sm">{item}</span>
         </motion.li>
       ))}
     </ul>
@@ -69,7 +75,16 @@ const Services = () => {
   const [activeAppIndex, setActiveAppIndex] = useState(0);
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [leadContext, setLeadContext] = useState({});
+  const [activeTab, setActiveTab] = useState('applications'); // 'applications' or 'jedi'
   const { isDarkMode } = useTheme();
+
+  // JEDI data
+  const allImplementations = getAllJediImplementations();
+  const [activeComponentIndex, setActiveComponentIndex] = useState(0);
+  const activeComponent = ALL_JEDI_COMPONENTS[activeComponentIndex];
+  const componentImplementations = allImplementations.filter(impl => 
+    impl.componentId === activeComponent?.id
+  );
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -134,6 +149,32 @@ const Services = () => {
           />
         </motion.div>
 
+        {/* Tab Selector */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-n-7/50 rounded-lg p-1 flex">
+            <button
+              onClick={() => setActiveTab('applications')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                activeTab === 'applications'
+                  ? 'bg-primary-1 text-white shadow-lg'
+                  : 'text-n-4 hover:text-n-1'
+              }`}
+            >
+              Industry Applications
+            </button>
+            <button
+              onClick={() => setActiveTab('jedi')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                activeTab === 'jedi'
+                  ? 'bg-primary-1 text-white shadow-lg'
+                  : 'text-n-4 hover:text-n-1'
+              }`}
+            >
+              JEDI Components
+            </button>
+          </div>
+        </div>
+
         {loading && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -160,249 +201,364 @@ const Services = () => {
           </motion.div>
         )}
 
-        {!loading && !error && applications.length > 0 && (
+        {!loading && !error && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className={`rounded-2xl border ${isDarkMode ? 'bg-n-8/80 border-n-6' : 'bg-white/80 border-n-3'} shadow-xl overflow-hidden backdrop-blur-sm`}
           >
-            {/* Enhanced Tab Triggers - Using Application Titles */}
-            <div className={`flex flex-wrap border-b ${isDarkMode ? 'border-n-6' : 'border-n-3'} ${isDarkMode ? 'bg-n-7/80' : 'bg-n-2/50'} backdrop-blur-sm`}>
-              {applications.map((app, index) => (
-                <motion.button
-                  key={app.id}
-                  onClick={() => setActiveAppIndex(index)}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`flex-1 sm:flex-none px-6 py-4 text-sm font-medium text-center transition-all duration-300 relative group ${
-                    activeAppIndex === index
-                      ? isDarkMode ? 'text-n-1' : 'text-n-8'
-                      : isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'
-                  }`}
+            <AnimatePresence mode="wait">
+              {activeTab === 'applications' && applications.length > 0 && (
+                <motion.div
+                  key="applications"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  {/* Use Application Title instead of Industry */}
-                  <span className="relative z-10">{app.applicationTitle}</span>
-                  
-                  {/* Enhanced Active Indicator */}
-                  {activeAppIndex === index && (
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-primary-1/10 to-primary-2/10 rounded-t-lg"
-                      layoutId="active-service-bg"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  
-                  {activeAppIndex === index && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-1 to-primary-2"
-                      layoutId="active-service-indicator"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Enhanced Tab Content with Co-pilot Feel */}
-            <div className="p-8 md:p-12 min-h-[450px] relative">
-              <AnimatePresence mode="wait">
-                {activeApplication && (
-                  <motion.div
-                    key={activeApplication.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -30 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="space-y-8"
-                  >
-                    {/* Header with Industry Context */}
-                    <div className="text-center">
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-1/10 rounded-full text-sm text-primary-1 font-medium mb-4"
+                  {/* Industry Applications Tabs */}
+                  <div className={`flex flex-wrap border-b ${isDarkMode ? 'border-n-6' : 'border-n-3'} ${isDarkMode ? 'bg-n-7/80' : 'bg-n-2/50'} backdrop-blur-sm`}>
+                    {applications.map((app, index) => (
+                      <motion.button
+                        key={app.id}
+                        onClick={() => setActiveAppIndex(index)}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex-1 sm:flex-none px-6 py-4 text-sm font-medium text-center transition-all duration-300 relative group ${
+                          activeAppIndex === index
+                            ? isDarkMode ? 'text-n-1' : 'text-n-8'
+                            : isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'
+                        }`}
                       >
-                        <Icon name="target" className="w-4 h-4" />
-                        {activeApplication.industry?.name || 'Industry Solution'}
-                      </motion.div>
-                      
-                      <h3 className={`h3 mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                        {activeApplication.applicationTitle}
-                      </h3>
-                      
-                      {activeApplication.tagline && (
-                        <p className="text-lg text-primary-1 font-semibold mb-6">
-                          {activeApplication.tagline}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Challenge & Solution Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* The Challenge */}
-                      {activeApplication.industryChallenge && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.3 }}
-                          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-red-900/20 border-red-700/50' : 'bg-red-50 border-red-200'}`}
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                              <Icon name="alert-triangle" className="w-5 h-5 text-white" />
-                            </div>
-                            <h5 className="font-bold text-red-600 dark:text-red-400">The Challenge</h5>
-                          </div>
-                          <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-red-200' : 'text-red-700'}`}>
-                            {activeApplication.industryChallenge}
-                          </p>
-                        </motion.div>
-                      )}
-
-                      {/* Our Solution */}
-                      {activeApplication.jediApproach?.text && (
-                        <motion.div
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.4 }}
-                          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-green-900/20 border-green-700/50' : 'bg-green-50 border-green-200'}`}
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                              <Icon name="check-circle" className="w-5 h-5 text-white" />
-                            </div>
-                            <h5 className="font-bold text-green-600 dark:text-green-400">Our Solution</h5>
-                          </div>
-                          <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-green-200' : 'text-green-700'}`}>
-                            {activeApplication.jediApproach.text}
-                          </p>
-                        </motion.div>
-                      )}
-                    </div>
-
-                    {/* Capabilities and Components */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Key Capabilities */}
-                      {activeApplication.keyCapabilities && activeApplication.keyCapabilities.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Icon name="zap" className="w-6 h-6 text-yellow-500" />
-                            <h5 className={`font-bold ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Key Capabilities</h5>
-                          </div>
-                          {renderCompactList(activeApplication.keyCapabilities, 'check-circle', '', 'text-green-500')}
-                        </motion.div>
-                      )}
-
-                      {/* Core Components */}
-                      {activeApplication.jediComponent && activeApplication.jediComponent.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.6 }}
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <Icon name="cpu" className="w-6 h-6 text-blue-500" />
-                            <h5 className={`font-bold ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Core Components</h5>
-                          </div>
-                          <div className="flex flex-wrap gap-3">
-                            {activeApplication.jediComponent.map((comp, index) => (
-                              <motion.div
-                                key={comp.id}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.7 + index * 0.1 }}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
-                                  isDarkMode ? 'bg-n-6/50 border-n-5 text-n-3 hover:text-n-1 hover:border-n-4' : 'bg-n-2/50 border-n-3 text-n-6 hover:text-n-8 hover:border-n-4'
-                                } transition-all duration-200 hover:scale-105`}
-                              >
-                                {comp.icon?.url ? (
-                                  <img src={comp.icon.url} alt="" className="w-4 h-4" />
-                                ) : (
-                                  <Icon name="puzzle" className="w-4 h-4" />
-                                )}
-                                <span className="text-sm font-medium">{comp.name}</span>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </div>
-
-                    {/* Call to Action */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                      className="text-center pt-8 border-t border-n-6/30"
-                    >
-                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button
-                          onClick={() => handleLearnMore(activeApplication)}
-                          className="px-8 py-3 bg-gradient-to-r from-primary-1 to-primary-2 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                        >
-                          <Icon name="message-circle" className="w-5 h-5" />
-                          Discuss This Solution
-                        </button>
+                        <span className="relative z-10">{app.applicationTitle}</span>
                         
-                        {activeApplication.industry?.slug && (
-                          <Link
-                            to={`/industries/${activeApplication.industry.slug}`}
-                            className={`px-8 py-3 border rounded-lg font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 ${
-                              isDarkMode 
-                                ? 'border-n-5 text-n-3 hover:bg-n-7 hover:text-n-1' 
-                                : 'border-n-3 text-n-6 hover:bg-n-2 hover:text-n-8'
-                            }`}
-                          >
-                            <Icon name="arrow-right" className="w-5 h-5" />
-                            Explore {activeApplication.industry.name}
-                          </Link>
+                        {activeAppIndex === index && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-primary-1/10 to-primary-2/10 rounded-t-lg"
+                            layoutId="active-service-bg"
+                            initial={false}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
                         )}
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                        
+                        {activeAppIndex === index && (
+                          <motion.div
+                            className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-1 to-primary-2"
+                            layoutId="active-service-indicator"
+                            initial={false}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                      </motion.button>
+                    ))}
+                  </div>
+
+                  {/* Industry Applications Content */}
+                  <div className="p-8 md:p-12 min-h-[450px] relative">
+                    <AnimatePresence mode="wait">
+                      {activeApplication && (
+                        <motion.div
+                          key={activeApplication.id}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -30 }}
+                          transition={{ duration: 0.5, ease: "easeInOut" }}
+                          className="space-y-8"
+                        >
+                          {/* Application Header */}
+                          <div className="text-center mb-8">
+                            <h3 className="h3 theme-text-primary mb-4">
+                              {activeApplication.applicationTitle}
+                            </h3>
+                            <p className="h4 theme-text-secondary mb-4">
+                              {activeApplication.tagline}
+                            </p>
+                            <div className="flex items-center justify-center gap-2 text-sm theme-text-secondary">
+                              <Icon name="building" className="w-4 h-4" />
+                              <span>{activeApplication.industry?.name}</span>
+                            </div>
+                          </div>
+
+                          {/* Application Details Grid */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* JEDI Approach */}
+                            <div>
+                              <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                <Icon name="lightbulb" className="w-5 h-5 text-primary-1" />
+                                JEDI Approach
+                              </h4>
+                              <div className="prose prose-sm max-w-none theme-text-secondary">
+                                <RichText content={activeApplication.jediApproach} />
+                              </div>
+                            </div>
+
+                            {/* Key Capabilities */}
+                            <div>
+                              <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                <Icon name="zap" className="w-5 h-5 text-primary-1" />
+                                Key Capabilities
+                              </h4>
+                              {renderCompactList(activeApplication.keyCapabilities)}
+                            </div>
+                          </div>
+
+                          {/* JEDI Components Used */}
+                          {activeApplication.jediComponent && activeApplication.jediComponent.length > 0 && (
+                            <div>
+                              <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                <Icon name="cog" className="w-5 h-5 text-primary-1" />
+                                JEDI Components Used
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {activeApplication.jediComponent.map((component, index) => (
+                                  <span
+                                    key={index}
+                                    className="px-3 py-1 bg-primary-1/10 text-primary-1 rounded-full text-sm font-medium"
+                                  >
+                                    {component.name}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Call to Action */}
+                          <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-n-6">
+                            <button
+                              onClick={() => handleLearnMore(activeApplication)}
+                              className="btn-primary flex items-center gap-2"
+                            >
+                              Learn More
+                              <Icon name="arrow-right" className="w-4 h-4" />
+                            </button>
+                            <Link
+                              to={`/industries/${activeApplication.industry?.slug}`}
+                              className="btn-secondary flex items-center gap-2"
+                            >
+                              View Industry Solutions
+                              <Icon name="arrow-right" className="w-4 h-4" />
+                            </Link>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'jedi' && (
+                <motion.div
+                  key="jedi"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* JEDI Component Tabs */}
+                  <div className={`flex flex-wrap border-b ${isDarkMode ? 'border-n-6' : 'border-n-3'} ${isDarkMode ? 'bg-n-7/80' : 'bg-n-2/50'} backdrop-blur-sm`}>
+                    {ALL_JEDI_COMPONENTS.map((component, index) => (
+                      <motion.button
+                        key={component.id}
+                        onClick={() => setActiveComponentIndex(index)}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex-1 sm:flex-none px-6 py-4 text-sm font-medium text-center transition-all duration-300 relative group ${
+                          activeComponentIndex === index
+                            ? isDarkMode ? 'text-n-1' : 'text-n-8'
+                            : isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'
+                        }`}
+                      >
+                        <span className="relative z-10">{component.name}</span>
+                        
+                        {activeComponentIndex === index && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-primary-1/10 to-primary-2/10 rounded-t-lg"
+                            layoutId="active-jedi-bg"
+                            initial={false}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                        
+                        {activeComponentIndex === index && (
+                          <motion.div
+                            className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-1 to-primary-2"
+                            layoutId="active-jedi-indicator"
+                            initial={false}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                      </motion.button>
+                    ))}
+                  </div>
+
+                  {/* JEDI Component Content */}
+                  <div className="p-8 md:p-12 min-h-[500px] relative">
+                    <AnimatePresence mode="wait">
+                      {activeComponent && (
+                        <motion.div
+                          key={activeComponent.id}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -30 }}
+                          transition={{ duration: 0.5, ease: "easeInOut" }}
+                          className="space-y-8"
+                        >
+                          {/* Component Header */}
+                          <div className="text-center mb-8">
+                            <h3 className="h3 theme-text-primary mb-4">
+                              {activeComponent.name}
+                            </h3>
+                            <p className="h4 theme-text-secondary mb-2">
+                              {activeComponent.tagline}
+                            </p>
+                            <p className="body-1 theme-text-secondary max-w-3xl mx-auto">
+                              {activeComponent.description}
+                            </p>
+                          </div>
+
+                          {/* Component Details Grid */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Key Capabilities */}
+                            <div className="space-y-6">
+                              <div>
+                                <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                  <Icon name="zap" className="w-5 h-5 text-primary-1" />
+                                  Key Capabilities
+                                </h4>
+                                <div className="space-y-3">
+                                  {activeComponent.capabilities.primary.slice(0, 4).map((capability, index) => (
+                                    <motion.div
+                                      key={index}
+                                      initial={{ opacity: 0, x: -20 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ delay: index * 0.1 }}
+                                      className="flex items-start gap-3"
+                                    >
+                                      <Icon 
+                                        name="check-circle" 
+                                        className={`w-5 h-5 mt-0.5 flex-shrink-0 ${isDarkMode ? 'text-primary-1' : 'text-green-500'}`}
+                                      />
+                                      <div>
+                                        <p className="font-medium theme-text-primary">
+                                          {capability.name}
+                                        </p>
+                                        <p className="text-sm theme-text-secondary">
+                                          {capability.userBenefit}
+                                        </p>
+                                      </div>
+                                    </motion.div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Business Value */}
+                              <div>
+                                <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                  <Icon name="trending-up" className="w-5 h-5 text-primary-1" />
+                                  Business Impact
+                                </h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-primary-1/10 to-primary-2/10">
+                                    <div className="text-2xl font-bold theme-text-primary">
+                                      {componentImplementations.length}+
+                                    </div>
+                                    <div className="text-sm theme-text-secondary">
+                                      Success Stories
+                                    </div>
+                                  </div>
+                                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-emerald-500/10">
+                                    <div className="text-2xl font-bold theme-text-primary">
+                                      80%+
+                                    </div>
+                                    <div className="text-sm theme-text-secondary">
+                                      Efficiency Gain
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Success Stories Preview */}
+                            <div>
+                              <h4 className="h4 theme-text-primary mb-4 flex items-center gap-2">
+                                <Icon name="star" className="w-5 h-5 text-primary-1" />
+                                Success Stories
+                              </h4>
+                              <div className="space-y-4">
+                                {componentImplementations.slice(0, 2).map((implementation, index) => (
+                                  <motion.div
+                                    key={implementation.id || index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 + index * 0.1 }}
+                                    className={`p-4 rounded-lg border ${isDarkMode ? 'bg-n-7/50 border-n-6' : 'bg-gray-50 border-gray-200'}`}
+                                  >
+                                    <div className="flex items-start gap-3">
+                                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-1 to-primary-2 flex items-center justify-center text-white font-bold text-sm">
+                                        {implementation.client?.charAt(0) || 'C'}
+                                      </div>
+                                      <div className="flex-1">
+                                        <h5 className="font-semibold theme-text-primary mb-1">
+                                          {implementation.client}
+                                        </h5>
+                                        <p className="text-sm theme-text-secondary mb-2">
+                                          {implementation.industry}
+                                        </p>
+                                        <p className="text-sm theme-text-secondary">
+                                          {implementation.problem}
+                                        </p>
+                                        <div className="mt-2 flex items-center gap-4 text-xs">
+                                          <span className="text-green-500 font-medium">
+                                            ✓ {implementation.results?.responseTime || '80% faster'}
+                                          </span>
+                                          <span className="text-blue-500 font-medium">
+                                            ✓ {implementation.results?.customerSatisfaction || '60% improvement'}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Call to Action */}
+                          <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-n-6">
+                            <Link
+                              to={`/technology/${activeComponent.id}`}
+                              className="btn-primary flex items-center gap-2"
+                            >
+                              Learn More About {activeComponent.name}
+                              <Icon name="arrow-right" className="w-4 h-4" />
+                            </Link>
+                            <Link
+                              to="/contact"
+                              className="btn-secondary flex items-center gap-2"
+                            >
+                              Get Started
+                              <Icon name="arrow-right" className="w-4 h-4" />
+                            </Link>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
 
-        {/* Fallback for no applications */}
-        {!loading && !error && applications.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className={`text-center p-12 rounded-2xl ${isDarkMode ? 'bg-n-7' : 'bg-n-1'} border border-n-6/30`}
-          >
-            <Icon name="search" className="w-12 h-12 mx-auto mb-4 text-n-4" />
-            <p className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
-              No AI Solutions Available
-            </p>
-            <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-              We're working on adding more featured applications. Check back soon!
-            </p>
-          </motion.div>
-        )}
+        {/* Lead Capture Modal */}
+        <LeadCaptureModal
+          isOpen={showLeadModal}
+          onClose={() => setShowLeadModal(false)}
+          onSubmit={handleLeadSubmit}
+          context={leadContext}
+        />
       </div>
-
-      {/* Lead Capture Modal */}
-      <LeadCaptureModal
-        isOpen={showLeadModal}
-        onClose={() => {
-          setShowLeadModal(false);
-          setLeadContext({});
-        }}
-        contextData={leadContext}
-        onSubmit={handleLeadSubmit}
-      />
-
       <Gradient />
     </Section>
   );

@@ -41,6 +41,11 @@ import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } fr
 
 export const navigation = [
   {
+    id: "jedi",
+    title: "JEDI",
+    url: "/jedi",
+  },
+  {
     id: "0",
     title: "Solutions",
     url: "/solutions",

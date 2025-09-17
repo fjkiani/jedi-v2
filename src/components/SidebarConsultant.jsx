@@ -115,28 +115,14 @@ const SidebarConsultant = ({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* Mobile-first tab sizing */}
-          <div className="w-16 h-24 sm:w-20 sm:h-32 lg:w-28 lg:h-40 flex flex-col items-center justify-center gap-1 sm:gap-2 lg:gap-3 p-2 sm:p-3 lg:p-4">
-            {/* Responsive logo */}
-            <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg relative">
-              <img src={logo} alt="JEDI" className="w-4 h-4 sm:w-6 sm:h-6 lg:w-9 lg:h-9 brightness-0 invert" />
+          {/* Mobile-first tab sizing - Emoji Icon Only */}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 flex items-center justify-center p-2 sm:p-3 lg:p-4">
+            {/* Simple emoji icon with pulsing animation */}
+            <div className="relative">
+              <div className="text-2xl sm:text-3xl lg:text-4xl animate-pulse">🤖</div>
               {/* Pulsing ring animation */}
-              <div className="absolute inset-0 rounded-full border-2 border-purple-400 animate-ping opacity-75"></div>
-              <div className="absolute inset-0 rounded-full border border-pink-400 animate-pulse"></div>
-            </div>
-            
-            {/* Responsive text */}
-            <div className={`text-xs sm:text-sm lg:text-sm font-bold text-center leading-tight ${
-              isDarkMode ? 'text-gray-100' : 'text-gray-800'
-            } group-hover:text-purple-400 transition-colors`}>
-              <span className="block">JEDI</span>
-              <span className="block text-xs sm:text-sm lg:text-lg">Help</span>
-            </div>
-            
-            {/* Mobile-optimized indicator */}
-            <div className="flex gap-1">
-              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 lg:w-2 lg:h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-ping"></div>
-              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 lg:w-2 lg:h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-ping animation-delay-150"></div>
+              <div className="absolute inset-0 rounded-full border-2 border-purple-400 animate-ping opacity-75 -inset-2"></div>
+              <div className="absolute inset-0 rounded-full border border-pink-400 animate-pulse -inset-1"></div>
             </div>
           </div>
 
@@ -170,7 +156,7 @@ const SidebarConsultant = ({
                 <div className="p-4 sm:p-6 pb-3 sm:pb-4">
                   <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
-                      <img src={logo} alt="JEDI Consultant" className="w-5 h-5 sm:w-7 sm:h-7 brightness-0 invert" />
+                      <div className="text-lg sm:text-xl">🤖</div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-sm sm:text-base mb-1">JEDI Labs Consultant</div>

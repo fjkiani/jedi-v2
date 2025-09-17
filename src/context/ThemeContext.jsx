@@ -4,17 +4,17 @@ const ThemeContext = createContext(undefined);
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Always default to light mode (white mode)
-    // Only use saved preference if it exists and is explicitly set to dark mode
+    // Default to dark mode (black mode)
+    // Only use saved preference if it exists and is explicitly set to light mode
     const savedTheme = localStorage.getItem('theme');
     
-    // Default to light mode (false) unless explicitly set to dark
-    if (savedTheme === 'dark') {
-      return true;
+    // Default to dark mode (true) unless explicitly set to light
+    if (savedTheme === 'light') {
+      return false;
     }
     
-    // Default to light mode for new users or any other case
-    return false;
+    // Default to dark mode for new users or any other case
+    return true;
   });
 
   // Apply theme changes

@@ -1,0 +1,150 @@
+---
+globs: scripts/migrations/hygraph/*.js,src/pages/technology/*.jsx,src/constants/registry/*.js
+description: Technology enhancement approach based on real client problems and JEDI implementations
+---
+
+# Technology Enhancement Approach
+
+## Core Principle
+**Never overwrite existing content without understanding its value.** Always enhance based on real JEDI client implementations and measurable business results.
+
+## Technology Content Strategy
+
+### Current State Analysis
+Before enhancing any technology:
+1. **Audit existing content** - what's already there and its quality
+2. **Identify real JEDI use cases** - actual client implementations
+3. **Test one update** - verify the process works before scaling
+4. **Focus on business value** - ROI, efficiency gains, cost savings
+
+### Technology Page Structure
+Each technology should tell the story of:
+
+#### Overview Tab
+- **Real client problem** the technology solves
+- **JEDI implementation** approach and expertise
+- **Measurable results** from actual deployments
+- **Scalability** across different industries and use cases
+
+#### Features Tab
+- **Core capabilities** of the technology
+- **JEDI-specific enhancements** and customizations
+- **Integration points** with other technologies
+- **Performance optimizations** implemented by JEDI
+
+#### Architecture Tab
+- **Technical implementation** details
+- **JEDI's architectural approach** and best practices
+- **Scalability patterns** and deployment strategies
+- **Integration architecture** with client systems
+
+#### Integration Tab
+- **Real client integrations** and implementations
+- **JEDI's integration methodology** and approach
+- **API and connector details** for client systems
+- **Custom development** and enhancement capabilities
+
+#### Use Cases Tab
+- **Real client use cases** with specific results
+- **Industry-specific implementations** and adaptations
+- **Scalability examples** across different use cases
+- **ROI and business value** demonstrations
+
+#### Resources Tab
+- **JEDI-specific documentation** and guides
+- **Client case studies** and success stories
+- **Implementation support** and consulting services
+- **Training and education** resources
+
+## Real JEDI Technology Implementations
+
+### LangChain
+- **Client**: Go Answer (24/7 voice agents)
+- **Problem**: Scalable customer service with AI
+- **Solution**: RetellAI integration with conversational AI
+- **Results**: 80% faster response times, 60% improved satisfaction
+- **Scalability**: Works for any conversational AI use case
+
+### Hugging Face
+- **Client**: Consulting companies (AI search optimization)
+- **Problem**: Model selection and optimization
+- **Solution**: Custom model development and fine-tuning
+- **Results**: 95% accuracy improvement, 3x faster deployment
+- **Scalability**: Custom models for any industry
+
+### Weaviate
+- **Client**: Program participants (content expertise)
+- **Problem**: Knowledge management and retrieval
+- **Solution**: Semantic search and knowledge bases
+- **Results**: 90% faster knowledge retrieval, 99.9% uptime
+- **Scalability**: Knowledge management for any domain
+
+### PyTorch/TensorFlow
+- **Client**: SaaS companies (marketing automation)
+- **Problem**: Custom AI model development
+- **Solution**: Custom model training and deployment
+- **Results**: 50% faster model development, 95% accuracy
+- **Scalability**: Custom AI models for any business process
+
+### Docker/Kubernetes
+- **Client**: Cloud-agnostic solutions
+- **Problem**: Scalable AI deployment
+- **Solution**: Containerized AI applications
+- **Results**: 80% faster deployment, 50% resource optimization
+- **Scalability**: Works across any cloud platform
+
+## Content Enhancement Process
+
+### Phase 1: Audit and Understand
+1. **Review existing technology content** in Hygraph
+2. **Identify generic descriptions** that need enhancement
+3. **Map to real JEDI implementations** and client problems
+4. **Test one technology update** to validate the process
+
+### Phase 2: Business-Focused Enhancement
+1. **Start with 2-3 high-impact technologies** (LangChain, Hugging Face, Weaviate)
+2. **Enhance based on real client implementations**
+3. **Include measurable results and ROI**
+4. **Show JEDI's specific approach and expertise**
+
+### Phase 3: Methodical Scaling
+1. **Validate approach with initial technologies**
+2. **Iterate based on feedback and results**
+3. **Scale to additional technologies gradually**
+4. **Measure business impact and conversion rates**
+
+## Content Quality Standards
+
+### What to Include
+- Real client problems and JEDI solutions
+- Measurable results and business metrics
+- JEDI's specific implementation approach
+- Scalability across industries and use cases
+- Technical expertise and customization capabilities
+
+### What to Avoid
+- Generic technology descriptions
+- Hallucinated metrics or capabilities
+- Theoretical use cases without real implementations
+- Overwriting existing valuable content
+- Rapid-firing updates without validation
+
+## Success Metrics
+
+### Content Quality
+- All descriptions based on real JEDI implementations
+- Measurable results and ROI included
+- JEDI's specific approach clearly communicated
+- Scalability demonstrated across use cases
+
+### Business Impact
+- Technology pages drive leads and conversions
+- Prospects understand JEDI's real value
+- Differentiates from generic AI competitors
+- Shows actual implementation expertise
+
+## File References
+- Technology pages: [src/pages/technology/](mdc:src/pages/technology/)
+- Technology registry: [src/constants/registry/technologyRegistry.js](mdc:src/constants/registry/technologyRegistry.js)
+- Migration scripts: [scripts/migrations/hygraph/](mdc:scripts/migrations/hygraph/)
+- Use case mappings: [src/constants/techUseCaseMapper.js](mdc:src/constants/techUseCaseMapper.js)

@@ -1,0 +1,131 @@
+---
+alwaysApply: true
+description: Business-focused content enhancement approach based on real client problems
+---
+
+# Business-Focused Content Enhancement Strategy
+
+## Core Principle
+**Never hallucinate or rapid-fire content.** Always base enhancements on real client problems, actual JEDI implementations, and measurable business results.
+
+## Real JEDI Business Context
+
+### What JEDI Actually Does
+JEDI is a **consulting and development company** that solves real business problems:
+
+1. **AI Voice Agents** - 24/7 live answering services with RetellAI integration
+2. **AI Search Optimization (AISO)** - Consulting for search and generative engine optimization
+3. **Interactive AI Agents** - Personalized coaching, behavior-change nudges, scalable to any use case
+4. **AI Marketing Automation** - AI-driven bots and campaign tools for SaaS companies
+5. **Cloud-Agnostic AI Architecture** - AWS-native services with AI/ML capabilities for data engineering
+
+### Real Client Problems We Solve
+- Voice telephony agents for customer service scalability
+- AI search optimization for consulting companies
+- Interactive AI agents for program participants and coaching
+- Marketing operations AI automation and education
+- Cloud-agnostic AI solutions for data engineering and ML
+
+## Content Enhancement Approach
+
+### Before Any Enhancement
+1. **Audit existing content** - understand current state and quality
+2. **Identify real client problems** - base content on actual use cases
+3. **Test with one component** - validate approach before scaling
+4. **Focus on business value** - ROI, efficiency gains, cost savings
+
+### Content Strategy Framework
+
+#### Technology Pages
+- **Current Problem**: Generic descriptions like "powerful technology solution"
+- **Solution**: Real JEDI implementations with measurable results
+- **Example**: "LangChain powers JEDI's conversational AI agents that handle 24/7 customer support, reducing response times by 80% and improving customer satisfaction by 60%"
+
+#### Industry Pages
+- **Current Problem**: Generic industry descriptions
+- **Solution**: Real client problems and JEDI solutions for each industry
+- **Example**: "Healthcare: JEDI's CrisPRO Oncology Co-Pilot provides 24/7 clinical decision support, reducing diagnosis time by 40% and improving patient outcomes by 60%"
+
+#### Use Cases
+- **Current Problem**: Theoretical use cases
+- **Solution**: Real client implementations with specific results
+- **Example**: "Voice Agent Implementation: Go Answer reduced customer wait times by 80% and improved response accuracy by 95% using JEDI's RetellAI integration"
+
+#### Solutions Pages
+- **Current Problem**: Generic solution descriptions
+- **Solution**: Specific client problems and JEDI approaches
+- **Example**: "AI Search Optimization: JEDI helped consulting company increase organic search traffic by 150% and improve lead quality by 200%"
+
+## Implementation Guidelines
+
+### Phase 1: Audit and Understand
+- Review existing content quality
+- Identify gaps and generic descriptions
+- Understand current business messaging
+- Test one component update
+
+### Phase 2: Business-Focused Content
+- Base all content on real client problems
+- Include measurable results and ROI
+- Show JEDI's specific approach and expertise
+- Demonstrate scalability across use cases
+
+### Phase 3: Methodical Enhancement
+- Start with 2-3 high-impact components
+- Test and validate before scaling
+- Iterate based on feedback
+- Measure results and improve
+
+## Content Quality Standards
+
+### What to Include
+- Real client problems and solutions
+- Measurable results and metrics
+- JEDI's specific approach and expertise
+- Scalability across industries and use cases
+- Business value and ROI
+
+### What to Avoid
+- Generic descriptions and buzzwords
+- Hallucinated metrics or components
+- Theoretical use cases without real implementations
+- Rapid-firing content without validation
+- Overwriting existing valuable content
+
+## Technology Integration Examples
+
+### LangChain
+- **Real Use**: 24/7 voice agents for Go Answer
+- **Results**: 80% faster response times, 60% improved satisfaction
+- **Scalability**: Works for any conversational AI use case
+
+### Hugging Face
+- **Real Use**: Model selection for voice agents and search optimization
+- **Results**: 95% accuracy improvement, 3x faster deployment
+- **Scalability**: Custom models for any industry or use case
+
+### Weaviate
+- **Real Use**: Knowledge bases for content expertise and coaching
+- **Results**: 90% faster knowledge retrieval, 99.9% uptime
+- **Scalability**: Semantic search for any domain or industry
+
+## Success Metrics
+
+### Content Quality
+- All descriptions based on real client problems
+- Measurable results and metrics included
+- JEDI's specific approach clearly communicated
+- Scalability demonstrated across use cases
+
+### Business Impact
+- Content drives leads and conversions
+- Prospects understand JEDI's real value
+- Differentiates from generic AI competitors
+- Shows actual implementation expertise
+
+## File References
+- Technology content: [src/pages/technology/](mdc:src/pages/technology/)
+- Industry content: [src/features/industries/](mdc:src/features/industries/)
+- Use cases: [src/constants/implementations/](mdc:src/constants/implementations/)
+- Solutions: [src/constants/solutions/](mdc:src/constants/solutions/)
+- Technology registry: [src/constants/registry/technologyRegistry.js](mdc:src/constants/registry/technologyRegistry.js)

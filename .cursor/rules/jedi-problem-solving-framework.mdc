@@ -1,0 +1,147 @@
+---
+globs: src/pages/technology/*,src/features/industries/*,src/constants/solutions/*,src/components/*
+---
+
+# JEDI Problem-Solving Framework
+
+## Core Principle
+Every piece of content must demonstrate how JEDI solves real client problems using our core components, with measurable results and scalability to other use cases.
+
+## JEDI Component Integration Patterns
+
+### **JEDI Ensemble™ Integration**
+When showcasing technologies like LangChain, OpenAI, Anthropic Claude:
+- **Client Problem**: "24/7 live answering service needed for customer support"
+- **JEDI Solution**: "JEDI Ensemble™ orchestrates multiple language models for optimal response quality and cost efficiency"
+- **Real Results**: "Go Answer implementation: 80% faster response times, 60% improved customer satisfaction"
+- **Scalability**: "Works for any conversational AI use case - chatbots, voice agents, content generation"
+
+### **JEDI Rules™ Integration**
+When showcasing databases, business logic, or workflow technologies:
+- **Client Problem**: "Complex business rules need automation and consistency"
+- **JEDI Solution**: "JEDI Rules™ converts natural language business requirements into executable logic"
+- **Real Results**: "Marketing automation: 1M+ rule evaluations per minute, 95% accuracy"
+- **Scalability**: "Applies to any business process automation or decision-making system"
+
+### **JEDI AutoTune™ Integration**
+When showcasing ML frameworks, model training, or optimization technologies:
+- **Client Problem**: "AI models need continuous optimization for production performance"
+- **JEDI Solution**: "JEDI AutoTune™ automatically optimizes models for specific business needs"
+- **Real Results**: "Model performance improved by 40% with automated hyperparameter tuning"
+- **Scalability**: "Works for any ML model, from simple classifiers to complex language models"
+
+## Content Structure for Each Technology
+
+### **Overview Tab**
+```
+Technology Description + JEDI Integration
+├── How JEDI uses this technology
+├── Real client problem solved
+├── Measurable results achieved
+└── Scalability to other use cases
+```
+
+### **Features Tab**
+```
+Technology Features + JEDI Enhancements
+├── Core technology capabilities
+├── JEDI-specific enhancements
+├── Business benefits in JEDI context
+└── Competitive advantages
+```
+
+### **Architecture Tab**
+```
+Technical Architecture + JEDI Patterns
+├── High-level architecture overview
+├── JEDI's architectural patterns
+├── Integration with other JEDI components
+└── Scalability and deployment strategies
+```
+
+### **Integration Tab**
+```
+Integration Capabilities + JEDI Expertise
+├── How technology integrates with systems
+├── JEDI's integration expertise
+├── Enterprise system compatibility
+└── JEDI component orchestration
+```
+
+### **Use Cases Tab**
+```
+General Use Cases + JEDI Implementations
+├── Common use cases for technology
+├── Real JEDI client implementations
+├── Specific problems solved with results
+└── Links to relevant case studies
+```
+
+### **Resources Tab**
+```
+Documentation + JEDI Resources
+├── Official technology documentation
+├── JEDI implementation guides
+├── Client success stories
+└── JEDI blog posts and whitepapers
+```
+
+## Industry Application Patterns
+
+### **Healthcare Industry**
+- **Problem**: "Healthcare faces rising costs, staffing shortages, and need for personalized care"
+- **JEDI Solution**: "CrisPRO Oncology Co-Pilot provides 24/7 clinical decision support"
+- **Results**: "40% reduction in diagnostic time, 60% improvement in patient outcomes"
+- **Components**: JEDI Ensemble™ + CrisPRO + JEDI Rules™
+
+### **Financial Services**
+- **Problem**: "Financial institutions struggle with fraud detection and regulatory compliance"
+- **JEDI Solution**: "JEDI Rules™ + JEDI Ensemble™ for intelligent risk management"
+- **Results**: "95% fraud detection accuracy, 50% faster compliance reporting"
+- **Components**: JEDI Rules™ + JEDI Ensemble™ + JEDI AutoTune™
+
+### **Manufacturing**
+- **Problem**: "Manufacturers face equipment downtime and quality control issues"
+- **JEDI Solution**: "JEDI AutoTune™ + JEDI Rules™ for predictive maintenance"
+- **Results**: "70% reduction in downtime, 45% improvement in quality"
+- **Components**: JEDI AutoTune™ + JEDI Rules™ + JEDI Ensemble™
+
+## Content Quality Standards
+
+### **Required Elements**
+- ✅ Real client problem clearly articulated
+- ✅ Specific JEDI component used
+- ✅ Measurable results and metrics
+- ✅ Scalability explanation
+- ✅ Technical implementation details
+
+### **Prohibited Elements**
+- ❌ Generic technology descriptions
+- ❌ Theoretical use cases without real implementations
+- ❌ Hallucinated metrics or capabilities
+- ❌ Vague business value propositions
+- ❌ Content not connected to real JEDI work
+
+## Implementation Guidelines
+
+### **Before Writing Content**
+1. Identify the real client problem being solved
+2. Determine which JEDI component(s) are used
+3. Gather actual results and metrics
+4. Plan scalability explanation
+5. Prepare technical implementation details
+
+### **Content Writing Process**
+1. Start with client problem statement
+2. Explain JEDI component solution
+3. Include real results and metrics
+4. Demonstrate scalability
+5. Add technical implementation details
+6. Link to related case studies or resources
+
+### **Quality Assurance**
+1. Verify all metrics are real and verifiable
+2. Ensure JEDI component integration is accurate
+3. Check scalability explanation is clear
+4. Validate technical details are correct
+5. Confirm client problem is specific and relatable
