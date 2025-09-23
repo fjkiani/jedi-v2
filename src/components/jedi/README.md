@@ -245,3 +245,4 @@ All components expect data in the JEDI data structure format. See `src/constants
 - Mobile browsers
 - IE11+ (with polyfills)
 - Progressive enhancement
+

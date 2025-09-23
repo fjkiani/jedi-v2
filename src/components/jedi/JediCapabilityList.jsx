@@ -142,3 +142,4 @@ const JediCapabilityList = ({
 };
 
 export default JediCapabilityList;
+

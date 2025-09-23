@@ -1,0 +1,24 @@
+{
+  "name": "Jedi Labs - AI Solutions",
+  "short_name": "Jedi Labs",
+  "description": "Explore the latest in AI and technology with JEDI's intelligent solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#AC6AFF",
+  "icons": [
+    {
+      "src": "/src/assets/brainwave-symbol.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/assets/brainwave-symbol-white.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "monochrome"
+    }
+  ]
+}
+

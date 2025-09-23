@@ -237,3 +237,4 @@ Hygraph CMS → GraphQL Queries → Services → React Components → UI
 - `tailwind.config.js` - Tailwind CSS configuration
 - `vite.config.js` - Vite build configuration
 - `.cursor/rules/` - Cursor AI rules and guidelines
+

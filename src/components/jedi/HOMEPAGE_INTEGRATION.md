@@ -154,3 +154,4 @@ Your homepage now showcases JEDI components dynamically with:
 - ✅ **Easy to maintain** - Update data, not components
 
 **Visit your homepage to see the new JEDI components section in action!**
+

@@ -344,3 +344,4 @@ Dynamic Pages (no hard-coding)
 5. **Add tests** - Ensure component reliability
 
 This component system provides a solid foundation for building dynamic, maintainable, and scalable JEDI content throughout the application.
+

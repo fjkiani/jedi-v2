@@ -70,3 +70,4 @@ export const getAutomateImplementationsByTechnology = (technology) =>
   AUTOMATE_IMPLEMENTATIONS.filter(impl => 
     impl.technologies.some(tech => tech.toLowerCase().includes(technology.toLowerCase()))
   );
+

@@ -103,3 +103,4 @@ const JediComparisonTable = ({
 };
 
 export default JediComparisonTable;
+

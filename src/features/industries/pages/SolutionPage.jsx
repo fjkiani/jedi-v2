@@ -23,7 +23,7 @@ import jediLabsLogo from '@/assets/logo/logo.png';
 import { useTheme } from '@/context/ThemeContext';
 import QueryResponse from '@/components/copilot/QueryResponse';
 import { generateQueryResponse } from '@/services/queryResponseGenerator';
-import InteractiveSimulation from '@/components/copilot/InteractiveSimulation';
+import CoPilotCore from '@/components/copilot/CoPilotCore';
 
 // Enhanced GraphQL query to fetch all interconnected data
 const GetUseCaseDetail = gql`
@@ -136,11 +136,7 @@ const SolutionPage = () => {
   const [error, setError] = useState(null);
   const [expandedSections, setExpandedSections] = useState({});
   const [selectedQuery, setSelectedQuery] = useState(null);
-  const [copiedStates, setCopiedStates] = useState({});
-  const [queryResponse, setQueryResponse] = useState(null);
-  const [queryLoading, setQueryLoading] = useState(false);
-  const [showSimulation, setShowSimulation] = useState(false);
-  const [simulationData, setSimulationData] = useState(null);
+  const [showCoPilot, setShowCoPilot] = useState(false);
   const { isDarkMode } = useTheme();
 
   useEffect(() => {
@@ -187,7 +183,6 @@ const SolutionPage = () => {
     fetchData();
   }, [solutionId]);
 
-  // Re-calculate diagram when theme changes
   const flowDiagram = useMemo(() => {
     return useCaseData?.architecture?.flow
       ? createWorkflowDiagram(useCaseData.architecture.flow, isDarkMode)
@@ -201,36 +196,26 @@ const SolutionPage = () => {
     }));
   };
 
-  const handleQuerySelect = async (query, index) => {
-    // If clicking the same query, toggle it off
-    if (selectedQuery === index) {
-      setSelectedQuery(null);
-      setQueryResponse(null);
-      return;
+  const handleQuerySelect = (query, index) => {
+    setSelectedQuery(query);
+    setShowCoPilot(true);
+
+    // Determine target section and scroll
+    let targetId = 'architecture'; // Default target
+    if (query.toLowerCase().includes('capabilities')) {
+      targetId = 'capabilities';
+    } else if (query.toLowerCase().includes('technolog')) {
+      targetId = 'technologies';
+    } else if (query.toLowerCase().includes('implementation') || query.toLowerCase().includes('metrics')) {
+      targetId = 'implementation';
     }
 
-    // Set selected query and start loading
-    setSelectedQuery(index);
-    setQueryLoading(true);
-    setQueryResponse(null);
-
-    // Simulate AI processing delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    try {
-      // Generate AI response based on query and use case data
-      const response = generateQueryResponse(query, useCaseData);
-      setQueryResponse(response);
-    } catch (err) {
-      console.error('Error generating query response:', err);
-      setQueryResponse({
-        intent: 'error',
-        text: 'Sorry, I encountered an issue processing your query. Please try again.',
-        actions: [],
-        confidence: 0
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
-    } finally {
-      setQueryLoading(false);
     }
   };
 
@@ -296,8 +281,8 @@ const SolutionPage = () => {
           }
         };
         
-        setSimulationData(simulationResponseData);
-        setShowSimulation(true);
+        // setSimulationData(simulationResponseData); // Removed state
+        // setShowSimulation(true); // Removed state
         break;
         
       case 'lead-capture':
@@ -312,16 +297,24 @@ const SolutionPage = () => {
     }
   };
 
-  const handleSimulationComplete = () => {
-    setShowSimulation(false);
-    setSimulationData(null);
-  };
+  // Removed handleSimulationComplete
 
   const handleCopy = (key) => {
-    setCopiedStates(prev => ({ ...prev, [key]: true }));
+    // Removed state
     setTimeout(() => {
-      setCopiedStates(prev => ({ ...prev, [key]: false }));
+      // Removed state
     }, 2000);
+  };
+
+  const handleCoPilotComplete = (analysisType) => {
+    console.log('Co-pilot analysis complete:', analysisType);
+    // Optionally hide co-pilot after completion
+    // setShowCoPilot(false);
+  };
+
+  const handleSuggestedQuery = (query, context) => {
+    console.log('Suggested query:', query, context);
+    // Handle suggested queries from co-pilot
   };
 
   const renderListItem = (item, index, icon) => (
@@ -438,56 +431,39 @@ const SolutionPage = () => {
             </div>
           </motion.div>
 
-          {/* Query Interaction Section - Enhanced Co-Pilot Style */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+          {/* Query Interaction Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className={`rounded-xl p-6 mb-12 border ${isDarkMode ? 'bg-gradient-to-br from-n-8 to-n-7 border-n-6' : 'bg-gradient-to-br from-white to-n-1 border-n-3'}`}
           >
             <div className="flex items-center mb-6">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${isDarkMode ? 'bg-primary-1/20' : 'bg-primary-1/10'}`}>
-                <FiTerminal className="text-primary-1" size={20} />
-                          </div>
-                           <div>
-                <h3 className={`h5 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>AI Co-Pilot Query Explorer</h3>
-                <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Ask our AI co-pilot about this solution and get intelligent, contextual responses</p>
-                           </div>
-                      </div>
-
-                             <div className="space-y-3">
+              <FiTerminal className="text-primary-1 mr-3" size={24} />
+              <h3 className={`h4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Solution Explorer</h3>
+              <p className={`body-2 ml-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Click a query to jump to the relevant section.</p>
+            </div>
+            <div className="space-y-3">
               {useCaseData.queries?.map((query, index) => (
-                <div key={index}>
-                  <motion.button
-                    onClick={() => handleQuerySelect(query, index)}
-                    className={`w-full text-left p-4 rounded-lg border transition-all hover:shadow-lg group ${
-                      selectedQuery === index 
-                        ? (isDarkMode ? 'bg-primary-1/10 border-primary-1/50' : 'bg-primary-1/5 border-primary-1/30')
-                        : (isDarkMode ? 'bg-n-7 border-n-6 hover:border-primary-1/30' : 'bg-n-1 border-n-3 hover:border-primary-1/30')
-                    }`}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <FiPlay className={`w-4 h-4 mr-3 ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4' : 'text-n-5'}`} />
-                        <span className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{query}</span>
-                      </div>
-                      <FiArrowRight className={`w-4 h-4 transition-colors ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4 group-hover:text-primary-1' : 'text-n-5 group-hover:text-primary-1'}`} />
+                <motion.button
+                  key={index}
+                  onClick={() => handleQuerySelect(query, index)}
+                  className={`w-full text-left p-4 rounded-lg border transition-all hover:shadow-lg group ${
+                    selectedQuery === index 
+                      ? (isDarkMode ? 'bg-primary-1/10 border-primary-1/50' : 'bg-primary-1/5 border-primary-1/30')
+                      : (isDarkMode ? 'bg-n-7 border-n-6 hover:border-primary-1/30' : 'bg-n-1 border-n-3 hover:border-primary-1/30')
+                  }`}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <FiPlay className={`w-4 h-4 mr-3 ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4' : 'text-n-5'}`} />
+                      <span className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{query}</span>
                     </div>
-                  </motion.button>
-                  
-                  {/* AI Response Component */}
-                  <AnimatePresence>
-                    {selectedQuery === index && (
-                      <QueryResponse
-                        response={queryResponse}
-                        isLoading={queryLoading}
-                        onActionClick={handleQueryAction}
-                      />
-                    )}
-                  </AnimatePresence>
-                </div>
+                    <FiArrowRight className={`w-4 h-4 transition-colors ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4 group-hover:text-primary-1' : 'text-n-5 group-hover:text-primary-1'}`} />
+                  </div>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -897,28 +873,14 @@ const SolutionPage = () => {
         </div>
       </Section>
 
-      {showSimulation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
-            {/* Close button */}
-            <button
-              onClick={() => setShowSimulation(false)}
-              className="absolute top-4 right-4 z-10 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >
-              <FiX className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
-            
-            <InteractiveSimulation
-              responseData={simulationData}
-              onSuggestedQuery={(query) => {
-                // Handle suggested query from simulation
-                console.log('Suggested query from simulation:', query);
-                // You could trigger the query response system here
-              }}
-              onComplete={handleSimulationComplete}
-            />
-          </div>
-        </div>
+      {/* Co-Pilot Integration */}
+      {showCoPilot && useCaseData && (
+        <CoPilotCore
+          useCaseData={useCaseData}
+          selectedQuery={selectedQuery}
+          onAnalysisComplete={handleCoPilotComplete}
+          onSuggestedQuery={handleSuggestedQuery}
+        />
       )}
     </>
   );

@@ -81,3 +81,4 @@ import * as JEDI from '@/constants/jedi';
 ✅ Backward Compatible - Old code still works
 ✅ Well Documented     - Clear README and examples
 ✅ Helper Functions    - Easy data access and manipulation
+

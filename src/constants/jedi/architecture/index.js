@@ -221,3 +221,4 @@ export const getJediComponentInteraction = (component1, component2) => {
     pattern.components.includes(component1) && pattern.components.includes(component2)
   );
 };
+
