@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import IntelligentAnalysisStep from './analysisSteps/IntelligentAnalysisStep';
 import ModularSimulation from './simulation/ModularSimulation';
-import { FiTerminal, FiZap, FiCheckCircle, FiPlay } from 'react-icons/fi';
+import { FiTerminal, FiZap, FiCheckCircle, FiPlay, FiX } from 'react-icons/fi';
 
 const CoPilotCore = ({ 
   useCaseData, 
   selectedQuery, 
   onAnalysisComplete,
-  onSuggestedQuery 
+  onSuggestedQuery,
+  onClose
 }) => {
   const { isDarkMode } = useTheme();
   const [currentAnalysis, setCurrentAnalysis] = useState(null);
@@ -154,19 +155,34 @@ const CoPilotCore = ({
             </div>
           </div>
           
-          {isAnalyzing && (
-            <motion.div 
-              className="flex items-center space-x-2"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+          <div className="flex items-center space-x-2">
+            {isAnalyzing && (
+              <motion.div 
+                className="flex items-center space-x-2"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="w-4 h-4 border-2 border-primary-1 border-t-transparent rounded-full animate-spin" />
+                <span className={`text-xs font-medium ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                  {Math.round(analysisProgress)}%
+                </span>
+              </motion.div>
+            )}
+            
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className={`p-1 rounded-lg transition-colors ${
+                isDarkMode 
+                  ? 'hover:bg-n-6 text-n-3 hover:text-n-1' 
+                  : 'hover:bg-n-2 text-n-5 hover:text-n-7'
+              }`}
+              title="Close Co-Pilot"
             >
-              <div className="w-4 h-4 border-2 border-primary-1 border-t-transparent rounded-full animate-spin" />
-              <span className={`text-xs font-medium ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
-                {Math.round(analysisProgress)}%
-              </span>
-            </motion.div>
-          )}
+              <FiX className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Progress Bar */}

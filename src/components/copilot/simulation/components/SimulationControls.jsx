@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Button from '../../Button';
+import { useTheme } from '@/context/ThemeContext';
+import Button from '../../../Button';
 import { PlayIcon, PauseIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const SimulationControls = ({
@@ -15,9 +16,13 @@ const SimulationControls = ({
   onSuggestedQuery,
   responseData
 }) => {
+  const { isDarkMode } = useTheme();
+  
   return (
     <div className="p-3 sm:p-4 border-b border-purple-500/20 bg-black/30">
-      <h3 className="text-xs sm:text-sm lg:text-base font-bold text-white mb-2 sm:mb-3">
+      <h3 className={`text-xs sm:text-sm lg:text-base font-bold mb-2 sm:mb-3 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
         Simulation Controls
       </h3>
       <div className="flex lg:flex-col gap-2">
@@ -101,4 +106,5 @@ const SimulationControls = ({
 };
 
 export default SimulationControls;
+
 

@@ -71,3 +71,5 @@ export const getRulesImplementationsByTechnology = (technology) =>
     impl.technologies.some(tech => tech.toLowerCase().includes(technology.toLowerCase()))
   );
 
+
+

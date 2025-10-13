@@ -1,16 +1,19 @@
 /**
- * JEDI Page - Dedicated page showcasing all JEDI components
+ * Enhanced JEDI Page - Interactive showcase with tabbed interface
  * 
- * This page reuses components from the homepage to showcase:
- * - All JEDI components overview
- * - Interactive component selection
- * - Real implementations and success stories
- * - Routes to individual JEDI component pages
+ * This page showcases JEDI components with:
+ * - Tabbed interface for organized content
+ * - Co-pilot integration for AI exploration
+ * - Interactive architecture diagrams
+ * - Technology showcase with links
+ * - Implementation timeline
+ * - Success metrics and real implementations
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@/context/ThemeContext';
 import Section from '../components/Section';
 import { 
   JediComponentCard,
@@ -19,14 +22,440 @@ import {
   ALL_JEDI_COMPONENTS,
   getAllJediImplementations
 } from '../components/jedi';
+import {
+  JediTabbedInterface,
+  JediArchitectureDiagram,
+  JediMetricsCard,
+  JediTechnologyBadge,
+  JediImplementationTimeline,
+  JediQueryInterface
+} from '../components/jedi/enhanced';
+import { jediDataService } from '../services/jediDataService';
 import { Helmet } from 'react-helmet-async';
+import { 
+  FiCpu, FiSettings, FiZap, FiUsers, FiTrendingUp, 
+  FiCheckCircle, FiPlay, FiArrowRight, FiStar 
+} from 'react-icons/fi';
 
 const JediPage = () => {
-  const [selectedComponent, setSelectedComponent] = useState(ALL_JEDI_COMPONENTS[0]);
-  const allImplementations = getAllJediImplementations();
-  const componentImplementations = allImplementations.filter(impl => 
-    impl.componentId === selectedComponent?.id
-  );
+  const { isDarkMode } = useTheme();
+  const [selectedQuery, setSelectedQuery] = useState(null);
+  const [jediData, setJediData] = useState({
+    jediComponents: [],
+    technologies: [],
+    useCases: [],
+    industries: []
+  });
+  const [loading, setLoading] = useState(true);
+
+  // Load data from Hygraph
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const data = await jediDataService.getAllJediData();
+        setJediData(data);
+      } catch (error) {
+        console.error('Error loading JEDI data:', error);
+        // Fallback to static data
+        setJediData({
+          jediComponents: ALL_JEDI_COMPONENTS,
+          technologies: [],
+          useCases: getAllJediImplementations(),
+          industries: []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  const { jediComponents, technologies, useCases, industries } = jediData;
+
+  // Suggested queries for co-pilot integration
+  const suggestedQueries = [
+    "How do JEDI components work together?",
+    "Show me real client success stories",
+    "What's the ROI of JEDI implementation?",
+    "How does JEDI compare to other AI solutions?",
+    "What industries benefit most from JEDI?",
+    "How quickly can we implement JEDI?"
+  ];
+
+  // Get unique technologies from all JEDI components
+  const jediTechnologies = React.useMemo(() => {
+    const techMap = new Map();
+    jediComponents.forEach(component => {
+      if (component.technologies) {
+        component.technologies.forEach(tech => {
+          if (tech && tech.id && !techMap.has(tech.id)) {
+            techMap.set(tech.id, {
+              id: tech.id,
+              name: tech.name || 'Unknown Technology',
+              slug: tech.slug || tech.id,
+              icon: tech.icon?.url || `/assets/stack/${tech.slug || tech.id}.png`
+            });
+          }
+        });
+      }
+    });
+    
+    const techArray = Array.from(techMap.values());
+    
+    // Fallback technologies if none found
+    if (techArray.length === 0) {
+      return [
+        { id: 'openai', name: 'OpenAI GPT', slug: 'openai-gpt', icon: '/assets/stack/openai.png' },
+        { id: 'langchain', name: 'LangChain', slug: 'langchain', icon: '/assets/stack/langchain.png' },
+        { id: 'weaviate', name: 'Weaviate', slug: 'weaviate', icon: '/assets/stack/weaviate.png' }
+      ];
+    }
+    
+    return techArray;
+  }, [jediComponents]);
+
+  // Implementation phases
+  const implementationPhases = [
+    {
+      title: "Discovery & Planning",
+      duration: "1-2 weeks",
+      description: "Understand your business needs and design the optimal JEDI solution",
+      deliverables: [
+        "Business requirements analysis",
+        "Technical architecture design",
+        "Implementation roadmap",
+        "Success metrics definition"
+      ],
+      technologies: ["JEDI Ensemble", "JEDI Rules", "JEDI AutoTune"],
+      successMetrics: [
+        { label: "Requirements Clarity", value: "100%" },
+        { label: "Architecture Approval", value: "95%" }
+      ]
+    },
+    {
+      title: "Development & Integration",
+      duration: "2-4 weeks",
+      description: "Build and integrate JEDI components with your existing systems",
+      deliverables: [
+        "JEDI component configuration",
+        "API integrations",
+        "Data pipeline setup",
+        "Security implementation"
+      ],
+      technologies: ["OpenAI", "LangChain", "Weaviate", "PostgreSQL"],
+      successMetrics: [
+        { label: "Integration Success", value: "98%" },
+        { label: "Performance Target", value: "95%" }
+      ]
+    },
+    {
+      title: "Testing & Optimization",
+      duration: "1-2 weeks",
+      description: "Comprehensive testing and performance optimization",
+      deliverables: [
+        "End-to-end testing",
+        "Performance optimization",
+        "Security audit",
+        "User acceptance testing"
+      ],
+      technologies: ["JEDI AutoTune", "Docker", "Monitoring Tools"],
+      successMetrics: [
+        { label: "Test Coverage", value: "95%" },
+        { label: "Performance Improvement", value: "40%" }
+      ]
+    },
+    {
+      title: "Deployment & Launch",
+      duration: "1 week",
+      description: "Deploy to production and launch with your team",
+      deliverables: [
+        "Production deployment",
+        "Team training",
+        "Documentation delivery",
+        "Go-live support"
+      ],
+      technologies: ["Kubernetes", "Monitoring", "Backup Systems"],
+      successMetrics: [
+        { label: "Deployment Success", value: "100%" },
+        { label: "Team Adoption", value: "90%" }
+      ]
+    },
+    {
+      title: "Monitoring & Optimization",
+      duration: "Ongoing",
+      description: "Continuous monitoring and optimization for peak performance",
+      deliverables: [
+        "Performance monitoring",
+        "Continuous optimization",
+        "Regular updates",
+        "24/7 support"
+      ],
+      technologies: ["JEDI AutoTune", "Analytics", "Support Tools"],
+      successMetrics: [
+        { label: "Uptime", value: "99.9%" },
+        { label: "Client Satisfaction", value: "98%" }
+      ]
+    }
+  ];
+
+  // Success metrics
+  const successMetrics = [
+    { label: "Client Success Rate", value: "95%", icon: "success", trend: 5 },
+    { label: "Average ROI", value: "300%", icon: "revenue", trend: 15 },
+    { label: "Implementation Speed", value: "4x faster", icon: "speed", trend: 20 },
+    { label: "Client Satisfaction", value: "98%", icon: "users", trend: 3 }
+  ];
+
+  // Tab content
+  const tabs = [
+    {
+      name: "Overview",
+      icon: FiCpu,
+      content: (
+        <div className="space-y-8">
+          {/* What is JEDI */}
+          <div className={`p-6 rounded-xl border ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-n-7 to-n-8 border-n-6' 
+              : 'bg-gradient-to-br from-n-1 to-n-2 border-n-3'
+          }`}>
+            <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+              What is JEDI?
+            </h3>
+            <p className={`text-base mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+              JEDI (Just Enough Data Intelligence) is a comprehensive AI platform that combines three powerful components 
+              to solve any business problem without requiring technical expertise.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {jediComponents && jediComponents.length > 0 ? jediComponents.map((component, index) => (
+                <motion.div
+                  key={component.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`p-4 rounded-lg border ${
+                    isDarkMode 
+                      ? 'bg-n-6 border-n-5 hover:border-primary-1/50' 
+                      : 'bg-n-2 border-n-3 hover:border-primary-1/50'
+                  } transition-all hover:shadow-lg`}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    {component.id === 'jedi-ensemble' && <FiCpu className="text-purple-500 text-xl" />}
+                    {component.id === 'jedi-rules' && <FiSettings className="text-green-500 text-xl" />}
+                    {component.id === 'jedi-automate' && <FiZap className="text-orange-500 text-xl" />}
+                    <h4 className={`font-semibold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                      {component.name}
+                    </h4>
+                  </div>
+                  <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                    {component.tagline}
+                  </p>
+                </motion.div>
+              )) : (
+                <div className="col-span-full text-center py-8">
+                  <p className={`text-lg ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                    Loading JEDI components...
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Success Metrics */}
+          <JediMetricsCard
+            title="JEDI Success Metrics"
+            metrics={successMetrics}
+            variant="success"
+          />
+
+          {/* Technology Stack */}
+          <div className={`p-6 rounded-xl border ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-n-7 to-n-8 border-n-6' 
+              : 'bg-gradient-to-br from-n-1 to-n-2 border-n-3'
+          }`}>
+            <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+              Technology Stack
+            </h3>
+            <p className={`text-sm mb-6 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+              JEDI is built on enterprise-grade technologies that ensure reliability, scalability, and security.
+            </p>
+            <JediTechnologyBadge
+              technologies={jediTechnologies}
+              variant="outline"
+              size="md"
+            />
+          </div>
+        </div>
+      )
+    },
+    {
+      name: "How It Works",
+      icon: FiSettings,
+      content: (
+        <div className="space-y-8">
+          <JediArchitectureDiagram 
+            showDetails={true}
+            interactive={true}
+            jediComponents={jediComponents}
+            technologies={technologies}
+            industries={industries}
+            useCases={useCases}
+          />
+        </div>
+      )
+    },
+    {
+      name: "Success Stories",
+      icon: FiUsers,
+      content: (
+        <div className="space-y-8">
+          {/* Filter Options */}
+          <div className="flex flex-wrap gap-4 mb-6">
+            <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              isDarkMode
+                ? 'bg-primary-1 text-white'
+                : 'bg-primary-1 text-white'
+            }`}>
+              All Stories ({useCases.length})
+            </button>
+            <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              isDarkMode
+                ? 'bg-n-6 text-n-2 hover:bg-n-5'
+                : 'bg-n-2 text-n-7 hover:bg-n-3'
+            }`}>
+              Healthcare (3)
+            </button>
+            <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              isDarkMode
+                ? 'bg-n-6 text-n-2 hover:bg-n-5'
+                : 'bg-n-2 text-n-7 hover:bg-n-3'
+            }`}>
+              Financial Services (2)
+            </button>
+            <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              isDarkMode
+                ? 'bg-n-6 text-n-2 hover:bg-n-5'
+                : 'bg-n-2 text-n-7 hover:bg-n-3'
+            }`}>
+              Technology (4)
+            </button>
+          </div>
+
+          {/* Success Stories Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {useCases && useCases.length > 0 ? useCases.slice(0, 6).map((useCase, index) => {
+              // Transform useCase data to match JediImplementationCard expected structure
+              const implementation = {
+                id: useCase.id,
+                client: useCase.title || 'Client',
+                industry: useCase.industry?.name || 'Technology',
+                problem: useCase.description || 'Business challenge',
+                solution: `JEDI ${useCase.components && useCase.components.length > 0 ? useCase.components.map(c => c.name).join(', ') : 'Components'} implementation`,
+                results: {
+                  responseTime: useCase.results?.responseTime || '80% faster',
+                  accuracy: useCase.results?.accuracy || '95%',
+                  customerSatisfaction: useCase.results?.customerSatisfaction || '60% improvement',
+                  costSavings: useCase.results?.costSavings || '40% reduction',
+                  roi: useCase.results?.roi || '300%'
+                },
+                technicalDetails: {
+                  duration: useCase.implementation?.duration || '4-6 weeks',
+                  complexity: useCase.implementation?.complexity || 'Medium',
+                  teamSize: useCase.implementation?.teamSize || '3-5 people'
+                },
+                businessImpact: {
+                  efficiency: '90% process automation',
+                  scalability: 'Handles 10x more requests',
+                  reliability: '99.9% uptime'
+                },
+                scalability: {
+                  users: 'Unlimited',
+                  data: 'Petabyte scale',
+                  performance: 'Sub-second response times'
+                }
+              };
+
+              return (
+                <motion.div
+                  key={useCase.id || index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <JediImplementationCard
+                    implementation={implementation}
+                    variant="detailed"
+                    showTechnicalDetails={true}
+                    showBusinessImpact={true}
+                    showScalability={true}
+                  />
+                </motion.div>
+              );
+            }) : (
+              <div className="col-span-full text-center py-12">
+                <div className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
+                  No Success Stories Available
+                </div>
+                <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                  Success stories will appear here once they're added to the system.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )
+    },
+    {
+      name: "Getting Started",
+      icon: FiPlay,
+      content: (
+        <div className="space-y-8">
+          <JediImplementationTimeline
+            phases={implementationPhases}
+            variant="detailed"
+            interactive={true}
+          />
+        </div>
+      )
+    },
+    {
+      name: "Explore with AI",
+      icon: FiTrendingUp,
+      content: (
+        <JediQueryInterface
+          queries={suggestedQueries && suggestedQueries.length > 0 ? suggestedQueries.map((query, index) => ({
+            id: index,
+            text: query,
+            type: 'general',
+            category: 'exploration',
+            description: 'Get AI-powered insights about JEDI capabilities'
+          })) : []}
+          categories={[
+            { key: 'exploration', name: 'General Exploration' },
+            { key: 'implementation', name: 'Implementation' },
+            { key: 'success', name: 'Success Stories' },
+            { key: 'comparison', name: 'Comparisons' }
+          ]}
+          onQuerySelect={setSelectedQuery}
+          variant="grid"
+        />
+      )
+    }
+  ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen theme-bg-primary flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-1 mx-auto mb-4"></div>
+          <p className="theme-text-secondary">Loading JEDI components...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -37,270 +466,75 @@ const JediPage = () => {
       </Helmet>
 
       <div className="min-h-screen theme-bg-primary">
-        {/* Hero Section */}
+        {/* Enhanced Hero Section */}
         <Section className="pt-32 pb-20">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="max-w-4xl mx-auto text-center"
+              className="max-w-5xl mx-auto text-center"
             >
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <FiStar className="text-primary-1 text-2xl" />
+                <span className={`text-lg font-semibold ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
+                  Enterprise AI Platform
+                </span>
+              </div>
               <h1 className="h1 mb-6 theme-text-primary">
                 JEDI AI Components
               </h1>
               <p className="h3 mb-4 theme-text-secondary">
                 Three powerful AI components that work together to solve any business problem
               </p>
-              <p className="body-1 theme-text-secondary mb-8">
+              <p className="body-1 theme-text-secondary mb-8 max-w-3xl mx-auto">
                 No technical expertise required - just tell us what you need and we handle the rest. 
                 See how our JEDI components have helped businesses achieve real, measurable results.
               </p>
-            </motion.div>
-          </div>
-        </Section>
-
-        {/* JEDI Components Overview */}
-        <Section className="py-20 theme-bg-secondary">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="h2 theme-text-primary mb-6">
-                Our JEDI Components
-              </h2>
-              <p className="body-1 theme-text-secondary max-w-3xl mx-auto">
-                Each component is designed to work out-of-the-box with no technical expertise required. 
-                They work together seamlessly to solve complex business challenges.
-              </p>
-            </motion.div>
-
-            {/* Component Cards Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-              {ALL_JEDI_COMPONENTS.map((component, index) => (
-                <motion.div
-                  key={component.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="h-full"
-                >
-                  <JediComponentCard
-                    component={component}
-                    variant="compact"
-                    showCapabilities={true}
-                    showProblem={true}
-                    showUserExperience={false}
-                    className="h-full"
-                  />
-                </motion.div>
-              ))}
+              
+              {/* Quick Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+                  <div className="text-2xl font-bold text-primary-1">95%</div>
+                  <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Success Rate</div>
             </div>
-
-            {/* Component Comparison */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8"
-            >
-              <h3 className="h3 text-center theme-text-primary mb-8">
-                Compare Our Components
-              </h3>
-              <JediComparisonTable
-                components={ALL_JEDI_COMPONENTS}
-                comparisonFields={['name', 'tagline', 'capabilities']}
-              />
-            </motion.div>
+                <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+                  <div className="text-2xl font-bold text-primary-1">300%</div>
+                  <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Average ROI</div>
           </div>
-        </Section>
-
-        {/* Interactive Component Showcase */}
-        <Section className="py-20">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="h2 theme-text-primary mb-6">
-                Explore Each Component
-              </h2>
-              <p className="body-1 theme-text-secondary max-w-3xl mx-auto">
-                Click on any component to see its capabilities, real implementations, and success stories.
-              </p>
-            </motion.div>
-
-            {/* Component Selector */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {ALL_JEDI_COMPONENTS.map((component) => (
-                <button
-                  key={component.id}
-                  onClick={() => setSelectedComponent(component)}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                    selectedComponent.id === component.id
-                      ? 'bg-primary-1 text-white shadow-lg'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  {component.name}
-                </button>
-              ))}
-            </div>
-
-            {/* Selected Component Details */}
-            <motion.div
-              key={selectedComponent.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12"
-            >
-              <div className="text-center mb-8">
-                <h3 className="h3 theme-text-primary mb-4">
-                  {selectedComponent.name}
-                </h3>
-                <p className="h4 theme-text-secondary mb-4">
-                  {selectedComponent.tagline}
-                </p>
-                <p className="body-1 theme-text-secondary max-w-3xl mx-auto">
-                  {selectedComponent.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Key Capabilities */}
-                <div>
-                  <h4 className="h4 theme-text-primary mb-6">
-                    Key Capabilities
-                  </h4>
-                  <div className="space-y-4">
-                    {selectedComponent.capabilities.primary.map((capability, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-start gap-3"
-                      >
-                        <div className="w-6 h-6 rounded-full bg-primary-1 flex items-center justify-center text-white text-sm font-bold mt-0.5">
-                          {index + 1}
-                        </div>
-                        <div>
-                          <p className="font-medium theme-text-primary">
-                            {capability.name}
-                          </p>
-                          <p className="text-sm theme-text-secondary">
-                            {capability.userBenefit}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+                  <div className="text-2xl font-bold text-primary-1">50+</div>
+                  <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Happy Clients</div>
                 </div>
-
-                {/* Success Stories Preview */}
-                <div>
-                  <h4 className="h4 theme-text-primary mb-6">
-                    Success Stories
-                  </h4>
-                  <div className="space-y-4">
-                    {componentImplementations.slice(0, 3).map((implementation, index) => (
-                      <motion.div
-                        key={implementation.id || index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + index * 0.1 }}
-                        className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-1 to-primary-2 flex items-center justify-center text-white font-bold text-sm">
-                            {implementation.client?.charAt(0) || 'C'}
-                          </div>
-                          <div className="flex-1">
-                            <h5 className="font-semibold theme-text-primary mb-1">
-                              {implementation.client}
-                            </h5>
-                            <p className="text-sm theme-text-secondary mb-2">
-                              {implementation.industry}
-                            </p>
-                            <p className="text-sm theme-text-secondary">
-                              {implementation.problem}
-                            </p>
-                            <div className="mt-2 flex items-center gap-4 text-xs">
-                              <span className="text-green-500 font-medium">
-                                ✓ {implementation.results?.responseTime || '80% faster'}
-                              </span>
-                              <span className="text-blue-500 font-medium">
-                                ✓ {implementation.results?.customerSatisfaction || '60% improvement'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+                  <div className="text-2xl font-bold text-primary-1">4x</div>
+                  <div className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Faster Implementation</div>
                 </div>
               </div>
 
-              {/* Call to Action */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
-                <Link
-                  to={`/technology/${selectedComponent.id}`}
-                  className="btn-primary flex items-center gap-2"
-                >
-                  Learn More About {selectedComponent.name}
-                </Link>
-                <Link
-                  to="/contact"
-                  className="btn-secondary flex items-center gap-2"
-                >
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/contact" className="btn-primary flex items-center gap-2">
+                  <FiPlay className="w-4 h-4" />
                   Get Started
                 </Link>
+                <Link to="/solutions" className="btn-secondary flex items-center gap-2">
+                  <FiArrowRight className="w-4 h-4" />
+                  View All Solutions
+                </Link>
               </div>
             </motion.div>
           </div>
         </Section>
 
-        {/* All Success Stories */}
-        <Section className="py-20 theme-bg-secondary">
+        {/* Tabbed Interface */}
+        <Section className="py-20">
           <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="h2 theme-text-primary mb-6">
-                Real Success Stories
-              </h2>
-              <p className="body-1 theme-text-secondary max-w-3xl mx-auto">
-                See how our JEDI components have helped businesses across industries achieve real, measurable results.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-              {allImplementations.slice(0, 6).map((implementation, index) => (
-                <motion.div
-                  key={implementation.id || index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <JediImplementationCard
-                    implementation={implementation}
-                    variant="compact"
-                    showTechnicalDetails={false}
-                    showBusinessImpact={true}
-                    showScalability={false}
-                  />
-                </motion.div>
-              ))}
-            </div>
+            <JediTabbedInterface
+              tabs={tabs}
+              suggestedQueries={suggestedQueries}
+              onQuerySelect={setSelectedQuery}
+              showCoPilot={true}
+            />
           </div>
         </Section>
 
@@ -311,25 +545,25 @@ const JediPage = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center bg-gradient-to-r from-primary-1 to-purple-600 rounded-2xl p-12 text-white"
+              className="text-center bg-gradient-to-r from-purple-600 to-purple-600 rounded-2xl p-12 text-white"
             >
-              <h2 className="h2 mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-white">
                 Ready to Transform Your Business?
               </h2>
-              <p className="body-1 mb-8 max-w-2xl mx-auto opacity-90">
+              <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto opacity-90 text-white">
                 See how our JEDI components can solve your specific business challenges 
                 with real, measurable results. No technical expertise required.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/contact"
-                  className="bg-white text-primary-1 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                  className="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
                 >
                   Get Started
                 </Link>
                 <Link
                   to="/solutions"
-                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-1 transition-colors"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors"
                 >
                   View All Solutions
                 </Link>

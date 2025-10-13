@@ -39,3 +39,5 @@ const ArchitectureStep = ({ step, revealedComponents, responseData }) => {
 
 export default ArchitectureStep;
 
+
+

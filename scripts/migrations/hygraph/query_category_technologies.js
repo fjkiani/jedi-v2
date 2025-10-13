@@ -160,3 +160,5 @@ async function queryCategoryTechnologies() {
 // Run the query
 queryCategoryTechnologies().catch(console.error);
 
+
+

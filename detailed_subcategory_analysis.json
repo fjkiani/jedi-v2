@@ -1,0 +1,1581 @@
+{
+  "detailedAnalysis": {
+    "structured-data": {
+      "subcategorySlug": "structured-data",
+      "technologies": [
+        {
+          "id": "cm5hvbwelsjfm07n4bqa6394r",
+          "name": "SQL Databases",
+          "slug": "sql-databases",
+          "description": "Relational databases with structured schemas for organized data storage",
+          "icon": "https://cdn.simpleicons.org/mysql",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "ACID compliance, Complex querying capabilities, Data integrity constraints",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv7x79sigj07n4t29e5d9k",
+              "name": "Structured Data",
+              "slug": "structured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hve95xn3qv07lih3xmsomh",
+          "name": "NoSQL Databases",
+          "slug": "nosql-databases",
+          "description": "Non-relational databases for flexible and scalable data storage",
+          "icon": "data:image/jpeg;base64,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",
+          "priority": 2,
+          "stage": "DRAFT",
+          "features": "Schema-less design, Horizontal scalability, High performance for large datasets",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv7x79sigj07n4t29e5d9k",
+              "name": "Structured Data",
+              "slug": "structured-data"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "sql-databases": {
+          "technology": {
+            "id": "cm5hvbwelsjfm07n4bqa6394r",
+            "name": "SQL Databases",
+            "slug": "sql-databases",
+            "description": "Relational databases with structured schemas for organized data storage",
+            "icon": "https://cdn.simpleicons.org/mysql",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "ACID compliance, Complex querying capabilities, Data integrity constraints",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv7x79sigj07n4t29e5d9k",
+                "name": "Structured Data",
+                "slug": "structured-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 71,
+            "features": 74,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "JEDI Rules™ business logic storage, PostgreSQL implementations"
+        },
+        "nosql-databases": {
+          "technology": {
+            "id": "cm5hve95xn3qv07lih3xmsomh",
+            "name": "NoSQL Databases",
+            "slug": "nosql-databases",
+            "description": "Non-relational databases for flexible and scalable data storage",
+            "icon": "data:image/jpeg;base64,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",
+            "priority": 2,
+            "stage": "DRAFT",
+            "features": "Schema-less design, Horizontal scalability, High performance for large datasets",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv7x79sigj07n4t29e5d9k",
+                "name": "Structured Data",
+                "slug": "structured-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 63,
+            "features": 79,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "JEDI Rules™ document-based workflows, MongoDB implementations"
+        }
+      }
+    },
+    "unstructured-data": {
+      "subcategorySlug": "unstructured-data",
+      "technologies": [
+        {
+          "id": "cm5hvf8ypsk2x07n4mcf7vjm3",
+          "name": "Text Files",
+          "slug": "text-files",
+          "description": "Processing and analysis of unstructured text data",
+          "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "Text extraction, Document parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvh94en4jo07li6hsbz6q3",
+          "name": "Images",
+          "slug": "images",
+          "description": "Processing and analysis of unstructured image data",
+          "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "Text extraction, Document parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hviqq6n4to07litw746zvs",
+          "name": "Audio",
+          "slug": "audio",
+          "description": "Processing and analysis of unstructured audio data",
+          "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "audio extraction, audio parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "text-files": {
+          "technology": {
+            "id": "cm5hvf8ypsk2x07n4mcf7vjm3",
+            "name": "Text Files",
+            "slug": "text-files",
+            "description": "Processing and analysis of unstructured text data",
+            "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "Text extraction, Document parsing, Natural language processing",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv8y34siqt07n456nc2rx0",
+                "name": "Unstructured Data",
+                "slug": "unstructured-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 49,
+            "features": 62,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "JEDI Rules™ document processing, text analysis implementations"
+        },
+        "images": {
+          "technology": {
+            "id": "cm5hvh94en4jo07li6hsbz6q3",
+            "name": "Images",
+            "slug": "images",
+            "description": "Processing and analysis of unstructured image data",
+            "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "Text extraction, Document parsing, Natural language processing",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv8y34siqt07n456nc2rx0",
+                "name": "Unstructured Data",
+                "slug": "unstructured-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 50,
+            "features": 62,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Computer vision, image analysis, JEDI AutoTune™ implementations"
+        },
+        "audio": {
+          "technology": {
+            "id": "cm5hviqq6n4to07litw746zvs",
+            "name": "Audio",
+            "slug": "audio",
+            "description": "Processing and analysis of unstructured audio data",
+            "icon": "https://www.computerhope.com/jargon/t/text-file.png",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "audio extraction, audio parsing, Natural language processing",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv8y34siqt07n456nc2rx0",
+                "name": "Unstructured Data",
+                "slug": "unstructured-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 50,
+            "features": 60,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Voice processing, speech recognition, audio analysis"
+        }
+      }
+    },
+    "streaming-data": {
+      "subcategorySlug": "streaming-data",
+      "technologies": [
+        {
+          "id": "cm5hvj69hskxy07n4o5t4o2w2",
+          "name": "Apache Kafka",
+          "slug": "apache-kafka",
+          "description": "Distributed event streaming platform for high-performance data pipelines",
+          "icon": "https://example.com/kafka-icon.png",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "Real-time streaming, Fault tolerance, Scalable architecture",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv92gkn28i07li0y8szqaj",
+              "name": "Streaming Data",
+              "slug": "streaming-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvj88qskyn07n4gvt2fwo9",
+          "name": "AWS Kinesis",
+          "slug": "aws-kinesis",
+          "description": "Managed service for real-time data streaming and analytics",
+          "icon": "https://example.com/kinesis-icon.png",
+          "priority": 2,
+          "stage": "DRAFT",
+          "features": "Real-time processing, Serverless operations, Auto-scaling",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv92gkn28i07li0y8szqaj",
+              "name": "Streaming Data",
+              "slug": "streaming-data"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "apache-kafka": {
+          "technology": {
+            "id": "cm5hvj69hskxy07n4o5t4o2w2",
+            "name": "Apache Kafka",
+            "slug": "apache-kafka",
+            "description": "Distributed event streaming platform for high-performance data pipelines",
+            "icon": "https://example.com/kafka-icon.png",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "Real-time streaming, Fault tolerance, Scalable architecture",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv92gkn28i07li0y8szqaj",
+                "name": "Streaming Data",
+                "slug": "streaming-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 72,
+            "features": 59,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Real-time data processing, event streaming, JEDI Ensemble™ integration"
+        },
+        "aws-kinesis": {
+          "technology": {
+            "id": "cm5hvj88qskyn07n4gvt2fwo9",
+            "name": "AWS Kinesis",
+            "slug": "aws-kinesis",
+            "description": "Managed service for real-time data streaming and analytics",
+            "icon": "https://example.com/kinesis-icon.png",
+            "priority": 2,
+            "stage": "DRAFT",
+            "features": "Real-time processing, Serverless operations, Auto-scaling",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv92gkn28i07li0y8szqaj",
+                "name": "Streaming Data",
+                "slug": "streaming-data"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 58,
+            "features": 57,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Cloud-native streaming, real-time analytics, AWS integration"
+        }
+      }
+    },
+    "api-data-sources": {
+      "subcategorySlug": "api-data-sources",
+      "technologies": [
+        {
+          "id": "cm5hvjp2esl2307n4kzjkoyg8",
+          "name": "Third-party APIs",
+          "slug": "third-party-apis",
+          "description": "External API integration for data acquisition",
+          "icon": "https://example.com/api-icon.png",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "REST/GraphQL integration, Authentication handling, Rate limiting",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv94l6sirz07n4ny85yi1l",
+              "name": "API Data Sources",
+              "slug": "api-data-sources"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvjql4n50507lin538o64s",
+          "name": "Web Scraping",
+          "slug": "web-scraping",
+          "description": "Automated extraction of data from websites",
+          "icon": "https://example.com/scraping-icon.png",
+          "priority": 2,
+          "stage": "DRAFT",
+          "features": "HTML parsing, Dynamic content handling, Automated data extraction",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv94l6sirz07n4ny85yi1l",
+              "name": "API Data Sources",
+              "slug": "api-data-sources"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "third-party-apis": {
+          "technology": {
+            "id": "cm5hvjp2esl2307n4kzjkoyg8",
+            "name": "Third-party APIs",
+            "slug": "third-party-apis",
+            "description": "External API integration for data acquisition",
+            "icon": "https://example.com/api-icon.png",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "REST/GraphQL integration, Authentication handling, Rate limiting",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv94l6sirz07n4ny85yi1l",
+                "name": "API Data Sources",
+                "slug": "api-data-sources"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 45,
+            "features": 64,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "API integration patterns, data acquisition, JEDI Rules™ automation"
+        },
+        "web-scraping": {
+          "technology": {
+            "id": "cm5hvjql4n50507lin538o64s",
+            "name": "Web Scraping",
+            "slug": "web-scraping",
+            "description": "Automated extraction of data from websites",
+            "icon": "https://example.com/scraping-icon.png",
+            "priority": 2,
+            "stage": "DRAFT",
+            "features": "HTML parsing, Dynamic content handling, Automated data extraction",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5hv94l6sirz07n4ny85yi1l",
+                "name": "API Data Sources",
+                "slug": "api-data-sources"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 42,
+            "features": 65,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Automated data collection, web data extraction, JEDI AutoTune™ optimization"
+        }
+      }
+    },
+    "data-ingestion": {
+      "subcategorySlug": "data-ingestion",
+      "technologies": [
+        {
+          "id": "cm5hu8hgws69n07n4po6bint0",
+          "name": "AWS Glue",
+          "slug": "aws-glue",
+          "description": "Fully managed ETL service for data preparation and transformation",
+          "icon": "https://cdn.simpleicons.org/amazon",
+          "priority": 3,
+          "stage": "DRAFT",
+          "features": "Serverless ETL, Data catalog, Job scheduling, Development endpoints, Visual ETL, Schema inference",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Managed ETL service\nHow it works: Automates data discovery and transformation\nWhat it's used for: \n1. Data cataloging\n2. ETL processing\n3. Schema management\n4. Data preparation\n5. Data integration\nHow to use it: \n1. Crawl data sources\n2. Define jobs\n3. Schedule workflows\n4. Monitor executions\n5. Optimize performance",
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            },
+            {
+              "id": "cm5isenlq5f6307likmahsyiu",
+              "name": "Transformation",
+              "slug": "data-transformation"
+            }
+          ]
+        },
+        {
+          "id": "cm5hubjbys7it07n42q9t4zab",
+          "name": "fiveTran",
+          "slug": "fivetran",
+          "description": "Automated data integration.",
+          "icon": "https://untitledfirm.com/wp-content/uploads/2021/09/fivetran_small.png",
+          "priority": 4,
+          "stage": "DRAFT",
+          "features": null,
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvvhgcn7zv07liwna0csce",
+          "name": "Apache NiFi",
+          "slug": "apache-nifi",
+          "description": "Data ingestion and ETL tool for automated data flow between systems",
+          "icon": "https://cdn.simpleicons.org/apache",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": "Visual data flow management, Real-time processing, Extensible architecture",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            }
+          ]
+        },
+        {
+          "id": "cm5ija5ahyief07lid0gyn0t8",
+          "name": "Kafka Connect",
+          "slug": "kafka-connect",
+          "description": "Distributed streaming data pipeline framework for Apache Kafka",
+          "icon": "https://cdn.simpleicons.org/apachekafka",
+          "priority": 3,
+          "stage": "DRAFT",
+          "features": "Source/Sink connectors, Distributed architecture, Schema management, Transformation APIs, Fault tolerance, Scalability, REST interface",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Framework for streaming data integration with Kafka\nHow it works: Uses connectors to stream data between Kafka and external systems\nWhat it's used for: \n1. Real-time data pipelines\n2. Database change data capture\n3. Cloud service integration\n4. Log ingestion\n5. Stream processing\nHow to use it: \n1. Configure connectors\n2. Set up workers\n3. Manage schemas\n4. Monitor streams\n5. Scale deployments",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            }
+          ]
+        },
+        {
+          "id": "cm5ija5aoyiek07li2r49ahdw",
+          "name": "Apache Sqoop",
+          "slug": "apache-sqoop",
+          "description": "Efficient bulk data transfer tool between Hadoop and structured datastores",
+          "icon": "https://cdn.simpleicons.org/apache",
+          "priority": 4,
+          "stage": "DRAFT",
+          "features": "Parallel import/export, Incremental loads, Direct HDFS access, Database support, Compression, Security integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Bulk data transfer tool for Hadoop ecosystem\nHow it works: Efficiently transfers data between RDBMS and Hadoop\nWhat it's used for: \n1. Database migration\n2. Data warehouse loading\n3. Legacy system integration\n4. Batch ETL processes\n5. Historical data archival\nHow to use it: \n1. Configure source/target\n2. Set up mappers\n3. Define incremental strategy\n4. Manage security\n5. Schedule jobs",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "aws-glue": {
+          "technology": {
+            "id": "cm5hu8hgws69n07n4po6bint0",
+            "name": "AWS Glue",
+            "slug": "aws-glue",
+            "description": "Fully managed ETL service for data preparation and transformation",
+            "icon": "https://cdn.simpleicons.org/amazon",
+            "priority": 3,
+            "stage": "DRAFT",
+            "features": "Serverless ETL, Data catalog, Job scheduling, Development endpoints, Visual ETL, Schema inference",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Managed ETL service\nHow it works: Automates data discovery and transformation\nWhat it's used for: \n1. Data cataloging\n2. ETL processing\n3. Schema management\n4. Data preparation\n5. Data integration\nHow to use it: \n1. Crawl data sources\n2. Define jobs\n3. Schedule workflows\n4. Monitor executions\n5. Optimize performance",
+            "category": [],
+            "subcategories": [
+              {
+                "id": "cm5htz43qml2907li7i04jswj",
+                "name": "data ingestion",
+                "slug": "data-ingestion"
+              },
+              {
+                "id": "cm5isenlq5f6307likmahsyiu",
+                "name": "Transformation",
+                "slug": "data-transformation"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 65,
+            "features": 97,
+            "businessMetrics": 0,
+            "additionalDetails": 329
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        },
+        "fivetran": {
+          "technology": {
+            "id": "cm5hubjbys7it07n42q9t4zab",
+            "name": "fiveTran",
+            "slug": "fivetran",
+            "description": "Automated data integration.",
+            "icon": "https://untitledfirm.com/wp-content/uploads/2021/09/fivetran_small.png",
+            "priority": 4,
+            "stage": "DRAFT",
+            "features": null,
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [],
+            "subcategories": [
+              {
+                "id": "cm5htz43qml2907li7i04jswj",
+                "name": "data ingestion",
+                "slug": "data-ingestion"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": null,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 27,
+            "features": 0,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        },
+        "apache-nifi": {
+          "technology": {
+            "id": "cm5hvvhgcn7zv07liwna0csce",
+            "name": "Apache NiFi",
+            "slug": "apache-nifi",
+            "description": "Data ingestion and ETL tool for automated data flow between systems",
+            "icon": "https://cdn.simpleicons.org/apache",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": "Visual data flow management, Real-time processing, Extensible architecture",
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [
+              {
+                "id": "cm5hv5sqishwv07n4qhh26c83",
+                "name": "AI/ML",
+                "slug": "ai-ml"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5htz43qml2907li7i04jswj",
+                "name": "data ingestion",
+                "slug": "data-ingestion"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 67,
+            "features": 74,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Data pipeline automation, ETL processes, JEDI Rules™ orchestration"
+        },
+        "kafka-connect": {
+          "technology": {
+            "id": "cm5ija5ahyief07lid0gyn0t8",
+            "name": "Kafka Connect",
+            "slug": "kafka-connect",
+            "description": "Distributed streaming data pipeline framework for Apache Kafka",
+            "icon": "https://cdn.simpleicons.org/apachekafka",
+            "priority": 3,
+            "stage": "DRAFT",
+            "features": "Source/Sink connectors, Distributed architecture, Schema management, Transformation APIs, Fault tolerance, Scalability, REST interface",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Framework for streaming data integration with Kafka\nHow it works: Uses connectors to stream data between Kafka and external systems\nWhat it's used for: \n1. Real-time data pipelines\n2. Database change data capture\n3. Cloud service integration\n4. Log ingestion\n5. Stream processing\nHow to use it: \n1. Configure connectors\n2. Set up workers\n3. Manage schemas\n4. Monitor streams\n5. Scale deployments",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5htz43qml2907li7i04jswj",
+                "name": "data ingestion",
+                "slug": "data-ingestion"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 62,
+            "features": 134,
+            "businessMetrics": 0,
+            "additionalDetails": 407
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        },
+        "apache-sqoop": {
+          "technology": {
+            "id": "cm5ija5aoyiek07li2r49ahdw",
+            "name": "Apache Sqoop",
+            "slug": "apache-sqoop",
+            "description": "Efficient bulk data transfer tool between Hadoop and structured datastores",
+            "icon": "https://cdn.simpleicons.org/apache",
+            "priority": 4,
+            "stage": "DRAFT",
+            "features": "Parallel import/export, Incremental loads, Direct HDFS access, Database support, Compression, Security integration",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Bulk data transfer tool for Hadoop ecosystem\nHow it works: Efficiently transfers data between RDBMS and Hadoop\nWhat it's used for: \n1. Database migration\n2. Data warehouse loading\n3. Legacy system integration\n4. Batch ETL processes\n5. Historical data archival\nHow to use it: \n1. Configure source/target\n2. Set up mappers\n3. Define incremental strategy\n4. Manage security\n5. Schedule jobs",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5htz43qml2907li7i04jswj",
+                "name": "data ingestion",
+                "slug": "data-ingestion"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 74,
+            "features": 114,
+            "businessMetrics": 0,
+            "additionalDetails": 399
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        }
+      }
+    },
+    "security": {
+      "subcategorySlug": "security",
+      "technologies": [
+        {
+          "id": "cm5j4vi67c9gs07lifdvjaanj",
+          "name": "HashiCorp Vault",
+          "slug": "hashicorp-vault",
+          "description": "Secrets management and data protection.",
+          "icon": "https://cdn.simpleicons.org/vault",
+          "priority": 1,
+          "stage": "DRAFT",
+          "features": null,
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        },
+        {
+          "id": "cm5j5ma49ckp807lik8o9g89m",
+          "name": "Apache Ranger",
+          "slug": "apache-ranger",
+          "description": "Framework to enable, monitor, and manage comprehensive data security.",
+          "icon": "https://cdn.simpleicons.org/apache",
+          "priority": 2,
+          "stage": "DRAFT",
+          "features": "Access control, Policy management, Auditing, Data protection, Security monitoring",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data security framework\nHow it works: Manages and monitors data access policies\nWhat it's used for: \n1. Access control\n2. Policy enforcement\n3. Security auditing\n4. Compliance monitoring\n5. Data governance\nHow to use it: \n1. Set up policies\n2. Configure authentication\n3. Define roles\n4. Monitor access\n5. Review audits",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        },
+        {
+          "id": "cm5j5ma4pckpf07li0d08z77i",
+          "name": "AWS IAM",
+          "slug": "aws-iam",
+          "description": "Access control and identity management.",
+          "icon": "https://cdn.simpleicons.org/amazonaws",
+          "priority": 3,
+          "stage": "DRAFT",
+          "features": "Identity management, Access control, Policy enforcement, Role-based access, Security compliance",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Identity and access management service\nHow it works: Manages access to AWS services and resources\nWhat it's used for: \n1. User management\n2. Permission control\n3. Security policies\n4. Resource access\n5. Compliance\nHow to use it: \n1. Create users\n2. Define roles\n3. Set permissions\n4. Implement policies\n5. Monitor activity",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        },
+        {
+          "id": "cm5j5ma52ckpn07lily7rw19x",
+          "name": "Azure Active Directory",
+          "slug": "azure-active-directory",
+          "description": "Identity and access management service.",
+          "icon": "https://cdn.simpleicons.org/microsoftazure",
+          "priority": 4,
+          "stage": "DRAFT",
+          "features": "Identity management, Single sign-on, Multi-factor authentication, Access control, Directory services",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Cloud identity platform\nHow it works: Manages identities and access in cloud environments\nWhat it's used for: \n1. Identity management\n2. Access control\n3. Authentication\n4. Directory services\n5. Security compliance\nHow to use it: \n1. Configure directory\n2. Set up authentication\n3. Manage users\n4. Implement policies\n5. Monitor security",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        },
+        {
+          "id": "cm5j5ma5jckps07liusxp540t",
+          "name": "Encryption Tools",
+          "slug": "encryption-tools",
+          "description": "Encrypt data at rest and in transit.",
+          "icon": "https://cdn.simpleicons.org/gnupg",
+          "priority": 5,
+          "stage": "DRAFT",
+          "features": "Data encryption, Key management, Secure transmission, Compliance, Privacy protection",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data encryption toolkit\nHow it works: Secures data through encryption\nWhat it's used for: \n1. Data protection\n2. Privacy compliance\n3. Secure transmission\n4. Data storage\n5. Key management\nHow to use it: \n1. Choose algorithms\n2. Implement encryption\n3. Manage keys\n4. Monitor security\n5. Maintain compliance",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "hashicorp-vault": {
+          "technology": {
+            "id": "cm5j4vi67c9gs07lifdvjaanj",
+            "name": "HashiCorp Vault",
+            "slug": "hashicorp-vault",
+            "description": "Secrets management and data protection.",
+            "icon": "https://cdn.simpleicons.org/vault",
+            "priority": 1,
+            "stage": "DRAFT",
+            "features": null,
+            "businessMetrics": null,
+            "additonalDetails": null,
+            "category": [],
+            "subcategories": [
+              {
+                "id": "cm5j58y62cem507lim9en8dj1",
+                "name": "Security",
+                "slug": "security"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": null,
+            "businessMetrics": null,
+            "additionalDetails": null
+          },
+          "contentLengths": {
+            "description": 39,
+            "features": 0,
+            "businessMetrics": 0,
+            "additionalDetails": 0
+          },
+          "needsEnhancement": [
+            "business metrics",
+            "additional details"
+          ],
+          "jediFocus": "Secrets management, security compliance, JEDI Rules™ security"
+        },
+        "apache-ranger": {
+          "technology": {
+            "id": "cm5j5ma49ckp807lik8o9g89m",
+            "name": "Apache Ranger",
+            "slug": "apache-ranger",
+            "description": "Framework to enable, monitor, and manage comprehensive data security.",
+            "icon": "https://cdn.simpleicons.org/apache",
+            "priority": 2,
+            "stage": "DRAFT",
+            "features": "Access control, Policy management, Auditing, Data protection, Security monitoring",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Data security framework\nHow it works: Manages and monitors data access policies\nWhat it's used for: \n1. Access control\n2. Policy enforcement\n3. Security auditing\n4. Compliance monitoring\n5. Data governance\nHow to use it: \n1. Set up policies\n2. Configure authentication\n3. Define roles\n4. Monitor access\n5. Review audits",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5j58y62cem507lim9en8dj1",
+                "name": "Security",
+                "slug": "security"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 69,
+            "features": 81,
+            "businessMetrics": 0,
+            "additionalDetails": 331
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "Data security, access control, compliance management"
+        },
+        "aws-iam": {
+          "technology": {
+            "id": "cm5j5ma4pckpf07li0d08z77i",
+            "name": "AWS IAM",
+            "slug": "aws-iam",
+            "description": "Access control and identity management.",
+            "icon": "https://cdn.simpleicons.org/amazonaws",
+            "priority": 3,
+            "stage": "DRAFT",
+            "features": "Identity management, Access control, Policy enforcement, Role-based access, Security compliance",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Identity and access management service\nHow it works: Manages access to AWS services and resources\nWhat it's used for: \n1. User management\n2. Permission control\n3. Security policies\n4. Resource access\n5. Compliance\nHow to use it: \n1. Create users\n2. Define roles\n3. Set permissions\n4. Implement policies\n5. Monitor activity",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5j58y62cem507lim9en8dj1",
+                "name": "Security",
+                "slug": "security"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 39,
+            "features": 95,
+            "businessMetrics": 0,
+            "additionalDetails": 334
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        },
+        "azure-active-directory": {
+          "technology": {
+            "id": "cm5j5ma52ckpn07lily7rw19x",
+            "name": "Azure Active Directory",
+            "slug": "azure-active-directory",
+            "description": "Identity and access management service.",
+            "icon": "https://cdn.simpleicons.org/microsoftazure",
+            "priority": 4,
+            "stage": "DRAFT",
+            "features": "Identity management, Single sign-on, Multi-factor authentication, Access control, Directory services",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Cloud identity platform\nHow it works: Manages identities and access in cloud environments\nWhat it's used for: \n1. Identity management\n2. Access control\n3. Authentication\n4. Directory services\n5. Security compliance\nHow to use it: \n1. Configure directory\n2. Set up authentication\n3. Manage users\n4. Implement policies\n5. Monitor security",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5j58y62cem507lim9en8dj1",
+                "name": "Security",
+                "slug": "security"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 39,
+            "features": 100,
+            "businessMetrics": 0,
+            "additionalDetails": 348
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        },
+        "encryption-tools": {
+          "technology": {
+            "id": "cm5j5ma5jckps07liusxp540t",
+            "name": "Encryption Tools",
+            "slug": "encryption-tools",
+            "description": "Encrypt data at rest and in transit.",
+            "icon": "https://cdn.simpleicons.org/gnupg",
+            "priority": 5,
+            "stage": "DRAFT",
+            "features": "Data encryption, Key management, Secure transmission, Compliance, Privacy protection",
+            "businessMetrics": null,
+            "additonalDetails": "What it is: Data encryption toolkit\nHow it works: Secures data through encryption\nWhat it's used for: \n1. Data protection\n2. Privacy compliance\n3. Secure transmission\n4. Data storage\n5. Key management\nHow to use it: \n1. Choose algorithms\n2. Implement encryption\n3. Manage keys\n4. Monitor security\n5. Maintain compliance",
+            "category": [
+              {
+                "id": "cm5bep4cxhf0z07lqbh0psy6d",
+                "name": "Data Engineering",
+                "slug": "data-engineering"
+              }
+            ],
+            "subcategories": [
+              {
+                "id": "cm5j58y62cem507lim9en8dj1",
+                "name": "Security",
+                "slug": "security"
+              }
+            ]
+          },
+          "contentStatus": {
+            "description": true,
+            "features": true,
+            "businessMetrics": null,
+            "additionalDetails": true
+          },
+          "contentLengths": {
+            "description": 36,
+            "features": 84,
+            "businessMetrics": 0,
+            "additionalDetails": 319
+          },
+          "needsEnhancement": [
+            "business metrics"
+          ],
+          "jediFocus": "JEDI component integration, real client implementations"
+        }
+      }
+    }
+  },
+  "enhancementPlan": {
+    "highPrioritySubcategories": [
+      {
+        "subcategorySlug": "structured-data",
+        "subcategoryName": "Structured Data",
+        "totalTechnologies": 2,
+        "needsEnhancement": 2,
+        "technologies": [
+          {
+            "name": "SQL Databases",
+            "slug": "sql-databases",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "JEDI Rules™ business logic storage, PostgreSQL implementations"
+          },
+          {
+            "name": "NoSQL Databases",
+            "slug": "nosql-databases",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "JEDI Rules™ document-based workflows, MongoDB implementations"
+          }
+        ]
+      },
+      {
+        "subcategorySlug": "unstructured-data",
+        "subcategoryName": "Unstructured Data",
+        "totalTechnologies": 3,
+        "needsEnhancement": 3,
+        "technologies": [
+          {
+            "name": "Text Files",
+            "slug": "text-files",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "JEDI Rules™ document processing, text analysis implementations"
+          },
+          {
+            "name": "Images",
+            "slug": "images",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Computer vision, image analysis, JEDI AutoTune™ implementations"
+          },
+          {
+            "name": "Audio",
+            "slug": "audio",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Voice processing, speech recognition, audio analysis"
+          }
+        ]
+      },
+      {
+        "subcategorySlug": "streaming-data",
+        "subcategoryName": "Streaming Data",
+        "totalTechnologies": 2,
+        "needsEnhancement": 2,
+        "technologies": [
+          {
+            "name": "Apache Kafka",
+            "slug": "apache-kafka",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Real-time data processing, event streaming, JEDI Ensemble™ integration"
+          },
+          {
+            "name": "AWS Kinesis",
+            "slug": "aws-kinesis",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Cloud-native streaming, real-time analytics, AWS integration"
+          }
+        ]
+      },
+      {
+        "subcategorySlug": "api-data-sources",
+        "subcategoryName": "API Data Sources",
+        "totalTechnologies": 2,
+        "needsEnhancement": 2,
+        "technologies": [
+          {
+            "name": "Third-party APIs",
+            "slug": "third-party-apis",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "API integration patterns, data acquisition, JEDI Rules™ automation"
+          },
+          {
+            "name": "Web Scraping",
+            "slug": "web-scraping",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Automated data collection, web data extraction, JEDI AutoTune™ optimization"
+          }
+        ]
+      },
+      {
+        "subcategorySlug": "data-ingestion",
+        "subcategoryName": "data ingestion",
+        "totalTechnologies": 5,
+        "needsEnhancement": 5,
+        "technologies": [
+          {
+            "name": "AWS Glue",
+            "slug": "aws-glue",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          },
+          {
+            "name": "fiveTran",
+            "slug": "fivetran",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "JEDI component integration, real client implementations"
+          },
+          {
+            "name": "Apache NiFi",
+            "slug": "apache-nifi",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Data pipeline automation, ETL processes, JEDI Rules™ orchestration"
+          },
+          {
+            "name": "Kafka Connect",
+            "slug": "kafka-connect",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          },
+          {
+            "name": "Apache Sqoop",
+            "slug": "apache-sqoop",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          }
+        ]
+      },
+      {
+        "subcategorySlug": "security",
+        "subcategoryName": "Security",
+        "totalTechnologies": 5,
+        "needsEnhancement": 5,
+        "technologies": [
+          {
+            "name": "HashiCorp Vault",
+            "slug": "hashicorp-vault",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": true,
+            "jediFocus": "Secrets management, security compliance, JEDI Rules™ security"
+          },
+          {
+            "name": "Apache Ranger",
+            "slug": "apache-ranger",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "Data security, access control, compliance management"
+          },
+          {
+            "name": "AWS IAM",
+            "slug": "aws-iam",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          },
+          {
+            "name": "Azure Active Directory",
+            "slug": "azure-active-directory",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          },
+          {
+            "name": "Encryption Tools",
+            "slug": "encryption-tools",
+            "needsBusinessMetrics": true,
+            "needsAdditionalDetails": false,
+            "jediFocus": "JEDI component integration, real client implementations"
+          }
+        ]
+      }
+    ],
+    "totalTechnologies": 19,
+    "technologiesNeedingEnhancement": 19,
+    "estimatedEnhancementWork": {
+      "structured-data": {
+        "businessMetrics": 2,
+        "additionalDetails": 2,
+        "totalEnhancements": 2
+      },
+      "unstructured-data": {
+        "businessMetrics": 3,
+        "additionalDetails": 3,
+        "totalEnhancements": 3
+      },
+      "streaming-data": {
+        "businessMetrics": 2,
+        "additionalDetails": 2,
+        "totalEnhancements": 2
+      },
+      "api-data-sources": {
+        "businessMetrics": 2,
+        "additionalDetails": 2,
+        "totalEnhancements": 2
+      },
+      "data-ingestion": {
+        "businessMetrics": 5,
+        "additionalDetails": 2,
+        "totalEnhancements": 5
+      },
+      "security": {
+        "businessMetrics": 5,
+        "additionalDetails": 1,
+        "totalEnhancements": 5
+      }
+    }
+  }
+}

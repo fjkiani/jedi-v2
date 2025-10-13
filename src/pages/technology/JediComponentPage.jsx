@@ -201,10 +201,10 @@ const JediComponentPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center bg-gradient-to-r from-primary-1 to-purple-600 rounded-2xl p-12 text-white"
             >
-              <h2 className="h2 mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-white">
                 Ready to Transform Your Business?
               </h2>
-              <p className="body-1 mb-8 max-w-2xl mx-auto opacity-90">
+              <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto opacity-90 text-white">
                 See how {component.name} can solve your specific business challenges 
                 with real, measurable results. No technical expertise required.
               </p>
@@ -231,4 +231,5 @@ const JediComponentPage = () => {
 };
 
 export default JediComponentPage;
+
 

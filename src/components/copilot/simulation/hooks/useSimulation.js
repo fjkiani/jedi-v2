@@ -8,7 +8,7 @@ export const useSimulation = (steps) => {
   const [completedSubSteps, setCompletedSubSteps] = useState(new Set());
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(true);
   const [processingStatus, setProcessingStatus] = useState('');
   const [revealedComponents, setRevealedComponents] = useState(new Set());
 
@@ -200,4 +200,5 @@ export const useSimulation = (steps) => {
     revealAllComponentsForStep
   };
 };
+
 

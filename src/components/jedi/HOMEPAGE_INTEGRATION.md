@@ -155,3 +155,5 @@ Your homepage now showcases JEDI components dynamically with:
 
 **Visit your homepage to see the new JEDI components section in action!**
 
+
+

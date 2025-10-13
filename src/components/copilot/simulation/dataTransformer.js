@@ -434,3 +434,5 @@ const generateContextualRecommendations = (solutionName, industryName, useCase, 
   return recommendations;
 };
 
+
+

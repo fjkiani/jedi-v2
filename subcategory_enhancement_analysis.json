@@ -1,0 +1,3464 @@
+{
+  "subcategories": [
+    {
+      "subcategory": {
+        "id": "cm5hv7x79sigj07n4t29e5d9k",
+        "name": "Structured Data",
+        "slug": "structured-data"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5hvbwelsjfm07n4bqa6394r",
+          "name": "SQL Databases",
+          "slug": "sql-databases",
+          "description": "Relational databases with structured schemas for organized data storage",
+          "features": "ACID compliance, Complex querying capabilities, Data integrity constraints",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv7x79sigj07n4t29e5d9k",
+              "name": "Structured Data",
+              "slug": "structured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hve95xn3qv07lih3xmsomh",
+          "name": "NoSQL Databases",
+          "slug": "nosql-databases",
+          "description": "Non-relational databases for flexible and scalable data storage",
+          "features": "Schema-less design, Horizontal scalability, High performance for large datasets",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv7x79sigj07n4t29e5d9k",
+              "name": "Structured Data",
+              "slug": "structured-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hv8y34siqt07n456nc2rx0",
+        "name": "Unstructured Data",
+        "slug": "unstructured-data"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 3,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5hvf8ypsk2x07n4mcf7vjm3",
+          "name": "Text Files",
+          "slug": "text-files",
+          "description": "Processing and analysis of unstructured text data",
+          "features": "Text extraction, Document parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvh94en4jo07li6hsbz6q3",
+          "name": "Images",
+          "slug": "images",
+          "description": "Processing and analysis of unstructured image data",
+          "features": "Text extraction, Document parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hviqq6n4to07litw746zvs",
+          "name": "Audio",
+          "slug": "audio",
+          "description": "Processing and analysis of unstructured audio data",
+          "features": "audio extraction, audio parsing, Natural language processing",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv8y34siqt07n456nc2rx0",
+              "name": "Unstructured Data",
+              "slug": "unstructured-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hv92gkn28i07li0y8szqaj",
+        "name": "Streaming Data",
+        "slug": "streaming-data"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5hvj69hskxy07n4o5t4o2w2",
+          "name": "Apache Kafka",
+          "slug": "apache-kafka",
+          "description": "Distributed event streaming platform for high-performance data pipelines",
+          "features": "Real-time streaming, Fault tolerance, Scalable architecture",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv92gkn28i07li0y8szqaj",
+              "name": "Streaming Data",
+              "slug": "streaming-data"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvj88qskyn07n4gvt2fwo9",
+          "name": "AWS Kinesis",
+          "slug": "aws-kinesis",
+          "description": "Managed service for real-time data streaming and analytics",
+          "features": "Real-time processing, Serverless operations, Auto-scaling",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv92gkn28i07li0y8szqaj",
+              "name": "Streaming Data",
+              "slug": "streaming-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hv94l6sirz07n4ny85yi1l",
+        "name": "API Data Sources",
+        "slug": "api-data-sources"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5hvjp2esl2307n4kzjkoyg8",
+          "name": "Third-party APIs",
+          "slug": "third-party-apis",
+          "description": "External API integration for data acquisition",
+          "features": "REST/GraphQL integration, Authentication handling, Rate limiting",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv94l6sirz07n4ny85yi1l",
+              "name": "API Data Sources",
+              "slug": "api-data-sources"
+            }
+          ]
+        },
+        {
+          "id": "cm5hvjql4n50507lin538o64s",
+          "name": "Web Scraping",
+          "slug": "web-scraping",
+          "description": "Automated extraction of data from websites",
+          "features": "HTML parsing, Dynamic content handling, Automated data extraction",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hv94l6sirz07n4ny85yi1l",
+              "name": "API Data Sources",
+              "slug": "api-data-sources"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5htz43qml2907li7i04jswj",
+        "name": "data ingestion",
+        "slug": "data-ingestion"
+      },
+      "totalTechs": 1,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 1,
+        "additonalDetails": 1
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5hvvhgcn7zv07liwna0csce",
+          "name": "Apache NiFi",
+          "slug": "apache-nifi",
+          "description": "Data ingestion and ETL tool for automated data flow between systems",
+          "features": "Visual data flow management, Real-time processing, Extensible architecture",
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5htz43qml2907li7i04jswj",
+              "name": "data ingestion",
+              "slug": "data-ingestion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5j58y62cem507lim9en8dj1",
+        "name": "Security",
+        "slug": "security"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 1,
+        "businessMetrics": 2,
+        "additonalDetails": 1
+      },
+      "enhancementScore": 0.6666666666666666,
+      "priority": "HIGH",
+      "technologies": [
+        {
+          "id": "cm5j4vi67c9gs07lifdvjaanj",
+          "name": "HashiCorp Vault",
+          "slug": "hashicorp-vault",
+          "description": "Secrets management and data protection.",
+          "features": null,
+          "businessMetrics": null,
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        },
+        {
+          "id": "cm5j5ma49ckp807lik8o9g89m",
+          "name": "Apache Ranger",
+          "slug": "apache-ranger",
+          "description": "Framework to enable, monitor, and manage comprehensive data security.",
+          "features": "Access control, Policy management, Auditing, Data protection, Security monitoring",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data security framework\nHow it works: Manages and monitors data access policies\nWhat it's used for: \n1. Access control\n2. Policy enforcement\n3. Security auditing\n4. Compliance monitoring\n5. Data governance\nHow to use it: \n1. Set up policies\n2. Configure authentication\n3. Define roles\n4. Monitor access\n5. Review audits",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5j58y62cem507lim9en8dj1",
+              "name": "Security",
+              "slug": "security"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5bzevu5r4r107mvik02c0j3",
+        "name": "Frameworks",
+        "slug": "frameworks"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5buss2705ho07lot6usyhk4",
+          "name": "React",
+          "slug": "react",
+          "description": "React is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages React to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "React improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu5r4r107mvik02c0j3",
+              "name": "Frameworks",
+              "slug": "frameworks"
+            }
+          ]
+        },
+        {
+          "id": "cm5bzdz6er48z07mv2jpvfqa5",
+          "name": "Angular",
+          "slug": "angular",
+          "description": "Angular is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Angular to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Angular improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu5r4r107mvik02c0j3",
+              "name": "Frameworks",
+              "slug": "frameworks"
+            }
+          ]
+        },
+        {
+          "id": "cm5bzdz6ir49407mvs1s4fr5c",
+          "name": "Flutter",
+          "slug": "flutter",
+          "description": "Flutter is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Flutter to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Flutter improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu5r4r107mvik02c0j3",
+              "name": "Frameworks",
+              "slug": "frameworks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5bz4zx2qy1b07mv40qh1iq9",
+        "name": "Reasoning",
+        "slug": "reasoning"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5byr71rqiid07mv9kweumjn",
+          "name": "ReAct",
+          "slug": "react-ai",
+          "description": "ReAct is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages ReAct to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "ReAct improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz4zx2qy1b07mv40qh1iq9",
+              "name": "Reasoning",
+              "slug": "reasoning"
+            }
+          ]
+        },
+        {
+          "id": "cm5byr71tqiih07mvcu16e1zz",
+          "name": "Chain-of-thought (CoT)",
+          "slug": "chain-of-thought",
+          "description": "Chain-of-thought (CoT) is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Chain-of-thought (CoT) to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Chain-of-thought (CoT) improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz4zx2qy1b07mv40qh1iq9",
+              "name": "Reasoning",
+              "slug": "reasoning"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5bz57dnqy3v07mv85leyfme",
+        "name": "Memory",
+        "slug": "memory"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5byr71wqiil07mv8thzetjj",
+          "name": "Vector Databases",
+          "slug": "vector-databases",
+          "description": "Vector Databases is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Vector Databases to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Vector Databases improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz57dnqy3v07mv85leyfme",
+              "name": "Memory",
+              "slug": "memory"
+            }
+          ]
+        },
+        {
+          "id": "cm5byr71yqiip07mv6erkbdgv",
+          "name": "Knowledge Graphs",
+          "slug": "knowledge-graphs",
+          "description": "Knowledge Graphs is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Knowledge Graphs to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Knowledge Graphs improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz57dnqy3v07mv85leyfme",
+              "name": "Memory",
+              "slug": "memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5bzevu2r4qw07mvg21wqwm6",
+        "name": "Interfaces",
+        "slug": "interfaces"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5bzfpdg3i1i07low8ulfxct",
+          "name": "Web UI",
+          "slug": "web-ui",
+          "description": "Web UI is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Web UI to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Web UI improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu2r4qw07mvg21wqwm6",
+              "name": "Interfaces",
+              "slug": "interfaces"
+            }
+          ]
+        },
+        {
+          "id": "cm5bzfpdi3i1n07louf2aqqlo",
+          "name": "Mobile App",
+          "slug": "mobile-app",
+          "description": "Mobile App is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Mobile App to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Mobile App improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu2r4qw07mvg21wqwm6",
+              "name": "Interfaces",
+              "slug": "interfaces"
+            }
+          ]
+        },
+        {
+          "id": "cm5bzfpdk3i1s07logq4y6mkk",
+          "name": "Voice Assistants",
+          "slug": "voice-assistants",
+          "description": "Voice Assistants is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Voice Assistants to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Voice Assistants improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5buss2705hp07lowr66jwwi",
+              "name": "Frontend Development",
+              "slug": "frontend-development"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bzevu2r4qw07mvg21wqwm6",
+              "name": "Interfaces",
+              "slug": "interfaces"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c847x87hpz07lob7s8iyjk",
+        "name": "Tool Integration",
+        "slug": "tool-integration"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c82o9rv19z07mvnznanh5q",
+          "name": "Zapier",
+          "slug": "zapier",
+          "description": "Zapier is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Zapier to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Zapier improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c847x87hpz07lob7s8iyjk",
+              "name": "Tool Integration",
+              "slug": "tool-integration"
+            }
+          ]
+        },
+        {
+          "id": "cm5c82o9uv1a307mv41588w7e",
+          "name": "AWS Lambda",
+          "slug": "aws-lambda",
+          "description": "AWS Lambda is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages AWS Lambda to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "AWS Lambda improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c847x87hpz07lob7s8iyjk",
+              "name": "Tool Integration",
+              "slug": "tool-integration"
+            }
+          ]
+        },
+        {
+          "id": "cm5c82o9wv1a707mv5dt8la9a",
+          "name": "IFTTT",
+          "slug": "ifttt",
+          "description": "IFTTT is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages IFTTT to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "IFTTT improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c847x87hpz07lob7s8iyjk",
+              "name": "Tool Integration",
+              "slug": "tool-integration"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c859ne7i4b07lop8xil6tn",
+        "name": "Protocols",
+        "slug": "protocols"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c84koiv2g407mvxgz5dz1a",
+          "name": "REST",
+          "slug": "rest-api",
+          "description": "REST is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages REST to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "REST improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c859ne7i4b07lop8xil6tn",
+              "name": "Protocols",
+              "slug": "protocols"
+            }
+          ]
+        },
+        {
+          "id": "cm5c84kolv2g807mv6k6bx13e",
+          "name": "GraphQL",
+          "slug": "graphql",
+          "description": "GraphQL is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages GraphQL to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "GraphQL improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c859ne7i4b07lop8xil6tn",
+              "name": "Protocols",
+              "slug": "protocols"
+            }
+          ]
+        },
+        {
+          "id": "cm5c84koov2gc07mvv821auwr",
+          "name": "gRPC",
+          "slug": "grpc",
+          "description": "gRPC is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages gRPC to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "gRPC improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c859ne7i4b07lop8xil6tn",
+              "name": "Protocols",
+              "slug": "protocols"
+            },
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c864fx7ik607lof6q96ee8",
+        "name": "Authentication",
+        "slug": "authentication"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c85uy4v2zq07mv8hgjgg3o",
+          "name": "OAuth2",
+          "slug": "oauth2",
+          "description": "OAuth 2.0 is the industry-standard protocol for authorization, enabling secure access to user data without exposing credentials. JEDI Labs implements OAuth 2.0 to ensure secure authentication and authorization for AI applications while maintaining user privacy and regulatory compliance.",
+          "features": "Secure Authorization Framework, Token-based Authentication, Third-party Integration, Scope-based Access Control, Refresh Token Support, PKCE Security Extension, Multiple Grant Types, Industry Standard Compliance",
+          "businessMetrics": "Reduces security vulnerabilities by 85%, enables single sign-on (SSO) for 95% of applications, improves user experience with seamless authentication, ensures compliance with security standards",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5j9ht2ldwm707lil7d5n6vp",
+              "name": "Security",
+              "slug": "security"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c864fx7ik607lof6q96ee8",
+              "name": "Authentication",
+              "slug": "authentication"
+            }
+          ]
+        },
+        {
+          "id": "cm5c85uy6v2zu07mvvy6rxvw5",
+          "name": "API Keys",
+          "slug": "api-keys",
+          "description": "API Keys is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages API Keys to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "API Keys improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c864fx7ik607lof6q96ee8",
+              "name": "Authentication",
+              "slug": "authentication"
+            }
+          ]
+        },
+        {
+          "id": "cm5c85uy9v2zy07mv36hm1eom",
+          "name": "JWT",
+          "slug": "jwt",
+          "description": "JWT is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages JWT to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "JWT improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c864fx7ik607lof6q96ee8",
+              "name": "Authentication",
+              "slug": "authentication"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c8x0vdvdvj07mvtfz536mr",
+        "name": "Planning Algorithms",
+        "slug": "planning-algorithms"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 3
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c8u8byvddi07mvt6weu5pb",
+          "name": "Tree of Thoughts",
+          "slug": "tree-of-thoughts",
+          "description": "Tree of Thoughts is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Tree of Thoughts to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Tree of Thoughts improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vdvdvj07mvtfz536mr",
+              "name": "Planning Algorithms",
+              "slug": "planning-algorithms"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8u8devddo07mvq71fl5mn",
+          "name": "Monte Carlo Tree Search",
+          "slug": "mcts",
+          "description": "Monte Carlo Tree Search is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Monte Carlo Tree Search to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Monte Carlo Tree Search improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vdvdvj07mvtfz536mr",
+              "name": "Planning Algorithms",
+              "slug": "planning-algorithms"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8vdxe7snj07lorphgrh9m",
+          "name": "A* Search",
+          "slug": "a-star-search",
+          "description": "A* Search is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages A* Search to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "A* Search improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vdvdvj07mvtfz536mr",
+              "name": "Planning Algorithms",
+              "slug": "planning-algorithms"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c90zsqvf4a07mvtzrwk6rp",
+        "name": "Observability",
+        "slug": "observability"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c8yph9ve8607mv6f6jmhau",
+          "name": "Prometheus",
+          "slug": "prometheus",
+          "description": "Prometheus is an open-source monitoring and alerting toolkit designed for reliability and scalability. JEDI Labs uses Prometheus to monitor AI model performance, system metrics, and application health, ensuring optimal performance and early detection of issues.",
+          "features": "Time-series Database, Multi-dimensional Data Model, PromQL Query Language, Service Discovery, Alerting Rules, Grafana Integration, Pull-based Architecture, High Availability",
+          "businessMetrics": "Monitors 1M+ metrics per second, reduces mean time to detection (MTTD) by 80%, enables proactive issue resolution, supports enterprise-scale monitoring with minimal overhead",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c90zsqvf4a07mvtzrwk6rp",
+              "name": "Observability",
+              "slug": "observability"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8ypiqve8j07mvposgdx3o",
+          "name": "OpenTelemetry",
+          "slug": "opentelemetry",
+          "description": "OpenTelemetry is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages OpenTelemetry to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "OpenTelemetry improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c90zsqvf4a07mvtzrwk6rp",
+              "name": "Observability",
+              "slug": "observability"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c9dyn6vhto07mvmz1h7spa",
+        "name": "Data Protection",
+        "slug": null
+      },
+      "totalTechs": 6,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 6
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c9bx4u7xf907loovenh1q4",
+          "name": "Encryption",
+          "slug": "encryption",
+          "description": "Encryption is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Encryption to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Encryption improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            }
+          ]
+        },
+        {
+          "id": "cm5c9bx4u7xf907loovenh1q4",
+          "name": "Encryption",
+          "slug": "encryption",
+          "description": "Encryption is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Encryption to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Encryption improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            }
+          ]
+        },
+        {
+          "id": "cm5c9bx4y7xff07loeca10wpb",
+          "name": "Anonymization",
+          "slug": "anonymization",
+          "description": "Anonymization is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Anonymization to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Anonymization improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            }
+          ]
+        },
+        {
+          "id": "cm5c9bx4y7xff07loeca10wpb",
+          "name": "Anonymization",
+          "slug": "anonymization",
+          "description": "Anonymization is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Anonymization to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Anonymization improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            }
+          ]
+        },
+        {
+          "id": "cm5c9bx517xfl07loyctsu6zs",
+          "name": "Data Masking",
+          "slug": "data-masking",
+          "description": "Data Masking is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Data Masking to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Data Masking improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9dynavhtv07mvxcmosmw0",
+              "name": "Compliance",
+              "slug": "compliance"
+            }
+          ]
+        },
+        {
+          "id": "cm5c9bx517xfl07loyctsu6zs",
+          "name": "Data Masking",
+          "slug": "data-masking",
+          "description": "Data Masking is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Data Masking to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Data Masking improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9dynavhtv07mvxcmosmw0",
+              "name": "Compliance",
+              "slug": "compliance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hw4tz2srik07n4yx34soh4",
+        "name": "Model Training",
+        "slug": "model-training"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 1
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5hwjfclnjkx07lipari8rkl",
+          "name": "GPUs",
+          "slug": "gpus",
+          "description": "Graphics Processing Units are specialized processors designed for parallel processing. They contain thousands of smaller, efficient cores designed for handling multiple tasks simultaneously, making them ideal for ML workloads.",
+          "features": "Parallel processing architecture, CUDA/ROCm programming, Matrix operations, Memory bandwidth optimization, Multi-GPU scaling",
+          "businessMetrics": null,
+          "additonalDetails": "What they are: Specialized processors for parallel computations\nHow they work: Process multiple calculations simultaneously through thousands of cores\nWhat they are used for: Deep learning training, Computer vision, Large model training\nHow to use them: Via frameworks like CUDA (NVIDIA) or ROCm (AMD), integrated with ML frameworks",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hw4tz2srik07n4yx34soh4",
+              "name": "Model Training",
+              "slug": "model-training"
+            }
+          ]
+        },
+        {
+          "id": "cm5c9lvudvjcq07mvrzwbgpaq",
+          "name": "TensorFlow",
+          "slug": "tensorflow",
+          "description": "TensorFlow is Google's comprehensive open-source platform for machine learning. JEDI Labs leverages TensorFlow for building scalable ML models, from research prototypes to production systems, with support for mobile deployment, edge computing, and large-scale distributed training.",
+          "features": "End-to-end ML Platform, TensorFlow Serving, Mobile & Edge Deployment, Distributed Training, TensorBoard Visualization, Keras High-level API, Production-ready Pipelines, Multi-platform Support",
+          "businessMetrics": "Powers production systems serving 1B+ predictions daily, reduces deployment complexity by 70%, enables mobile ML with 90% model size reduction, supports enterprise-scale distributed training",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5hw4tz2srik07n4yx34soh4",
+              "name": "Model Training",
+              "slug": "model-training"
+            }
+          ]
+        },
+        {
+          "id": "cm5hwkicpnjq607lis4e6bb6x",
+          "name": "TPUs",
+          "slug": "tpus",
+          "description": "Tensor Processing Units are AI accelerator ASICs developed by Google specifically for neural network machine learning, particularly using TensorFlow.",
+          "features": "Matrix multiplication optimization, Dedicated ML architecture, Cloud TPU pods, Automatic optimization",
+          "businessMetrics": null,
+          "additonalDetails": "What they are: Custom-built AI accelerators optimized for TensorFlow\nHow they work: Specialized circuits for matrix operations in neural networks\nWhat they are used for: Large-scale ML training, TensorFlow workloads, Research projects\nHow to use them: Through Google Cloud Platform, integrated with TensorFlow",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hw4tz2srik07n4yx34soh4",
+              "name": "Model Training",
+              "slug": "model-training"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hwrqyxnljd07litzsntfgo",
+        "name": "Model Serving",
+        "slug": "model-serving"
+      },
+      "totalTechs": 5,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 4,
+        "additonalDetails": 1
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5hwrsttt17d07n4e62d1sdn",
+          "name": "TensorFlow Serving",
+          "slug": "tensorflow-serving",
+          "description": "Flexible, high-performance serving system for machine learning models",
+          "features": "Model versioning, RESTful API, gRPC support, Batching, Multiple model serving",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Production-grade model serving system\nHow it works: Serves TensorFlow models via REST/gRPC APIs with version control\nWhat it's used for: \n1. Production model deployment\n2. Model versioning and updates\n3. High-performance inference\nHow to use it: \n1. Export SavedModel format\n2. Configure serving endpoints\n3. Deploy with Docker/Kubernetes\n4. Make REST/gRPC requests",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            }
+          ]
+        },
+        {
+          "id": "cm5hy80sote1y07n4mie3fp4n",
+          "name": "Docker",
+          "slug": "docker",
+          "description": "Containerization platform for packaging and deploying ML models",
+          "features": "Container isolation, Reproducible environments, Easy deployment, Version control, Resource management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Container platform for ML model deployment\nHow it works: Packages model and dependencies in isolated containers\nWhat it's used for: \n1. Model deployment standardization\n2. Environment reproducibility\n3. Scalable model serving\nHow to use it: \n1. Create Dockerfile with model requirements\n2. Build container image\n3. Run containers locally or in cloud\n4. Manage container lifecycle",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            }
+          ]
+        },
+        {
+          "id": "cm5hwt0hft1dt07n4uqqxs5sn",
+          "name": "TorchServe",
+          "slug": "torchserve",
+          "description": "Flexible and easy to use tool for serving PyTorch models in production",
+          "features": "Model versioning, Multi-model serving, RESTful API, Metrics API, Model management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Production model serving for PyTorch\nHow it works: Serves PyTorch models with RESTful APIs and model management\nWhat it's used for: \n1. Production PyTorch deployment\n2. Model versioning and A/B testing\n3. Model metrics and monitoring\nHow to use it: \n1. Package model with torch-model-archiver\n2. Configure config.properties\n3. Start TorchServe server\n4. Make inference requests via REST API",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            }
+          ]
+        },
+        {
+          "id": "cm5hy82genysu07lis5fxywas",
+          "name": "Kubernetes",
+          "slug": "kubernetes",
+          "description": "Container orchestration platform for scaling ML model deployments",
+          "features": "Container orchestration, Auto-scaling, Load balancing, Rolling updates, Self-healing",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Container orchestration for ML deployments\nHow it works: Manages containerized model deployments at scale\nWhat it's used for: \n1. Production model deployment\n2. Scaling model serving\n3. High availability deployments\nHow to use it: \n1. Define deployment manifests\n2. Configure service endpoints\n3. Set up auto-scaling\n4. Monitor deployments",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            },
+            {
+              "id": "cm5iz3jrs95gx07lil7h24zel",
+              "name": "Staging Environment",
+              "slug": "staging-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5c84koov2gc07mvv821auwr",
+          "name": "gRPC",
+          "slug": "grpc",
+          "description": "gRPC is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages gRPC to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "gRPC improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c859ne7i4b07lop8xil6tn",
+              "name": "Protocols",
+              "slug": "protocols"
+            },
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hyd2qqo09k07lib40wh5gv",
+        "name": "Inference API",
+        "slug": "inference-api"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5hydzobo0gi07li9k9qgdh3",
+          "name": "FastAPI",
+          "slug": "fastapi",
+          "description": "Modern, fast web framework for building ML model inference APIs",
+          "features": "Async support, Auto API documentation, Type checking, High performance, Easy ML model integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Python web framework optimized for ML APIs\nHow it works: Uses Python type hints for automatic API validation and docs\nWhat it's used for: \n1. Building ML model inference endpoints\n2. Real-time prediction APIs\n3. Scalable model serving interfaces\nHow to use it: \n1. Define model endpoints with Python\n2. Add request/response validation\n3. Generate OpenAPI documentation\n4. Deploy with ASGI servers",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hyd2qqo09k07lib40wh5gv",
+              "name": "Inference API",
+              "slug": "inference-api"
+            },
+            {
+              "id": "cm5hyfynatfxc07n4bltzjn41",
+              "name": "Backend",
+              "slug": "inference-backend"
+            }
+          ]
+        },
+        {
+          "id": "cm5ihhm2k2gp907n4ud3xzm1k",
+          "name": "Flask",
+          "slug": "flask",
+          "description": "Lightweight web framework for building ML model inference APIs",
+          "features": "Simple routing, RESTful support, Extension ecosystem, Minimal footprint, Easy integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Lightweight Python web framework for ML APIs\nHow it works: Provides simple routing and request handling for model endpoints\nWhat it's used for: \n1. Simple model serving endpoints\n2. Prototype ML APIs\n3. Small to medium scale deployments\nHow to use it: \n1. Create Flask application\n2. Define model endpoints\n3. Handle requests and responses\n4. Deploy with WSGI servers",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hyd2qqo09k07lib40wh5gv",
+              "name": "Inference API",
+              "slug": "inference-api"
+            },
+            {
+              "id": "cm5hyfynatfxc07n4bltzjn41",
+              "name": "Backend",
+              "slug": "inference-backend"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hyfynatfxc07n4bltzjn41",
+        "name": "Backend",
+        "slug": "inference-backend"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5hydzobo0gi07li9k9qgdh3",
+          "name": "FastAPI",
+          "slug": "fastapi",
+          "description": "Modern, fast web framework for building ML model inference APIs",
+          "features": "Async support, Auto API documentation, Type checking, High performance, Easy ML model integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Python web framework optimized for ML APIs\nHow it works: Uses Python type hints for automatic API validation and docs\nWhat it's used for: \n1. Building ML model inference endpoints\n2. Real-time prediction APIs\n3. Scalable model serving interfaces\nHow to use it: \n1. Define model endpoints with Python\n2. Add request/response validation\n3. Generate OpenAPI documentation\n4. Deploy with ASGI servers",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hyd2qqo09k07lib40wh5gv",
+              "name": "Inference API",
+              "slug": "inference-api"
+            },
+            {
+              "id": "cm5hyfynatfxc07n4bltzjn41",
+              "name": "Backend",
+              "slug": "inference-backend"
+            }
+          ]
+        },
+        {
+          "id": "cm5ihhm2k2gp907n4ud3xzm1k",
+          "name": "Flask",
+          "slug": "flask",
+          "description": "Lightweight web framework for building ML model inference APIs",
+          "features": "Simple routing, RESTful support, Extension ecosystem, Minimal footprint, Easy integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Lightweight Python web framework for ML APIs\nHow it works: Provides simple routing and request handling for model endpoints\nWhat it's used for: \n1. Simple model serving endpoints\n2. Prototype ML APIs\n3. Small to medium scale deployments\nHow to use it: \n1. Create Flask application\n2. Define model endpoints\n3. Handle requests and responses\n4. Deploy with WSGI servers",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hyd2qqo09k07lib40wh5gv",
+              "name": "Inference API",
+              "slug": "inference-api"
+            },
+            {
+              "id": "cm5hyfynatfxc07n4bltzjn41",
+              "name": "Backend",
+              "slug": "inference-backend"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+        "name": "Feedback Loop",
+        "slug": "feedback-loop"
+      },
+      "totalTechs": 6,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 6,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iiso443h8i07n48xjtbvjh",
+          "name": "Labelbox",
+          "slug": "labelbox",
+          "description": "Enterprise data labeling platform for ML training data management",
+          "features": "Collaborative labeling, Label automation, Quality management, API integration, Custom workflows, Model-assisted labeling, SDK support",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise data labeling platform\nHow it works: Provides tools for data annotation and label management with ML assistance\nWhat it's used for: \n1. Training data preparation\n2. Label quality assurance\n3. Team collaboration\n4. Model-assisted labeling\n5. Dataset versioning\nHow to use it: \n1. Upload datasets\n2. Create labeling workflows\n3. Manage annotation teams\n4. Use model-assisted labeling\n5. Export labeled data",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwk3fzk07n4d4a2k4x0",
+              "name": "Data Labeling",
+              "slug": "data-labeling"
+            }
+          ]
+        },
+        {
+          "id": "cm5iiva9uy6qq07lis18pxd64",
+          "name": "Uncertainty Sampling",
+          "slug": "uncertainty-sampling",
+          "description": "Advanced active learning technique for efficient data selection and model improvement",
+          "features": "Entropy-based sampling, Margin sampling, Least confidence, Batch mode selection, Integration APIs",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Sophisticated active learning strategy\nHow it works: Selects samples based on model uncertainty metrics\nWhat it's used for: \n1. Efficient data selection\n2. Model uncertainty reduction\n3. Training optimization\n4. Cost-effective labeling\n5. Continuous learning\nHow to use it: \n1. Train initial model\n2. Implement uncertainty metrics\n3. Select informative samples\n4. Update model iteratively\n5. Monitor improvement",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwm3fzo07n4bmixv1ge",
+              "name": "Active Learning",
+              "slug": "active-learning"
+            }
+          ]
+        },
+        {
+          "id": "cm5iivaa7y6r807li9q41i1iw",
+          "name": "GitHub Actions",
+          "slug": "github-actions",
+          "description": "Automated ML workflow and CI/CD platform integrated with GitHub",
+          "features": "Workflow automation, ML pipeline integration, Container support, Matrix testing, Environment management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: GitHub's integrated CI/CD platform\nHow it works: Automates ML workflows using YAML configurations\nWhat it's used for: \n1. ML model training\n2. Automated testing\n3. Deployment automation\n4. Version control\n5. Container builds\nHow to use it: \n1. Define workflows\n2. Configure ML pipelines\n3. Set up triggers\n4. Monitor executions",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwq3fzs07n47bl1fsqt",
+              "name": "CI/CD",
+              "slug": "cicd"
+            }
+          ]
+        },
+        {
+          "id": "cm5iiso4a3h8o07n47hcxglil",
+          "name": "AWS SageMaker Ground Truth",
+          "slug": "sagemaker-ground-truth",
+          "description": "AWS service for building and managing ML training datasets at scale",
+          "features": "Built-in workflows, Active learning, Private workforce management, Pre-built UIs, API integration, Automated labeling, Data chaining",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: AWS's comprehensive data labeling service\nHow it works: Combines human and automated labeling with active learning\nWhat it's used for: \n1. Large-scale dataset creation\n2. Automated label generation\n3. Workforce management\n4. Cost optimization\n5. Integration with AWS ML services\nHow to use it: \n1. Create labeling job\n2. Configure workforce\n3. Set up active learning\n4. Use automated labeling\n5. Monitor progress",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwk3fzk07n4d4a2k4x0",
+              "name": "Data Labeling",
+              "slug": "data-labeling"
+            }
+          ]
+        },
+        {
+          "id": "cm5iiva9zy6qw07li4iqqkobn",
+          "name": "Query By Committee",
+          "slug": "query-by-committee",
+          "description": "Ensemble-based active learning approach for robust sample selection",
+          "features": "Ensemble learning, Disagreement metrics, Vote entropy, Consensus analysis, Batch selection",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Committee-based active learning method\nHow it works: Uses multiple models to identify informative samples\nWhat it's used for: \n1. Robust sample selection\n2. Ensemble uncertainty\n3. Diverse perspective learning\n4. Reduced bias\nHow to use it: \n1. Train committee models\n2. Calculate disagreement\n3. Select samples\n4. Update ensemble",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwm3fzo07n4bmixv1ge",
+              "name": "Active Learning",
+              "slug": "active-learning"
+            }
+          ]
+        },
+        {
+          "id": "cm5iivaacy6re07liczgtziw1",
+          "name": "GitLab CI",
+          "slug": "gitlab-ci",
+          "description": "End-to-end ML pipeline automation and CI/CD platform",
+          "features": "Pipeline automation, Container registry, Environment management, Auto DevOps, ML metrics tracking",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: GitLab's integrated DevOps platform\nHow it works: Provides complete ML pipeline automation\nWhat it's used for: \n1. ML workflow automation\n2. Model deployment\n3. Container management\n4. Quality control\nHow to use it: \n1. Configure .gitlab-ci.yml\n2. Set up runners\n3. Define stages\n4. Deploy models",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwq3fzs07n47bl1fsqt",
+              "name": "CI/CD",
+              "slug": "cicd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iiqkwk3fzk07n4d4a2k4x0",
+        "name": "Data Labeling",
+        "slug": "data-labeling"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iiso443h8i07n48xjtbvjh",
+          "name": "Labelbox",
+          "slug": "labelbox",
+          "description": "Enterprise data labeling platform for ML training data management",
+          "features": "Collaborative labeling, Label automation, Quality management, API integration, Custom workflows, Model-assisted labeling, SDK support",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise data labeling platform\nHow it works: Provides tools for data annotation and label management with ML assistance\nWhat it's used for: \n1. Training data preparation\n2. Label quality assurance\n3. Team collaboration\n4. Model-assisted labeling\n5. Dataset versioning\nHow to use it: \n1. Upload datasets\n2. Create labeling workflows\n3. Manage annotation teams\n4. Use model-assisted labeling\n5. Export labeled data",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwk3fzk07n4d4a2k4x0",
+              "name": "Data Labeling",
+              "slug": "data-labeling"
+            }
+          ]
+        },
+        {
+          "id": "cm5iiso4a3h8o07n47hcxglil",
+          "name": "AWS SageMaker Ground Truth",
+          "slug": "sagemaker-ground-truth",
+          "description": "AWS service for building and managing ML training datasets at scale",
+          "features": "Built-in workflows, Active learning, Private workforce management, Pre-built UIs, API integration, Automated labeling, Data chaining",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: AWS's comprehensive data labeling service\nHow it works: Combines human and automated labeling with active learning\nWhat it's used for: \n1. Large-scale dataset creation\n2. Automated label generation\n3. Workforce management\n4. Cost optimization\n5. Integration with AWS ML services\nHow to use it: \n1. Create labeling job\n2. Configure workforce\n3. Set up active learning\n4. Use automated labeling\n5. Monitor progress",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwk3fzk07n4d4a2k4x0",
+              "name": "Data Labeling",
+              "slug": "data-labeling"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iiqkwm3fzo07n4bmixv1ge",
+        "name": "Active Learning",
+        "slug": "active-learning"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iiva9uy6qq07lis18pxd64",
+          "name": "Uncertainty Sampling",
+          "slug": "uncertainty-sampling",
+          "description": "Advanced active learning technique for efficient data selection and model improvement",
+          "features": "Entropy-based sampling, Margin sampling, Least confidence, Batch mode selection, Integration APIs",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Sophisticated active learning strategy\nHow it works: Selects samples based on model uncertainty metrics\nWhat it's used for: \n1. Efficient data selection\n2. Model uncertainty reduction\n3. Training optimization\n4. Cost-effective labeling\n5. Continuous learning\nHow to use it: \n1. Train initial model\n2. Implement uncertainty metrics\n3. Select informative samples\n4. Update model iteratively\n5. Monitor improvement",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwm3fzo07n4bmixv1ge",
+              "name": "Active Learning",
+              "slug": "active-learning"
+            }
+          ]
+        },
+        {
+          "id": "cm5iiva9zy6qw07li4iqqkobn",
+          "name": "Query By Committee",
+          "slug": "query-by-committee",
+          "description": "Ensemble-based active learning approach for robust sample selection",
+          "features": "Ensemble learning, Disagreement metrics, Vote entropy, Consensus analysis, Batch selection",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Committee-based active learning method\nHow it works: Uses multiple models to identify informative samples\nWhat it's used for: \n1. Robust sample selection\n2. Ensemble uncertainty\n3. Diverse perspective learning\n4. Reduced bias\nHow to use it: \n1. Train committee models\n2. Calculate disagreement\n3. Select samples\n4. Update ensemble",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwm3fzo07n4bmixv1ge",
+              "name": "Active Learning",
+              "slug": "active-learning"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iiqkwq3fzs07n47bl1fsqt",
+        "name": "CI/CD",
+        "slug": "cicd"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iivaa7y6r807li9q41i1iw",
+          "name": "GitHub Actions",
+          "slug": "github-actions",
+          "description": "Automated ML workflow and CI/CD platform integrated with GitHub",
+          "features": "Workflow automation, ML pipeline integration, Container support, Matrix testing, Environment management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: GitHub's integrated CI/CD platform\nHow it works: Automates ML workflows using YAML configurations\nWhat it's used for: \n1. ML model training\n2. Automated testing\n3. Deployment automation\n4. Version control\n5. Container builds\nHow to use it: \n1. Define workflows\n2. Configure ML pipelines\n3. Set up triggers\n4. Monitor executions",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwq3fzs07n47bl1fsqt",
+              "name": "CI/CD",
+              "slug": "cicd"
+            }
+          ]
+        },
+        {
+          "id": "cm5iivaacy6re07liczgtziw1",
+          "name": "GitLab CI",
+          "slug": "gitlab-ci",
+          "description": "End-to-end ML pipeline automation and CI/CD platform",
+          "features": "Pipeline automation, Container registry, Environment management, Auto DevOps, ML metrics tracking",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: GitLab's integrated DevOps platform\nHow it works: Provides complete ML pipeline automation\nWhat it's used for: \n1. ML workflow automation\n2. Model deployment\n3. Container management\n4. Quality control\nHow to use it: \n1. Configure .gitlab-ci.yml\n2. Set up runners\n3. Define stages\n4. Deploy models",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iiqkwg3fzg07n4xjjjxvdf",
+              "name": "Feedback Loop",
+              "slug": "feedback-loop"
+            },
+            {
+              "id": "cm5iiqkwq3fzs07n47bl1fsqt",
+              "name": "CI/CD",
+              "slug": "cicd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5ijraqv466l07n4032dp0h0",
+        "name": "Storage",
+        "slug": "data-storage"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5ijssseyvr107liftbt59k0",
+          "name": "Amazon S3",
+          "slug": "amazon-s3",
+          "description": "Scalable object storage service for data lakes and cloud-native storage",
+          "features": "Object storage, Versioning, Lifecycle policies, Event notifications, Access control, Encryption, Cross-region replication",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Cloud object storage service\nHow it works: Stores objects in buckets with unique keys\nWhat it's used for: \n1. Data lake storage\n2. Backup and archive\n3. Static website hosting\n4. Application data\n5. ML model storage\nHow to use it: \n1. Create buckets\n2. Configure permissions\n3. Set up lifecycle rules\n4. Enable versioning\n5. Monitor usage",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ijraqv466l07n4032dp0h0",
+              "name": "Storage",
+              "slug": "data-storage"
+            }
+          ]
+        },
+        {
+          "id": "cm5ijssstyvr607livn12s308",
+          "name": "Azure Data Lake Storage",
+          "slug": "azure-data-lake",
+          "description": "Hyperscale data lake solution for big data analytics",
+          "features": "Hierarchical namespace, POSIX compliance, Security integration, Analytics optimization, Multi-protocol access",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise data lake platform\nHow it works: Combines file system semantics with object storage\nWhat it's used for: \n1. Big data analytics\n2. Data lake solutions\n3. Machine learning\n4. Real-time analytics\n5. Data warehousing\nHow to use it: \n1. Set up storage account\n2. Configure access\n3. Organize data hierarchy\n4. Enable features\n5. Monitor performance",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ijraqv466l07n4032dp0h0",
+              "name": "Storage",
+              "slug": "data-storage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5ilkoek6eqv07n4gnuk4c39",
+        "name": "Data Warehousing",
+        "slug": "data-warehousing"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5ilm1i10dz907lq232n3yw0",
+          "name": "Snowflake",
+          "slug": "snowflake",
+          "description": "Cloud-native data platform combining data warehouse, data lake, and data sharing",
+          "features": "Multi-cluster architecture, Zero-copy cloning, Time travel, Data sharing, Semi-structured data support, Automatic scaling",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Cloud-native data warehouse platform\nHow it works: Separates compute and storage with virtual warehouses\nWhat it's used for: \n1. Enterprise data warehousing\n2. Data applications\n3. Secure data sharing\n4. Data marketplace\n5. Real-time analytics\nHow to use it: \n1. Set up virtual warehouses\n2. Design data model\n3. Load and transform data\n4. Optimize performance\n5. Manage access control",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ilkoek6eqv07n4gnuk4c39",
+              "name": "Data Warehousing",
+              "slug": "data-warehousing"
+            }
+          ]
+        },
+        {
+          "id": "cm5ilm1i60dze07lqki4pnq8u",
+          "name": "Amazon Redshift",
+          "slug": "amazon-redshift",
+          "description": "Fully managed, petabyte-scale data warehouse service",
+          "features": "Columnar storage, MPP architecture, Spectrum external tables, Concurrency scaling, Cross-region replication",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: AWS's enterprise data warehouse\nHow it works: Uses columnar storage and MPP processing\nWhat it's used for: \n1. Business intelligence\n2. Big data analytics\n3. Real-time analytics\n4. Log analysis\n5. Data lake integration\nHow to use it: \n1. Configure cluster\n2. Design distribution\n3. Load data efficiently\n4. Optimize queries\n5. Monitor performance",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ilkoek6eqv07n4gnuk4c39",
+              "name": "Data Warehousing",
+              "slug": "data-warehousing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5isenlq5f6307likmahsyiu",
+        "name": "Transformation",
+        "slug": "data-transformation"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5islhlu5kgl07li90983xpt",
+          "name": "dbt (Data Build Tool)",
+          "slug": "dbt-core",
+          "description": "Modern data transformation tool for analytics engineering",
+          "features": "SQL-first transformations, Version control, Testing framework, Documentation generation, Incremental models, Macros system",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Analytics engineering transformation tool\nHow it works: Transforms data in warehouse using SQL and software engineering practices\nWhat it's used for: \n1. Data modeling\n2. Data transformation\n3. Data quality testing\n4. Documentation\n5. Metrics definition\nHow to use it: \n1. Write SQL models\n2. Define tests\n3. Create documentation\n4. Manage dependencies\n5. Schedule runs",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isenlq5f6307likmahsyiu",
+              "name": "Transformation",
+              "slug": "data-transformation"
+            }
+          ]
+        },
+        {
+          "id": "cm5islhly5kgq07liezcmxqpf",
+          "name": "Apache Hive",
+          "slug": "apache-hive",
+          "description": "Data warehouse software for reading, writing, and managing large datasets",
+          "features": "SQL-like interface, Schema on read, Partitioning, Bucketing, UDF support, Integration with Hadoop",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data warehouse infrastructure on Hadoop\nHow it works: Provides SQL interface for data in HDFS\nWhat it's used for: \n1. Big data querying\n2. Data summarization\n3. Ad-hoc analysis\n4. ETL processing\n5. Data organization\nHow to use it: \n1. Define tables\n2. Write HiveQL\n3. Optimize queries\n4. Manage partitions\n5. Configure resources",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isenlq5f6307likmahsyiu",
+              "name": "Transformation",
+              "slug": "data-transformation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5isnxqd5m1g07lij4g0yc62",
+        "name": "Data Quality",
+        "slug": "data-quality"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5isp00h4yaw07lqd756t13n",
+          "name": "Great Expectations",
+          "slug": "great-expectations",
+          "description": "Python framework for data validation, documentation, and profiling",
+          "features": "Data validation, Automated testing, Documentation generation, Profiling, Expectation suite, Cloud integration",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data quality framework for testing and validation\nHow it works: Uses expectations to validate data quality\nWhat it's used for: \n1. Data validation\n2. Pipeline testing\n3. Data documentation\n4. Quality monitoring\n5. Data profiling\nHow to use it: \n1. Define expectations\n2. Create test suites\n3. Generate docs\n4. Monitor results\n5. Integrate with pipelines",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isnxqd5m1g07lij4g0yc62",
+              "name": "Data Quality",
+              "slug": "data-quality"
+            }
+          ]
+        },
+        {
+          "id": "cm5isp00l4yb107lqit3by3bk",
+          "name": "Datafold",
+          "slug": "datafold",
+          "description": "Data reliability platform for diffs and regression testing",
+          "features": "Column-level lineage, Data diffing, Anomaly detection, CI/CD integration, Impact analysis",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data reliability and testing platform\nHow it works: Compares data versions and detects changes\nWhat it's used for: \n1. Data testing\n2. Change validation\n3. Impact analysis\n4. Regression testing\n5. Quality monitoring\nHow to use it: \n1. Set up monitoring\n2. Configure diffs\n3. Integrate with CI/CD\n4. Review changes\n5. Track metrics",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isnxqd5m1g07lij4g0yc62",
+              "name": "Data Quality",
+              "slug": "data-quality"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5isrd1x505p07lqyvczrb2t",
+        "name": "Data Visualization",
+        "slug": "data-visualization"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5ixu43t8j4507lihwfl76ah",
+          "name": "Tableau",
+          "slug": "tableau",
+          "description": "Enterprise visual analytics platform for business intelligence",
+          "features": "Interactive dashboards, Data blending, Real-time analytics, Mobile support, Cloud/on-prem deployment, Advanced analytics",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise BI visualization platform\nHow it works: Transforms data into interactive visual insights\nWhat it's used for: \n1. Business intelligence\n2. Data exploration\n3. Executive dashboards\n4. Ad-hoc analysis\n5. Embedded analytics\nHow to use it: \n1. Connect data sources\n2. Create visualizations\n3. Build dashboards\n4. Share insights\n5. Schedule updates",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isrd1x505p07lqyvczrb2t",
+              "name": "Data Visualization",
+              "slug": "data-visualization"
+            },
+            {
+              "id": "cm5iy86b08qm007liig8614tb",
+              "name": "Analytics Environment",
+              "slug": "analytics-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5ixu4428j4a07li2p7e2ptt",
+          "name": "Power BI",
+          "slug": "power-bi",
+          "description": "Microsoft's comprehensive business analytics service",
+          "features": "DAX language, Data modeling, AI capabilities, Microsoft integration, Custom visuals, Real-time analytics",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Microsoft's BI and analytics platform\nHow it works: Combines data preparation, modeling and visualization\nWhat it's used for: \n1. Self-service BI\n2. Enterprise reporting\n3. Data modeling\n4. Embedded analytics\n5. AI insights\nHow to use it: \n1. Import data\n2. Model relationships\n3. Create reports\n4. Share dashboards\n5. Set up refresh",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isrd1x505p07lqyvczrb2t",
+              "name": "Data Visualization",
+              "slug": "data-visualization"
+            },
+            {
+              "id": "cm5iy86b08qm007liig8614tb",
+              "name": "Analytics Environment",
+              "slug": "analytics-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iy86b08qm007liig8614tb",
+        "name": "Analytics Environment",
+        "slug": "analytics-environment"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5ixu43t8j4507lihwfl76ah",
+          "name": "Tableau",
+          "slug": "tableau",
+          "description": "Enterprise visual analytics platform for business intelligence",
+          "features": "Interactive dashboards, Data blending, Real-time analytics, Mobile support, Cloud/on-prem deployment, Advanced analytics",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise BI visualization platform\nHow it works: Transforms data into interactive visual insights\nWhat it's used for: \n1. Business intelligence\n2. Data exploration\n3. Executive dashboards\n4. Ad-hoc analysis\n5. Embedded analytics\nHow to use it: \n1. Connect data sources\n2. Create visualizations\n3. Build dashboards\n4. Share insights\n5. Schedule updates",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isrd1x505p07lqyvczrb2t",
+              "name": "Data Visualization",
+              "slug": "data-visualization"
+            },
+            {
+              "id": "cm5iy86b08qm007liig8614tb",
+              "name": "Analytics Environment",
+              "slug": "analytics-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5ixu4428j4a07li2p7e2ptt",
+          "name": "Power BI",
+          "slug": "power-bi",
+          "description": "Microsoft's comprehensive business analytics service",
+          "features": "DAX language, Data modeling, AI capabilities, Microsoft integration, Custom visuals, Real-time analytics",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Microsoft's BI and analytics platform\nHow it works: Combines data preparation, modeling and visualization\nWhat it's used for: \n1. Self-service BI\n2. Enterprise reporting\n3. Data modeling\n4. Embedded analytics\n5. AI insights\nHow to use it: \n1. Import data\n2. Model relationships\n3. Create reports\n4. Share dashboards\n5. Set up refresh",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5isrd1x505p07lqyvczrb2t",
+              "name": "Data Visualization",
+              "slug": "data-visualization"
+            },
+            {
+              "id": "cm5iy86b08qm007liig8614tb",
+              "name": "Analytics Environment",
+              "slug": "analytics-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iy69t58pm407linw9fcjx1",
+        "name": "Deployment",
+        "slug": "data-deployment"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iy9htt805907lq5i5hw8a6",
+          "name": "Docker Compose",
+          "slug": "docker-compose",
+          "description": "Tool for defining and running multi-container Docker applications",
+          "features": "Multi-container orchestration, Environment variables, Volume management, Network configuration, Service dependencies",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Development environment orchestration tool\nHow it works: Defines multi-container applications in YAML\nWhat it's used for: \n1. Local development\n2. Testing environments\n3. Service orchestration\n4. Environment consistency\n5. Integration testing\nHow to use it: \n1. Define services\n2. Configure networks\n3. Set up volumes\n4. Manage dependencies\n5. Run applications",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy69t58pm407linw9fcjx1",
+              "name": "Deployment",
+              "slug": "data-deployment"
+            },
+            {
+              "id": "cm5iy86ap8qlk07li9n0bnx3h",
+              "name": "Development Environment",
+              "slug": "dev-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5iy9hu1805f07lq1tmd9gno",
+          "name": "Minikube",
+          "slug": "minikube",
+          "description": "Local Kubernetes development environment",
+          "features": "Local cluster, Built-in Docker daemon, Add-ons support, Multi-node simulation, Resource management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Local Kubernetes development tool\nHow it works: Runs single-node Kubernetes cluster locally\nWhat it's used for: \n1. Kubernetes development\n2. Local testing\n3. CI/CD testing\n4. Application deployment\n5. Configuration testing\nHow to use it: \n1. Start cluster\n2. Deploy workloads\n3. Test configurations\n4. Debug applications\n5. Manage resources",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy69t58pm407linw9fcjx1",
+              "name": "Deployment",
+              "slug": "data-deployment"
+            },
+            {
+              "id": "cm5iy86ap8qlk07li9n0bnx3h",
+              "name": "Development Environment",
+              "slug": "dev-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iy86ap8qlk07li9n0bnx3h",
+        "name": "Development Environment",
+        "slug": "dev-environment"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5iy9htt805907lq5i5hw8a6",
+          "name": "Docker Compose",
+          "slug": "docker-compose",
+          "description": "Tool for defining and running multi-container Docker applications",
+          "features": "Multi-container orchestration, Environment variables, Volume management, Network configuration, Service dependencies",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Development environment orchestration tool\nHow it works: Defines multi-container applications in YAML\nWhat it's used for: \n1. Local development\n2. Testing environments\n3. Service orchestration\n4. Environment consistency\n5. Integration testing\nHow to use it: \n1. Define services\n2. Configure networks\n3. Set up volumes\n4. Manage dependencies\n5. Run applications",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy69t58pm407linw9fcjx1",
+              "name": "Deployment",
+              "slug": "data-deployment"
+            },
+            {
+              "id": "cm5iy86ap8qlk07li9n0bnx3h",
+              "name": "Development Environment",
+              "slug": "dev-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5iy9hu1805f07lq1tmd9gno",
+          "name": "Minikube",
+          "slug": "minikube",
+          "description": "Local Kubernetes development environment",
+          "features": "Local cluster, Built-in Docker daemon, Add-ons support, Multi-node simulation, Resource management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Local Kubernetes development tool\nHow it works: Runs single-node Kubernetes cluster locally\nWhat it's used for: \n1. Kubernetes development\n2. Local testing\n3. CI/CD testing\n4. Application deployment\n5. Configuration testing\nHow to use it: \n1. Start cluster\n2. Deploy workloads\n3. Test configurations\n4. Debug applications\n5. Manage resources",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy69t58pm407linw9fcjx1",
+              "name": "Deployment",
+              "slug": "data-deployment"
+            },
+            {
+              "id": "cm5iy86ap8qlk07li9n0bnx3h",
+              "name": "Development Environment",
+              "slug": "dev-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iz3jrv95h107li6feep9xn",
+        "name": "Production Environment",
+        "slug": "prod-environment"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5izalyz8ilk07lq490sei64",
+          "name": "Amazon Web Services (AWS)",
+          "slug": "aws",
+          "description": "Comprehensive cloud computing platform with global infrastructure",
+          "features": "Global infrastructure, Auto-scaling, High availability, Security compliance, Managed services, Pay-as-you-go",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Cloud computing platform\nHow it works: Provides scalable cloud infrastructure and services\nWhat it's used for: \n1. Cloud infrastructure\n2. Managed services\n3. Global deployment\n4. High availability\n5. Scalable solutions\nHow to use it: \n1. Design architecture\n2. Deploy resources\n3. Configure networking\n4. Implement security\n5. Monitor performance",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iz3jrv95h107li6feep9xn",
+              "name": "Production Environment",
+              "slug": "prod-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5izalz28ilp07lqlj70ht0g",
+          "name": "Microsoft Azure",
+          "slug": "azure",
+          "description": "Enterprise-grade cloud computing platform with hybrid capabilities",
+          "features": "Hybrid cloud, Enterprise integration, AI/ML services, Global network, Compliance standards, Identity management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Enterprise cloud platform\nHow it works: Provides integrated cloud services and infrastructure\nWhat it's used for: \n1. Enterprise workloads\n2. Hybrid solutions\n3. Data centers\n4. Cloud-native apps\n5. Business continuity\nHow to use it: \n1. Plan architecture\n2. Set up resources\n3. Configure networking\n4. Manage identity\n5. Monitor services",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iz3jrv95h107li6feep9xn",
+              "name": "Production Environment",
+              "slug": "prod-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iy86ax8qlw07lii0w6u73x",
+        "name": "Disaster Recovery",
+        "slug": "disaster-recovery"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5j2hm5zb7ho07li9azwrtez",
+          "name": "Multi-region Deployment",
+          "slug": "multi-region-deployment",
+          "description": "Infrastructure deployment across multiple geographical regions for high availability",
+          "features": "Cross-region replication, Global load balancing, Regional failover, Data synchronization, Latency optimization",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Multi-region infrastructure strategy\nHow it works: Deploys and syncs across regions\nWhat it's used for: \n1. High availability\n2. Disaster recovery\n3. Global presence\n4. Data redundancy\n5. Business continuity\nHow to use it: \n1. Design architecture\n2. Configure replication\n3. Set up monitoring\n4. Test failover\n5. Manage costs",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy86ax8qlw07lii0w6u73x",
+              "name": "Disaster Recovery",
+              "slug": "disaster-recovery"
+            }
+          ]
+        },
+        {
+          "id": "cm5j2hm62b7ht07liilszbx44",
+          "name": "Data Replication",
+          "slug": "data-replication",
+          "description": "Real-time data replication across regions and environments",
+          "features": "Real-time sync, Conflict resolution, Data consistency, Monitoring, Recovery points",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Data synchronization system\nHow it works: Replicates data across locations\nWhat it's used for: \n1. Data redundancy\n2. Disaster recovery\n3. Data availability\n4. Backup strategy\n5. Business continuity\nHow to use it: \n1. Configure sources\n2. Set up targets\n3. Monitor replication\n4. Handle conflicts\n5. Test recovery",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iy86ax8qlw07lii0w6u73x",
+              "name": "Disaster Recovery",
+              "slug": "disaster-recovery"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5ihuzk32soq07n48kl5rhmf",
+        "name": "ML Monitoring",
+        "slug": "ml-monitoring"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5j3ienvbofa07lidsjj2j9h",
+          "name": "WhyLabs",
+          "slug": "whylabs",
+          "description": "AI observability platform for monitoring and tracking ML models in production",
+          "features": "Model monitoring, Data drift detection, Performance tracking, Automated logging, Alert management",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: ML monitoring platform\nHow it works: Monitors ML models and data in production\nWhat it's used for: \n1. Model performance monitoring\n2. Data quality tracking\n3. Drift detection\n4. Performance analysis\n5. Automated logging\nHow to use it: \n1. Integrate SDK\n2. Configure metrics\n3. Set up alerts\n4. Monitor models\n5. Analyze issues",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ihuzk32soq07n48kl5rhmf",
+              "name": "ML Monitoring",
+              "slug": "ml-monitoring"
+            }
+          ]
+        },
+        {
+          "id": "cm5j3ienzboff07lii86bgsh1",
+          "name": "Evidently AI",
+          "slug": "evidently-ai",
+          "description": "Open-source tools to evaluate, test, and monitor ML models in production",
+          "features": "Model validation, Data drift analysis, Performance monitoring, Quality reports, Statistical testing",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: ML testing and monitoring toolkit\nHow it works: Analyzes model and data behavior\nWhat it's used for: \n1. Model evaluation\n2. Data validation\n3. Performance testing\n4. Quality monitoring\n5. Drift detection\nHow to use it: \n1. Import library\n2. Create tests\n3. Generate reports\n4. Monitor metrics\n5. Analyze results",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5ihuzk32soq07n48kl5rhmf",
+              "name": "ML Monitoring",
+              "slug": "ml-monitoring"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c8kuenvasl07mv6udcukag",
+        "name": "Vector Databases",
+        "slug": "vector-database"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c8if6q7p9m07looqyq23aq",
+          "name": "Weaviate",
+          "slug": "weaviate",
+          "description": "Weaviate is an open-source vector database that enables semantic search and AI-powered applications. JEDI Labs uses Weaviate to build intelligent search systems, recommendation engines, and RAG applications that understand context and meaning rather than just keywords, delivering more relevant and accurate results.",
+          "features": "Vector Similarity Search, GraphQL API Interface, Multi-modal Data Support, Real-time Indexing, Hybrid Search Capabilities, Automatic Vectorization, Horizontal Scaling, Enterprise Security",
+          "businessMetrics": "Improves search relevance by 85%, enables sub-100ms query response times, supports billions of vectors with linear scaling, reduces false positive rates by 70% compared to traditional search",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c8kuenvasl07mv6udcukag",
+              "name": "Vector Databases",
+              "slug": "vector-database"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8jbnu7pfy07love2jm4uw",
+          "name": "FAISS",
+          "slug": "faiss",
+          "description": "FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of dense vectors. JEDI Labs leverages FAISS for high-performance vector operations in recommendation systems, image search, and large-scale machine learning applications requiring fast nearest neighbor search.",
+          "features": "High-performance Vector Search, GPU Acceleration Support, Multiple Index Types, Approximate Nearest Neighbor, Memory-efficient Operations, Batch Processing Support, Python & C++ APIs, Billion-scale Vector Support",
+          "businessMetrics": "Processes 1M+ vector searches per second, reduces memory usage by 90% with compressed indexes, enables real-time recommendations with <10ms latency, scales to billion-vector datasets",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c8kuenvasl07mv6udcukag",
+              "name": "Vector Databases",
+              "slug": "vector-database"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5iz3jrs95gx07lil7h24zel",
+        "name": "Staging Environment",
+        "slug": "staging-environment"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5hy82genysu07lis5fxywas",
+          "name": "Kubernetes",
+          "slug": "kubernetes",
+          "description": "Container orchestration platform for scaling ML model deployments",
+          "features": "Container orchestration, Auto-scaling, Load balancing, Rolling updates, Self-healing",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Container orchestration for ML deployments\nHow it works: Manages containerized model deployments at scale\nWhat it's used for: \n1. Production model deployment\n2. Scaling model serving\n3. High availability deployments\nHow to use it: \n1. Define deployment manifests\n2. Configure service endpoints\n3. Set up auto-scaling\n4. Monitor deployments",
+          "category": [
+            {
+              "id": "cm5hv5sqishwv07n4qhh26c83",
+              "name": "AI/ML",
+              "slug": "ai-ml"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hwrqyxnljd07litzsntfgo",
+              "name": "Model Serving",
+              "slug": "model-serving"
+            },
+            {
+              "id": "cm5iz3jrs95gx07lil7h24zel",
+              "name": "Staging Environment",
+              "slug": "staging-environment"
+            }
+          ]
+        },
+        {
+          "id": "cm5j1ut44ayca07li9zn5exgp",
+          "name": "Helm",
+          "slug": "helm",
+          "description": "Package manager and templating engine for Kubernetes applications",
+          "features": "Package management, Template engine, Release management, Repository support, Dependency management, Version control",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Kubernetes package manager\nHow it works: Packages K8s resources into charts\nWhat it's used for: \n1. Application packaging\n2. Deployment management\n3. Version control\n4. Configuration management\n5. Release rollback\nHow to use it: \n1. Create charts\n2. Manage dependencies\n3. Deploy releases\n4. Update applications\n5. Roll back changes",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5iz3jrs95gx07lil7h24zel",
+              "name": "Staging Environment",
+              "slug": "staging-environment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c9dynavhtv07mvxcmosmw0",
+        "name": "Compliance",
+        "slug": "compliance"
+      },
+      "totalTechs": 1,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 1
+      },
+      "enhancementScore": 0.3333333333333333,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5c9bx517xfl07loyctsu6zs",
+          "name": "Data Masking",
+          "slug": "data-masking",
+          "description": "Data Masking is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Data Masking to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Data Masking improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c9dyn6vhto07mvmz1h7spa",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9fkfc7y9d07louc4vuyrk",
+              "name": "Data Protection",
+              "slug": null
+            },
+            {
+              "id": "cm5c9dynavhtv07mvxcmosmw0",
+              "name": "Compliance",
+              "slug": "compliance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5bz4gw4qxtt07mvfeelemgg",
+        "name": "Agent Core",
+        "slug": "agent-core"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 2
+      },
+      "enhancementScore": 0.2222222222222222,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm57won05m8px07n374yb3if2",
+          "name": "LangChain",
+          "slug": "langchain",
+          "description": "LangChain is a comprehensive framework for developing applications powered by large language models (LLMs). It provides a unified interface for building complex AI applications with memory, agents, and tool integration capabilities. JEDI Labs leverages LangChain to accelerate AI development timelines by 60-80% and build sophisticated conversational AI systems.",
+          "features": "LLM Integration & Orchestration, Memory & Context Management, Agent-based AI Workflows, Tool & API Integration, Retrieval-Augmented Generation (RAG), Multi-step Reasoning Chains, Document Analysis & Processing, Conversational AI Development",
+          "businessMetrics": "Reduces AI development time by 60-80%, accelerates time-to-market for AI applications by 3-6 months, enables 90% faster prototyping of complex AI workflows, supports enterprise-scale deployment with 99.9% uptime",
+          "additonalDetails": "# JEDI Implementation: LangChain in AI Agent Solutions\n\n## 🤖 **Interactive AI Agents: Program Participant Coaching**\n**Client Challenge**: Training company needed personalized AI coaching for program participants at scale.\n\n**JEDI Solution**: \n- **JEDI Ensemble™ Integration**: LangChain orchestrates multiple AI models for personalized coaching\n- **Conversational Memory**: Persistent context across coaching sessions\n- **Behavior Change Nudges**: Intelligent recommendations for habit formation\n- **Multi-step Reasoning**: Complex coaching scenarios handled through LangChain chains\n\n**Technical Implementation**:\n- LangChain LLM wrappers for personalized coaching models\n- Custom memory systems for participant progress tracking\n- Tool integration for learning management systems\n- Chain composition for multi-step coaching workflows\n\n**Measurable Results**:\n- **35% improvement in learning outcomes** for participants\n- **80% increase in participant engagement** with programs\n- **60% higher completion rates** for educational programs\n- **95% accuracy** in personalized recommendation matching\n\n## 🎯 **JEDI Ensemble™: AI Agent Orchestration**\n**How JEDI Uses LangChain for AI Agents**:\n- **Agent Selection**: Automatically chooses best AI model for each interaction\n- **Memory Management**: Maintains context across multiple agent interactions\n- **Tool Integration**: Connects AI agents to business systems and databases\n- **Chain Composition**: Builds complex agent workflows from simple components\n\n**Scalability**: Works for any AI agent use case - from customer service to educational coaching to healthcare support.",
+          "category": [
+            {
+              "id": "cm49i47s9gcu707n3nff0vnr6",
+              "name": "Machine-Learning",
+              "slug": "ml"
+            },
+            {
+              "id": "cm5byr71jqii207mv6ch2mnur",
+              "name": "AI Agents",
+              "slug": "ai-agents"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5bz4gw4qxtt07mvfeelemgg",
+              "name": "Agent Core",
+              "slug": "agent-core"
+            }
+          ]
+        },
+        {
+          "id": "cm5byr71mqii507mvv6q5gsji",
+          "name": "OpenAI Functions",
+          "slug": "openai-functions",
+          "description": "OpenAI GPT models represent the cutting-edge of large language model technology, offering powerful natural language understanding and generation capabilities. JEDI Labs integrates GPT models to provide intelligent text processing, code generation, and conversational AI solutions that deliver human-like interactions and insights.",
+          "features": "Advanced Natural Language Processing, Code Generation & Analysis, Conversational AI Capabilities, Function Calling & Tool Integration, Multi-modal Processing, Fine-tuning Support, Enterprise API Integration, Real-time Response Generation",
+          "businessMetrics": "Achieves 95%+ accuracy in text classification tasks, reduces content creation time by 70%, enables 24/7 customer support automation, processes 1000+ queries per minute with sub-second response times",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz4gw4qxtt07mvfeelemgg",
+              "name": "Agent Core",
+              "slug": "agent-core"
+            }
+          ]
+        },
+        {
+          "id": "cm5bp1xa6s3sp07lox8l39mjg",
+          "name": "AutoGPT",
+          "slug": "autogpt",
+          "description": "AutoGPT is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages AutoGPT to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "AutoGPT improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": null,
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5bz4gw4qxtt07mvfeelemgg",
+              "name": "Agent Core",
+              "slug": "agent-core"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5hvy4g4n8si07lijbbqntkd",
+        "name": "Data Processing",
+        "slug": "data-processing"
+      },
+      "totalTechs": 3,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 2,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0.2222222222222222,
+      "priority": "MEDIUM",
+      "technologies": [
+        {
+          "id": "cm5celg3s9daz07loctj0djhi",
+          "name": "Apache Spark",
+          "slug": "apache-spark",
+          "description": "Unified analytics engine for large-scale data processing",
+          "features": "Batch processing, Stream processing, SQL engine, MLlib, GraphX, Structured Streaming, DataFrames API",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Distributed processing engine for big data\nHow it works: In-memory processing with DAG execution\nWhat it's used for: \n1. Large-scale ETL\n2. Real-time analytics\n3. Machine learning pipelines\n4. Graph processing\n5. SQL analytics\nHow to use it: \n1. Design data pipelines\n2. Implement transformations\n3. Optimize performance\n4. Monitor jobs\n5. Scale clusters",
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5hvy4g4n8si07lijbbqntkd",
+              "name": "Data Processing",
+              "slug": "data-processing"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8wd57vdrb07mvpwmg84uh",
+          "name": "Dask",
+          "slug": "dask",
+          "description": "Dask is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Dask to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Dask improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Parallel computing framework for Python\nHow it works: Scales Python and NumPy/Pandas operations\nWhat it's used for: \n1. Large-scale analytics\n2. Scientific computing\n3. Machine learning\n4. Time series analysis\nHow to use it: \n1. Scale existing code\n2. Configure clusters\n3. Optimize computations\n4. Monitor tasks",
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vlvdvy07mv93gvtqlq",
+              "name": "Distributed Computing",
+              "slug": "distributed-computing"
+            },
+            {
+              "id": "cm5hvy4g4n8si07lijbbqntkd",
+              "name": "Data Processing",
+              "slug": "data-processing"
+            }
+          ]
+        },
+        {
+          "id": "cm5ijhxye3zcg07n47nc63fsr",
+          "name": "Apache Flink",
+          "slug": "apache-flink",
+          "description": "Stream processing framework with batch capabilities",
+          "features": "Stream processing, Event time processing, State management, Checkpointing, CEP, Table API, FlinkSQL",
+          "businessMetrics": null,
+          "additonalDetails": "What it is: Stream-first processing framework\nHow it works: Processes data streams with event time semantics\nWhat it's used for: \n1. Real-time analytics\n2. Event processing\n3. Complex event processing\n4. Stateful computations\nHow to use it: \n1. Define streaming jobs\n2. Configure state\n3. Implement windows\n4. Monitor performance",
+          "category": [
+            {
+              "id": "cm5bep4cxhf0z07lqbh0psy6d",
+              "name": "Data Engineering",
+              "slug": "data-engineering"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5hvy4g4n8si07lijbbqntkd",
+              "name": "Data Processing",
+              "slug": "data-processing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c8x0vhvdvr07mvixsbvgjf",
+        "name": "Schedulers",
+        "slug": "schedulers"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0,
+      "priority": "LOW",
+      "technologies": [
+        {
+          "id": "cm5c8vdyl7so107log1sjijqe",
+          "name": "Apache Airflow",
+          "slug": "apache-airflow",
+          "description": "Apache Airflow is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Apache Airflow to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Apache Airflow improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Production-grade workflow orchestration platform\nHow it works: Uses Python to define DAGs of tasks\nWhat it's used for: \n1. ETL pipeline orchestration\n2. ML workflow automation\n3. Data warehouse loads\n4. Cross-system dependencies\n5. Complex job scheduling\nHow to use it: \n1. Define DAGs in Python\n2. Configure operators\n3. Set up dependencies\n4. Monitor executions\n5. Handle failures",
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vhvdvr07mvixsbvgjf",
+              "name": "Schedulers",
+              "slug": "schedulers"
+            },
+            {
+              "id": "cm5ijlqbqyqud07litwtbi8fy",
+              "name": "Orchestration",
+              "slug": "data-orchestration"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8wd50vdqz07mv20au3gt7",
+          "name": "Prefect",
+          "slug": "prefect",
+          "description": "Prefect is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Prefect to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Prefect improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Next-gen workflow automation platform\nHow it works: Combines task-based workflows with modern features\nWhat it's used for: \n1. Data pipeline automation\n2. ML workflow orchestration\n3. Real-time data flows\n4. Distributed processing\n5. Event-driven pipelines\nHow to use it: \n1. Create flow definitions\n2. Configure tasks\n3. Set up scheduling\n4. Monitor executions\n5. Handle state changes",
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vhvdvr07mvixsbvgjf",
+              "name": "Schedulers",
+              "slug": "schedulers"
+            },
+            {
+              "id": "cm5ijlqbqyqud07litwtbi8fy",
+              "name": "Orchestration",
+              "slug": "data-orchestration"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5ijlqbqyqud07litwtbi8fy",
+        "name": "Orchestration",
+        "slug": "data-orchestration"
+      },
+      "totalTechs": 2,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0,
+      "priority": "LOW",
+      "technologies": [
+        {
+          "id": "cm5c8vdyl7so107log1sjijqe",
+          "name": "Apache Airflow",
+          "slug": "apache-airflow",
+          "description": "Apache Airflow is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Apache Airflow to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Apache Airflow improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Production-grade workflow orchestration platform\nHow it works: Uses Python to define DAGs of tasks\nWhat it's used for: \n1. ETL pipeline orchestration\n2. ML workflow automation\n3. Data warehouse loads\n4. Cross-system dependencies\n5. Complex job scheduling\nHow to use it: \n1. Define DAGs in Python\n2. Configure operators\n3. Set up dependencies\n4. Monitor executions\n5. Handle failures",
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vhvdvr07mvixsbvgjf",
+              "name": "Schedulers",
+              "slug": "schedulers"
+            },
+            {
+              "id": "cm5ijlqbqyqud07litwtbi8fy",
+              "name": "Orchestration",
+              "slug": "data-orchestration"
+            }
+          ]
+        },
+        {
+          "id": "cm5c8wd50vdqz07mv20au3gt7",
+          "name": "Prefect",
+          "slug": "prefect",
+          "description": "Prefect is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Prefect to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Prefect improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Next-gen workflow automation platform\nHow it works: Combines task-based workflows with modern features\nWhat it's used for: \n1. Data pipeline automation\n2. ML workflow orchestration\n3. Real-time data flows\n4. Distributed processing\n5. Event-driven pipelines\nHow to use it: \n1. Create flow definitions\n2. Configure tasks\n3. Set up scheduling\n4. Monitor executions\n5. Handle state changes",
+          "category": [
+            {
+              "id": "cm5bep4cuhf0v07lq9ehqrv1k",
+              "name": "Automation",
+              "slug": "automation"
+            }
+          ],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vhvdvr07mvixsbvgjf",
+              "name": "Schedulers",
+              "slug": "schedulers"
+            },
+            {
+              "id": "cm5ijlqbqyqud07litwtbi8fy",
+              "name": "Orchestration",
+              "slug": "data-orchestration"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subcategory": {
+        "id": "cm5c8x0vlvdvy07mv93gvtqlq",
+        "name": "Distributed Computing",
+        "slug": "distributed-computing"
+      },
+      "totalTechs": 1,
+      "missingContent": {
+        "features": 0,
+        "businessMetrics": 0,
+        "additonalDetails": 0
+      },
+      "enhancementScore": 0,
+      "priority": "LOW",
+      "technologies": [
+        {
+          "id": "cm5c8wd57vdrb07mvpwmg84uh",
+          "name": "Dask",
+          "slug": "dask",
+          "description": "Dask is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Dask to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+          "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+          "businessMetrics": "Dask improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+          "additonalDetails": "What it is: Parallel computing framework for Python\nHow it works: Scales Python and NumPy/Pandas operations\nWhat it's used for: \n1. Large-scale analytics\n2. Scientific computing\n3. Machine learning\n4. Time series analysis\nHow to use it: \n1. Scale existing code\n2. Configure clusters\n3. Optimize computations\n4. Monitor tasks",
+          "category": [],
+          "subcategories": [
+            {
+              "id": "cm5c8x0vlvdvy07mv93gvtqlq",
+              "name": "Distributed Computing",
+              "slug": "distributed-computing"
+            },
+            {
+              "id": "cm5hvy4g4n8si07lijbbqntkd",
+              "name": "Data Processing",
+              "slug": "data-processing"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "uncategorized": [
+    {
+      "id": "cm57wt6g5b8ak07n568964ix5",
+      "name": "hugging face",
+      "slug": "huggingface",
+      "description": "Hugging Face provides the world's largest repository of pre-trained machine learning models and datasets. JEDI Labs utilizes Hugging Face's transformers library and model hub to rapidly deploy state-of-the-art NLP, computer vision, and audio processing models, significantly reducing development time and computational costs.",
+      "features": "Pre-trained Model Library (100,000+ models), Transformers Architecture Support, Multi-modal AI Models, Model Fine-tuning & Training, AutoML Capabilities, Production Deployment Tools, Community-driven Innovation, Enterprise Model Management",
+      "businessMetrics": "Reduces model development time by 80%, provides access to 100,000+ pre-trained models, enables rapid prototyping with 90% fewer resources, supports enterprise deployment with scalable inference",
+      "additonalDetails": "# JEDI Implementation: Hugging Face in Real Client Solutions\n\n## 🔍 **AISO (AI Search Optimization): Consulting Company Enhancement**\n**Client Challenge**: Consulting company needed to optimize content for AI search engines and improve organic visibility.\n\n**JEDI Solution**:\n- **JEDI AutoTune™ Integration**: Hugging Face models optimized for search performance\n- **Custom Model Fine-tuning**: Specialized models for consulting industry content\n- **Multi-modal Processing**: Text, image, and document analysis for comprehensive optimization\n- **Real-time Adaptation**: Models that learn and improve from search performance data\n\n**Technical Implementation**:\n- Hugging Face Transformers for content analysis and generation\n- Custom fine-tuned models for consulting industry terminology\n- Sentence transformers for semantic similarity matching\n- Model hub integration for rapid deployment and updates\n\n**Measurable Results**:\n- **150% increase in organic search traffic** within 3 months\n- **200% improvement in lead quality** from search results\n- **95% accuracy** in content optimization recommendations\n- **3x faster content creation** with AI-assisted writing\n\n## 🎯 **GEO (Generative Engine Optimization): Search Engine Adaptation**\n**Client Challenge**: Business needed to optimize content for ChatGPT, Claude, and other AI search engines.\n\n**JEDI Solution**:\n- **Multi-Model Optimization**: Content optimized for different AI models\n- **Semantic Understanding**: Hugging Face models ensure content matches user intent\n- **Dynamic Content Generation**: Real-time content adaptation based on search queries\n- **Performance Monitoring**: Continuous optimization based on search results\n\n**Technical Implementation**:\n- Hugging Face model selection based on target AI engine\n- Custom embeddings for better semantic matching\n- Fine-tuned models for specific industry domains\n- A/B testing framework for content optimization\n\n**Measurable Results**:\n- **120% increase in AI search visibility** across platforms\n- **80% improvement in content relevance** scores\n- **60% faster content optimization** process\n- **90% accuracy** in search intent matching\n\n## 🔧 **JEDI AutoTune™: Model Optimization Engine**\n**How JEDI Uses Hugging Face**:\n- **Model Selection**: Automatically chooses best pre-trained models for each use case\n- **Fine-tuning Pipeline**: Customizes models for specific business needs\n- **Performance Optimization**: Continuously improves model accuracy and efficiency\n- **Multi-modal Support**: Handles text, images, audio, and structured data\n\n**Scalability**: Works for any industry or use case - from healthcare to finance to e-commerce.",
+      "category": [
+        {
+          "id": "cm49i47s9gcu707n3nff0vnr6",
+          "name": "Machine-Learning",
+          "slug": "ml"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5bxov6r1xhc07loztif3ksd",
+      "name": "spaCy",
+      "slug": "spacy",
+      "description": "spaCy is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages spaCy to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "spaCy improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": "# JEDI Implementation: spaCy in AI Agent Solutions\n\n## 🗣️ **Conversational AI Agents: Customer Service Automation**\n**Client Challenge**: E-commerce company needed intelligent customer service agents that could understand complex queries.\n\n**JEDI Solution**:\n- **JEDI Rules™ Integration**: spaCy powers natural language understanding for AI agents\n- **Intent Recognition**: Identifies customer intent and routes to appropriate responses\n- **Entity Extraction**: Pulls key information from customer messages\n- **Sentiment Analysis**: Monitors customer satisfaction in real-time\n\n**Technical Implementation**:\n- spaCy's NER models for customer entity recognition\n- Custom pipelines for intent classification\n- Integration with JEDI Rules™ for response routing\n- Real-time sentiment analysis for customer satisfaction\n\n**Measurable Results**:\n- **85% accuracy** in customer intent recognition\n- **70% reduction in escalation** to human agents\n- **90% customer satisfaction** with AI agent responses\n- **60% faster response times** compared to human agents\n\n## 🔧 **JEDI Rules™: Natural Language Processing for AI Agents**\n**How JEDI Uses spaCy for AI Agents**:\n- **Text Preprocessing**: Cleans and prepares customer messages for AI processing\n- **Entity Recognition**: Identifies key business entities and customer information\n- **Intent Classification**: Determines what customers want to accomplish\n- **Context Understanding**: Powers natural language business rule definition\n\n**Scalability**: Works for any conversational AI use case - from customer service to sales support to technical assistance.",
+      "category": [
+        {
+          "id": "cm49i47s9gcu707n3nff0vnr6",
+          "name": "Machine-Learning",
+          "slug": "ml"
+        },
+        {
+          "id": "cm5bxqt9spkvw07mv3y42z7f4",
+          "name": "NLP/NLU",
+          "slug": "nlp-nlu"
+        },
+        {
+          "id": "cm5byr71jqii207mv6ch2mnur",
+          "name": "AI Agents",
+          "slug": "ai-agents"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9lvuavjcn07mvdolnikrq",
+      "name": "GPT-4",
+      "slug": "gpt-4",
+      "description": "GPT-4 is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages GPT-4 to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "GPT-4 improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9xfwpvlt107mvdkyfmsj1",
+      "name": "Bayesian Decision Networks",
+      "slug": "bayesian-decision-networks",
+      "description": "Bayesian Decision Networks is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Bayesian Decision Networks to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "Bayesian Decision Networks improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c9xfwpvlt007mvfuewhcdg",
+          "name": "Decision Algorithms",
+          "slug": "decision-algorithms"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9yn5bvlyw07mvz2fwsurc",
+      "name": "Bayesian Networks for Decision Making",
+      "slug": "bayesian-networks-decision",
+      "description": "Bayesian Networks for Decision Making is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Bayesian Networks for Decision Making to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "Bayesian Networks for Decision Making improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9yui082a907lojfrtdo0r",
+      "name": "RESTful Services",
+      "slug": "restful-services-integration",
+      "description": "RESTful Services is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages RESTful Services to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "RESTful Services improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c9yui082a807low73hiqw4",
+          "name": "System Integration",
+          "slug": "system-integration-tech"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5ca5r9tvn3107mvlst2qgwv",
+      "name": "Task Decomposition Engine",
+      "slug": "task-decomposition-engine",
+      "description": "System for breaking down complex tasks into manageable subtasks with dependencies.",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c8u2gh7sc807lo4j3k3c1v",
+          "name": "Task Planning",
+          "slug": "task-planning"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5ca6z8h83nn07lomcz9vuew",
+      "name": "Online Learning Systems",
+      "slug": "online-learning-systems",
+      "description": "Systems that learn and adapt from continuous streams of data in real-time.",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5ca6z8g83nm07lo5ac0novz",
+          "name": "Continuous Learning",
+          "slug": "continuous-learning"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5j4pks3bhui07lq6xt72vrt",
+      "name": "Security",
+      "slug": "security",
+      "description": "Security tools and platforms for protecting data engineering infrastructure, including secrets management, access control, identity management, and encryption solutions.",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5bep4cxhf0z07lqbh0psy6d",
+          "name": "Data Engineering",
+          "slug": "data-engineering"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cmf4ewktf546307lipgoqakm8",
+      "name": "Test Technology",
+      "slug": "test-technology-1756930244264",
+      "description": "Test description",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [],
+      "subcategories": []
+    },
+    {
+      "id": "cmf4ewkzf4vwn07lkws7ighou",
+      "name": "Test Technology with Category",
+      "slug": "test-tech-category-1756930244560",
+      "description": "Test description with category",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm49i47s9gcu707n3nff0vnr6",
+          "name": "Machine-Learning",
+          "slug": "ml"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9xfwrvlt407mvxi5tb2e6",
+      "name": "Markov Decision Processes",
+      "slug": "markov-decision-processes",
+      "description": "Markov Decision Processes is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Markov Decision Processes to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "Markov Decision Processes improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c9xfwpvlt007mvfuewhcdg",
+          "name": "Decision Algorithms",
+          "slug": "decision-algorithms"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9yn5dvlyz07mv7h7hmajx",
+      "name": "Markov Processes",
+      "slug": "markov-processes-ai",
+      "description": "Markov Processes is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Markov Processes to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "Markov Processes improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [],
+      "subcategories": []
+    },
+    {
+      "id": "cm5c9yui282ac07lo31t89vc5",
+      "name": "GraphQL Systems",
+      "slug": "graphql-integration-systems",
+      "description": "GraphQL Systems is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages GraphQL Systems to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "GraphQL Systems improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c9yui082a807low73hiqw4",
+          "name": "System Integration",
+          "slug": "system-integration-tech"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5ca5r9vvn3407mv1vykh30g",
+      "name": "Dynamic Task Scheduler",
+      "slug": "dynamic-task-scheduler",
+      "description": "Intelligent scheduling system that adapts to changing priorities and resources.",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5c8u2gh7sc807lo4j3k3c1v",
+          "name": "Task Planning",
+          "slug": "task-planning"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5ca6z8i83nq07lox2owkkaz",
+      "name": "Transfer Learning Framework",
+      "slug": "transfer-learning-framework",
+      "description": "Framework for applying knowledge learned in one task to new, related tasks.",
+      "features": null,
+      "businessMetrics": null,
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5ca6z8g83nm07lo5ac0novz",
+          "name": "Continuous Learning",
+          "slug": "continuous-learning"
+        }
+      ],
+      "subcategories": []
+    },
+    {
+      "id": "cm5bxuzmfpoq907mvpblgszhx",
+      "name": "Dialogflow",
+      "slug": "dialogflow",
+      "description": "Dialogflow is a powerful technology solution that enables advanced capabilities for modern applications. JEDI Labs leverages Dialogflow to provide robust functionality, seamless integration with existing systems, and enterprise-ready performance for our AI solutions.",
+      "features": "High Performance Architecture, Scalable Design, Easy Integration, Comprehensive Documentation, Community Support, Enterprise Ready, Production Proven, Cost Effective",
+      "businessMetrics": "Dialogflow improves operational efficiency by 40-60%, reduces development time and costs, provides reliable performance for enterprise applications, enables faster time-to-market for AI solutions",
+      "additonalDetails": null,
+      "category": [
+        {
+          "id": "cm5bxqt9spkvw07mv3y42z7f4",
+          "name": "NLP/NLU",
+          "slug": "nlp-nlu"
+        }
+      ],
+      "subcategories": []
+    }
+  ],
+  "summary": {
+    "totalSubcategories": 43,
+    "totalTechnologies": 100,
+    "technologiesWithSubcategories": 83,
+    "uncategorizedTechnologies": 17,
+    "highPriority": 6,
+    "mediumPriority": 34,
+    "lowPriority": 3
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
-import { FiBrain, FiZap, FiTarget, FiCheckCircle, FiAlertTriangle, FiTrendingUp } from 'react-icons/fi';
+import { FiCpu, FiZap, FiTarget, FiCheckCircle, FiAlertTriangle, FiTrendingUp } from 'react-icons/fi';
 
 const IntelligentAnalysisStep = ({ 
   useCaseData, 
@@ -24,7 +24,7 @@ const IntelligentAnalysisStep = ({
       architecture: [
         {
           type: 'discovery',
-          icon: FiBrain,
+          icon: FiCpu,
           title: 'System Architecture Discovered',
           content: `Identified ${useCaseData?.architecture?.components?.length || 0} core components in ${solutionName} architecture`,
           details: 'Analyzing component relationships and data flow patterns...',
@@ -50,7 +50,7 @@ const IntelligentAnalysisStep = ({
       technology: [
         {
           type: 'discovery',
-          icon: FiBrain,
+          icon: FiCpu,
           title: 'Technology Stack Analyzed',
           content: `Evaluated ${useCaseData?.technologies?.length || 0} technologies across multiple categories`,
           details: 'All technologies are production-ready and industry-standard',
@@ -76,7 +76,7 @@ const IntelligentAnalysisStep = ({
       metrics: [
         {
           type: 'discovery',
-          icon: FiBrain,
+          icon: FiCpu,
           title: 'Success Metrics Identified',
           content: `Found ${useCaseData?.metrics?.length || 0} key performance indicators`,
           details: 'Metrics are aligned with industry best practices and business objectives',
@@ -102,7 +102,7 @@ const IntelligentAnalysisStep = ({
       implementation: [
         {
           type: 'discovery',
-          icon: FiBrain,
+          icon: FiCpu,
           title: 'Implementation Path Mapped',
           content: `Identified ${useCaseData?.architecture?.flow?.length || 0}-step implementation process`,
           details: 'Each step is optimized for minimal risk and maximum success probability',
@@ -168,7 +168,7 @@ const IntelligentAnalysisStep = ({
 
   const getInsightIcon = (type) => {
     switch (type) {
-      case 'discovery': return FiBrain;
+      case 'discovery': return FiCpu;
       case 'pattern': return FiZap;
       case 'recommendation': return FiTarget;
       default: return FiCheckCircle;
@@ -202,7 +202,7 @@ const IntelligentAnalysisStep = ({
       >
         <div className="flex items-center space-x-3 mb-3">
           <div className={`p-2 rounded-lg ${isDarkMode ? 'bg-primary-1/20' : 'bg-primary-1/10'}`}>
-            <FiBrain className={`w-5 h-5 ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`} />
+            <FiCpu className={`w-5 h-5 ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`} />
           </div>
           <div>
             <h4 className={`font-semibold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
@@ -254,9 +254,9 @@ const IntelligentAnalysisStep = ({
         </motion.div>
       )}
 
-      {/* Generated Insights */}
+      {/* Generated Insights - Limited to First 3 */}
       <div className="space-y-3">
-        {insights.map((insight, index) => {
+        {insights.slice(0, 3).map((insight, index) => {
           const Icon = getInsightIcon(insight.type);
           const iconColor = getInsightColor(insight.type);
           const confidenceColor = getConfidenceColor(insight.confidence);
@@ -301,6 +301,25 @@ const IntelligentAnalysisStep = ({
             </motion.div>
           );
         })}
+        
+        {/* Show More Indicator */}
+        {insights.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className={`p-3 rounded-lg border text-center ${
+              isDarkMode ? 'bg-n-6 border-n-5' : 'bg-n-2 border-n-3'
+            }`}
+          >
+            <p className={`text-sm font-medium ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+              +{insights.length - 3} more insights available
+            </p>
+            <p className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+              Launch full simulation to see all insights
+            </p>
+          </motion.div>
+        )}
       </div>
 
       {/* Analysis Complete */}
@@ -330,4 +349,5 @@ const IntelligentAnalysisStep = ({
 };
 
 export default IntelligentAnalysisStep;
+
 

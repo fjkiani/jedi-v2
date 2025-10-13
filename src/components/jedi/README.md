@@ -246,3 +246,5 @@ All components expect data in the JEDI data structure format. See `src/constants
 - IE11+ (with polyfills)
 - Progressive enhancement
 
+
+

@@ -165,9 +165,12 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <Hero />
                     {/* <JediComponentsShowcase /> */}
                     {/* <AiCoPilotDemo /> */}
+                    <ContactCoPilot />
+
                     <FeaturedApplications />
                     <SolutionsPage isHomepage={true} />
-                    <Services />
+
+                    {/* <Services /> */}
                     {/* <Collaboration/> */}
                     <CaseStudies />
                     {/* <NextGenAIStack /> */}
@@ -177,7 +180,6 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     {/* <LeadCaptureCTA /> */}
                     {/* <Pricing /> */}
                     {/* <Roadmap /> */}
-                    {/* <ContactCoPilot /> */}
                     {/* <StarsCanvas /> */}
                   </>
                 }

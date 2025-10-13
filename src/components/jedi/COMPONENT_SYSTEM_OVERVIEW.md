@@ -345,3 +345,5 @@ Dynamic Pages (no hard-coding)
 
 This component system provides a solid foundation for building dynamic, maintainable, and scalable JEDI content throughout the application.
 
+
+

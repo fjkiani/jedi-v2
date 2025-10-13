@@ -100,3 +100,5 @@ import * as JEDI from '@/constants/jedi';
 
 The old `jediComponents.js` file is maintained for backward compatibility but simply re-exports from this modular structure. New code should import directly from this directory.
 
+
+

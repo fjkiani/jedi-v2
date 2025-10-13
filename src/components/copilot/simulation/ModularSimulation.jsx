@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '@/context/ThemeContext';
 import { useSimulation } from './hooks/useSimulation';
 import { generateSimulationSteps } from './dataTransformer';
 import SimulationControls from './components/SimulationControls';
-import SimulationSidebar from './components/SimulationSidebar';
 import StepRenderer from './components/StepRenderer';
 
 const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
+  const { isDarkMode } = useTheme();
   const steps = generateSimulationSteps(responseData);
   
   const {
@@ -32,51 +33,6 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
 
   return (
     <>
-      {/* Compact View - Shows in Chat */}
-      {!isFullScreen && (
-        <div className="bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-purple-900/20 dark:via-gray-900 dark:to-blue-900/20 rounded-xl border-2 border-purple-200 dark:border-purple-500/30 p-6 shadow-lg">
-          {/* Simulation Header */}
-          <div className="text-center mb-6">
-            <div className="text-5xl mb-4">🚀</div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              {responseData.simulationData?.title || responseData.useCase?.title + ' Implementation Simulation' || 'AI Implementation Simulator'}
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              Interactive walkthrough of your AI solution implementation
-            </p>
-          </div>
-
-          {/* Primary CTA Button */}
-          <div className="text-center mb-6">
-            <button 
-              onClick={() => setIsFullScreen(true)}
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-            >
-              <ArrowsPointingOutIcon className="w-6 h-6" />
-              Launch Interactive Simulation
-            </button>
-          </div>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{steps.length}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Implementation Steps</div>
-            </div>
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {Math.round(steps.reduce((acc, step) => acc + (step.processingTime || 2000), 0) / 1000 / 60)}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Minutes Experience</div>
-            </div>
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">92%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Full-Screen Modal */}
       {isFullScreen && (
         <AnimatePresence>
@@ -85,7 +41,7 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-            onClick={(e) => e.target === e.currentTarget && setIsFullScreen(false)}
+            onClick={(e) => e.target === e.currentTarget && onComplete()}
           >
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
@@ -104,10 +60,14 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
                       <ArrowsPointingOutIcon className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h2 className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-white truncate">
+                      <h2 className={`text-sm sm:text-base lg:text-lg xl:text-xl font-bold truncate ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {responseData.simulationData?.title || 'AI Implementation Simulator'}
                       </h2>
-                      <p className="text-xs sm:text-sm text-purple-200 truncate">
+                      <p className={`text-xs sm:text-sm truncate ${
+                        isDarkMode ? 'text-purple-200' : 'text-purple-600'
+                      }`}>
                         {responseData.simulationData?.description || 'Interactive simulation experience'}
                       </p>
                     </div>
@@ -117,12 +77,14 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
                     {/* Status Indicator */}
                     <div className="hidden sm:flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-green-500/20 rounded-full border border-green-500/30">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-green-300 font-medium text-xs sm:text-sm">Simulation Active</span>
+                      <span className={`font-medium text-xs sm:text-sm ${
+                        isDarkMode ? 'text-green-300' : 'text-green-600'
+                      }`}>Simulation Active</span>
                     </div>
 
                     {/* Close Button */}
                     <motion.button
-                      onClick={() => setIsFullScreen(false)}
+                      onClick={() => onComplete()}
                       className="w-6 h-6 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-500/30 flex items-center justify-center text-red-300 hover:text-red-200 transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -133,20 +95,10 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
                 </div>
               </div>
 
-              {/* Main Content Area - Mobile-First Design */}
-              <div className="relative z-10 flex-1 flex flex-col lg:flex-row min-h-0 gap-3 sm:gap-4">
+              {/* Main Content Area - Full Screen Design */}
+              <div className="relative z-10 flex-1 flex flex-col min-h-0">
                 
-                {/* Mobile: Top Controls Bar / Desktop: Left Sidebar */}
-                <SimulationSidebar
-                  steps={steps}
-                  currentStep={currentStep}
-                  completedSteps={completedSteps}
-                  isRunning={isRunning}
-                  processingStatus={processingStatus}
-                  onGoToStep={goToStep}
-                />
-
-                {/* Main Content Area - Improved Mobile Scrolling */}
+                {/* Main Content Area - Full Screen */}
                 <div className="flex-1 flex flex-col min-h-0 bg-black/10 rounded-lg sm:rounded-xl border border-purple-500/20">
                   <div className="flex-1 overflow-y-auto">
                     <div className="p-3 sm:p-4 lg:p-6 min-h-full flex flex-col">
@@ -234,14 +186,20 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
                                 >
                                   <div className="text-center">
                                     <div className="text-2xl mb-2">🎉</div>
-                                    <h3 className="text-lg font-bold text-white mb-2">
+                                    <h3 className={`text-lg font-bold mb-2 ${
+                                      isDarkMode ? 'text-white' : 'text-gray-900'
+                                    }`}>
                                       {responseData.useCase?.title || 'AI Solution'} Simulation Complete!
                                     </h3>
-                                    <p className="text-green-200 text-sm mb-4">
+                                    <p className={`text-sm mb-4 ${
+                                      isDarkMode ? 'text-green-200' : 'text-green-600'
+                                    }`}>
                                       Your implementation roadmap is ready. Take the next step with a personalized consultation.
                                     </p>
                                     
-                                    <div className="mt-4 text-xs text-gray-400">
+                                    <div className={`mt-4 text-xs ${
+                                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>
                                       Based on your {responseData.useCase?.title || 'AI solution'} simulation results
                                     </div>
                                   </div>
@@ -264,4 +222,5 @@ const ModularSimulation = ({ responseData, onSuggestedQuery, onComplete }) => {
 };
 
 export default ModularSimulation;
+
 
