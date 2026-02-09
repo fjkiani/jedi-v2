@@ -143,6 +143,19 @@ Each technology should tell the story of:
 - Differentiates from generic AI competitors
 - Shows actual implementation expertise
 
+## Implementation Plan Reference
+
+**What we plan to do** (detailed in technology-subcategory-enhancement-strategy.mdc):
+
+1. **Schema & relationships** – Confirm linkages, identify gaps
+2. **Subcategory-first** – Audit 62 subcategories, prioritize Agent Core, Vector DBs, etc.
+3. **Connect technologies** – Technology → UseCase, IndustryApplication, JediComponent (target: top 50+)
+4. **Populate tabs** – Overview, Features, Architecture, Integration, Use Cases, Resources
+5. **Enhancement pipeline** – Fetch → Enrich → Push → Verify
+6. **Unify sources** – Decide on aiMlTechStack migration vs fallback
+
+See: `HYGRAPH_ARCHITECTURE_AND_PLAN.md` for full audit and relationship graph.
+
 ## File References
 - Technology pages: [src/pages/technology/](mdc:src/pages/technology/)
 - Technology registry: [src/constants/registry/technologyRegistry.js](mdc:src/constants/registry/technologyRegistry.js)

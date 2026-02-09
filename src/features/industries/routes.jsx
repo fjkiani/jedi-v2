@@ -36,7 +36,7 @@ const IndustryRoutes = () => {
         } 
       />
       
-      {/* Solution page */}
+      {/* Solution page - must include /solutions/ to match URL structure */}
       <Route 
         path=":industryId/:solutionId" 
         element={

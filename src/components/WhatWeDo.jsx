@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Section from './Section';
 import { Icon } from './Icon';
-import { businessValues } from '../constants/whatWeDoData';
+// import { businessValues } from '../constants/whatWeDoData';
 import Tooltip from './Tooltip';
 import { JEDIDiagramView } from './diagrams/JEDIDiagramView';
 import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
@@ -83,47 +83,7 @@ const WhatWeDo = () => {
           </p>
         </motion.div>
 
-        {/* Solution Cards with hover effects */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20"
-        >
-          {businessValues.map((item, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.02, y: -5 }}
-              className="relative p-6 rounded-[20px] border border-n-6 bg-white/50 dark:bg-n-7 overflow-hidden group transition-colors duration-200"
-            >
-              <div className="relative z-1">
-                {/* Icon Container */}
-                <div className={`w-12 h-12 mb-4 rounded-xl bg-gradient-to-br ${item.color} 
-                  flex items-center justify-center transform group-hover:rotate-12 transition-transform`}>
-                  <Icon name={item.icon} className="w-6 h-6 text-n-1" />
-                </div>
-                
-                {/* Metric Value with Citation */}
-                <div className="flex items-baseline gap-2 mb-3">
-                  <span className="h4 text-primary-1 dark:text-n-1">{item.value}</span>
-                  <Tooltip content={item.tooltip}>
-                    <span className="text-sm text-n-6 dark:text-n-3 cursor-help whitespace-nowrap">
-                      ({item.citation})
-                    </span>
-                  </Tooltip>
-                </div>
-                
-                {/* Title and Description */}
-                <div className="mb-2 text-n-8 dark:text-n-1 font-bold">{item.title}</div>
-                <p className="body-2 text-n-6 dark:text-n-3">{item.description}</p>
-              </div>
-
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-n-8/50 via-n-8/50 to-n-8/0 
-                opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Architecture Diagrams Section - Now the Main Focus */}
 
         {/* Architecture Diagrams Section */}
         <motion.div
@@ -165,7 +125,7 @@ const WhatWeDo = () => {
                     <div className="text-center mb-8">
                       <h4 className="h4 mb-4 text-n-8 dark:text-primary-1">{arch.title}</h4>
                       <p className="body-2 text-n-6 dark:text-n-3 mb-6">{arch.description}</p>
-                      <Link 
+                      <Link
                         to={arch.id === 'jedi' ? '/about' : `/solutions/${arch.id}`}
                         className="button button-primary px-8 py-3 inline-flex items-center gap-2 hover:shadow-xl dark:hover:shadow-primary-1/25"
                         aria-label={`Learn more about ${arch.title}`}

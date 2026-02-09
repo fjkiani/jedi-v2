@@ -49,7 +49,7 @@ const helpCategories = [
   }
 ];
 
-const SidebarConsultant = ({ 
+const SidebarConsultant = ({
   className = ""
 }) => {
   const { isDarkMode } = useTheme();
@@ -106,11 +106,10 @@ const SidebarConsultant = ({
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: isExpanded ? 0 : 44, opacity: 1 }} // Reduced offset for mobile
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className={`relative cursor-pointer shadow-2xl backdrop-blur-sm transition-all duration-300 ${
-            isDarkMode 
-              ? 'bg-gradient-to-br from-gray-900/95 to-gray-800/95 border-purple-500/30 text-white' 
+          className={`relative cursor-pointer shadow-2xl backdrop-blur-sm transition-all duration-300 ${isDarkMode
+              ? 'bg-gradient-to-br from-gray-900/95 to-gray-800/95 border-purple-500/30 text-white'
               : 'bg-gradient-to-br from-white/95 to-gray-50/95 border-purple-300/50 text-gray-900'
-          } border-2 border-l border-t border-b rounded-l-2xl sm:rounded-l-3xl hover:shadow-3xl hover:scale-105 group`}
+            } border-2 border-l border-t border-b rounded-l-2xl sm:rounded-l-3xl hover:shadow-3xl hover:scale-105 group`}
           onClick={handleTabClick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -133,11 +132,10 @@ const SidebarConsultant = ({
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className={`absolute right-16 sm:right-20 lg:right-24 top-0 w-80 sm:w-96 min-h-[28rem] sm:min-h-[32rem] rounded-2xl shadow-2xl border backdrop-blur-sm overflow-hidden ${
-                  isDarkMode 
-                    ? 'bg-gray-900/95 border-gray-600 text-white' 
+                className={`absolute right-16 sm:right-20 lg:right-24 top-0 w-80 sm:w-96 min-h-[28rem] sm:min-h-[32rem] rounded-2xl shadow-2xl border backdrop-blur-sm overflow-hidden ${isDarkMode
+                    ? 'bg-gray-900/95 border-gray-600 text-white'
                     : 'bg-white/95 border-gray-300 text-gray-900'
-                }`}
+                  }`}
               >
                 {/* Mobile-friendly close button */}
                 <button
@@ -145,9 +143,8 @@ const SidebarConsultant = ({
                     e.stopPropagation();
                     setIsExpanded(false);
                   }}
-                  className={`absolute top-3 sm:top-4 right-3 sm:right-4 w-8 h-8 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-lg sm:text-xl font-medium transition-colors z-10 ${
-                    isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-300' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
-                  }`}
+                  className={`absolute top-3 sm:top-4 right-3 sm:right-4 w-8 h-8 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-lg sm:text-xl font-medium transition-colors z-10 ${isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-300' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
+                    }`}
                 >
                   ×
                 </button>
@@ -159,9 +156,9 @@ const SidebarConsultant = ({
                       <div className="text-lg sm:text-xl">🤖</div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm sm:text-base mb-1">JEDI Labs Consultant</div>
+                      <div className="font-bold text-sm sm:text-base mb-1">Mission Control</div>
                       <div className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                        How can we help engineer your vision?
+                        Status: Online. Awaiting Orders.
                       </div>
                     </div>
                   </div>
@@ -176,17 +173,16 @@ const SidebarConsultant = ({
                         e.stopPropagation();
                         setActiveCategory(index);
                       }}
-                      className={`flex-1 px-2 py-2 text-sm font-medium text-center transition-all duration-300 relative ${
-                        activeCategory === index
+                      className={`flex-1 px-2 py-2 text-sm font-medium text-center transition-all duration-300 relative ${activeCategory === index
                           ? isDarkMode ? 'text-white' : 'text-gray-900'
                           : isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
-                      }`}
+                        }`}
                     >
                       <div className="flex flex-col items-center gap-1">
                         <Icon name={category.icon} className="w-3 h-3" />
                         <span className="text-sm">{category.title}</span>
                       </div>
-                      
+
                       {/* Active indicator */}
                       {activeCategory === index && (
                         <motion.div
@@ -250,18 +246,17 @@ const SidebarConsultant = ({
                         >
                           {activeHelpCategory.id === 'consultation' ? '🚀 Start Consultation' : `💬 Discuss ${activeHelpCategory.title}`}
                         </button>
-                        
+
                         {activeHelpCategory.id !== 'consultation' && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleConsultantClick('consultation');
                             }}
-                            className={`w-full px-4 py-2 rounded-lg text-lg font-medium border transition-all duration-200 ${
-                              isDarkMode 
-                                ? 'border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-gray-500' 
+                            className={`w-full px-4 py-2 rounded-lg text-lg font-medium border transition-all duration-200 ${isDarkMode
+                                ? 'border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-gray-500'
                                 : 'border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400'
-                            }`}
+                              }`}
                           >
                             🎯 Get Custom Consultation
                           </button>
@@ -272,9 +267,8 @@ const SidebarConsultant = ({
                 </div>
 
                 {/* Speech bubble pointer */}
-                <div className={`absolute right-0 top-12 translate-x-3 w-4 h-4 rotate-45 ${
-                  isDarkMode ? 'bg-gray-900 border-r border-t border-gray-600' : 'bg-white border-r border-t border-gray-300'
-                }`} />
+                <div className={`absolute right-0 top-12 translate-x-3 w-4 h-4 rotate-45 ${isDarkMode ? 'bg-gray-900 border-r border-t border-gray-600' : 'bg-white border-r border-t border-gray-300'
+                  }`} />
               </motion.div>
             )}
           </AnimatePresence>

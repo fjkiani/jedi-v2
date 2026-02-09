@@ -3,9 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactFlow, { Background, Controls, MiniMap, ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { 
-  FiCheckCircle, FiServer, FiList, FiTerminal, FiCpu, FiArrowRight, 
-  FiChevronDown, FiChevronUp, FiCopy, FiCheck, FiTarget, FiDatabase, 
+import {
+  FiCheckCircle, FiServer, FiList, FiTerminal, FiCpu, FiArrowRight,
+  FiChevronDown, FiChevronUp, FiCopy, FiCheck, FiTarget, FiDatabase,
   FiGitBranch, FiZap, FiClock, FiTrendingUp, FiMessageSquare, FiStar,
   FiLayers, FiBox, FiUsers, FiBarChart, FiSettings, FiPlay, FiExternalLink, FiX
 } from 'react-icons/fi';
@@ -24,6 +24,7 @@ import { useTheme } from '@/context/ThemeContext';
 import QueryResponse from '@/components/copilot/QueryResponse';
 import { generateQueryResponse } from '@/services/queryResponseGenerator';
 import CoPilotCore from '@/components/copilot/CoPilotCore';
+import ZetaSimulation from '@/components/solutions/ZetaSimulation';
 
 // Enhanced GraphQL query to fetch all interconnected data
 const GetUseCaseDetail = gql`
@@ -47,6 +48,7 @@ const GetUseCaseDetail = gql`
         name
         slug
         description
+        icon
       }
       category {
         id
@@ -164,7 +166,7 @@ const SolutionPage = () => {
         }
       } catch (err) {
         console.error("[SolutionPage] Error fetching solution details:", err);
-        
+
         // Handle specific error types
         if (err.message?.includes('rate limit')) {
           setError("API rate limit exceeded. Please wait a moment and refresh the page.");
@@ -221,23 +223,23 @@ const SolutionPage = () => {
 
   const handleQueryAction = (action) => {
     console.log('Query action clicked:', action);
-    
+
     switch (action.type) {
       case 'scroll':
         // Smooth scroll to target section
         const targetElement = document.getElementById(action.target);
         if (targetElement) {
-          targetElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
           });
         }
         break;
-        
+
       case 'simulation':
         // Trigger simulation with proper data
         console.log('Triggering simulation:', action.simulationType);
-        
+
         // Prepare simulation data based on current use case
         const simulationResponseData = {
           useCase: useCaseData,
@@ -247,7 +249,7 @@ const SolutionPage = () => {
           architecture: useCaseData.architecture,
           metrics: [
             'Accuracy',
-            'Processing Speed', 
+            'Processing Speed',
             'Cost Reduction',
             'ROI',
             'User Satisfaction',
@@ -256,10 +258,10 @@ const SolutionPage = () => {
           simulationData: {
             title: `${useCaseData.title} Implementation Simulation`,
             description: `Interactive simulation for implementing ${useCaseData.title} in ${useCaseData.industry?.name || 'your industry'}`,
-            focusArea: action.simulationType === 'cost' ? 'Cost Analysis' : 
-                      action.simulationType === 'metrics' ? 'Success Metrics' :
-                      action.simulationType === 'architecture' ? 'Technical Architecture' : 
-                      'Implementation Process',
+            focusArea: action.simulationType === 'cost' ? 'Cost Analysis' :
+              action.simulationType === 'metrics' ? 'Success Metrics' :
+                action.simulationType === 'architecture' ? 'Technical Architecture' :
+                  'Implementation Process',
             successMetrics: [
               'Model Accuracy: 95%+',
               'Processing Speed: <100ms',
@@ -280,18 +282,18 @@ const SolutionPage = () => {
             recommendedApproach: 'Phased implementation with pilot program'
           }
         };
-        
+
         // setSimulationData(simulationResponseData); // Removed state
         // setShowSimulation(true); // Removed state
         break;
-        
+
       case 'lead-capture':
         // Trigger lead capture modal with context
         console.log('Triggering lead capture with context:', action.context);
         // This would integrate with your existing lead capture system
         // You can implement this based on your existing lead capture modal
         break;
-        
+
       default:
         console.log('Unknown action type:', action.type);
     }
@@ -318,8 +320,8 @@ const SolutionPage = () => {
   };
 
   const renderListItem = (item, index, icon) => (
-    <motion.li 
-      key={index} 
+    <motion.li
+      key={index}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
@@ -331,7 +333,7 @@ const SolutionPage = () => {
   );
 
   if (loading) {
-        return (
+    return (
       <Section className="pt-12">
         <div className={`container mx-auto text-center ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
           <motion.div
@@ -340,10 +342,10 @@ const SolutionPage = () => {
             className="w-8 h-8 border-2 border-primary-1 border-t-transparent rounded-full mx-auto mb-4"
           />
           Loading solution details...
-            </div>
+        </div>
       </Section>
-        );
-      }
+    );
+  }
 
   if (error || !useCaseData) {
     return (
@@ -353,25 +355,25 @@ const SolutionPage = () => {
             <div className="mb-4">
               <FiZap className="w-12 h-12 text-red-500 mx-auto mb-3" />
               <h3 className={`h5 mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                {error?.includes('rate limit') || error?.includes('Too many requests') 
-                  ? 'Rate Limit Exceeded' 
+                {error?.includes('rate limit') || error?.includes('Too many requests')
+                  ? 'Rate Limit Exceeded'
                   : 'Unable to Load Solution'
                 }
               </h3>
               <p className={`body-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                 {error || "Solution not found"}
               </p>
-              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button 
-                onClick={() => window.location.reload()} 
+              <button
+                onClick={() => window.location.reload()}
                 className="btn btn-primary"
               >
                 <FiArrowRight className="w-4 h-4 mr-2" />
                 Retry
               </button>
-              <button 
-                onClick={() => navigate('/industries')} 
+              <button
+                onClick={() => navigate('/industries')}
                 className={`btn ${isDarkMode ? 'btn-secondary' : 'btn-outline'}`}
               >
                 Go back to Industries
@@ -394,7 +396,7 @@ const SolutionPage = () => {
       <Section className="pt-[8rem] -mt-[5.25rem]" crosses>
         <div className="container relative">
           {/* Back Navigation */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="relative z-10 mb-6"
@@ -414,13 +416,13 @@ const SolutionPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-          <Heading
+            <Heading
               className="mb-4"
-            title={useCaseData.title}
-          />
+              title={useCaseData.title}
+            />
             <p className={`body-1 max-w-4xl mx-auto mb-6 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-            {useCaseData.description}
-          </p>
+              {useCaseData.description}
+            </p>
             <div className="flex flex-wrap justify-center gap-3">
               <span className={`px-3 py-1 rounded-full text-sm ${isDarkMode ? 'bg-n-7 text-n-3' : 'bg-n-2 text-n-6'}`}>
                 {useCaseData.industry?.name}
@@ -431,41 +433,14 @@ const SolutionPage = () => {
             </div>
           </motion.div>
 
-          {/* Query Interaction Section */}
+          {/* Simulation / Terminal Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className={`rounded-xl p-6 mb-12 border ${isDarkMode ? 'bg-gradient-to-br from-n-8 to-n-7 border-n-6' : 'bg-gradient-to-br from-white to-n-1 border-n-3'}`}
+            className="mb-12"
           >
-            <div className="flex items-center mb-6">
-              <FiTerminal className="text-primary-1 mr-3" size={24} />
-              <h3 className={`h4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Solution Explorer</h3>
-              <p className={`body-2 ml-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Click a query to jump to the relevant section.</p>
-            </div>
-            <div className="space-y-3">
-              {useCaseData.queries?.map((query, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => handleQuerySelect(query, index)}
-                  className={`w-full text-left p-4 rounded-lg border transition-all hover:shadow-lg group ${
-                    selectedQuery === index 
-                      ? (isDarkMode ? 'bg-primary-1/10 border-primary-1/50' : 'bg-primary-1/5 border-primary-1/30')
-                      : (isDarkMode ? 'bg-n-7 border-n-6 hover:border-primary-1/30' : 'bg-n-1 border-n-3 hover:border-primary-1/30')
-                  }`}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <FiPlay className={`w-4 h-4 mr-3 ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4' : 'text-n-5'}`} />
-                      <span className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{query}</span>
-                    </div>
-                    <FiArrowRight className={`w-4 h-4 transition-colors ${selectedQuery === index ? 'text-primary-1' : isDarkMode ? 'text-n-4 group-hover:text-primary-1' : 'text-n-5 group-hover:text-primary-1'}`} />
-                  </div>
-                </motion.button>
-              ))}
-            </div>
+            <ZetaSimulation useCase={useCaseData} />
           </motion.div>
 
           {/* Capabilities Section */}
@@ -500,40 +475,40 @@ const SolutionPage = () => {
               <h3 className={`h4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Solution Architecture</h3>
             </div>
 
-                      {useCaseData.architecture?.description && (
+            {useCaseData.architecture?.description && (
               <div className={`p-6 rounded-lg border mb-6 ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
-                          <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{useCaseData.architecture.description}</p>
-                        </div>
-                      )}
+                <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{useCaseData.architecture.description}</p>
+              </div>
+            )}
 
             {/* Workflow Diagram */}
             {useCaseData.architecture?.flow && flowDiagram.nodes.length > 0 && (
               <div className="mb-8">
                 <h5 className={`h6 mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Implementation Flow</h5>
-                          <ReactFlowProvider>
+                <ReactFlowProvider>
                   <div className={`h-[400px] w-full rounded-lg border relative overflow-hidden ${isDarkMode ? 'bg-n-9 border-n-6' : 'bg-gray-50 border-gray-200'}`}>
-                              <ReactFlow
-                                nodes={flowDiagram.nodes}
-                                edges={flowDiagram.edges}
-                                fitView
-                                nodesDraggable={false}
-                                nodesConnectable={false}
-                                panOnScroll={true}
-                                zoomOnScroll={false}
-                                preventScrolling={false}
-                              >
-                                <Background color={isDarkMode ? '#374151' : '#e5e7eb'} gap={16} variant="dots" />
-                                <Controls showInteractive={false} className={`react-flow-controls ${isDarkMode ? '!bg-n-7 !border-n-6 !text-n-3' : '!bg-white !border-gray-300 !text-gray-700'}`} />
-                                <MiniMap nodeColor={isDarkMode ? '#A78BFA' : '#8b5cf6'} className={`react-flow-minimap ${isDarkMode ? '!bg-n-10 !border-n-7' : '!bg-gray-100 !border-gray-300'}`} nodeBorderRadius={2} />
-                              </ReactFlow>
-                            </div>
-                          </ReactFlowProvider>
+                    <ReactFlow
+                      nodes={flowDiagram.nodes}
+                      edges={flowDiagram.edges}
+                      fitView
+                      nodesDraggable={false}
+                      nodesConnectable={false}
+                      panOnScroll={true}
+                      zoomOnScroll={false}
+                      preventScrolling={false}
+                    >
+                      <Background color={isDarkMode ? '#374151' : '#e5e7eb'} gap={16} variant="dots" />
+                      <Controls showInteractive={false} className={`react-flow-controls ${isDarkMode ? '!bg-n-7 !border-n-6 !text-n-3' : '!bg-white !border-gray-300 !text-gray-700'}`} />
+                      <MiniMap nodeColor={isDarkMode ? '#A78BFA' : '#8b5cf6'} className={`react-flow-minimap ${isDarkMode ? '!bg-n-10 !border-n-7' : '!bg-gray-100 !border-gray-300'}`} nodeBorderRadius={2} />
+                    </ReactFlow>
+                  </div>
+                </ReactFlowProvider>
               </div>
-                        )}
+            )}
 
             {/* Components Grid */}
-                      {useCaseData.architecture?.components && useCaseData.architecture.components.length > 0 && (
-                        <div>
+            {useCaseData.architecture?.components && useCaseData.architecture.components.length > 0 && (
+              <div>
                 <h5 className={`h6 mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>System Components</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {useCaseData.architecture.components.map((comp, index) => (
@@ -549,39 +524,39 @@ const SolutionPage = () => {
                         <FiServer className="text-primary-1 mt-1" size={20} />
                         <button className="text-primary-1 hover:text-primary-2">
                           {expandedSections[`component-${comp.id}`] ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
-                                      </button>
+                        </button>
                       </div>
                       <h6 className={`font-semibold mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{comp.name}</h6>
                       <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>{comp.description}</p>
 
-                                      <AnimatePresence>
+                      <AnimatePresence>
                         {expandedSections[`component-${comp.id}`] && (
-                                          <motion.div
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: 'auto' }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            transition={{ duration: 0.3 }}
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
                             className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}
-                                          >
-                                            {comp.details && (
+                          >
+                            {comp.details && (
                               <div className="mb-3">
                                 <h6 className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Technical Details:</h6>
                                 <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{comp.details}</p>
-                                              </div>
-                                            )}
-                                            {comp.explanation && comp.explanation.length > 0 && (
-                                              <div>
+                              </div>
+                            )}
+                            {comp.explanation && comp.explanation.length > 0 && (
+                              <div>
                                 <h6 className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Key Functions:</h6>
-                                                <ul className="list-disc list-inside space-y-1">
-                                                  {comp.explanation.map((point, idx) => (
+                                <ul className="list-disc list-inside space-y-1">
+                                  {comp.explanation.map((point, idx) => (
                                     <li key={idx} className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{point}</li>
-                                                  ))}
-                                                </ul>
-                                              </div>
-                                            )}
-                                          </motion.div>
-                                        )}
-                                      </AnimatePresence>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   ))}
                 </div>
@@ -702,7 +677,7 @@ const SolutionPage = () => {
               <div className="flex items-center mb-6">
                 <FiUsers className="text-primary-1 mr-3" size={24} />
                 <h3 className={`h4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Industry Context & Applications</h3>
-                                </div>
+              </div>
 
               {/* Industry Applications */}
               {useCaseData.industryApplication && useCaseData.industryApplication.length > 0 && (
@@ -787,12 +762,12 @@ const SolutionPage = () => {
                         renderListItem(req, index, FiCheckCircle)
                       ))}
                     </ul>
-                    </div>
-                  )}
+                  </div>
+                )}
 
                 {/* Success Metrics */}
                 {useCaseData.implementation.success_metrics && (
-                    <div>
+                  <div>
                     <h5 className={`h6 mb-4 flex items-center ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
                       <FiBarChart className="mr-2 text-primary-1" size={16} />
                       Success Metrics
@@ -811,8 +786,8 @@ const SolutionPage = () => {
                         </motion.div>
                       ))}
                     </div>
-                    </div>
-                  )}
+                  </div>
+                )}
 
                 {/* Integration Points */}
                 {useCaseData.implementation.integration_points && (
@@ -837,8 +812,8 @@ const SolutionPage = () => {
                         </motion.div>
                       ))}
                     </div>
-                    </div>
-                  )}
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

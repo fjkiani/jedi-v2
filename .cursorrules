@@ -108,6 +108,147 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - **LEAD_CAPTURE Query Format:** When triggering lead capture modals, use the correct format: `onSuggestedQuery('LEAD_CAPTURE:consultation', contextObject)` NOT `onSuggestedQuery('LEAD_CAPTURE:consultation:long-description-string')`. The ChatInterface expects the lead capture type as the first parameter and context data as the second parameter. Malformed query strings like `LEAD_CAPTURE:consultation:Advanced Fraud Detection System implementation consultation` will not trigger the modal because the parsing logic looks for exact matches on the capture type portion.
 - **Technology Data Rendering Issues:** When rendering technology features and business metrics, multiple components can have the same string vs array issue. Always implement comprehensive type checking across ALL technology overview components: `TechnologyOverview.jsx`, `LocalTechnologyOverview.jsx`, `TechnologyStack.jsx`, etc. The issue manifests as character-by-character rendering (e.g., "Features: H, i, g, h, P, e, r, f, o, r, m, a, n, c, e") when array methods are called on strings. Use conditional rendering with proper type detection and fallback to comma-separated string parsing when needed.
 
+# Scratchpad: LangChain Extract & Push (COMPLETED ✅)
+
+**Latest Task:** ✅ **LangChain Extract & Push** - Successfully implemented creative approach using official LangChain docs
+
+**What Was Done:**
+1. **Created `scripts/migrations/hygraph/extract_langchain_and_push.js`** - Single script that:
+   - Embeds curated content from python.langchain.com (quickstart, RAG tutorial)
+   - Official code: create_agent, RAG indexing + retrieval pipeline
+   - JEDI implementation: Go Answer, CrisPRO, JEDI Ensemble™
+   - Links to official docs
+2. **Pushed to Hygraph** - Updated Technology LangChain additonalDetails (5716 chars)
+3. **Schema Fix**: Hygraph uses `technologyS` (capital S) not `technologies` for query
+
+**Key Files:**
+- `scripts/migrations/hygraph/extract_langchain_and_push.js` - Run: `node scripts/migrations/hygraph/extract_langchain_and_push.js`
+
+---
+
+# Scratchpad: MCP Framework Transformation (IN PROGRESS 🔧)
+
+**Current Task:** 🔧 **MCP FRAMEWORK TRANSFORMATION** - Transform application into showcase framework for Model Context Protocol (MCP) capabilities
+
+**Task Overview:**
+The user wants to transform the JEDI Labs application into a framework that showcases MCP (Model Context Protocol) capabilities. MCP enables AI assistants to connect to external data sources, perform real-time actions, and access resources beyond their training data.
+
+## 📋 Analysis Completed
+
+### ✅ Phase 1: Application Architecture Audit (COMPLETED)
+- **App.jsx Analysis**: Reviewed 347 lines, identified 20+ routes and component structure
+- **Component Review**: Analyzed ContactCoPilot, CoPilotCore, Hero, and other key components
+- **Data Flow Analysis**: Identified current data sources (Hygraph CMS, static services)
+- **MCP Integration Points**: Identified where MCP can enhance existing components
+
+### ✅ Phase 2: MCP Capabilities Assessment (COMPLETED)
+- **Available MCP Servers**: Notion MCP, File System MCP, Web Search MCP
+- **MCP Tools Available**: Database queries, page management, resource access, tool execution
+- **Integration Opportunities**: Real-time data access, tool execution, resource management, context enhancement
+
+### ✅ Phase 3: Transformation Plan Created (COMPLETED)
+- **Detailed Plan**: Created `MCP_FRAMEWORK_AUDIT_AND_TRANSFORMATION_PLAN.md` (comprehensive 10-week roadmap)
+- **Quick Summary**: Created `MCP_TRANSFORMATION_SUMMARY.md` (visual architecture and quick reference)
+- **Implementation Phases**: 5 phases outlined with specific deliverables
+
+## 🎯 Key Findings
+
+### **Current State:**
+- ✅ Well-structured React application with 20+ routes
+- ✅ Co-pilot system (ContactCoPilot, CoPilotCore)
+- ✅ Hygraph CMS integration
+- ❌ No MCP service layer
+- ❌ No MCP context provider
+- ❌ No real-time resource access
+- ❌ No tool execution capabilities
+
+### **MCP Integration Opportunities:**
+1. **ContactCoPilot**: Enhance with real-time Notion database access for case studies
+2. **CoPilotCore**: Add MCP resource access for knowledge base and documentation
+3. **CopilotOrchestrator**: Include MCP context in query analysis
+4. **New Components**: MCP Showcase, MCP Playground, MCP Resource Browser
+
+## 📋 Implementation Plan
+
+### Phase 1: Foundation (Week 1-2) - PENDING
+- [ ] Create `src/services/mcpService.js` - MCP service layer
+- [ ] Create `src/context/MCPContext.jsx` - MCP context provider
+- [ ] Connect to available MCP servers (Notion, File System, Web Search)
+- [ ] Test basic MCP operations (list resources, fetch resources, call tools)
+
+### Phase 2: Component Integration (Week 3-4) - PENDING
+- [ ] Enhance `ContactCoPilot.jsx` with MCP hooks and real-time data
+- [ ] Enhance `CoPilotCore.jsx` with MCP resource access
+- [ ] Create `src/components/MCPShowcase.jsx` - Interactive MCP demo
+- [ ] Create `src/components/MCPStatusIndicator.jsx` - Connection status UI
+- [ ] Add MCP status indicators throughout application
+
+### Phase 3: New Pages & Features (Week 5-6) - PENDING
+- [ ] Create `src/pages/MCPFrameworkPage.jsx` - Main MCP framework showcase page
+- [ ] Create `src/pages/MCPPlayground.jsx` - Interactive MCP testing interface
+- [ ] Create `src/components/MCPResourceBrowser.jsx` - Resource browser component
+- [ ] Update `App.jsx` to add MCP routes and provider
+- [ ] Update homepage to highlight MCP capabilities
+
+### Phase 4: Service Enhancements (Week 7-8) - PENDING
+- [ ] Enhance `src/services/copilotOrchestrator.js` with MCP context
+- [ ] Create `src/services/mcpEnhancedDataService.js` - Combined CMS + MCP data
+- [ ] Add MCP tool execution UI components
+- [ ] Implement MCP resource caching strategy
+
+### Phase 5: Polish & Documentation (Week 9-10) - PENDING
+- [ ] Add comprehensive MCP documentation
+- [ ] Create integration examples and code samples
+- [ ] Add error handling and fallback strategies
+- [ ] Performance optimization and testing
+
+## 🚀 MCP Capabilities to Showcase
+
+### **1. Real-Time Data Access**
+- Fetch live data from Notion databases
+- Access external APIs via MCP
+- Dynamic resource discovery
+- Real-time content updates
+
+### **2. Tool Execution**
+- Create pages in Notion via MCP tools
+- Execute database queries
+- Perform actions on external services
+- Chain multiple tool calls
+
+### **3. Resource Management**
+- Browse available MCP resources
+- Preview resource content
+- Search across resources
+- Download resources
+
+### **4. Context Enhancement**
+- Enhance AI responses with external context
+- Combine CMS data with MCP resources
+- Real-time knowledge base access
+- Dynamic documentation integration
+
+## 📁 Key Files Created
+- `MCP_FRAMEWORK_AUDIT_AND_TRANSFORMATION_PLAN.md` - Comprehensive 10-week transformation plan
+- `MCP_TRANSFORMATION_SUMMARY.md` - Quick reference guide with visual architecture
+
+## 🎯 Next Steps
+1. Review transformation plan with team
+2. Prioritize features based on business goals
+3. Set up MCP infrastructure (servers, connections)
+4. Start Phase 1 implementation (Foundation)
+5. Iterate based on feedback and metrics
+
+## 🔗 Reference Files
+- `MCP_FRAMEWORK_AUDIT_AND_TRANSFORMATION_PLAN.md` - Full detailed plan
+- `MCP_TRANSFORMATION_SUMMARY.md` - Quick summary
+- `src/App.jsx` - Main application file (347 lines)
+- `src/components/ContactCoPilot.jsx` - Co-pilot component to enhance
+- `src/components/copilot/CoPilotCore.jsx` - Core co-pilot to enhance
+- `src/services/copilotOrchestrator.js` - Query orchestrator to enhance
+
+---
+
 # Scratchpad: Interactive Simulation Lead Capture Integration (COMPLETED ✅)
 
 **Current Task:** ✅ **COMPLETE: LEAD CAPTURE INTEGRATION** - Successfully fixed the lead capture button in InteractiveSimulation component

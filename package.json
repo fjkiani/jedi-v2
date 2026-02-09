@@ -13,7 +13,10 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "migrate:hygraph": "node scripts/migrateToHygraph.js",
-    "generate-sitemap": "node scripts/generate-sitemap.js"
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "extract:implementation": "node scripts/migrations/hygraph/extract_implementation_content.js",
+    "push:implementation": "node scripts/migrations/hygraph/push_implementation_to_hygraph.js",
+    "create:case-study-schema": "node scripts/migrations/hygraph/createCaseStudySchema.js"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
@@ -63,6 +66,7 @@
     "vite-plugin-sitemap": "^0.7.1"
   },
   "devDependencies": {
+    "@hygraph/management-sdk": "^1.5.2",
     "@types/node": "^22.5.0",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",

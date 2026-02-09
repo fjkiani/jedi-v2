@@ -1,4 +1,25 @@
-const API_URL = import.meta.env.VITE_API_URL;
+// Dynamic icon URL: use Hygraph icon when available, else Simple Icons CDN from slug/name
+export const getTechIconUrl = (tech) => {
+  if (!tech) return null;
+  const obj = typeof tech === 'string' ? { name: tech } : tech;
+  const icon = obj.icon;
+  if (typeof icon === 'string' && icon.startsWith('http')) return icon;
+  if (icon?.url) return icon.url;
+  const slug = obj.slug || (obj.name && String(obj.name).toLowerCase().replace(/[^a-z0-9]+/g, ''));
+  return slug ? `https://cdn.simpleicons.org/${slug}` : null;
+};
+
+const getRandomMetric = (index) => {
+  const metrics = [
+    { label: "Accuracy", value: "99.4%" },
+    { label: "Latency", value: "42ms" },
+    { label: "Throughput", value: "12k req/s" },
+    { label: "F1 Score", value: "0.98" },
+    { label: "Uptime", value: "99.99%" },
+    { label: "Cache Hit", value: "94%" }
+  ];
+  return metrics[index % metrics.length];
+};
 
 const getQueryAnalysis = (query) => {
   // Analyze query intent and keywords
@@ -64,7 +85,7 @@ const getProcessingSteps = (analysisType) => {
   return steps[analysisType] || steps.general;
 };
 
-const getMockResponse = function(useCase, query) {
+const getMockResponse = function (useCase, query) {
   console.log('getMockResponse called with:', { useCase, query });
 
   const analysisType = getQueryAnalysis(query);
@@ -81,7 +102,7 @@ const getMockResponse = function(useCase, query) {
   const stringifyComponent = (comp) => {
     if (typeof comp === 'string') return comp;
     if (!comp) return '';
-    
+
     let result = '';
     if (comp.name) result += comp.name;
     if (comp.description) result += `: ${comp.description}`;
@@ -98,8 +119,8 @@ const getMockResponse = function(useCase, query) {
   let implementationData = {};
   if (useCase?.implementation) {
     try {
-      implementationData = typeof useCase.implementation === 'string' 
-        ? JSON.parse(useCase.implementation) 
+      implementationData = typeof useCase.implementation === 'string'
+        ? JSON.parse(useCase.implementation)
         : useCase.implementation;
     } catch (e) {
       console.warn('Failed to parse implementation JSON:', e);
@@ -112,7 +133,19 @@ const getMockResponse = function(useCase, query) {
   const flow = ensureArray(architecture.flow);
   const capabilities = ensureArray(useCase?.capabilities);
   const queries = ensureArray(useCase?.queries);
-  const technologies = ensureArray(useCase?.technologies);
+
+  // Dynamic Technology Mapping - use Hygraph technologies with icon URL when available
+  const rawTechnologies = useCase?.technologies || [];
+  const technologies = ensureArray(rawTechnologies).map(tech => {
+    const techName = typeof tech === 'string' ? tech : tech.name;
+    const techDesc = typeof tech === 'string' ? '' : tech.description;
+    const iconUrl = getTechIconUrl(tech); // Hygraph icon or dynamic CDN from slug/name
+    return {
+      name: techName,
+      description: techDesc,
+      iconUrl: iconUrl || null
+    };
+  });
 
   return {
     header: {
@@ -132,7 +165,7 @@ const getMockResponse = function(useCase, query) {
             content: {
               nodes: flow.map((step, index) => ({
                 id: `${index}`,
-                data: { 
+                data: {
                   label: (
                     <div className="bg-transparent p-4 rounded-lg text-sm text-n-3 border border-dashed border-n-6 min-w-[200px]">
                       <div className="font-medium mb-2">{step.step}</div>
@@ -140,21 +173,21 @@ const getMockResponse = function(useCase, query) {
                     </div>
                   )
                 },
-                position: { 
+                position: {
                   x: 300 * (index % 3),
                   y: Math.floor(index / 3) * 200
                 },
                 type: 'default',
-                style: { 
-                  background: 'transparent', 
+                style: {
+                  background: 'transparent',
                   border: 'none',
                   width: 250,
                 },
               })),
               edges: flow.slice(0, -1).map((_, i) => ({
-                id: `e${i}-${i+1}`,
+                id: `e${i}-${i + 1}`,
                 source: `${i}`,
-                target: `${i+1}`,
+                target: `${i + 1}`,
                 type: 'smoothstep',
                 style: { stroke: '#6366f1' },
                 animated: true,
@@ -169,18 +202,35 @@ const getMockResponse = function(useCase, query) {
               details: step.details ? [step.details] : [],
               technologies: technologies.slice(0, 3).map(tech => ({
                 name: tech.name,
-                icon: tech.icon || '⚡'
+                iconUrl: tech.iconUrl
               }))
             }))
           },
           {
             title: "Key Metrics",
-            content: ensureArray(useCase?.metrics).map((metric, index) => ({
-              name: `Metric ${index + 1}`,
-              description: metric,
-              value: implementationData.metrics?.[index]?.value || "TBD",
-              icon: '📊'
-            }))
+            content: (() => {
+              const raw = useCase?.metrics;
+              const defaultMetrics = [
+                { label: "Accuracy", value: "95%+" },
+                { label: "Processing Speed", value: "<100ms" }
+              ];
+              const parseMetric = (m) => {
+                if (typeof m === 'object' && m?.label && m?.value && m.value !== 'TBD') {
+                  return { name: m.label, description: m.label, value: m.value, icon: '📊' };
+                }
+                const str = typeof m === 'string' ? m : (m?.value || m?.label || String(m));
+                const match = str.match(/^(.+?):\s*(.+)$/);
+                if (match) return { name: match[1].trim(), description: match[1].trim(), value: match[2].trim(), icon: '📊' };
+                return null;
+              };
+              let metricsArray = ensureArray(raw);
+              if (metricsArray.length === 1 && typeof metricsArray[0] === 'string' && metricsArray[0].includes('\n')) {
+                metricsArray = metricsArray[0].split(/\n+/).map((s) => s.trim()).filter(Boolean);
+              }
+              const parsed = metricsArray.map(parseMetric).filter(Boolean);
+              if (parsed.length > 0) return parsed;
+              return defaultMetrics.map((m) => ({ ...m, name: m.label, description: m.label, icon: '📊' }));
+            })()
           }
         ]
       },
@@ -205,11 +255,7 @@ const getMockResponse = function(useCase, query) {
           },
           {
             title: "Technology Stack",
-            content: technologies.map(tech => ({
-              name: tech.name,
-              description: tech.description || "",
-              icon: tech.icon || '⚙️'
-            }))
+            content: technologies // Use our processed technologies list with icons
           }
         ]
       },
@@ -241,12 +287,12 @@ const getMockResponse = function(useCase, query) {
               description: feature.description || "",
               details: ensureArray(feature.details)
             })) || [
-              {
-                name: "Scalable Architecture",
-                description: "Built for enterprise-scale deployment",
-                details: ["Microservices architecture", "Auto-scaling capabilities", "High availability design"]
-              }
-            ]
+                {
+                  name: "Scalable Architecture",
+                  description: "Built for enterprise-scale deployment",
+                  details: ["Microservices architecture", "Auto-scaling capabilities", "High availability design"]
+                }
+              ]
           }
         ]
       }
@@ -266,15 +312,15 @@ export const openAIService = {
   async generateResponse(useCase, query) {
     try {
       console.log('Generating response for:', { useCase, query });
-      
+
       // Add loading delay for UX
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       return getMockResponse(useCase, query);
     } catch (error) {
       console.error("Industry AI Service Error:", error);
       throw error;
     }
   }
-}; 
+};
 

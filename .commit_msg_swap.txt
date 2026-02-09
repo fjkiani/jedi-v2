@@ -1,0 +1,8 @@
+[Cursor] Swap DEPLOYMENTS with USE CASES, render dropdown from Hygraph
+
+- Replace DEPLOYMENTS nav item with USE CASES (id: use-cases)
+- USE CASES dropdown populated directly from Hygraph useCaseS
+- Route /deployments redirects to /use-cases
+- Route /use-cases shows UseCasesPage
+- Footer Use Cases link updated to /use-cases
+- Remove DeploymentsPage from App routes

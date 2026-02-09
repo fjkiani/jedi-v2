@@ -1,0 +1,226 @@
+{
+  "extractedAt": "2026-02-07T18:57:58.648Z",
+  "urlPath": "/industries/future-education/solutions/learn-intelligence-copilot",
+  "industrySlug": "future-education",
+  "solutionSlug": "learn-intelligence-copilot",
+  "industry": {
+    "id": "zta-edo-001",
+    "name": "Future Education",
+    "slug": "future-education",
+    "description": "Revolutionizing student outcomes with AI-driven mentorship, real-time gap analysis, and gamified mission structures.",
+    "fullDescription": {
+      "raw": {
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "text": "The education sector is undergoing a paradigm shift from static, one-size-fits-all curricula to dynamic, personalized learning vectors."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "text": "Zeta Academy leverages 'The Oracle' AI to provide continuous, context-aware mentorship, transforming passive video consumption into active, mission-based skill acquisition."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "benefits": [
+      "Real-time knowledge gap detection.",
+      "Personalized mission briefings and debriefings.",
+      "Gamified progression (XP, Badges, Ranks).",
+      "Automated content generation (Quizzes, Flashcards, Mind Maps).",
+      "Interactive Socratic dialogue via The Oracle.",
+      "Seamless integration of external assets (YouTube, PDFs) into structured curricula."
+    ],
+    "capabilities": [
+      "AI-driven transcript analysis.",
+      "Dynamic difficulty adjustment.",
+      "Cross-school curriculum synchronization.",
+      "Automated remediation paths.",
+      "Natural Language query resolving for specific video timestamps.",
+      "Student learning velocity prediction."
+    ],
+    "keyFeaturesJson": [
+      {
+        "icon": "brain-circuit",
+        "title": "The Oracle (AI Mentor)",
+        "description": "24/7 Socratic tutor aware of lesson context and student history."
+      },
+      {
+        "icon": "target",
+        "title": "Mission Control",
+        "description": "Centralized dashboard for tracking objectives, XP, and active deployments."
+      },
+      {
+        "icon": "layers",
+        "title": "Deep Asset Extraction",
+        "description": "Automatically converts raw video into structured slides, quizzes, and mind maps."
+      }
+    ],
+    "statisticsJson": [
+      {
+        "label": "Reduction in Learning Gaps",
+        "value": "Up to 85%"
+      },
+      {
+        "label": "Increase in Student Engagement",
+        "value": "3x vs Standard LMS"
+      },
+      {
+        "label": "Content Generation Speed",
+        "value": "< 60 Seconds"
+      }
+    ],
+    "industryApplication": [
+      {
+        "id": "zta-app-001",
+        "applicationTitle": "Adaptive Learning & Real-Time Remediation",
+        "tagline": "AI Agents that detect confusion and intervene before a student falls behind.",
+        "industryChallenge": {
+          "raw": {
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "Traditional education scaling struggles with 'The 2 Sigma Problem'—providing 1:1 tutoring quality at scale. Students often watch lectures passively, retaining little, and gaps in foundational knowledge compound over time, leading to disengagement and failure."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "jediApproach": {
+          "raw": {
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "Zeta Academy employs a multi-agent AI architecture using The Oracle™ and Mission Logic™."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "The Oracle™ analyzes student interactions (quiz answers, chat queries, dwell time) in real-time, identifying specific misconceptions."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "Mission Logic™ dynamically adjusts the curriculum, inserting 'Review Missions' or unlocking 'Advanced Operations' based on demonstrated mastery, ensuring the cadet is always in the Zone of Proximal Development."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "keyCapabilities": [
+          "The Oracle™ provides instant clarification and 'Explain Like I'm 5' breakdowns of complex topics.",
+          "Mission Logic™ gamifies the remediation process, turning 'homework' into 'Special Operations'."
+        ],
+        "expectedResults": [
+          "Agents that adapt continuously to student learning velocity.",
+          "Zeta Academy ensures no cadet is left behind by catching gaps instantly."
+        ],
+        "jediComponent": [
+          {
+            "id": "zta-comp-01",
+            "name": "The Oracle™",
+            "slug": "the-oracle",
+            "icon": null
+          },
+          {
+            "id": "zta-comp-02",
+            "name": "Mission Control™",
+            "slug": "mission-control",
+            "icon": null
+          },
+          {
+            "id": "zta-comp-03",
+            "name": "Nexus Graph™",
+            "slug": "nexus-graph",
+            "icon": null
+          }
+        ],
+        "technology": [
+          {
+            "id": "tech-01",
+            "name": "Next.js 14",
+            "slug": "nextjs",
+            "icon": "https://cdn.simpleicons.org/nextdotjs"
+          },
+          {
+            "id": "tech-02",
+            "name": "Hygraph (Federated Content)",
+            "slug": "hygraph",
+            "icon": "https://cdn.simpleicons.org/graphql"
+          },
+          {
+            "id": "tech-03",
+            "name": "Clerk Auth",
+            "slug": "clerk",
+            "icon": "https://cdn.simpleicons.org/clerk"
+          },
+          {
+            "id": "tech-04",
+            "name": "NotebookLM (RAG)",
+            "slug": "notebooklm",
+            "icon": "https://cdn.simpleicons.org/google"
+          },
+          {
+            "id": "tech-05",
+            "name": "YouTube Data API",
+            "slug": "youtube-api",
+            "icon": "https://cdn.simpleicons.org/youtube"
+          },
+          {
+            "id": "tech-06",
+            "name": "OpenAI (Intel)",
+            "slug": "openai",
+            "icon": "https://cdn.simpleicons.org/openai"
+          }
+        ]
+      }
+    ]
+  },
+  "useCase": {
+    "id": "uc-001",
+    "title": "Zeta Intelligence Copilot",
+    "slug": "learn-intelligence-copilot",
+    "description": "Real-time AI-powered student mentorship and curriculum adaptation system",
+    "capabilities": [
+      "Real-time Gaps Analysis",
+      "Socratic Tutoring",
+      "Automated Content Generation",
+      "Gamified Progression Tracking"
+    ],
+    "queries": [
+      "Identify learning gaps in Physics 101",
+      "Generate quiz for Week 2 module",
+      "Explain concept at 14:30 timestamp"
+    ],
+    "metrics": [],
+    "implementation": null,
+    "industry": {
+      "name": "Future Education",
+      "slug": "future-education",
+      "description": "Revolutionizing student outcomes with AI-driven mentorship."
+    },
+    "technologies": [],
+    "category": null,
+    "industryApplication": [],
+    "architecture": null
+  }
+}

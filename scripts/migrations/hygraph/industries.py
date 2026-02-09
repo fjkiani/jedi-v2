@@ -1,4 +1,6 @@
 import os
+import sys
+import json
 import logging
 from dotenv import load_dotenv
 from gql import gql, Client
@@ -79,6 +81,15 @@ PUBLISH_INDUSTRY_MUTATION = gql("""
 
 # --- Main Logic ---
 def main():
+    global INDUSTRIES_DATA
+    if "--input" in sys.argv:
+        idx = sys.argv.index("--input")
+        if idx + 1 < len(sys.argv):
+            with open(sys.argv[idx + 1], "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            ind = payload.get("industry") or {}
+            INDUSTRIES_DATA = [{"name": ind.get("name", ""), "slug": ind.get("slug", ""), "sections": ind.get("sections", ["Overview"])}]
+            logging.info("Loaded industry from --input JSON (single industry mode).")
     logging.info("Starting industry migration script...")
     created_count = 0
     skipped_count = 0

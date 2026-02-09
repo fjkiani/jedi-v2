@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import ButtonGradient from "./assets/svg/ButtonGradient";
@@ -34,7 +34,8 @@ import BlogPage from '@/blog/BlogPage.tsx';
 import SolutionsPage from './pages/solutions/index.jsx';
 import SolutionPage from './pages/solutions/SolutionPage.jsx';
 import IndustryRoutes from './features/industries/routes';
-import IndustryOverview from "@/features/industries/components/IndustryOverview";
+// import IndustryOverview from "@/features/industries/components/IndustryOverview";
+import IndustryTargetingGrid from "./components/IndustryTargetingGrid";
 import TechStackTest from './components/TechStack/TechStackTest';
 import TechDetails from './components/TechDetails';
 import TechStackGrid from './components/TechStack/TechStackGrid';
@@ -50,7 +51,8 @@ import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
 import { TestSEO } from '@/components/SEO/TestSEO';
 import UseCasesPage from './pages/UseCasesPage';
-import FeaturedApplications from "./components/FeaturedApplications";
+// import FeaturedApplications from "./components/FeaturedApplications";
+import JediApplicationsPreview from "./components/JediApplicationsPreview";
 import CallToAction from "./components/CallToAction";
 import LeadCaptureCTA from "./components/LeadCaptureCTA";
 import SidebarConsultant from "./components/SidebarConsultant";
@@ -59,6 +61,10 @@ import JediComponentsShowcase from "./components/JediComponentsShowcase";
 import JediComponentsPage from "./pages/JediComponentsPage";
 import JediComponentPage from "./pages/technology/JediComponentPage";
 import JediPage from "./pages/JediPage";
+import MethodologyDetail from './pages/methodology/MethodologyDetail';
+import InfrastructurePage from './pages/InfrastructurePage';
+import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
+import NotFound from './pages/NotFound';
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -132,10 +138,10 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <AppContent 
-        posts={posts} 
-        location={location} 
-        helmetContext={helmetContext} 
+      <AppContent
+        posts={posts}
+        location={location}
+        helmetContext={helmetContext}
       />
     </ThemeProvider>
   );
@@ -163,30 +169,26 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <>
                     <Hero />
-                    {/* <JediComponentsShowcase /> */}
-                    {/* <AiCoPilotDemo /> */}
-                    <ContactCoPilot />
-
-                    <FeaturedApplications />
-                    <SolutionsPage isHomepage={true} />
-
-                    {/* <Services /> */}
-                    {/* <Collaboration/> */}
-                    <CaseStudies />
-                    {/* <NextGenAIStack /> */}
-                    <SidebarConsultant/>
-                    {/* <IndustryOverview /> */}
+                    <TransformationMethodology />
+                    <NextGenAIStack />
                     <WhyChooseUs />
-                    {/* <LeadCaptureCTA /> */}
-                    {/* <Pricing /> */}
+                    {/* <WhatWeDo /> */}
+                    {/* <AiCoPilotDemo /> */}
+                    {/* <IndustryTargetingGrid /> */}
+                    {/* <FeaturedApplications /> */}
+                    <JediApplicationsPreview />
                     {/* <Roadmap /> */}
+                    <Pricing />
+                    <Collaboration />
+                    <SidebarConsultant />
+                    <LeadCaptureCTA />
                     {/* <StarsCanvas /> */}
                   </>
                 }
               />
-              
-              <Route 
-                path="/solutions" 
+
+              <Route
+                path="/solutions"
                 element={
                   <PageTransition>
                     <SolutionsPage />
@@ -195,45 +197,65 @@ const AppContent = ({ posts, location, helmetContext }) => {
                     <CaseStudies />
                     {/* <Contact /> */}
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="/solutions/:slug" 
+              <Route
+                path="/solutions/:slug"
                 element={
                   <PageTransition>
                     <SolutionPage />
                     {/* <CaseStudies /> */}
                     {/* <Contact /> */}
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="/blog" 
+              <Route
+                path="/infrastructure"
+                element={
+                  <PageTransition>
+                    <InfrastructurePage />
+                  </PageTransition>
+                }
+              />
+
+              <Route path="/deployments" element={<Navigate to="/use-cases" replace />} />
+              <Route path="/usecases" element={<Navigate to="/use-cases" replace />} />
+              <Route
+                path="/use-cases"
+                element={
+                  <PageTransition>
+                    <UseCasesPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/blog"
                 element={
                   <PageTransition>
                     <Blog posts={posts} />
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="blog/post/:slug" 
+              <Route
+                path="blog/post/:slug"
                 element={
                   <PageTransition>
                     <BlogPage />
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="/industries/*" 
+              <Route
+                path="/industries/*"
                 element={
                   <PageTransition>
                     <IndustryRoutes />
                   </PageTransition>
-                } 
+                }
               />
 
               <Route path="/tech-test" element={<TechStackTest />} />
@@ -244,47 +266,38 @@ const AppContent = ({ posts, location, helmetContext }) => {
               <Route path="/technology/:slug/use-case/:useCaseSlug" element={<TechnologyDetail />} />
               <Route path="/tech/:slug" element={<TechStackDetail />} />
 
-              <Route 
-                path="/about" 
+              <Route
+                path="/about"
                 element={
                   <PageTransition>
                     <AboutUs />
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="/team" 
+              <Route
+                path="/team"
                 element={
                   <PageTransition>
                     <TeamPage />
                   </PageTransition>
-                } 
+                }
               />
 
-              <Route 
-                path="/team/:slug" 
+              <Route
+                path="/team/:slug"
                 element={
                   <PageTransition>
                     <TeamMemberDetail />
                   </PageTransition>
-                } 
-              />
-
-              <Route 
-                path="/contact" 
-                element={
-                  <PageTransition>
-                    <ContactUs />
-                  </PageTransition>
-                } 
+                }
               />
 
               <Route
-                path="/usecases"
+                path="/contact"
                 element={
                   <PageTransition>
-                    <UseCasesPage />
+                    <ContactUs />
                   </PageTransition>
                 }
               />
@@ -294,6 +307,33 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <JediPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/case-studies"
+                element={
+                  <PageTransition>
+                    <CaseStudiesPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/case-studies/:slug"
+                element={
+                  <PageTransition>
+                    <CaseStudyDetailPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/methodology/:slug"
+                element={
+                  <PageTransition>
+                    <MethodologyDetail />
                   </PageTransition>
                 }
               />
@@ -333,9 +373,10 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   </PageTransition>
                 }
               />
+              <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
             </Routes>
           </AnimatePresence>
-          
+
           <Footer />
         </div>
         <ButtonGradient />

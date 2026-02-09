@@ -30,8 +30,8 @@ const Pricing = () => {
         </div>
 
         <Heading
-          tag="Get started with JediLabs"
-          title="Invest once, Generate forever"
+          tag="Service Tiers"
+          title="Flexible Enterprise Pricing"
         />
 
         <div className="relative">

@@ -39,9 +39,10 @@ class EnhancedHygraphClient {
   async request(query, variables = {}, options = {}) {
     // Create cache key
     const cacheKey = JSON.stringify({ query, variables });
-    
-    // Check cache first
-    if (queryCache.has(cacheKey)) {
+    const skipCache = options.skipCache === true;
+
+    // Check cache first (skip for solution queries to avoid stale Category content)
+    if (!skipCache && queryCache.has(cacheKey)) {
       const cached = queryCache.get(cacheKey);
       if (Date.now() - cached.timestamp < CACHE_DURATION) {
         console.log('[Hygraph] Using cached response for query');
@@ -97,13 +98,15 @@ class EnhancedHygraphClient {
     try {
       console.log(`[Hygraph] Executing request (attempt ${retries + 1})`);
       const data = await this.client.request(query, variables);
-      
-      // Cache successful response
-      queryCache.set(cacheKey, {
-        data,
-        timestamp: Date.now()
-      });
-      
+
+      // Cache successful response (skip for solution queries)
+      if (!request.options?.skipCache) {
+        queryCache.set(cacheKey, {
+          data,
+          timestamp: Date.now()
+        });
+      }
+
       resolve(data);
     } catch (error) {
       console.error(`[Hygraph] Request failed (attempt ${retries + 1}):`, error);

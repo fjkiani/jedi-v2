@@ -1,0 +1,116 @@
+{
+  "industrySlug": "telecommunications",
+  "useCase": {
+    "title": "24/7 Voice AI for Customer Service",
+    "slug": "24-7-voice-ai-customer-service",
+    "description": "Many small businesses get a large share of calls after hours. Missed calls become voicemails or lost leads; a full call center is out of reach. We built a voice AI that answers every call, looks up answers from the client’s knowledge base, and escalates to a human or CRM when needed. LangChain runs the pipeline: one agent with tools for retrieval and handoff, so we didn’t wire up separate scripts per intent.",
+    "capabilities": [
+      "Answer inbound calls 24/7 instead of sending to voicemail",
+      "Answer FAQs (hours, locations, pricing) from the business’s own docs",
+      "Escalate to a human or create a CRM ticket when the caller asks or the agent is unsure",
+      "Keep conversation context so callers can ask follow-ups without repeating",
+      "Log transcripts and outcomes for compliance and improving prompts"
+    ],
+    "queries": [
+      "How does the voice AI know what to say?",
+      "What happens when the AI doesn’t know the answer?",
+      "How do you connect the voice AI to our existing knowledge base?",
+      "What’s the implementation timeline for 24/7 coverage?"
+    ],
+    "metrics": [
+      "Share of after-hours calls handled without human (tracked per client)",
+      "Escalation rate and main escalation reasons",
+      "Cost per handled call vs. outsourced or in-house alternatives",
+      "Time to first response and call duration (for tuning)"
+    ],
+    "architecture": {
+      "description": "Inbound call hits a telephony gateway (e.g. Retell or Twilio). Audio is streamed to speech-to-text; transcript is sent to a LangChain agent. The agent has tools: search the knowledge base (e.g. Weaviate or another vector store), lookup CRM, and escalate. It chooses the tool, gets the result, and replies in natural language. Response is turned back into speech and streamed to the caller. Session and turn history live in LangChain memory so follow-up questions work.",
+      "components": [
+        {
+          "name": "Voice gateway and STT/TTS",
+          "description": "Telephony ingress plus speech-to-text and text-to-speech so the rest of the stack works on text.",
+          "details": "Handles SIP or provider API, buffering, and streaming. STT and TTS can be swapped (e.g. Whisper, provider APIs) without changing the agent.",
+          "explanation": [
+            "Single place where voice becomes text and text becomes voice",
+            "Latency and cost depend on the provider"
+          ]
+        },
+        {
+          "name": "LangChain conversation agent",
+          "description": "One agent that decides what to do next: answer from context, call a tool, or escalate.",
+          "details": "Single LLM (e.g. GPT-4 or Claude) with a fixed set of tools: search_knowledge_base, get_customer_record, create_ticket, escalate_to_human. Prompt defines persona, guardrails, and when to hand off.",
+          "explanation": [
+            "One orchestration layer instead of separate scripts per intent",
+            "Tool results go back into the same conversation so the agent can refine the answer"
+          ]
+        },
+        {
+          "name": "Knowledge-base retriever",
+          "description": "Semantic search over the business’s docs (PDFs, help articles, FAQs) so answers are grounded in their content.",
+          "details": "Documents are chunked, embedded, and stored in a vector DB. The LangChain tool queries it and returns the top-k chunks; the agent cites or paraphrases them.",
+          "explanation": [
+            "Ties answers to real content and reduces hallucination",
+            "Updating content updates answers without retraining"
+          ]
+        },
+        {
+          "name": "Session and conversation memory",
+          "description": "Stores turn-by-turn history and optional summary so the agent has full context for the rest of the call.",
+          "details": "LangChain memory (e.g. buffer or windowed) is keyed by call/session ID. Optionally persist a short summary to CRM after the call.",
+          "explanation": [
+            "Callers don’t have to repeat themselves on follow-up questions",
+            "Escalations can include a short summary for the human agent"
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "step": "Call arrives",
+          "description": "Telephony gateway receives the call and opens a stream to STT and the agent.",
+          "details": "Provider-specific (e.g. Retell, Twilio). Agent process is invoked with a new session ID."
+        },
+        {
+          "step": "Speech to text",
+          "description": "Streaming audio is transcribed in real time; partial or final transcript is sent to the agent.",
+          "details": "Latency vs. accuracy is configurable; typically a few hundred ms per utterance."
+        },
+        {
+          "step": "Agent turn",
+          "description": "LangChain agent receives the user message, may call tools (KB search, CRM, escalate), then produces a text reply.",
+          "details": "Tools are called as needed; reply is conditioned on tool results and conversation history."
+        },
+        {
+          "step": "Text to speech and response",
+          "description": "Agent’s reply is sent to TTS and streamed back to the caller.",
+          "details": "Voice and tone can be tuned via TTS model or provider settings."
+        },
+        {
+          "step": "Log and optional CRM update",
+          "description": "Transcript, tool calls, and outcome (resolved vs. escalated) are logged; optional CRM ticket or contact update.",
+          "details": "Used for compliance, analytics, and prompt or model tuning."
+        }
+      ]
+    },
+    "implementation": {
+      "requirements": [
+        "Knowledge base (docs, FAQs) or a plan to build one",
+        "Telephony provider account (e.g. Retell, Twilio) and phone number",
+        "CRM API access if you want lookup or ticket creation",
+        "Staging environment to test prompts and tools before go-live"
+      ],
+      "success_metrics": [
+        "Resolution rate (no escalation)",
+        "Customer feedback or post-call survey",
+        "Cost per call and time to first response",
+        "Escalation rate and reason codes"
+      ],
+      "integration_points": [
+        "Telephony provider (Retell, Twilio, or similar)",
+        "Vector store or search (Weaviate, Pinecone, or existing search)",
+        "CRM (optional): contact lookup, ticket create",
+        "Logging and monitoring (e.g. LangSmith, Datadog)"
+      ]
+    }
+  },
+  "_comment": "Technologies to link in Hygraph after create: langchain, weaviate (or vector DB), openai-gpt or anthropic-claude. Industry: telecommunications."
+}

@@ -223,7 +223,7 @@ const ContactCoPilot = ({ className = "", variant = "sidebar" }) => {
   };
 
   return (
-    <div className={`${className}`}>
+    <div id="contact-copilot" className={`${className}`}>
       <div className="flex flex-col h-[600px] md:h-[700px] lg:h-[800px] w-full max-w-4xl mx-auto relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl">
         {/* Unique Background Pattern */}
         <div className="absolute inset-0 bg-gradient-to-br from-white via-purple-50/30 to-blue-50/50 dark:from-gray-900 dark:via-purple-900/10 dark:to-blue-900/20"></div>

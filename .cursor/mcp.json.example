@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "hygraph": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://mcp-us-west-2.hygraph.com/cm1fkwyv5084x07mvgzp8hcml/master/mcp",
+        "--header",
+        "Authorization: Bearer ${HYGRAPH_TOKEN}"
+      ],
+      "env": {
+        "HYGRAPH_TOKEN": "REPLACE_WITH_YOUR_MCP_PAT"
+      }
+    }
+  }
+}

@@ -4,17 +4,16 @@ const ThemeContext = createContext(undefined);
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Default to dark mode (black mode)
-    // Only use saved preference if it exists and is explicitly set to light mode
+    // Default to LIGHT mode as per new doctrine
     const savedTheme = localStorage.getItem('theme');
-    
-    // Default to dark mode (true) unless explicitly set to light
-    if (savedTheme === 'light') {
-      return false;
+
+    // If explicitly set to dark, respect it
+    if (savedTheme === 'dark') {
+      return true;
     }
-    
-    // Default to dark mode for new users or any other case
-    return true;
+
+    // Otherwise default to light mode (false)
+    return false;
   });
 
   // Apply theme changes

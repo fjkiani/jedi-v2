@@ -165,3 +165,24 @@ export const GET_TECHNOLOGY_WITH_RELATIONS = `
     }
   }
 `;
+
+export const GET_TECHNOLOGIES_BY_SLUGS = `
+  query GetTechnologiesBySlugs($slugs: [String!]) {
+    technologyS(where: { slug_in: $slugs }) {
+      id
+      name
+      slug
+      icon
+      description
+      primaryUses
+      category {
+        name
+        slug
+      }
+      subcategories {
+        name
+        slug
+      }
+    }
+  }
+`;

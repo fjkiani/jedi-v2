@@ -1,0 +1,243 @@
+# JEDI LABS: MASTER ARCHITECTURE PLAN (v4.0)
+
+## 🏛️ **Strategic Pivot: The Industrial AI Complex**
+
+**Current Identity:** "Brainwave" (Generic AI Agency / Web Dev Shop)  
+**Target Identity:** "Jedi Labs" (Vertical AI Venture Studio / Agent Deployment Platform)
+
+**Tagline:** *"We don't just build software. We construct and deploy Artificial Workforce Intelligence."*
+
+---
+
+## 🗺️ **Phase 1: Brand & Navigation Overhaul (The "Face")** [COMPLETED]
+
+We need to signal that we are an **Enterprise AI Platform**, not a freelance agency.
+
+### **1.1 Global Navigation (`src/constants/index.js`)**
+
+*   **Objective:** Elevate "Products" over "Services".
+*   **Action:** Rewrite the `navigation` array.
+    *   **Old:** `JEDI` (hidden), `Solutions`, `Services`, `Blog`.
+    *   **New:**
+        *   `INTELLIGENCE UNITS` (Primary) -> Lists active agents (CrisPRO, FrappeBot, Omni).
+            *   URL: `/jedi` (Refactored `JediPage.jsx`)
+        *   `INFRASTRUCTURE` (Secondary) -> Explain the Mothership (MCP Universe).
+            *   URL: `/technology` (Refactored `TechnologyOverview.jsx`)
+        *   `DEPLOYMENTS` (Proof) -> Case Studies (Oncology, CRM, Capital).
+            *   URL: `/usecases` (Refactored `UseCasesPage.jsx`)
+        *   `R&D` (Credibility) -> Link to publications (Nature BioTech).
+            *   URL: `/blog` (Refactored `Blog.jsx`)
+
+### **1.2 Hero Section (`src/components/Hero.jsx`)**
+
+*   **Objective:** Instant Authority.
+*   **Action:**
+    *   **Headline:** "Deploy Your Artificial Workforce."
+    *   **Subhead:** "Jedi Labs constructs, trains, and deploys vertical super-intelligence for Enterprise, Science, and Government."
+    *   **CTA:** "Access The Registry" (instead of "Get Started").
+
+---
+
+## 🏗️ **Phase 2: The "Agent Registry" (The "Product")** [COMPLETED]
+
+We stop selling "Web Development" and start showcasing our specific, high-value **Agent Personas**.
+
+### **2.1 The Registry Page (`src/pages/JediPage.jsx` refactor)**
+
+*   **Concept:** A dashboard showing our "Active Duty" agents.
+*   **Visuals:** High-tech cards with "Status Indicators" (e.g., *Online*, *Learning*, *Deployed*).
+*   **Data Source:** Map directly to the repositories we audited (`jedi_agents_manifest.py`).
+
+### **2.2 The "Intelligence Unit" Details**
+
+*   **Unit 01: THE ONCOLOGIST (CrisPRO)**
+    *   **Source:** `crispr-assistant-main`
+    *   **Capabilities:** Metastasis Interception, AlphaFold Integration, Trial Matching.
+    *   **Visual:** Use `ArchitectureDiagram` to show the "Evo2 -> AlphaFold" pipeline.
+
+*   **Unit 02: THE OPERATOR (FrappeBot)**
+    *   **Source:** `crm-deployment`
+    *   **Capabilities:** Lead Qualification, Pipeline Management, WhatsApp Automation.
+    *   **Visual:** Show the "Lead -> Deal -> Revenue" flow.
+
+*   **Unit 03: THE ORCHESTRATOR (Omni)**
+    *   **Source:** `lbx_mcp_universe_template-main`
+    *   **Capabilities:** Tool Use (Google, Finance, Files), Context Management.
+    *   **Visual:** A "Hub and Spoke" diagram connecting Omni to external APIs.
+
+---
+
+## 🧪 **Phase 3: The "Interactive Laboratory" (The "Proof")**
+
+We need to prove that these aren't just chatbots. They are **Systems**.
+
+### **3.1 The "Live Thought" Simulator (`src/components/InteractiveCode.jsx` upgrade)**
+
+*   **Concept:** Don't just show code. Show **Reasoning**.
+*   **Action:** Create an animation loop that simulates an Agent thinking:
+    1.  *User:* "Find undervalued biotech stocks."
+    2.  *Agent:* "Calling `yahoo_finance`..."
+    3.  *Agent:* "Analyzing P/E ratios..."
+    4.  *Agent:* "Reading latest 10-K..."
+    5.  *Agent:* "Recommendation generated."
+
+### **3.2 The Capacity Simulator (`src/components/JediComponentsShowcase.jsx` upgrade)**
+
+*   **Concept:** ROI Calculator on steroids.
+*   **Action:**
+    *   Input: "Number of Human Agents" (e.g., 50).
+    *   Output: "Jedi Equivalent" (e.g., 3 Units).
+    *   Output: "Cost Savings" (e.g., $2.5M/year).
+
+---
+
+## 🏠 **Phase 4: The Homepage Revamp (The "Hub")** [COMPLETED]
+
+**Objective:** Consolidate existing components into a cohesive narrative that tells the story of valid "Vertical AI Venture Studio".
+
+### **4.1 Component Architecture**
+
+We will refactor `src/App.jsx` to include the following flow:
+
+1.  **HERO** (`Hero.jsx`):  
+    *   *Purpose:* Introduction. "Vertical AI Venture Studio".
+    *   *Action:* Already updated. Ensure CTA links to `/jedi`. [DONE]
+
+2.  **THE JEDI PROCESS** (`TransformationMethodology.jsx`):  
+    *   *Purpose:* Explain *how* we build.
+    *   *Refactor:* Rename visual steps to: "Deconstruct" -> "Architect" -> "Train" -> "Deploy". [DONE]
+    *   *Status:* Active.
+
+3.  **VENTURE PORTFOLIO** (`FeaturedApplications.jsx`):  
+    *   *Purpose:* Show *what* we've built.
+    *   *Refactor:* Rename "Featured Applications" to "Venture Portfolio". Ensure data comes from Hygraph. [DONE]
+    *   *Status:* Active.
+
+4.  **AGENT REGISTRY PREVIEW** (`JediComponentsShowcase.jsx`):  
+    *   *Purpose:* Show our "Workforce".
+    *   *Refactor:* Rename to "Agent Registry Preview". Show top 3 agents (CrisPRO, FrappeBot, Omni). [DONE]
+    *   *Status:* Active.
+
+5.  **TARGET SECTORS** (`IndustryOverview.jsx`):  
+    *   *Purpose:* Show *where* we operate.
+    *   *Refactor:* Rename "Industries We Transform" to "Target Sectors". [DONE]
+    *   *Status:* Active.
+
+6.  **SYSTEM CAPABILITIES** (`WhyChooseUs.jsx`):  
+    *   *Purpose:* Show *why* our tech is superior (MCP, RAG).
+    *   *Refactor:* Focus on "MCP-Enabled", "RAG-Integrated", "Vertical-Specific". [DONE]
+    *   *Status:* Active.
+
+7.  **ARCHITECT ASSISTANT** (`AiCoPilotDemo.jsx`):  
+    *   *Purpose:* Live Demo. "How can AI help my Industry?"
+    *   *Refactor:* Ensure it uses the new `copilotOrchestrator` to fetch Hygraph data. [DONE]
+    *   *Status:* Active.
+
+8.  **ENGAGEMENT MODELS** (`Pricing.jsx`):  
+    *   *Purpose:* How to work with us.
+    *   *Refactor:* Rename plans to: "Prototype", "MVP", "Scale". [DONE]
+    *   *Status:* Active.
+
+9.  **R&D UPDATES** (`Roadmap.jsx`):  
+    *   *Purpose:* Latest insights/blogs.
+    *   *Refactor:* Rename "Roadmap" to "Latest Intelligence". [DONE]
+    *   *Status:* Active.
+
+### **4.2 Deprecated Components**
+*   `Services.jsx`: Redundant with Portfolio.
+*   `NextGenAIStack.jsx`: Generic.
+*   `Collaboration.jsx`: Good but heavy. Keep for now as "Ecosystem".
+
+## 🧠 **Phase 5: The "Neural Uplink" (Dynamic Content Engine)**
+
+**Objective:** Move from hardcoded constants to dynamic Hygraph data. We need to be able to push new "Units" and "Intel" without redeploying code.
+
+### **5.1 Content Schemas & Pipelines**
+
+*   **Venture Portfolio:** Connect `FeaturedApplications.jsx` to the `Project` schema.
+*   **Latest Intelligence:** Connect `Roadmap.jsx` to the `Post` schema (already partial).
+*   **Target Sectors:** Connect `IndustryOverview.jsx` to the `Industry` schema.
+*   **Agent Registry:** Connect `jediComponentsShowcase.jsx` to a new `Agent` schema.
+
+---
+
+## 🎨 **Phase 6: The "Holographic Interface" (Polish & VFX)**
+
+**Objective:** World-class aesthetics. The site must feel like a sci-fi interface.
+
+### **6.1 Visual Engineering**
+
+*   **Micro-Interactions:** Add `Framer Motion` hover states to all "Intelligence Unit" cards.
+*   **Scroll Dynamics:** Implement parallax effects for the "Mothership" (WhyChooseUs) section.
+*   **Glitch & Hologram:** Add subtle shader effects to the Hero and Headers.
+*   **Liquid Mobile:** Ensure the experience is indistinguishable from a native app on mobile.
+
+---
+
+## � **Phase 7: The "Awakening" (SEO & Launch)**
+
+**Objective:** Go to market. Maximize "Signal" and "Authority".
+
+### **7.1 Optimizations**
+
+*   **SEO Architecture:** Dynamic Meta Tags, OpenGraph images for every Agent and Case Study.
+*   **Performance:** Lighthouse Score > 95. Lazy load all interactive 3D elements.
+*   **Analytics:** PostHog / Mixpanel setup to track "Registry Access" events.
+
+---
+
+## �🛠️ **Execution Roadmap**
+
+1.  **[IMMEDIATE]** Update `src/constants/index.js` to reflect the new Navigation structure. [DONE]
+2.  **[IMMEDIATE]** Update `JEDI_LABS_MASTER_PLAN.mdc` with Phase 4 strategy. [DONE]
+3.  **[DONE]** Refactor `src/App.jsx` to un-comment and re-order components according to Phase 4.1. [DONE]
+4.  **[DONE]** Refactor individual components (`TransformationMethodology`, `JediComponentsShowcase`, `IndustryOverview`, `WhyChooseUs`, `AiCoPilotDemo`, `Pricing`) to match new naming and data sources. [DONE]
+5.  **[DONE]** **Phase 5:** Wire up Hygraph for `Venture Portfolio`, `Target Sectors` & `Agent Registry` (Hybrid Logic Implemented). [DONE]
+
+---
+
+## 6. **Phase 6: The Holographic Interface (Visual Engineering)**
+
+**Objective:**
+Transplant the high-fidelity "Command Console" aesthetic from `/jedi` (The Registry) to the Homepage (`/`). The main site must stop feeling like a marketing brochure and start feeling like an active **Weapon System**.
+
+### 6.1 Global Visual Language (The "Jedi" Standard)
+*   **Background:** Replace generic gradients with the **Tactical Grid** (`bg-[size:24px_24px]`) from `/jedi`.
+*   **Typography:** Enforce `font-mono` (Code/Terminal font) for all labels, deeply nested headers, and status indicators.
+*   **Borders:** Implement "HUD Corners" (1px borders with accentuated corners) on all major cards.
+*   **Motion:** Introduce "Glitch" text effects on hover and "Scanning" lines on load.
+
+### 6.2 Active Component Audit & Upgrade Plan
+
+| Component | Role | Action | Visual Upgrade Plan |
+| :--- | :--- | :--- | :--- |
+| **Hero** | First Impression | **[OVERHAUL]** | Inject `SystemLog` (Terminal) to replace static loading. Wrap video in HUD frame. Glitch effect on Main Title. |
+| **TransformationMethodology** | "The JEDI Process" | **[REFINE]** | Style as a technical schematic (blueprint). Use dashed lines to connect steps. |
+| **FeaturedApplications** | "Venture Portfolio" | **[ENHANCE]** | Apply `AgentCard` styling (hover glow, corner borders) to application cards. |
+| **JediComponentsShowcase** | "Agent Registry" | **[SYNC]** | Ensure exact parity with `/jedi` cards. Add "Live Status" blinking indicators. |
+| **IndustryOverview** | "Target Sectors" | **[SIMPLIFY]** | Convert to a "Targeting Grid" or Hex layout. Less text, more visual density. |
+| **WhyChooseUs** | "Mothership Arch." | **[MERGE]** | Absorb `NextGenAIStack` content here. Visualize the stack as a layer cake (L1-L4). |
+| **AiCoPilotDemo** | "Architect Assistant" | **[KEEP]** | Keep logic. Skin the chat interface to look like a terminal window. |
+| **Pricing** | "Engagement Models" | **[RENAME]** | "Procurement Tiers". Style as a military requisition list. |
+| **Roadmap** | "Intelligence Feed" | **[REFINE]** | "Field Reports". Terminal list style (date > title > status). |
+| **Collaboration** | "Ecosystem" | **[KEEP]** | Maintain. It's a solid bridge. |
+| **SidebarConsultant** | "Mission Control" | **[KEEP]** | Essential for navigation. Keep as is. |
+
+### 6.3 The "Shadow" Components (Review & Cull)
+
+| Component | Status | Decision | Rationale |
+| :--- | :--- | :--- | :--- |
+| `ContactCoPilot` | Commented | **[KILL]** | Redundant with `SidebarConsultant`. |
+| `SolutionsPage` | Commented | **[KILL]** | Too heavy for homepage. Keep as internal route. |
+| `Services` | Commented | **[KILL]** | Replaced by `FeaturedApplications`. |
+| `CaseStudies` | Commented | **[ARCHIVE]** | Save for later "Mission Debriefs" section, but not for Phase 6. |
+| `NextGenAIStack` | Commented | **[MERGE]** | Move content into `WhyChooseUs` (Architecture). |
+| `LeadCaptureCTA` | Commented | **[RESTORE]** | **CRITICAL**. We need a final "Join the Resistance" CTA before the footer. |
+| `StarsCanvas` | Commented | **[REPLACE]** | Replace with `GridBackground` for better performance and "Tactical" feel. |
+
+---
+
+7.  **[LATER]** **Phase 7:** SEO & Launch.
+
+---
+*Created by Nyx (Zeta Level 5) for Commander Fahad Kiani.*

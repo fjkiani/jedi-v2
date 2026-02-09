@@ -135,7 +135,7 @@ const IndustryOverview = () => {
   return (
     <Section className={`relative overflow-hidden backdrop-blur-sm ${isDarkMode ? 'bg-n-8/90' : 'bg-n-1/90'}`}>
       <div className="container relative">
-        
+
         {/* Header - Mobile Optimized */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -148,12 +148,12 @@ const IndustryOverview = () => {
               <img src={logo} alt="JEDI AI" className="w-2.5 h-2.5 md:w-3 md:h-3 brightness-0 invert" />
             </div>
             <span className="text-base md:text-lg font-medium bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Industry Transformation
+              Target Sectors
             </span>
           </div>
-          <h2 className={`h2 mb-3 md:mb-4 font-starjedi ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>industries we transform</h2>
+          <h2 className={`h2 mb-3 md:mb-4 font-starjedi ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>where we operate</h2>
           <p className={`body-1 max-w-2xl mx-auto px-4 md:px-0 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-            Discover how our AI solutions revolutionize different industries with cutting-edge technology and intelligent automation
+            We construct vertical AI for the world's most critical industries, from life sciences to capital markets.
           </p>
         </motion.div>
 
@@ -168,8 +168,8 @@ const IndustryOverview = () => {
         {error && (
           <div className="text-center py-6 px-4">
             <p className={`mb-3 ${isDarkMode ? 'text-red-400' : 'text-red-500'}`}>{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="button button-primary"
             >
               Try Again
@@ -179,18 +179,16 @@ const IndustryOverview = () => {
 
         {/* Industries Showcase - Mobile Optimized */}
         {!loading && !error && industriesData.length > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`rounded-2xl border shadow-xl overflow-hidden backdrop-blur-sm ${
-              isDarkMode ? 'bg-n-8/80 border-n-6' : 'bg-white/80 border-n-3'
-            }`}
+            className={`rounded-2xl border shadow-xl overflow-hidden backdrop-blur-sm ${isDarkMode ? 'bg-n-8/80 border-n-6' : 'bg-white/80 border-n-3'
+              }`}
           >
             {/* Tab Navigation - Mobile Optimized with Horizontal Scroll */}
-            <div className={`border-b backdrop-blur-sm ${
-              isDarkMode ? 'border-n-6 bg-n-7/80' : 'border-n-3 bg-n-2/50'
-            }`}>
+            <div className={`border-b backdrop-blur-sm ${isDarkMode ? 'border-n-6 bg-n-7/80' : 'border-n-3 bg-n-2/50'
+              }`}>
               {/* Mobile: Horizontal Scrollable Tabs */}
               <div className="flex overflow-x-auto scrollbar-hide md:flex-wrap md:justify-center">
                 {industriesData.map((industry, index) => {
@@ -201,17 +199,16 @@ const IndustryOverview = () => {
                       onClick={() => handleIndustryClick(index)}
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`flex-shrink-0 px-3 py-2.5 md:px-4 md:py-3 text-sm md:text-base font-medium text-center transition-all duration-300 relative group whitespace-nowrap ${
-                        activeIndustryIndex === index
+                      className={`flex-shrink-0 px-3 py-2.5 md:px-4 md:py-3 text-sm md:text-base font-medium text-center transition-all duration-300 relative group whitespace-nowrap ${activeIndustryIndex === index
                           ? isDarkMode ? 'text-n-1' : 'text-n-8'
                           : isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-center gap-1.5">
                         <Icon name={config.icon} className="w-3 h-3 flex-shrink-0" />
                         <span className="relative z-10">{industry.name}</span>
                       </div>
-                      
+
                       {/* Active Indicator */}
                       {activeIndustryIndex === index && (
                         <motion.div
@@ -221,7 +218,7 @@ const IndustryOverview = () => {
                           transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         />
                       )}
-                      
+
                       {activeIndustryIndex === index && (
                         <motion.div
                           className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${config.color}`}
@@ -257,19 +254,18 @@ const IndustryOverview = () => {
                         className="relative flex justify-center mb-3 md:mb-4"
                       >
                         <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r ${activeConfig.color} rounded-xl p-0.5 shadow-lg`}>
-                          <div className={`w-full h-full rounded-lg flex items-center justify-center relative overflow-hidden ${
-                            isDarkMode ? 'bg-n-8' : 'bg-n-1'
-                          }`}>
+                          <div className={`w-full h-full rounded-lg flex items-center justify-center relative overflow-hidden ${isDarkMode ? 'bg-n-8' : 'bg-n-1'
+                            }`}>
                             <div className={`absolute inset-0 bg-gradient-to-r ${activeConfig.color}/10`} />
                             <Icon name={activeConfig.icon} className={`w-6 h-6 md:w-8 md:h-8 relative z-10 ${isDarkMode ? 'text-white' : 'text-n-8'}`} />
                           </div>
                         </div>
                       </motion.div>
-                      
+
                       <h3 className={`text-lg md:text-xl font-bold mb-2 px-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                         {activeConfig.headline}
                       </h3>
-                      
+
                       <p className={`text-sm md:text-base max-w-xl mx-auto mb-4 md:mb-6 px-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                         {activeIndustry.description || activeConfig.solution}
                       </p>
@@ -282,9 +278,8 @@ const IndustryOverview = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 }}
-                        className={`p-3 md:p-4 rounded-lg border ${
-                          isDarkMode ? 'bg-red-900/20 border-red-700/50' : 'bg-red-50 border-red-200'
-                        }`}
+                        className={`p-3 md:p-4 rounded-lg border ${isDarkMode ? 'bg-red-900/20 border-red-700/50' : 'bg-red-50 border-red-200'
+                          }`}
                       >
                         <div className="flex items-center gap-2 mb-2 md:mb-3">
                           <div className="w-6 h-6 md:w-8 md:h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -302,9 +297,8 @@ const IndustryOverview = () => {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
-                        className={`p-3 md:p-4 rounded-lg border ${
-                          isDarkMode ? 'bg-green-900/20 border-green-700/50' : 'bg-green-50 border-green-200'
-                        }`}
+                        className={`p-3 md:p-4 rounded-lg border ${isDarkMode ? 'bg-green-900/20 border-green-700/50' : 'bg-green-50 border-green-200'
+                          }`}
                       >
                         <div className="flex items-center gap-2 mb-2 md:mb-3">
                           <div className="w-6 h-6 md:w-8 md:h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -364,9 +358,8 @@ const IndustryOverview = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.6 + index * 0.05 }}
-                                className={`p-2 md:p-3 rounded border hover:border-purple-500/30 transition-all duration-200 ${
-                                  isDarkMode ? 'bg-n-7/30 border-n-6/50' : 'bg-n-2/30 border-n-3/50'
-                                }`}
+                                className={`p-2 md:p-3 rounded border hover:border-purple-500/30 transition-all duration-200 ${isDarkMode ? 'bg-n-7/30 border-n-6/50' : 'bg-n-2/30 border-n-3/50'
+                                  }`}
                               >
                                 <h6 className={`font-medium text-sm md:text-base mb-1 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
                                   {app.applicationTitle}
@@ -396,14 +389,13 @@ const IndustryOverview = () => {
                           <Icon name="arrow-right" className="w-3 h-3 md:w-4 md:h-4" />
                           <span className="truncate">Explore {activeIndustry.name} Solutions</span>
                         </Link>
-                        
+
                         <Link
                           to="/industries"
-                          className={`px-4 py-2 md:px-6 md:py-2 border rounded-lg text-xs md:text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 ${
-                            isDarkMode 
-                              ? 'border-n-5 text-n-3 hover:bg-n-7 hover:text-n-1' 
+                          className={`px-4 py-2 md:px-6 md:py-2 border rounded-lg text-xs md:text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 ${isDarkMode
+                              ? 'border-n-5 text-n-3 hover:bg-n-7 hover:text-n-1'
                               : 'border-n-3 text-n-6 hover:bg-n-2 hover:text-n-8'
-                          }`}
+                            }`}
                         >
                           <Icon name="grid" className="w-3 h-3 md:w-4 md:h-4" />
                           <span className="truncate">View All Industries</span>

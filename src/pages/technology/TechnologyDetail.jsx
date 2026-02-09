@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown, FiServer, FiCheckCircle } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiServer, FiCheckCircle } from 'react-icons/fi';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { openAIService } from '@/services/openAIService.jsx';
@@ -14,8 +14,6 @@ import { RingLoader } from 'react-spinners';
 
 const TechnologyDetail = () => {
   const { slug, useCaseSlug } = useParams();
-  const [activeTab, setActiveTab] = useState('architecture');
-  const [expandedSections, setExpandedSections] = useState({});
   const [useCaseState, setUseCaseState] = useState({
     query: '',
     result: null,
@@ -149,8 +147,9 @@ const TechnologyDetail = () => {
         useCase,
         queryToUse,
         {
-          capabilities: useCase.implementation.capabilities,
-          architecture: useCase.implementation.architecture
+          technologySlug: slug,
+          capabilities: useCase.implementation?.capabilities,
+          architecture: useCase.implementation?.architecture
         }
       );
       
@@ -217,31 +216,8 @@ const TechnologyDetail = () => {
               <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{useCase.title}</h2>
               <p className={`body-1 mb-8 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{useCase.implementation.overview}</p>
 
-              <div className="flex flex-wrap gap-3 mb-8 border-b pb-6 border-n-6/30">
-                {['architecture', 'implementation', 'benefits'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${ 
-                      activeTab === tab 
-                        ? (isDarkMode ? 'bg-primary-1 text-white shadow-md' : 'bg-primary-1 text-white shadow-md') 
-                        : (isDarkMode ? 'bg-n-7 text-n-3 hover:bg-n-6' : 'bg-n-1 text-n-5 hover:bg-n-2')
-                    }`}
-                  >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                  </button>
-                ))}
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {activeTab === 'architecture' && (
+              <div className="space-y-10">
+                  {/* Architecture + Implementation (merged, single page) */}
                     <div className="space-y-8">
                       <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Architecture Overview</h3>
                       {useCase.implementation.architecture?.description && (
@@ -290,11 +266,10 @@ const TechnologyDetail = () => {
                         </div>
                       )}
                     </div>
-                  )}
 
-                  {activeTab === 'implementation' && (
-                    <div className="space-y-8">
-                      <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Implementation Details</h3>
+                  {/* Implementation - merged into Architecture flow */}
+                    <div className="space-y-8 mt-10">
+                      <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Implementation</h3>
                       {useCase.implementation?.capabilities && (
                         <div>
                           <h4 className={`h5 mb-3 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Capabilities</h4>
@@ -317,7 +292,7 @@ const TechnologyDetail = () => {
                               {useCase.implementation.queries.map((q, idx) => (
                                 <button
                                   key={idx}
-                                  onClick={() => runOpenAIDemo('gpt-4', q)} 
+                                  onClick={() => runOpenAIDemo(useCase, q)} 
                                   className={`px-3 py-1.5 rounded-full text-lg border transition-colors ${isDarkMode ? 'bg-n-6 border-n-5 text-n-3 hover:bg-n-5 hover:text-n-1' : 'bg-n-2 border-n-3 text-n-5 hover:bg-n-3 hover:text-n-7'}`}
                                 >
                                   {q}
@@ -334,36 +309,7 @@ const TechnologyDetail = () => {
                         ) : renderAIResponse(useCaseState)}
                       </div>
                     </div>
-                  )}
-
-                  {activeTab === 'benefits' && (
-                    <div className="space-y-6">
-                       <h3 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Benefits & Metrics</h3>
-                       
-                       {/* Check if metrics exist AND have items */}
-                       {useCase.implementation?.metrics && useCase.implementation.metrics.length > 0 ? (
-                        // Render the list if metrics exist
-                        <div>
-                          <h4 className={`h5 mb-3 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>Success Metrics</h4>
-                          <ul className="space-y-2">
-                            {useCase.implementation.metrics.map((metric, idx) => (
-                              <li key={idx} className="flex items-start gap-2">
-                                <FiCheckCircle size={16} className="text-blue-500 mt-0.5 flex-shrink-0"/>
-                                <span className={isDarkMode ? 'text-n-3' : 'text-n-6'}>{metric}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                       ) : (
-                         // Render the fallback message if no metrics
-                         <p className={isDarkMode ? 'text-n-4' : 'text-n-5'}>
-                           No specific benefits or metrics listed for this use case.
-                         </p>
-                       )}
-                    </div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>

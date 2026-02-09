@@ -11,6 +11,7 @@ import ApplicationDisplay from '../features/industries/components/ApplicationDis
 import { RingLoader } from 'react-spinners';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import Button from '@/components/Button';
+import { FiCode, FiDatabase, FiActivity } from 'react-icons/fi';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -104,64 +105,63 @@ const ConciseApplicationView = ({ application }) => {
 
       {/* Combined Section for Technology Icon and Components */}
       <div className="mb-8">
-         <div className="flex items-center justify-between mb-3">
-            <h5 className={`h5 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Featured Components</h5>
-            {technology?.icon?.url && (
-              <img src={technology.icon.url} alt="Technology icon" className="w-6 h-6 opacity-75" />
+        <div className="flex items-center justify-between mb-3">
+          <h5 className={`h5 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>Featured Components</h5>
+          {technology?.icon?.url && (
+            <img src={technology.icon.url} alt="Technology icon" className="w-6 h-6 opacity-75" />
+          )}
+        </div>
+
+        {/* Jedi Components List (MAKE CLICKABLE AGAIN) */}
+        {jediComponent && jediComponent.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {jediComponent.map(comp => (
+              <button
+                key={comp.id}
+                onClick={() => handleComponentClick(comp)}
+                className={`text-lg px-3 py-1 rounded-full border transition-colors duration-200 ${selectedComponent?.id === comp.id
+                    ? (isDarkMode ? 'border-primary-1 bg-primary-1/20 text-primary-1' : 'border-primary-1 bg-primary-1/10 text-primary-1')
+                    : (isDarkMode ? 'border-n-5 bg-n-6 text-n-2 hover:border-n-4' : 'border-n-3 bg-n-2 text-n-5 hover:border-n-4')
+                  }`}
+              >
+                {comp.name}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* RE-ADD Conditionally Rendered Component Details */}
+        {selectedComponent && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className={`mt-4 p-4 rounded-lg border overflow-hidden ${isDarkMode ? 'bg-n-8 border-n-6' : 'bg-n-1 border-n-3'}`}
+          >
+            <h6 className={`h6 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{selectedComponent.name}</h6>
+            {selectedComponent.tagline && (
+              <p className={`text-sm italic mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{selectedComponent.tagline}</p>
             )}
-         </div>
-
-         {/* Jedi Components List (MAKE CLICKABLE AGAIN) */}
-         {jediComponent && jediComponent.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {jediComponent.map(comp => (
-                 <button 
-                   key={comp.id} 
-                   onClick={() => handleComponentClick(comp)}
-                   className={`text-lg px-3 py-1 rounded-full border transition-colors duration-200 ${
-                     selectedComponent?.id === comp.id 
-                       ? (isDarkMode ? 'border-primary-1 bg-primary-1/20 text-primary-1' : 'border-primary-1 bg-primary-1/10 text-primary-1')
-                       : (isDarkMode ? 'border-n-5 bg-n-6 text-n-2 hover:border-n-4' : 'border-n-3 bg-n-2 text-n-5 hover:border-n-4')
-                   }`}
-                 >
-                    {comp.name}
-                 </button>
-              ))}
+            <div className={`prose prose-sm max-w-none ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}>
+              {selectedComponent.description?.raw ? (
+                <RichText content={selectedComponent.description.raw} />
+              ) : (
+                <p>No description available.</p>
+              )}
             </div>
-         )}
-
-         {/* RE-ADD Conditionally Rendered Component Details */}
-         {selectedComponent && (
-           <motion.div 
-             initial={{ opacity: 0, height: 0 }}
-             animate={{ opacity: 1, height: 'auto' }}
-             exit={{ opacity: 0, height: 0 }}
-             className={`mt-4 p-4 rounded-lg border overflow-hidden ${isDarkMode ? 'bg-n-8 border-n-6' : 'bg-n-1 border-n-3'}`}
-           >
-             <h6 className={`h6 mb-1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{selectedComponent.name}</h6>
-             {selectedComponent.tagline && (
-               <p className={`text-sm italic mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{selectedComponent.tagline}</p>
-             )}
-             <div className={`prose prose-sm max-w-none ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}>
-               {selectedComponent.description?.raw ? (
-                 <RichText content={selectedComponent.description.raw} />
-               ) : (
-                 <p>No description available.</p>
-               )}
-             </div>
-             <button 
-                onClick={() => setSelectedComponent(null)}
-                className={`text-lg mt-3 ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-7'}`}
-             >
-                Close Details
-             </button>
-           </motion.div>
-         )}
+            <button
+              onClick={() => setSelectedComponent(null)}
+              className={`text-lg mt-3 ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-7'}`}
+            >
+              Close Details
+            </button>
+          </motion.div>
+        )}
       </div>
 
       {/* REVERTED Learn More Link - Points back to Industry slug */}
       {application.industry?.slug && ( // Check if industry slug exists on the application
-        <div className="text-center mt-6"> 
+        <div className="text-center mt-6">
           <Link
             to={`/industries/${application.industry.slug}`} // Use industry slug from application data
             className="button button-primary flex items-center gap-2 mx-auto"
@@ -195,16 +195,14 @@ const Modal = ({ isOpen, onClose, children }) => {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className={`relative rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto ${
-            isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-white border border-n-3'
-          }`}
+          className={`relative rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto ${isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-white border border-n-3'
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={onClose}
-            className={`absolute top-4 right-4 p-1 rounded-full transition-colors ${
-              isDarkMode ? 'text-n-4 hover:bg-n-6' : 'text-n-5 hover:bg-n-2'
-            }`}
+            className={`absolute top-4 right-4 p-1 rounded-full transition-colors ${isDarkMode ? 'text-n-4 hover:bg-n-6' : 'text-n-5 hover:bg-n-2'
+              }`}
             aria-label="Close modal"
           >
             <Icon name="close" className="w-5 h-5" />
@@ -311,9 +309,9 @@ const formatDate = (dateString) => {
 // ApplicationCard component for compact display in the list
 const ApplicationCard = ({ application, industryName, onClick }) => {
   const { isDarkMode } = useTheme();
-  
+
   if (!application) return null;
-  
+
   const {
     applicationTitle,
     tagline,
@@ -328,66 +326,78 @@ const ApplicationCard = ({ application, industryName, onClick }) => {
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      className={`p-5 rounded-xl border cursor-pointer transition-colors h-full flex flex-col justify-between ${ 
-        isDarkMode 
-          ? 'bg-n-7 border-n-6 hover:border-primary-1' 
+      whileHover={{ scale: 1.02 }}
+      className={`relative p-6 border transition-all duration-300 h-full flex flex-col justify-between group overflow-hidden ${isDarkMode
+          ? 'bg-n-8 border-n-6 hover:border-primary-1 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]'
           : 'bg-n-1 border-n-3 hover:border-primary-1'
-      }`}
+        }`}
       onClick={onClick}
     >
+      {/* HUD Corners */}
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-n-6 group-hover:border-primary-1 transition-colors"></div>
+      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-n-6 group-hover:border-primary-1 transition-colors"></div>
+      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-n-6 group-hover:border-primary-1 transition-colors"></div>
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-n-6 group-hover:border-primary-1 transition-colors"></div>
+
       {/* Top section content */}
-      <div className="mb-4"> 
-        {/* Date and Industry tags - Centered */}
-        <div className="flex gap-2 items-center justify-center mb-4 flex-wrap"> {/* Increased bottom margin */}
-          <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-lg ${ isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5' }`}>
-             {formatDate(publishedAt)}
+      <div className="mb-4">
+        {/* Date and Industry tags - Left Aligned for technical feel */}
+        <div className="flex justify-between items-center mb-4 border-b border-n-6/50 pb-2">
+          <div className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+            {formatDate(publishedAt)}
           </div>
           {displayIndustryName && (
-             <div className={`flex-shrink-0 px-2 py-1 rounded-lg text-lg ${ isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1' }`}>
-                 {displayIndustryName}
-             </div>
-           )}
+            <div className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${isDarkMode ? 'text-primary-1 bg-primary-1/10' : 'text-primary-1 bg-primary-1/5'}`}>
+              {displayIndustryName}
+            </div>
+          )}
         </div>
-        
-        {/* Main Content: Title, Tagline (Left-aligned by default) */}
-        <h4 className={`h4 font-semibold mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}> {/* Use h4 for slightly smaller title? or keep font-medium */}
+
+        {/* Main Content: Title, Tagline */}
+        <h4 className={`h5 font-bold mb-2 font-mono uppercase ${isDarkMode ? 'text-n-1 group-hover:text-primary-1 transition-colors' : 'text-n-8 group-hover:text-primary-1'}`}>
           {applicationTitle}
         </h4>
         {tagline && (
-          <p className="text-sm text-primary-1 mb-4">{tagline}</p>
+          <p className="text-xs text-primary-2 mb-4 font-mono">{tagline}</p>
         )}
-        
-        {/* Industry Challenge Section (Left-aligned) */}
-         {industryChallenge?.raw && (
-             <div className="mb-4"> {/* Removed text-left, default now */}
-                 <h5 className={`text-lg font-semibold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>The Challenge</h5>
-                 {/* Removed max-w-none from prose */}
-                 <div className={`prose prose-sm line-clamp-3 ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}> 
-                    <RichText content={industryChallenge.raw} />
-                 </div>
-             </div>
-         )}
+
+        {/* Industry Challenge Section */}
+        {industryChallenge?.raw && (
+          <div className="mb-4">
+            <div className="text-[10px] font-mono uppercase text-n-5 mb-1">Objective:</div>
+            <div className={`prose prose-sm line-clamp-3 text-xs leading-relaxed ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-6'}`}>
+              <RichText content={industryChallenge.raw} />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Bottom section grouped and centered */}
-      <div className="mt-auto pt-4 text-center"> {/* Added text-center here */}
+      {/* Bottom section grouped */}
+      <div className="mt-auto pt-4 border-t border-dashed border-n-6/50">
         {/* Jedi Component Tags */}
-         {jediComponent && jediComponent.length > 0 && (
-             <div className="flex flex-wrap gap-1.5 justify-center mb-4"> {/* Increased bottom margin */}
-                 {jediComponent.slice(0, 3).map(comp => (
-                     <span key={comp.id} className={`text-xxs px-2 py-0.5 rounded-full border ${ isDarkMode ? 'border-n-5 bg-n-6 text-n-3' : 'border-n-3 bg-n-2 text-n-5' }`}>
-                         {comp.name}
-                     </span>
-                 ))}
-             </div>
-         )}
-        {/* Technology Icon */}
-        {technology?.icon?.url && (
-             <div className="flex justify-center"> {/* Keep icon centered */}
-                 <img src={technology.icon.url} alt="Technology icon" className="w-5 h-5 opacity-60 flex-shrink-0" />
-             </div>
-         )}
+        {jediComponent && jediComponent.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {jediComponent.slice(0, 3).map(comp => (
+              <div key={comp.id} className="flex items-center gap-1.5">
+                <div className="w-1 h-3 bg-primary-1/50 group-hover:bg-primary-1 transition-colors"></div>
+                <span className={`text-[10px] font-mono uppercase truncate max-w-[100px] ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                  {comp.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Technology Icon & Inspect Button */}
+        <div className="flex justify-between items-center">
+          {technology?.icon?.url ? (
+            <img src={technology.icon.url} alt="Technology icon" className="w-4 h-4 opacity-50 grayscale group-hover:grayscale-0 transition-all" />
+          ) : <div></div>}
+
+          <div className="text-[10px] font-bold uppercase tracking-wider text-n-1 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Stats <FiActivity />
+          </div>
+        </div>
       </div>
     </motion.div>
   );
@@ -444,7 +454,7 @@ const FeaturedApplications = () => {
       setApplications([]);
       setModalApplicationData(null); // Close modal if open
       setIsModalOpen(false);
-      
+
       const isAllTab = activeIndustrySlug === "all";
       let query = isAllTab ? GET_RECENT_APPLICATIONS_ALL_INDUSTRIES : GET_APPLICATIONS_FOR_INDUSTRY;
       let variables = {};
@@ -454,10 +464,10 @@ const FeaturedApplications = () => {
       if (!isAllTab) {
         const selectedIndustry = industries.find(ind => ind.slug === activeIndustrySlug);
         if (!selectedIndustry || !selectedIndustry.id) {
-           console.error(`[FeaturedApplications] Could not find ID for slug: ${activeIndustrySlug}`);
-           setError(`Could not find data for selected industry filter.`);
-           setLoadingApplications(false);
-           return; // Stop fetching if ID not found
+          console.error(`[FeaturedApplications] Could not find ID for slug: ${activeIndustrySlug}`);
+          setError(`Could not find data for selected industry filter.`);
+          setLoadingApplications(false);
+          return; // Stop fetching if ID not found
         }
         variables = { industryId: selectedIndustry.id }; // Use industryId
         query = GET_APPLICATIONS_FOR_INDUSTRY; // Ensure correct query is used
@@ -488,9 +498,9 @@ const FeaturedApplications = () => {
       fetchApplications();
     } else if (activeIndustrySlug !== "all" && industries.length === 0 && !loadingIndustries) {
       // Handle case where industries finished loading but were empty
-       setError(`Cannot filter by ${activeIndustrySlug}, industry data not available.`);
-       setLoadingApplications(false);
-    } 
+      setError(`Cannot filter by ${activeIndustrySlug}, industry data not available.`);
+      setLoadingApplications(false);
+    }
     // If loadingIndustries is true and slug is not 'all', useEffect will re-run when industries load
 
   }, [activeIndustrySlug, industries, loadingIndustries]); // Add industries and loadingIndustries dependencies
@@ -515,19 +525,19 @@ const FeaturedApplications = () => {
     const isActive = activeIndustrySlug === slug;
     let baseClasses = "flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap border ";
     if (isActive) {
-      baseClasses += isDarkMode 
-        ? 'bg-primary-1/10 text-primary-1 border-primary-1' 
+      baseClasses += isDarkMode
+        ? 'bg-primary-1/10 text-primary-1 border-primary-1'
         : 'bg-primary-1/5 text-primary-1 border-primary-1';
     } else {
-      baseClasses += isDarkMode 
-        ? 'text-n-4 hover:text-n-1 border-n-6 bg-n-7' 
+      baseClasses += isDarkMode
+        ? 'text-n-4 hover:text-n-1 border-n-6 bg-n-7'
         : 'text-n-5 hover:text-n-7 border-n-3 bg-n-1';
     }
     // Add flex-shrink for horizontal scrolling behavior if needed
-    if (slug !== "all") { 
+    if (slug !== "all") {
       baseClasses += " flex-shrink-0 lg:flex-shrink";
     } else {
-       baseClasses += " flex-shrink-0"; // Ensure "All" tab also shrinks if needed
+      baseClasses += " flex-shrink-0"; // Ensure "All" tab also shrinks if needed
     }
     return baseClasses;
   };
@@ -557,9 +567,9 @@ const FeaturedApplications = () => {
         }
       `}</style>
       <div className="container">
-        <Heading 
+        <Heading
           className="text-center md:text-left"
-          title="Featured AI Applications" 
+          title="Featured AI Applications"
           text="Explore examples of how our platform delivers value."
         />
 
@@ -572,9 +582,9 @@ const FeaturedApplications = () => {
         {error && <div className="text-center text-red-500 p-8">Error: {error}</div>}
 
         {!loadingIndustries && !error && industries.length === 0 && (
-           <div className={`text-center p-8 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
-             <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>No industries found.</p>
-           </div>
+          <div className={`text-center p-8 rounded-lg ${isDarkMode ? 'bg-n-7' : 'bg-n-1'}`}>
+            <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>No industries found.</p>
+          </div>
         )}
 
         {!loadingIndustries && !error && industries.length > 0 && (
@@ -585,22 +595,22 @@ const FeaturedApplications = () => {
                 onClick={() => setActiveIndustrySlug("all")}
                 className={getButtonClasses("all")}
               >
-                 <Icon 
-                    name="grid" // Default grid icon for "All"
-                    className={`w-4 h-4 ${activeIndustrySlug === "all" ? 'text-primary-1' : ''}`} 
-                  />
-                 <span>All Recent</span>
+                <Icon
+                  name="grid" // Default grid icon for "All"
+                  className={`w-4 h-4 ${activeIndustrySlug === "all" ? 'text-primary-1' : ''}`}
+                />
+                <span>All Recent</span>
               </button>
 
               {!loadingIndustries && industries.map((industry) => (
                 <button
                   key={industry.id}
                   onClick={() => setActiveIndustrySlug(industry.slug)}
-                  className={getButtonClasses(industry.slug)} 
+                  className={getButtonClasses(industry.slug)}
                 >
-                  <Icon 
-                    name={industryIconMap[industry.slug] || industryIconMap.default} 
-                    className={`w-4 h-4 ${activeIndustrySlug === industry.slug ? 'text-primary-1' : ''}`} 
+                  <Icon
+                    name={industryIconMap[industry.slug] || industryIconMap.default}
+                    className={`w-4 h-4 ${activeIndustrySlug === industry.slug ? 'text-primary-1' : ''}`}
                   />
                   <span>{industry.name}</span>
                 </button>
@@ -623,9 +633,8 @@ const FeaturedApplications = () => {
                       <span className={`ml-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading applications...</span>
                     </div>
                   ) : applications.length === 0 ? (
-                    <p className={`text-center p-6 rounded-lg border ${ 
-                      isDarkMode ? 'border-n-6 bg-n-8 text-n-4' : 'border-n-3 bg-n-2 text-n-5'
-                    }`}>
+                    <p className={`text-center p-6 rounded-lg border ${isDarkMode ? 'border-n-6 bg-n-8 text-n-4' : 'border-n-3 bg-n-2 text-n-5'
+                      }`}>
                       No featured applications found {activeIndustrySlug === "all" ? "recently" : `for ${currentIndustry?.name || 'this industry'}`} yet.
                     </p>
                   ) : (
@@ -664,18 +673,18 @@ const FeaturedApplications = () => {
               </Button>
             </div>
 
-             {/* Optional: Link to full industry page (Hide when "All" is active) - This might be redundant now? Review if needed */}
-             {currentIndustry && activeIndustrySlug !== "all" && applications.length > 0 && (
-               <div className="mt-10 text-center">
-                 <Link
-                   to={`/industries/${currentIndustry.slug}`}
-                   className="button button-secondary flex items-center gap-2 mx-auto"
-                 >
-                   <span>Explore All {currentIndustry.name} Solutions</span>
-                   <Icon name="arrow-right" className="w-4 h-4" />
-                 </Link>
-               </div>
-             )}
+            {/* Optional: Link to full industry page (Hide when "All" is active) - This might be redundant now? Review if needed */}
+            {currentIndustry && activeIndustrySlug !== "all" && applications.length > 0 && (
+              <div className="mt-10 text-center">
+                <Link
+                  to={`/industries/${currentIndustry.slug}`}
+                  className="button button-secondary flex items-center gap-2 mx-auto"
+                >
+                  <span>Explore All {currentIndustry.name} Solutions</span>
+                  <Icon name="arrow-right" className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>

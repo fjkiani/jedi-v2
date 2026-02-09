@@ -1,0 +1,856 @@
+{
+  "extractedAt": "2026-02-08T00:30:04.755Z",
+  "source": "SOLUTION_REGISTRY",
+  "industries": {
+    "financial": {
+      "fraud-detection": {
+        "hygraphUseCaseSlug": "advanced-fraud-detection-system",
+        "documentation": {
+          "title": "Fraud Detection System",
+          "description": "Enterprise-grade fraud detection using AI and machine learning",
+          "fundamentals": {
+            "title": "Understanding Fraud Detection",
+            "sections": [
+              {
+                "title": "How Modern Fraud Detection Works",
+                "content": "Modern fraud detection systems combine real-time analysis with historical pattern matching. The system processes millions of transactions per second while maintaining high accuracy and low latency.",
+                "detailedExplanation": "\n          The fraud detection pipeline consists of several critical steps:\n\n    \n          1. When a transaction comes in, we gather additional information\n          2. AI analyzes the transaction patterns\n          3. System compares with known fraud signatures\n          4. Risk score determines if additional verification is needed\n        ",
+                "keyPoints": [
+                  "🎯 Real-time transaction analysis using AI",
+                  "🔍 Pattern matching against known fraud signatures",
+                  "💡 Risk scoring and automated decision making",
+                  "🔄 Continuous learning and adaptation"
+                ],
+                "explanation": "\n          This interactive demo shows how a modern fraud detection system works:\n          \n          🎯 Purpose\n          Detect suspicious transactions in real time\n          - Protect users from unauthorized charges\n          - Minimize false positives while catching real fraud\n          - Real time analysis (under 100ms)\n          - Self learning system\n          - Multi factor risk scoring\n          - Automated decision making \n          \n         \n        ",
+                "codeExample": "\n// You Imagine - Jedi Labs Engineers\n(async () => {\n  try {\n    customConsole.log(\"🎯 Fraud Detection System - Interactive Demo\");\n    customConsole.log(\"==========================================\");\n    customConsole.log(\"Welcome! This demo shows how AI detects suspicious transactions.\");\n    customConsole.log(\"Think of it like a smart security guard for payments that learns\");\n    customConsole.log(\"from patterns to spot potential fraud.\");\n    customConsole.log(\"\");\n\n    // Configuration\n    const RISK_THRESHOLD = 0.7; // 70% confidence level for fraud detection\n    \n    // Sample transaction\n    const mockTransaction = {\n      id: \"tx_123\",\n      amount: 999.99,\n      timestamp: new Date(),\n      userId: \"user_456\",\n      merchantId: \"merchant_789\",\n      location: \"New York, US\"\n    };\n\n    customConsole.log(\"📌 New Transaction Received:\");\n    customConsole.log(mockTransaction);\n    customConsole.log(\"\");\n\n    // Step 1: Gather More Information\n    customConsole.log(\"🔍 Step 1: Gathering Additional Information\");\n    customConsole.log(\"----------------------------------------\");\n    customConsole.log(\"Just like a detective, we need to gather more clues about this transaction.\");\n    customConsole.log(\"We'll look at:\");\n    customConsole.log(\"• The user's previous spending habits\");\n    customConsole.log(\"• The device they're using\");\n    customConsole.log(\"• The merchant's reputation\");\n    \n    const enrichedTx = await (async () => {\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      return {\n        ...mockTransaction,\n        userHistory: {\n          totalTransactions: 50,\n          avgAmount: 200,\n          lastTransaction: \"2 days ago\"\n        },\n        deviceInfo: {\n          id: \"device_123\",\n          riskLevel: \"low\"\n        },\n        merchantRisk: 0.2\n      };\n    })();\n\n    customConsole.log(\"✅ Information Gathered!\");\n    customConsole.log(\"📊 What We Found:\");\n    customConsole.log(\"• User usually spends around $200 per transaction\");\n    customConsole.log(\"• They've made 50 transactions before\");\n    customConsole.log(\"• Their last purchase was 2 days ago\");\n    customConsole.log(\"• They're using a trusted device\");\n    customConsole.log(\"\");\n\n    // Step 2: AI Analysis\n    customConsole.log(\"🧠 Step 2: AI Analysis\");\n    customConsole.log(\"--------------------\");\n    customConsole.log(\"Now, we convert all this information into numbers that our AI can understand\");\n    customConsole.log(\"(like teaching a computer to read a story by turning words into numbers)\");\n\n    const embedding = await (async () => {\n      await new Promise(resolve => setTimeout(resolve, 800));\n      return [0.5, 0.3, 0.8, 0.2];\n    })();\n\n    customConsole.log(\"✅ AI Analysis Complete!\");\n    customConsole.log(\"\");\n\n    // Step 3: Check for Suspicious Patterns\n    customConsole.log(\"🔎 Step 3: Checking for Suspicious Patterns\");\n    customConsole.log(\"----------------------------------------\");\n    customConsole.log(\"The AI compares this transaction with known fraud patterns,\");\n    customConsole.log(\"like checking if someone's fingerprints match those at a crime scene.\");\n\n    const patterns = await (async () => {\n      await new Promise(resolve => setTimeout(resolve, 600));\n      return [\n        {\n          pattern: \"unusual_amount\",\n          similarity: 0.8,\n          explanation: \"This purchase ($999.99) is much larger than their usual spending ($200)\"\n        },\n        {\n          pattern: \"new_location\",\n          similarity: 0.6,\n          explanation: \"This is not where they typically shop\"\n        }\n      ];\n    })();\n\n    customConsole.log(\"🚨 Suspicious Patterns Found:\");\n    patterns.forEach(p => {\n      customConsole.log(`• ${p.explanation}`);\n      customConsole.log(`  Confidence Level: ${(p.similarity * 100).toFixed(0)}%`);\n    });\n    customConsole.log(\"\");\n\n    // Final Analysis\n    const riskScore = patterns.reduce((acc, p) => acc + p.similarity, 0) / patterns.length;\n    \n    customConsole.log(\"📊 Final Decision\");\n    customConsole.log(\"---------------\");\n    customConsole.log(`Risk Level: ${(riskScore * 100).toFixed(0)}%`);\n    customConsole.log(`Our Safety Threshold: ${(RISK_THRESHOLD * 100).toFixed(0)}%`);\n    customConsole.log(\"\");\n    customConsole.log(riskScore > RISK_THRESHOLD \n      ? \"🚫 VERDICT: This looks suspicious! Additional verification needed.\"\n      : \"✅ VERDICT: This transaction appears to be safe.\");\n\n    return {\n      riskScore,\n      isHighRisk: riskScore > RISK_THRESHOLD,\n      patterns,\n      enrichedData: enrichedTx\n    };\n\n  } catch (error) {\n    customConsole.error(\"Oops! Something went wrong:\", error.message);\n    return { error: error.message };\n  }\n})();\n"
+              },
+              {
+                "title": "Key Technical Challenges",
+                "content": "Financial institutions face several critical challenges in fraud detection",
+                "challenges": [
+                  {
+                    "name": "Speed vs Accuracy",
+                    "description": "Processing transactions quickly while maintaining accuracy",
+                    "solution": "Using AI to process transactions in <100ms with 99.9% accuracy",
+                    "codeExample": "\n// Optimized transaction processing\nconst processTransaction = async (tx) => {\n  // Use caching for frequent patterns\n  const cachedResult = await cache.get(tx.fingerprint);\n  if (cachedResult) return cachedResult;\n\n  // Parallel processing for speed\n  const [\n    enrichedData,\n    userHistory,\n    merchantProfile\n  ] = await Promise.all([\n    enrichTransaction(tx),\n    getUserHistory(tx.userId),\n    getMerchantProfile(tx.merchantId)\n  ]);\n\n  // Quick pre-check using simple rules\n  if (await quickCheck(enrichedData)) {\n    return processHighRiskTransaction(tx);\n  }\n\n  // Full analysis for suspicious transactions\n  return performDetailedAnalysis(tx);\n};"
+                  },
+                  {
+                    "name": "Pattern Recognition",
+                    "description": "Identifying complex fraud patterns in real-time",
+                    "solution": "Vector similarity search with GPT-4 embeddings",
+                    "codeExample": "\n// Pattern matching using vector similarity\nclass PatternMatcher {\n  constructor() {\n    this.vectorDB = new Pinecone({\n      dimension: 1536, // GPT-4 embedding size\n      metric: 'cosine'\n    });\n  }\n\n  async findSimilarPatterns(transaction) {\n    const embedding = await this.generateEmbedding(transaction);\n    \n    // Search for similar fraud patterns\n    const results = await this.vectorDB.search({\n      vector: embedding,\n      topK: 10,\n      namespace: 'fraud-patterns'\n    });\n\n    return this.analyzeSimilarity(results);\n  }\n\n  async analyzeSimilarity(matches) {\n    return matches.map(match => ({\n      pattern: match.metadata,\n      similarity: match.score,\n      riskLevel: this.calculateRiskLevel(match.score)\n    }));\n  }\n}"
+                  },
+                  {
+                    "name": "False Positives",
+                    "description": "Minimizing false fraud alerts while catching real fraud",
+                    "solution": "Multi-factor risk scoring with machine learning",
+                    "codeExample": "\n// Sophisticated risk scoring\nclass RiskScorer {\n  async calculateRiskScore(transaction, patterns) {\n    const factors = [\n      // Historical patterns\n      await this.checkUserHistory(transaction.userId),\n      // Location analysis\n      await this.analyzeLocation(transaction),\n      // Amount patterns\n      this.checkAmountPattern(transaction),\n      // Device fingerprint\n      await this.validateDevice(transaction.deviceId),\n      // Merchant risk\n      await this.getMerchantRisk(transaction.merchantId)\n    ];\n\n    // Weight and combine risk factors\n    return this.weightedScore(factors);\n  }\n\n  weightedScore(factors) {\n    return factors.reduce((score, factor) => {\n      return score + (factor.weight * factor.risk);\n    }, 0) / factors.length;\n  }\n}"
+                  }
+                ]
+              }
+            ]
+          },
+          "advancedTopics": {
+            "title": "Advanced Implementation",
+            "topics": [
+              {
+                "title": "Real-time Processing Architecture",
+                "content": "Learn how to build a scalable real-time processing system",
+                "architecture": {
+                  "components": [
+                    "Kafka for event streaming",
+                    "Redis for caching",
+                    "Pinecone for vector search",
+                    "PostgreSQL for transaction history"
+                  ],
+                  "diagram": "architecture-diagram.svg",
+                  "codeExample": "\n// Kafka consumer setup\nconst consumer = kafka.consumer({\n  groupId: 'fraud-detection-group',\n  maxWaitTimeInMs: 50\n});\n\nawait consumer.subscribe({\n  topic: 'transactions',\n  fromBeginning: false\n});\n\nawait consumer.run({\n  eachMessage: async ({ message }) => {\n    const transaction = JSON.parse(message.value);\n    \n    // Process transaction in parallel\n    const [fraudCheck, enrichment] = await Promise.all([\n      detectFraud(transaction),\n      enrichTransaction(transaction)\n    ]);\n\n    // Handle results\n    if (fraudCheck.isHighRisk) {\n      await alertSystem.notify({\n        type: 'high_risk_transaction',\n        data: { transaction, fraudCheck }\n      });\n    }\n  }\n});"
+                }
+              },
+              {
+                "title": "Machine Learning Pipeline",
+                "content": "Implementing and training fraud detection models",
+                "implementation": {
+                  "steps": [
+                    "Data collection and preprocessing",
+                    "Feature engineering",
+                    "Model training and validation",
+                    "Deployment and monitoring"
+                  ],
+                  "codeExample": "\n// Feature engineering for fraud detection\nclass FeatureEngine {\n  async generateFeatures(transaction) {\n    return {\n      // Time-based features\n      hourOfDay: transaction.timestamp.getHours(),\n      dayOfWeek: transaction.timestamp.getDay(),\n      \n      // Amount features\n      amountZScore: this.calculateZScore(transaction.amount),\n      amountVelocity: await this.getRecentAmounts(\n        transaction.userId, \n        '24h'\n      ),\n      \n      // Location features\n      locationRisk: await this.getLocationRiskScore(\n        transaction.location\n      ),\n      \n      // Device features\n      deviceTrust: await this.getDeviceTrustScore(\n        transaction.deviceId\n      )\n    };\n  }\n}"
+                }
+              }
+            ]
+          },
+          "bestPractices": {
+            "title": "Best Practices & Common Pitfalls",
+            "sections": [
+              {
+                "title": "System Design Best Practices",
+                "practices": [
+                  {
+                    "name": "Implement Circuit Breakers",
+                    "description": "Protect your system from cascading failures",
+                    "example": "\n    // Circuit breaker implementation\n    class CircuitBreaker {\n      constructor(options = {}) {\n        this.failureThreshold = options.failureThreshold || 5;\n        this.resetTimeout = options.resetTimeout || 60000;\n        this.failures = 0;\n        this.lastFailure = null;\n        this.state = 'CLOSED';\n      }\n    \n      async execute(fn) {\n        if (this.state === 'OPEN') {\n          if (Date.now() - this.lastFailure > this.resetTimeout) {\n            this.state = 'HALF_OPEN';\n          } else {\n            throw new Error('Circuit breaker is OPEN');\n          }\n        }\n    \n        try {\n          const result = await fn();\n          this.reset();\n          return result;\n        } catch (error) {\n          this.handleFailure();\n          throw error;\n        }\n      }\n    \n      handleFailure() {\n        this.failures++;\n        this.lastFailure = Date.now();\n        if (this.failures >= this.failureThreshold) {\n          this.state = 'OPEN';\n        }\n      }\n    \n      reset() {\n        this.failures = 0;\n        this.lastFailure = null;\n        this.state = 'CLOSED';\n      }\n    }\n    \n    // Usage in fraud detection\n    const apiBreaker = new CircuitBreaker({\n      failureThreshold: 3,\n      resetTimeout: 30000\n    });\n    \n    const checkTransaction = async (transaction) => {\n      return await apiBreaker.execute(async () => {\n        return await fraudDetectionAPI.analyze(transaction);\n      });\n    };"
+                  },
+                  {
+                    "name": "Implement Rate Limiting",
+                    "description": "Protect APIs and databases from overload",
+                    "example": "\n    // Redis-based rate limiter\n    class RateLimiter {\n      constructor(redis, options = {}) {\n        this.redis = redis;\n        this.window = options.window || 60; // seconds\n        this.limit = options.limit || 100;\n      }\n    \n      async checkLimit(key) {\n        const now = Date.now();\n        const windowStart = now - (this.window * 1000);\n    \n        // Add current request to window\n        await this.redis.zadd(key, now, now);\n    \n        // Remove old entries\n        await this.redis.zremrangebyscore(key, 0, windowStart);\n    \n        // Count requests in current window\n        const count = await this.redis.zcard(key);\n    \n        // Set key expiration\n        await this.redis.expire(key, this.window);\n    \n        return {\n          isAllowed: count <= this.limit,\n          remaining: Math.max(0, this.limit - count),\n          resetAt: new Date(now + (this.window * 1000))\n        };\n      }\n    }\n    \n    // Usage\n    const limiter = new RateLimiter(redis, {\n      window: 60,\n      limit: 100\n    });\n    \n    app.use(async (req, res, next) => {\n      const key = `rate_limit:${req.ip}`;\n      const result = await limiter.checkLimit(key);\n      \n      if (!result.isAllowed) {\n        return res.status(429).json({\n          error: 'Too many requests',\n          resetAt: result.resetAt\n        });\n      }\n      \n      next();\n    });"
+                  }
+                ]
+              },
+              {
+                "title": "Error Handling Patterns",
+                "practices": [
+                  {
+                    "name": "Graceful Degradation",
+                    "description": "Handle service failures without complete system shutdown",
+                    "example": "\n    // Fallback chain implementation\n    class FraudDetector {\n      async analyzeTransaction(transaction) {\n        try {\n          // Try primary analysis\n          return await this.primaryAnalysis(transaction);\n        } catch (error) {\n          console.error('Primary analysis failed:', error);\n          \n          try {\n            // Fallback to secondary analysis\n            return await this.secondaryAnalysis(transaction);\n          } catch (secondaryError) {\n            console.error('Secondary analysis failed:', secondaryError);\n            \n            // Final fallback to basic rules\n            return this.basicRulesCheck(transaction);\n          }\n        }\n      }\n    \n      async primaryAnalysis(transaction) {\n        // Full ML-based analysis\n        const embedding = await this.generateEmbedding(transaction);\n        return this.mlModel.predict(embedding);\n      }\n    \n      async secondaryAnalysis(transaction) {\n        // Rule-based analysis with cached patterns\n        return this.patternMatcher.quickCheck(transaction);\n      }\n    \n      basicRulesCheck(transaction) {\n        // Simple threshold checks\n        return {\n          riskScore: this.calculateBasicRiskScore(transaction),\n          confidence: 'low',\n          method: 'basic-rules'\n        };\n      }\n    }"
+                  }
+                ]
+              }
+            ]
+          },
+          "examples": {
+            "title": "Real-World Examples",
+            "cases": [
+              {
+                "title": "Credit Card Fraud Detection",
+                "description": "Complete implementation of a credit card fraud detection system",
+                "code": "\n    // Credit card fraud detection system\n    class CreditCardFraudDetector {\n      constructor(options = {}) {\n        this.vectorDB = new Pinecone(options.pinecone);\n        this.redis = new Redis(options.redis);\n        this.openai = new OpenAI(options.openai);\n        \n        // Initialize subsystems\n        this.riskScorer = new RiskScorer();\n        this.patternMatcher = new PatternMatcher(this.vectorDB);\n        this.alertManager = new AlertManager();\n      }\n    \n      async analyzeTransaction(transaction) {\n        // 1. Quick check cache\n        const cached = await this.checkCache(transaction);\n        if (cached) return cached;\n    \n        // 2. Enrich transaction data\n        const enriched = await this.enrichTransactionData(transaction);\n    \n        // 3. Generate embeddings\n        const embedding = await this.generateEmbedding(enriched);\n    \n        // 4. Find similar patterns\n        const patterns = await this.patternMatcher.findSimilarPatterns(embedding);\n    \n        // 5. Calculate risk score\n        const riskScore = await this.riskScorer.calculate({\n          transaction: enriched,\n          patterns,\n          userHistory: await this.getUserHistory(transaction.userId)\n        });\n    \n        // 6. Handle results\n        const result = {\n          transactionId: transaction.id,\n          riskScore,\n          patterns,\n          decision: this.makeDecision(riskScore),\n          timestamp: new Date()\n        };\n    \n        // 7. Cache results\n        await this.cacheResult(transaction.id, result);\n    \n        // 8. Generate alerts if needed\n        if (result.decision === 'high_risk') {\n          await this.alertManager.notify(result);\n        }\n    \n        return result;\n      }\n    \n      async enrichTransactionData(transaction) {\n        const [userProfile, merchantProfile, deviceInfo] = await Promise.all([\n          this.getUserProfile(transaction.userId),\n          this.getMerchantProfile(transaction.merchantId),\n          this.getDeviceInfo(transaction.deviceId)\n        ]);\n    \n        return {\n          ...transaction,\n          userProfile,\n          merchantProfile,\n          deviceInfo,\n          enrichedAt: new Date()\n        };\n      }\n    \n      makeDecision(riskScore) {\n        if (riskScore > 0.8) return 'high_risk';\n        if (riskScore > 0.5) return 'medium_risk';\n        return 'low_risk';\n      }\n    }\n    \n    // Usage example\n    const detector = new CreditCardFraudDetector({\n      pinecone: {\n        environment: 'production',\n        apiKey: process.env.PINECONE_API_KEY\n      },\n      redis: {\n        host: process.env.REDIS_HOST,\n        port: 6379\n      },\n      openai: {\n        apiKey: process.env.OPENAI_API_KEY\n      }\n    });\n    \n    // Process a transaction\n    const result = await detector.analyzeTransaction({\n      id: 'tx_123',\n      userId: 'user_456',\n      merchantId: 'merchant_789',\n      amount: 999.99,\n      currency: 'USD',\n      deviceId: 'device_abc',\n      timestamp: new Date()\n    });"
+              }
+            ]
+          },
+          "monitoring": {
+            "title": "System Monitoring & Maintenance",
+            "sections": [
+              {
+                "title": "Performance Monitoring",
+                "description": "Implementing comprehensive system monitoring",
+                "example": "\n    // Monitoring system implementation\n    class FraudDetectionMonitor {\n      constructor(metrics) {\n        this.metrics = metrics; // Prometheus/StatsD client\n        this.spans = new Map();\n      }\n    \n      startSpan(transactionId, type) {\n        this.spans.set(`${transactionId}:${type}`, {\n          start: process.hrtime(),\n          type\n        });\n      }\n    \n      endSpan(transactionId, type) {\n        const key = `${transactionId}:${type}`;\n        const span = this.spans.get(key);\n        if (!span) return;\n    \n        const duration = process.hrtime(span.start);\n        const durationMs = (duration[0] * 1000) + (duration[1] / 1e6);\n    \n        this.metrics.histogram('fraud_detection_duration', durationMs, {\n          type: span.type\n        });\n    \n        this.spans.delete(key);\n      }\n    \n      recordDecision(decision) {\n        this.metrics.increment('fraud_detection_decisions', {\n          decision: decision.result\n        });\n      }\n    \n      recordError(error, phase) {\n        this.metrics.increment('fraud_detection_errors', {\n          phase,\n          error: error.name\n        });\n      }\n    }\n    \n    // Usage in main system\n    const monitor = new FraudDetectionMonitor(metrics);\n    \n    async function processTransaction(transaction) {\n      monitor.startSpan(transaction.id, 'total');\n      \n      try {\n        monitor.startSpan(transaction.id, 'enrichment');\n        const enriched = await enrichTransaction(transaction);\n        monitor.endSpan(transaction.id, 'enrichment');\n    \n        monitor.startSpan(transaction.id, 'analysis');\n        const result = await analyzeTransaction(enriched);\n        monitor.endSpan(transaction.id, 'analysis');\n    \n        monitor.recordDecision(result);\n        return result;\n      } catch (error) {\n        monitor.recordError(error, 'processing');\n        throw error;\n      } finally {\n        monitor.endSpan(transaction.id, 'total');\n      }\n    }"
+              }
+            ]
+          }
+        },
+        "implementation": {
+          "title": "AI-Powered Fraud Detection",
+          "description": "Enterprise-grade fraud detection system using advanced machine learning",
+          "architecture": {
+            "description": "Our fraud detection system employs a sophisticated multi-layered approach that combines real-time analysis with historical pattern matching. The system processes millions of transactions per second while maintaining high accuracy and low latency.",
+            "components": [
+              {
+                "name": "Real-time Transaction Analysis Engine",
+                "description": "The core processing engine uses GPT-4 to analyze incoming transactions in real-time. It examines over 50 different transaction attributes and contextual signals to identify potential fraud patterns.",
+                "technologies": [
+                  "OpenAI GPT-4",
+                  "TensorFlow",
+                  "Apache Kafka"
+                ],
+                "details": "Processes 10,000+ transactions per second with <100ms latency",
+                "explanation": [
+                  "Validates and normalizes incoming transaction data",
+                  "Enriches transactions with historical context",
+                  "Performs real-time risk scoring using ML models",
+                  "Integrates with external data sources for enhanced verification"
+                ]
+              },
+              {
+                "name": "Pattern Recognition System",
+                "description": "Advanced pattern matching system that maintains a dynamic database of known fraud patterns. Uses vector similarity search to identify transactions matching historical fraud patterns.",
+                "technologies": [
+                  "Pinecone",
+                  "Redis",
+                  "PostgreSQL"
+                ],
+                "details": "Maintains over 1M fraud patterns with 99.9% accuracy",
+                "explanation": [
+                  "Stores fraud patterns as high-dimensional vectors",
+                  "Performs real-time similarity matching",
+                  "Updates patterns based on new fraud discoveries",
+                  "Uses clustering to identify emerging fraud trends"
+                ]
+              },
+              {
+                "name": "Intelligent Alert Management",
+                "description": "Smart alert routing system that uses AI to prioritize and distribute alerts based on risk level, urgency, and historical patterns.",
+                "technologies": [
+                  "LangChain",
+                  "RabbitMQ",
+                  "ElasticSearch"
+                ],
+                "details": "Reduces false positives by 90% compared to traditional systems",
+                "explanation": [
+                  "Prioritizes alerts based on risk severity",
+                  "Routes alerts to appropriate teams",
+                  "Aggregates related incidents",
+                  "Provides contextual information for quick resolution"
+                ]
+              }
+            ],
+            "flow": [
+              {
+                "step": "Data Ingestion",
+                "description": "Transaction data is received and validated through secure channels",
+                "details": "Supports multiple data formats and protocols including REST, GraphQL, and MQTT"
+              },
+              {
+                "step": "Real-time Analysis",
+                "description": "GPT-4 analyzes transaction patterns and anomalies",
+                "details": "Uses advanced NLP to understand transaction context and user behavior"
+              },
+              {
+                "step": "Pattern Matching",
+                "description": "Transaction is compared against known fraud patterns",
+                "details": "Uses vector similarity search for efficient pattern matching"
+              },
+              {
+                "step": "Risk Assessment",
+                "description": "Comprehensive risk score calculation using multiple factors",
+                "details": "Combines ML predictions with rule-based verification"
+              },
+              {
+                "step": "Alert Generation",
+                "description": "Intelligent alert creation and routing based on risk level",
+                "details": "Customizable alerting rules and thresholds"
+              },
+              {
+                "step": "Continuous Learning",
+                "description": "System updates fraud patterns based on new data",
+                "details": "Automated model retraining and pattern updates"
+              }
+            ]
+          },
+          "examples": {
+            "title": "Interactive Examples",
+            "items": [
+              {
+                "title": "Transaction Analysis Demo",
+                "description": "See how our system analyzes different types of transactions in real-time",
+                "interactive": true,
+                "demoData": {
+                  "sampleTransactions": [
+                    {
+                      "id": "TX_001",
+                      "amount": 999.99,
+                      "location": "New York, USA",
+                      "time": "2024-02-20T14:30:00Z",
+                      "merchant": "Electronics Store",
+                      "type": "Card Present",
+                      "context": "Regular shopping hours, frequent location"
+                    },
+                    {
+                      "id": "TX_002",
+                      "amount": 5000,
+                      "location": "Lagos, Nigeria",
+                      "time": "2024-02-20T14:31:00Z",
+                      "merchant": "Online Gaming",
+                      "type": "Card Not Present",
+                      "context": "Unusual location, high amount"
+                    },
+                    {
+                      "id": "TX_003",
+                      "amount": 150,
+                      "location": "London, UK",
+                      "time": "2024-02-20T14:32:00Z",
+                      "merchant": "Grocery Store",
+                      "type": "Card Present",
+                      "context": "Normal transaction pattern"
+                    }
+                  ],
+                  "riskFactors": [
+                    {
+                      "name": "Transaction Amount",
+                      "description": "Analyzes if the amount is unusual for the customer or merchant"
+                    },
+                    {
+                      "name": "Location Analysis",
+                      "description": "Checks for geographical anomalies and impossible travel"
+                    },
+                    {
+                      "name": "Merchant Category",
+                      "description": "Evaluates merchant risk level and transaction history"
+                    },
+                    {
+                      "name": "Transaction Frequency",
+                      "description": "Monitors for unusual transaction patterns or velocities"
+                    },
+                    {
+                      "name": "Card Presence",
+                      "description": "Assesses risk based on card-present vs card-not-present status"
+                    }
+                  ]
+                }
+              },
+              {
+                "title": "Fraud Pattern Analysis",
+                "description": "Explore common fraud patterns and how they're detected",
+                "interactive": true,
+                "demoData": {
+                  "patterns": [
+                    {
+                      "name": "Rapid Succession Transactions",
+                      "description": "Multiple transactions within a short time window, often indicating automated fraud attempts",
+                      "riskLevel": "High",
+                      "indicators": [
+                        "High frequency",
+                        "Similar amounts",
+                        "Multiple locations"
+                      ],
+                      "detection": "Uses time-series analysis and velocity checks"
+                    },
+                    {
+                      "name": "Amount Anomaly Pattern",
+                      "description": "Transaction amounts that deviate significantly from user's normal spending patterns",
+                      "riskLevel": "Medium",
+                      "indicators": [
+                        "Unusual amount",
+                        "Irregular merchant",
+                        "Time of transaction"
+                      ],
+                      "detection": "Employs statistical analysis and user profiling"
+                    },
+                    {
+                      "name": "Geographic Anomaly Pattern",
+                      "description": "Transactions from locations that are impossible given the user's travel time",
+                      "riskLevel": "High",
+                      "indicators": [
+                        "Location spread",
+                        "Time between transactions",
+                        "Travel impossibility"
+                      ],
+                      "detection": "Uses geospatial analysis and velocity checking"
+                    }
+                  ],
+                  "visualData": {
+                    "timeSeriesData": [
+                      {
+                        "timestamp": "14:30:00",
+                        "amount": 999.99,
+                        "risk": 0.3,
+                        "location": "New York"
+                      },
+                      {
+                        "timestamp": "14:31:00",
+                        "amount": 5000,
+                        "risk": 0.8,
+                        "location": "Lagos"
+                      },
+                      {
+                        "timestamp": "14:32:00",
+                        "amount": 150,
+                        "risk": 0.1,
+                        "location": "London"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "metrics": {
+            "title": "System Performance Metrics",
+            "items": [
+              {
+                "label": "Detection Accuracy",
+                "value": "99.9%",
+                "description": "Accuracy in identifying fraudulent transactions",
+                "details": "Based on analysis of over 1 billion transactions"
+              },
+              {
+                "label": "Processing Time",
+                "value": "<100ms",
+                "description": "Average transaction processing time",
+                "details": "99th percentile latency across all regions"
+              },
+              {
+                "label": "False Positive Rate",
+                "value": "<0.1%",
+                "description": "Rate of false fraud alerts",
+                "details": "Significantly lower than industry average of 2-3%"
+              }
+            ]
+          },
+          "educationalContent": {
+            "sections": [
+              {
+                "title": "Understanding Fraud Detection",
+                "content": "Modern fraud detection systems use a combination of machine learning, rule-based systems, and behavioral analysis to identify potentially fraudulent transactions. The key is to balance security with user experience, ensuring legitimate transactions are not blocked while effectively preventing fraud."
+              },
+              {
+                "title": "Common Fraud Patterns",
+                "content": "Fraudsters often follow recognizable patterns, such as testing cards with small amounts before making larger purchases, or making purchases from unusual locations. Our system learns these patterns and adapts its detection mechanisms accordingly."
+              },
+              {
+                "title": "Machine Learning in Fraud Detection",
+                "content": "AI and machine learning enable the system to analyze vast amounts of data and identify subtle patterns that might be invisible to human analysts. The system continuously learns from new data, improving its detection capabilities over time."
+              }
+            ]
+          }
+        },
+        "diagram": {
+          "nodes": [
+            {
+              "id": "kafka",
+              "label": "Kafka Stream",
+              "description": "High-throughput event streaming\n• Processes 1M+ transactions per second\n• Guarantees no data loss\n• Works across multiple data centers\n• Keeps transactions in order\n• Responds in under 1ms",
+              "x": 100,
+              "y": 100,
+              "type": "Stream",
+              "technologies": {
+                "core": [
+                  "Apache Kafka"
+                ],
+                "features": [
+                  "Real-time Events: Processes transactions as they happen",
+                  "Partition Sharding: Splits data across servers for speed"
+                ]
+              }
+            },
+            {
+              "id": "fraud-service",
+              "label": "Fraud Detection Engine",
+              "description": "AI-powered fraud analysis\n• Uses multiple AI models together\n• Learns from new patterns\n• Adjusts risk levels automatically\n• Tests new detection methods safely\n• Tracks model versions",
+              "x": 500,
+              "y": 100,
+              "type": "Service",
+              "technologies": {
+                "core": [
+                  "Node.js",
+                  "Python",
+                  "TensorFlow"
+                ],
+                "features": [
+                  "AI that learns complex fraud patterns",
+                  " Combines multiple fraud detection methods",
+                  " Extracts important transaction patterns"
+                ]
+              }
+            },
+            {
+              "id": "redis",
+              "label": "Redis Cache",
+              "description": "Ultra-fast pattern checking\n• Stores patterns in memory for speed\n• Uses smart filtering techniques\n• Tracks patterns over time\n• Prevents system overload\n• Handles server failures",
+              "x": 900,
+              "y": 100,
+              "type": "Storage",
+              "technologies": {
+                "core": [
+                  "Redis Enterprise"
+                ],
+                "features": [
+                  "Quickly checks if a pattern might be fraud",
+                  "Tracks suspicious activity over time",
+                  "Analyzes patterns across time periods",
+                  "Runs AI models directly in cache"
+                ]
+              }
+            },
+            {
+              "id": "pinecone",
+              "label": "Vector Database",
+              "description": "Smart pattern matching\n• Finds similar fraud patterns\n• Groups similar behaviors\n• Spots unusual activities\n• Compares transaction similarities\n• Updates patterns instantly",
+              "x": 300,
+              "y": 400,
+              "type": "Storage",
+              "technologies": {
+                "core": [
+                  "VectorDB"
+                ],
+                "features": [
+                  " Finds similar fraud patterns quickly",
+                  " Organizes patterns for fast lookup",
+                  " Measures how close patterns match",
+                  " Combines different search methods"
+                ]
+              }
+            },
+            {
+              "id": "alert",
+              "label": "Alert System",
+              "description": "Smart alert handling\n• Routes alerts by risk level\n• Groups related alerts together\n• Guides investigation steps\n• Automates basic responses\n• Tracks regulatory compliance",
+              "x": 700,
+              "y": 400,
+              "type": "Alert",
+              "technologies": {
+                "core": [
+                  "Node.js",
+                  "RabbitMQ"
+                ],
+                "features": [
+                  "Handles high-risk alerts first",
+                  "Groups related suspicious activities",
+                  "Ensures timely alert handling",
+                  "Tracks all investigation steps"
+                ]
+              }
+            }
+          ],
+          "connections": [
+            {
+              "from": "kafka",
+              "to": "fraud-service",
+              "label": "Transaction Events"
+            },
+            {
+              "from": "fraud-service",
+              "to": "redis",
+              "label": "Cache Results"
+            },
+            {
+              "from": "fraud-service",
+              "to": "pinecone",
+              "label": "Pattern Matching"
+            },
+            {
+              "from": "fraud-service",
+              "to": "alert",
+              "label": "High Risk Alerts"
+            }
+          ]
+        }
+      }
+    },
+    "healthcare": {
+      "patient-risk-analysis": {
+        "hygraphUseCaseSlug": "clinical-decision-support",
+        "documentation": {
+          "title": "Patient Risk Analysis System",
+          "description": "AI-powered patient risk assessment and monitoring",
+          "fundamentals": {
+            "title": "Understanding Patient Risk Analysis",
+            "sections": [
+              {
+                "title": "How Modern Patient Risk Analysis Works",
+                "content": "Modern patient risk analysis systems use AI to process patient data, identify patterns, and predict potential health risks. The system analyzes multiple data points while ensuring privacy and compliance.",
+                "detailedExplanation": "\n          The patient risk analysis pipeline includes:\n\n          1. Collection of patient health data and history\n          2. AI analysis of health patterns and indicators\n          3. Risk factor identification and scoring\n          4. Automated alerts and recommendations\n        ",
+                "keyPoints": [
+                  "🏥 Real-time health data analysis",
+                  "🔍 Pattern recognition in patient history",
+                  "⚕️ Risk factor identification",
+                  "🔄 Continuous monitoring and updates"
+                ],
+                "codeExample": "\n// You Imagine - Jedi Labs Engineers\n(async () => {\n  try {\n    customConsole.log(\"🏥 Patient Risk Analysis System - Interactive Demo\");\n    customConsole.log(\"=============================================\");\n    customConsole.log(\"Welcome! This demo shows how AI analyzes patient data\");\n    customConsole.log(\"to identify potential health risks and recommend actions.\");\n    customConsole.log(\"\");\n\n    // Configuration\n    const RISK_THRESHOLD = 0.65; // 65% confidence for risk alerts\n    \n    // Sample patient data\n    const patientData = {\n      id: \"pt_789\",\n      age: 45,\n      vitals: {\n        bloodPressure: \"140/90\",\n        heartRate: 82,\n        temperature: 98.6\n      },\n      conditions: [\"diabetes_type2\"],\n      medications: [\"metformin\"],\n      lastCheckup: \"2023-12-15\"\n    };\n\n    customConsole.log(\"📋 Patient Data Received:\");\n    customConsole.log(patientData);\n    customConsole.log(\"\");\n\n    // Step 1: Gather Historical Data\n    customConsole.log(\"🔍 Step 1: Gathering Historical Data\");\n    customConsole.log(\"----------------------------------\");\n    customConsole.log(\"We'll analyze:\");\n    customConsole.log(\"• Past medical history\");\n    customConsole.log(\"• Recent test results\");\n    customConsole.log(\"• Medication adherence\");\n    customConsole.log(\"• Lifestyle factors\");\n    \n    const enrichedData = await (async () => {\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      return {\n        ...patientData,\n        history: {\n          pastVisits: 12,\n          avgGlucose: 142,\n          medicationAdherence: 0.85,\n          lifestyle: {\n            exercise: \"moderate\",\n            diet: \"mixed\",\n            smoking: \"never\"\n          }\n        }\n      };\n    })();\n\n    customConsole.log(\"✅ Historical Data Collected!\");\n    customConsole.log(\"📊 Key Findings:\");\n    customConsole.log(\"• Regular checkups: 12 visits in past year\");\n    customConsole.log(\"• Average glucose: 142 mg/dL\");\n    customConsole.log(\"• Good medication adherence: 85%\");\n    customConsole.log(\"\");\n\n    // Step 2: Risk Factor Analysis\n    customConsole.log(\"🧬 Step 2: Risk Factor Analysis\");\n    customConsole.log(\"--------------------------\");\n    customConsole.log(\"AI is analyzing patterns and risk factors...\");\n\n    const riskFactors = await (async () => {\n      await new Promise(resolve => setTimeout(resolve, 800));\n      return [\n        {\n          factor: \"elevated_bp\",\n          level: 0.7,\n          detail: \"Blood pressure (140/90) is above optimal range\"\n        },\n        {\n          factor: \"glucose_management\",\n          level: 0.4,\n          detail: \"Glucose levels trending higher than target\"\n        }\n      ];\n    })();\n\n    customConsole.log(\"🚨 Risk Factors Identified:\");\n    riskFactors.forEach(r => {\n      customConsole.log(`• ${r.detail}`);\n      customConsole.log(`  Risk Level: ${(r.level * 100).toFixed(0)}%`);\n    });\n    customConsole.log(\"\");\n\n    // Final Assessment\n    const overallRisk = riskFactors.reduce((acc, r) => acc + r.level, 0) / riskFactors.length;\n    \n    customConsole.log(\"📋 Risk Assessment\");\n    customConsole.log(\"----------------\");\n    customConsole.log(`Overall Risk Level: ${(overallRisk * 100).toFixed(0)}%`);\n    customConsole.log(`Alert Threshold: ${(RISK_THRESHOLD * 100).toFixed(0)}%`);\n    customConsole.log(\"\");\n    \n    if (overallRisk > RISK_THRESHOLD) {\n      customConsole.log(\"⚠️ RECOMMENDATION: Schedule follow-up appointment\");\n      customConsole.log(\"Suggested actions:\");\n      customConsole.log(\"• Review blood pressure medication\");\n      customConsole.log(\"• Adjust diabetes management plan\");\n      customConsole.log(\"• Schedule cardiovascular assessment\");\n    } else {\n      customConsole.log(\"✅ ASSESSMENT: Continue current management plan\");\n      customConsole.log(\"Suggested actions:\");\n      customConsole.log(\"• Maintain medication schedule\");\n      customConsole.log(\"• Regular glucose monitoring\");\n    }\n\n    return {\n      riskScore: overallRisk,\n      needsFollowUp: overallRisk > RISK_THRESHOLD,\n      riskFactors,\n      patientData: enrichedData\n    };\n\n  } catch (error) {\n    customConsole.error(\"Error in analysis:\", error.message);\n    return { error: error.message };\n  }\n})();\n"
+              }
+            ]
+          }
+        },
+        "implementation": {
+          "title": "AI-Powered Patient Risk Analysis",
+          "description": "Enterprise-grade patient monitoring and risk assessment system using advanced clinical AI",
+          "architecture": {
+            "description": "Our patient risk analysis system combines real-time health data monitoring with predictive analytics to identify potential health risks before they become critical. The system processes patient data from multiple sources while maintaining strict HIPAA compliance and data security.",
+            "components": [
+              {
+                "name": "Clinical Data Processing Engine",
+                "description": "HIPAA-compliant engine that processes and standardizes health data from multiple sources including EHRs, medical devices, and lab systems.",
+                "technologies": [
+                  "HL7 FHIR",
+                  "DICOM",
+                  "OpenEHR"
+                ],
+                "details": "Processes 100,000+ clinical events per second with sub-second latency",
+                "explanation": [
+                  "Standardizes diverse healthcare data formats",
+                  "Ensures HIPAA-compliant data handling",
+                  "Validates clinical data integrity",
+                  "Manages patient consent and data sharing"
+                ]
+              },
+              {
+                "name": "Clinical AI System",
+                "description": "Advanced medical AI system that analyzes patient data to predict health risks and recommend interventions.",
+                "technologies": [
+                  "Clinical NLP",
+                  "TensorFlow",
+                  "Medical Knowledge Graphs"
+                ],
+                "details": "Maintains 95%+ accuracy in risk prediction across 50+ conditions",
+                "explanation": [
+                  "Analyzes patient vitals and lab results",
+                  "Predicts potential health complications",
+                  "Recommends preventive interventions",
+                  "Learns from treatment outcomes"
+                ]
+              },
+              {
+                "name": "Care Team Alert System",
+                "description": "Intelligent alert system that notifies healthcare providers about patient risks and required interventions.",
+                "technologies": [
+                  "Clinical Decision Support",
+                  "RabbitMQ",
+                  "Care Protocols"
+                ],
+                "details": "Reduces alert fatigue by 80% through smart prioritization",
+                "explanation": [
+                  "Prioritizes alerts based on clinical urgency",
+                  "Routes alerts to appropriate care team members",
+                  "Tracks intervention effectiveness",
+                  "Ensures regulatory compliance"
+                ]
+              }
+            ],
+            "flow": [
+              {
+                "step": "Data Collection",
+                "description": "Secure collection of patient data from multiple sources",
+                "details": "Supports EHR integration, medical devices, and manual input"
+              },
+              {
+                "step": "Clinical Analysis",
+                "description": "AI-powered analysis of patient health indicators",
+                "details": "Uses medical knowledge graphs and clinical guidelines"
+              },
+              {
+                "step": "Risk Assessment",
+                "description": "Continuous evaluation of patient health risks",
+                "details": "Real-time risk scoring and trend analysis"
+              },
+              {
+                "step": "Care Team Notification",
+                "description": "Smart alerting system for healthcare providers",
+                "details": "Context-aware alerts with intervention recommendations"
+              },
+              {
+                "step": "Outcome Tracking",
+                "description": "Monitoring of intervention effectiveness",
+                "details": "Continuous learning from treatment outcomes"
+              }
+            ]
+          },
+          "examples": {
+            "title": "Clinical Examples",
+            "items": [
+              {
+                "title": "Patient Monitoring Demo",
+                "description": "See how our system monitors and analyzes patient health in real-time",
+                "interactive": true,
+                "demoData": {
+                  "samplePatients": [
+                    {
+                      "id": "PT_001",
+                      "vitals": {
+                        "heartRate": 75,
+                        "bloodPressure": "120/80",
+                        "temperature": 98.6,
+                        "oxygenSaturation": 98
+                      },
+                      "riskFactors": [
+                        "Diabetes",
+                        "Hypertension"
+                      ],
+                      "alerts": [
+                        "Elevated Blood Glucose",
+                        "Medication Due"
+                      ]
+                    },
+                    {
+                      "id": "PT_002",
+                      "vitals": {
+                        "heartRate": 95,
+                        "bloodPressure": "150/95",
+                        "temperature": 99.2,
+                        "oxygenSaturation": 94
+                      },
+                      "riskFactors": [
+                        "Heart Disease",
+                        "COPD"
+                      ],
+                      "alerts": [
+                        "High BP Alert",
+                        "Low O2 Warning"
+                      ]
+                    }
+                  ],
+                  "clinicalMetrics": [
+                    {
+                      "name": "Vital Signs",
+                      "description": "Real-time monitoring of patient vital signs"
+                    },
+                    {
+                      "name": "Lab Results",
+                      "description": "Integration with laboratory information systems"
+                    },
+                    {
+                      "name": "Medication Adherence",
+                      "description": "Tracking of medication schedules and compliance"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "metrics": {
+            "title": "Clinical Performance Metrics",
+            "items": [
+              {
+                "label": "Risk Prediction Accuracy",
+                "value": "95%",
+                "description": "Accuracy in predicting adverse health events",
+                "details": "Based on analysis of 1M+ patient records"
+              },
+              {
+                "label": "Alert Response Time",
+                "value": "<3min",
+                "description": "Average time from alert to clinical response",
+                "details": "99th percentile across all facility types"
+              },
+              {
+                "label": "False Alert Rate",
+                "value": "<5%",
+                "description": "Rate of clinically insignificant alerts",
+                "details": "Significantly lower than industry average of 15%"
+              }
+            ]
+          }
+        },
+        "diagram": {
+          "useCase": {
+            "title": "Patient Risk Analysis System",
+            "description": "AI-powered healthcare risk assessment and monitoring platform",
+            "businessValue": [
+              "Early risk detection and prevention",
+              "Improved patient outcomes",
+              "Reduced healthcare costs",
+              "Enhanced clinical decision support"
+            ],
+            "capabilities": [
+              "Real-time patient monitoring",
+              "Predictive risk assessment",
+              "Clinical decision support",
+              "HIPAA-compliant data handling"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "data-collection",
+              "label": "Data Collection",
+              "x": 100,
+              "y": 80,
+              "description": "Patient data collection and integration",
+              "technologies": {
+                "core": [
+                  "FHIR",
+                  "HL7"
+                ],
+                "integration": [
+                  "Apache Kafka",
+                  "RabbitMQ"
+                ],
+                "storage": [
+                  "PostgreSQL",
+                  "MongoDB"
+                ]
+              }
+            },
+            {
+              "id": "risk-engine",
+              "label": "Risk Analysis Engine",
+              "x": 400,
+              "y": 80,
+              "description": "AI-powered risk assessment",
+              "technologies": {
+                "ml": [
+                  "TensorFlow",
+                  "PyTorch"
+                ],
+                "analysis": [
+                  "Scikit-learn",
+                  "XGBoost"
+                ],
+                "optimization": [
+                  "ONNX",
+                  "TensorRT"
+                ]
+              }
+            },
+            {
+              "id": "clinical-support",
+              "label": "Clinical Support",
+              "x": 700,
+              "y": 80,
+              "description": "Clinical decision support system",
+              "technologies": {
+                "rules": [
+                  "Drools",
+                  "OpenCDS"
+                ],
+                "workflow": [
+                  "Camunda",
+                  "jBPM"
+                ],
+                "ui": [
+                  "React",
+                  "D3.js"
+                ]
+              }
+            },
+            {
+              "id": "monitoring",
+              "label": "Monitoring & Alerts",
+              "x": 400,
+              "y": 250,
+              "description": "Real-time monitoring and alerting",
+              "technologies": {
+                "monitoring": [
+                  "Prometheus",
+                  "Grafana"
+                ],
+                "alerting": [
+                  "PagerDuty",
+                  "Alertmanager"
+                ],
+                "logging": [
+                  "ELK Stack",
+                  "Loki"
+                ]
+              }
+            }
+          ],
+          "connections": [
+            {
+              "from": "data-collection",
+              "to": "risk-engine",
+              "label": "Patient Data"
+            },
+            {
+              "from": "risk-engine",
+              "to": "clinical-support",
+              "label": "Risk Scores"
+            },
+            {
+              "from": "clinical-support",
+              "to": "monitoring",
+              "label": "Alerts"
+            },
+            {
+              "from": "monitoring",
+              "to": "data-collection",
+              "label": "Feedback"
+            }
+          ],
+          "deployment": {
+            "environments": [
+              "Development",
+              "Staging",
+              "Production",
+              "DR Site"
+            ],
+            "infrastructure": [
+              "AWS Healthcare",
+              "Kubernetes",
+              "HIPAA Compliance",
+              "Zero Trust Security"
+            ],
+            "monitoring": [
+              "Health Metrics",
+              "Performance KPIs",
+              "Compliance Auditing",
+              "Security Monitoring"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

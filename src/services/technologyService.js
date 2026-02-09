@@ -61,6 +61,7 @@ const GET_TECHNOLOGY_BY_SLUG = `
       icon
       features
       businessMetrics
+      additonalDetails
       category {
         id
         name
@@ -75,10 +76,16 @@ const GET_USE_CASES_BY_TECH = `
     useCaseS(where: { technologies_some: { slug: $slug } }) {
       id
       title
+      slug
       description
       queries
       capabilities
       implementation
+      industry {
+        id
+        name
+        slug
+      }
       architecture {
         description
         components {
@@ -240,6 +247,8 @@ class TechnologyService {
         relatedUseCases: useCaseS.map(useCase => ({
           id: useCase.id,
           title: useCase.title,
+          slug: useCase.slug,
+          industry: useCase.industry,
           implementation: useCase.implementation ? {
             overview: useCase.description,
             architecture: useCase.architecture,

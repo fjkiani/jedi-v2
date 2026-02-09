@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 import json
 from dotenv import load_dotenv
@@ -540,6 +541,35 @@ PUBLISH_INDUSTRY_APPLICATION_MUTATION = gql("""
 
 # --- Main Logic ---
 def main():
+    global INDUSTRY_APPLICATIONS_DATA
+    if "--input" in sys.argv:
+        idx = sys.argv.index("--input")
+        if idx + 1 < len(sys.argv):
+            with open(sys.argv[idx + 1], "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            ind = payload.get("industry") or {}
+            industry_slug = payload.get("industrySlug") or ind.get("slug", "")
+            apps = ind.get("industryApplication") or []
+            if apps:
+                app = apps[0]
+                ch = app.get("industryChallenge") or {}
+                ja = app.get("jediApproach") or {}
+                key = payload.get("solutionSlug") or industry_slug + "-" + (app.get("applicationTitle", "app").lower().replace(" ", "-")[:30])
+                INDUSTRY_APPLICATIONS_DATA = {
+                    key: {
+                        "applicationTitle": app.get("applicationTitle", ""),
+                        "industrySlug": industry_slug,
+                        "relevantJediComponentSlugs": [c.get("slug") for c in (app.get("jediComponent") or []) if c.get("slug")],
+                        "relatedUseCaseSlugs": [],
+                        "relevantEngine": "aiAnalysisEngine",
+                        "tagline": app.get("tagline"),
+                        "industryChallenge": ch,
+                        "jediApproach": ja,
+                        "keyCapabilities": app.get("keyCapabilities") or [],
+                        "expectedResults": app.get("expectedResults") or [],
+                    }
+                }
+                logging.info("Loaded industry application from --input JSON (single application mode).")
     logging.info("Starting Industry Application population script...")
     created_count = 0
     updated_count = 0 # Track updates
@@ -613,6 +643,10 @@ def main():
                 "useCases": [{"slug": s} for s in related_uc_slugs],
                 "jediComponents": [{"slug": s} for s in jedi_component_slugs]
             }
+            # When running from --input, JSON may reference JEDI components that don't exist in Hygraph
+            # (e.g. custom names like "the-oracle"). Omit jediComponents so create succeeds; link in UI later.
+            if "--input" in sys.argv and not existing_id:
+                common_data.pop("jediComponents", None)
             # Remove keys with None/empty list values if necessary
             common_data = {k: v for k, v in common_data.items() if v not in [None, [], {}]}
 
@@ -653,26 +687,26 @@ def main():
         else:
             # --- CREATE ---
             create_variables = { "industry": { "id": industry_id }, **common_data }
-        try:
-            logging.info(f"  Creating application '{details['applicationTitle']}'...")
+            try:
+                logging.info(f"  Creating application '{details['applicationTitle']}'...")
                 create_result = client.execute(CREATE_INDUSTRY_APPLICATION_MUTATION, variable_values=create_variables)
-            if create_result and create_result.get("createIndustryApplication"):
-                application_id = create_result["createIndustryApplication"]["id"]
-                logging.info(f"    Successfully created application '{details['applicationTitle']}' with ID: {application_id}")
-                created_count += 1
+                if create_result and create_result.get("createIndustryApplication"):
+                    application_id = create_result["createIndustryApplication"]["id"]
+                    logging.info(f"    Successfully created application '{details['applicationTitle']}' with ID: {application_id}")
+                    created_count += 1
                     mutation_successful = True
-            else:
-                error_message = "Unknown error during creation."
-                if isinstance(create_result, dict) and create_result.get('errors'):
-                    error_message = create_result['errors'][0].get('message', error_message)
-                logging.error(f"    Failed to create application '{details['applicationTitle']}'. Error: {error_message}")
-                logging.debug(f"    Full error details: {create_result.get('errors')}")
+                else:
+                    error_message = "Unknown error during creation."
+                    if isinstance(create_result, dict) and create_result.get('errors'):
+                        error_message = create_result['errors'][0].get('message', error_message)
+                    logging.error(f"    Failed to create application '{details['applicationTitle']}'. Error: {error_message}")
+                    logging.debug(f"    Full error details: {create_result.get('errors')}")
+                    failed_create_count += 1
+            except Exception as e:
+                logging.error(f"  Unexpected error creating application '{app_key}': {e}")
+                if hasattr(e, 'errors'): logging.error(f"    GraphQL Errors: {e.errors}")
+                if hasattr(e, 'response'): logging.error(f"    Response Content: {e.response.content}")
                 failed_create_count += 1
-        except Exception as e:
-            logging.error(f"  Unexpected error creating application '{app_key}': {e}")
-            if hasattr(e, 'errors'): logging.error(f"    GraphQL Errors: {e.errors}")
-            if hasattr(e, 'response'): logging.error(f"    Response Content: {e.response.content}")
-            failed_create_count += 1
 
         # 4. Publish if Create or Update was successful
         if mutation_successful and application_id:

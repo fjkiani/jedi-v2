@@ -41,64 +41,40 @@ import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } fr
 
 export const navigation = [
   {
-    id: "jedi",
-    title: "JEDI",
+    id: "registry",
+    title: "APPLICATIONS",
     url: "/jedi",
   },
   {
-    id: "0",
-    title: "Solutions",
-    url: "/solutions",
+    id: "infrastructure",
+    title: "INFRASTRUCTURE",
+    url: "/infrastructure",
     dropdownItems: [
-      {
-        title: "AI/ML Solutions",
-        url: "/solutions/ai-ml-solutions"
-      },
-      {
-        title: "AI Agents",
-        url: "/solutions/ai-agents"
-      },
-      {
-        title: "Data Engineering",
-        url: "/solutions/data-engineering"
-      },
-      {
-        title: "MLOps & Model Deployment",
-        description: "Coming Soon"
-      },
-      {
-        title: "Computer Vision",
-        description: "Coming Soon"
-      },
-      {
-        title: "Knowledge as a Service",
-        description: "Coming Soon"
-      }
+      { title: "Neural Architectures", url: "/solutions/ai-ml-solutions" },
+      { title: "Agent Swarm Theory", url: "/solutions/ai-agents" },
+      { title: "Data Pipelines", url: "/solutions/data-engineering" },
+      { title: "Tech Stack", url: "/technology" }
     ]
   },
-  // {
-  //   id: "technology",
-  //   title: "Technology",
-  //   url: "/technology",
-  // },
-  // {
-  //   id: "industries",
-  //   title: "Industries",
-  //   url: "/industries",
-  // },
   {
     id: "use-cases",
-    title: "Use Cases",
-    url: "/usecases",
+    title: "USE CASES",
+    url: "/use-cases",
+    dropdownItems: [],
   },
   {
-    id: "blog",
+    id: "case-studies",
+    title: "CASE STUDIES",
+    url: "/case-studies",
+  },
+  {
+    id: "research",
     title: "R&D",
     url: "/blog",
   },
   {
     id: "company",
-    title: "Company",
+    title: "COMPANY",
     url: "#",
     dropdownItems: [
       { title: "About Us", url: "/about" },
@@ -209,7 +185,7 @@ export const companyLogos = [
     services: ["Deep Learning", "Neural Networks", "ML Models"]
   },
   {
-    
+
     image: "https://cdn.worldvectorlogo.com/logos/pytorch-2.svg",
     name: "PYTORCH",
     services: ["Deep Learning", "Research", "Production ML"]
@@ -260,7 +236,7 @@ export const companyLogos = [
     image: "https://simpleicons.org/icons/ollama.svg",
     name: "OLLAMA",
     services: ["Local LLMs", "Model Management", "API"]
-},
+  },
   {
     image: "https://simpleicons.org/icons/mlflow.svg",
     name: "MLFLOW",
@@ -270,7 +246,7 @@ export const companyLogos = [
     image: "https://www.vectorlogo.zone/logos/elastic/elastic-icon.svg",
     name: "ELASTIC",
     services: ["Search", "Analytics", "Observability"]
-  },     
+  },
   {
     image: "https://simpleicons.org/icons/ray.svg",
     name: "RAY",
@@ -461,47 +437,38 @@ export const collabApps = [
 export const pricing = [
   {
     id: "0",
-    title: "Web Development",
-    description: "Modern Websites, Advanced Features",
-    price: "1-5K",
+    title: "Pilot (Proof of Value)",
+    description: "Validate the AI Agent in a controlled environment.",
+    price: "15-25K",
     features: [
-      "Professional website development tailored to your business needs",
-      "Responsive design with optimized performance",
-      "Integration with essential tools (CMS, analytics, SEO)",
-      "1-month post-launch support to resolve issues quickly",
+      "Custom Agent Configuration",
+      "Integration with 1-2 Key Data Sources",
+      "Sandbox Environment Deployment",
+      "Success Metrics Definition & Validation",
     ],
   },
   {
     id: "1",
-    title: "Full-Stack Transformation",
-    description: "Web, AI, and Data Infrastructure",
-    price: "5-10K",
+    title: "Production (Scale)",
+    description: "Full deployment for live business operations.",
+    price: "50K+",
     features: [
-      "End-to-end web and backend development for dynamic apps",
-      "AI-powered chatbots and analytics for enhanced user interaction",
-      "Data pipeline integration and visualization tools for real-time insights",
-      "Priority support for 3 months to ensure seamless functionality and adaptation",
+      "Full Infrastructure Integration",
+      "Multi-Agent Orchestration",
+      "SLA-Backed Performance",
+      "Comprehensive Documentation & Training",
     ],
   },
   {
     id: "2",
-    title: "Next-Gen ML Transformation",
-    description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
-    price: "10-50K",
+    title: "Partner (Enterprise)",
+    description: "Strategic co-development and long-term evolution.",
+    price: "Custom",
     features: [
-      "Custom implementation of vector databases for semantic search",
-      "Advanced embeddings and graph databases for robust data relationships",
-      "Graph-based RAG architecture for real-time, context-aware answers",
-      "6-month dedicated support for fine-tuning and scaling the solution",
-    ],
-  },
-  {
-    id: "4",
-    title: "Enterprise",
-    description: "Vector DBs, Embeddings, Graph DBs, RAG Implementation",
-    price: "Reach out",
-    features: [
-      "All the above & beyond",
+      "Dedicated Engineering Team",
+      "Custom LLM Fine-Tuning",
+      "On-Premise / VPC Deployment",
+      "24/7 Strategic Support",
     ],
   },
 ];
@@ -514,7 +481,7 @@ export const benefits = [
     text: "Custom AI models, LLM integration, RAG systems, and intelligent automation",
     slug: "ai-ml-solutions",
     imageUrl: "/path/to/hero-image.jpg",
-    
+
     // Overview Tab Data
     subcategories: [
       "Custom AI Model Development",
@@ -549,7 +516,7 @@ export const benefits = [
       }
     ],
     architectureDiagram: "/path/to/architecture-diagram.svg",
-    
+
     // Case Studies Tab Data
     caseStudies: [
       {
@@ -628,7 +595,7 @@ export const benefits = [
         icon: "📚"
       }
     ],
-    
+
     // Integration Options
     integrations: [
       {
@@ -731,7 +698,7 @@ graph TD
 \`\`\`
         `,
         sections: [
-          { 
+          {
             title: "Frontend Architecture",
             content: "React-based SPA with Next.js for SSR..."
           },
@@ -935,7 +902,7 @@ export const copilotArchitecture = [
         technologies: ["OpenAI GPT-4", "Anthropic Claude", "Meta Llama", "Google Gemini"]
       },
       {
-        name: "Embedding Models", 
+        name: "Embedding Models",
         description: "Vector representations for semantic understanding",
         technologies: ["OpenAI Embeddings", "Sentence Transformers", "Cohere Embed", "HuggingFace"]
       },
@@ -972,7 +939,7 @@ export const copilotArchitecture = [
   },
   {
     id: "reasoning",
-    name: "Reasoning Layer", 
+    name: "Reasoning Layer",
     description: "Decision making and cognitive processing",
     icon: "🤔",
     color: "from-purple-500 to-violet-500",
@@ -998,7 +965,7 @@ export const copilotArchitecture = [
     id: "integration",
     name: "Integration Layer",
     description: "External system connections and tool access",
-    icon: "🔗", 
+    icon: "🔗",
     color: "from-orange-500 to-red-500",
     components: [
       {
@@ -1023,7 +990,7 @@ export const copilotArchitecture = [
     name: "Interface Layer",
     description: "User interaction and experience design",
     icon: "💬",
-    color: "from-pink-500 to-rose-500", 
+    color: "from-pink-500 to-rose-500",
     components: [
       {
         name: "Conversational UI",

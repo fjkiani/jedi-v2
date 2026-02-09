@@ -1,0 +1,6924 @@
+{
+  "totalTechnologies": 100,
+  "technologies": [
+    {
+      "id": "cm57won05m8px07n374yb3if2",
+      "name": "LangChain",
+      "slug": "langchain",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Agent Core"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (3 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": true,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm57wt6g5b8ak07n568964ix5",
+      "name": "hugging face",
+      "slug": "huggingface",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (1 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5buss2705ho07lot6usyhk4",
+      "name": "React",
+      "slug": "react",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Frameworks"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bxov6r1xhc07loztif3ksd",
+      "name": "spaCy",
+      "slug": "spacy",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (2 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": true,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5byr71rqiid07mv9kweumjn",
+      "name": "ReAct",
+      "slug": "react-ai",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Reasoning"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5byr71wqiil07mv8thzetjj",
+      "name": "Vector Databases",
+      "slug": "vector-databases",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Memory"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bzfpdg3i1i07low8ulfxct",
+      "name": "Web UI",
+      "slug": "web-ui",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Interfaces"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c82o9rv19z07mvnznanh5q",
+      "name": "Zapier",
+      "slug": "zapier",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Tool Integration"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c84koiv2g407mvxgz5dz1a",
+      "name": "REST",
+      "slug": "rest-api",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Protocols"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c85uy4v2zq07mv8hgjgg3o",
+      "name": "OAuth2",
+      "slug": "oauth2",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Authentication"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8u8byvddi07mvt6weu5pb",
+      "name": "Tree of Thoughts",
+      "slug": "tree-of-thoughts",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Planning Algorithms"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8vdyl7so107log1sjijqe",
+      "name": "Apache Airflow",
+      "slug": "apache-airflow",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Schedulers",
+        "Orchestration"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8yph9ve8607mv6f6jmhau",
+      "name": "Prometheus",
+      "slug": "prometheus",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Observability"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9bx4u7xf907loovenh1q4",
+      "name": "Encryption",
+      "slug": "encryption",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Protection",
+        "Data Protection"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9lvuavjcn07mvdolnikrq",
+      "name": "GPT-4",
+      "slug": "gpt-4",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (2 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9xfwpvlt107mvdkyfmsj1",
+      "name": "Bayesian Decision Networks",
+      "slug": "bayesian-decision-networks",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9yn5bvlyw07mvz2fwsurc",
+      "name": "Bayesian Networks for Decision Making",
+      "slug": "bayesian-networks-decision",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9yui082a907lojfrtdo0r",
+      "name": "RESTful Services",
+      "slug": "restful-services-integration",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ca5r9tvn3107mvlst2qgwv",
+      "name": "Task Decomposition Engine",
+      "slug": "task-decomposition-engine",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ca6z8h83nn07lomcz9vuew",
+      "name": "Online Learning Systems",
+      "slug": "online-learning-systems",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5celg3s9daz07loctj0djhi",
+      "name": "Apache Spark",
+      "slug": "apache-spark",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Processing"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvbwelsjfm07n4bqa6394r",
+      "name": "SQL Databases",
+      "slug": "sql-databases",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Structured Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvf8ypsk2x07n4mcf7vjm3",
+      "name": "Text Files",
+      "slug": "text-files",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Unstructured Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvh94en4jo07li6hsbz6q3",
+      "name": "Images",
+      "slug": "images",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Unstructured Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hviqq6n4to07litw746zvs",
+      "name": "Audio",
+      "slug": "audio",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Unstructured Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvj69hskxy07n4o5t4o2w2",
+      "name": "Apache Kafka",
+      "slug": "apache-kafka",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Streaming Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvjp2esl2307n4kzjkoyg8",
+      "name": "Third-party APIs",
+      "slug": "third-party-apis",
+      "category": "Uncategorized",
+      "subcategories": [
+        "API Data Sources"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvvhgcn7zv07liwna0csce",
+      "name": "Apache NiFi",
+      "slug": "apache-nifi",
+      "category": "Uncategorized",
+      "subcategories": [
+        "data ingestion"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hwjfclnjkx07lipari8rkl",
+      "name": "GPUs",
+      "slug": "gpus",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Training"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hwrsttt17d07n4e62d1sdn",
+      "name": "TensorFlow Serving",
+      "slug": "tensorflow-serving",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Serving"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hy80sote1y07n4mie3fp4n",
+      "name": "Docker",
+      "slug": "docker",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Serving"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hydzobo0gi07li9k9qgdh3",
+      "name": "FastAPI",
+      "slug": "fastapi",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Inference API",
+        "Backend"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iiso443h8i07n48xjtbvjh",
+      "name": "Labelbox",
+      "slug": "labelbox",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "Data Labeling"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iiva9uy6qq07lis18pxd64",
+      "name": "Uncertainty Sampling",
+      "slug": "uncertainty-sampling",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "Active Learning"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iivaa7y6r807li9q41i1iw",
+      "name": "GitHub Actions",
+      "slug": "github-actions",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "CI/CD"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ijssseyvr107liftbt59k0",
+      "name": "Amazon S3",
+      "slug": "amazon-s3",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Storage"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ilm1i10dz907lq232n3yw0",
+      "name": "Snowflake",
+      "slug": "snowflake",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Warehousing"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5islhlu5kgl07li90983xpt",
+      "name": "dbt (Data Build Tool)",
+      "slug": "dbt-core",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Transformation"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5isp00h4yaw07lqd756t13n",
+      "name": "Great Expectations",
+      "slug": "great-expectations",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Quality"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ixu43t8j4507lihwfl76ah",
+      "name": "Tableau",
+      "slug": "tableau",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Visualization",
+        "Analytics Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iy9htt805907lq5i5hw8a6",
+      "name": "Docker Compose",
+      "slug": "docker-compose",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Deployment",
+        "Development Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5izalyz8ilk07lq490sei64",
+      "name": "Amazon Web Services (AWS)",
+      "slug": "aws",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Production Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j2hm5zb7ho07li9azwrtez",
+      "name": "Multi-region Deployment",
+      "slug": "multi-region-deployment",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Disaster Recovery"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j3ienvbofa07lidsjj2j9h",
+      "name": "WhyLabs",
+      "slug": "whylabs",
+      "category": "Uncategorized",
+      "subcategories": [
+        "ML Monitoring"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j4pks3bhui07lq6xt72vrt",
+      "name": "Security",
+      "slug": "security",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j4vi67c9gs07lifdvjaanj",
+      "name": "HashiCorp Vault",
+      "slug": "hashicorp-vault",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Security"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5byr71mqii507mvv6q5gsji",
+      "name": "OpenAI Functions",
+      "slug": "openai-functions",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Agent Core"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (1 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5byr71tqiih07mvcu16e1zz",
+      "name": "Chain-of-thought (CoT)",
+      "slug": "chain-of-thought",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Reasoning"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5byr71yqiip07mv6erkbdgv",
+      "name": "Knowledge Graphs",
+      "slug": "knowledge-graphs",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Memory"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (2 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bzdz6er48z07mv2jpvfqa5",
+      "name": "Angular",
+      "slug": "angular",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Frameworks"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bzfpdi3i1n07louf2aqqlo",
+      "name": "Mobile App",
+      "slug": "mobile-app",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Interfaces"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c82o9uv1a307mv41588w7e",
+      "name": "AWS Lambda",
+      "slug": "aws-lambda",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Tool Integration"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c84kolv2g807mv6k6bx13e",
+      "name": "GraphQL",
+      "slug": "graphql",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Protocols"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c85uy6v2zu07mvvy6rxvw5",
+      "name": "API Keys",
+      "slug": "api-keys",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Authentication"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8if6q7p9m07looqyq23aq",
+      "name": "Weaviate",
+      "slug": "weaviate",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Vector Databases"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": true,
+          "dataSources": [
+            "useCases.architecture"
+          ],
+          "missingFields": []
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": true,
+          "dataSources": [
+            "useCases (3 cases)"
+          ],
+          "missingFields": []
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": true,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8u8devddo07mvq71fl5mn",
+      "name": "Monte Carlo Tree Search",
+      "slug": "mcts",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Planning Algorithms"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8wd50vdqz07mv20au3gt7",
+      "name": "Prefect",
+      "slug": "prefect",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Schedulers",
+        "Orchestration"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8wd57vdrb07mvpwmg84uh",
+      "name": "Dask",
+      "slug": "dask",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Distributed Computing",
+        "Data Processing"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9bx4y7xff07loeca10wpb",
+      "name": "Anonymization",
+      "slug": "anonymization",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Protection",
+        "Data Protection"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9lvudvjcq07mvrzwbgpaq",
+      "name": "TensorFlow",
+      "slug": "tensorflow",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Training"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9xfwrvlt407mvxi5tb2e6",
+      "name": "Markov Decision Processes",
+      "slug": "markov-decision-processes",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9yn5dvlyz07mv7h7hmajx",
+      "name": "Markov Processes",
+      "slug": "markov-processes-ai",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9yui282ac07lo31t89vc5",
+      "name": "GraphQL Systems",
+      "slug": "graphql-integration-systems",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ca5r9vvn3407mv1vykh30g",
+      "name": "Dynamic Task Scheduler",
+      "slug": "dynamic-task-scheduler",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ca6z8i83nq07lox2owkkaz",
+      "name": "Transfer Learning Framework",
+      "slug": "transfer-learning-framework",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "features",
+            "primaryUses",
+            "services"
+          ]
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": false,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hve95xn3qv07lih3xmsomh",
+      "name": "NoSQL Databases",
+      "slug": "nosql-databases",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Structured Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvj88qskyn07n4gvt2fwo9",
+      "name": "AWS Kinesis",
+      "slug": "aws-kinesis",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Streaming Data"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hvjql4n50507lin538o64s",
+      "name": "Web Scraping",
+      "slug": "web-scraping",
+      "category": "Uncategorized",
+      "subcategories": [
+        "API Data Sources"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hwkicpnjq607lis4e6bb6x",
+      "name": "TPUs",
+      "slug": "tpus",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Training"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hwt0hft1dt07n4uqqxs5sn",
+      "name": "TorchServe",
+      "slug": "torchserve",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Serving"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5hy82genysu07lis5fxywas",
+      "name": "Kubernetes",
+      "slug": "kubernetes",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Serving",
+        "Staging Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ihhm2k2gp907n4ud3xzm1k",
+      "name": "Flask",
+      "slug": "flask",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Inference API",
+        "Backend"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iiso4a3h8o07n47hcxglil",
+      "name": "AWS SageMaker Ground Truth",
+      "slug": "sagemaker-ground-truth",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "Data Labeling"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iiva9zy6qw07li4iqqkobn",
+      "name": "Query By Committee",
+      "slug": "query-by-committee",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "Active Learning"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iivaacy6re07liczgtziw1",
+      "name": "GitLab CI",
+      "slug": "gitlab-ci",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Feedback Loop",
+        "CI/CD"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ijhxye3zcg07n47nc63fsr",
+      "name": "Apache Flink",
+      "slug": "apache-flink",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Processing"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ijssstyvr607livn12s308",
+      "name": "Azure Data Lake Storage",
+      "slug": "azure-data-lake",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Storage"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ilm1i60dze07lqki4pnq8u",
+      "name": "Amazon Redshift",
+      "slug": "amazon-redshift",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Warehousing"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5islhly5kgq07liezcmxqpf",
+      "name": "Apache Hive",
+      "slug": "apache-hive",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Transformation"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5isp00l4yb107lqit3by3bk",
+      "name": "Datafold",
+      "slug": "datafold",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Quality"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5ixu4428j4a07li2p7e2ptt",
+      "name": "Power BI",
+      "slug": "power-bi",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Visualization",
+        "Analytics Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5iy9hu1805f07lq1tmd9gno",
+      "name": "Minikube",
+      "slug": "minikube",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Deployment",
+        "Development Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5izalz28ilp07lqlj70ht0g",
+      "name": "Microsoft Azure",
+      "slug": "azure",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Production Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j1ut44ayca07li9zn5exgp",
+      "name": "Helm",
+      "slug": "helm",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Staging Environment"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j2hm62b7ht07liilszbx44",
+      "name": "Data Replication",
+      "slug": "data-replication",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Disaster Recovery"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j3ienzboff07lii86bgsh1",
+      "name": "Evidently AI",
+      "slug": "evidently-ai",
+      "category": "Uncategorized",
+      "subcategories": [
+        "ML Monitoring"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5j5ma49ckp807lik8o9g89m",
+      "name": "Apache Ranger",
+      "slug": "apache-ranger",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Security"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": false,
+        "hasAdditionalDetails": true,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bp1xa6s3sp07lox8l39mjg",
+      "name": "AutoGPT",
+      "slug": "autogpt",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Agent Core"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bxuzmfpoq907mvpblgszhx",
+      "name": "Dialogflow",
+      "slug": "dialogflow",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bzdz6ir49407mvs1s4fr5c",
+      "name": "Flutter",
+      "slug": "flutter",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Frameworks"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5bzfpdk3i1s07logq4y6mkk",
+      "name": "Voice Assistants",
+      "slug": "voice-assistants",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Interfaces"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c82o9wv1a707mv5dt8la9a",
+      "name": "IFTTT",
+      "slug": "ifttt",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Tool Integration"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c84koov2gc07mvv821auwr",
+      "name": "gRPC",
+      "slug": "grpc",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Protocols",
+        "Model Serving"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c85uy9v2zy07mv36hm1eom",
+      "name": "JWT",
+      "slug": "jwt",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Authentication"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8jbnu7pfy07love2jm4uw",
+      "name": "FAISS",
+      "slug": "faiss",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Vector Databases"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8vdxe7snj07lorphgrh9m",
+      "name": "A* Search",
+      "slug": "a-star-search",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Planning Algorithms"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c8ypiqve8j07mvposgdx3o",
+      "name": "OpenTelemetry",
+      "slug": "opentelemetry",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Observability"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9bx517xfl07loyctsu6zs",
+      "name": "Data Masking",
+      "slug": "data-masking",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Data Protection",
+        "Data Protection",
+        "Compliance"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9lvugvjct07mvvdar6oqo",
+      "name": "PyTorch",
+      "slug": "pytorch",
+      "category": "Uncategorized",
+      "subcategories": [
+        "Model Training"
+      ],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category",
+            "subcategories"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    },
+    {
+      "id": "cm5c9xfwsvlt707mvixahb7lr",
+      "name": "Game Theory Algorithms",
+      "slug": "game-theory-algorithms",
+      "category": "Uncategorized",
+      "subcategories": [],
+      "tabs": {
+        "overview": {
+          "hasData": true,
+          "dataSources": [
+            "description",
+            "category"
+          ],
+          "missingFields": []
+        },
+        "features": {
+          "hasData": true,
+          "dataSources": [
+            "features"
+          ],
+          "missingFields": []
+        },
+        "architecture": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "architecture (from useCases)"
+          ]
+        },
+        "integration": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        },
+        "useCases": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "useCases"
+          ]
+        },
+        "resources": {
+          "hasData": false,
+          "dataSources": [],
+          "missingFields": [
+            "documentation",
+            "github",
+            "website"
+          ]
+        }
+      },
+      "contentStatus": {
+        "hasDescription": true,
+        "hasFeatures": true,
+        "hasBusinessMetrics": true,
+        "hasAdditionalDetails": false,
+        "hasUseCases": false,
+        "hasDocumentation": false,
+        "hasGithub": false,
+        "hasWebsite": false
+      }
+    }
+  ],
+  "tabAnalysis": {
+    "overview": {
+      "hasData": 100,
+      "missingData": 0
+    },
+    "features": {
+      "hasData": 94,
+      "missingData": 6
+    },
+    "architecture": {
+      "hasData": 7,
+      "missingData": 93
+    },
+    "integration": {
+      "hasData": 0,
+      "missingData": 100
+    },
+    "useCases": {
+      "hasData": 7,
+      "missingData": 93
+    },
+    "resources": {
+      "hasData": 0,
+      "missingData": 100
+    }
+  },
+  "categoryBreakdown": {
+    "Uncategorized": {
+      "total": 100,
+      "withContent": 94,
+      "withoutContent": 6
+    }
+  },
+  "subcategoryBreakdown": {}
+}

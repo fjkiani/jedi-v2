@@ -1,141 +1,153 @@
-import React from "react";
-import Slider from "react-slick";
+import React, { useEffect, useState } from "react";
 import Heading from "./Heading";
 import Section from "./Section";
 import Arrow from "../assets/svg/Arrow";
-import { GradientLight } from "./design/Benefits";
-import ClipPath from "../assets/svg/ClipPath";
-import { getAllSolutions } from "../constants/solutions";
 import { Link } from 'react-router-dom';
 import { Icon } from "./Icon";
 import { useTheme } from "@/context/ThemeContext";
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { hygraphClient } from "@/lib/hygraph";
+import { GET_ALL_SOLUTIONS } from "@/graphql/queries/solutions";
+import { motion } from "framer-motion";
 
 const NextGenAIStack = () => {
-  const solutions = getAllSolutions();
   const { isDarkMode } = useTheme();
+  const [solutions, setSolutions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: true,
-    customPaging: (i) => (
-      <div className="dot"></div>
-    ),
-    dotsClass: "slick-dots custom-dots",
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchSolutions = async () => {
+      try {
+        const data = await hygraphClient.request(GET_ALL_SOLUTIONS);
+        setSolutions(data.categories || []);
+      } catch (error) {
+        console.error("Error fetching solutions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSolutions();
+  }, []);
+
+  if (loading) {
+    return (
+      <Section className="overflow-hidden">
+        <div className="container relative z-2 text-center py-20">
+          <div className="inline-flex items-center gap-2 text-primary-1 animate-pulse">
+            <span className="w-2 h-2 bg-primary-1 rounded-full" />
+            <span className="font-mono text-sm tracking-widest uppercase">Initializing Zeta Deck...</span>
+          </div>
+        </div>
+      </Section>
+    );
+  }
+
+  // Fallback if no data
+  if (solutions.length === 0) return null;
 
   return (
-    <Section className="overflow-hidden">
+    <Section className="overflow-hidden" id="next-gen-ai">
       <div className="container relative z-2">
-        <Heading
-          className="md:max-w-md lg:max-w-2xl font-starjedi"
-          title="Your ai Stack"
-        />
-        
-        <div className="mt-10">
-          <Slider {...settings}>
-            {solutions.map((solution) => (
-              <div key={solution.id} className="px-4">
-                <div className={`relative p-8 h-[400px] rounded-3xl overflow-hidden ${isDarkMode ? 'bg-n-7' : 'bg-white'} border ${isDarkMode ? 'border-n-6' : 'border-n-3'} 
-                  group transition-all duration-500 ${isDarkMode ? 'hover:border-n-4' : 'hover:border-n-5'}`}>
-                  {/* Background Image with enhanced transitions */}
-                  <div className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-[0.08]' : 'opacity-[0.12]'} transition-all duration-700 
-                    ${isDarkMode ? 'group-hover:opacity-[0.18]' : 'group-hover:opacity-[0.22]'} group-hover:scale-[1.05]`}>
-                    {solution.imageUrl && (
-                      <img
-                        src={solution.imageUrl}
-                        alt=""
-                        className="w-full h-full object-cover transition-transform duration-700"
-                      />
-                    )}
-                  </div>
-
-                  {/* Gradient Overlays */}
-                  <div className="absolute inset-0 z-1">
-                    {/* Base gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${isDarkMode ? 'from-n-8/95 via-n-8/70 to-n-8/50' : 'from-white/95 via-white/70 to-white/50'} 
-                      transition-opacity duration-700`} />
-                    
-                    {/* Accent gradient on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-1/5 via-primary-1/0 to-transparent 
-                      opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-                  </div>
-                  
-                  {/* Content with enhanced hover effects */}
-                  <div className="relative z-2">
-                    <div className="mb-[2rem] transition-transform duration-500 group-hover:translate-y-[-4px]">
-                      <div className={`w-12 h-12 ${isDarkMode ? 'bg-n-6/80' : 'bg-n-2/80'} backdrop-blur-sm rounded-xl 
-                        flex items-center justify-center mb-6 transition-all duration-500
-                        ${isDarkMode ? 'group-hover:bg-n-5/80' : 'group-hover:bg-n-3/80'} group-hover:shadow-lg group-hover:shadow-primary-1/20`}>
-                        <Icon name={solution.icon} className="w-6 h-6 text-primary-1 transition-transform 
-                          duration-500 group-hover:scale-110" />
-                      </div>
-                      <h4 className={`h4 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} transition-colors duration-500 
-                        group-hover:text-primary-1`}>{solution.title}</h4>
-                      <p className={`body-2 ${isDarkMode ? 'text-n-3' : 'text-n-5'} transition-colors duration-500 
-                        ${isDarkMode ? 'group-hover:text-n-1' : 'group-hover:text-n-6'}`}>{solution.description}</p>
-                    </div>
-                    
-                    <Link 
-                      to={`/solutions/${solution.slug}`}
-                      className={`flex items-center gap-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} transition-all duration-500 
-                        group-hover:gap-5`}
-                    >
-                      <span className="font-bold relative">
-                        EXPLORE MORE
-                        <span className="absolute left-0 right-0 bottom-0 h-px bg-primary-1 
-                          transform origin-left scale-x-0 transition-transform duration-500 
-                          group-hover:scale-x-100" />
-                      </span>
-                      <Arrow className="transition-all duration-500 
-                        group-hover:translate-x-2 group-hover:text-primary-1" />
-                    </Link>
-                  </div>
-
-                  {/* Decorative corner gradient */}
-                  <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-to-t 
-                    from-primary-1/20 via-primary-1/0 to-transparent opacity-0 
-                    transition-opacity duration-700 group-hover:opacity-100" />
-                </div>
-              </div>
-            ))}
-          </Slider>
+        <div className="flex flex-col items-center mb-12 lg:mb-20">
+          <div className="tagline mb-4 flex items-center gap-2">
+            <span className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-n-3' : 'bg-n-6'}`}></span>
+            <span className="text-xs font-code uppercase tracking-widest text-n-4">System Capabilities</span>
+            <span className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-n-3' : 'bg-n-6'}`}></span>
+          </div>
+          <Heading
+            className="md:max-w-md lg:max-w-2xl text-center"
+            title="Next Gen AI Stack"
+          />
         </div>
 
-        {/* Enhanced Navigation Dots */}
-        <div className="flex justify-center gap-3 mt-10">
-          {[0, 1, 2].map((index) => (
-            <div 
-              key={index}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 
-                ${index === 1 ? (isDarkMode ? 'bg-n-1' : 'bg-n-8') : (isDarkMode ? 'bg-n-6 hover:bg-n-5' : 'bg-n-3 hover:bg-n-4')} 
-                ${index === 1 ? 'scale-125' : ''}`}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {solutions.map((solution, index) => {
+            const moduleCount = solution.technologies?.length || 0;
+
+            return (
+              <motion.div
+                key={solution.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`relative group h-full cursor-pointer`}
+              >
+                <Link to={`/solutions/${solution.slug}`} className="block h-full">
+                  <div className={`h-full p-6 rounded-[20px] border transition-all duration-300 relative overflow-hidden flex flex-col
+                    ${isDarkMode
+                      ? 'bg-n-8/50 border-n-6 hover:border-primary-1/50 hover:bg-n-8'
+                      : 'bg-white border-n-3 hover:border-primary-1/50 hover:bg-white hover:shadow-xl'
+                    }`}
+                  >
+                    {/* Header: Icon & Status */}
+                    <div className="flex justify-between items-start mb-6">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300
+                        ${isDarkMode ? 'bg-n-7 group-hover:bg-primary-1/20' : 'bg-n-2 group-hover:bg-primary-1/10'}`}>
+                        <Icon
+                          name={solution.icon || 'cpu'}
+                          className={`w-6 h-6 transition-colors duration-300 ${isDarkMode ? 'text-n-1' : 'text-n-8'} group-hover:text-primary-1`}
+                        />
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <span className="text-[10px] font-mono uppercase tracking-widest opacity-50 mb-1">Status</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                          <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-n-8'}`}>ONLINE</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="mb-8 flex-grow">
+                      <h4 className={`h4 mb-3 transition-colors duration-300 group-hover:text-primary-1`}>
+                        {solution.name}
+                      </h4>
+                      <p className={`body-2 text-sm line-clamp-3 ${isDarkMode ? 'text-n-4 group-hover:text-n-3' : 'text-n-6 group-hover:text-n-5'}`}>
+                        {solution.description}
+                      </p>
+                    </div>
+
+                    {/* Footer: Metrics & Action */}
+                    <div className="pt-6 mt-auto border-t border-n-6/10 flex items-center justify-between group-hover:border-primary-1/20 transition-colors">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest opacity-50 mb-0.5">Modules</span>
+                        <span className="text-sm font-bold">{moduleCount > 0 ? moduleCount : 'Core'}</span>
+                      </div>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300
+                        ${isDarkMode
+                          ? 'border-n-6 text-n-1 group-hover:border-primary-1 group-hover:bg-primary-1'
+                          : 'border-n-3 text-n-8 group-hover:border-primary-1 group-hover:bg-primary-1 group-hover:text-white'
+                        }`}>
+                        <Arrow className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    {/* Holographic Hover Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-1/0 via-primary-1/0 to-primary-1/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Decorative Grid Background */}
+        <div className="absolute inset-0 -z-1 pointer-events-none opacity-30">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-primary-1/10 to-transparent blur-[100px]" />
         </div>
       </div>
+
+      {/* Global Style to hide scrollbar if used */}
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </Section>
   );
 };

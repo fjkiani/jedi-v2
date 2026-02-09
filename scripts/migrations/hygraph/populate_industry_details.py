@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 import json
 from dotenv import load_dotenv
@@ -591,6 +592,28 @@ PUBLISH_INDUSTRY_MUTATION = gql("""
 
 # --- Main Logic ---
 def main():
+    global INDUSTRY_DETAILS
+    if "--input" in sys.argv:
+        idx = sys.argv.index("--input")
+        if idx + 1 < len(sys.argv):
+            with open(sys.argv[idx + 1], "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            ind = payload.get("industry") or {}
+            slug = ind.get("slug", "")
+            full_desc = ind.get("fullDescription")
+            raw_full = full_desc.get("raw") if isinstance(full_desc, dict) else None
+            INDUSTRY_DETAILS = {
+                slug: {
+                    "description": ind.get("description"),
+                    "fullDescription": {"raw": raw_full} if raw_full else {},
+                    "benefits": ind.get("benefits") or [],
+                    "capabilities": ind.get("capabilities") or [],
+                    "keyFeaturesJson": ind.get("keyFeaturesJson"),
+                    "statisticsJson": ind.get("statisticsJson"),
+                    "connectUseCaseSlugs": [],
+                }
+            }
+            logging.info("Loaded industry details from --input JSON (single industry mode).")
     logging.info("Starting industry details population script...")
     updated_count = 0
     published_count = 0

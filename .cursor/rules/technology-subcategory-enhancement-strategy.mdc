@@ -232,3 +232,61 @@ const jediEnhancements = {
 - **JEDI Integration**: Clear connection to JEDI components and real implementations
 - **Business Value**: Measurable results and ROI for each technology
 - **Scalability**: Demonstrates application across multiple industries and use cases
+
+---
+
+## 📋 **Implementation Plan: What We Plan to Do**
+
+Based on Hygraph architecture audit (see `HYGRAPH_ARCHITECTURE_AND_PLAN.md`).
+
+### **Current State (Fetched)**
+- **221 technologies**, 19 use cases, 15 industries, 11 industry applications
+- **62 subcategories**, 12 categories, 6 JEDI components
+- Technology tabs: Overview ✅, Features ⚠️, Architecture/Integration/Use Cases/Resources ❌ (7% or 0% populated)
+
+### **Phase 1: Schema & Relationship Clarity**
+- Confirm IndustryApplication ↔ UseCase linkage for all 11 applications
+- Identify technologies with no useCases or industryApplication
+- List TechnologySubcategory ↔ Technology mappings
+
+### **Phase 2: Subcategory-First Enhancement**
+- Audit by subcategory – for each of 62 subcategories, list technologies
+- Prioritize: Agent Core, Vector Databases, ML Frameworks, etc.
+- Per subcategory: ensure technologies have category, subcategories, links to use cases
+
+### **Phase 3: Connect Technologies to Content**
+- **Technology → UseCase**: Connect 221 technologies to relevant use cases (target: top 50+)
+- **Technology → IndustryApplication**: Connect to applications where tech is used
+- **Technology → JediComponent**: Link to JEDI components where applicable
+
+### **Phase 4: Populate Tab Content**
+- **Overview**: Ensure description + businessMetrics for all
+- **Features**: Parse features string in UI; add JEDI points to additonalDetails
+- **Architecture**: Rely on useCases[].architecture; connect techs to use cases with architecture
+- **Integration**: Use additonalDetails (markdown) until schema adds dedicated fields
+- **Use Cases**: Populate via useCases relation; link to SolutionPage URLs
+- **Resources**: Use additonalDetails for links; consider adding documentation/github/website fields
+
+### **Phase 5: Enhancement Pipeline**
+- **Fetch**: Run fetch_all_technologies.js → technologies_for_enhancement.json
+- **Enrich**: Add JEDI content for top techs
+- **Push**: Script that reads JSON and calls updateTechnology
+- **Verify**: Run verify_enhancements.js
+
+### **Phase 6: Unify Data Sources**
+- Decide: migrate aiMlTechStack into Hygraph or keep as fallback
+- Ensure technologyService and EnhancedTechnologyDetail use consistent data flow
+- Fix category display (avoid "Uncategorized")
+
+### **Key Relationships (Top to Bottom)**
+```
+Category → TechnologySubcategory → Technology
+Industry → IndustryApplication → UseCase, JediComponent, Technology
+UseCase → Industry, Technologies, IndustryApplication, Architecture
+Technology → Category, Subcategories, UseCases, IndustryApplication
+```
+
+### **URL Mapping**
+- `/industries/:industryId/solutions/:solutionId` → UseCase by slug (solutionId = UseCase.slug)
+- `/technology/:slug` → Technology by slug
+- IndustryApplication has no slug; SolutionPage uses UseCase.slug

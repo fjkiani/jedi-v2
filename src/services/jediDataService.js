@@ -72,11 +72,22 @@ const GET_TECHNOLOGIES = `
 
 const GET_USE_CASES = `
   query GetUseCases {
-    useCases {
+    useCaseS {
       id
       title
       slug
       description
+      applicationUrl
+      thumbnail {
+        id
+        url
+        fileName
+      }
+      caseStudy {
+        id
+        slug
+        title
+      }
       industry {
         id
         name
@@ -98,6 +109,21 @@ const GET_USE_CASES = `
         duration
         complexity
         teamSize
+      }
+      metrics
+      architecture {
+        description
+        components {
+          name
+          description
+          details
+          explanation
+        }
+        flow {
+          step
+          description
+          details
+        }
       }
     }
   }
@@ -183,7 +209,7 @@ class JediDataService {
           query: GET_USE_CASES,
           fetchPolicy: 'cache-first'
         });
-        return data.useCases || [];
+        return data.useCases || data.useCaseS || [];
       } catch (error) {
         console.error('Error fetching use cases:', error);
         return this.getFallbackUseCases();
@@ -234,7 +260,7 @@ class JediDataService {
   // Get use cases for a specific JEDI component
   async getUseCasesForComponent(componentId) {
     const useCases = await this.getUseCases();
-    return useCases.filter(useCase => 
+    return useCases.filter(useCase =>
       useCase.components?.some(comp => comp.id === componentId)
     );
   }
@@ -242,7 +268,7 @@ class JediDataService {
   // Get use cases for a specific industry
   async getUseCasesForIndustry(industrySlug) {
     const useCases = await this.getUseCases();
-    return useCases.filter(useCase => 
+    return useCases.filter(useCase =>
       useCase.industry?.slug === industrySlug
     );
   }

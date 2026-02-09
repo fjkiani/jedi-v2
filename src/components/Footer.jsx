@@ -19,17 +19,15 @@ const FooterColumn = ({ title, url, items = [] }) => (
       )}
     </h5>
     {items && items.length > 0 && (
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-1">
         {items.map((item, index) => (
           <li key={item.id || index}>
-            <div>
-              <Link
-                to={item.url}
-                className="text-n-4 hover:text-n-1 transition-colors"
-              >
-                {item.title}
-              </Link>
-            </div>
+            <Link
+              to={item.url}
+              className="inline-block py-2 min-h-[44px] text-n-4 hover:text-n-1 transition-colors"
+            >
+              {item.title}
+            </Link>
           </li>
         ))}
       </ul>
@@ -134,7 +132,7 @@ const Footer = () => {
       columns.push({
         id: 'use-cases',
         title: 'Use Cases',
-        url: '/usecases',
+        url: '/use-cases',
         items: footerNavData.useCases.map(uc => ({
           id: uc.id,
           title: uc.title,
@@ -163,7 +161,7 @@ const Footer = () => {
       items: [
         { id: 'blog', title: 'Blog', url: '/blog' },
         // { id: 'whitepapers', title: 'Whitepapers', url: '/whitepapers' },
-        // { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
+        { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
       ]
     });
 
@@ -176,7 +174,7 @@ const Footer = () => {
       <div className="container mx-auto">
         <div className="flex flex-col items-center gap-10 px-4 sm:px-6">
           {/* Footer Columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 w-full max-w-6xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 w-full max-w-6xl min-w-0">
             {!loading && footerColumns.map((item) => (
               <FooterColumn
                 key={item.id}
@@ -203,9 +201,10 @@ const Footer = () => {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 bg-n-7 rounded-full transition-colors hover:bg-n-6"
+                  className="flex items-center justify-center min-w-[44px] min-h-[44px] w-10 h-10 sm:w-10 sm:h-10 bg-n-7 rounded-full transition-colors hover:bg-n-6"
+                  aria-label={item.title}
                 >
-                  <img src={item.iconUrl} width={16} height={16} alt={item.title} />
+                  <img src={item.iconUrl} width={16} height={16} alt="" />
                 </a>
               ))}
             </ul>

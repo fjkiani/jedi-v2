@@ -1,26 +1,37 @@
-import { fraudDetectionDocs } from '../implementations/industries/financial/documentation';
-import { fraudDetectionImplementation } from '../implementations/industries/financial/implementation';
-import { fraudDetectionDiagram } from '../implementations/industries/financial/diagrams';
+import { fraudDetectionDocs } from '../implementations/industries/financial/documentation.js';
+import { fraudDetectionImplementation } from '../implementations/industries/financial/implementation.js';
+import { fraudDetectionDiagram } from '../implementations/industries/financial/diagrams.js';
 
-import { patientRiskAnalysisDocs } from '../implementations/industries/healthcare/documentation';
-import { patientRiskAnalysisImplementation } from '../implementations/industries/healthcare/implementation';
-import { patientRiskAnalysisDiagram } from '../implementations/industries/healthcare/diagrams';
+import { patientRiskAnalysisDocs } from '../implementations/industries/healthcare/documentation.js';
+import { patientRiskAnalysisImplementation } from '../implementations/industries/healthcare/implementation.js';
+import { patientRiskAnalysisDiagram } from '../implementations/industries/healthcare/diagrams.js';
 
+/**
+ * Single source of truth for implementation content.
+ * Used by: DocumentationTab, implementationDataService, extract/push migration scripts.
+ *
+ * hygraphUseCaseSlug: Target UseCase slug in Hygraph for push migration.
+ * Add new solutions here; extract/push scripts discover them dynamically.
+ *
+ * @see DYNAMIC_IMPLEMENTATIONS_AND_SIMULATION_PLAN.md
+ */
 export const SOLUTION_REGISTRY = {
   financial: {
     'fraud-detection': {
       documentation: fraudDetectionDocs,
       implementation: fraudDetectionImplementation,
-      diagrams: fraudDetectionDiagram
-    }
+      diagrams: fraudDetectionDiagram,
+      hygraphUseCaseSlug: 'advanced-fraud-detection-system',
+    },
   },
   healthcare: {
     'patient-risk-analysis': {
       documentation: patientRiskAnalysisDocs,
       implementation: patientRiskAnalysisImplementation,
-      diagrams: patientRiskAnalysisDiagram
-    }
-  }
+      diagrams: patientRiskAnalysisDiagram,
+      hygraphUseCaseSlug: 'clinical-decision-support',
+    },
+  },
 };
 
 export const getSolutionConfig = (industryId, solutionId) => {

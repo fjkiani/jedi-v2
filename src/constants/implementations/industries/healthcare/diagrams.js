@@ -1,4 +1,4 @@
-import { commonLayouts } from '../../../diagrams';
+import { commonLayouts } from '../../../diagrams.js';
 
 export const healthcareDiagram = {
   useCase: {

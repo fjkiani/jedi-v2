@@ -1,0 +1,250 @@
+{
+  "extractedAt": "2026-02-08T00:15:50.083Z",
+  "urlPath": "/industries/financial-services/solutions/advanced-fraud-detection-system",
+  "industrySlug": "financial-services",
+  "solutionSlug": "advanced-fraud-detection-system",
+  "industry": {
+    "id": "cm9jgao3tk23t08lfu7835rc5",
+    "name": "Financial Services",
+    "slug": "financial-services",
+    "description": "Enhancing security, customer experience, and operational efficiency in finance with AI.",
+    "fullDescription": {
+      "raw": {
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "text": "The financial services sector is rapidly adopting AI to combat sophisticated fraud, manage risk exposure, personalize customer interactions, and automate complex processes."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "text": "From algorithmic trading and portfolio management to AI-driven compliance and chatbots for customer support, AI enables financial institutions to operate more efficiently, securely, and customer-centrically."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "benefits": [
+      "Enhanced fraud detection and prevention.",
+      "Improved risk assessment and management.",
+      "Personalized financial products and advisory services.",
+      "Increased efficiency through process automation (e.g., loan processing).",
+      "Algorithmic trading optimization.",
+      "Improved customer service via AI chatbots and virtual assistants."
+    ],
+    "capabilities": [
+      "AI-driven fraud detection systems.",
+      "Credit risk scoring models.",
+      "Algorithmic trading strategies.",
+      "Robo-advisory platforms.",
+      "Natural Language Processing for sentiment analysis and compliance checks.",
+      "Customer churn prediction."
+    ],
+    "keyFeaturesJson": [
+      {
+        "icon": "shield",
+        "title": "AI Fraud Prevention",
+        "description": "Real-time detection of fraudulent transactions and activities."
+      },
+      {
+        "icon": "trending-up",
+        "title": "Algorithmic Trading",
+        "description": "Optimize trading strategies using AI predictions and analysis."
+      },
+      {
+        "icon": "users",
+        "title": "Personalized Banking",
+        "description": "Tailor financial advice and product offerings to individual customers."
+      }
+    ],
+    "statisticsJson": [
+      {
+        "label": "Potential Value Add from AI in Global Banking Annually",
+        "value": "$1 Trillion+"
+      },
+      {
+        "label": "Reduction in False Positives for Fraud Alerts",
+        "value": "Up to 70%"
+      },
+      {
+        "label": "Operational Cost Savings from AI Automation",
+        "value": "20-30%"
+      }
+    ],
+    "industryApplication": [
+      {
+        "id": "cma1c03umixix07n240ooh7mj",
+        "applicationTitle": "Real-time Fraud Detection & Prevention",
+        "tagline": "AI Agents to prevent significant financial losses and damage to customer trust.",
+        "industryChallenge": {
+          "raw": {
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "Financial institutions constantly battle evolving fraud tactics across various channels (online transactions, credit applications, insurance claims). Traditional rule-based systems struggle to keep pace with sophisticated fraudsters, leading to significant financial losses and damage to customer trust. Detecting complex fraud patterns hidden within vast amounts of transaction data in real-time is a major challenge."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "jediApproach": {
+          "raw": {
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "Jedi Labs employs a multi-layered AI approach using JEDI Ensemble™ and JEDI Rules™."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "JEDI Ensemble™ analyzes diverse data streams (transaction details, user behavior, device information, network data) in real-time, identifying subtle anomalies and complex patterns indicative of fraud that static rules miss. "
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "text": "JEDI Monitor™ provides continuous oversight, tracking model performance and alerting teams to potential drift or new attack patterns, ensuring the system remains effective."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "keyCapabilities": [
+          "JEDI Rules™ provides a flexible engine to implement dynamic risk scoring and automated actions based on the insights generated ",
+          "JEDI Ensemble™ allows for immediate blocking of high-risk transactions or flagging for manual review. "
+        ],
+        "expectedResults": [
+          "Agents that adapts continuously to new fraud vectors.",
+          "Jedi Labs employs a multi-layered AI approach using JEDI Ensemble™ and JEDI Rules™ where agents catch incidents before they happen"
+        ],
+        "jediComponent": [
+          {
+            "id": "cm9z30afl7vow07mwdl1vacyx",
+            "name": "JEDI Ensemble™",
+            "slug": "jedi-ensemble",
+            "icon": null
+          },
+          {
+            "id": "cm9z30bcb7vpm07mwb67c14ih",
+            "name": "JEDI Rules™",
+            "slug": "jedi-rules",
+            "icon": null
+          },
+          {
+            "id": "cm9z3pt1b83z107mw2ru16eog",
+            "name": "JEDI Monitor™",
+            "slug": "jedi-monitor",
+            "icon": null
+          }
+        ],
+        "technology": [
+          {
+            "id": "cm5j6bgvxcvo507liskc3yr98",
+            "name": "Audit Logging",
+            "slug": "audit-logging",
+            "icon": "https://cdn.simpleicons.org/scrollreveal"
+          },
+          {
+            "id": "cm5ixu44c8j4f07lid8nesmyx",
+            "name": "Looker",
+            "slug": "looker",
+            "icon": "https://cdn.simpleicons.org/looker"
+          },
+          {
+            "id": "cm5iz7uuz97o307lird12mxu3",
+            "name": "Terraform",
+            "slug": "terraform",
+            "icon": "https://cdn.simpleicons.org/terraform"
+          },
+          {
+            "id": "cm5ilm1i10dz907lq232n3yw0",
+            "name": "Snowflake",
+            "slug": "snowflake",
+            "icon": "https://cdn.simpleicons.org/snowflake"
+          },
+          {
+            "id": "cm5ijoa6gyslr07liu273k0mq",
+            "name": "Luigi",
+            "slug": "luigi",
+            "icon": "https://cdn.simpleicons.org/spotify"
+          },
+          {
+            "id": "cm5islhm25kgv07liicsesl43",
+            "name": "Talend",
+            "slug": "talend",
+            "icon": "https://cdn.simpleicons.org/talend"
+          },
+          {
+            "id": "cm5ija5ahyief07lid0gyn0t8",
+            "name": "Kafka Connect",
+            "slug": "kafka-connect",
+            "icon": "https://cdn.simpleicons.org/apachekafka"
+          },
+          {
+            "id": "cm5ihhm2k2gp907n4ud3xzm1k",
+            "name": "Flask",
+            "slug": "flask",
+            "icon": "https://cdn.simpleicons.org/flask"
+          },
+          {
+            "id": "cm5hy82genysu07lis5fxywas",
+            "name": "Kubernetes",
+            "slug": "kubernetes",
+            "icon": "https://cdn.simpleicons.org/kubernetes"
+          },
+          {
+            "id": "cm5ca5r9vvn3407mv1vykh30g",
+            "name": "Dynamic Task Scheduler",
+            "slug": "dynamic-task-scheduler",
+            "icon": "https://cdn.simpleicons.org/task"
+          }
+        ]
+      }
+    ]
+  },
+  "useCase": {
+    "id": "cmc6vp133ut0d07n223h0pfxc",
+    "title": "Advanced Fraud Detection System",
+    "slug": "advanced-fraud-detection-system",
+    "description": "Real-time AI-powered fraud detection and prevention system",
+    "capabilities": [
+      "Real-time Transaction Monitoring",
+      "Fraud Pattern Recognition",
+      "Risk Scoring",
+      "Automated Response"
+    ],
+    "queries": [
+      "Detect fraudulent transactions in real-time",
+      "Prevent financial fraud",
+      "Analyze transaction patterns for suspicious activity"
+    ],
+    "metrics": [],
+    "implementation": null,
+    "industry": {
+      "name": "Financial Services",
+      "slug": "financial-services",
+      "description": "Enhancing security, customer experience, and operational efficiency in finance with AI."
+    },
+    "technologies": [],
+    "category": null,
+    "industryApplication": [],
+    "architecture": null
+  }
+}

@@ -37,7 +37,7 @@ const GetNavbarData = gql`
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
-  
+
   return (
     <button
       onClick={toggleTheme}
@@ -47,21 +47,21 @@ const ThemeToggle = () => {
       {isDarkMode ? (
         // Sun icon for dark mode (clicking will switch to light)
         <svg className="w-5 h-5 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" 
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
           />
         </svg>
       ) : (
         // Moon icon for light mode (clicking will switch to dark)
         <svg className="w-5 h-5 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
           />
         </svg>
       )}
@@ -79,29 +79,29 @@ const DropdownMenu = ({ items, categories }) => {
         {categories.map((category) => (
           // ... complex rendering for technology categories/sub-items ...
           <div key={category.slug} className="relative group/nested">
-             <Link
-               to={`/technology#${category.slug}`} // Example link
-               className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-             >
-               {category.name}
-               {/* Add arrow or indicator if it has sub-items */}
-             </Link>
-             {/* Nested dropdown for technologies within the category */}
-             {category.technologies?.length > 0 && (
-                <div className="absolute left-full top-0 hidden group-hover/nested:block">
-                   <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
-                      {category.technologies.map((tech) => (
-                         <Link
-                            key={tech.id}
-                            to={`/technology/${tech.slug}`} // Example link
-                            className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
-                         >
-                            {tech.name}
-                         </Link>
-                      ))}
-                   </div>
+            <Link
+              to={`/technology#${category.slug}`} // Example link
+              className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+            >
+              {category.name}
+              {/* Add arrow or indicator if it has sub-items */}
+            </Link>
+            {/* Nested dropdown for technologies within the category */}
+            {category.technologies?.length > 0 && (
+              <div className="absolute left-full top-0 hidden group-hover/nested:block">
+                <div className="bg-n-8/90 backdrop-blur-sm rounded-lg py-2 min-w-[200px]">
+                  {category.technologies.map((tech) => (
+                    <Link
+                      key={tech.id}
+                      to={`/technology/${tech.slug}`} // Example link
+                      className="block px-4 py-2 hover:bg-n-7/50 text-n-1/70 hover:text-n-1"
+                    >
+                      {tech.name}
+                    </Link>
+                  ))}
                 </div>
-             )}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -125,37 +125,37 @@ const DropdownMenu = ({ items, categories }) => {
 };
 
 const MobileMenu = ({ items, categories }) => {
-   // Handle Technology category structure if needed
+  // Handle Technology category structure if needed
   if (categories?.length > 0) {
-     // Render based on 'categories' prop for mobile
-     return (
-        <div className="mt-2 pl-4 border-l border-n-6">
-           {categories.map((category) => (
-              <div key={category.slug} className="py-1">
-                 <Link
-                    to={`/technology#${category.slug}`} // Example link
-                    className="block text-sm text-n-3 hover:text-n-1"
-                 >
-                    {category.name}
-                 </Link>
-                 {/* Render sub-items if needed for mobile */}
-                 {category.technologies?.length > 0 && (
-                    <div className="pl-4 mt-1">
-                       {category.technologies.map((tech) => (
-                          <Link
-                             key={tech.id}
-                             to={`/technology/${tech.slug}`} // Example link
-                             className="block text-lg text-n-4 hover:text-n-1 py-0.5"
-                          >
-                             {tech.name}
-                          </Link>
-                       ))}
-                    </div>
-                 )}
+    // Render based on 'categories' prop for mobile
+    return (
+      <div className="mt-2 pl-4 border-l border-n-6">
+        {categories.map((category) => (
+          <div key={category.slug} className="py-1">
+            <Link
+              to={`/technology#${category.slug}`} // Example link
+              className="block text-sm text-n-3 hover:text-n-1"
+            >
+              {category.name}
+            </Link>
+            {/* Render sub-items if needed for mobile */}
+            {category.technologies?.length > 0 && (
+              <div className="pl-4 mt-1">
+                {category.technologies.map((tech) => (
+                  <Link
+                    key={tech.id}
+                    to={`/technology/${tech.slug}`} // Example link
+                    className="block text-lg text-n-4 hover:text-n-1 py-0.5"
+                  >
+                    {tech.name}
+                  </Link>
+                ))}
               </div>
-           ))}
-        </div>
-     );
+            )}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   // Default rendering for simple list of items (Industries, Use Cases)
@@ -195,7 +195,7 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll);
     // Initial check in case page loads already scrolled
-    handleScroll(); 
+    handleScroll();
 
     // Cleanup function
     return () => {
@@ -243,11 +243,12 @@ const Header = () => {
   // Prepare navigation data using useMemo
   const dynamicNavigation = useMemo(() => {
     console.log("[Header] Recalculating dynamicNavigation...");
-    const baseNav = navigation.map(item => ({ ...item })); 
+    const baseNav = navigation.map(item => ({ ...item }));
 
-    const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
+    const industriesIndex = baseNav.findIndex(item => item.id === 'industries'); // Keep existing hook for Industries
     const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
-    const solutionsIndex = baseNav.findIndex(item => item.id === '0'); 
+    const infrastructureIndex = baseNav.findIndex(item => item.id === 'infrastructure'); // Target Infrastructure
+    const solutionsIndex = baseNav.findIndex(item => item.id === '0'); // Legacy specific ID check
 
     // Inject Industries
     if (industriesIndex !== -1 && !loading) {
@@ -260,7 +261,7 @@ const Header = () => {
       baseNav[industriesIndex].dropdownItems = [];
     }
 
-    // Inject Use Cases 
+    // Inject Use Cases based on Industries (if needed)
     if (useCasesIndex !== -1 && !loading) {
       baseNav[useCasesIndex].dropdownItems = navUseCases.map(useCase => ({
         id: useCase.id,
@@ -269,25 +270,64 @@ const Header = () => {
       }));
       console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases.`);
     } else if (useCasesIndex !== -1) {
-       baseNav[useCasesIndex].dropdownItems = [];
+      baseNav[useCasesIndex].dropdownItems = [];
     }
-    
-    // --- Inject IndustryApplications into Solutions --- 
+
+    // --- Inject Dynamic Categories into Infrastructure ---
+    // Map Hygraph category slugs to solution URLs (avoid empty "solution not found" pages)
+    const SOLUTION_SLUG_MAP = {
+      automation: 'ai-agents',
+      ml: 'ai-ml-solutions',
+      'frontend-development': 'full-stack-development',
+    };
+    const VALID_SOLUTION_SLUGS = ['ai-ml-solutions', 'ai-agents', 'data-engineering', 'full-stack-development'];
+    const getSolutionUrl = (slug) => {
+      const mapped = SOLUTION_SLUG_MAP[slug];
+      if (mapped) return `/solutions/${mapped}`;
+      if (VALID_SOLUTION_SLUGS.includes(slug)) return `/solutions/${slug}`;
+      return '/solutions'; // no content for this slug → send to solutions list
+    };
+    if (infrastructureIndex !== -1 && categories.length > 0) {
+      console.log("[Header] Injecting dynamic categories into Infrastructure dropdown:", categories);
+      const dynamicItems = categories.map(cat => ({
+        id: cat.id,
+        title: cat.name,
+        url: getSolutionUrl(cat.slug)
+      }));
+
+      // Append a static link to the full Tech Stack / Technology page
+      dynamicItems.push({
+        id: 'tech-stack-static',
+        title: 'Full Tech Stack',
+        url: '/technology'
+      });
+
+      dynamicItems.push({
+        id: 'infrastructure-static',
+        title: 'Neural Topology',
+        url: '/infrastructure'
+      });
+
+      baseNav[infrastructureIndex].dropdownItems = dynamicItems;
+    }
+    // ---------------------------------------------------
+
+    // --- Inject IndustryApplications into Solutions (Legacy/Specific check) --- 
     if (solutionsIndex !== -1 && !loading) {
       baseNav[solutionsIndex].dropdownItems = navApplications.map(app => ({
-        id: app.id, 
+        id: app.id,
         title: app.applicationTitle,
-        url: `/industries/${app.industry.slug}#application-${app.id}` 
+        url: `/industries/${app.industry.slug}#application-${app.id}`
       }));
       console.log(`[Header] Injected ${baseNav[solutionsIndex].dropdownItems?.length || 0} applications into Solutions.`);
     } else if (solutionsIndex !== -1) {
-       baseNav[solutionsIndex].dropdownItems = [];
+      baseNav[solutionsIndex].dropdownItems = [];
     }
     // --- End Solutions Injection --- 
 
     console.log("[Header] Final dynamicNavigation:", baseNav);
     return baseNav;
-  }, [loading, navIndustries, navUseCases, navApplications]);
+  }, [loading, navIndustries, navUseCases, navApplications, categories]);
 
 
   // Fetch categories for Technology dropdown
@@ -332,43 +372,41 @@ const Header = () => {
     }));
   };
   // --- Mobile item click also closes full nav and resets expansion ---
-   const handleMobileItemClick = () => {
-     enablePageScroll();
-     setOpenNavigation(false);
-     setExpandedMobileItems({});
-   };
+  const handleMobileItemClick = () => {
+    enablePageScroll();
+    setOpenNavigation(false);
+    setExpandedMobileItems({});
+  };
 
-   // --- Mobile sub-item click ---
-   const handleMobileSubItemClick = (e) => {
-     // Prevent event bubbling up to the main item toggle
-     e.stopPropagation();
-     handleMobileItemClick(); // Close nav on sub-item click too
-   };
+  // --- Mobile sub-item click ---
+  const handleMobileSubItemClick = (e) => {
+    // Prevent event bubbling up to the main item toggle
+    e.stopPropagation();
+    handleMobileItemClick(); // Close nav on sub-item click too
+  };
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm transition-colors duration-300 ${
-        openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm transition-colors duration-300 ${openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
+        }`}
     >
       <div className="flex items-center px-4 sm:px-5 lg:px-7.5 xl:px-10 max-lg:py-3 lg:py-4">
-        <Link 
-          to="/" 
-          className={`block w-[10rem] sm:w-[12rem] xl:mr-8`} 
+        <Link
+          to="/"
+          className={`block w-[10rem] sm:w-[12rem] xl:mr-8`}
           onClick={handleMobileItemClick}
         >
           <div className="flex flex-col items-center">
-            <span 
-              className={`text-lg sm:text-xl text-n-7 dark:text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
-                Jedi Labs
-            </span> 
+            <span
+              className={`text-lg sm:text-xl text-n-1 font-starjedi transition-margin duration-300 ease-in-out ${scrolled ? '-mt-4' : 'mt-1'}`}>
+              Jedi Labs
+            </span>
           </div>
         </Link>
 
         {/* Render using the dynamicNavigation from useMemo */}
-        <nav className={`${
-          openNavigation ? "flex" : "hidden"
-        } fixed top-[4.5rem] sm:top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
+        <nav className={`${openNavigation ? "flex" : "hidden"
+          } fixed top-[4.5rem] sm:top-[5rem] left-0 right-0 bottom-0 bg-n-8 overflow-y-auto lg:static lg:flex lg:mx-auto lg:bg-transparent lg:overflow-visible`}>
           <div className="relative z-2 flex flex-col items-start justify-start py-6 sm:py-8 min-h-full w-full lg:flex-row lg:items-center lg:py-0">
             {dynamicNavigation.map((item) => {
               // Determine if the item has children for mobile view
@@ -417,77 +455,77 @@ const Header = () => {
 
                   {/* Desktop Dropdown */}
                   <div className="hidden lg:block">
-                     {item.id === 'technology' && categories.length > 0 && (
-                        <DropdownMenu categories={categories} items={[]} />
-                     )}
-                     {item.id !== 'technology' && item.dropdownItems && item.dropdownItems.length > 0 && (
-                        <DropdownMenu items={item.dropdownItems} categories={null} />
-                     )}
+                    {item.id === 'technology' && categories.length > 0 && (
+                      <DropdownMenu categories={categories} items={[]} />
+                    )}
+                    {item.id !== 'technology' && item.dropdownItems && item.dropdownItems.length > 0 && (
+                      <DropdownMenu items={item.dropdownItems} categories={null} />
+                    )}
                   </div>
 
-                   {/* --- Mobile Sub-Menu (Conditionally Rendered) --- */}
-                   {hasMobileChildren && isMobileExpanded && (
-                     <div className="lg:hidden pl-6 sm:pl-8 pb-3 sm:pb-4 border-l border-n-6 ml-4 sm:ml-6 mr-4 sm:mr-6 animate-fadeIn"> {/* Added fade-in animation */}
-                       {item.id === 'technology' ? (
-                          // Technology Sub-menu
-                          categories.map((category) => (
-                             <div key={category.slug} className="py-1">
-                                <Link
-                                   to={`/technology#${category.slug}`} // Link to section on tech page
-                                   onClick={handleMobileSubItemClick} // Use specific handler
-                                   className="block text-sm text-n-3 hover:text-n-1 transition-colors py-1"
-                                >
-                                   {category.name}
-                                </Link>
-                                {/* Optional: Further nesting for technologies within category if needed */}
-                                {category.technologies?.length > 0 && (
-                                   <div className="pl-3 sm:pl-4 mt-1">
-                                      {category.technologies.map((tech) => (
-                                         <Link
-                                            key={tech.id}
-                                            to={`/technology/${tech.slug}`} // Link to specific tech page
-                                            onClick={handleMobileSubItemClick} // Use specific handler
-                                            className="block text-sm sm:text-base text-n-4 hover:text-n-1 py-0.5 transition-colors"
-                                         >
-                                            {tech.name}
-                                         </Link>
-                                      ))}
-                                   </div>
-                                )}
-                             </div>
-                          ))
-                       ) : (
-                          // Other Dropdown Items (Industries, Use Cases)
-                          item.dropdownItems.map((subItem) => (
-                             <Link
-                                key={subItem.id || subItem.url}
-                                to={subItem.url}
-                                onClick={handleMobileSubItemClick} // Use specific handler
-                                className="block py-1 text-sm text-n-3 hover:text-n-1 transition-colors"
-                             >
-                                {subItem.title}
-                             </Link>
-                          ))
-                       )}
-                     </div>
-                   )}
-                   {/* --- End Mobile Sub-Menu --- */}
+                  {/* --- Mobile Sub-Menu (Conditionally Rendered) --- */}
+                  {hasMobileChildren && isMobileExpanded && (
+                    <div className="lg:hidden pl-6 sm:pl-8 pb-3 sm:pb-4 border-l border-n-6 ml-4 sm:ml-6 mr-4 sm:mr-6 animate-fadeIn"> {/* Added fade-in animation */}
+                      {item.id === 'technology' ? (
+                        // Technology Sub-menu
+                        categories.map((category) => (
+                          <div key={category.slug} className="py-1">
+                            <Link
+                              to={`/technology#${category.slug}`} // Link to section on tech page
+                              onClick={handleMobileSubItemClick} // Use specific handler
+                              className="block text-sm text-n-3 hover:text-n-1 transition-colors py-1"
+                            >
+                              {category.name}
+                            </Link>
+                            {/* Optional: Further nesting for technologies within category if needed */}
+                            {category.technologies?.length > 0 && (
+                              <div className="pl-3 sm:pl-4 mt-1">
+                                {category.technologies.map((tech) => (
+                                  <Link
+                                    key={tech.id}
+                                    to={`/technology/${tech.slug}`} // Link to specific tech page
+                                    onClick={handleMobileSubItemClick} // Use specific handler
+                                    className="block text-sm sm:text-base text-n-4 hover:text-n-1 py-0.5 transition-colors"
+                                  >
+                                    {tech.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        // Other Dropdown Items (Industries, Use Cases)
+                        item.dropdownItems.map((subItem) => (
+                          <Link
+                            key={subItem.id || subItem.url}
+                            to={subItem.url}
+                            onClick={handleMobileSubItemClick} // Use specific handler
+                            className="block py-1 text-sm text-n-3 hover:text-n-1 transition-colors"
+                          >
+                            {subItem.title}
+                          </Link>
+                        ))
+                      )}
+                    </div>
+                  )}
+                  {/* --- End Mobile Sub-Menu --- */}
 
                 </div>
               );
             })}
           </div>
 
-           {/* Mobile Fallback/Extra Links (if any, e.g., Contact) */}
-           <div className="lg:hidden px-4 sm:px-6 py-3 sm:py-4 mt-auto border-t border-n-6">
-              <Link
-                 to="/contact"
-                 onClick={handleMobileItemClick}
-                 className="block font-code text-xl sm:text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
-              >
-                 Contact Us
-              </Link>
-           </div>
+          {/* Mobile Fallback/Extra Links (if any, e.g., Contact) */}
+          <div className="lg:hidden px-4 sm:px-6 py-3 sm:py-4 mt-auto border-t border-n-6">
+            <Link
+              to="/contact"
+              onClick={handleMobileItemClick}
+              className="block font-code text-xl sm:text-2xl uppercase text-n-1 hover:text-color-1 transition-colors"
+            >
+              Contact Us
+            </Link>
+          </div>
         </nav>
 
         {/* Right side elements */}
