@@ -293,6 +293,7 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 }
               />
 
+              <Route path="/pricing" element={<Navigate to="/contact?inquiry=pricing" replace />} />
               <Route
                 path="/contact"
                 element={

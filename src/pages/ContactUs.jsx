@@ -30,7 +30,7 @@ const ContactUs = () => {
   }, []);
 
   return (
-    <>
+    <div className={isDarkMode ? 'min-h-screen bg-n-8' : 'min-h-screen bg-n-1'}>
       <Helmet>
         <title>Contact Us | JediLabs - Start Your 100x Transformation Journey</title>
         <meta 
@@ -44,7 +44,7 @@ const ContactUs = () => {
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full bg-gradient-to-r from-primary-1/20 to-primary-2/20 dark:from-primary-1/10 dark:to-primary-2/10"
+            className={`absolute rounded-full bg-gradient-to-r ${isDarkMode ? 'from-primary-1/10 to-primary-2/10' : 'from-primary-1/20 to-primary-2/20'}`}
             initial={{ 
               width: Math.random() * 80 + 40, 
               height: Math.random() * 80 + 40,
@@ -118,7 +118,7 @@ const ContactUs = () => {
       </Section>
 
       {/* Contact Information */}
-      <Section id="contact-info" className="py-20 bg-n-1/30 dark:bg-n-8/30">
+      <Section id="contact-info" className={`py-20 ${isDarkMode ? 'bg-n-8/50' : 'bg-n-1/50'}`}>
         <div className="container">
           <motion.div
             variants={fadeIn('up')}
@@ -157,7 +157,7 @@ const ContactUs = () => {
               </p>
               <a 
                 href="mailto:jedi@jedilabs.org" 
-                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
+                className={`${isDarkMode ? 'text-primary-2' : 'text-primary-1'} hover:underline font-medium`}
               >
                 jedi@jedilabs.org
               </a>
@@ -180,7 +180,7 @@ const ContactUs = () => {
               </p>
               <a 
                 href="tel:+1-555-JEDI-LAB" 
-                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
+                className={`${isDarkMode ? 'text-primary-2' : 'text-primary-1'} hover:underline font-medium`}
               >
                 +1 (347)684-2656
               </a>
@@ -201,7 +201,7 @@ const ContactUs = () => {
               <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'} mb-3`}>
                 Schedule an in-person meeting
               </p>
-              <p className="text-purple-600 dark:text-purple-400 font-medium">
+              <p className={`${isDarkMode ? 'text-primary-2' : 'text-primary-1'} font-medium`}>
                 Qahwah House<br />
                 Brooklyn, NY
               </p>
@@ -209,7 +209,7 @@ const ContactUs = () => {
           </motion.div>
         </div>
       </Section>
-    </>
+    </div>
   );
 };
 
