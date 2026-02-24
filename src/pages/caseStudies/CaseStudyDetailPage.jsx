@@ -18,15 +18,25 @@ import {
   FiBarChart2,
 } from 'react-icons/fi';
 
+// Tab order: narrative first, then at-a-glance, then metrics, then media/tech
 const TABS = [
+  { id: 'story', label: 'Full Story', icon: FiBook },
   { id: 'overview', label: 'Overview', icon: FiBarChart2 },
   { id: 'results', label: 'Results', icon: FiTrendingUp },
   { id: 'pdf', label: 'PDF Deck', icon: FiFileText },
   { id: 'video', label: 'Video', icon: FiPlay },
   { id: 'gallery', label: 'Gallery', icon: FiImage },
   { id: 'technologies', label: 'Technologies', icon: FiCpu },
-  { id: 'story', label: 'Full Story', icon: FiBook },
 ];
+
+/** Parse results string into list items (semicolon, newline, or comma). */
+const parseResults = (str) => {
+  if (!str || typeof str !== 'string') return [];
+  return str
+    .split(/[;\n]|,\s*(?=[A-Z0-9])/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+};
 
 const getVideoEmbedUrl = (url) => {
   if (!url) return null;
@@ -54,7 +64,7 @@ const CaseStudyDetailPage = () => {
   const [caseStudy, setCaseStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('story');
 
   useEffect(() => {
     const fetchCaseStudy = async () => {
@@ -122,6 +132,9 @@ const CaseStudyDetailPage = () => {
     return true;
   });
 
+  const resultItems = parseResults(caseStudy.results);
+  const heroResultPills = resultItems.slice(0, 5);
+
   return (
     <>
       <SEO
@@ -138,19 +151,37 @@ const CaseStudyDetailPage = () => {
               <FiArrowLeft /> Back to Case Studies
             </Link>
 
-            <header className="mb-10">
+            {/* Hero: client, title, excerpt, key result pills */}
+            <header className="mb-12">
               {caseStudy.clientName && (
                 <span className={`text-xs font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                   {caseStudy.clientName}
                 </span>
               )}
-              <h1 className={`h1 mt-2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+              <h1 className={`h1 mt-2 mb-5 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                 {caseStudy.title}
               </h1>
               {caseStudy.excerpt && (
-                <p className={`text-lg ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                <p className={`text-lg max-w-3xl ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
                   {caseStudy.excerpt}
                 </p>
+              )}
+              {heroResultPills.length > 0 && (
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {heroResultPills.map((item, i) => (
+                    <span
+                      key={i}
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
+                        isDarkMode
+                          ? 'bg-n-7 border border-n-6 text-n-2'
+                          : 'bg-n-2 border border-n-3 text-n-7'
+                      }`}
+                    >
+                      <FiTrendingUp className="w-4 h-4 text-primary-1 flex-shrink-0" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
               )}
             </header>
 
@@ -196,9 +227,10 @@ const CaseStudyDetailPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
+                      className="space-y-10"
                     >
                       {caseStudy.coverImageUrl && (
-                        <div className="rounded-2xl overflow-hidden mb-8 aspect-video bg-n-6">
+                        <div className="rounded-2xl overflow-hidden aspect-video bg-n-6">
                           <img
                             src={caseStudy.coverImageUrl}
                             alt=""
@@ -206,9 +238,40 @@ const CaseStudyDetailPage = () => {
                           />
                         </div>
                       )}
-                      <p className={`body-1 ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>
-                        {caseStudy.excerpt || 'No overview available.'}
-                      </p>
+                      <div
+                        className={`rounded-2xl border p-6 md:p-8 ${
+                          isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-2 border-n-3'
+                        }`}
+                      >
+                        <h2 className={`h4 mb-4 font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                          At a glance
+                        </h2>
+                        <p className={`body-1 max-w-2xl ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>
+                          {caseStudy.excerpt || 'No overview available.'}
+                        </p>
+                      </div>
+                      {resultItems.length > 0 && (
+                        <div>
+                          <h2 className={`h4 mb-6 font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                            Key outcomes
+                          </h2>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {resultItems.map((item, i) => (
+                              <div
+                                key={i}
+                                className={`flex items-start gap-3 p-4 rounded-xl border ${
+                                  isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'
+                                }`}
+                              >
+                                <FiTrendingUp className="w-5 h-5 text-primary-1 flex-shrink-0 mt-0.5" />
+                                <span className={`text-sm font-medium ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
+                                  {item}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </motion.div>
                   )}
 
@@ -220,16 +283,37 @@ const CaseStudyDetailPage = () => {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div
-                        className={`p-6 rounded-xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-2 border-n-3'}`}
-                      >
-                        <h2 className={`h4 mb-4 font-mono uppercase ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                          Results & Metrics
-                        </h2>
-                        <p className={`whitespace-pre-line body-1 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                      <h2 className={`h4 mb-2 font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                        Results & metrics
+                      </h2>
+                      <p className={`body-2 mb-8 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                        Measurable outcomes from this scenario. Data is research-backed where cited.
+                      </p>
+                      {resultItems.length > 0 ? (
+                        <ul className="space-y-4">
+                          {resultItems.map((item, i) => (
+                            <li
+                              key={i}
+                              className={`flex items-start gap-4 p-5 rounded-xl border ${
+                                isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-2 border-n-3'
+                              }`}
+                            >
+                              <span
+                                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                                  isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1'
+                                }`}
+                              >
+                                <FiTrendingUp className="w-4 h-4" />
+                              </span>
+                              <span className={`body-1 ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
                           {caseStudy.results || 'No results data available.'}
                         </p>
-                      </div>
+                      )}
                     </motion.div>
                   )}
 
@@ -358,9 +442,18 @@ const CaseStudyDetailPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
+                      className="max-w-3xl"
                     >
                       {caseStudy.description?.raw ? (
-                        <div className={`prose-case-study max-w-none ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
+                        <div
+                          className={`case-study-story ${
+                            isDarkMode ? 'text-n-2' : 'text-n-7'
+                          } [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:pb-3 [&_h2]:border-b [&_h2]:border-n-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:tracking-tight ${
+                            isDarkMode ? '[&_h2]:text-n-1' : '[&_h2]:text-n-8'
+                          } [&_p]:mb-6 [&_p]:leading-relaxed [&_p]:body-1 ${
+                            isDarkMode ? '[&_p]:text-n-2' : '[&_p]:text-n-6'
+                          } [&_h2:first-child]:mt-0`}
+                        >
                           <RichText content={caseStudy.description.raw} />
                         </div>
                       ) : (
@@ -374,7 +467,7 @@ const CaseStudyDetailPage = () => {
               </div>
             </div>
 
-            <div className="mt-12 pt-8 border-t border-n-6">
+            <div className={`mt-12 pt-8 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
               <Link
                 to="/case-studies"
                 className={`inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider ${isDarkMode ? 'text-primary-1 hover:text-primary-2' : 'text-primary-1 hover:text-primary-2'}`}
