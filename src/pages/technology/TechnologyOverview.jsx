@@ -323,12 +323,6 @@ const TechnologyOverview = () => {
                 <div className="bg-n-7 rounded-xl p-8 border border-n-6">
                   <h2 className="text-2xl font-bold mb-6">Overview</h2>
                   <p className="text-n-3">{technology.description}</p>
-                  {technology.additonalDetails && (
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-4">Additional Details</h3>
-                      <p className="text-n-3">{technology.additonalDetails}</p>
-                    </div>
-                  )}
                 </div>
 
                 {/* Business Metrics */}

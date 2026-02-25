@@ -379,22 +379,6 @@ const EnhancedTechnologyDetail = () => {
                 </motion.div>
               )}
 
-              {/* Additional Details - collapsible-style block */}
-              {technology.additonalDetails && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-                  <div className="flex items-center mb-4">
-                    <FiFileText className="text-primary-1 mr-3" size={22} />
-                    <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Additional Details</h3>
-                  </div>
-                  <div
-                    className={`rounded-xl border p-6 text-sm leading-relaxed ${isDarkMode ? 'bg-n-7 border-n-6 text-n-3' : 'bg-n-2 border-n-3 text-n-6'}`}
-                    style={{ whiteSpace: 'pre-wrap' }}
-                  >
-                    {technology.additonalDetails}
-                </div>
-                </motion.div>
-              )}
-
               {/* Resources - link pills */}
               {technology.documentation && Object.keys(technology.documentation).length > 0 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
