@@ -50,6 +50,23 @@ export const GET_CASE_STUDY_BY_SLUG = gql`
         description
         icon
       }
+      useCases {
+        id
+        title
+        slug
+        description
+        industry {
+          id
+          name
+          slug
+        }
+        industryApplication {
+          id
+          applicationTitle
+          tagline
+          relevantEngine
+        }
+      }
     }
   }
 `;

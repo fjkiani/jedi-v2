@@ -88,7 +88,6 @@ export const getPostDetails = async (slug) => {
   `;
 
   const result = await request(graphqlAPI, query, { slug });
-  console.log('Post details from HyGraph:', result.post); // Debug log
   return result.post;
 };
 

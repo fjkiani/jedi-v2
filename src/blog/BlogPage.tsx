@@ -26,18 +26,36 @@ const PostDetails = () => {
   }, [slug, navigate]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 mb-8">
+        <div className="flex justify-center">
+          <div className="w-full max-w-4xl">
+            <div className="animate-pulse">
+              <div className="h-48 sm:h-64 md:h-80 bg-n-3 rounded-t-xl mb-6" />
+              <div className="h-4 bg-n-3 rounded w-1/3 mb-4" />
+              <div className="h-8 bg-n-3 rounded w-full max-w-2xl mb-6" />
+              <div className="space-y-3">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="h-4 bg-n-3 rounded" style={{ width: i === 4 ? '80%' : '100%' }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!post) {
-    return <div>Post not found</div>;
+    return <div className="container mx-auto px-4 py-12 text-center">Post not found</div>;
   }
 
   return (
-    <div className="container mx-auto px-10 mb-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-10 mb-8">
       <div className="flex justify-center">
         <div className="w-full max-w-4xl">
           <PostDetail post={post} />
+          <h2 className="text-xl font-semibold mb-6 mt-12 text-n-8 dark:text-n-2">Related reads</h2>
           <AdjacentPosts slug={post.slug} createdAt={post.createdAt} />
           {/* <CommentsForm slug={post.slug} />
           <Comments slug={post.slug} /> */}

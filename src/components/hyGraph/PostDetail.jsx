@@ -1,74 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { getPostDetails } from '../../services';
 import moment from 'moment';
 import TwitterCard from '../TwitterCard';
+import { useTheme } from '@/context/ThemeContext';
 
-const PostDetail = () => {
+// Approximate reading time (words per minute)
+const WORDS_PER_MIN = 200;
+function countWordsFromRaw(contentRaw) {
+  if (!contentRaw?.children) return 0;
+  let count = 0;
+  function walk(nodes) {
+    (nodes || []).forEach((node) => {
+      if (node.text) count += (node.text || '').trim().split(/\s+/).filter(Boolean).length;
+      if (node.children) walk(node.children);
+    });
+  }
+  walk(contentRaw.children);
+  return count;
+}
+
+const PostDetail = ({ post: postProp }) => {
   const { slug } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [citations, setCitations] = useState([]); // State to track citations
+  const { isDarkMode } = useTheme();
+  const [post, setPost] = useState(postProp ?? null);
+  const [loading, setLoading] = useState(!postProp);
 
   useEffect(() => {
+    if (postProp) {
+      setPost(postProp);
+      setLoading(false);
+      return;
+    }
     const fetchPostDetails = async () => {
       const fetchedPost = await getPostDetails(slug);
-      console.log('Fetched post details:', fetchedPost); // Debug log
       setPost(fetchedPost);
       setLoading(false);
     };
     fetchPostDetails();
-  }, [slug]);
+  }, [slug, postProp]);
 
   if (loading) {
-    return <p>Loading post details...</p>;
+    return <p className={isDarkMode ? 'text-n-2' : 'text-n-6'}>Loading post details...</p>;
   }
 
   if (!post) {
-    return <p>Post not found</p>;
+    return <p className={isDarkMode ? 'text-n-2' : 'text-n-6'}>Post not found</p>;
   }
 
-  // Debug log before passing to TwitterCard
-  console.log('Post data being passed to TwitterCard:', {
-    title: post.title,
-    excerpt: post.excerpt,
-    featuredImage: post.featuredImage,
-    author: post.author,
-    createdAt: post.createdAt,
-    slug: post.slug
-  });
+  const wordCount = countWordsFromRaw(post.content?.raw);
+  const readingTimeMins = Math.max(1, Math.ceil(wordCount / WORDS_PER_MIN));
+  const author = post?.author?.[0];
 
-  // Function to add citation to the list and return its number
-  const addCitation = (href) => {
-    const index = citations.findIndex(citation => citation.href === href);
-    if (index !== -1) {
-      return index + 1; // Return existing citation number
-    }
-    setCitations(prev => [...prev, { href, number: prev.length + 1 }]);
-    return citations.length + 1;
-  };
-
-  // Render citation with hover tooltip
-  const Citation = ({ href }) => {
-    const number = addCitation(href);
-    return (
-      <span className="relative group">
-        <sup className="text-blue-500 cursor-pointer">{number}</sup>
-        <span className="absolute bottom-full mb-1 hidden group-hover:block bg-white text-black text-xs p-1 border border-gray-300 rounded shadow-lg">
-          <a href={href} target="_blank" rel="noopener noreferrer">{href}</a>
-        </span>
-      </span>
-    );
-  };
-
-  // Function to render content fragments and handle citations
+  // Renders content fragments (headings, paragraphs, lists, images, etc.)
   const renderContentFragment = (item, key) => {
     if (item.text) {
       let textElement = item.text;
       if (item.bold) textElement = <b key={key}>{textElement}</b>;
       if (item.italic) textElement = <i key={key}>{textElement}</i>;
       if (item.underline) textElement = <u key={key}>{textElement}</u>;
-      if (item.code) textElement = <code key={key} className="bg-gray-200 text-red-600 p-1 rounded">{textElement}</code>;
+      if (item.code) textElement = <code key={key} className={`p-1 rounded ${isDarkMode ? 'bg-n-6 text-primary-2' : 'bg-n-2 text-red-600'}`}>{textElement}</code>;
       return <span key={key}>{textElement}</span>;
     }
 
@@ -108,7 +99,7 @@ const PostDetail = () => {
 
       case 'heading-two':
         return (
-          <h2 key={key} className="text-3xl font-bold mb-4">
+          <h2 key={key} className={`text-2xl md:text-3xl font-bold mb-4 mt-10 pt-8 border-t ${isDarkMode ? 'border-n-6 text-n-1' : 'border-n-3 text-n-8'}`}>
             {item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`))}
           </h2>
         );
@@ -152,10 +143,9 @@ const PostDetail = () => {
           <ol key={key} className="list-decimal pl-6 mb-8">
             {item.children?.map((listItem, i) => (
               <li key={i} className="mb-2">
-                {listItem.children?.map((child, childIndex) => {
-                  console.log('Numbered list child:', child);
-                  return renderContentFragment(child, `${key}-${i}-${childIndex}`);
-                })}
+                {listItem.children?.map((child, childIndex) =>
+                  renderContentFragment(child, `${key}-${i}-${childIndex}`)
+                )}
               </li>
             ))}
           </ol>
@@ -170,57 +160,96 @@ const PostDetail = () => {
         if (item.children) {
           return item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`));
         }
-        console.log('Unhandled type:', item.type, item);
         return null;
     }
   };
 
+  const cardBg = isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3';
+  const textMuted = isDarkMode ? 'text-n-3' : 'text-n-5';
+  const proseClass = isDarkMode ? 'prose prose-invert' : 'prose';
+
   return (
     <>
       <TwitterCard post={post} />
-      <div className="shadow-lg rounded-lg lg:p-8 pb-12 mb-8">
-        <div className="relative overflow-hidden shadow-md mb-6">
+      <article className={`shadow-lg rounded-xl border ${cardBg} lg:p-8 pb-12 mb-8 overflow-hidden`}>
+        {/* Hero: featured image with optional overlay */}
+        <header className="mb-8">
           {post.featuredImage?.url && (
-            <img src={post.featuredImage.url} alt={post.title} className="object-top h-full w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg" />
+            <div className="relative overflow-hidden rounded-t-xl lg:rounded-lg mb-6 -mx-0 lg:-mx-8 -mt-0 lg:-mt-8">
+              <img
+                src={post.featuredImage.url}
+                alt={post.title}
+                className="object-center w-full h-48 sm:h-64 md:h-80 object-cover"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t ${isDarkMode ? 'from-n-8/90 to-transparent' : 'from-black/40 to-transparent'}`} />
+            </div>
           )}
-        </div>
-        <div className="px-4 lg:px-0">
-          <div className="flex items-center mb-8 w-full">
-            <div className="flex items-center justify-center lg:mb-0 lg:w-auto mr-8">
-              {post?.author?.[0]?.photo?.url ? (
-                <img 
-                  alt={post.author[0].name || 'Author'} 
-                  height="30px" 
-                  width="30px" 
-                  className="align-middle rounded-full" 
-                  src={post.author[0].photo.url} 
-                />
+          <div className="px-4 lg:px-0">
+            {/* Category pills + reading time */}
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              {post.categories?.length > 0 && post.categories.map((cat) => (
+                <span
+                  key={cat.slug}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${isDarkMode ? 'bg-n-6 text-n-2' : 'bg-n-2 text-n-7'}`}
+                >
+                  {cat.name}
+                </span>
+              ))}
+              <span className={textMuted + ' text-sm'}>
+                {readingTimeMins} min read
+              </span>
+            </div>
+            <h1 className={`text-3xl md:text-4xl font-bold mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+              {post.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              {author?.photo?.url ? (
+                <img alt={author.name || 'Author'} width={36} height={36} className="rounded-full" src={author.photo.url} />
               ) : (
-                <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">A</span>
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center ${isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-5'}`}>
+                  <span className="text-sm font-medium">{(author?.name || 'A').charAt(0)}</span>
                 </div>
               )}
-              <p className="inline align-middle text-gray-700 ml-2 font-medium text-lg">
-                {post?.author?.[0]?.name || 'Anonymous'}
-              </p>
-            </div>
-            <div className="font-medium text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline mr-2 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="align-middle">{moment(post.createdAt).format('MMM DD, YYYY')}</span>
+              <span className={`font-medium ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>{author?.name || 'Anonymous'}</span>
+              <span className={textMuted}>
+                <time dateTime={post.createdAt}>{moment(post.createdAt).format('MMM DD, YYYY')}</time>
+              </span>
             </div>
           </div>
-          <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
-          <div className="prose prose-invert max-w-none">
+        </header>
+
+        {/* Body: constrained width for readability */}
+        <div className="px-4 lg:px-0">
+          <div className={`${proseClass} max-w-prose mx-auto text-base`}>
             {post.content?.raw?.children?.length > 0 ? (
               post.content.raw.children.map((typeObj, index) => renderContentFragment(typeObj, index))
             ) : (
-              <p>No content available</p>
+              <p className={textMuted}>No content available</p>
             )}
           </div>
+
+          {/* CTA block */}
+          <div className={`max-w-prose mx-auto mt-12 pt-8 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+            <p className={`mb-4 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
+              Ready to see how JEDI can help your business?
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/solutions"
+                className={`inline-flex items-center px-5 py-2.5 rounded-lg font-medium transition-colors ${isDarkMode ? 'bg-primary-1 text-white hover:opacity-90' : 'bg-primary-1 text-white hover:opacity-90'}`}
+              >
+                Explore solutions
+              </Link>
+              <Link
+                to="/contact"
+                className={`inline-flex items-center px-5 py-2.5 rounded-lg font-medium border transition-colors ${isDarkMode ? 'border-n-5 text-n-2 hover:bg-n-6' : 'border-n-3 text-n-7 hover:bg-n-2'}`}
+              >
+                Talk to us
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </article>
     </>
   );
 };

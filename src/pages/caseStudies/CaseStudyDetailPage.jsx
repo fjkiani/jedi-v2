@@ -16,6 +16,8 @@ import {
   FiBook,
   FiTrendingUp,
   FiBarChart2,
+  FiLayers,
+  FiExternalLink,
 } from 'react-icons/fi';
 
 // Tab order: narrative first, then at-a-glance, then metrics, then media/tech
@@ -466,6 +468,65 @@ const CaseStudyDetailPage = () => {
                 </AnimatePresence>
               </div>
             </div>
+
+            {/* Related applications & use cases */}
+            {caseStudy.useCases?.length > 0 && (
+              <div className={`mt-12 pt-8 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
+                <h3 className={`text-lg font-semibold mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                  <FiLayers className="inline-block w-5 h-5 mr-2 text-primary-1" />
+                  Related applications & solutions
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {caseStudy.useCases?.map((uc) => (
+                    <Link
+                      key={uc.id}
+                      to={
+                        uc.industry?.slug && uc.slug
+                          ? `/industries/${uc.industry.slug}/${uc.slug}`
+                          : '#'
+                      }
+                      className={`block p-5 rounded-xl border transition-all hover:border-primary-1/50 ${
+                        isDarkMode
+                          ? 'bg-n-7 border-n-6 hover:bg-n-6'
+                          : 'bg-n-2 border-n-3 hover:bg-n-3'
+                      } ${!uc.industry?.slug || !uc.slug ? 'pointer-events-none opacity-70' : ''}`}
+                    >
+                      <h4 className={`font-semibold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                        {uc.title}
+                        {(uc.industry?.slug && uc.slug) && (
+                          <FiExternalLink className="w-4 h-4 text-primary-1 flex-shrink-0" />
+                        )}
+                      </h4>
+                      {uc.description && (
+                        <p className={`text-sm mb-3 line-clamp-2 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                          {uc.description}
+                        </p>
+                      )}
+                      {uc.industryApplication?.length > 0 && (
+                        <div className="space-y-2 mt-3 pt-3 border-t border-n-4/50">
+                          <span className={`text-xs font-mono uppercase tracking-wider ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                            Applications
+                          </span>
+                          {uc.industryApplication.map((app) => (
+                            <div
+                              key={app.id}
+                              className={`text-sm font-medium ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}
+                            >
+                              {app.applicationTitle}
+                              {app.tagline && (
+                                <span className={`block text-xs font-normal mt-0.5 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                                  {app.tagline}
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className={`mt-12 pt-8 border-t ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
               <Link
