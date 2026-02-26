@@ -1,0 +1,95 @@
+{
+  "updated": "2025-02",
+  "jediContext": {
+    "whatWeBuild": "Voice AI, Identity Agent Hub, industry co-pilots (CrisPRO), AISO, JEDI Ensemble/Rules/Automate",
+    "clients": "Go Answer, Clear Mind Life, consulting firms, healthcare systems, SaaS companies",
+    "whyUs": "Working agents in production, out-of-the-box components, measurable ROI, no ML team required"
+  },
+  "topics": {
+    "agentic-ai": {
+      "keywords": ["agentic AI", "AI agents", "autonomous AI", "workflow automation", "agent orchestration", "AI agent deployment", "agentic transformation"],
+      "suggestedTitles": [
+        "Why Agentic AI Is the Next Wave (and What We've Learned Building It)",
+        "From Chatbots to Agents: What Changed and Why Go Answer Did It",
+        "3 Agent Use Cases We Shipped—and What Actually Moved the Needle",
+        "Safe AI Agents: Governance Without the Corporate Slop"
+      ],
+      "outline": ["Hook: agents vs chatbots (workflows vs questions)", "What we build: Go Answer, CrisPRO, JEDI Ensemble", "Real client results with numbers", "How to get started without an ML team", "Related: see CrisPRO in action"],
+      "stats": ["68% of orgs run AI in production", "40-60% productivity gains", "80% faster response (Go Answer)"],
+      "relatedApplication": {
+        "title": "CrisPRO Oncology Co-Pilot",
+        "url": "/industries/healthcare/crispro-oncology-copilot",
+        "description": "Agentic co-pilot for clinical workflows"
+      }
+    },
+    "ai-identity": {
+      "keywords": ["AI identity", "agent security", "agentic identity management", "IAM for AI agents", "AI agent governance", "zero-trust for agents", "MCP security"],
+      "suggestedTitles": [
+        "Identity Is the Missing Pillar of Agentic AI (We Built the Fix)",
+        "Securing AI Agents: Why Your Okta Setup Won't Cut It",
+        "91% Use AI Agents, 44% Have No Governance—Here's Our Take",
+        "What Happens When an Agent Tries to Access the Wrong Patient Record?"
+      ],
+      "outline": ["Hook: 91% use agents, 44% no governance", "War story: why we built Identity Agent Hub at Clear Mind Life", "What we built: context-aware tokens, threat detection, certification", "Real problem → real solution", "Related: full case study"],
+      "stats": ["91% use AI agents", "44% have no governance", "Identity Agent Hub deployed"],
+      "relatedApplication": {
+        "title": "Identity Agent Hub Case Study",
+        "url": "/case-studies/identity-agent-hub",
+        "description": "Full story: problem, solution, architecture, results"
+      }
+    },
+    "voice-ai": {
+      "keywords": ["AI voice agents", "voice AI customer service", "voicebots", "24/7 AI support", "conversational AI", "IVR replacement", "voice AI ROI"],
+      "suggestedTitles": [
+        "Voice AI in 2025: From Press 1 to Real Conversations",
+        "How Go Answer Scaled 24/7 Support Without Hiring a Call Center",
+        "Voice AI ROI: The Metrics That Actually Matter",
+        "85% Are Exploring Voice AI—Here's What We Learned Deploying It"
+      ],
+      "outline": ["Hook: 85% exploring, but who's actually shipping?", "Go Answer: 80% faster, 60% better satisfaction", "What we build: RetellAI, LangChain, JEDI Ensemble", "No call center owner wants to manage model selection", "Related: see AI Voice Operations"],
+      "stats": ["85% exploring conversational AI", "80% faster response (Go Answer)", "60% satisfaction improvement"],
+      "relatedApplication": {
+        "title": "AI Voice Operations for CRM",
+        "url": "/industries/telecommunications/ai-voice-operations-crm",
+        "description": "Voice agents integrated with CRM workflows"
+      }
+    },
+    "rag-enterprise": {
+      "keywords": ["RAG enterprise", "retrieval augmented generation", "enterprise knowledge base", "vector search", "hybrid search", "RAG evaluation", "AISO", "generative engine optimization"],
+      "suggestedTitles": [
+        "RAG Beyond POCs: What It Takes to Ship in Enterprise",
+        "AISO in 2025: Why Search Optimization Isn't Just SEO Anymore",
+        "Hybrid Search: Keywords + Vectors (and Why Both Matter)",
+        "We Got 150% Traffic Lift with AI Search—Here's How"
+      ],
+      "outline": ["Hook: RAG in labs vs production (<15% at scale)", "AISO: 150% traffic, 200% lead quality for consulting firms", "Weaviate, Hugging Face, hybrid search", "Lab to production gap we closed", "Related: AI Research Assistant"],
+      "stats": ["150% organic traffic increase (AISO)", "200% lead quality improvement", "<15% of RAG at production scale"],
+      "relatedApplication": {
+        "title": "AI-Powered Research Assistant",
+        "url": "/industries/education/ai-powered-research-assistant",
+        "description": "Knowledge retrieval in practice"
+      }
+    },
+    "co-pilots": {
+      "keywords": ["AI co-pilot healthcare", "clinical AI", "AI revenue cycle", "ambient documentation", "AI medical coding", "prior authorization AI", "oncology AI"],
+      "suggestedTitles": [
+        "CrisPRO and Beyond: Why Oncology Needs a Co-Pilot, Not a Chatbot",
+        "Healthcare Finance 2025: AI in Revenue Cycle (What's Actually Shipping)",
+        "Why Co-Pilots Beat Generic AI for Clinical Workflows",
+        "When a Hospital Group Turned Front Desk Over to AI"
+      ],
+      "outline": ["Hook: 16% fewer diagnostic errors with co-pilots", "CrisPRO: oncology-specific, not generic ChatGPT", "Healthcare receptionist AI: real deployment", "Industry-specific beats generic", "Related: CrisPRO + Healthcare Receptionist case study"],
+      "stats": ["16% reduction in diagnostic errors", "68% CFOs implementing AI in RCM", "CrisPRO deployed in oncology"],
+      "relatedApplication": {
+        "title": "Healthcare Receptionist Case Study",
+        "url": "/case-studies/healthcare-receptionist-application",
+        "description": "When a hospital group turned front desk over to AI"
+      }
+    }
+  },
+  "globalKeywords": [
+    "agentic AI", "AI agents", "enterprise AI", "AI governance",
+    "voice AI", "RAG", "AI co-pilot", "AI identity",
+    "AI security", "AI ROI", "AI adoption", "JEDI Labs"
+  ]
+}

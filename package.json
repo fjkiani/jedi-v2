@@ -16,7 +16,9 @@
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "extract:implementation": "node scripts/migrations/hygraph/extract_implementation_content.js",
     "push:implementation": "node scripts/migrations/hygraph/push_implementation_to_hygraph.js",
-    "create:case-study-schema": "node scripts/migrations/hygraph/createCaseStudySchema.js"
+    "create:case-study-schema": "node scripts/migrations/hygraph/createCaseStudySchema.js",
+    "blog:research": "node scripts/blog/research_topic.js",
+    "blog:create": "node scripts/blog/create_post.js"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
