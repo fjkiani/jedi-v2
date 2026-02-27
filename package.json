@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run generate-sitemap && npx vite build",
     "serve:dev": "NODE_ENV=development node server/server.js",
     "serve:prod": "NODE_ENV=production node server/server.js",
     "start": "npm run build && npm run serve:prod",
@@ -18,7 +18,8 @@
     "push:implementation": "node scripts/migrations/hygraph/push_implementation_to_hygraph.js",
     "create:case-study-schema": "node scripts/migrations/hygraph/createCaseStudySchema.js",
     "blog:research": "node scripts/blog/research_topic.js",
-    "blog:create": "node scripts/blog/create_post.js"
+    "blog:create": "node scripts/blog/create_post.js",
+    "resume:build": "node scripts/resume/build.js"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
@@ -72,7 +73,7 @@
     "@types/node": "^22.5.0",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.17",
     "concurrently": "^8.2.2",
     "dotenv": "^16.6.1",
@@ -81,7 +82,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.35",
+    "puppeteer": "^23.11.1",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.1.4"
+    "vite": "^5.4.21"
   }
 }

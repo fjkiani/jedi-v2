@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Section from '@/components/Section';
 import { technologyService } from '@/services/technologyService';
 import { useTheme } from '@/context/ThemeContext';
+import SEO from '@/components/SEO';
+import { PAGE_META } from '@/constants/seo';
 
 const TechnologyCard = ({ tech }) => {
   const { isDarkMode } = useTheme();
@@ -407,7 +409,9 @@ const TechnologyStack = () => {
   );
 
   return (
-    <Section className="py-12">
+    <>
+      <SEO title={PAGE_META.technology.title} description={PAGE_META.technology.description} path="/technology" />
+      <Section className="py-12">
       <div className="container max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12">
@@ -515,6 +519,7 @@ const TechnologyStack = () => {
         </div>
       </div>
     </Section>
+    </>
   );
 };
 

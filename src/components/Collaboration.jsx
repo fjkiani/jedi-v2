@@ -219,7 +219,7 @@ const Collaboration = () => {
       setShowSimulation(true);
     } else {
       // Fallback to navigation if no simulation data
-      navigate('/industries/healthcare/solutions/crispro-oncology-copilot');
+      navigate('/industries/healthcare/crispro-oncology-copilot');
     }
   };
 

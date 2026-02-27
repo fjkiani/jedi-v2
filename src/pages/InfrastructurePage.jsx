@@ -1,6 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import Section from "../components/Section";
+import SEO from '@/components/SEO';
+import { PAGE_META } from '@/constants/seo';
 import Heading from "../components/Heading";
 import TechStoryTopology from "../components/solutions/TechStoryTopology";
 import { getAllTechnologies } from "../utils/techAggregation";
@@ -55,6 +56,7 @@ const InfrastructurePage = () => {
 
     return (
         <>
+            <SEO title={PAGE_META.infrastructure.title} description={PAGE_META.infrastructure.description} path="/infrastructure" />
             <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
                 <div className="container relative">
                     <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[4rem] md:mb-20 lg:mb-[6rem]">

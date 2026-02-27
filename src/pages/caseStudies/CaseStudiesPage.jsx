@@ -36,8 +36,9 @@ const CaseStudiesPage = () => {
   return (
     <>
       <SEO
-        title="Case Studies | JEDI Labs"
-        description="Real client success stories and project outcomes. See how JEDI Labs delivers measurable results across industries."
+        title="Case Studies | JEDI Labs — Production AI Results"
+        description="Real client results. Go Answer voice agents, AISO search optimization, CrisPRO oncology co-pilot. Deployed for production, not pilots."
+        path="/case-studies"
       />
       <Section className="pt-[8rem] -mt-[5.25rem]" crosses>
         <div className="container relative">

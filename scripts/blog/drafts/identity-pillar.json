@@ -1,0 +1,19 @@
+{
+  "title": "Identity Is the Missing Pillar of Agentic AI: Why We Built the Identity Agent Hub",
+  "slug": "identity-missing-pillar-agentic-ai",
+  "excerpt": "91% of orgs use AI agents. 44% have no governance. We hit this wall with a healthcare client—so we built the Identity Agent Hub. Here's what we learned.",
+  "featuredPost": false,
+  "content": {
+    "children": [
+      { "type": "paragraph", "children": [{ "text": "The enterprise race to deploy autonomous AI agents is accelerating, but a critical architectural pillar is being ignored: Identity." }] },
+      { "type": "paragraph", "children": [{ "text": "When a human logs into an EHR or a financial system, they are authenticated via SSO, authorized via RBAC, and their session is monitored. But when an AI agent executes a multi-step workflow—querying a database, drafting a note, submitting a claim—who is acting?" }] },
+      { "type": "paragraph", "children": [{ "text": "At Clear Mind Life, we ran into this exact problem. Testing an LLM's raw reasoning ability is irrelevant if it can't securely navigate enterprise identity boundaries. So we built the Identity Agent Hub—a zero-trust orchestration layer that governs AI cognition before it interacts with production systems." }] },
+      { "type": "heading-two", "children": [{ "text": "The Problem: Ephemeral Identity in AI Workflows" }] },
+      { "type": "paragraph", "children": [{ "text": "Traditional IAM is designed for deterministic human actors. LLMs aren't. A static API key gives an agent unfettered access—and if it goes rogue or gets prompt-injected, that single token opens everything." }] },
+      { "type": "paragraph", "children": [{ "text": "We identified three massive failures: context confusion (Doctor A's agent querying Doctor B's patients), MFA fatigue (agents can't handle step-up auth), and the \"God Mode\" service account." }] },
+      { "type": "heading-two", "children": [{ "text": "What We Built: The Identity Agent Hub" }] },
+      { "type": "paragraph", "children": [{ "text": "We built an Identity Gateway. Context-aware token exchange. Deterministic threat detection. Adversarial certification. It sits between the LLM and the enterprise API layer, enforcing zero-trust at every tool invocation." }] },
+      { "type": "paragraph", "children": [{ "text": "See the full story—problem, solution, architecture, results—in our case study." }] }
+    ]
+  }
+}

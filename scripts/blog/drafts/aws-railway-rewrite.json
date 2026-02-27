@@ -1,0 +1,18 @@
+{
+  "title": "From ECS to Railway: Why We Moved FastAPI to Simpler Infrastructure (And Kept the URL)",
+  "slug": "aws-railway",
+  "excerpt": "We migrated a FastAPI service from AWS ECS to Railway. Same content, better DX, lower ops burden. Since Google already indexed this URL, we kept it—and doubled down on what actually matters for production APIs.",
+  "featuredPost": false,
+  "content": {
+    "children": [
+      {"type": "paragraph", "children": [{"text": "A few years ago we ran a FastAPI service on AWS ECS. Fargate, load balancers, Route53, CloudFormation—the full stack. It worked. But the operational overhead was real. When we rebuilt, we moved to Railway. Same API. Better developer experience. And we kept the URL."}]},
+      {"type": "paragraph", "children": [{"text": "Why keep the URL? Because it was already indexed. Google had it. External links pointed to it. Deleting and 404'ing would waste that equity. Instead, we leveraged it: updated content, refreshed lastmod, and made the page actually useful for someone searching \"ECS vs Railway\" or \"FastAPI deployment options.\""}]},
+      {"type": "heading-two", "children": [{"text": "What We Learned From ECS"}]},
+      {"type": "paragraph", "children": [{"text": "ECS gives you control. Right-sizing with Compute Optimizer can cut Fargate costs 30–70%. But it also demands expertise: VPCs, IAM, task definitions, auto-scaling. For a small team, that's time not spent on product."}]},
+      {"type": "heading-two", "children": [{"text": "Why Railway Made Sense"}]},
+      {"type": "paragraph", "children": [{"text": "Railway offers faster deploys, minimal config, and predictable pricing. Ideal for APIs and microservices that don't need enterprise governance. We get Git-based deploys, built-in logging, and a fraction of the ops burden."}]},
+      {"type": "heading-two", "children": [{"text": "Leverage, Don't Delete"}]},
+      {"type": "paragraph", "children": [{"text": "When you have an indexed URL with historical value, exploit it. Rewrite the content. Make it compelling. Update the sitemap. 301 redirects are for moved pages; for same-URL rewrites, you keep the equity and improve the experience. That's what we did."}]}
+    ]
+  }
+}

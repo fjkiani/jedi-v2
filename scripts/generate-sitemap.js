@@ -12,7 +12,6 @@ const __dirname = path.dirname(__filename);
 
 const SITE_URL = 'https://jedilabs.org';
 
-// Create Hygraph client
 const hygraphClient = new GraphQLClient(
   process.env.VITE_HYGRAPH_ENDPOINT || '',
   {
@@ -22,16 +21,35 @@ const hygraphClient = new GraphQLClient(
   }
 );
 
-// Static routes configuration
+async function hygraphRequest(query, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await hygraphClient.request(query);
+    } catch (e) {
+      if (e.response?.status === 429 && i < retries - 1) {
+        const delay = Math.pow(2, i + 1) * 2000;
+        console.log(`Hygraph 429, retry ${i + 1}/${retries} in ${delay}ms...`);
+        await new Promise((r) => setTimeout(r, delay));
+      } else {
+        throw e;
+      }
+    }
+  }
+}
+
+// Static routes configuration - aligned with App.jsx routes
 const staticRoutes = [
   { path: '/', changefreq: 'daily', priority: 1.0 },
+  { path: '/jedi', changefreq: 'weekly', priority: 0.95 },
   { path: '/solutions', changefreq: 'weekly', priority: 0.9 },
   { path: '/industries', changefreq: 'weekly', priority: 0.9 },
+  { path: '/use-cases', changefreq: 'weekly', priority: 0.9 },
+  { path: '/case-studies', changefreq: 'weekly', priority: 0.85 },
+  { path: '/infrastructure', changefreq: 'monthly', priority: 0.8 },
   { path: '/team', changefreq: 'weekly', priority: 0.8 },
+  { path: '/careers', changefreq: 'weekly', priority: 0.8 },
   { path: '/blog', changefreq: 'daily', priority: 0.8 },
   { path: '/technology', changefreq: 'weekly', priority: 0.8 },
-  // { path: '/tech-stack', changefreq: 'weekly', priority: 0.8 },
-  // { path: '/tech', changefreq: 'weekly', priority: 0.8 },
   { path: '/about', changefreq: 'monthly', priority: 0.7 },
   { path: '/contact', changefreq: 'monthly', priority: 0.7 }
 ];
@@ -46,11 +64,11 @@ async function fetchDynamicRoutes() {
     console.log('Fetching from Hygraph...');
     const routes = [];
     
-    // Query posts
+    // Query posts - correct path is /blog/post/:slug per App.jsx
     try {
-      const postsResult = await hygraphClient.request(`
+      const postsResult = await hygraphRequest(`
         {
-          posts {
+          posts(stage: PUBLISHED) {
             slug
             updatedAt
           }
@@ -58,77 +76,78 @@ async function fetchDynamicRoutes() {
       `);
 
       if (postsResult.posts) {
+        const priorityPosts = ['identity-missing-pillar-agentic-ai', 'pilot-to-production-agentic-ai-smbs', 'from-pilot-to-production-agentic-ai-smbs', 'building-web3', 'ai-agents', 'jedilabs'];
         routes.push(
           ...postsResult.posts.map(post => ({
-            path: `/blog/${post.slug}`,
-            lastmod: post.updatedAt.split('T')[0],
+            path: `/blog/post/${post.slug}`,
+            lastmod: post.updatedAt?.split('T')[0],
             changefreq: 'weekly',
-            priority: 0.7
+            priority: priorityPosts.includes(post.slug) ? 0.85 : 0.7
           }))
         );
         console.log('Posts found:', postsResult.posts.length);
       }
     } catch (e) {
-      console.log('No posts found');
+      console.log('No posts found:', e.message);
     }
 
-    // Query team members
+    // Query team members (Hygraph uses teamMembers, not authors)
     try {
-      const teamResult = await hygraphClient.request(`
+      const teamResult = await hygraphRequest(`
         {
-          authors {
+          teamMembers(stage: PUBLISHED) {
             slug
             updatedAt
           }
         }
       `);
       
-      if (teamResult.authors) {
+      if (teamResult.teamMembers) {
         routes.push(
-          ...teamResult.authors.map(team => ({
+          ...teamResult.teamMembers.map(team => ({
             path: `/team/${team.slug}`,
-            lastmod: team.updatedAt.split('T')[0],
+            lastmod: team.updatedAt?.split('T')[0],
             changefreq: 'monthly',
             priority: 0.7
           }))
         );
-        console.log('Team members found:', teamResult.authors.length);
+        console.log('Team members found:', teamResult.teamMembers.length);
       }
     } catch (e) {
-      console.log('No team members found');
+      console.log('No team members found:', e.message);
     }
 
-    // Query solutions
+    // Query solutions (Hygraph uses categories for solutions)
     try {
-      const solutionsResult = await hygraphClient.request(`
+      const categoriesResult = await hygraphRequest(`
         {
-          solutions {
+          categories(stage: PUBLISHED) {
             slug
             updatedAt
           }
         }
       `);
       
-      if (solutionsResult.solutions) {
+      if (categoriesResult.categories) {
         routes.push(
-          ...solutionsResult.solutions.map(solution => ({
-            path: `/solutions/${solution.slug}`,
-            lastmod: solution.updatedAt.split('T')[0],
+          ...categoriesResult.categories.map(cat => ({
+            path: `/solutions/${cat.slug}`,
+            lastmod: cat.updatedAt?.split('T')[0],
             changefreq: 'weekly',
             priority: 0.8
           }))
         );
-        console.log('Solutions found:', solutionsResult.solutions.length);
+        console.log('Solutions (categories) found:', categoriesResult.categories.length);
       }
     } catch (e) {
-      console.log('No solutions found');
+      console.log('No solutions (categories) found:', e.message);
     }
 
-    // Query technologies with use cases
+    // Query technologies with use cases (Hygraph uses technologyS, not technologies)
     try {
-      const techResult = await hygraphClient.request(`
+      const techResult = await hygraphRequest(`
         {
-          technologies {
+          technologyS(stage: PUBLISHED) {
             slug
             updatedAt
             useCases {
@@ -139,24 +158,24 @@ async function fetchDynamicRoutes() {
         }
       `);
       
-      if (techResult.technologies) {
+      if (techResult.technologyS) {
         // Add main technology routes
         routes.push(
-          ...techResult.technologies.map(tech => ({
+          ...techResult.technologyS.map(tech => ({
             path: `/technology/${tech.slug}`,
-            lastmod: tech.updatedAt.split('T')[0],
+            lastmod: tech.updatedAt?.split('T')[0],
             changefreq: 'weekly',
             priority: 0.8
           }))
         );
 
         // Add technology use case routes
-        techResult.technologies.forEach(tech => {
+        techResult.technologyS.forEach(tech => {
           if (tech.useCases) {
             routes.push(
-              ...tech.useCases.map(useCase => ({
-                path: `/technology/${tech.slug}/use-case/${useCase.slug}`,
-                lastmod: useCase.updatedAt.split('T')[0],
+              ...tech.useCases.map(uc => ({
+                path: `/technology/${tech.slug}/use-case/${uc.slug}`,
+                lastmod: uc.updatedAt?.split('T')[0],
                 changefreq: 'weekly',
                 priority: 0.7
               }))
@@ -164,56 +183,66 @@ async function fetchDynamicRoutes() {
           }
         });
 
-        console.log('Technologies found:', techResult.technologies.length);
+        console.log('Technologies found:', techResult.technologyS.length);
       }
     } catch (e) {
-      console.log('No technologies found');
+      console.log('No technologies found:', e.message);
     }
 
-    // Query industries with solutions
+    // Query industries (main pages)
     try {
-      const industriesResult = await hygraphClient.request(`
+      const industriesResult = await hygraphRequest(`
         {
-          industries {
+          industries(stage: PUBLISHED) {
             slug
             updatedAt
-            solutions {
-              slug
-              updatedAt
-            }
           }
         }
       `);
       
       if (industriesResult.industries) {
-        // Add main industry routes
         routes.push(
           ...industriesResult.industries.map(industry => ({
             path: `/industries/${industry.slug}`,
-            lastmod: industry.updatedAt.split('T')[0],
+            lastmod: industry.updatedAt?.split('T')[0],
+            changefreq: 'monthly',
+            priority: 0.75
+          }))
+        );
+        console.log('Industries found:', industriesResult.industries.length);
+      }
+    } catch (e) {
+      console.log('No industries found:', e.message);
+    }
+
+    // Query useCaseS for industry/use-case routes (industries/:industrySlug/solutions/:useCaseSlug)
+    try {
+      const useCasesResult = await hygraphRequest(`
+        {
+          useCaseS(stage: PUBLISHED) {
+            slug
+            updatedAt
+            industry {
+              slug
+            }
+          }
+        }
+      `);
+      
+      if (useCasesResult.useCaseS) {
+        const validUseCases = useCasesResult.useCaseS.filter(uc => uc.industry?.slug);
+        routes.push(
+          ...validUseCases.map(uc => ({
+            path: `/industries/${uc.industry.slug}/${uc.slug}`,
+            lastmod: uc.updatedAt?.split('T')[0],
             changefreq: 'monthly',
             priority: 0.7
           }))
         );
-
-        // Add industry solution routes
-        industriesResult.industries.forEach(industry => {
-          if (industry.solutions) {
-            routes.push(
-              ...industry.solutions.map(solution => ({
-                path: `/industries/${industry.slug}/${solution.slug}`,
-                lastmod: solution.updatedAt.split('T')[0],
-                changefreq: 'monthly',
-                priority: 0.7
-              }))
-            );
-          }
-        });
-
-        console.log('Industries found:', industriesResult.industries.length);
+        console.log('Industry use cases found:', validUseCases.length);
       }
     } catch (e) {
-      console.log('No industries found');
+      console.log('No useCaseS found:', e.message);
     }
 
     console.log(`Found ${routes.length} dynamic routes`);

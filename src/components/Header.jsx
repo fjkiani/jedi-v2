@@ -21,7 +21,6 @@ const GetNavbarData = gql`
       name
       slug
     }
-    # Correct typo and add missing fields
     useCaseS(stage: PUBLISHED, orderBy: title_ASC) {
       id
       title
@@ -29,6 +28,14 @@ const GetNavbarData = gql`
       industry {
         id
         name
+        slug
+      }
+    }
+    industryApplications(stage: PUBLISHED, orderBy: applicationTitle_ASC, first: 50) {
+      id
+      applicationTitle
+      industry {
+        id
         slug
       }
     }
@@ -213,7 +220,8 @@ const Header = () => {
         console.log("[Header] Raw navbar data received:", data);
 
         const fetchedIndustries = data.industries || [];
-        const fetchedUseCases = data.useCaseS || []; // Uses CORRECT key 'useCases'
+        const fetchedUseCases = data.useCaseS || [];
+        const fetchedApplications = data.industryApplications || [];
 
         // Filter use cases to ensure they have the necessary industry slug
         const validUseCases = fetchedUseCases.filter(uc => {
@@ -224,15 +232,20 @@ const Header = () => {
           return hasIndustryAndSlug;
         });
 
+        const validApplications = fetchedApplications.filter(app => app.industry?.slug);
+
         setNavIndustries(fetchedIndustries);
-        setNavUseCases(validUseCases); // Set state ONLY with valid use cases
+        setNavUseCases(validUseCases);
+        setNavApplications(validApplications);
         console.log("[Header] Set navIndustries:", fetchedIndustries);
         console.log("[Header] Set navUseCases (filtered):", validUseCases);
+        console.log("[Header] Set navApplications:", validApplications);
 
       } catch (error) {
         console.error('Error fetching navbar data:', error);
         setNavIndustries([]);
-        setNavUseCases([]); // Set empty on error
+        setNavUseCases([]);
+        setNavApplications([]);
       } finally {
         setLoading(false);
       }
@@ -245,10 +258,10 @@ const Header = () => {
     console.log("[Header] Recalculating dynamicNavigation...");
     const baseNav = navigation.map(item => ({ ...item }));
 
-    const industriesIndex = baseNav.findIndex(item => item.id === 'industries'); // Keep existing hook for Industries
+    const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
     const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
-    const infrastructureIndex = baseNav.findIndex(item => item.id === 'infrastructure'); // Target Infrastructure
-    const solutionsIndex = baseNav.findIndex(item => item.id === '0'); // Legacy specific ID check
+    const infrastructureIndex = baseNav.findIndex(item => item.id === 'infrastructure');
+    const registryIndex = baseNav.findIndex(item => item.id === 'registry'); // APPLICATIONS
 
     // Inject Industries
     if (industriesIndex !== -1 && !loading) {
@@ -261,16 +274,32 @@ const Header = () => {
       baseNav[industriesIndex].dropdownItems = [];
     }
 
-    // Inject Use Cases based on Industries (if needed)
+    // Inject Use Cases + R&D
     if (useCasesIndex !== -1 && !loading) {
-      baseNav[useCasesIndex].dropdownItems = navUseCases.map(useCase => ({
+      const useCaseItems = navUseCases.map(useCase => ({
         id: useCase.id,
         title: useCase.title,
         url: useCase.industry?.slug ? `/industries/${useCase.industry.slug}/${useCase.slug}` : '#'
       }));
-      console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases.`);
+      baseNav[useCasesIndex].dropdownItems = [
+        ...useCaseItems,
+        { id: 'rnd', title: 'R&D', url: '/blog' }
+      ];
+      console.log(`[Header] Injected ${baseNav[useCasesIndex].dropdownItems?.length || 0} use cases + R&D.`);
     } else if (useCasesIndex !== -1) {
       baseNav[useCasesIndex].dropdownItems = [];
+    }
+
+    // Inject Applications into APPLICATIONS (registry)
+    if (registryIndex !== -1 && !loading) {
+      baseNav[registryIndex].dropdownItems = navApplications.map(app => ({
+        id: app.id,
+        title: app.applicationTitle,
+        url: app.industry?.slug ? `/industries/${app.industry.slug}` : '/jedi'
+      }));
+      console.log(`[Header] Injected ${baseNav[registryIndex].dropdownItems?.length || 0} applications.`);
+    } else if (registryIndex !== -1) {
+      baseNav[registryIndex].dropdownItems = [];
     }
 
     // --- Inject Dynamic Categories into Infrastructure ---
@@ -311,19 +340,6 @@ const Header = () => {
       baseNav[infrastructureIndex].dropdownItems = dynamicItems;
     }
     // ---------------------------------------------------
-
-    // --- Inject IndustryApplications into Solutions (Legacy/Specific check) --- 
-    if (solutionsIndex !== -1 && !loading) {
-      baseNav[solutionsIndex].dropdownItems = navApplications.map(app => ({
-        id: app.id,
-        title: app.applicationTitle,
-        url: `/industries/${app.industry.slug}#application-${app.id}`
-      }));
-      console.log(`[Header] Injected ${baseNav[solutionsIndex].dropdownItems?.length || 0} applications into Solutions.`);
-    } else if (solutionsIndex !== -1) {
-      baseNav[solutionsIndex].dropdownItems = [];
-    }
-    // --- End Solutions Injection --- 
 
     console.log("[Header] Final dynamicNavigation:", baseNav);
     return baseNav;

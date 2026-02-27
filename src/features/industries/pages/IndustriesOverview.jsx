@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { useTheme } from '@/context/ThemeContext';
 import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
+import SEO from '@/components/SEO';
+import { PAGE_META } from '@/constants/seo';
 
 // Query to fetch industries, descriptions, and related IndustryApplications
 const GetAllIndustries = gql`
@@ -84,7 +86,9 @@ const IndustriesOverview = () => {
   }
 
   return (
-    <Section className="pt-[12rem] -mt-[5.25rem]" crosses crossesOffset="lg:translate-y-[5.25rem]" customPaddings id="industries">
+    <>
+      <SEO title={PAGE_META.industries.title} description={PAGE_META.industries.description} path="/industries" />
+      <Section className="pt-[12rem] -mt-[5.25rem]" crosses crossesOffset="lg:translate-y-[5.25rem]" customPaddings id="industries">
       <div className="container relative">
         <div ref={heroAnimation.ref} className={`relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem] ${heroAnimation.animationClasses}`}>
           <h1 className={`h1 mb-6 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
@@ -138,6 +142,7 @@ const IndustriesOverview = () => {
         </div>
       </div>
     </Section>
+    </>
   );
 };
 

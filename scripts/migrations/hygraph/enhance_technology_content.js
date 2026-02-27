@@ -15,8 +15,9 @@ dotenv.config();
 const ENDPOINT = process.env.VITE_HYGRAPH_ENDPOINT;
 const TOKEN = process.env.VITE_HYGRAPH_TOKEN;
 
-async function makeRequest(query) {
+async function makeRequest(query, variables = null) {
     try {
+        const body = variables ? { query, variables } : { query };
         const response = await fetch(ENDPOINT, {
             method: 'POST',
             headers: {
@@ -24,9 +25,9 @@ async function makeRequest(query) {
                 'Authorization': `Bearer ${TOKEN}`,
                 'gcms-stage': 'DRAFT'
             },
-            body: JSON.stringify({ query })
+            body: JSON.stringify(body)
         });
-        
+
         const result = await response.json();
         return result;
     } catch (error) {

@@ -65,6 +65,7 @@ CREATE_USE_CASE = gql("""
     $capabilities: [String!]!
     $queries: [String!]!
     $metrics: [String!]!
+    $implementation: Json
     $architectureDescription: String!
     $architectureComponents: [ComponentCreateInput!]!
     $architectureFlow: [FlowStepCreateInput!]!
@@ -77,6 +78,7 @@ CREATE_USE_CASE = gql("""
       capabilities: $capabilities
       queries: $queries
       metrics: $metrics
+      implementation: $implementation
       architecture: {
         create: {
           description: $architectureDescription
@@ -198,6 +200,9 @@ def main():
         queries = queries if isinstance(queries, list) else ([] if not queries else [str(queries)])
         metrics = uc.get("metrics")
         metrics = metrics if isinstance(metrics, list) else ([] if not metrics else [str(metrics)])
+        impl = uc.get("implementation")
+        if impl and not isinstance(impl, dict):
+            impl = None
         create_result = client.execute(CREATE_USE_CASE, variable_values={
             "title": uc.get("title", ""),
             "slug": solution_slug,
@@ -206,6 +211,7 @@ def main():
             "capabilities": caps,
             "queries": queries,
             "metrics": metrics,
+            "implementation": impl,
             "architectureDescription": arch_desc,
             "architectureComponents": arch_components,
             "architectureFlow": arch_flow,

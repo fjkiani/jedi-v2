@@ -2,9 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
+import { useTheme } from '@/context/ThemeContext';
 
-// Updated props signature
 const IndustrySolutionCard = ({ title, description, industrySlug, useCaseSlug, index }) => {
+  const { isDarkMode } = useTheme();
   // Basic validation for required props for linking and display
   if (!title || !industrySlug || !useCaseSlug) {
     console.warn("IndustrySolutionCard missing required props:", { title, industrySlug, useCaseSlug });
@@ -18,16 +19,15 @@ const IndustrySolutionCard = ({ title, description, industrySlug, useCaseSlug, i
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
       // Added h-full and flex display for consistent card height and bottom-aligned link
-      className="relative p-6 rounded-2xl bg-n-7 border border-n-6 overflow-hidden group h-full flex flex-col"
+      className={`relative p-6 rounded-2xl overflow-hidden group h-full flex flex-col border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}
     >
       {/* Added flex-grow to make content area expand */}
       <div className="relative z-2 flex-grow">
         {/* Removed Solution Icon section (icon wasn't fetched) */}
 
         {/* Solution Header - Use new props */}
-        <h4 className="h4 mb-3">{title}</h4>
-        {/* Use new description prop, add line-clamp for consistency */}
-        <p className="body-2 text-n-3 mb-6 line-clamp-3">
+        <h4 className={`h4 mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{title}</h4>
+        <p className={`body-2 mb-6 line-clamp-3 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
           {description || "No description available."} {/* Handle potentially missing description */}
         </p>
 

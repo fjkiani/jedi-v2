@@ -4,13 +4,17 @@
     {"src": "server/server.js", "use": "@vercel/node", "config": {"includeFiles": ["dist/**"]}},
     {"src": "package.json", "use": "@vercel/static-build", "config": {"distDir": "dist"}}
   ],
-  "routes": [
-    {"src": "/blog/post/.*", "dest": "server/server.js"},
-    {"src": "/assets/(.*)", "dest": "/dist/assets/$1"},
-    {"handle": "filesystem"},
-    {"src": "/(.*)", "dest": "server/server.js"}
+  "redirects": [
+    {"source": "/blog/ai-agents", "destination": "/blog/post/ai-agents", "permanent": true},
+    {"source": "/blog/aws-railway", "destination": "/blog/post/aws-railway", "permanent": true},
+    {"source": "/blog/building-web3", "destination": "/blog/post/building-web3", "permanent": true},
+    {"source": "/blog/graph-rag", "destination": "/blog/post/graph-rag", "permanent": true},
+    {"source": "/blog/knowledge-graph", "destination": "/blog/post/knowledge-graph", "permanent": true},
+    {"source": "/blog/supabase-etl", "destination": "/blog/post/supabase-etl", "permanent": true},
+    {"source": "/blog/ora-hackathon", "destination": "/blog/post/ora-hackathon", "permanent": true},
+    {"source": "/blog/evo-2", "destination": "/blog/post/evo-2", "permanent": true},
+    {"source": "/blog/jedilabs", "destination": "/blog/post/jedilabs", "permanent": true},
+    {"source": "/blog/identity-missing-pillar-agentic-ai", "destination": "/blog/post/identity-missing-pillar-agentic-ai", "permanent": true}
   ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "env": {"NODE_ENV": "production"}
 }

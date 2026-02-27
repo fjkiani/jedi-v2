@@ -9,10 +9,10 @@ export const RootSEO = () => {
           {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "JediLabs",
+            "name": "JEDI Labs",
             "url": "https://jedilabs.org",
             "logo": "https://jedilabs.org/logo.png",
-            "description": "JediLabs helps businesses achieve exponential growth through AI-powered solutions, strategic consulting, and innovative services.",
+            "description": "Agentic AI consulting and development studio. Ships production co-pilots for SMBs across Healthcare, Finance, and Education via JEDI Ensemble™, JEDI Rules™, and JEDI Automate™.",
             "sameAs": [
               "https://twitter.com/jedilabs",
               "https://www.linkedin.com/company/jedilabs",
@@ -33,8 +33,8 @@ export const RootSEO = () => {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "url": "https://jedilabs.org",
-            "name": "JediLabs - 100x Business Transformation Solutions",
-            "description": "JediLabs helps businesses achieve exponential growth through AI-powered solutions, strategic consulting, and innovative services.",
+            "name": "JEDI Labs — Agentic AI Co-Pilots for SMBs",
+            "description": "Production AI co-pilots for SMBs. Healthcare, Finance, Education. JEDI Ensemble™, JEDI Rules™, JEDI Automate™ — deployed for production, not pilots.",
             "potentialAction": {
               "@type": "SearchAction",
               "target": "https://jedilabs.org/search?q={search_term_string}",
@@ -48,13 +48,13 @@ export const RootSEO = () => {
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            "name": "100x Business Transformation",
+            "name": "Agentic AI Co-Pilot Development",
             "provider": {
               "@type": "Organization",
-              "name": "JediLabs"
+              "name": "JEDI Labs"
             },
-            "description": "Our comprehensive business transformation services help organizations achieve exponential growth through AI-powered solutions, strategic consulting, and innovative services.",
-            "serviceType": "Business Transformation",
+            "description": "Architects and ships agentic AI co-pilots for SMBs using JEDI Ensemble™ (multi-model orchestration), JEDI Rules™ (business logic engine), and JEDI Automate™ (model optimization). Deployed for production, not pilots.",
+            "serviceType": "AI Consulting and Development",
             "offers": {
               "@type": "Offer",
               "price": "0",

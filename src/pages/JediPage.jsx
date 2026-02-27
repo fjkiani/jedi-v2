@@ -208,8 +208,10 @@ const JediPage = () => {
   return (
     <>
       <Helmet>
-        <title>Applications | JEDI Labs</title>
-        <meta name="description" content="JEDI Labs applications and projects. External demos, case studies, and deployed AI solutions." />
+        <title>Applications Registry | JEDI Labs — Production AI Co-Pilots</title>
+        <meta name="description" content="Explore JEDI Labs applications. Production agentic AI co-pilots for Healthcare, Finance, Education. Voice agents, search optimization, interactive co-pilots." />
+        <meta property="og:url" content="https://jedilabs.org/jedi" />
+        <link rel="canonical" href="https://jedilabs.org/jedi" />
       </Helmet>
 
       <div className="min-h-screen bg-n-8 text-n-1 pt-[8rem] pb-20 relative overflow-hidden">

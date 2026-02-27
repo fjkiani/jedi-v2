@@ -1,61 +1,53 @@
 export const aboutContent = {
   meta: {
-    title: "About Us | JediLabs - 100x Business Transformation",
-    description: "Learn about JediLabs' mission to help businesses achieve 100x growth through innovative AI solutions, strategic consulting, and transformative services."
+    title: "About Us | JEDI Labs — Agentic AI Co-Pilots",
+    description: "Agentic AI consulting and development studio. We ship production co-pilots for SMBs across Healthcare, Finance, and Education via JEDI Ensemble™, JEDI Rules™, and JEDI Automate™ — deployed for production, not pilots."
   },
-  
+
   hero: {
-    highlightText: "100x Business Transformation",
-    description: "At JediLabs, we're revolutionizing how businesses grow and operate. Our mission is to help organizations achieve exponential results—not just incremental improvements. We combine cutting-edge technology, strategic consulting, and innovative services to deliver transformative solutions that drive 100x returns.",
+    highlightText: "Agentic AI Co-Pilots",
+    title: "About JEDI Labs",
+    description: "We architect and ship agentic AI co-pilots using JEDI Ensemble™ (multi-model orchestration), JEDI Rules™ (business logic engine), and JEDI Automate™ (model optimization). Production deployments for SMBs across Healthcare, Finance, and Education — via a modular MCP/NLP/LLM stack. Deployed for production, not pilots.",
     stats: [
-        {
-            value: "100x",
-            label: "Growth Potential"
-          },
-          {
-            value: "90%",
-            label: "Cost Reduction"
-          },
-          {
-            value: "10x",
-            label: "Faster Time-to-Market"
-          }
+      { value: "3", label: "JEDI Components" },
+      { value: "9+", label: "Industries Served" },
+      { value: "Production", label: "Ready AI" }
     ]
   },
 
   vision: {
-    title: "The 100x Vision",
-    description: "We believe every business has exponential potential waiting to be unlocked. Our approach combines advanced technology, strategic thinking, and operational excellence to help organizations achieve what they once thought impossible. We're not just improving businesses—we're completely transforming them.",
+    title: "The JEDI Approach",
+    description: "We believe every business deserves AI that works out of the box. Our approach combines modular components, real client implementations, and measurable results. Voice agents, identity layers, and industry-specific co-pilots—shipped for production, not pilots.",
     image: "/images/about/vision.webp",
-    imageAlt: "JediLabs Vision",
+    imageAlt: "JEDI Labs Vision",
     highlights: [
       {
-        id: "exponential-thinking",
-        text: "Exponential Thinking",
+        id: "ensemble",
+        text: "JEDI Ensemble™ — Multi-model orchestration",
         icon: {
           path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "transformative-innovation",
-        text: "Transformative Innovation",
+        id: "rules",
+        text: "JEDI Rules™ — Business logic engine",
         icon: {
           path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "strategic-execution",
-        text: "Strategic Execution",
+        id: "automate",
+        text: "JEDI Automate™ — Model optimization",
         icon: {
           path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "data-driven-decisions",
-        text: "Data-Driven Decisions",
+        id: "production",
+        text: "Modular MCP/NLP/LLM stack",
         icon: {
           path: "M3.6 3h16.8a.6.6 0 0 1 .6.6v16.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6z M7 12h10 M12 7v10",
           viewBox: "0 0 24 24"
@@ -65,87 +57,72 @@ export const aboutContent = {
   },
 
   values: {
-    title: "The 100x Methodology",
-    subtitle: "Our proven approach to helping businesses achieve exponential growth",
+    title: "What We Deliver",
+    subtitle: "Production-ready AI solutions built on real client implementations",
     items: [
       {
-        title: "Identify",
-        description: "Discovering untapped opportunities and hidden potential within your organization",
-        icon: {
-          path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10",
-          viewBox: "0 0 24 24"
-        }
+        title: "Voice Agents",
+        description: "24/7 voice AI with RetellAI integration. Go Answer: 80% faster response times, 60% improved satisfaction.",
+        icon: { path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10", viewBox: "0 0 24 24" }
       },
       {
-        title: "Transform",
-        description: "Implementing cutting-edge solutions that fundamentally change how you operate",
-        icon: {
-          path: "M3 6H21M3 12H21M3 18H21",
-          viewBox: "0 0 24 24"
-        }
+        title: "AI Search Optimization",
+        description: "Consulting for AISO and GEO. 150% organic traffic increase, 200% lead quality improvement.",
+        icon: { path: "M3 6H21M3 12H21M3 18H21", viewBox: "0 0 24 24" }
       },
       {
-        title: "Scale",
-        description: "Creating systems that allow for exponential growth without proportional cost increases",
-        icon: {
-          path: "M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21",
-          viewBox: "0 0 24 24"
-        }
+        title: "Interactive Co-Pilots",
+        description: "Personalized coaching, behavior-change nudges. Scalable to any use case.",
+        icon: { path: "M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21", viewBox: "0 0 24 24" }
       },
       {
-        title: "Accelerate",
-        description: "Continuously optimizing and innovating to maintain exponential growth trajectories",
-        icon: {
-          path: "M12 2L2 7L12 12L22 7L12 2Z M2 17L12 22L22 17 M2 12L12 17L22 12",
-          viewBox: "0 0 24 24"
-        }
+        title: "Industry Solutions",
+        description: "Education, Healthcare, Finance. CrisPRO Oncology Co-Pilot, fraud detection, personalized learning.",
+        icon: { path: "M12 2L2 7L12 12L22 7L12 2Z M2 17L12 22L22 17 M2 12L12 17L22 12", viewBox: "0 0 24 24" }
       }
     ]
   },
 
   expertise: {
-    title: "Our 100x Services",
-    subtitle: "Comprehensive solutions for exponential business growth",
+    title: "JEDI Expertise",
+    subtitle: "Real implementations across industries",
     areas: [
       {
-        title: "AI-Powered Transformation",
-        description: "Leveraging advanced AI to revolutionize your business operations",
+        title: "Voice & Identity",
+        description: "Voice agents, OAuth 2.0, RBAC, Zero-Trust, HIPAA-compliant triage",
         features: [
-          "Intelligent Process Automation",
-          "Predictive Analytics",
-          "AI Strategy Development"
+          "RetellAI integration",
+          "PHI scrubbing",
+          "MCP security"
         ]
       },
       {
-        title: "Strategic Consulting",
-        description: "Expert guidance to identify and capitalize on 100x opportunities",
+        title: "AI Search & RAG",
+        description: "AISO, GEO, Hugging Face, custom models, semantic search",
         features: [
-          "Growth Opportunity Analysis",
-          "Digital Transformation Roadmap",
-          "Business Model Innovation"
+          "Organic traffic growth",
+          "Lead quality improvement",
+          "Knowledge retrieval"
         ]
       },
       {
-        title: "Implementation & Execution",
-        description: "Turning transformative ideas into operational reality",
+        title: "Co-Pilot Development",
+        description: "LangChain, Pydantic AI, conversational AI, interactive simulations",
         features: [
-          "Rapid Solution Development",
-          "Change Management",
-          "Performance Optimization"
+          "Industry-specific co-pilots",
+          "Progressive disclosure",
+          "Hygraph CMS integration"
         ]
       }
     ]
   },
 
   team: {
-    title: "Our 100x Team",
-    subtitle: "Meet the experts driving exponential growth for our clients",
+    title: "The JEDI Team",
+    subtitle: "Experts building agentic AI for production",
     comingSoon: {
-      icon: {
-        path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
-        viewBox: "0 0 24 24"
-      },
+      icon: { path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", viewBox: "0 0 24 24" },
       text: "Coming Soon"
     }
   }
-}; 
+};

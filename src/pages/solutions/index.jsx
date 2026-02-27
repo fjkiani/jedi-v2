@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { getAllSolutions } from '@/constants/solutions/index';
+import SEO from '@/components/SEO';
 import { Icon } from '@/components/Icon';
 import Section from '@/components/Section';
 import { useTheme } from '@/context/ThemeContext';
@@ -65,10 +66,10 @@ const SolutionsPage = ({ isHomepage = false }) => {
 
   // Determine solutions and page info based on context
   const solutionsToDisplay = isHomepage ? allSolutions.slice(0, 3) : allSolutions;
-  const pageTitle = isHomepage ? "AI/ML Solutions" : "Enterprise Solutions";
+  const pageTitle = isHomepage ? "AI/ML Solutions" : "Production AI Solutions";
   const pageDescription = isHomepage ? 
     "Enterprise-grade AI and machine learning solutions for intelligent automation and decision-making."
-    : "Explore our comprehensive suite of enterprise-grade solutions powered by cutting-edge AI technologies.";
+    : "AI agents, data engineering, full-stack development. JEDI Ensemble™, JEDI Rules™, JEDI Automate™. Production deployments for Healthcare, Finance, Education.";
 
   // Helper function to flatten tech stack and get icons (REVISED LOGIC)
   const getTechIcons = (techStack) => {
@@ -122,6 +123,14 @@ const SolutionsPage = ({ isHomepage = false }) => {
   };
 
   return (
+    <>
+      {!isHomepage && (
+        <SEO
+          title="Solutions | JEDI Labs — AI Agents, Data Engineering, Full-Stack"
+          description="Production AI solutions: AI/ML, agent swarm theory, data pipelines, full-stack development. JEDI Ensemble™, JEDI Rules™, JEDI Automate™ — deployed for SMBs."
+          path="/solutions"
+        />
+      )}
     <Section className="overflow-hidden">
       <style>{themeAwareSwiperNavStyles}</style> {/* Inject styles */} 
       <div className="container">
@@ -233,6 +242,7 @@ const SolutionsPage = ({ isHomepage = false }) => {
         )}
       </div>
     </Section>
+    </>
   );
 };
 

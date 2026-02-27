@@ -1,0 +1,20 @@
+{
+  "title": "Building Web3 for Healthcare: Why Patient Data Ownership Changes Everything",
+  "slug": "building-web3",
+  "excerpt": "Health systems hold your data. Vendors monetize it. Web3 flips the script: self-sovereign identity, verifiable credentials, and consent management put patients in control. Here's why that matters for healthcare AI.",
+  "featuredPost": true,
+  "content": {
+    "children": [
+      {"type": "paragraph", "children": [{"text": "Today, your health data lives in silos. Hospitals, insurers, and vendors each hold fragments. They decide who gets access, how long it's retained, and whether it's sold. The patient—the actual owner of that data—has almost no say."}]},
+      {"type": "paragraph", "children": [{"text": "Web3 technologies—blockchain, self-sovereign identity (SSI), verifiable credentials, and zero-knowledge proofs—are changing that. Not as hype. As infrastructure for healthcare 4.0: systems where patients manage, share, and revoke access to their own health data."}]},
+      {"type": "heading-two", "children": [{"text": "The Self-Sovereign Patient"}]},
+      {"type": "paragraph", "children": [{"text": "The self-sovereign patient model positions individuals as custodians of their own health information. Instead of a hospital being the de facto owner, the patient holds credentials. They grant access to clinicians, researchers, or AI systems—and revoke it when they want."}]},
+      {"type": "paragraph", "children": [{"text": "This isn't theoretical. SSI frameworks with Decentralized Identifiers (DIDs) and Verifiable Credentials are already deployed in pilot programs. Consent management systems track both consent and data utilization, building trust and increasing willingness to share for care and research."}]},
+      {"type": "heading-two", "children": [{"text": "Why This Matters for Healthcare AI"}]},
+      {"type": "paragraph", "children": [{"text": "AI co-pilots need data. But when data is locked in vendor silos, access is fragmented and consent is murky. When patients control their data, they can explicitly grant AI systems the right to analyze it—with clear, auditable permissions."}]},
+      {"type": "paragraph", "children": [{"text": "At JEDI Labs, we're building agentic AI for healthcare. Identity and consent are core. We don't want AI that assumes access; we want AI that respects patient autonomy and verifiable consent. Web3 gives us the rails."}]},
+      {"type": "heading-two", "children": [{"text": "Challenges and the Path Forward"}]},
+      {"type": "paragraph", "children": [{"text": "Major barriers remain: regulatory alignment (e.g., right to erasure vs. immutability), digital inheritance, and equity of access. But the direction is clear. Patients want control. Vendors selling data without clear consent face growing scrutiny. The self-sovereign model isn't a side project—it's the future."}]}
+    ]
+  }
+}

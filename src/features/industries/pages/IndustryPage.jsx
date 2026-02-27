@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { gql } from 'graphql-request';
-import { hygraphClient, hygraphEndpoint } from '@/lib/hygraph';
+import { hygraphClient } from '@/lib/hygraph';
 import Section from '@/components/Section';
 import { Icon } from '@/components/Icon';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import ApplicationDisplay from '../components/ApplicationDisplay';
+import IndustrySolutionCard from '../components/IndustrySolutionCard';
 import { useTheme } from '@/context/ThemeContext';
 import { RingLoader } from 'react-spinners';
 import { ArrowLeft } from 'lucide-react';
@@ -64,6 +65,18 @@ const GET_INDUSTRY_DETAIL_WITH_APPLICATIONS = gql`
   }
 `;
 
+// Fetch useCaseS for industry when industryApplication is empty
+const GET_USE_CASES_FOR_INDUSTRY = gql`
+  query GetUseCasesForIndustry($industrySlug: String!) {
+    useCaseS(where: { industry: { slug: $industrySlug } }, stage: PUBLISHED) {
+      id
+      title
+      slug
+      description
+    }
+  }
+`;
+
 // Simple mapping for colors based on slug (reuse or adapt from IndustryOverview)
 const colorMap = {
   'healthcare': 'from-blue-500 to-blue-700',
@@ -109,6 +122,7 @@ const IndustryPage = () => {
   const location = useLocation();
   const { isDarkMode } = useTheme();
   const [industryData, setIndustryData] = useState(null);
+  const [useCases, setUseCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -126,29 +140,24 @@ const IndustryPage = () => {
       setLoading(true);
       setError(null);
       setIndustryData(null);
+      setUseCases([]);
       console.log(`[IndustryPage] Fetching details using slug: ${industryId}`);
       try {
-        console.log(`[IndustryPage] Requesting from Endpoint: ${hygraphEndpoint}`);
-        console.log(`[IndustryPage] Query: ${GET_INDUSTRY_DETAIL_WITH_APPLICATIONS}`);
-        console.log(`[IndustryPage] Variables: ${JSON.stringify({ slug: industryId })}`);
-        console.log("[IndustryPage] Attempting hygraphClient.request...");
-        const data = await hygraphClient.request(GET_INDUSTRY_DETAIL_WITH_APPLICATIONS, { slug: industryId });
-        console.log("[IndustryPage] Raw data received:", data);
+        const [industryResult, useCasesResult] = await Promise.all([
+          hygraphClient.request(GET_INDUSTRY_DETAIL_WITH_APPLICATIONS, { slug: industryId }),
+          hygraphClient.request(GET_USE_CASES_FOR_INDUSTRY, { industrySlug: industryId }).catch(() => ({ useCaseS: [] })),
+        ]);
 
-        if (!data || !data.industries || data.industries.length === 0) { // Check length
-          console.warn(`[IndustryPage] Industry not found for slug: ${industryId}`);
+        if (!industryResult?.industries?.length) {
           throw new Error(`Industry with slug "${industryId}" not found in Hygraph.`);
         }
 
-        const fetchedIndustryData = data.industries[0];
-        console.log("[IndustryPage] Setting industry state:", fetchedIndustryData);
-        setIndustryData(fetchedIndustryData);
-
+        setIndustryData(industryResult.industries[0]);
+        setUseCases(useCasesResult?.useCaseS || []);
       } catch (err) {
         console.error("[IndustryPage] Caught error during fetch:", err);
         setError(err.message || "Failed to load industry details.");
       } finally {
-        console.log("[IndustryPage] Fetch attempt finished. Setting loading to false.");
         setLoading(false);
       }
     };
@@ -248,7 +257,7 @@ const IndustryPage = () => {
               Our Approach in {industryData.name}
             </h2> */}
 
-            {/* Loop through applications and pass context data */}
+            {/* 1. industryApplication: rich ApplicationDisplay blocks */}
             {industryData.industryApplication && industryData.industryApplication.length > 0 ? (
               industryData.industryApplication.map((app, index) => (
                 <motion.div
@@ -257,20 +266,49 @@ const IndustryPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.4, delay: index * 0.15 }}
-                  className="mb-12 md:mb-16" // Keep spacing between applications
-                  id={`application-${app.id}`} // Add ID for linking
+                  className="mb-12 md:mb-16"
+                  id={`application-${app.id}`}
                 >
-                  {/* Pass industryContextData as a prop */}
                   <ApplicationDisplay 
                     application={app} 
                     industryContextData={industryContextData} 
                   />
                 </motion.div>
               ))
+            ) : useCases.length > 0 ? (
+              /* 2. useCaseS fallback: solution cards linking to detail pages */
+              <div className="space-y-8">
+                <h2 className={`h2 text-center mb-10 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                  Solutions for {industryData.name}
+                </h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {useCases.map((uc, index) => (
+                    <IndustrySolutionCard
+                      key={uc.id}
+                      title={uc.title}
+                      description={uc.description}
+                      industrySlug={industryData.slug}
+                      useCaseSlug={uc.slug}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </div>
             ) : (
-              <p className={`text-center p-6 rounded-lg border ${isDarkMode ? 'border-n-6 bg-n-7 text-n-4' : 'border-n-3 bg-n-1 text-n-5'}`}>
-                Specific applications for {industryData.name} are being detailed. Check back soon!
-              </p>
+              /* 3. Dynamic fallback: industry description, fullDescription, benefits, capabilities */
+              <div className="space-y-10">
+                {renderRichTextSection('Industry Context', industryData.fullDescription, isDarkMode)}
+                {renderListSection('Key Benefits', industryData.benefits, FiCheckCircle, isDarkMode)}
+                {renderListSection('Core Capabilities Addressed', industryData.capabilities, FiCheckCircle, isDarkMode)}
+                {(!industryData.fullDescription?.raw && (!industryData.benefits?.length) && (!industryData.capabilities?.length)) && (
+                  <div className={`p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
+                    <p className={`body-1 ${isDarkMode ? 'text-n-3' : 'text-n-6'}`}>
+                      JEDI Labs delivers production AI co-pilots for the {industryData.name} sector using JEDI Ensemble™, JEDI Rules™, and JEDI Automate™. 
+                      Contact us to discuss how we can advance your {industryData.name} operations.
+                    </p>
+                  </div>
+                )}
+              </div>
             )}
           </motion.div>
 

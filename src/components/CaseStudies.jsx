@@ -117,7 +117,7 @@ const CaseStudies = () => {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-20 font-starjedi"
         >
-          <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} uppercase tracking-wider`}>use cases</h2>
+          <h2 className={`h2 mb-4 ${isDarkMode ? 'text-n-1' : 'text-n-8'} tracking-wider`}>use cases</h2>
           <p className={`body-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'} md:max-w-3xl mx-auto font-mono text-sm`}>
             CLASSIFIED MISSION REPORTS // FIELD DATA
           </p>

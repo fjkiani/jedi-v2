@@ -1,0 +1,130 @@
+{
+  "industrySlug": "technology",
+  "useCase": {
+    "title": "GitLab MLOps Automation",
+    "slug": "gitlab-mlops-automation",
+    "description": "DevOps and ML teams spend 80-90% of their time on manual pipeline work: code review, CI/CD failures, model deployment, and data validation. We built an AI MLOps platform that orchestrates GitLab projects, automates code review and security scanning, analyzes pipeline failures and auto-remediates, deploys models with drift detection, validates data pipelines for compliance, and optimizes cloud costs. The system uses custom MCP servers (similar to healthcare's twilio_hipaa, assemblyai, nexhealth) that wrap GitLab, MLflow, AWS, Snowflake, and other APIs to provide full MLOps capabilities.",
+    "capabilities": [
+      "GitLab orchestration: project creation, MR routing, pipeline monitoring, release planning, issue triage, milestone management",
+      "Code intelligence: automated code review, security scanning, architecture analysis, performance regression detection, auto-fix trivial issues",
+      "CI/CD intelligence: predictive failure analysis, root cause analysis, auto-remediation, pipeline optimization, intelligent retry",
+      "MLOps automation: model deployment, drift detection, automated retraining, A/B test orchestration, model versioning",
+      "Data pipeline management: schema validation, PII detection, compliance checks (GDPR, CCPA, HIPAA), lineage tracking",
+      "Resource optimization: auto-scaling, environment shutdown, right-sizing, cost anomaly detection",
+      "Collaboration intelligence: sprint planning automation, blocker detection, team health tracking"
+    ],
+    "queries": [
+      "How does the AI detect and fix CI/CD pipeline failures?",
+      "What happens when the AI finds a security vulnerability in an MR?",
+      "How does model deployment and drift detection work?",
+      "How do you validate data pipelines for GDPR compliance?",
+      "What custom MCP servers power this platform and what APIs do they integrate?"
+    ],
+    "metrics": [
+      "Pipeline failure resolution rate (auto-remediated vs manual)",
+      "Code review and security scan throughput",
+      "Model deployment time (target <10 min from PR merge)",
+      "Drift detection accuracy and time-to-alert",
+      "Data validation and compliance pass rate",
+      "Cost savings from resource optimization (vs baseline)"
+    ],
+    "architecture": {
+      "description": "An AI agent orchestrates seven custom MCP servers that wrap real APIs (GitLab REST/GraphQL, MLflow, SonarQube, CodeQL, AWS, Snowflake, Kubecost). Each server exposes domain-specific tools: GitLab Orchestrator for projects/MRs/pipelines; Code Intelligence for review and security; CI/CD Intelligence for failure analysis and auto-remediation; MLOps Automation for deployment and drift; Data Pipeline for validation and compliance; Resource Optimization for cost and scaling; Collaboration for sprints and blockers. The agent receives task inputs (e.g. MR ID, pipeline logs, model ID), calls the appropriate tools, and returns structured outputs.",
+      "components": [
+        {
+          "name": "GitLab Orchestrator Server",
+          "description": "Wraps GitLab REST and GraphQL APIs for project management, MRs, pipelines, issues, releases.",
+          "details": "Tools: create_project, create_merge_request, assign_reviewers, get_pipeline_status, create_release, create_issue, create_milestone. Handles project structure, CI/CD templates, MR routing by code ownership.",
+          "explanation": ["Single place for all GitLab operations", "Enables MR routing, pipeline orchestration, release coordination"]
+        },
+        {
+          "name": "Code Intelligence Server",
+          "description": "Automated code review, security scanning, architecture analysis via GitLab Diff, SonarQube, CodeQL.",
+          "details": "Tools: review_code, scan_security, analyze_architecture, check_performance, auto_fix_trivial, assign_reviewers. AST parsing, vulnerability detection, pattern enforcement.",
+          "explanation": ["Catches bugs and security issues before merge", "Reduces manual review load"]
+        },
+        {
+          "name": "CI/CD Intelligence Server",
+          "description": "Pipeline failure analysis, root cause parsing, auto-remediation, optimization suggestions.",
+          "details": "Tools: predict_failures, analyze_root_cause, auto_remediate, optimize_pipeline, fingerprint_failures. Integrates GitLab CI, Docker, Kubernetes, cloud APIs.",
+          "explanation": ["Resolves common failures without human intervention", "Reduces MTTR and pipeline cost"]
+        },
+        {
+          "name": "MLOps Automation Server",
+          "description": "Model deployment, monitoring, drift detection, retraining, A/B testing, versioning.",
+          "details": "Tools: deploy_model, monitor_model, trigger_retraining, intelligent_rollback, orchestrate_ab_test, version_model. Integrates MLflow, W&B, Prometheus, Feast.",
+          "explanation": ["End-to-end model lifecycle automation", "Ensures production models stay healthy"]
+        },
+        {
+          "name": "Data Pipeline Server",
+          "description": "Data validation, schema checks, PII detection, compliance monitoring, lineage tracking.",
+          "details": "Tools: validate_data, version_data, track_lineage, detect_pii, check_compliance, heal_pipeline. Integrates Snowflake, BigQuery, Great Expectations.",
+          "explanation": ["Prevents bad data and compliance violations", "Self-healing pipelines reduce manual fixes"]
+        },
+        {
+          "name": "Resource Optimization Server",
+          "description": "Auto-scaling, environment shutdown, right-sizing, cost anomaly detection.",
+          "details": "Tools: auto_scale, shutdown_environments, right_size_resources, detect_cost_anomalies. Integrates AWS, GCP, Azure, Kubecost.",
+          "explanation": ["Reduces cloud spend and waste", "Proactive scaling and shutdown"]
+        },
+        {
+          "name": "Collaboration Intelligence Server",
+          "description": "Sprint planning, blocker detection, burndown prediction, retrospective generation.",
+          "details": "Tools: plan_sprint, detect_blockers, predict_burndown, generate_retrospective. Integrates GitLab Issues/Milestones, Slack/Discord.",
+          "explanation": ["Automates agile coordination", "Surfaces blockers before they delay sprints"]
+        }
+      ],
+      "flow": [
+        {
+          "step": "Task input",
+          "description": "Agent receives task (e.g. MR ID, pipeline ID, model ID, data pipeline config).",
+          "details": "Input format varies by category; agent determines which server(s) to call."
+        },
+        {
+          "step": "Tool selection and execution",
+          "description": "Agent selects tools from one or more MCP servers and executes in sequence.",
+          "details": "Example: review_code → scan_security → auto_fix_trivial → assign_reviewers."
+        },
+        {
+          "step": "API integration",
+          "description": "Each server calls underlying APIs (GitLab, MLflow, AWS, etc.) and returns structured results.",
+          "details": "Servers handle auth, retries, error handling; agent sees tool outputs."
+        },
+        {
+          "step": "Result aggregation",
+          "description": "Agent combines tool outputs into a coherent response.",
+          "details": "May include security issues, fix actions, deployment status, compliance flags."
+        },
+        {
+          "step": "Output and optional actions",
+          "description": "Agent returns structured output; may create MR comments, retry pipelines, deploy models.",
+          "details": "Evaluator validates output schema and correctness of actions taken."
+        }
+      ]
+    },
+    "implementation": {
+      "requirements": [
+        "Custom MCP servers for GitLab, Code Intelligence, CI/CD, MLOps, Data Pipeline, Resource Optimization, Collaboration",
+        "API access: GitLab, MLflow, SonarQube/CodeQL, AWS/GCP/Azure, Snowflake/BigQuery",
+        "Staging environment with GitLab project, pipeline, and sample model"
+      ],
+      "success_metrics": [
+        "Pipeline auto-remediation rate",
+        "Code review throughput",
+        "Model deployment time",
+        "Drift detection accuracy",
+        "Data compliance pass rate",
+        "Cost savings from optimization"
+      ],
+      "integration_points": [
+        "GitLab REST and GraphQL APIs",
+        "MLflow (model registry, experiments)",
+        "SonarQube / CodeQL (static analysis, security)",
+        "AWS, GCP, Azure (resource management)",
+        "Snowflake, BigQuery (data validation)",
+        "Kubecost (Kubernetes cost)"
+      ]
+    }
+  },
+  "_comment": "Technologies to link in Hygraph: LangChain (orchestration), GitLab, MLflow, Prometheus, Weaviate if RAG. Industry: technology."
+}

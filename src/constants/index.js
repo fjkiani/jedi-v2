@@ -44,6 +44,7 @@ export const navigation = [
     id: "registry",
     title: "APPLICATIONS",
     url: "/jedi",
+    dropdownItems: [],
   },
   {
     id: "infrastructure",

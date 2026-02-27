@@ -8,9 +8,9 @@ const UseCasesPage = () => {
   return (
     <>
       <SEO
-        title="AI Use Cases & Success Stories"
-        description="Explore real-world examples of how Jedi Labs' AI solutions drive transformation across various industries. See our success stories and discover potential applications for your business."
-        // Add other SEO props as needed (keywords, image, etc.)
+        title="Use Cases | JEDI Labs — Agentic AI Implementations"
+        description="Real use cases: CrisPRO Oncology, AI voice operations, fraud detection, personalized learning. Production co-pilots built for SMBs across Healthcare, Finance, Education."
+        path="/use-cases"
       />
       <Section className="pt-[8rem] -mt-[5.25rem]" crosses>
         <div className="container relative">

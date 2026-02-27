@@ -68,8 +68,8 @@ const Hero = () => {
   const logoAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 800 });
 
   const heroContent = {
-    title: "Deploy Your Artificial Workforce.",
-    subtitle: "Jedi Labs constructs, trains, and deploys vertical super-intelligence for Enterprise, Science, and Government.",
+    title: "Production AI Co-Pilots.",
+    subtitle: "Agentic AI consulting and development studio — shipping production co-pilots for SMBs across Healthcare, Finance, and Education via a modular MCP/NLP/LLM stack.",
     video: "/videos/coding2.mp4",
   };
 

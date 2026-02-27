@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import ButtonGradient from "./assets/svg/ButtonGradient";
@@ -64,7 +64,13 @@ import JediPage from "./pages/JediPage";
 import MethodologyDetail from './pages/methodology/MethodologyDetail';
 import InfrastructurePage from './pages/InfrastructurePage';
 import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
+import { CareersPage, JobDetailPage } from './pages/careers';
 import NotFound from './pages/NotFound';
+
+const BlogLegacyRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/blog/post/${slug}`} replace />;
+};
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -239,15 +245,16 @@ const AppContent = ({ posts, location, helmetContext }) => {
                   </PageTransition>
                 }
               />
-
               <Route
-                path="blog/post/:slug"
+                path="/blog/post/:slug"
                 element={
                   <PageTransition>
                     <BlogPage />
                   </PageTransition>
                 }
               />
+              {/* Legacy: /blog/ai-agents → /blog/post/ai-agents (fixes 404 for Google-indexed URLs) */}
+              <Route path="/blog/:slug" element={<BlogLegacyRedirect />} />
 
               <Route
                 path="/industries/*"
@@ -326,6 +333,23 @@ const AppContent = ({ posts, location, helmetContext }) => {
                 element={
                   <PageTransition>
                     <CaseStudyDetailPage />
+                  </PageTransition>
+                }
+              />
+
+              <Route
+                path="/careers"
+                element={
+                  <PageTransition>
+                    <CareersPage />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/careers/:slug"
+                element={
+                  <PageTransition>
+                    <JobDetailPage />
                   </PageTransition>
                 }
               />
