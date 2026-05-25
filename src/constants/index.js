@@ -51,10 +51,10 @@ export const navigation = [
     title: "INFRASTRUCTURE",
     url: "/infrastructure",
     dropdownItems: [
-      { title: "Neural Architectures", url: "/solutions/ai-ml-solutions" },
-      { title: "Agent Swarm Theory", url: "/solutions/ai-agents" },
-      { title: "Data Pipelines", url: "/solutions/data-engineering" },
-      { title: "Tech Stack", url: "/technology" }
+      { title: "AI Agents", url: "/solutions/ai-agents" },
+      { title: "Data Engineering", url: "/solutions/data-engineering" },
+      { title: "Full Tech Stack", url: "/technology" },
+      { title: "Neural Topology", url: "/infrastructure" }
     ]
   },
   {

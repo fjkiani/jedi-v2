@@ -20,7 +20,7 @@ import TeamPage from './pages/team';
 // Pages
 import Blog from './pages/blog/Blog';
 import BlogPage from '@/blog/BlogPage.tsx';
-import SolutionsPage from './pages/solutions/index.jsx';
+import SolutionsPage from './pages/solutions/SolutionsOverview.jsx';
 import SolutionPage from './pages/solutions/SolutionPage.jsx';
 import IndustryRoutes from './features/industries/routes';
 import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
@@ -39,6 +39,7 @@ import JediComponentsPage from "./pages/JediComponentsPage";
 import JediComponentPage from "./pages/technology/JediComponentPage";
 import JediPage from "./pages/JediPage";
 import MethodologyDetail from './pages/methodology/MethodologyDetail';
+import MethodologyPage from './pages/methodology/MethodologyPage';
 import InfrastructurePage from './pages/InfrastructurePage';
 import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
 import { CareersPage, JobDetailPage } from './pages/careers';
@@ -157,6 +158,7 @@ const AppContent = ({ location }) => {
               <Route path="/careers/:slug" element={<PageTransition><JobDetailPage /></PageTransition>} />
 
               {/* ── Methodology ──────────────────────────────────────────── */}
+              <Route path="/methodology" element={<PageTransition><MethodologyPage /></PageTransition>} />
               <Route path="/methodology/:slug" element={<PageTransition><MethodologyDetail /></PageTransition>} />
 
               {/* ── 404 ──────────────────────────────────────────────────── */}
