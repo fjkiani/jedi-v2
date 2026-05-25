@@ -15,6 +15,7 @@ import { FiAlertTriangle, FiAward, FiCode } from 'react-icons/fi';
 import Heading from '@/components/Heading';
 import { GET_SOLUTION_BY_SLUG } from '@/graphql/queries/solutions';
 import { GET_USE_CASES } from '@/graphql/queries/useCases';
+import { GET_TECHNOLOGY_BY_CATEGORY } from '@/graphql/queries/technologies';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -117,13 +118,46 @@ const SolutionPage = () => {
           });
         });
 
-        // Extract strategy intel from first use case that has an industryApplication
-        const soulSource = relatedUseCases.find(uc => uc.industryApplication);
+        // FIX BUG-03: If no tech stack from use cases, fetch category technologies directly
+        let finalTechStack = Object.keys(techStackMap).length > 0 ? techStackMap : null;
+        if (!finalTechStack) {
+          try {
+            const catTechData = await hygraphClient.request(GET_TECHNOLOGY_BY_CATEGORY, { slug: targetSlug });
+            const catTechs = catTechData?.technologyS || [];
+            if (catTechs.length > 0) {
+              // Group by category name for topology display
+              catTechs.forEach(tech => {
+                const catName = tech.category?.[0]?.name || 'Technologies';
+                if (!techStackMap[catName]) techStackMap[catName] = {};
+                techStackMap[catName][tech.name] = {
+                  icon: tech.icon,
+                  category: catName,
+                  slug: tech.slug,
+                };
+              });
+              finalTechStack = techStackMap;
+            }
+          } catch (catErr) {
+            console.warn('[SolutionPage] Could not fetch category technologies:', catErr);
+          }
+        }
+
+        // FIX BUG-01: industryApplication returns [] (empty array) which is truthy.
+        // Must check length > 0, not just truthiness.
+        const soulSource = relatedUseCases.find(uc => {
+          const ia = uc.industryApplication;
+          return Array.isArray(ia) ? ia.length > 0 : !!ia;
+        });
         if (soulSource) {
-          setStrategyIntel({
-            ...soulSource.industryApplication,
-            sourceTitle: soulSource.title,
-          });
+          const ia = Array.isArray(soulSource.industryApplication)
+            ? soulSource.industryApplication[0]
+            : soulSource.industryApplication;
+          if (ia) {
+            setStrategyIntel({
+              ...ia,
+              sourceTitle: soulSource.title,
+            });
+          }
         }
 
         // Build simulation source from first use case that has architecture
@@ -152,12 +186,14 @@ const SolutionPage = () => {
           technologyNarrative: fetchedCategory.technologyNarrative,
           keyOutcomes: fetchedCategory.keyOutcomes,
           heroImage: fetchedCategory.heroImage,
-          techStack: Object.keys(techStackMap).length > 0 ? techStackMap : null,
+          techStack: finalTechStack,
         });
 
         // Fetch all use cases for the carousel
         const useCaseData = await hygraphClient.request(GET_USE_CASES);
-        setUseCases(useCaseData.useCaseS || useCaseData.useCases || []);
+        // FIX BUG-01: Guard against non-array response
+        const fetchedUseCases = useCaseData.useCaseS || useCaseData.useCases || [];
+        setUseCases(Array.isArray(fetchedUseCases) ? fetchedUseCases : []);
       } catch (err) {
         console.error('[SolutionPage] Error fetching data:', err);
         setError('fetch_error');
@@ -356,7 +392,10 @@ const SolutionPage = () => {
             <TechStoryTopology techStack={solution.techStack} />
           ) : (
             <div className={`text-center py-16 rounded-2xl border ${isDarkMode ? 'border-n-6 text-n-4' : 'border-n-3 text-n-5'}`}>
-              <p className="body-2">Architecture diagrams coming soon for this solution.</p>
+              <p className="body-2 mb-4">Architecture diagram coming soon.</p>
+              <Link to="/technology" className="text-primary-1 hover:underline text-sm font-mono">
+                Browse full technology stack →
+              </Link>
             </div>
           )}
         </div>

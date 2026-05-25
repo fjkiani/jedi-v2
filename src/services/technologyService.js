@@ -1,5 +1,4 @@
 import { hygraphClient } from '@/lib/hygraph';
-import { aiMlSolution } from '@/constants/solutions/ai-ml';
 
 const GET_ALL_CATEGORIES = `
   query GetAllCategories {

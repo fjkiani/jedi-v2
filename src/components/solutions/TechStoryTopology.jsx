@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import {
     FiCpu, FiDatabase, FiGlobe, FiShield, FiSettings, FiCode, FiLayers,
-    FiServer, FiGrid, FiActivity, FiZap, FiLayout
+    FiServer, FiGrid, FiActivity, FiZap, FiLayout, FiArrowRight
 } from 'react-icons/fi';
 
 // Mapped Icons for Specific Categories
@@ -110,7 +110,7 @@ const TechStoryTopology = ({ techStack }) => {
                                     const TechWrapper = details.slug ? Link : 'div';
                                     const techProps = details.slug ? { to: `/technology/${details.slug}` } : {};
                                     return (
-                                        <TechWrapper key={techName} {...techProps} className="flex items-center gap-2 p-1.5 rounded hover:bg-white/5 transition-colors group/tech">
+                                        <TechWrapper key={techName} {...techProps} className={`flex items-center gap-2 p-1.5 rounded transition-all group/tech ${details.slug ? 'cursor-pointer hover:bg-white/10' : 'hover:bg-white/5'}`}>
                                             {/* Micro Icon */}
                                             <div className="w-6 h-6 flex items-center justify-center opacity-80 group-hover/tech:opacity-100 transition-opacity flex-shrink-0">
                                                 {details.icon ? (
@@ -119,9 +119,12 @@ const TechStoryTopology = ({ techStack }) => {
                                                     <FiZap size={12} className="text-n-4" />
                                                 )}
                                             </div>
-                                            <span className={`text-xs font-mono truncate ${isDarkMode ? 'text-n-3 group-hover/tech:text-n-1' : 'text-n-6 group-hover/tech:text-n-8'} ${details.slug ? 'group-hover/tech:text-primary-1' : ''}`}>
+                                            <span className={`text-xs font-mono truncate flex-1 ${isDarkMode ? 'text-n-3 group-hover/tech:text-n-1' : 'text-n-6 group-hover/tech:text-n-8'} ${details.slug ? 'group-hover/tech:text-primary-1' : ''}`}>
                                                 {techName}
                                             </span>
+                                            {details.slug && (
+                                                <FiArrowRight size={10} className="opacity-0 group-hover/tech:opacity-100 transition-opacity text-primary-1 shrink-0" />
+                                            )}
                                         </TechWrapper>
                                     );
                                 })}

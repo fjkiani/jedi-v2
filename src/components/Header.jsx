@@ -260,7 +260,6 @@ const Header = () => {
 
     const industriesIndex = baseNav.findIndex(item => item.id === 'industries');
     const useCasesIndex = baseNav.findIndex(item => item.id === 'use-cases');
-    const infrastructureIndex = baseNav.findIndex(item => item.id === 'infrastructure');
     const registryIndex = baseNav.findIndex(item => item.id === 'registry'); // APPLICATIONS
 
     // Inject Industries
@@ -302,44 +301,8 @@ const Header = () => {
       baseNav[registryIndex].dropdownItems = [];
     }
 
-    // --- Inject Dynamic Categories into Infrastructure ---
-    // Map Hygraph category slugs to solution URLs (avoid empty "solution not found" pages)
-    const SOLUTION_SLUG_MAP = {
-      automation: 'ai-agents',
-      ml: 'ai-ml-solutions',
-      'frontend-development': 'full-stack-development',
-    };
-    const VALID_SOLUTION_SLUGS = ['ai-ml-solutions', 'ai-agents', 'data-engineering', 'full-stack-development'];
-    const getSolutionUrl = (slug) => {
-      const mapped = SOLUTION_SLUG_MAP[slug];
-      if (mapped) return `/solutions/${mapped}`;
-      if (VALID_SOLUTION_SLUGS.includes(slug)) return `/solutions/${slug}`;
-      return '/solutions'; // no content for this slug → send to solutions list
-    };
-    if (infrastructureIndex !== -1 && categories.length > 0) {
-      console.log("[Header] Injecting dynamic categories into Infrastructure dropdown:", categories);
-      const dynamicItems = categories.map(cat => ({
-        id: cat.id,
-        title: cat.name,
-        url: getSolutionUrl(cat.slug)
-      }));
-
-      // Append a static link to the full Tech Stack / Technology page
-      dynamicItems.push({
-        id: 'tech-stack-static',
-        title: 'Full Tech Stack',
-        url: '/technology'
-      });
-
-      dynamicItems.push({
-        id: 'infrastructure-static',
-        title: 'Neural Topology',
-        url: '/infrastructure'
-      });
-
-      baseNav[infrastructureIndex].dropdownItems = dynamicItems;
-    }
-    // ---------------------------------------------------
+    // Infrastructure dropdown uses static items from constants/index.js
+    // (dynamic category injection removed — was generating broken /solutions/* routes)
 
     console.log("[Header] Final dynamicNavigation:", baseNav);
     return baseNav;

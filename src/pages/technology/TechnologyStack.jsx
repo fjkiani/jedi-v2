@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Section from '@/components/Section';
 import { technologyService } from '@/services/technologyService';
 import { useTheme } from '@/context/ThemeContext';
@@ -324,6 +324,7 @@ const CategorySection = ({ category, selectedSubcategory }) => {
 
 const TechnologyStack = () => {
   const { isDarkMode } = useTheme();
+  const [searchParams] = useSearchParams();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
@@ -337,17 +338,25 @@ const TechnologyStack = () => {
         const data = await technologyService.getAllCategories();
         setCategories(data || []);
 
+        // Support ?cat=<slug> query param (from navbar links)
+        const catParam = searchParams.get('cat');
         const hash = window.location.hash.slice(1);
-        if (hash && data) {
-          const category = data.find((cat) => cat.slug === hash);
+        const targetSlug = catParam || hash;
+
+        if (targetSlug && data) {
+          const category = data.find((cat) => cat.slug === targetSlug);
           if (category) {
             setSelectedCategory(category.slug);
-            setTimeout(() => {
-              const element = document.getElementById(category.slug);
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-              }
-            }, 100);
+            if (hash) {
+              setTimeout(() => {
+                const element = document.getElementById(category.slug);
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 100);
+            }
+          } else if (data.length > 0) {
+            setSelectedCategory(data[0].slug);
           }
         } else if (data && data.length > 0) {
           setSelectedCategory(data[0].slug);

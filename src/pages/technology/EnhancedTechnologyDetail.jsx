@@ -11,6 +11,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_TECHNOLOGY_BY_SLUG } from '@/graphql/queries/technologies';
 import { fadeIn } from '@/utils/motion';
+import ReactMarkdown from 'react-markdown';
 import parse from 'html-react-parser';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -228,7 +229,7 @@ const EnhancedTechnologyDetail = () => {
                     <FiBook size={20} className="text-color-1" /> Technical Details
                   </h2>
                   <div className={`prose prose-sm max-w-none ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-5'}`}>
-                    {additonalDetails}
+                    <ReactMarkdown>{additonalDetails}</ReactMarkdown>
                   </div>
                 </div>
               )}
