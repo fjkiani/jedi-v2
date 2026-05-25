@@ -7,6 +7,7 @@ import SolutionArchitecture from '@/components/solutions/SolutionArchitecture';
 import TechStoryTopology from '@/components/solutions/TechStoryTopology';
 import ZetaStrategyBrief from '@/components/solutions/ZetaStrategyBrief';
 import ZetaSimulation from '@/components/solutions/ZetaSimulation';
+import { JEDI_METHODOLOGY_STEPS } from '@/constants/methodology';
 import 'reactflow/dist/style.css';
 import { hygraphClient } from '@/lib/hygraph';
 import UseCaseCard from '@/components/UseCaseCard';
@@ -419,6 +420,52 @@ const SolutionPage = () => {
           </div>
         </Section>
       )}
+
+      {/* How We Build This — Methodology Strip */}
+      <Section>
+        <div className="container">
+          <Heading title="How We Build This" text="The JEDI methodology applied to this solution." className="mb-10 text-center" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {JEDI_METHODOLOGY_STEPS.map((step) => {
+              const Icon = step.icon;
+              return (
+                <Link
+                  key={step.slug}
+                  to={`/methodology/${step.slug}`}
+                  className={`group flex flex-col items-center text-center p-5 rounded-2xl border transition-all hover:border-primary-1/40 ${
+                    isDarkMode ? 'bg-n-7 border-n-6 hover:bg-n-6' : 'bg-white border-n-3 hover:shadow-md'
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 ${
+                    isDarkMode ? 'bg-primary-1/20 text-primary-1' : 'bg-primary-1/10 text-primary-1'
+                  }`}>
+                    {Icon && <Icon size={20} />}
+                  </div>
+                  <span className={`text-xs font-mono uppercase tracking-widest mb-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                    Phase {step.number}
+                  </span>
+                  <span className={`text-sm font-bold group-hover:text-primary-1 transition-colors ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
+                    {step.title}
+                  </span>
+                  <span className={`text-xs mt-1 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                    {step.subtitle}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              to="/methodology"
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                isDarkMode ? 'text-primary-1 hover:text-primary-1/80' : 'text-primary-1 hover:text-primary-1/80'
+              }`}
+            >
+              View full methodology →
+            </Link>
+          </div>
+        </div>
+      </Section>
 
       {/* Use Cases Carousel */}
       <Section className={isDarkMode ? 'bg-n-7' : 'bg-gray-50'}>

@@ -54,6 +54,8 @@ export const navigation = [
       { title: "AI Agents", url: "/solutions/ai-agents" },
       { title: "Data Engineering", url: "/solutions/data-engineering" },
       { title: "Full Tech Stack", url: "/technology" },
+      { title: "Explore Stack", url: "/explore" },
+      { title: "Methodology", url: "/methodology" },
       { title: "Neural Topology", url: "/infrastructure" }
     ]
   },

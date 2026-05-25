@@ -1,102 +1,221 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import {
-  FiCheckCircle, FiZap, FiCpu, FiLayers, FiExternalLink,
-  FiChevronLeft, FiBarChart2, FiBook, FiArrowRight,
-} from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiArrowLeft, FiArrowRight, FiExternalLink, FiCode, FiLayers, FiZap, FiGrid } from 'react-icons/fi';
 import Section from '@/components/Section';
 import { RootSEO } from '@/components/SEO';
 import { useTheme } from '@/context/ThemeContext';
 import { hygraphClient } from '@/lib/hygraph';
-import { GET_TECHNOLOGY_BY_SLUG } from '@/graphql/queries/technologies';
-import { fadeIn } from '@/utils/motion';
+import { GET_TECHNOLOGY_BY_SLUG, GET_TECHNOLOGY_BY_CATEGORY } from '@/graphql/queries/technologies';
 import ReactMarkdown from 'react-markdown';
-import parse from 'html-react-parser';
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Tab definitions ──────────────────────────────────────────────────────────
+const TABS = [
+  { id: 'overview',  label: 'Overview',          icon: FiGrid },
+  { id: 'technical', label: 'Technical Details',  icon: FiCode },
+  { id: 'usecases',  label: 'Use Cases',          icon: FiZap },
+  { id: 'related',   label: 'Related Technologies', icon: FiLayers },
+];
 
-const FeatureList = ({ text, isDarkMode }) => {
-  if (!text) return null;
-  // Features stored as newline-separated or comma-separated string
-  const items = text
-    .split(/\n|•|·/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const TechIcon = ({ icon, name, size = 'md' }) => {
+  const sz = size === 'lg' ? 'w-16 h-16 text-3xl' : size === 'sm' ? 'w-8 h-8 text-sm' : 'w-10 h-10 text-lg';
+  if (icon?.startsWith('http') || icon?.startsWith('/')) {
+    return <img src={icon} alt={name} className={`${sz} object-contain rounded`} />;
+  }
   return (
-    <ul className="space-y-2">
-      {items.map((item, i) => (
-        <li key={i} className={`flex items-start gap-2 text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-          <FiCheckCircle className="text-color-1 shrink-0 mt-0.5" size={14} />
-          {item}
-        </li>
-      ))}
-    </ul>
+    <div className={`${sz} rounded-xl bg-white/10 flex items-center justify-center font-bold text-white`}>
+      {icon || name?.[0] || '?'}
+    </div>
   );
 };
 
-const UseCaseCard = ({ useCase, isDarkMode }) => (
+const MetricCard = ({ label, value }) => (
+  <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+    <div className="text-2xl font-bold text-yellow-400 mb-1">{value}</div>
+    <div className="text-xs text-white/60 uppercase tracking-wide">{label}</div>
+  </div>
+);
+
+const UseCaseCard = ({ uc }) => (
   <Link
-    to={`/use-cases/${useCase.slug}`}
-    className={`block p-5 rounded-xl border transition-all group
-      ${isDarkMode
-        ? 'bg-n-7 border-n-6 hover:border-color-1/50'
-        : 'bg-white border-n-3 hover:border-primary-1/50'}`}
+    to={`/use-cases/${uc.slug}`}
+    className="group block bg-white/5 border border-white/10 rounded-xl p-5 hover:border-yellow-400/40 hover:bg-white/8 transition-all"
   >
-    <div className="flex flex-wrap gap-2 mb-2">
-      {useCase.industry && (
-        <span className={`text-xs px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-n-6 text-n-4' : 'bg-n-2 text-n-6'}`}>
-          {useCase.industry.name}
-        </span>
-      )}
-      {useCase.category && (
-        <span className={`text-xs px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-color-1/20 text-color-1' : 'bg-primary-1/10 text-primary-1'}`}>
-          {useCase.category.name}
-        </span>
+    <div className="flex items-start justify-between gap-3 mb-2">
+      <h4 className="text-sm font-semibold text-white group-hover:text-yellow-400 transition-colors leading-snug">
+        {uc.title}
+      </h4>
+      <FiArrowRight className="shrink-0 mt-0.5 text-white/30 group-hover:text-yellow-400 transition-colors" />
+    </div>
+    {uc.resultsHeadline && (
+      <p className="text-xs text-green-400 font-medium mb-2">{uc.resultsHeadline}</p>
+    )}
+    {uc.description && (
+      <p className="text-xs text-white/50 line-clamp-2">{uc.description}</p>
+    )}
+    {uc.category && (
+      <span className="mt-3 inline-block text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">
+        {uc.category.name}
+      </span>
+    )}
+  </Link>
+);
+
+const RelatedTechCard = ({ tech }) => (
+  <Link
+    to={`/technology/${tech.slug}`}
+    className="group flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/30 hover:bg-white/8 transition-all"
+  >
+    <TechIcon icon={tech.icon} name={tech.name} size="sm" />
+    <div className="flex-1 min-w-0">
+      <div className="text-sm font-medium text-white group-hover:text-yellow-400 transition-colors truncate">
+        {tech.name}
+      </div>
+      {tech.description && (
+        <div className="text-xs text-white/50 truncate">{tech.description}</div>
       )}
     </div>
-    <h4 className={`font-semibold mb-1 group-hover:text-color-1 transition-colors ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-      {useCase.title}
-    </h4>
-    {useCase.resultsHeadline && (
-      <p className={`text-xs ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{useCase.resultsHeadline}</p>
-    )}
-    {!useCase.resultsHeadline && useCase.description && (
-      <p className={`text-xs line-clamp-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{useCase.description}</p>
-    )}
+    <FiArrowRight className="shrink-0 text-white/30 group-hover:text-yellow-400 transition-colors" />
   </Link>
 );
 
-const CaseStudyCard = ({ study, isDarkMode }) => (
-  <Link
-    to={`/case-studies/${study.slug}`}
-    className={`block p-5 rounded-xl border transition-all group
-      ${isDarkMode
-        ? 'bg-n-7 border-n-6 hover:border-color-1/50'
-        : 'bg-white border-n-3 hover:border-primary-1/50'}`}
-  >
-    {study.coverImageUrl && (
-      <img src={study.coverImageUrl} alt={study.title} className="w-full h-32 object-cover rounded-lg mb-3" />
-    )}
-    <h4 className={`font-semibold mb-1 group-hover:text-color-1 transition-colors ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-      {study.title}
-    </h4>
-    {study.clientName && (
-      <p className={`text-xs mb-2 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>{study.clientName}</p>
-    )}
-    {study.excerpt && (
-      <p className={`text-xs line-clamp-3 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{study.excerpt}</p>
-    )}
-  </Link>
-);
+// ─── Tab panels ───────────────────────────────────────────────────────────────
+const OverviewPanel = ({ tech }) => {
+  const metrics = tech.businessMetrics || [];
+  const features = tech.features || [];
+
+  return (
+    <div className="space-y-8">
+      {/* Description */}
+      {tech.description && (
+        <div>
+          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">About</h3>
+          <p className="text-white/80 leading-relaxed text-base">{tech.description}</p>
+        </div>
+      )}
+
+      {/* Business metrics */}
+      {metrics.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">Impact Metrics</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {metrics.map((m, i) => (
+              <MetricCard key={i} label={m.label || m.metric || m} value={m.value || m.result || '—'} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Features */}
+      {features.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">Key Capabilities</h3>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {features.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-white/70">
+                <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {features.length === 0 && !tech.description && (
+        <p className="text-white/40 italic">No overview content yet.</p>
+      )}
+    </div>
+  );
+};
+
+const TechnicalPanel = ({ tech }) => {
+  if (!tech.additonalDetails) {
+    return (
+      <div className="text-center py-16">
+        <FiCode className="mx-auto text-4xl text-white/20 mb-4" />
+        <p className="text-white/40">No technical documentation available yet.</p>
+        <Link to="/contact" className="mt-4 inline-block text-sm text-yellow-400 hover:underline">
+          Request technical deep-dive →
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="prose prose-invert prose-sm max-w-none
+      prose-headings:text-white prose-headings:font-semibold
+      prose-p:text-white/75 prose-p:leading-relaxed
+      prose-li:text-white/75
+      prose-code:text-yellow-300 prose-code:bg-white/10 prose-code:px-1 prose-code:rounded
+      prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10
+      prose-a:text-yellow-400 prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-white">
+      <ReactMarkdown>{tech.additonalDetails}</ReactMarkdown>
+    </div>
+  );
+};
+
+const UseCasesPanel = ({ useCases }) => {
+  if (!useCases || useCases.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <FiZap className="mx-auto text-4xl text-white/20 mb-4" />
+        <p className="text-white/40 mb-2">No live deployments documented yet.</p>
+        <Link to="/contact" className="inline-block text-sm text-yellow-400 hover:underline">
+          Build a use case with this technology →
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-white/50">{useCases.length} deployment{useCases.length !== 1 ? 's' : ''} using this technology</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {useCases.map(uc => <UseCaseCard key={uc.id} uc={uc} />)}
+      </div>
+      <div className="pt-4">
+        <Link
+          to="/use-cases"
+          className="inline-flex items-center gap-2 text-sm text-yellow-400 hover:underline"
+        >
+          Browse all use cases <FiArrowRight />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+const RelatedPanel = ({ related, currentSlug }) => {
+  const filtered = (related || []).filter(t => t.slug !== currentSlug);
+
+  if (filtered.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <FiLayers className="mx-auto text-4xl text-white/20 mb-4" />
+        <p className="text-white/40">No related technologies found in this category.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-white/50">{filtered.length} other technologies in this category</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {filtered.map(t => <RelatedTechCard key={t.id} tech={t} />)}
+      </div>
+    </div>
+  );
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
-
 const EnhancedTechnologyDetail = () => {
-  const { isDarkMode } = useTheme();
   const { slug } = useParams();
-  const [technology, setTechnology] = useState(null);
+  const { theme } = useTheme();
+  const [tech, setTech] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [activeTab, setActiveTab] = useState('overview');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -104,238 +223,245 @@ const EnhancedTechnologyDetail = () => {
     if (!slug) return;
     setLoading(true);
     setError(null);
+    setActiveTab('overview');
 
     hygraphClient
       .request(GET_TECHNOLOGY_BY_SLUG, { slug })
-      .then((data) => {
-        setTechnology(data?.technology || null);
+      .then(async (data) => {
+        const t = data?.technology;
+        if (!t) { setError('Technology not found'); setLoading(false); return; }
+        setTech(t);
+
+        // Fetch related technologies from same category
+        if (t.category?.slug) {
+          try {
+            const rel = await hygraphClient.request(GET_TECHNOLOGY_BY_CATEGORY, { slug: t.category.slug });
+            setRelated(rel?.technologyS || []);
+          } catch (_) { /* non-fatal */ }
+        }
+        setLoading(false);
       })
-      .catch((err) => {
-        console.error('Error fetching technology:', err);
-        setError('Failed to load technology details.');
-      })
-      .finally(() => setLoading(false));
+      .catch(err => {
+        setError(err.message || 'Failed to load technology');
+        setLoading(false);
+      });
   }, [slug]);
 
-  // ── Loading ──────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <Section className="pt-[8rem] min-h-screen">
-        <div className="container">
-          <div className={`text-center py-24 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-            Loading technology…
-          </div>
-        </div>
-      </Section>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white/40 animate-pulse">Loading technology…</div>
+      </div>
     );
   }
 
-  // ── Not found ────────────────────────────────────────────────────────────
-  if (error || !technology) {
+  if (error || !tech) {
     return (
-      <Section className="pt-[8rem] min-h-screen">
-        <div className="container">
-          <Link to="/technology" className={`inline-flex items-center gap-2 mb-8 text-sm ${isDarkMode ? 'text-n-4 hover:text-n-1' : 'text-n-5 hover:text-n-8'}`}>
-            <FiChevronLeft size={16} /> Back to Technologies
-          </Link>
-          <div className={`text-center py-16 rounded-xl border ${isDarkMode ? 'bg-n-7 border-n-6 text-n-3' : 'bg-n-1 border-n-3 text-n-5'}`}>
-            {error || `Technology "${slug}" not found in Hygraph.`}
-          </div>
-        </div>
-      </Section>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <p className="text-white/60">{error || 'Technology not found'}</p>
+        <Link to="/technology" className="text-yellow-400 hover:underline text-sm">← Back to technologies</Link>
+      </div>
     );
   }
 
-  const {
-    name, description, icon, features, additonalDetails, businessMetrics,
-    category = [], subcategories = [],
-    useCases = [], caseStudies = [],
-  } = technology;
+  const useCases = tech.useCases || [];
+  const categories = Array.isArray(tech.category) ? tech.category : tech.category ? [tech.category] : [];
+  const primaryCategory = categories[0];
 
-  const primaryCategory = category[0];
-  const relatedUseCases = useCases;
+  // Compute tab badge counts
+  const tabsWithCounts = TABS.map(t => ({
+    ...t,
+    count: t.id === 'usecases' ? useCases.length
+         : t.id === 'related' ? related.filter(r => r.slug !== slug).length
+         : null,
+  }));
 
   return (
     <>
       <RootSEO
-        title={`${name} | JEDI Labs Technology`}
-        description={description?.slice(0, 160) || `${name} — part of the JEDI Labs technology stack`}
+        title={`${tech.name} | JEDI Labs Technology`}
+        description={tech.description || `${tech.name} — part of the JEDI Labs AI stack`}
       />
 
-      <Section className="pt-[8rem] -mt-[5.25rem]">
-        <div className="container">
+      <div className="min-h-screen bg-n-8 text-white">
+        {/* ── HERO ── */}
+        <div className="border-b border-white/10 bg-gradient-to-b from-white/5 to-transparent">
+          <div className="max-w-6xl mx-auto px-6 py-12">
+            {/* Back link */}
+            <Link
+              to={primaryCategory ? `/solutions/${primaryCategory.slug}` : '/technology'}
+              className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors mb-8"
+            >
+              <FiArrowLeft /> {primaryCategory ? `${primaryCategory.name} Solution` : 'All Technologies'}
+            </Link>
 
-          {/* ── Breadcrumb ─────────────────────────────────────────────── */}
-          <motion.div variants={fadeIn('up')} initial="hidden" animate="show" className="mb-8">
-            <nav className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-              <Link to="/" className="hover:text-color-1 transition-colors">Home</Link>
-              <span>/</span>
-              <Link to="/technology" className="hover:text-color-1 transition-colors">Technologies</Link>
-              <span>/</span>
-              <span className={isDarkMode ? 'text-n-1' : 'text-n-8'}>{name}</span>
-            </nav>
-          </motion.div>
-
-          {/* ── Hero ───────────────────────────────────────────────────── */}
-          <motion.div variants={fadeIn('up')} initial="hidden" animate="show" className="mb-12">
-            <div className="flex items-start gap-6 mb-6">
-              {icon && (
-                <div className={`shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center p-3 ${isDarkMode ? 'bg-n-7 border border-n-6' : 'bg-n-1 border border-n-3'}`}>
-                  <img src={icon} alt={name} className="w-full h-full object-contain" />
-                </div>
-              )}
-              <div>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {category.map((cat) => (
-                    <span key={cat.id} className={`text-xs px-3 py-1 rounded-full font-mono uppercase tracking-wider ${isDarkMode ? 'bg-n-6 text-n-3' : 'bg-n-2 text-n-6'}`}>
+            <div className="flex items-start gap-6">
+              <TechIcon icon={tech.icon} name={tech.name} size="lg" />
+              <div className="flex-1 min-w-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{tech.name}</h1>
+                {tech.description && (
+                  <p className="text-white/60 text-base leading-relaxed max-w-2xl mb-4">{tech.description}</p>
+                )}
+                {/* Category badges */}
+                <div className="flex flex-wrap gap-2">
+                  {categories.map(cat => (
+                    <Link
+                      key={cat.slug}
+                      to={`/solutions/${cat.slug}`}
+                      className="inline-flex items-center gap-1 text-xs bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-3 py-1 rounded-full hover:bg-yellow-400/20 transition-colors"
+                    >
                       {cat.name}
-                    </span>
+                    </Link>
                   ))}
-                  {subcategories.map((sub) => (
-                    <span key={sub.id} className={`text-xs px-3 py-1 rounded-full ${isDarkMode ? 'bg-color-1/20 text-color-1' : 'bg-primary-1/10 text-primary-1'}`}>
+                  {tech.subcategories?.map(sub => (
+                    <span key={sub.slug} className="text-xs bg-white/10 text-white/50 px-3 py-1 rounded-full">
                       {sub.name}
                     </span>
                   ))}
                 </div>
-                <h1 className={`h1 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>{name}</h1>
               </div>
-            </div>
 
-            {description && (
-              <p className={`body-1 max-w-3xl ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{description}</p>
-            )}
-          </motion.div>
-
-          {/* ── Two-column layout ──────────────────────────────────────── */}
-          <div className="grid lg:grid-cols-3 gap-10">
-
-            {/* Left: main content */}
-            <div className="lg:col-span-2 space-y-10">
-
-              {/* Features */}
-              {features && (
-                <div>
-                  <h2 className={`h4 mb-4 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    <FiZap size={20} className="text-color-1" /> Key Features
-                  </h2>
-                  <FeatureList text={features} isDarkMode={isDarkMode} />
-                </div>
-              )}
-
-              {/* Additional details */}
-              {additonalDetails && (
-                <div>
-                  <h2 className={`h4 mb-4 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    <FiBook size={20} className="text-color-1" /> Technical Details
-                  </h2>
-                  <div className={`prose prose-sm max-w-none ${isDarkMode ? 'prose-invert text-n-3' : 'text-n-5'}`}>
-                    <ReactMarkdown>{additonalDetails}</ReactMarkdown>
-                  </div>
-                </div>
-              )}
-
-              {/* Use cases that use this technology */}
-              {relatedUseCases.length > 0 && (
-                <div>
-                  <h2 className={`h4 mb-4 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    <FiLayers size={20} className="text-color-1" /> Used In These Use Cases
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {relatedUseCases.map((uc) => (
-                      <UseCaseCard key={uc.id} useCase={uc} isDarkMode={isDarkMode} />
-                    ))}
-                  </div>
-                  <div className="mt-4">
-                    <Link
-                      to="/use-cases"
-                      className={`inline-flex items-center gap-1 text-sm text-color-1 hover:underline`}
-                    >
-                      View all use cases <FiArrowRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              )}
-
-              {/* Case studies */}
-              {caseStudies.length > 0 && (
-                <div>
-                  <h2 className={`h4 mb-4 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    <FiBarChart2 size={20} className="text-color-1" /> Case Studies
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {caseStudies.map((study) => (
-                      <CaseStudyCard key={study.id} study={study} isDarkMode={isDarkMode} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-            </div>
-
-            {/* Right: sidebar */}
-            <div className="space-y-8">
-
-              {/* Business metrics */}
-              {businessMetrics && (
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
-                  <h3 className={`h6 mb-3 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
-                    <FiBarChart2 size={16} className="text-color-1" /> Business Impact
-                  </h3>
-                  <p className={`text-sm ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>{businessMetrics}</p>
-                </div>
-              )}
-
-              {/* Category info */}
-              {primaryCategory && (
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
-                  <h3 className={`h6 mb-3 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Category</h3>
+              {/* CTA buttons */}
+              <div className="hidden md:flex flex-col gap-2 shrink-0">
+                {primaryCategory && (
                   <Link
                     to={`/solutions/${primaryCategory.slug}`}
-                    className="inline-flex items-center gap-1 text-sm text-color-1 hover:underline"
+                    className="inline-flex items-center gap-2 text-sm bg-yellow-400 text-black font-semibold px-4 py-2 rounded-lg hover:bg-yellow-300 transition-colors"
                   >
-                    {primaryCategory.name} <FiArrowRight size={14} />
+                    View Solution <FiArrowRight />
                   </Link>
-                  {subcategories.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {subcategories.map((sub) => (
-                        <span key={sub.id} className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-n-6 text-n-4' : 'bg-n-2 text-n-6'}`}>
-                          {sub.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Empty state for use cases */}
-              {relatedUseCases.length === 0 && (
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? 'bg-n-7 border-n-6' : 'bg-n-1 border-n-3'}`}>
-                  <h3 className={`h6 mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Use Cases</h3>
-                  <p className={`text-sm ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-                    No use cases linked yet.
-                  </p>
-                  <Link to="/use-cases" className="inline-flex items-center gap-1 text-sm text-color-1 hover:underline mt-2">
-                    Browse all use cases <FiArrowRight size={14} />
-                  </Link>
-                </div>
-              )}
-
-              {/* CTA */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'bg-n-7 border-color-1/30' : 'bg-primary-1/5 border-primary-1/20'}`}>
-                <h3 className={`h6 mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Deploy This Stack</h3>
-                <p className={`text-sm mb-4 ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
-                  JEDI Labs integrates {name} into production-grade autonomous systems.
-                </p>
-                <Link to="/contact" className="button button-primary w-full text-center text-sm">
-                  Start a Conversation
+                )}
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 text-sm border border-white/20 text-white/70 px-4 py-2 rounded-lg hover:border-white/40 hover:text-white transition-colors"
+                >
+                  Deploy This <FiExternalLink />
                 </Link>
               </div>
-
             </div>
           </div>
-
         </div>
-      </Section>
+
+        {/* ── BODY: left rail + main content ── */}
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="flex gap-8">
+            {/* Left rail — sticky tab nav (desktop) */}
+            <aside className="hidden lg:block w-52 shrink-0">
+              <div className="sticky top-24 space-y-1">
+                {tabsWithCounts.map(tab => {
+                  const Icon = tab.icon;
+                  const active = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
+                        active
+                          ? 'bg-yellow-400/10 text-yellow-400 border border-yellow-400/20'
+                          : 'text-white/50 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <Icon className="shrink-0" />
+                      <span className="flex-1">{tab.label}</span>
+                      {tab.count !== null && tab.count > 0 && (
+                        <span className={`text-xs px-1.5 py-0.5 rounded-full ${active ? 'bg-yellow-400/20 text-yellow-400' : 'bg-white/10 text-white/40'}`}>
+                          {tab.count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+
+                {/* Deploy CTA in rail */}
+                <div className="pt-4 border-t border-white/10 mt-4">
+                  <Link
+                    to="/contact"
+                    className="block text-center text-xs bg-yellow-400 text-black font-semibold px-3 py-2 rounded-lg hover:bg-yellow-300 transition-colors"
+                  >
+                    Deploy This Stack
+                  </Link>
+                </div>
+              </div>
+            </aside>
+
+            {/* Mobile tab bar */}
+            <div className="lg:hidden w-full mb-6">
+              <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-hide">
+                {tabsWithCounts.map(tab => {
+                  const Icon = tab.icon;
+                  const active = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        active
+                          ? 'bg-yellow-400/10 text-yellow-400 border border-yellow-400/20'
+                          : 'text-white/50 hover:text-white bg-white/5'
+                      }`}
+                    >
+                      <Icon />
+                      {tab.label}
+                      {tab.count !== null && tab.count > 0 && (
+                        <span className="text-xs bg-white/20 px-1.5 rounded-full">{tab.count}</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Main content */}
+            <main className="flex-1 min-w-0">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  {activeTab === 'overview'  && <OverviewPanel tech={tech} />}
+                  {activeTab === 'technical' && <TechnicalPanel tech={tech} />}
+                  {activeTab === 'usecases'  && <UseCasesPanel useCases={useCases} />}
+                  {activeTab === 'related'   && <RelatedPanel related={related} currentSlug={slug} />}
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          </div>
+        </div>
+
+        {/* ── BOTTOM CTA BANNER ── */}
+        {primaryCategory && (
+          <div className="border-t border-white/10 bg-white/3">
+            <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div>
+                <p className="text-sm text-white/50 mb-1">Part of the JEDI Labs stack</p>
+                <h3 className="text-lg font-semibold text-white">
+                  {tech.name} powers our{' '}
+                  <Link to={`/solutions/${primaryCategory.slug}`} className="text-yellow-400 hover:underline">
+                    {primaryCategory.name} Solution
+                  </Link>
+                </h3>
+              </div>
+              <div className="flex gap-3">
+                <Link
+                  to={`/solutions/${primaryCategory.slug}`}
+                  className="inline-flex items-center gap-2 text-sm bg-yellow-400 text-black font-semibold px-5 py-2.5 rounded-lg hover:bg-yellow-300 transition-colors"
+                >
+                  View Full Solution <FiArrowRight />
+                </Link>
+                <Link
+                  to="/explore"
+                  className="inline-flex items-center gap-2 text-sm border border-white/20 text-white/70 px-5 py-2.5 rounded-lg hover:border-white/40 hover:text-white transition-colors"
+                >
+                  Explore Stack <FiGrid />
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };

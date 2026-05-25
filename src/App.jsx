@@ -40,6 +40,7 @@ import JediComponentPage from "./pages/technology/JediComponentPage";
 import JediPage from "./pages/JediPage";
 import MethodologyDetail from './pages/methodology/MethodologyDetail';
 import MethodologyPage from './pages/methodology/MethodologyPage';
+import ExplorePage from './pages/ExplorePage';
 import InfrastructurePage from './pages/InfrastructurePage';
 import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
 import { CareersPage, JobDetailPage } from './pages/careers';
@@ -159,6 +160,7 @@ const AppContent = ({ location }) => {
 
               {/* ── Methodology ──────────────────────────────────────────── */}
               <Route path="/methodology" element={<PageTransition><MethodologyPage /></PageTransition>} />
+              <Route path="/explore" element={<PageTransition><ExplorePage /></PageTransition>} />
               <Route path="/methodology/:slug" element={<PageTransition><MethodologyDetail /></PageTransition>} />
 
               {/* ── 404 ──────────────────────────────────────────────────── */}
