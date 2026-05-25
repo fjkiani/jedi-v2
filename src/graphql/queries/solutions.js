@@ -1,57 +1,57 @@
-
 import { gql } from 'graphql-request';
 
+// ─── Solutions / Category queries ─────────────────────────────────────────────
+// Schema-verified fields (2025-05-25 introspection):
+//   Category: id, name, slug, description, tagline,
+//             problemStatement (RichText), valueProposition (RichText),
+//             typicalUseCases (RichText), technologyNarrative (RichText),
+//             keyOutcomes (RichText), heroImage (Asset),
+//             displayOrder, featured
+//
+// NOTE: Category does NOT have a direct `technologies` relation.
+//       Technologies are linked via TechnologyCategory (category field on Technology).
+//       Use GET_TECHNOLOGY_BY_CATEGORY to fetch techs for a given category slug.
+
+// ─── Single solution/category by slug ────────────────────────────────────────
 export const GET_SOLUTION_BY_SLUG = gql`
   query GetSolutionBySlug($slug: String!) {
-    categories(where: { slug: $slug }) {
+    categories(where: { slug: $slug }, stage: PUBLISHED) {
       id
       name
       slug
       description
       tagline
-      problemStatement { html }
-      valueProposition { html }
-      typicalUseCases { html }
-      technologyNarrative { html }
-      keyOutcomes { html }
+      problemStatement { html text }
+      valueProposition { html text }
+      typicalUseCases { html text }
+      technologyNarrative { html text }
+      keyOutcomes { html text }
       heroImage { url }
       displayOrder
       featured
     }
-    technologies: technologyS(where: { category_some: { slug: $slug } }) {
+    relatedUseCases: useCaseS(where: { category: { slug: $slug } }, stage: PUBLISHED, first: 10) {
       id
-      name
-      slug
-      icon
-      description
-      category {
-        slug
-      }
-      subcategories {
-        name
-        slug
-      }
-    }
-    # Fetch "Soul" Content via associated Use Cases (Industry Applications)
-    # We fetch up to 10 to find at least one with good content
-    relatedUseCases: useCaseS(where: { category: { slug: $slug } }, first: 10) {
       title
       slug
       description
-      # Fetch rich implementation data (Demo queries, Architecture flow, Metrics)
+      resultsHeadline
+      thumbnail { url }
       queries
+      capabilities
+      metrics
       implementation
       architecture {
         id
         description
-        components(orderBy: name_ASC) {
+        components {
           id
           name
           description
           details
           explanation
         }
-        flow(orderBy: step_ASC) {
+        flow {
           id
           step
           description
@@ -60,45 +60,58 @@ export const GET_SOLUTION_BY_SLUG = gql`
       }
       industryApplication {
         applicationTitle
+        tagline
         industryChallenge { html }
         jediApproach { html }
         keyCapabilities
         expectedResults
       }
-    }
-  }
-  }
-`;
-
-export const GET_ALL_SOLUTIONS = gql`
-  query GetAllSolutions {
-    categories {
-      id
-      name
-      slug
-      description
-      icon
-      # Fetch associated technologies to calculate "module count"
-      technologies(first: 5) {
+      technologies {
         id
+        name
+        slug
         icon
+        description
       }
     }
   }
 `;
 
-export const GET_ALL_CATEGORIES_WITH_TECHS = gql`
-  query GetAllCategoriesWithTechs {
-    categories {
+// ─── All solutions/categories (overview page) ─────────────────────────────────
+export const GET_ALL_SOLUTIONS = gql`
+  query GetAllSolutions {
+    categories(stage: PUBLISHED, orderBy: displayOrder_ASC) {
       id
       name
       slug
       description
-      technologies(first: 20) {
+      tagline
+      featured
+      displayOrder
+      heroImage { url }
+    }
+  }
+`;
+
+// ─── All categories with their technologies (via reverse lookup) ──────────────
+// Used by InfrastructurePage — fetches technologies grouped by category
+export const GET_ALL_CATEGORIES_WITH_TECHS = gql`
+  query GetAllCategoriesWithTechs {
+    categories(stage: PUBLISHED, orderBy: displayOrder_ASC) {
+      id
+      name
+      slug
+      description
+    }
+    technologyS(stage: PUBLISHED, orderBy: priority_ASC, first: 500) {
+      id
+      name
+      slug
+      icon
+      category {
         id
         name
         slug
-        icon { url }
       }
     }
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { gql } from 'graphql-request';
 import { hygraphClient } from '@/lib/hygraph';
+import { GET_USE_CASES } from '@/graphql/queries/useCases';
 import Section from './Section';
 import { fadeIn } from '@/utils/motion';
 import { Link } from 'react-router-dom';
@@ -46,25 +46,7 @@ const swiperNavStyles = `
   }
 `;
 
-const GetAllUseCases = gql`
-  query GetAllUseCases {
-    useCaseS(stage: PUBLISHED, orderBy: title_ASC) {
-      id
-      title
-      slug
-      description
-      industry {
-        name
-        slug
-      }
-      technologies(first: 6) {
-        id
-        name
-        slug
-      }
-    }
-  }
-`;
+// Query imported from @/graphql/queries/useCases — GET_USE_CASES
 
 const CaseStudies = () => {
   const [useCasesData, setUseCasesData] = useState([]);
@@ -89,12 +71,9 @@ const CaseStudies = () => {
       setLoading(true);
       setError(null);
       try {
-        console.log("Fetching use cases with corrected query...");
-        const data = await hygraphClient.request(GetAllUseCases);
-        console.log("Raw use case data fetched:", data);
-        const cases = data.useCases || data.useCaseS || [];
+        const data = await hygraphClient.request(GET_USE_CASES);
+        const cases = data.useCaseS || [];
         setUseCasesData(cases);
-        console.log("Set useCasesData:", cases);
       } catch (err) {
         console.error("Error fetching use cases:", err);
         setError("Failed to load success stories. Please try again later.");
@@ -169,8 +148,8 @@ const CaseStudies = () => {
                   <SwiperSlide key={useCase.id} className="h-auto flex pb-2"> {/* Add flex and slight padding bottom */}
                     {/* Use Case Card Content (extracted from the original Link) */}
                     <Link
-                      to={useCase.industry?.slug && useCase.slug ? `/industries/${useCase.industry.slug}/${useCase.slug}` : '#'}
-                      className="block h-full group w-full" // Ensure link takes full slide width/height
+                      to={useCase.slug ? `/use-cases/${useCase.slug}` : '#'}
+                      className="block h-full group w-full"
                       aria-label={`Learn more about ${useCase.title}`}
                     >
                       <motion.div

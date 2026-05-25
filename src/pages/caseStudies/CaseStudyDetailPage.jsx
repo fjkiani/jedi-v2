@@ -480,20 +480,16 @@ const CaseStudyDetailPage = () => {
                   {caseStudy.useCases?.map((uc) => (
                     <Link
                       key={uc.id}
-                      to={
-                        uc.industry?.slug && uc.slug
-                          ? `/industries/${uc.industry.slug}/${uc.slug}`
-                          : '#'
-                      }
+                      to={uc.slug ? `/use-cases/${uc.slug}` : '#'}
                       className={`block p-5 rounded-xl border transition-all hover:border-primary-1/50 ${
                         isDarkMode
                           ? 'bg-n-7 border-n-6 hover:bg-n-6'
                           : 'bg-n-2 border-n-3 hover:bg-n-3'
-                      } ${!uc.industry?.slug || !uc.slug ? 'pointer-events-none opacity-70' : ''}`}
+                      } ${!uc.slug ? 'pointer-events-none opacity-70' : ''}`}
                     >
                       <h4 className={`font-semibold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>
                         {uc.title}
-                        {(uc.industry?.slug && uc.slug) && (
+                        {uc.slug && (
                           <FiExternalLink className="w-4 h-4 text-primary-1 flex-shrink-0" />
                         )}
                       </h4>

@@ -120,6 +120,25 @@ const CaseStudiesPage = () => {
                           {study.excerpt}
                         </p>
                       )}
+                      {/* Technologies */}
+                      {study.technologies?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-4">
+                          {study.technologies.slice(0, 4).map((tech) => (
+                            <span
+                              key={tech.id}
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${isDarkMode ? 'bg-n-6 text-n-4' : 'bg-n-2 text-n-6'}`}
+                            >
+                              {tech.icon && <img src={tech.icon} alt="" className="w-3 h-3 object-contain" />}
+                              {tech.name}
+                            </span>
+                          ))}
+                          {study.technologies.length > 4 && (
+                            <span className={`px-2 py-0.5 rounded-full text-xs ${isDarkMode ? 'bg-n-6 text-n-4' : 'bg-n-2 text-n-6'}`}>
+                              +{study.technologies.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <span className="inline-flex items-center gap-2 mt-4 text-primary-1 font-mono text-sm group-hover:gap-3 transition-all">
                         Read more <FiArrowRight className="w-4 h-4" />
                       </span>
