@@ -165,13 +165,13 @@ const SolutionPage = () => {
         if (simSource) {
           setSimulationSource({
             title: simSource.title,
+            slug: simSource.slug,
             description: simSource.description,
             architecture: simSource.architecture,
             metrics: simSource.metrics,
             capabilities: simSource.capabilities,
-            implementation: simSource.implementation
-              ? { queries: simSource.implementation }
-              : null,
+            queries: Array.isArray(simSource.queries) ? simSource.queries : [],
+            implementation: simSource.implementation || null,
           });
         }
 
