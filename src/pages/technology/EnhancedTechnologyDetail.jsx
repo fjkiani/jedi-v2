@@ -81,9 +81,23 @@ const RelatedTechCard = ({ tech }) => (
 );
 
 // ─── Tab panels ───────────────────────────────────────────────────────────────
+// Parse Hygraph fields that may be comma-separated strings OR arrays
+const parseStringOrArray = (val) => {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  try { const p = JSON.parse(val); if (Array.isArray(p)) return p; } catch (_) {}
+  return val.split(/,\s*|
+/).map(s => s.trim()).filter(Boolean);
+};
+
 const OverviewPanel = ({ tech }) => {
-  const metrics = tech.businessMetrics || [];
-  const features = tech.features || [];
+  // businessMetrics in Hygraph is a prose string like "Handles 100k+ TPS, 99.99% uptime..."
+  // features is a comma-separated string like "ACID Compliance, Advanced SQL Support..."
+  const rawMetrics = tech.businessMetrics;
+  const features = parseStringOrArray(tech.features);
+
+  // businessMetrics is prose sentences — render as bullet list, not stat cards
+  const metricSentences = parseStringOrArray(rawMetrics);
 
   return (
     <div className="space-y-8">
@@ -95,15 +109,18 @@ const OverviewPanel = ({ tech }) => {
         </div>
       )}
 
-      {/* Business metrics */}
-      {metrics.length > 0 && (
+      {/* Business metrics — prose sentences as bullet list */}
+      {metricSentences.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">Impact Metrics</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {metrics.map((m, i) => (
-              <MetricCard key={i} label={m.label || m.metric || m} value={m.value || m.result || '—'} />
+          <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">Business Impact</h3>
+          <ul className="space-y-2">
+            {metricSentences.map((sentence, i) => (
+              <li key={i} className="flex items-start gap-3 text-sm text-white/75">
+                <span className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                {sentence}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       )}
 
@@ -122,7 +139,7 @@ const OverviewPanel = ({ tech }) => {
         </div>
       )}
 
-      {features.length === 0 && !tech.description && (
+      {features.length === 0 && !tech.description && !rawMetrics && (
         <p className="text-white/40 italic">No overview content yet.</p>
       )}
     </div>

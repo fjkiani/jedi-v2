@@ -72,6 +72,16 @@ export const GET_SOLUTION_BY_SLUG = gql`
         slug
         icon
         description
+        category {
+          id
+          name
+          slug
+        }
+        subcategories {
+          id
+          name
+          slug
+        }
       }
     }
   }

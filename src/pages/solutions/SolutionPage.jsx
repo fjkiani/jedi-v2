@@ -109,7 +109,9 @@ const SolutionPage = () => {
         const techStackMap = {};
         relatedUseCases.forEach(uc => {
           (uc.technologies || []).forEach(tech => {
-            const subcat = 'Technologies';
+            // Group by actual tech category so the topology renders multiple cards
+            const catArr = Array.isArray(tech.category) ? tech.category : tech.category ? [tech.category] : [];
+            const subcat = catArr[0]?.name || tech.subcategories?.[0]?.name || 'Core Technologies';
             if (!techStackMap[subcat]) techStackMap[subcat] = {};
             techStackMap[subcat][tech.name] = {
               icon: tech.icon,

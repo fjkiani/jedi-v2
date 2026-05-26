@@ -83,7 +83,7 @@ const TechStoryTopology = ({ techStack }) => {
                             `}
                         >
                             {/* Hover Glow */}
-                            <div className="absolute inset-0 bg-primary-1/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-primary-1/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                             {/* Card Header & Status */}
                             <div className="p-5 border-b border-n-6/50 flex justify-between items-start">

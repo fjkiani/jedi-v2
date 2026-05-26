@@ -107,16 +107,20 @@ const ZetaSimulation = ({ useCase }) => {
             const getContent = (section, subTitle) => section?.subsections?.find(sub => sub.title === subTitle)?.content || [];
 
             setResult({
-                // Prefer service-processed steps, fallback to raw architecture
-                rawResponse: response, // Pass full response for advanced display if needed
+                rawResponse: response,
+                // Direct answer to the specific query — shown at top of HUD
+                directAnswer: response.directAnswer || null,
+                relevantCapabilities: response.relevantCapabilities || [],
                 architecture: {
                     ...useCase.architecture,
-                    flow: getContent(flowSection, "Processing Steps"), // Use the service's processed flow
-                    components: getContent(systemSection, "Core Components")
+                    // query-specific processing steps (highlighted per query)
+                    components: getContent(flowSection, "Processing Steps"),
+                    coreComponents: getContent(systemSection, "Core Components"),
+                    flow: getContent(flowSection, "Processing Steps"),
                 },
                 metrics: getContent(flowSection, "Key Metrics"),
-                capabilities: getContent(capabilitySection, "Key Features").map(c => c.description || c), // Flatten if needed
-                technologies: getContent(systemSection, "Technology Stack") // Extract technologies
+                capabilities: getContent(capabilitySection, "Key Features").map(c => c.description || c),
+                technologies: getContent(systemSection, "Technology Stack"),
             });
 
         } catch (error) {
