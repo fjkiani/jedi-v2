@@ -11,9 +11,9 @@ import ReactMarkdown from 'react-markdown';
 
 // ─── Tab definitions ──────────────────────────────────────────────────────────
 const TABS = [
-  { id: 'overview',  label: 'Overview',          icon: FiGrid },
-  { id: 'technical', label: 'Technical Details',  icon: FiCode },
-  { id: 'usecases',  label: 'Use Cases',          icon: FiZap },
+  { id: 'overview',  label: 'Overview',             icon: FiGrid },
+  { id: 'technical', label: 'Technical Details',    icon: FiCode },
+  { id: 'usecases',  label: 'Use Cases',            icon: FiZap },
   { id: 'related',   label: 'Related Technologies', icon: FiLayers },
 ];
 
@@ -29,13 +29,6 @@ const TechIcon = ({ icon, name, size = 'md' }) => {
     </div>
   );
 };
-
-const MetricCard = ({ label, value }) => (
-  <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-    <div className="text-2xl font-bold text-yellow-400 mb-1">{value}</div>
-    <div className="text-xs text-white/60 uppercase tracking-wide">{label}</div>
-  </div>
-);
 
 const UseCaseCard = ({ uc }) => (
   <Link
@@ -62,42 +55,41 @@ const UseCaseCard = ({ uc }) => (
   </Link>
 );
 
-const RelatedTechCard = ({ tech }) => (
+const RelatedTechCard = ({ tech: relTech }) => (
   <Link
-    to={`/technology/${tech.slug}`}
+    to={`/technology/${relTech.slug}`}
     className="group flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/30 hover:bg-white/8 transition-all"
   >
-    <TechIcon icon={tech.icon} name={tech.name} size="sm" />
+    <TechIcon icon={relTech.icon} name={relTech.name} size="sm" />
     <div className="flex-1 min-w-0">
       <div className="text-sm font-medium text-white group-hover:text-yellow-400 transition-colors truncate">
-        {tech.name}
+        {relTech.name}
       </div>
-      {tech.description && (
-        <div className="text-xs text-white/50 truncate">{tech.description}</div>
+      {relTech.description && (
+        <div className="text-xs text-white/50 truncate">{relTech.description}</div>
       )}
     </div>
     <FiArrowRight className="shrink-0 text-white/30 group-hover:text-yellow-400 transition-colors" />
   </Link>
 );
 
-// ─── Tab panels ───────────────────────────────────────────────────────────────
-// Parse Hygraph fields that may be comma-separated strings OR arrays
+// ─── Parse Hygraph fields that may be comma-separated strings OR arrays ───────
+// NOTE: regex uses \n as a string escape, NOT a literal newline, to avoid esbuild parse errors
 const parseStringOrArray = (val) => {
   if (!val) return [];
   if (Array.isArray(val)) return val;
-  try { const p = JSON.parse(val); if (Array.isArray(p)) return p; } catch (_) {}
-  return val.split(/,\s*|
-/).map(s => s.trim()).filter(Boolean);
+  try {
+    const parsed = JSON.parse(val);
+    if (Array.isArray(parsed)) return parsed;
+  } catch (_) { /* not JSON */ }
+  // Split on comma+optional-space OR newline
+  return val.split(/,\s*|\n/).map((s) => s.trim()).filter(Boolean);
 };
 
+// ─── Tab panels ───────────────────────────────────────────────────────────────
 const OverviewPanel = ({ tech }) => {
-  // businessMetrics in Hygraph is a prose string like "Handles 100k+ TPS, 99.99% uptime..."
-  // features is a comma-separated string like "ACID Compliance, Advanced SQL Support..."
-  const rawMetrics = tech.businessMetrics;
   const features = parseStringOrArray(tech.features);
-
-  // businessMetrics is prose sentences — render as bullet list, not stat cards
-  const metricSentences = parseStringOrArray(rawMetrics);
+  const metricSentences = parseStringOrArray(tech.businessMetrics);
 
   return (
     <div className="space-y-8">
@@ -109,7 +101,7 @@ const OverviewPanel = ({ tech }) => {
         </div>
       )}
 
-      {/* Business metrics — prose sentences as bullet list */}
+      {/* Business metrics as bullet list */}
       {metricSentences.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">Business Impact</h3>
@@ -139,7 +131,7 @@ const OverviewPanel = ({ tech }) => {
         </div>
       )}
 
-      {features.length === 0 && !tech.description && !rawMetrics && (
+      {features.length === 0 && !tech.description && !tech.businessMetrics && (
         <p className="text-white/40 italic">No overview content yet.</p>
       )}
     </div>
@@ -174,7 +166,8 @@ const TechnicalPanel = ({ tech }) => {
 };
 
 const UseCasesPanel = ({ useCases }) => {
-  if (!useCases || useCases.length === 0) {
+  const list = Array.isArray(useCases) ? useCases : [];
+  if (list.length === 0) {
     return (
       <div className="text-center py-16">
         <FiZap className="mx-auto text-4xl text-white/20 mb-4" />
@@ -188,15 +181,12 @@ const UseCasesPanel = ({ useCases }) => {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-white/50">{useCases.length} deployment{useCases.length !== 1 ? 's' : ''} using this technology</p>
+      <p className="text-sm text-white/50">{list.length} deployment{list.length !== 1 ? 's' : ''} using this technology</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {useCases.map(uc => <UseCaseCard key={uc.id} uc={uc} />)}
+        {list.map((uc) => <UseCaseCard key={uc.id} uc={uc} />)}
       </div>
       <div className="pt-4">
-        <Link
-          to="/use-cases"
-          className="inline-flex items-center gap-2 text-sm text-yellow-400 hover:underline"
-        >
+        <Link to="/use-cases" className="inline-flex items-center gap-2 text-sm text-yellow-400 hover:underline">
           Browse all use cases <FiArrowRight />
         </Link>
       </div>
@@ -205,7 +195,7 @@ const UseCasesPanel = ({ useCases }) => {
 };
 
 const RelatedPanel = ({ related, currentSlug }) => {
-  const filtered = (related || []).filter(t => t.slug !== currentSlug);
+  const filtered = Array.isArray(related) ? related.filter((r) => r.slug !== currentSlug) : [];
 
   if (filtered.length === 0) {
     return (
@@ -220,7 +210,7 @@ const RelatedPanel = ({ related, currentSlug }) => {
     <div className="space-y-4">
       <p className="text-sm text-white/50">{filtered.length} other technologies in this category</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {filtered.map(t => <RelatedTechCard key={t.id} tech={t} />)}
+        {filtered.map((relTech) => <RelatedTechCard key={relTech.id} tech={relTech} />)}
       </div>
     </div>
   );
@@ -245,20 +235,26 @@ const EnhancedTechnologyDetail = () => {
     hygraphClient
       .request(GET_TECHNOLOGY_BY_SLUG, { slug })
       .then(async (data) => {
-        const t = data?.technology;
-        if (!t) { setError('Technology not found'); setLoading(false); return; }
-        setTech(t);
+        const fetchedTech = data?.technology;
+        if (!fetchedTech) {
+          setError('Technology not found');
+          setLoading(false);
+          return;
+        }
+        setTech(fetchedTech);
 
-        // Fetch related technologies from same category
-        if (t.category?.slug) {
+        // category is an ARRAY — use [0].slug for the related fetch
+        const catArr = Array.isArray(fetchedTech.category) ? fetchedTech.category : [];
+        const primaryCatSlug = catArr[0]?.slug;
+        if (primaryCatSlug) {
           try {
-            const rel = await hygraphClient.request(GET_TECHNOLOGY_BY_CATEGORY, { slug: t.category.slug });
-            setRelated(rel?.technologyS || []);
+            const rel = await hygraphClient.request(GET_TECHNOLOGY_BY_CATEGORY, { slug: primaryCatSlug });
+            setRelated(Array.isArray(rel?.technologyS) ? rel.technologyS : []);
           } catch (_) { /* non-fatal */ }
         }
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message || 'Failed to load technology');
         setLoading(false);
       });
@@ -281,15 +277,14 @@ const EnhancedTechnologyDetail = () => {
     );
   }
 
-  const useCases = tech.useCases || [];
+  const useCases = Array.isArray(tech.useCases) ? tech.useCases : [];
   const categories = Array.isArray(tech.category) ? tech.category : tech.category ? [tech.category] : [];
-  const primaryCategory = categories[0];
+  const primaryCategory = categories[0] || null;
 
-  // Compute tab badge counts
-  const tabsWithCounts = TABS.map(t => ({
-    ...t,
-    count: t.id === 'usecases' ? useCases.length
-         : t.id === 'related' ? related.filter(r => r.slug !== slug).length
+  const tabsWithCounts = TABS.map((tab) => ({
+    ...tab,
+    count: tab.id === 'usecases' ? useCases.length
+         : tab.id === 'related'  ? related.filter((r) => r.slug !== slug).length
          : null,
   }));
 
@@ -304,7 +299,6 @@ const EnhancedTechnologyDetail = () => {
         {/* ── HERO ── */}
         <div className="border-b border-white/10 bg-gradient-to-b from-white/5 to-transparent">
           <div className="max-w-6xl mx-auto px-6 py-12">
-            {/* Back link */}
             <Link
               to={primaryCategory ? `/solutions/${primaryCategory.slug}` : '/technology'}
               className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors mb-8"
@@ -319,9 +313,8 @@ const EnhancedTechnologyDetail = () => {
                 {tech.description && (
                   <p className="text-white/60 text-base leading-relaxed max-w-2xl mb-4">{tech.description}</p>
                 )}
-                {/* Category badges */}
                 <div className="flex flex-wrap gap-2">
-                  {categories.map(cat => (
+                  {categories.map((cat) => (
                     <Link
                       key={cat.slug}
                       to={`/solutions/${cat.slug}`}
@@ -330,7 +323,7 @@ const EnhancedTechnologyDetail = () => {
                       {cat.name}
                     </Link>
                   ))}
-                  {tech.subcategories?.map(sub => (
+                  {Array.isArray(tech.subcategories) && tech.subcategories.map((sub) => (
                     <span key={sub.slug} className="text-xs bg-white/10 text-white/50 px-3 py-1 rounded-full">
                       {sub.name}
                     </span>
@@ -338,7 +331,6 @@ const EnhancedTechnologyDetail = () => {
                 </div>
               </div>
 
-              {/* CTA buttons */}
               <div className="hidden md:flex flex-col gap-2 shrink-0">
                 {primaryCategory && (
                   <Link
@@ -359,13 +351,13 @@ const EnhancedTechnologyDetail = () => {
           </div>
         </div>
 
-        {/* ── BODY: left rail + main content ── */}
+        {/* ── BODY ── */}
         <div className="max-w-6xl mx-auto px-6 py-10">
           <div className="flex gap-8">
             {/* Left rail — sticky tab nav (desktop) */}
             <aside className="hidden lg:block w-52 shrink-0">
               <div className="sticky top-24 space-y-1">
-                {tabsWithCounts.map(tab => {
+                {tabsWithCounts.map((tab) => {
                   const Icon = tab.icon;
                   const active = activeTab === tab.id;
                   return (
@@ -388,8 +380,6 @@ const EnhancedTechnologyDetail = () => {
                     </button>
                   );
                 })}
-
-                {/* Deploy CTA in rail */}
                 <div className="pt-4 border-t border-white/10 mt-4">
                   <Link
                     to="/contact"
@@ -404,7 +394,7 @@ const EnhancedTechnologyDetail = () => {
             {/* Mobile tab bar */}
             <div className="lg:hidden w-full mb-6">
               <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-hide">
-                {tabsWithCounts.map(tab => {
+                {tabsWithCounts.map((tab) => {
                   const Icon = tab.icon;
                   const active = activeTab === tab.id;
                   return (
