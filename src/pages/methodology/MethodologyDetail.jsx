@@ -139,7 +139,7 @@ const MethodologyDetail = () => {
 
                         {/* Right Column: Icon & Visual */}
                         <div className="w-full lg:w-1/3 flex justify-center lg:justify-end">
-                            <div className={`w-64 h-64 rounded-full border border-dashed flex items-center justify-center relative ${isDarkMode ? 'border-n-6 bg-n-8/50' : 'border-n-3 bg-white'}`}>
+                            <div className={`w-64 h-64 rounded-full border border-dashed flex items-center justify-center relative ${isDarkMode ? 'border-n-6 bg-n-8/50' : 'border-primary-1/20 bg-primary-1/5'}`}>
                                 <div className="absolute inset-0 rounded-full border border-primary-1/20 animate-spin-slow"></div>
                                 <step.icon className="w-24 h-24 text-primary-1" />
                             </div>

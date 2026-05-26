@@ -1,12 +1,31 @@
+// Known slug overrides for technologies whose Hygraph icon field is broken (filename, not URL)
+const ICON_SLUG_OVERRIDES = {
+  'kafka': 'apachekafka',
+  'rasa': 'rasa',
+  'fin-bert': null, // no simpleicons entry — use letter avatar
+  'ontologies': null,
+  'd3js': 'd3dotjs',
+  'nosql-databases': 'mongodb',
+};
+
 // Dynamic icon URL: use Hygraph icon when available, else Simple Icons CDN from slug/name
 export const getTechIconUrl = (tech) => {
   if (!tech) return null;
   const obj = typeof tech === 'string' ? { name: tech } : tech;
   const icon = obj.icon;
+  // Valid URL — use directly
   if (typeof icon === 'string' && icon.startsWith('http')) return icon;
+  // Asset object with url
   if (icon?.url) return icon.url;
-  const slug = obj.slug || (obj.name && String(obj.name).toLowerCase().replace(/[^a-z0-9]+/g, ''));
-  return slug ? `https://cdn.simpleicons.org/${slug}` : null;
+  // Broken icon (filename, plain name, base64) — fall through to slug lookup
+  const rawSlug = obj.slug || (obj.name && String(obj.name).toLowerCase().replace(/[^a-z0-9]+/g, ''));
+  if (!rawSlug) return null;
+  // Check override map first
+  if (rawSlug in ICON_SLUG_OVERRIDES) {
+    const override = ICON_SLUG_OVERRIDES[rawSlug];
+    return override ? `https://cdn.simpleicons.org/${override}` : null;
+  }
+  return `https://cdn.simpleicons.org/${rawSlug}`;
 };
 
 // ─── Keyword extraction ───────────────────────────────────────────────────────
