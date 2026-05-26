@@ -1,151 +1,265 @@
 /**
- * Homepage preview of the JEDI Applications Registry.
- * Teaser that drives clicks to /jedi (APPLICATIONS REGISTRY page).
+ * LiveDeploymentsSection — Homepage section showing real use-case deployments.
+ * Fetches published use cases from Hygraph and renders them as large, compelling cards.
+ * Each card routes to /use-cases/:slug.
  */
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import { hygraphClient } from '@/lib/hygraph';
+import { GET_USE_CASES } from '@/graphql/queries/useCases';
 import {
-  FiShield,
-  FiCpu,
-  FiActivity,
-  FiServer,
-  FiLock,
   FiArrowRight,
-  FiCrosshair,
+  FiZap,
+  FiCheckCircle,
+  FiActivity,
+  FiCpu,
 } from 'react-icons/fi';
 
-const CONSOLE_LINES = [
-  'Initializing JEDI Core...',
-  'Fetching Applications...',
-  'Verifying Security Clearance...',
-  'Access Granted: COMMANDER LEVEL',
-  'Loading Registry...',
-  'System Ready.',
-];
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const JediApplicationsPreview = () => {
-  const { isDarkMode } = useTheme();
-  const [currentLine, setCurrentLine] = useState(0);
+const parseMetrics = (raw) => {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.slice(0, 3).map((m) => (typeof m === 'string' ? m : m.label || String(m)));
+  if (typeof raw === 'string') {
+    return raw.split(/\n|,/).map((s) => s.trim()).filter(Boolean).slice(0, 3);
+  }
+  return [];
+};
 
-  useEffect(() => {
-    if (currentLine >= CONSOLE_LINES.length) return;
-    const t = setTimeout(() => setCurrentLine((c) => c + 1), 600);
-    return () => clearTimeout(t);
-  }, [currentLine]);
+const TechIcon = ({ tech }) => {
+  const icon = tech?.icon;
+  const name = tech?.name || '';
+  if (icon?.startsWith('http') || icon?.startsWith('/')) {
+    return (
+      <img
+        src={icon}
+        alt={name}
+        title={name}
+        className="w-6 h-6 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+      />
+    );
+  }
+  return (
+    <div
+      title={name}
+      className="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-[10px] font-bold text-white/60"
+    >
+      {name[0] || '?'}
+    </div>
+  );
+};
 
-  const [logTime] = useState(() => {
-    const d = new Date();
-    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
-  });
+// ─── Skeleton card ────────────────────────────────────────────────────────────
+const SkeletonCard = () => (
+  <div className="rounded-2xl border border-white/10 bg-white/3 p-7 animate-pulse">
+    <div className="flex items-start justify-between mb-5">
+      <div className="h-4 w-24 bg-white/10 rounded" />
+      <div className="h-5 w-14 bg-white/10 rounded-full" />
+    </div>
+    <div className="h-7 w-3/4 bg-white/10 rounded mb-3" />
+    <div className="h-4 w-full bg-white/10 rounded mb-2" />
+    <div className="h-4 w-2/3 bg-white/10 rounded mb-6" />
+    <div className="space-y-2 mb-6">
+      {[1, 2, 3].map((i) => <div key={i} className="h-3 w-full bg-white/10 rounded" />)}
+    </div>
+    <div className="flex gap-2">
+      {[1, 2, 3, 4].map((i) => <div key={i} className="w-6 h-6 rounded bg-white/10" />)}
+    </div>
+  </div>
+);
 
-  const cards = [
-    { icon: FiCpu, label: 'ACTIVE APPS', value: '4', color: 'text-primary-1' },
-    { icon: FiActivity, label: 'SYSTEM LOAD', value: '12%', color: 'text-green-400' },
-    { icon: FiServer, label: 'GLOBAL UPTIME', value: '99.99%', color: 'text-cyan-400' },
-    { icon: FiLock, label: 'SECURITY LEVEL', value: 'ALPHA', color: 'text-amber-400' },
-  ];
+// ─── Deployment card ──────────────────────────────────────────────────────────
+const DeploymentCard = ({ uc, index }) => {
+  const metrics = parseMetrics(uc.metrics);
+  const techs = Array.isArray(uc.technologies) ? uc.technologies.slice(0, 6) : [];
+  const category = uc.category?.name || uc.industry?.name || 'AI Deployment';
 
   return (
-    <section
-      id="applications-preview"
-      className={`relative py-16 lg:py-20 overflow-hidden ${isDarkMode ? 'bg-n-8' : 'bg-[#0d0d12]'}`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
     >
-      {/* Subtle grid background */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '24px 24px',
-        }}
-      />
-      {/* Corner accents */}
-      <div className="absolute top-4 left-4 w-6 h-6 border-l border-t border-n-5 opacity-60" />
-      <div className="absolute top-4 right-4 w-6 h-6 border-r border-t border-n-5 opacity-60" />
+      <Link
+        to={`/use-cases/${uc.slug}`}
+        className="group block h-full rounded-2xl border border-white/10 bg-white/3 hover:bg-white/6 hover:border-yellow-400/30 transition-all duration-300 overflow-hidden"
+      >
+        {/* Top accent line */}
+        <div className="h-0.5 w-full bg-gradient-to-r from-yellow-400/0 via-yellow-400/60 to-yellow-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      <div className="container relative z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Top: Secure connection + title */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-10">
-            <div>
-              <div className="flex items-center gap-2 text-n-4 text-sm font-mono mb-3">
-                <FiShield className="w-4 h-4 text-green-500" />
-                <span>SECURE CONNECTION ESTABLISHED</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-                APPLICATIONS
-                <br />
-                REGISTRY
-              </h2>
+        <div className="p-7">
+          {/* Header row */}
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <span className="text-xs font-mono uppercase tracking-widest text-white/40">
+              {category}
+            </span>
+            <span className="shrink-0 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-green-400 bg-green-400/10 border border-green-400/20 px-2.5 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              LIVE
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors leading-snug mb-2">
+            {uc.title}
+          </h3>
+
+          {/* Results headline — the value prop */}
+          {uc.resultsHeadline && (
+            <p className="text-sm text-green-400 font-medium mb-3 leading-snug">
+              {uc.resultsHeadline}
+            </p>
+          )}
+
+          {/* Description */}
+          {uc.description && (
+            <p className="text-sm text-white/55 leading-relaxed mb-5 line-clamp-2">
+              {uc.description}
+            </p>
+          )}
+
+          {/* Outcome metrics */}
+          {metrics.length > 0 && (
+            <div className="space-y-2 mb-5">
+              {metrics.map((m, i) => (
+                <div key={i} className="flex items-start gap-2 text-xs text-white/60">
+                  <FiCheckCircle className="shrink-0 mt-0.5 text-yellow-400/70" size={12} />
+                  <span>{m}</span>
+                </div>
+              ))}
             </div>
+          )}
 
-            {/* Console panel */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="rounded-lg border border-green-500/40 bg-black/60 backdrop-blur-sm overflow-hidden min-w-[280px] max-w-sm"
-            >
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-green-500/30">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+          {/* Footer: tech icons + CTA */}
+          <div className="flex items-center justify-between pt-4 border-t border-white/8">
+            {techs.length > 0 ? (
+              <div className="flex items-center gap-2">
+                {techs.map((t, i) => <TechIcon key={i} tech={t} />)}
+                {uc.technologies?.length > 6 && (
+                  <span className="text-xs text-white/30 font-mono">+{uc.technologies.length - 6}</span>
+                )}
               </div>
-              <div className="p-3 font-mono text-xs text-green-400/90 space-y-1 min-h-[140px]">
-                {CONSOLE_LINES.slice(0, currentLine).map((line, i) => (
-                  <div key={i}>{logTime} &gt; {line}</div>
-                ))}
+            ) : (
+              <div className="flex items-center gap-1.5 text-xs text-white/30 font-mono">
+                <FiCpu size={12} />
+                <span>AI Stack</span>
               </div>
-              <Link
-                to="/jedi"
-                className="block w-full py-2.5 text-center text-white/80 hover:text-white text-xs font-mono border-t border-green-500/30 hover:bg-green-500/10 transition-colors flex items-center justify-center gap-2"
-              >
-                <FiArrowRight className="w-3.5 h-3.5 rotate-180" />
-                RETURN TO COMMAND
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Status cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            {cards.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08 + 0.2 }}
-                className="rounded-xl border border-n-6 bg-n-8/80 backdrop-blur-sm p-5 hover:border-primary-1/50 transition-colors"
-              >
-                <item.icon className={`w-8 h-8 mb-3 ${item.color}`} />
-                <div className="text-[10px] font-mono uppercase tracking-widest text-n-4 mb-1">
-                  {item.label}
-                </div>
-                <div className={`text-lg font-bold font-mono text-white ${item.color}`}>
-                  {item.value}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/jedi"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-1 text-white font-mono text-sm font-semibold uppercase tracking-wider hover:bg-primary-2 transition-colors"
-            >
-              <FiCrosshair className="w-4 h-4" />
-              Open Applications Registry
-            </Link>
-            <span className="text-n-5 text-sm">
-              View active JEDI deployments and capabilities
+            )}
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity">
+              View Deployment <FiArrowRight size={12} />
             </span>
           </div>
         </div>
+      </Link>
+    </motion.div>
+  );
+};
+
+// ─── Main section ─────────────────────────────────────────────────────────────
+const JediApplicationsPreview = () => {
+  const { isDarkMode } = useTheme();
+  const [useCases, setUseCases] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    hygraphClient
+      .request(GET_USE_CASES)
+      .then((data) => {
+        const list = data?.useCaseS || data?.useCases || [];
+        setUseCases(Array.isArray(list) ? list : []);
+      })
+      .catch(() => setUseCases([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const displayCases = useCases.length > 0 ? useCases : [];
+
+  return (
+    <section
+      id="live-deployments"
+      className="relative py-20 lg:py-28 overflow-hidden bg-n-8"
+    >
+      {/* Subtle grid */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)`,
+          backgroundSize: '32px 32px',
+        }}
+      />
+
+      {/* Glow accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent" />
+
+      <div className="container relative z-10">
+        {/* Section header */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-yellow-400/70 mb-4">
+              <FiActivity size={12} />
+              <span>Production Systems</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
+              Live Deployments
+            </h2>
+            <p className="mt-3 text-white/50 text-base max-w-xl leading-relaxed">
+              AI systems built, deployed, and operated by JEDI Labs — each solving a real enterprise problem with measurable outcomes.
+            </p>
+          </div>
+
+          <Link
+            to="/use-cases"
+            className="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-white/60 hover:text-white border border-white/15 hover:border-white/30 px-5 py-2.5 rounded-xl transition-all"
+          >
+            All Deployments <FiArrowRight size={14} />
+          </Link>
+        </div>
+
+        {/* Cards grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {[1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : displayCases.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {displayCases.map((uc, i) => (
+              <DeploymentCard key={uc.id} uc={uc} index={i} />
+            ))}
+          </div>
+        ) : (
+          /* Fallback if Hygraph returns nothing */
+          <div className="text-center py-20 text-white/30 font-mono text-sm">
+            <FiZap className="mx-auto mb-4 text-3xl" />
+            <p>Deployments loading…</p>
+          </div>
+        )}
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <Link
+            to="/use-cases"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-yellow-400 text-black font-bold text-sm hover:bg-yellow-300 transition-colors"
+          >
+            <FiZap size={16} />
+            Explore All Deployments
+          </Link>
+          <Link
+            to="/solutions"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/15 text-white/70 font-semibold text-sm hover:border-white/30 hover:text-white transition-all"
+          >
+            View Solutions Stack <FiArrowRight size={14} />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

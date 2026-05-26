@@ -1,154 +1,333 @@
+/**
+ * ArchitectureDiagram — Layered system architecture visualization.
+ *
+ * Replaces the old TechStoryTopology component-list grid with a proper
+ * layered flow diagram: Data Layer → Intelligence Layer → Application Layer.
+ *
+ * Technologies are assigned to layers by keyword matching against name/category.
+ * Each tech chip links to /technology/:slug.
+ */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import {
-    FiCpu, FiDatabase, FiGlobe, FiShield, FiSettings, FiCode, FiLayers,
-    FiServer, FiGrid, FiActivity, FiZap, FiLayout, FiArrowRight
+  FiDatabase,
+  FiCpu,
+  FiLayers,
+  FiZap,
+  FiArrowRight,
+  FiServer,
+  FiCode,
+  FiActivity,
 } from 'react-icons/fi';
 
-// Mapped Icons for Specific Categories
-const CATEGORY_ICONS = {
-    // Core Infrastructure
-    "Agent Core": FiCpu,
-    "AI Agents": FiCpu, // Hygraph
-    "Databases": FiDatabase,
-    "Data Engineering": FiDatabase, // Hygraph
-    "General Technology": FiGlobe,
-    "Security": FiShield,
-    "DevOps": FiSettings,
-    "Automation": FiZap, // Hygraph
-    "System Integration": FiLayers, // Hygraph
-    "API Layer": FiCode,
-    "Infrastructure": FiServer,
-    "Frontend": FiLayout,
-    "Frontend Development": FiLayout, // Hygraph
-    "Backend": FiServer,
-    "AI/ML": FiActivity,
-    "Machine-Learning": FiActivity, // Hygraph
-    "Decision Algorithms": FiActivity, // Hygraph
-    "Task Planning": FiGrid, // Hygraph
-    "Continuous Learning": FiActivity // Hygraph
+// ─── Layer definitions ────────────────────────────────────────────────────────
+
+const LAYERS = [
+  {
+    id: 'data',
+    label: 'Data Layer',
+    sublabel: 'Ingestion · Storage · Pipelines',
+    icon: FiDatabase,
+    color: 'blue',
+    keywords: [
+      'postgres', 'postgresql', 'mysql', 'mongodb', 'redis', 'elasticsearch',
+      'snowflake', 'bigquery', 'redshift', 'databricks', 's3', 'gcs', 'azure',
+      'kafka', 'kinesis', 'airflow', 'dbt', 'spark', 'hadoop', 'flink',
+      'neo4j', 'pinecone', 'weaviate', 'chroma', 'qdrant', 'milvus',
+      'sqlite', 'dynamodb', 'cassandra', 'influx', 'timescale',
+      'data', 'database', 'storage', 'warehouse', 'lake', 'pipeline',
+      'etl', 'elt', 'ingestion', 'vector', 'graph',
+    ],
+  },
+  {
+    id: 'intelligence',
+    label: 'Intelligence Layer',
+    sublabel: 'Models · Agents · Reasoning',
+    icon: FiCpu,
+    color: 'yellow',
+    keywords: [
+      'openai', 'gpt', 'claude', 'anthropic', 'gemini', 'llama', 'mistral',
+      'bert', 'hugging', 'huggingface', 'transformers', 'spacy', 'nltk',
+      'langchain', 'langgraph', 'llamaindex', 'autogpt', 'babyagi',
+      'tensorflow', 'pytorch', 'keras', 'scikit', 'sklearn', 'xgboost',
+      'openai-functions', 'function', 'agent', 'rag', 'embedding',
+      'ml', 'ai', 'nlp', 'nlu', 'llm', 'model', 'neural', 'inference',
+      'classification', 'detection', 'prediction', 'generation',
+      'dialogflow', 'rasa', 'wit', 'lex',
+    ],
+  },
+  {
+    id: 'application',
+    label: 'Application Layer',
+    sublabel: 'APIs · Orchestration · Delivery',
+    icon: FiLayers,
+    color: 'green',
+    keywords: [
+      'react', 'vue', 'angular', 'next', 'nuxt', 'svelte', 'tailwind',
+      'fastapi', 'flask', 'django', 'express', 'node', 'graphql', 'rest',
+      'docker', 'kubernetes', 'k8s', 'terraform', 'ansible', 'helm',
+      'aws', 'gcp', 'azure', 'netlify', 'vercel', 'cloudflare',
+      'github', 'gitlab', 'ci', 'cd', 'devops', 'mlops',
+      'stripe', 'twilio', 'sendgrid', 'auth0', 'okta',
+      'api', 'webhook', 'integration', 'orchestration', 'workflow',
+      'frontend', 'backend', 'microservice', 'serverless',
+    ],
+  },
+];
+
+const LAYER_STYLES = {
+  blue: {
+    border: 'border-blue-500/30',
+    bg: 'bg-blue-500/5',
+    labelBg: 'bg-blue-500/10',
+    labelText: 'text-blue-400',
+    labelBorder: 'border-blue-500/20',
+    chipBorder: 'border-blue-500/20 hover:border-blue-400/50',
+    chipBg: 'bg-blue-500/5 hover:bg-blue-500/10',
+    iconColor: 'text-blue-400',
+    connectorColor: 'bg-blue-400/20',
+  },
+  yellow: {
+    border: 'border-yellow-400/30',
+    bg: 'bg-yellow-400/5',
+    labelBg: 'bg-yellow-400/10',
+    labelText: 'text-yellow-400',
+    labelBorder: 'border-yellow-400/20',
+    chipBorder: 'border-yellow-400/20 hover:border-yellow-400/50',
+    chipBg: 'bg-yellow-400/5 hover:bg-yellow-400/10',
+    iconColor: 'text-yellow-400',
+    connectorColor: 'bg-yellow-400/20',
+  },
+  green: {
+    border: 'border-green-400/30',
+    bg: 'bg-green-400/5',
+    labelBg: 'bg-green-400/10',
+    labelText: 'text-green-400',
+    labelBorder: 'border-green-400/20',
+    chipBorder: 'border-green-400/20 hover:border-green-400/50',
+    chipBg: 'bg-green-400/5 hover:bg-green-400/10',
+    iconColor: 'text-green-400',
+    connectorColor: 'bg-green-400/20',
+  },
 };
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
+// ─── Assign a technology to a layer ──────────────────────────────────────────
+
+const assignLayer = (techName, techCategory) => {
+  const searchText = `${techName} ${techCategory || ''}`.toLowerCase();
+
+  let bestLayer = null;
+  let bestScore = 0;
+
+  for (const layer of LAYERS) {
+    const score = layer.keywords.reduce(
+      (acc, kw) => acc + (searchText.includes(kw) ? 1 : 0),
+      0
+    );
+    if (score > bestScore) {
+      bestScore = score;
+      bestLayer = layer.id;
     }
+  }
+
+  return bestLayer || 'intelligence'; // default to intelligence layer
 };
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
+// ─── Tech chip ────────────────────────────────────────────────────────────────
+
+const TechChip = ({ techName, details, layerColor }) => {
+  const styles = LAYER_STYLES[layerColor];
+  const Wrapper = details.slug ? Link : 'div';
+  const wrapperProps = details.slug ? { to: `/technology/${details.slug}` } : {};
+
+  return (
+    <Wrapper
+      {...wrapperProps}
+      className={`group flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 ${styles.chipBorder} ${styles.chipBg}`}
+    >
+      {details.icon ? (
+        <img
+          src={details.icon}
+          alt={techName}
+          className="w-5 h-5 object-contain shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
+        />
+      ) : (
+        <div className={`w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold shrink-0 ${styles.labelBg} ${styles.labelText}`}>
+          {techName[0] || '?'}
+        </div>
+      )}
+      <span className="text-xs font-mono text-white/70 group-hover:text-white transition-colors truncate max-w-[120px]">
+        {techName}
+      </span>
+      {details.slug && (
+        <FiArrowRight
+          size={10}
+          className={`shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${styles.labelText}`}
+        />
+      )}
+    </Wrapper>
+  );
 };
+
+// ─── Layer row ────────────────────────────────────────────────────────────────
+
+const LayerRow = ({ layer, techs, index, total }) => {
+  const styles = LAYER_STYLES[layer.color];
+  const Icon = layer.icon;
+  const isLast = index === total - 1;
+
+  return (
+    <div className="relative">
+      <motion.div
+        initial={{ opacity: 0, x: -16 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-30px' }}
+        transition={{ duration: 0.4, delay: index * 0.12 }}
+        className={`rounded-2xl border ${styles.border} ${styles.bg} overflow-hidden`}
+      >
+        {/* Layer header */}
+        <div className={`flex items-center gap-4 px-6 py-4 border-b ${styles.border}`}>
+          <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${styles.labelBg} border ${styles.labelBorder}`}>
+            <Icon size={18} className={styles.iconColor} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className={`text-sm font-bold ${styles.labelText}`}>{layer.label}</div>
+            <div className="text-xs text-white/35 font-mono">{layer.sublabel}</div>
+          </div>
+          <div className={`text-xs font-mono px-2.5 py-1 rounded-full border ${styles.labelBorder} ${styles.labelBg} ${styles.labelText}`}>
+            {techs.length} {techs.length === 1 ? 'component' : 'components'}
+          </div>
+        </div>
+
+        {/* Tech chips */}
+        <div className="p-5">
+          {techs.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {techs.map(([name, details]) => (
+                <TechChip
+                  key={name}
+                  techName={name}
+                  details={details}
+                  layerColor={layer.color}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-xs text-white/25 font-mono py-2">
+              <FiZap size={12} />
+              <span>No components assigned to this layer</span>
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      {/* Connector arrow between layers */}
+      {!isLast && (
+        <div className="flex justify-center my-3 relative z-10">
+          <div className="flex flex-col items-center gap-0.5">
+            <div className="w-px h-4 bg-white/15" />
+            <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-white/20" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 const TechStoryTopology = ({ techStack }) => {
-    const { isDarkMode } = useTheme();
-    const categories = Object.entries(techStack);
+  const { isDarkMode } = useTheme();
 
+  // Assign each technology to a layer
+  const layerMap = useMemo(() => {
+    const map = { data: [], intelligence: [], application: [] };
+
+    Object.entries(techStack || {}).forEach(([categoryName, techs]) => {
+      Object.entries(techs || {}).forEach(([techName, details]) => {
+        const layerId = assignLayer(techName, categoryName);
+        map[layerId].push([techName, details]);
+      });
+    });
+
+    return map;
+  }, [techStack]);
+
+  const totalTechs = Object.values(layerMap).reduce((acc, arr) => acc + arr.length, 0);
+
+  if (totalTechs === 0) {
     return (
-        <div className={`relative py-10 ${isDarkMode ? 'bg-n-8' : 'bg-transparent'}`}>
-
-            {/* Background Circuitry - Decorative */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-                <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-1 to-transparent`} />
-                <div className={`absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-1 to-transparent`} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-n-8 via-transparent to-transparent opacity-50" />
-            </div>
-
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-50px" }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10"
-            >
-                {categories.map(([categoryName, techs], index) => {
-                    const IconComponent = CATEGORY_ICONS[categoryName] || FiLayers;
-                    const techCount = Object.keys(techs).length;
-
-                    return (
-                        <motion.div
-                            key={categoryName}
-                            variants={itemVariants}
-                            className={`group relative overflow-hidden rounded-xl border transition-all duration-300
-                                ${isDarkMode
-                                    ? 'bg-n-8/80 border-n-6 hover:border-primary-1/50 hover:bg-n-7'
-                                    : 'bg-white/80 border-n-3 hover:border-primary-1/50 shadow-sm hover:shadow-md'}
-                            `}
-                        >
-                            {/* Hover Glow */}
-                            <div className="absolute inset-0 bg-primary-1/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                            {/* Card Header & Status */}
-                            <div className="p-5 border-b border-n-6/50 flex justify-between items-start">
-                                <div className="flex items-center gap-3">
-                                    <div className={`p-2 rounded-lg ${isDarkMode ? 'bg-n-7 text-primary-1' : 'bg-n-1 text-primary-1 shadow-inner'}`}>
-                                        <IconComponent size={20} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-sm font-bold uppercase tracking-wider">{categoryName}</h3>
-                                        <div className="text-[10px] font-mono text-n-4 flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                            ONLINE // {techCount} NODES
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="font-mono text-[10px] text-n-5 opacity-50">
-                                    SYS-{index.toString().padStart(2, '0')}
-                                </div>
-                            </div>
-
-                            {/* Tech Grid Content */}
-                            <div className="p-4 grid grid-cols-2 gap-2">
-                                {Object.entries(techs).map(([techName, details]) => {
-                                    const TechWrapper = details.slug ? Link : 'div';
-                                    const techProps = details.slug ? { to: `/technology/${details.slug}` } : {};
-                                    return (
-                                        <TechWrapper key={techName} {...techProps} className={`flex items-center gap-2 p-1.5 rounded transition-all group/tech ${details.slug ? 'cursor-pointer hover:bg-white/10' : 'hover:bg-white/5'}`}>
-                                            {/* Micro Icon */}
-                                            <div className="w-6 h-6 flex items-center justify-center opacity-80 group-hover/tech:opacity-100 transition-opacity flex-shrink-0">
-                                                {details.icon ? (
-                                                    <img src={details.icon} alt={techName} className="max-w-full max-h-full object-contain" />
-                                                ) : (
-                                                    <FiZap size={12} className="text-n-4" />
-                                                )}
-                                            </div>
-                                            <span className={`text-xs font-mono truncate flex-1 ${isDarkMode ? 'text-n-3 group-hover/tech:text-n-1' : 'text-n-6 group-hover/tech:text-n-8'} ${details.slug ? 'group-hover/tech:text-primary-1' : ''}`}>
-                                                {techName}
-                                            </span>
-                                            {details.slug && (
-                                                <FiArrowRight size={10} className="opacity-0 group-hover/tech:opacity-100 transition-opacity text-primary-1 shrink-0" />
-                                            )}
-                                        </TechWrapper>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Decorative Corner */}
-                            <div className="absolute top-0 right-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div className="w-2 h-2 border-t border-r border-primary-1" />
-                            </div>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
-
-            {/* System Footer Decoration */}
-            <div className="mt-8 flex justify-center opacity-50">
-                <div className="flex items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-n-4">
-                    <span>Architecture Verified</span>
-                    <span className="w-4 h-[1px] bg-n-6" />
-                    <span>Zeta Protocol v2.0</span>
-                </div>
-            </div>
-        </div>
+      <div className="text-center py-16 text-white/30 font-mono text-sm">
+        <FiServer className="mx-auto mb-4 text-3xl" />
+        <p>Architecture diagram loading…</p>
+      </div>
     );
+  }
+
+  return (
+    <div className="relative">
+      {/* System header */}
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center justify-between mb-8"
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-yellow-400/60" />
+            <span className="w-2 h-2 rounded-full bg-blue-400/60" />
+          </div>
+          <span className="text-xs font-mono text-white/30 uppercase tracking-widest">
+            System Architecture · {totalTechs} components · 3 layers
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-[10px] font-mono text-white/20 uppercase tracking-widest">
+          <FiActivity size={10} />
+          <span>All Systems Operational</span>
+        </div>
+      </motion.div>
+
+      {/* Layer stack */}
+      <div className="space-y-0">
+        {LAYERS.map((layer, i) => (
+          <LayerRow
+            key={layer.id}
+            layer={layer}
+            techs={layerMap[layer.id]}
+            index={i}
+            total={LAYERS.length}
+          />
+        ))}
+      </div>
+
+      {/* Footer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+        className="mt-8 flex items-center justify-center gap-6 text-[10px] font-mono uppercase tracking-widest text-white/20"
+      >
+        <span className="flex items-center gap-2">
+          <span className="w-3 h-px bg-blue-400/40" />
+          Data Layer
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="w-3 h-px bg-yellow-400/40" />
+          Intelligence Layer
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="w-3 h-px bg-green-400/40" />
+          Application Layer
+        </span>
+      </motion.div>
+    </div>
+  );
 };
 
 export default TechStoryTopology;

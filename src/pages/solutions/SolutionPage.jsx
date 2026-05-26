@@ -390,7 +390,44 @@ const SolutionPage = () => {
       {/* Architecture / Topology */}
       <Section id="architecture" className={isDarkMode ? 'bg-n-7' : 'bg-gray-50'}>
         <div className="container">
-          <Heading title="System Architecture" text="Active operational topology." className="mb-12 text-center" />
+          {/* Section header with narrative context */}
+          <div className="mb-10">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-4">
+              <div>
+                <h2 className={`h2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>System Architecture</h2>
+                {solution.technologyNarrative?.text ? (
+                  <p className={`mt-2 body-2 max-w-2xl ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                    {solution.technologyNarrative.text}
+                  </p>
+                ) : (
+                  <p className={`mt-2 body-2 max-w-2xl ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
+                    The layered technology stack powering this solution — from data ingestion through AI reasoning to application delivery.
+                  </p>
+                )}
+              </div>
+              <Link
+                to="/technology"
+                className="shrink-0 text-sm font-mono text-primary-1 hover:underline flex items-center gap-1.5"
+              >
+                Full tech stack →
+              </Link>
+            </div>
+            {/* Use case context strip */}
+            {useCases.filter(uc => uc.category?.slug === solution.slug).length > 0 && (
+              <div className={`flex flex-wrap items-center gap-2 text-xs font-mono ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>
+                <span className="uppercase tracking-wider">Powers:</span>
+                {useCases.filter(uc => uc.category?.slug === solution.slug).map(uc => (
+                  <Link
+                    key={uc.id}
+                    to={`/use-cases/${uc.slug}`}
+                    className={`px-3 py-1 rounded-full border transition-colors ${isDarkMode ? 'border-n-6 text-n-3 hover:border-primary-1/50 hover:text-primary-1' : 'border-n-3 text-n-6 hover:border-primary-1 hover:text-primary-1'}`}
+                  >
+                    {uc.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           {solution.techStack && Object.keys(solution.techStack).length > 0 ? (
             <TechStoryTopology techStack={solution.techStack} />
           ) : (
