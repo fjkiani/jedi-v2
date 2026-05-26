@@ -3,6 +3,9 @@
  *
  * Hygraph-driven page for JEDI Labs applications.
  * Each application can link to an external URL or a case study.
+ *
+ * v2: Each app card now shows matching use-case pills (matched by category slug overlap),
+ *     linking to /use-cases/:slug. Use cases are fetched in parallel with apps.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -12,12 +15,14 @@ import { useTheme } from '@/context/ThemeContext';
 import Section from '../components/Section';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_APPLICATIONS } from '@/graphql/queries/applications';
+import { GET_USE_CASES } from '@/graphql/queries/useCases';
 import {
-  FiCpu, FiActivity, FiServer, FiShield, FiArrowRight, FiLock, FiCrosshair, FiExternalLink
+  FiCpu, FiActivity, FiServer, FiShield, FiArrowRight, FiLock, FiCrosshair, FiExternalLink, FiLink
 } from 'react-icons/fi';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/Button';
 
+// ─── Status badge ─────────────────────────────────────────────────────────────
 const StatusBadge = ({ status = "ONLINE" }) => {
   const colors = {
     ONLINE: "bg-green-500/20 text-green-400 border-green-500/50",
@@ -34,7 +39,22 @@ const StatusBadge = ({ status = "ONLINE" }) => {
   );
 };
 
-const ApplicationCard = ({ app, index }) => {
+// ─── Use-case pill ────────────────────────────────────────────────────────────
+const UseCasePill = ({ uc }) => (
+  <Link
+    to={`/use-cases/${uc.slug}`}
+    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold
+      bg-primary-1/10 border border-primary-1/30 text-primary-1
+      hover:bg-primary-1/20 hover:border-primary-1/60 transition-all duration-200 whitespace-nowrap"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <FiLink className="w-2.5 h-2.5 flex-shrink-0" />
+    {uc.title}
+  </Link>
+);
+
+// ─── Application card ─────────────────────────────────────────────────────────
+const ApplicationCard = ({ app, index, matchedUseCases }) => {
   const hasExternalUrl = !!app.applicationUrl?.trim();
   const hasCaseStudy = !!app.caseStudy?.slug;
 
@@ -52,7 +72,7 @@ const ApplicationCard = ({ app, index }) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: index * 0.1 }}
-      className="group relative bg-[#0a0a0a] border border-n-6 hover:border-primary-1 transition-all duration-300 rounded-xl overflow-hidden hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]"
+      className="group relative bg-[#0a0a0a] border border-n-6 hover:border-primary-1 transition-all duration-300 rounded-xl overflow-hidden hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] flex flex-col h-full"
     >
       {/* HUD Corners */}
       <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-n-4 group-hover:border-primary-1 transition-colors z-10"></div>
@@ -61,7 +81,7 @@ const ApplicationCard = ({ app, index }) => {
       <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-n-4 group-hover:border-primary-1 transition-colors z-10"></div>
 
       {/* Thumbnail or placeholder */}
-      <div className="aspect-video bg-n-8 overflow-hidden">
+      <div className="aspect-video bg-n-8 overflow-hidden flex-shrink-0">
         {thumbnailUrl ? (
           <img
             src={thumbnailUrl}
@@ -75,7 +95,7 @@ const ApplicationCard = ({ app, index }) => {
         )}
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-4">
           <div className="px-2 py-1 bg-n-8 rounded border border-n-7 text-[10px] text-n-4 font-mono">
             UNIT-{String(index + 1).padStart(3, '0')}
@@ -92,11 +112,25 @@ const ApplicationCard = ({ app, index }) => {
           </p>
         )}
 
-        <p className="text-sm text-n-3 mb-6 line-clamp-2 h-10">
+        <p className="text-sm text-n-3 mb-4 line-clamp-2">
           {app.description || ''}
         </p>
 
-        <div className="flex items-center justify-between mt-auto">
+        {/* ── Use-case pills ── */}
+        {matchedUseCases.length > 0 && (
+          <div className="mb-4">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-n-5 mb-2 flex items-center gap-1.5">
+              <FiLink className="w-3 h-3" /> Use Cases Powered
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {matchedUseCases.map((uc) => (
+                <UseCasePill key={uc.id} uc={uc} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-n-7">
           {href ? (
             <span className="flex items-center gap-2 text-xs font-bold text-n-1 group-hover:text-primary-1 transition-colors uppercase tracking-wide">
               {isExternal ? (
@@ -136,9 +170,10 @@ const ApplicationCard = ({ app, index }) => {
     );
   }
 
-  return <div key={app.id}>{cardContent}</div>;
+  return <div key={app.id} className="h-full">{cardContent}</div>;
 };
 
+// ─── System log animation ─────────────────────────────────────────────────────
 const SystemLog = () => {
   const [logs, setLogs] = useState([]);
 
@@ -180,30 +215,52 @@ const SystemLog = () => {
   );
 };
 
+// ─── Main page ────────────────────────────────────────────────────────────────
 const JediPage = () => {
   const { isDarkMode } = useTheme();
   const [applications, setApplications] = useState([]);
+  const [useCases, setUseCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchApplications = async () => {
+    const fetchAll = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await hygraphClient.request(GET_APPLICATIONS, { stage: 'PUBLISHED' });
-        const list = data?.projects12 || data?.projects || [];
+
+        // Fetch apps and use cases in parallel
+        const [appData, ucData] = await Promise.all([
+          hygraphClient.request(GET_APPLICATIONS, { stage: 'PUBLISHED' }),
+          hygraphClient.request(GET_USE_CASES),
+        ]);
+
+        const list = appData?.projects12 || appData?.projects || [];
         setApplications(list);
+        setUseCases(ucData?.useCaseS || []);
       } catch (e) {
         console.error('Failed to load applications', e);
         setError('Failed to load applications.');
         setApplications([]);
+        setUseCases([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchApplications();
+    fetchAll();
   }, []);
+
+  /**
+   * Match use cases to an app by category slug overlap.
+   * app.categories[*].slug ∩ useCase.category.slug
+   */
+  const getMatchedUseCases = (app) => {
+    if (!Array.isArray(app.categories) || app.categories.length === 0) return [];
+    const appSlugs = new Set(app.categories.map((c) => c.slug));
+    return useCases
+      .filter((uc) => uc.category?.slug && appSlugs.has(uc.category.slug))
+      .slice(0, 3); // cap at 3 pills
+  };
 
   return (
     <>
@@ -232,6 +289,10 @@ const JediPage = () => {
                 <h1 className="h1 font-bold text-white uppercase tracking-tighter">
                   Applications<br />Registry
                 </h1>
+                <p className="mt-3 text-sm text-n-4 max-w-md">
+                  Each application is built on the JEDI stack.{' '}
+                  <span className="text-primary-1 font-semibold">Click a use case pill</span> to see the architecture behind it.
+                </p>
               </div>
 
               <div className="hidden md:block w-96">
@@ -269,6 +330,12 @@ const JediPage = () => {
               <h2 className="text-2xl font-bold font-mono flex items-center gap-2">
                 <FiCpu /> DEPLOYED APPLICATIONS
               </h2>
+              <Link
+                to="/use-cases"
+                className="text-xs font-mono text-n-4 hover:text-primary-1 flex items-center gap-1.5 transition-colors"
+              >
+                Browse all use cases <FiArrowRight className="w-3 h-3" />
+              </Link>
             </div>
 
             {error && (
@@ -282,9 +349,14 @@ const JediPage = () => {
                 LOADING REGISTRY DATA...
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
                 {applications.map((app, index) => (
-                  <ApplicationCard key={app.id} app={app} index={index} />
+                  <ApplicationCard
+                    key={app.id}
+                    app={app}
+                    index={index}
+                    matchedUseCases={getMatchedUseCases(app)}
+                  />
                 ))}
 
                 {/* Placeholder for "New Application" */}

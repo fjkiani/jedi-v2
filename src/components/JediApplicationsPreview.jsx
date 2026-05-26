@@ -260,6 +260,34 @@ const JediApplicationsPreview = () => {
             View Solutions Stack <FiArrowRight size={14} />
           </Link>
         </motion.div>
+
+        {/* Bridge strip: use cases → live products */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="mt-8 flex items-center justify-center gap-3 text-sm text-white/40"
+        >
+          <span className="w-8 h-px bg-white/20" />
+          <span>
+            These use cases power{' '}
+            <Link
+              to="/jedi"
+              className="text-primary-1 font-semibold hover:text-primary-1/80 transition-colors"
+            >
+              3 live products
+            </Link>
+            {' '}— see the full applications registry
+          </span>
+          <Link
+            to="/jedi"
+            className="inline-flex items-center gap-1 text-primary-1 hover:text-primary-1/80 transition-colors font-semibold"
+          >
+            <FiArrowRight size={14} />
+          </Link>
+          <span className="w-8 h-px bg-white/20" />
+        </motion.div>
       </div>
     </section>
   );
