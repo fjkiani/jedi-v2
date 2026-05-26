@@ -34,7 +34,7 @@ export const Blog = () => {
                   url
                 }
               }
-              coverImage {
+              featuredImage {
                 url
               }
             }
@@ -92,9 +92,9 @@ export const Blog = () => {
                 to={`/blog/post/${post.slug}`}
                 className={`block border rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col ${isDarkMode ? 'bg-n-7 border-n-6 hover:border-primary-1/50' : 'bg-white border-n-3 hover:border-primary-1/50'} group`}
               >
-                {post.coverImage && (
+                {post.featuredImage && (
                   <img 
-                    src={post.coverImage.url} 
+                    src={post.featuredImage.url} 
                     alt={post.title}
                     className="w-full h-48 object-cover"
                   />

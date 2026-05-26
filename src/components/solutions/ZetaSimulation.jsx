@@ -1,22 +1,27 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FiPlay, FiCpu, FiTerminal, FiLoader, FiActivity } from 'react-icons/fi';
 import { useTheme } from '@/context/ThemeContext';
 import { openAIService, getTechIconUrl } from '@/services/openAIService';
 import SimulationHUD from './SimulationHUD';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const ZetaSimulation = ({ useCase }) => {
+const ZetaSimulation = ({ useCase, initialQuery }) => {
     const { isDarkMode } = useTheme();
     const [terminalLogs, setTerminalLogs] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
     const [result, setResult] = useState(null);
     const logsEndRef = useRef(null);
+    const isProcessingRef = useRef(false);
 
-    if (!useCase || !useCase.implementation) return null;
-
-    const { implementation } = useCase;
-    const queries = useCase.queries || implementation.queries || [
+    // Build a synthetic implementation from top-level fields if the block is absent
+    const implementation = useCase?.implementation || {
+        capabilities: useCase?.capabilities || [],
+        architecture: useCase?.architecture || {},
+        metrics: useCase?.metrics || [],
+        queries: useCase?.queries || [],
+    };
+    const queries = useCase?.queries || implementation.queries || [
         "Initialize diagnostic scan sequence...",
         "Analyze data integrity...",
         "Generate optimization report..."
@@ -29,53 +34,43 @@ const ZetaSimulation = ({ useCase }) => {
         }
     }, [terminalLogs]);
 
-
-    const addLog = (msg, type = 'info') => {
+    const addLog = useCallback((msg, type = 'info') => {
         setTerminalLogs(prev => [...prev, { msg, type, time: new Date().toLocaleTimeString('en-US', { hour12: false }) }]);
-    };
+    }, []);
 
-    const runSimulation = async (query) => {
-        if (isProcessing) return;
-
+    const runSimulation = useCallback(async (query) => {
+        if (isProcessingRef.current) return;
+        isProcessingRef.current = true;
         setIsProcessing(true);
         setResult(null);
-        setTerminalLogs([]); // Clear previous logs
+        setTerminalLogs([]);
 
-        // Initial Command Log
         addLog(`COMMAND RECEIVED: ${query}`, 'cmd');
         await new Promise(r => setTimeout(r, 600));
 
-        // Use dynamic flow from architecture if available
-        console.log("ZetaSimulation Flow Length:", useCase.architecture?.flow?.length);
-        const dynamics = useCase.architecture?.flow?.length > 0 ? useCase.architecture.flow.map(step => ({
-            msg: `[${step.step}] ${step.description}`,
-            delay: 400 + Math.random() * 600
-        })) : [
-            { msg: "Initializing JEDI Core v4.2...", delay: 800 },
-            { msg: "Establishing secure uplink to Neural Grid...", delay: 1000 },
-            { msg: "Processing input vectors...", delay: 1200 }
-        ];
+        const dynamics = useCase?.architecture?.flow?.length > 0
+            ? useCase.architecture.flow.map(step => ({
+                msg: `[${step.step || step.order || ''}] ${step.description}`,
+                delay: 400 + Math.random() * 600
+            }))
+            : [
+                { msg: "Initializing JEDI Core v4.2...", delay: 800 },
+                { msg: "Establishing secure uplink to Neural Grid...", delay: 1000 },
+                { msg: "Processing input vectors...", delay: 1200 }
+            ];
 
-        // Execute Flow
         for (const step of dynamics) {
             addLog(step.msg, 'sys');
             await new Promise(r => setTimeout(r, step.delay));
         }
 
-        // FEATURE: Render Technologies in Terminal
-        if (useCase.technologies && useCase.technologies.length > 0) {
+        if (useCase?.technologies && useCase.technologies.length > 0) {
             addLog("LOADING_CORE_MODULES...", 'sys');
             await new Promise(r => setTimeout(r, 400));
-
-            // Chunk them to look like loading bars or status checks
             for (const tech of useCase.technologies) {
-                // If the tech object has an icon, we render it textually or just the name
-                // Since this is a text terminal, we can't easily render React components inside the log state *string* 
-                // unless we change the log structure to accept nodes.
-                // WE WILL CHANG IT BELOW.
                 addLog({
                     text: `MODULE_LOAD: ${tech.name ? tech.name.toUpperCase() : typeof tech === 'string' ? tech.toUpperCase() : 'UNKNOWN'}`,
-                    iconUrl: getTechIconUrl(tech), // Hygraph icon or dynamic CDN URL
+                    iconUrl: getTechIconUrl(tech),
                     status: 'OK'
                 }, 'tech');
                 await new Promise(r => setTimeout(r, 200));
@@ -83,37 +78,30 @@ const ZetaSimulation = ({ useCase }) => {
         }
 
         try {
-            // "Real" Logic (Mock or API) - we use the service to simulate delay/processing
             const response = await openAIService.generateResponse(
                 useCase,
                 query,
                 {
                     capabilities: implementation.capabilities,
                     architecture: implementation.architecture,
-                    metrics: useCase.metrics
+                    metrics: useCase?.metrics
                 }
             );
 
             await new Promise(r => setTimeout(r, 500));
             addLog("Analysis Complete. Telemetry Loaded.", 'success');
 
-            // Extract relevant data from the service response structure to match HUD expectations
-            // The service returns sections. We map them back to the simple props HUD needs.
             const flowSection = response.sections.find(s => s.title === "IMPLEMENTATION FLOW");
             const systemSection = response.sections.find(s => s.title === "SYSTEM OVERVIEW");
             const capabilitySection = response.sections.find(s => s.title === "CAPABILITIES");
-
-            // Helper to safe-get content
             const getContent = (section, subTitle) => section?.subsections?.find(sub => sub.title === subTitle)?.content || [];
 
             setResult({
                 rawResponse: response,
-                // Direct answer to the specific query — shown at top of HUD
                 directAnswer: response.directAnswer || null,
                 relevantCapabilities: response.relevantCapabilities || [],
                 architecture: {
-                    ...useCase.architecture,
-                    // query-specific processing steps (highlighted per query)
+                    ...useCase?.architecture,
                     components: getContent(flowSection, "Processing Steps"),
                     coreComponents: getContent(systemSection, "Core Components"),
                     flow: getContent(flowSection, "Processing Steps"),
@@ -122,14 +110,24 @@ const ZetaSimulation = ({ useCase }) => {
                 capabilities: getContent(capabilitySection, "Key Features").map(c => c.description || c),
                 technologies: getContent(systemSection, "Technology Stack"),
             });
-
         } catch (error) {
             console.error("Simulation Error", error);
             addLog("CRITICAL ERROR: Connection Failed.", 'error');
         } finally {
+            isProcessingRef.current = false;
             setIsProcessing(false);
         }
-    };
+    }, [useCase, implementation, addLog]);
+
+    // Auto-run when initialQuery prop changes (from UseCaseDetailPage query buttons)
+    useEffect(() => {
+        if (initialQuery) {
+            runSimulation(initialQuery);
+        }
+    }, [initialQuery, runSimulation]);
+
+    // Guard: must have a useCase to render
+    if (!useCase) return null;
 
     return (
         <div className={`relative rounded-2xl border overflow-hidden flex flex-col h-[900px] shadow-2xl transition-colors duration-500 ${isDarkMode ? 'bg-n-8 border-n-6 shadow-[0_0_40px_-10px_rgba(0,0,0,0.7)]' : 'bg-gray-50 border-n-3 shadow-xl'}`}>
@@ -241,15 +239,12 @@ const ZetaSimulation = ({ useCase }) => {
                                 className={`mb-2 break-words font-mono text-sm flex items-center gap-2 ${log.type === 'cmd' ? 'text-primary-1 font-bold mt-2 mb-2' :
                                     log.type === 'error' ? 'text-red-400' :
                                         log.type === 'success' ? 'text-green-400' :
-                                            log.type === 'tech' ? 'text-blue-400' : // New tech color
+                                            log.type === 'tech' ? 'text-blue-400' :
                                                 'text-n-3'
                                     }`}
                             >
                                 <span className="opacity-40 mr-1 text-xs tracking-wider shrink-0 w-16">[{log.time}]</span>
-
                                 {log.type === 'cmd' && <span className="mr-2">root@zeta:~$</span>}
-
-                                {/* Handle Rich Logs vs String Logs */}
                                 {typeof log.msg === 'object' ? (
                                     <span className="flex items-center gap-2">
                                         {log.msg.iconUrl ? <img src={log.msg.iconUrl} alt="" className="w-5 h-5 object-contain inline" /> : log.msg.icon && <span className="text-sm">{log.msg.icon}</span>}
@@ -259,7 +254,6 @@ const ZetaSimulation = ({ useCase }) => {
                                 ) : (
                                     <span>{log.msg}</span>
                                 )}
-
                             </motion.div>
                         ))}
                     </AnimatePresence>

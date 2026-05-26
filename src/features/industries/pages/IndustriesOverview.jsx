@@ -115,7 +115,7 @@ const IndustriesOverview = () => {
                   {industry.description || 'Tailored solutions driving innovation in this sector.'}
                 </p>
                 {industry.industryApplication && industry.industryApplication.length > 0 && (
-                  <div className="mt-4 border-t pt-4 ${isDarkMode ? 'border-n-6' : 'border-n-3'}">
+                  <div className={`mt-4 border-t pt-4 ${isDarkMode ? 'border-n-6' : 'border-n-3'}`}>
                     <p className={`body-2 mb-3 ${isDarkMode ? 'text-n-4' : 'text-n-5'} font-semibold`}>Example Applications:</p>
                     <ul className="space-y-1">
                       {industry.industryApplication.map((app) => (

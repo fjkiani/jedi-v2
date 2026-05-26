@@ -129,10 +129,10 @@ const MethodologyDetail = () => {
                             </div>
 
                             <h1 className="h1 mb-6 font-mono uppercase leading-tight">
-                                {step.title} <span className="text-n-4 block text-3xl mt-2 normal-case font-sans font-light">{step.subtitle}</span>
+                                {step.title} <span className={`block text-3xl mt-2 normal-case font-sans font-light ${isDarkMode ? "text-n-4" : "text-n-5"}`}>{step.subtitle}</span>
                             </h1>
 
-                            <p className="body-1 text-n-3 max-w-2xl mb-8 leading-relaxed">
+                            <p className={`body-1 max-w-2xl mb-8 leading-relaxed ${isDarkMode ? "text-n-3" : "text-n-5"}`}>
                                 {step.description}
                             </p>
                         </div>
@@ -281,14 +281,14 @@ const MethodologyDetail = () => {
                     </div>
 
                     {/* Navigation */}
-                    <div className="flex justify-between mt-24 pt-8 border-t border-n-6/50">
+                    <div className={`flex justify-between mt-24 pt-8 border-t ${isDarkMode ? "border-n-6/50" : "border-n-3"}`}>
                         {prevStep ? (
                             <Link to={`/methodology/${prevStep.slug}`} className="flex items-center gap-4 text-left group">
-                                <div className="w-14 h-14 rounded-full border border-n-6 flex items-center justify-center group-hover:border-primary-1 group-hover:text-primary-1 transition-all">
+                                <div className={`w-14 h-14 rounded-full border flex items-center justify-center group-hover:border-primary-1 group-hover:text-primary-1 transition-all ${isDarkMode ? "border-n-6" : "border-n-3"}`}>
                                     <FiArrowLeft size={24} />
                                 </div>
                                 <div>
-                                    <div className="text-xs text-n-4 uppercase font-mono tracking-wider">Previous</div>
+                                    <div className={`text-xs uppercase font-mono tracking-wider ${isDarkMode ? "text-n-4" : "text-n-5"}`}>Previous</div>
                                     <div className="text-lg font-bold group-hover:text-primary-1 transition-colors">{prevStep.title}</div>
                                 </div>
                             </Link>
@@ -297,10 +297,10 @@ const MethodologyDetail = () => {
                         {nextStep ? (
                             <Link to={`/methodology/${nextStep.slug}`} className="flex items-center gap-4 text-right group">
                                 <div>
-                                    <div className="text-xs text-n-4 uppercase font-mono tracking-wider">Next</div>
+                                    <div className={`text-xs uppercase font-mono tracking-wider ${isDarkMode ? "text-n-4" : "text-n-5"}`}>Next</div>
                                     <div className="text-lg font-bold group-hover:text-primary-1 transition-colors">{nextStep.title}</div>
                                 </div>
-                                <div className="w-14 h-14 rounded-full border border-n-6 flex items-center justify-center group-hover:border-primary-1 group-hover:text-primary-1 transition-all">
+                                <div className={`w-14 h-14 rounded-full border flex items-center justify-center group-hover:border-primary-1 group-hover:text-primary-1 transition-all ${isDarkMode ? "border-n-6" : "border-n-3"}`}>
                                     <FiArrowRight size={24} />
                                 </div>
                             </Link>

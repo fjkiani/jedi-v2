@@ -7,9 +7,6 @@ import { aboutService } from '@/services/aboutService';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import { aboutContent } from '@/constants/about';
 import AboutIcon from '@/components/icons/AboutIcon';
-import { JEDIDiagramView } from '@/components/diagrams/JEDIDiagramView';
-import { jediArchitecture } from '@/constants/solutions/jedi-architecture';
-import { securityArchitecture } from '@/constants/solutions/security-architecture';
 import { jediEmpower, jediVision } from '@/assets';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
@@ -187,59 +184,9 @@ const AboutUs = () => {
         </div>
       </Section>
 
-      {/* JEDI Architecture Section */}
-      <Section className="overflow-hidden">
-        <div className="container">
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
-          >
-            {/* <h2 className="h2 mb-6">{jediArchitecture.title}</h2>
-            <p className="body-2 text-n-4">
-              {jediArchitecture.description}
-            </p> */}
-          </motion.div>
-          
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            <JEDIDiagramView diagram={jediArchitecture} isDarkMode={isDarkMode} />
-          </motion.div>
-        </div>
-      </Section>
 
-      {/* Security Architecture Section */}
-      <Section className="overflow-hidden">
-        <div className="container">
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="relative z-1 max-w-[50rem] mx-auto text-center mb-[3.75rem]"
-          >
-            {/* <h2 className="h2 mb-6">{securityArchitecture.title}</h2>
-            <p className="body-2 text-n-4">
-              {securityArchitecture.description}
-            </p> */}
-          </motion.div>
-          
-          <motion.div
-            variants={fadeIn('up')}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            <JEDIDiagramView diagram={securityArchitecture} isDarkMode={isDarkMode} />
-          </motion.div>
-        </div>
-      </Section>
+
+
 
       {/* Expertise Section */}
       <Section>

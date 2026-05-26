@@ -83,12 +83,13 @@ const StageCard = ({ stage, categories, index, isDarkMode }) => {
   const stageCats = categories.filter((c) => stage.slugs.includes(c.slug));
 
   return (
+    <Link to="/solutions" className="flex-1 min-w-0 block">
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
-      className="flex-1 min-w-0"
+      className="h-full"
     >
       <div
         className={`h-full rounded-2xl border bg-gradient-to-b p-6 flex flex-col gap-5 transition-all duration-300
@@ -148,6 +149,7 @@ const StageCard = ({ stage, categories, index, isDarkMode }) => {
         </div>
       </div>
     </motion.div>
+    </Link>
   );
 };
 
