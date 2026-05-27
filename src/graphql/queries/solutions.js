@@ -29,6 +29,12 @@ export const GET_SOLUTION_BY_SLUG = gql`
       heroImage { url }
       displayOrder
       featured
+      technologySubcategory {
+        name
+        slug
+        description
+        technology { name slug icon }
+      }
     }
     relatedUseCases: useCaseS(where: { category: { slug: $slug } }, stage: PUBLISHED, first: 10) {
       id

@@ -1,14 +1,19 @@
 /**
- * TechStoryTopology — Layered system architecture visualization.
+ * TechStoryTopology — "How It Works" architecture visualization.
  *
- * Technologies are assigned to layers by keyword matching against name/category.
- * Each tech chip links to /technology/:slug.
- * Supports both dark and light mode via useTheme().
+ * Primary path: renders subcategories from Hygraph (techSubcategories prop),
+ * grouped into 3 architecture layers. Each subcategory shows its description
+ * and a row of technology chips.
+ *
+ * Fallback path: if no subcategories, falls back to keyword-based chip grouping
+ * from the legacy techStack prop.
+ *
+ * Supports dark and light mode via useTheme().
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import {
   FiDatabase,
@@ -18,6 +23,8 @@ import {
   FiArrowRight,
   FiServer,
   FiActivity,
+  FiChevronDown,
+  FiChevronUp,
 } from 'react-icons/fi';
 
 // ─── Layer definitions ────────────────────────────────────────────────────────
@@ -26,99 +33,199 @@ const LAYERS = [
   {
     id: 'data',
     label: 'Data Layer',
-    sublabel: 'Ingestion · Storage · Pipelines',
+    sublabel: 'How your data is collected, stored, and prepared',
     icon: FiDatabase,
     color: 'blue',
+    // Subcategory name keywords that map to this layer
     keywords: [
-      // Databases
-      'postgres', 'postgresql', 'mysql', 'mongodb', 'redis', 'elasticsearch',
-      'snowflake', 'bigquery', 'redshift', 'databricks', 's3', 'gcs', 'azure',
-      'neo4j', 'pinecone', 'weaviate', 'chroma', 'qdrant', 'milvus',
-      'sqlite', 'dynamodb', 'cassandra', 'influx', 'timescale', 'nosql',
-      // Streaming / pipelines
-      'kafka', 'kinesis', 'airflow', 'dbt', 'spark', 'hadoop', 'flink',
-      'rabbitmq', 'pulsar', 'nats', 'celery',
-      // Category keywords (Hygraph subcategory names)
-      'data', 'database', 'storage', 'warehouse', 'lake', 'pipeline',
-      'etl', 'elt', 'ingestion', 'vector', 'graph', 'caching', 'cache',
-      'orchestration', 'transformation', 'quality', 'compliance',
-      'staging', 'production', 'disaster', 'recovery',
-      // Hygraph category slugs / names
-      'data-engineering', 'data engineering',
+      'ingestion', 'storage', 'warehouse', 'orchestration', 'transformation',
+      'quality', 'compliance', 'staging', 'production', 'disaster', 'recovery',
+      'caching', 'cache', 'database', 'databases', 'vector database', 'vector databases',
+      'data', 'etl', 'elt', 'pipeline', 'lake', 'analytics',
     ],
   },
   {
     id: 'intelligence',
     label: 'Intelligence Layer',
-    sublabel: 'Models · Agents · Reasoning',
+    sublabel: 'How your system reasons, learns, and makes decisions',
     icon: FiCpu,
     color: 'yellow',
     keywords: [
-      // LLMs / foundation models
-      'openai', 'gpt', 'claude', 'anthropic', 'gemini', 'llama', 'mistral',
-      'bert', 'hugging', 'huggingface', 'transformers', 'spacy', 'nltk',
-      'finbert', 'fin-bert', 'rasa', 'dialogflow', 'wit', 'lex',
-      // Agent frameworks
-      'langchain', 'langgraph', 'llamaindex', 'autogpt', 'crewai', 'autogen',
-      'semantic kernel', 'haystack', 'dspy',
-      // ML frameworks
-      'tensorflow', 'pytorch', 'keras', 'scikit', 'sklearn', 'xgboost',
-      'lightgbm', 'catboost', 'onnx', 'triton',
-      // Concepts
-      'agent', 'rag', 'embedding', 'reasoning', 'memory', 'tool',
-      'ml', 'ai', 'nlp', 'nlu', 'llm', 'model', 'neural', 'inference',
-      'classification', 'detection', 'prediction', 'generation',
-      'function', 'protocol', 'interface', 'framework',
-      // Hygraph category slugs / names
-      'ai-agents', 'ai agents', 'ai-ml', 'ai ml', 'ml', 'automation',
-      'continuous-learning', 'continuous learning',
-      'agent core', 'reasoning', 'memory', 'interfaces', 'frameworks',
-      'tool integration', 'protocols', 'vector databases',
+      'agent', 'agent core', 'reasoning', 'memory', 'framework', 'frameworks',
+      'model', 'training', 'inference', 'embedding', 'rag', 'llm',
+      'ml', 'ai', 'nlp', 'tool integration', 'protocols', 'protocol',
+      'continuous', 'learning', 'feedback', 'labeling', 'active',
     ],
   },
   {
     id: 'application',
     label: 'Application Layer',
-    sublabel: 'APIs · Orchestration · Delivery',
+    sublabel: 'How your users interact and how the system is delivered',
     icon: FiLayers,
     color: 'green',
     keywords: [
-      // Frontend
-      'react', 'vue', 'angular', 'next', 'nuxt', 'svelte', 'tailwind',
-      // Backend / APIs
-      'fastapi', 'flask', 'django', 'express', 'node', 'graphql', 'rest',
-      'grpc', 'websocket', 'webhook',
-      // DevOps / infra
-      'docker', 'kubernetes', 'k8s', 'terraform', 'ansible', 'helm',
-      'aws', 'gcp', 'netlify', 'vercel', 'cloudflare',
-      'github', 'gitlab', 'ci', 'cd', 'devops', 'mlops',
-      // Monitoring / observability
-      'prometheus', 'grafana', 'datadog', 'sentry', 'newrelic',
-      'monitoring', 'alerting', 'logging', 'tracing',
-      // SaaS integrations
-      'stripe', 'twilio', 'sendgrid', 'auth0', 'okta',
-      // Concepts
-      'api', 'integration', 'workflow', 'deployment',
-      'frontend', 'backend', 'microservice', 'serverless',
-      // Hygraph category slugs / names
-      'security', 'visualization', 'analytics', 'dev environment',
-      'ml monitoring', 'feedback loop', 'data labeling', 'active learning',
-      'model serving', 'inference api', 'ci/cd',
+      'interface', 'interfaces', 'deployment', 'serving', 'api', 'monitoring',
+      'visualization', 'analytics', 'security', 'dev environment', 'devops',
+      'frontend', 'backend', 'ci/cd', 'cicd', 'alerting', 'observability',
     ],
   },
 ];
 
-// ─── Assign a technology to a layer ──────────────────────────────────────────
+// ─── Layer color tokens (dark + light) ───────────────────────────────────────
 
-const assignLayer = (techName, categoryName) => {
-  const searchText = `${techName} ${categoryName || ''}`.toLowerCase();
+const LAYER_TOKENS = {
+  blue: {
+    dark: {
+      sectionBorder: 'border-blue-500/25',
+      sectionBg:     'bg-blue-500/5',
+      headerBorder:  'border-blue-500/20',
+      iconBg:        'bg-blue-500/15',
+      iconText:      'text-blue-400',
+      label:         'text-blue-400',
+      sublabel:      'text-blue-400/60',
+      countBg:       'bg-blue-500/10 border-blue-500/20 text-blue-400',
+      cardBorder:    'border-blue-500/15 hover:border-blue-400/40',
+      cardBg:        'bg-blue-500/5 hover:bg-blue-500/10',
+      subName:       'text-blue-300',
+      subDesc:       'text-white/55',
+      chipBorder:    'border-blue-500/20 hover:border-blue-400/50',
+      chipBg:        'bg-blue-500/8 hover:bg-blue-500/15',
+      chipText:      'text-white/70 group-hover:text-white',
+      chipArrow:     'text-blue-400',
+      overflow:      'bg-blue-500/10 text-blue-400 border-blue-500/20',
+      connector:     'bg-blue-400/20',
+      connectorTip:  'border-t-blue-400/20',
+      legendBar:     'bg-blue-400/40',
+    },
+    light: {
+      sectionBorder: 'border-blue-200',
+      sectionBg:     'bg-blue-50/60',
+      legendBar:     'bg-blue-400',
+      headerBorder:  'border-blue-100',
+      iconBg:        'bg-blue-100',
+      iconText:      'text-blue-600',
+      label:         'text-blue-700',
+      sublabel:      'text-blue-500/70',
+      countBg:       'bg-blue-100 border-blue-200 text-blue-600',
+      cardBorder:    'border-blue-100 hover:border-blue-300',
+      cardBg:        'bg-white hover:bg-blue-50',
+      subName:       'text-blue-700',
+      subDesc:       'text-gray-500',
+      chipBorder:    'border-blue-200 hover:border-blue-400',
+      chipBg:        'bg-white hover:bg-blue-50',
+      chipText:      'text-gray-700 group-hover:text-blue-700',
+      chipArrow:     'text-blue-500',
+      overflow:      'bg-blue-50 text-blue-600 border-blue-200',
+      connector:     'bg-blue-200',
+      connectorTip:  'border-t-blue-200',
+    },
+  },
+  yellow: {
+    dark: {
+      sectionBorder: 'border-yellow-400/25',
+      sectionBg:     'bg-yellow-400/5',
+      headerBorder:  'border-yellow-400/20',
+      iconBg:        'bg-yellow-400/15',
+      iconText:      'text-yellow-400',
+      label:         'text-yellow-400',
+      sublabel:      'text-yellow-400/60',
+      countBg:       'bg-yellow-400/10 border-yellow-400/20 text-yellow-400',
+      cardBorder:    'border-yellow-400/15 hover:border-yellow-400/40',
+      cardBg:        'bg-yellow-400/5 hover:bg-yellow-400/10',
+      subName:       'text-yellow-300',
+      subDesc:       'text-white/55',
+      chipBorder:    'border-yellow-400/20 hover:border-yellow-400/50',
+      chipBg:        'bg-yellow-400/10 hover:bg-yellow-400/20',
+      chipText:      'text-white/70 group-hover:text-white',
+      chipArrow:     'text-yellow-400',
+      overflow:      'bg-yellow-400/10 text-yellow-400 border-yellow-400/20',
+      connector:     'bg-yellow-400/20',
+      connectorTip:  'border-t-yellow-400/20',
+      legendBar:     'bg-yellow-400/40',
+    },
+    light: {
+      sectionBorder: 'border-yellow-300',
+      sectionBg:     'bg-yellow-50/60',
+      legendBar:     'bg-yellow-400',
+      headerBorder:  'border-yellow-100',
+      iconBg:        'bg-yellow-100',
+      iconText:      'text-yellow-600',
+      label:         'text-yellow-700',
+      sublabel:      'text-yellow-600/70',
+      countBg:       'bg-yellow-100 border-yellow-200 text-yellow-700',
+      cardBorder:    'border-yellow-200 hover:border-yellow-400',
+      cardBg:        'bg-white hover:bg-yellow-50',
+      subName:       'text-yellow-700',
+      subDesc:       'text-gray-500',
+      chipBorder:    'border-yellow-200 hover:border-yellow-400',
+      chipBg:        'bg-white hover:bg-yellow-50',
+      chipText:      'text-gray-700 group-hover:text-yellow-700',
+      chipArrow:     'text-yellow-600',
+      overflow:      'bg-yellow-50 text-yellow-700 border-yellow-200',
+      connector:     'bg-yellow-200',
+      connectorTip:  'border-t-yellow-200',
+    },
+  },
+  green: {
+    dark: {
+      sectionBorder: 'border-green-400/25',
+      sectionBg:     'bg-green-400/5',
+      headerBorder:  'border-green-400/20',
+      iconBg:        'bg-green-400/15',
+      iconText:      'text-green-400',
+      label:         'text-green-400',
+      sublabel:      'text-green-400/60',
+      countBg:       'bg-green-400/10 border-green-400/20 text-green-400',
+      cardBorder:    'border-green-400/15 hover:border-green-400/40',
+      cardBg:        'bg-green-400/5 hover:bg-green-400/10',
+      subName:       'text-green-300',
+      subDesc:       'text-white/55',
+      chipBorder:    'border-green-400/20 hover:border-green-400/50',
+      chipBg:        'bg-green-400/10 hover:bg-green-400/20',
+      chipText:      'text-white/70 group-hover:text-white',
+      chipArrow:     'text-green-400',
+      overflow:      'bg-green-400/10 text-green-400 border-green-400/20',
+      connector:     'bg-green-400/20',
+      connectorTip:  'border-t-green-400/20',
+      legendBar:     'bg-green-400/40',
+    },
+    light: {
+      sectionBorder: 'border-green-200',
+      sectionBg:     'bg-green-50/60',
+      legendBar:     'bg-green-400',
+      headerBorder:  'border-green-100',
+      iconBg:        'bg-green-100',
+      iconText:      'text-green-600',
+      label:         'text-green-700',
+      sublabel:      'text-green-600/70',
+      countBg:       'bg-green-100 border-green-200 text-green-700',
+      cardBorder:    'border-green-200 hover:border-green-400',
+      cardBg:        'bg-white hover:bg-green-50',
+      subName:       'text-green-700',
+      subDesc:       'text-gray-500',
+      chipBorder:    'border-green-200 hover:border-green-400',
+      chipBg:        'bg-white hover:bg-green-50',
+      chipText:      'text-gray-700 group-hover:text-green-700',
+      chipArrow:     'text-green-600',
+      overflow:      'bg-green-50 text-green-700 border-green-200',
+      connector:     'bg-green-200',
+      connectorTip:  'border-t-green-200',
+    },
+  },
+};
 
+const tok = (color, isDark) => LAYER_TOKENS[color][isDark ? 'dark' : 'light'];
+
+// ─── Assign a subcategory to a layer by name keyword matching ─────────────────
+
+const assignSubcategoryLayer = (subcategoryName) => {
+  const name = subcategoryName.toLowerCase();
   let bestLayer = null;
   let bestScore = 0;
 
   for (const layer of LAYERS) {
     const score = layer.keywords.reduce(
-      (acc, kw) => acc + (searchText.includes(kw) ? 1 : 0),
+      (acc, kw) => acc + (name.includes(kw) ? 1 : 0),
       0
     );
     if (score > bestScore) {
@@ -127,18 +234,52 @@ const assignLayer = (techName, categoryName) => {
     }
   }
 
-  // Default: if category name contains 'data', go data; if 'agent'/'ml'/'ai', go intelligence; else application
   if (!bestLayer || bestScore === 0) {
-    const cat = (categoryName || '').toLowerCase();
-    if (cat.includes('data')) return 'data';
-    if (cat.includes('agent') || cat.includes('ml') || cat.includes('ai') || cat.includes('model')) return 'intelligence';
+    // Fallback heuristics
+    if (name.includes('data') || name.includes('store') || name.includes('base')) return 'data';
+    if (name.includes('agent') || name.includes('model') || name.includes('ai') || name.includes('ml')) return 'intelligence';
     return 'application';
   }
 
   return bestLayer;
 };
 
-// ─── Resolve icon URL (handles broken Hygraph icon fields) ───────────────────
+// ─── Legacy: assign a technology to a layer by name + category keyword ────────
+
+const assignTechLayer = (techName, categoryName) => {
+  const text = `${techName} ${categoryName || ''}`.toLowerCase();
+  const allKeywords = {
+    data: ['postgres', 'mysql', 'mongodb', 'redis', 'elasticsearch', 'snowflake', 'bigquery',
+           'redshift', 'databricks', 'kafka', 'kinesis', 'airflow', 'dbt', 'spark', 'hadoop',
+           'neo4j', 'pinecone', 'weaviate', 'chroma', 'qdrant', 'milvus', 'sqlite', 'dynamodb',
+           'cassandra', 'nosql', 'data', 'database', 'storage', 'warehouse', 'lake', 'pipeline',
+           'etl', 'elt', 'ingestion', 'vector', 'graph', 'caching', 'cache', 'orchestration',
+           'transformation', 'quality', 'compliance', 'staging', 'production', 'disaster', 'recovery',
+           'data-engineering', 'data engineering'],
+    intelligence: ['openai', 'gpt', 'claude', 'anthropic', 'gemini', 'llama', 'mistral', 'bert',
+                   'hugging', 'transformers', 'spacy', 'nltk', 'langchain', 'langgraph', 'llamaindex',
+                   'autogpt', 'crewai', 'autogen', 'tensorflow', 'pytorch', 'keras', 'scikit', 'sklearn',
+                   'xgboost', 'agent', 'rag', 'embedding', 'reasoning', 'memory', 'tool', 'ml', 'ai',
+                   'nlp', 'llm', 'model', 'neural', 'inference', 'rasa', 'dialogflow',
+                   'ai-agents', 'ai agents', 'ai-ml', 'ai ml', 'automation', 'continuous-learning'],
+    application: ['react', 'vue', 'angular', 'next', 'nuxt', 'svelte', 'tailwind', 'fastapi', 'flask',
+                  'django', 'express', 'node', 'graphql', 'rest', 'docker', 'kubernetes', 'k8s',
+                  'terraform', 'ansible', 'helm', 'aws', 'gcp', 'netlify', 'vercel', 'cloudflare',
+                  'github', 'gitlab', 'ci', 'cd', 'devops', 'mlops', 'prometheus', 'grafana',
+                  'monitoring', 'alerting', 'api', 'integration', 'workflow', 'deployment',
+                  'frontend', 'backend', 'microservice', 'serverless', 'security', 'visualization'],
+  };
+
+  let bestLayer = 'intelligence';
+  let bestScore = 0;
+  for (const [layerId, keywords] of Object.entries(allKeywords)) {
+    const score = keywords.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
+    if (score > bestScore) { bestScore = score; bestLayer = layerId; }
+  }
+  return bestLayer;
+};
+
+// ─── Icon resolver ────────────────────────────────────────────────────────────
 
 const ICON_SLUG_OVERRIDES = {
   'kafka':           'apachekafka',
@@ -161,136 +302,124 @@ const resolveIconUrl = (icon, slug) => {
   return null;
 };
 
-// ─── Theme-aware layer styles ─────────────────────────────────────────────────
+// ─── Tech chip (compact) ──────────────────────────────────────────────────────
 
-const getLayerStyles = (color, isDark) => {
-  const styles = {
-    blue: {
-      border:       isDark ? 'border-blue-500/30'  : 'border-blue-400/40',
-      bg:           isDark ? 'bg-blue-500/5'        : 'bg-blue-50',
-      labelBg:      isDark ? 'bg-blue-500/10'       : 'bg-blue-100',
-      labelText:    isDark ? 'text-blue-400'         : 'text-blue-600',
-      labelBorder:  isDark ? 'border-blue-500/20'   : 'border-blue-300',
-      chipBorder:   isDark ? 'border-blue-500/20 hover:border-blue-400/50' : 'border-blue-200 hover:border-blue-400',
-      chipBg:       isDark ? 'bg-blue-500/5 hover:bg-blue-500/10'          : 'bg-white hover:bg-blue-50',
-      iconColor:    isDark ? 'text-blue-400'         : 'text-blue-500',
-      sublabel:     isDark ? 'text-white/35'         : 'text-gray-400',
-      chipText:     isDark ? 'text-white/70 group-hover:text-white'        : 'text-gray-700 group-hover:text-blue-700',
-      emptyText:    isDark ? 'text-white/25'         : 'text-gray-300',
-    },
-    yellow: {
-      border:       isDark ? 'border-yellow-400/30' : 'border-yellow-400/50',
-      bg:           isDark ? 'bg-yellow-400/5'       : 'bg-yellow-50',
-      labelBg:      isDark ? 'bg-yellow-400/10'      : 'bg-yellow-100',
-      labelText:    isDark ? 'text-yellow-400'        : 'text-yellow-600',
-      labelBorder:  isDark ? 'border-yellow-400/20'  : 'border-yellow-300',
-      chipBorder:   isDark ? 'border-yellow-400/20 hover:border-yellow-400/50' : 'border-yellow-200 hover:border-yellow-400',
-      chipBg:       isDark ? 'bg-yellow-400/5 hover:bg-yellow-400/10'          : 'bg-white hover:bg-yellow-50',
-      iconColor:    isDark ? 'text-yellow-400'        : 'text-yellow-500',
-      sublabel:     isDark ? 'text-white/35'          : 'text-gray-400',
-      chipText:     isDark ? 'text-white/70 group-hover:text-white'            : 'text-gray-700 group-hover:text-yellow-700',
-      emptyText:    isDark ? 'text-white/25'          : 'text-gray-300',
-    },
-    green: {
-      border:       isDark ? 'border-green-400/30'  : 'border-green-400/40',
-      bg:           isDark ? 'bg-green-400/5'        : 'bg-green-50',
-      labelBg:      isDark ? 'bg-green-400/10'       : 'bg-green-100',
-      labelText:    isDark ? 'text-green-400'         : 'text-green-600',
-      labelBorder:  isDark ? 'border-green-400/20'   : 'border-green-300',
-      chipBorder:   isDark ? 'border-green-400/20 hover:border-green-400/50' : 'border-green-200 hover:border-green-400',
-      chipBg:       isDark ? 'bg-green-400/5 hover:bg-green-400/10'          : 'bg-white hover:bg-green-50',
-      iconColor:    isDark ? 'text-green-400'         : 'text-green-500',
-      sublabel:     isDark ? 'text-white/35'          : 'text-gray-400',
-      chipText:     isDark ? 'text-white/70 group-hover:text-white'          : 'text-gray-700 group-hover:text-green-700',
-      emptyText:    isDark ? 'text-white/25'          : 'text-gray-300',
-    },
-  };
-  return styles[color];
-};
-
-// ─── Tech chip ────────────────────────────────────────────────────────────────
-
-const TechChip = ({ techName, details, layerColor, isDark }) => {
-  const styles = getLayerStyles(layerColor, isDark);
-  const Wrapper = details.slug ? Link : 'div';
-  const wrapperProps = details.slug ? { to: `/technology/${details.slug}` } : {};
-  const resolvedIcon = resolveIconUrl(details.icon, details.slug);
+const TechChip = ({ name, slug, icon, t }) => {
+  const resolvedIcon = resolveIconUrl(icon, slug);
+  const Wrapper = slug ? Link : 'span';
+  const props = slug ? { to: `/technology/${slug}` } : {};
 
   return (
     <Wrapper
-      {...wrapperProps}
-      className={`group flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 ${styles.chipBorder} ${styles.chipBg}`}
+      {...props}
+      className={`group inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all ${t.chipBorder} ${t.chipBg}`}
     >
       {resolvedIcon ? (
-        <img
-          src={resolvedIcon}
-          alt={techName}
-          className="w-5 h-5 object-contain shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
-        />
+        <img src={resolvedIcon} alt={name} className="w-4 h-4 object-contain shrink-0 opacity-75 group-hover:opacity-100 transition-opacity" />
       ) : (
-        <div className={`w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold shrink-0 ${styles.labelBg} ${styles.labelText}`}>
-          {techName[0] || '?'}
-        </div>
+        <span className={`w-4 h-4 rounded flex items-center justify-center text-[9px] font-bold shrink-0 ${t.iconBg} ${t.iconText}`}>
+          {name?.[0] || '?'}
+        </span>
       )}
-      <span className={`text-xs font-mono transition-colors truncate max-w-[120px] ${styles.chipText}`}>
-        {techName}
-      </span>
-      {details.slug && (
-        <FiArrowRight
-          size={10}
-          className={`shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${styles.labelText}`}
-        />
-      )}
+      <span className={`transition-colors ${t.chipText}`}>{name}</span>
+      {slug && <FiArrowRight size={9} className={`shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${t.chipArrow}`} />}
     </Wrapper>
   );
 };
 
-// ─── Layer row ────────────────────────────────────────────────────────────────
+// ─── Subcategory mini-card ────────────────────────────────────────────────────
 
-const LayerRow = ({ layer, techs, index, total, isDark }) => {
-  const styles = getLayerStyles(layer.color, isDark);
+const CHIPS_VISIBLE = 5;
+
+const SubcategoryCard = ({ sub, t }) => {
+  const [expanded, setExpanded] = useState(false);
+  const techs = Array.isArray(sub.technology) ? sub.technology : [];
+  const visible = expanded ? techs : techs.slice(0, CHIPS_VISIBLE);
+  const overflow = techs.length - CHIPS_VISIBLE;
+
+  return (
+    <div className={`rounded-xl border p-4 transition-all ${t.cardBorder} ${t.cardBg} shadow-sm`}>
+      {/* Subcategory name */}
+      <p className={`text-xs font-bold uppercase tracking-wider mb-1.5 ${t.subName}`}>
+        {sub.name}
+      </p>
+
+      {/* Description — the narrative */}
+      {sub.description && (
+        <p className={`text-xs leading-relaxed mb-3 line-clamp-2 ${t.subDesc}`}>
+          {sub.description}
+        </p>
+      )}
+
+      {/* Tech chips */}
+      {techs.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {visible.map((tech) => (
+            <TechChip key={tech.slug || tech.name} name={tech.name} slug={tech.slug} icon={tech.icon} t={t} />
+          ))}
+          {!expanded && overflow > 0 && (
+            <button
+              onClick={() => setExpanded(true)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all ${t.overflow}`}
+            >
+              +{overflow} more <FiChevronDown size={10} />
+            </button>
+          )}
+          {expanded && overflow > 0 && (
+            <button
+              onClick={() => setExpanded(false)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all ${t.overflow}`}
+            >
+              Show less <FiChevronUp size={10} />
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Layer section ────────────────────────────────────────────────────────────
+
+const LayerSection = ({ layer, subcategories, index, total, isDark }) => {
+  const t = tok(layer.color, isDark);
   const Icon = layer.icon;
   const isLast = index === total - 1;
+  const totalTechs = subcategories.reduce((acc, s) => acc + (s.technology?.length || 0), 0);
 
   return (
     <div className="relative">
       <motion.div
-        initial={{ opacity: 0, x: -16 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-30px' }}
-        transition={{ duration: 0.4, delay: index * 0.12 }}
-        className={`rounded-2xl border ${styles.border} ${styles.bg} overflow-hidden`}
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.45, delay: index * 0.1 }}
+        className={`rounded-2xl border overflow-hidden ${t.sectionBorder} ${t.sectionBg}`}
       >
         {/* Layer header */}
-        <div className={`flex items-center gap-4 px-6 py-4 border-b ${styles.border}`}>
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${styles.labelBg} border ${styles.labelBorder}`}>
-            <Icon size={18} className={styles.iconColor} />
+        <div className={`flex items-center gap-4 px-6 py-5 border-b ${t.headerBorder}`}>
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${t.iconBg}`}>
+            <Icon size={20} className={t.iconText} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className={`text-sm font-bold ${styles.labelText}`}>{layer.label}</div>
-            <div className={`text-xs font-mono ${styles.sublabel}`}>{layer.sublabel}</div>
+            <div className={`text-base font-bold ${t.label}`}>{layer.label}</div>
+            <div className={`text-xs mt-0.5 ${t.sublabel}`}>{layer.sublabel}</div>
           </div>
-          <div className={`text-xs font-mono px-2.5 py-1 rounded-full border ${styles.labelBorder} ${styles.labelBg} ${styles.labelText}`}>
-            {techs.length} {techs.length === 1 ? 'component' : 'components'}
+          <div className={`text-xs font-mono px-3 py-1 rounded-full border shrink-0 ${t.countBg}`}>
+            {subcategories.length} {subcategories.length === 1 ? 'component' : 'components'} · {totalTechs} techs
           </div>
         </div>
 
-        {/* Tech chips */}
+        {/* Subcategory grid */}
         <div className="p-5">
-          {techs.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {techs.map(([name, details]) => (
-                <TechChip
-                  key={name}
-                  techName={name}
-                  details={details}
-                  layerColor={layer.color}
-                  isDark={isDark}
-                />
+          {subcategories.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+              {subcategories.map((sub) => (
+                <SubcategoryCard key={sub.slug || sub.name} sub={sub} t={t} />
               ))}
             </div>
           ) : (
-            <div className={`flex items-center gap-2 text-xs font-mono py-2 ${styles.emptyText}`}>
+            <div className={`flex items-center gap-2 text-xs font-mono py-3 ${t.subDesc}`}>
               <FiZap size={12} />
               <span>No components assigned to this layer</span>
             </div>
@@ -298,12 +427,12 @@ const LayerRow = ({ layer, techs, index, total, isDark }) => {
         </div>
       </motion.div>
 
-      {/* Connector arrow between layers */}
+      {/* Connector arrow */}
       {!isLast && (
-        <div className="flex justify-center my-3 relative z-10">
+        <div className="flex justify-center my-4">
           <div className="flex flex-col items-center gap-0.5">
-            <div className={`w-px h-4 ${isDark ? 'bg-white/15' : 'bg-gray-300'}`} />
-            <div className={`w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] ${isDark ? 'border-t-white/20' : 'border-t-gray-300'}`} />
+            <div className={`w-px h-5 ${t.connector}`} />
+            <div className={`w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] ${t.connectorTip}`} />
           </div>
         </div>
       )}
@@ -313,37 +442,59 @@ const LayerRow = ({ layer, techs, index, total, isDark }) => {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-const TechStoryTopology = ({ techStack }) => {
+const TechStoryTopology = ({ techSubcategories = [], techStack = {} }) => {
   const { isDarkMode } = useTheme();
 
-  // Assign each technology to a layer
-  const layerMap = useMemo(() => {
-    const map = { data: [], intelligence: [], application: [] };
+  // ── Primary path: subcategory-driven ──────────────────────────────────────
+  const subcategoryLayerMap = useMemo(() => {
+    if (!techSubcategories.length) return null;
 
+    const map = { data: [], intelligence: [], application: [] };
+    techSubcategories.forEach((sub) => {
+      const layerId = assignSubcategoryLayer(sub.name);
+      map[layerId].push(sub);
+    });
+    return map;
+  }, [techSubcategories]);
+
+  // ── Fallback path: legacy techStack keyword grouping ──────────────────────
+  const legacyLayerMap = useMemo(() => {
+    if (subcategoryLayerMap) return null; // not needed
+    const map = { data: [], intelligence: [], application: [] };
     Object.entries(techStack || {}).forEach(([categoryName, techs]) => {
       Object.entries(techs || {}).forEach(([techName, details]) => {
-        const layerId = assignLayer(techName, categoryName);
-        map[layerId].push([techName, details]);
+        const layerId = assignTechLayer(techName, categoryName);
+        // Wrap as a pseudo-subcategory for unified rendering
+        const existing = map[layerId].find((s) => s.name === categoryName);
+        if (existing) {
+          existing.technology.push({ name: techName, slug: details.slug, icon: details.icon });
+        } else {
+          map[layerId].push({ name: categoryName, slug: categoryName, description: null, technology: [{ name: techName, slug: details.slug, icon: details.icon }] });
+        }
       });
     });
-
     return map;
-  }, [techStack]);
+  }, [techStack, subcategoryLayerMap]);
 
-  const totalTechs = Object.values(layerMap).reduce((acc, arr) => acc + arr.length, 0);
+  const layerMap = subcategoryLayerMap || legacyLayerMap || { data: [], intelligence: [], application: [] };
+  const totalSubcats = Object.values(layerMap).reduce((acc, arr) => acc + arr.length, 0);
+  const totalTechs = Object.values(layerMap).reduce(
+    (acc, arr) => acc + arr.reduce((a, s) => a + (s.technology?.length || 0), 0),
+    0
+  );
 
-  if (totalTechs === 0) {
+  if (totalSubcats === 0 && totalTechs === 0) {
     return (
-      <div className={`text-center py-16 font-mono text-sm ${isDarkMode ? 'text-white/30' : 'text-gray-400'}`}>
-        <FiServer className="mx-auto mb-4 text-3xl" />
-        <p>Architecture diagram loading…</p>
+      <div className={`text-center py-20 rounded-2xl border ${isDarkMode ? 'border-n-6 text-n-4' : 'border-gray-200 text-gray-400'}`}>
+        <FiServer className="mx-auto mb-4 text-3xl opacity-40" />
+        <p className="text-sm font-mono">Architecture diagram loading…</p>
       </div>
     );
   }
 
   return (
     <div className="relative">
-      {/* System header */}
+      {/* System status bar */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -357,7 +508,7 @@ const TechStoryTopology = ({ techStack }) => {
             <span className="w-2 h-2 rounded-full bg-blue-400/60" />
           </div>
           <span className={`text-xs font-mono uppercase tracking-widest ${isDarkMode ? 'text-white/30' : 'text-gray-400'}`}>
-            System Architecture · {totalTechs} components · 3 layers
+            {totalSubcats} components · {totalTechs} technologies · 3 layers
           </span>
         </div>
         <div className={`flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest ${isDarkMode ? 'text-white/20' : 'text-gray-300'}`}>
@@ -369,10 +520,10 @@ const TechStoryTopology = ({ techStack }) => {
       {/* Layer stack */}
       <div className="space-y-0">
         {LAYERS.map((layer, i) => (
-          <LayerRow
+          <LayerSection
             key={layer.id}
             layer={layer}
-            techs={layerMap[layer.id]}
+            subcategories={layerMap[layer.id]}
             index={i}
             total={LAYERS.length}
             isDark={isDarkMode}
@@ -385,21 +536,18 @@ const TechStoryTopology = ({ techStack }) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-        className={`mt-8 flex items-center justify-center gap-6 text-[10px] font-mono uppercase tracking-widest ${isDarkMode ? 'text-white/20' : 'text-gray-400'}`}
+        transition={{ delay: 0.4 }}
+        className={`mt-8 flex items-center justify-center gap-8 text-[10px] font-mono uppercase tracking-widest ${isDarkMode ? 'text-white/20' : 'text-gray-400'}`}
       >
-        <span className="flex items-center gap-2">
-          <span className={`w-3 h-px ${isDarkMode ? 'bg-blue-400/40' : 'bg-blue-400'}`} />
-          Data Layer
-        </span>
-        <span className="flex items-center gap-2">
-          <span className={`w-3 h-px ${isDarkMode ? 'bg-yellow-400/40' : 'bg-yellow-400'}`} />
-          Intelligence Layer
-        </span>
-        <span className="flex items-center gap-2">
-          <span className={`w-3 h-px ${isDarkMode ? 'bg-green-400/40' : 'bg-green-400'}`} />
-          Application Layer
-        </span>
+        {LAYERS.map((layer) => {
+          const t = tok(layer.color, isDarkMode);
+          return (
+            <span key={layer.id} className="flex items-center gap-2">
+              <span className={`w-3 h-px ${t.legendBar}`} />
+              {layer.label}
+            </span>
+          );
+        })}
       </motion.div>
     </div>
   );

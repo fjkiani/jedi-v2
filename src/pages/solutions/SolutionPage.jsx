@@ -190,6 +190,7 @@ const SolutionPage = () => {
           keyOutcomes: fetchedCategory.keyOutcomes,
           heroImage: fetchedCategory.heroImage,
           techStack: finalTechStack,
+          techSubcategories: Array.isArray(fetchedCategory.technologySubcategory) ? fetchedCategory.technologySubcategory : [],
         });
 
         // Fetch all use cases for the carousel
@@ -394,7 +395,7 @@ const SolutionPage = () => {
           <div className="mb-10">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-4">
               <div>
-                <h2 className={`h2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>System Architecture</h2>
+                <h2 className={`h2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>How It Works</h2>
                 {solution.technologyNarrative?.text ? (
                   <p className={`mt-2 body-2 max-w-2xl ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
                     {solution.technologyNarrative.text}
@@ -405,12 +406,7 @@ const SolutionPage = () => {
                   </p>
                 )}
               </div>
-              <Link
-                to="/technology"
-                className="shrink-0 text-sm font-mono text-primary-1 hover:underline flex items-center gap-1.5"
-              >
-                Full tech stack →
-              </Link>
+
             </div>
             {/* Use case context strip */}
             {useCases.filter(uc => uc.category?.slug === solution.slug).length > 0 && (
@@ -429,7 +425,7 @@ const SolutionPage = () => {
             )}
           </div>
           {solution.techStack && Object.keys(solution.techStack).length > 0 ? (
-            <TechStoryTopology techStack={solution.techStack} />
+            <TechStoryTopology techStack={solution.techStack} techSubcategories={solution.techSubcategories || []} />
           ) : (
             <div className={`text-center py-16 rounded-2xl border ${isDarkMode ? 'border-n-6 text-n-4' : 'border-n-3 text-n-5'}`}>
               <p className="body-2 mb-4">Architecture diagram coming soon.</p>
