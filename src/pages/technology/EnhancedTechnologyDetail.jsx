@@ -7,6 +7,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_TECHNOLOGY_BY_SLUG, GET_TECHNOLOGY_BY_CATEGORY } from '@/graphql/queries/technologies';
 import ReactMarkdown from 'react-markdown';
+import TechDemoPanel from '@/components/technology/TechDemoPanel';
 
 // ─── Tab definitions ──────────────────────────────────────────────────────────
 const TABS = [
@@ -465,7 +466,7 @@ const EnhancedTechnologyDetail = () => {
                   transition={{ duration: 0.18 }}
                 >
                   {activeTab === 'overview'  && <OverviewPanel  tech={tech}                              isDark={D} />}
-                  {activeTab === 'technical' && <TechnicalPanel tech={tech}                              isDark={D} />}
+                  {activeTab === 'technical' && <TechDemoPanel  tech={tech}                              isDark={D} />}
                   {activeTab === 'usecases'  && <UseCasesPanel  useCases={useCases}                      isDark={D} />}
                   {activeTab === 'related'   && <RelatedPanel   related={related} currentSlug={slug}     isDark={D} />}
                 </motion.div>
