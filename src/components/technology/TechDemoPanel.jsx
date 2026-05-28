@@ -3,18 +3,20 @@
  *
  * Interactive demo panel for every technology detail page.
  * Mirrors ZetaSimulation's UX: question cards (left) + HUD (right) + terminal (bottom).
- * Below the demo: Code Quickstart section + optional rich markdown deep-dive.
+ * Below the demo: Code Quickstart + optional deep-dive + lead-gen CTA.
  *
  * Props:
- *   tech  — full technology object from Hygraph
+ *   tech   — full technology object from Hygraph
  *   isDark — boolean from parent (EnhancedTechnologyDetail)
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FiPlay, FiCpu, FiTerminal, FiActivity, FiCode, FiZap,
+  FiCpu, FiTerminal, FiActivity, FiCode, FiZap,
   FiChevronDown, FiChevronUp, FiCopy, FiCheck,
+  FiArrowRight, FiCalendar, FiMessageSquare, FiStar,
 } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 import { openAIService, getTechIconUrl } from '@/services/openAIService';
@@ -27,10 +29,9 @@ import {
   isSlop,
 } from '@/utils/techDemoContent';
 
-// ─── Syntax-highlight shim (no extra deps) ───────────────────────────────────
-// We render code in a styled <pre> with line numbers; no Prism needed.
+// ─── Code block with line numbers + copy ─────────────────────────────────────
 
-const CodeBlock = ({ code, language, isDark }) => {
+const CodeBlock = ({ code, language }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -43,29 +44,24 @@ const CodeBlock = ({ code, language, isDark }) => {
   const lines = code.split('\n');
 
   return (
-    <div className={`relative rounded-xl overflow-hidden border text-sm font-mono ${
-      isDark ? 'bg-[#0d1117] border-white/10' : 'bg-[#0d1117] border-gray-700'
-    }`}>
-      {/* Header bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/10">
+    <div className="relative rounded-xl overflow-hidden border border-white/10 text-sm font-mono bg-[#0d1117]">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-white/5 border-b border-white/10">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/70" />
             <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
             <div className="w-3 h-3 rounded-full bg-green-500/70" />
           </div>
-          <span className="text-xs text-white/40 ml-2 uppercase tracking-wider">{language}</span>
+          <span className="text-xs text-white/35 ml-2 uppercase tracking-wider">{language}</span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/80 transition-colors px-2 py-1 rounded hover:bg-white/10"
+          className="flex items-center gap-1.5 text-xs text-white/35 hover:text-white/80 transition-colors px-2 py-1 rounded hover:bg-white/10"
         >
           {copied ? <FiCheck size={12} className="text-green-400" /> : <FiCopy size={12} />}
           {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
-
-      {/* Code lines */}
       <div className="overflow-x-auto p-4 max-h-[420px] overflow-y-auto custom-scrollbar">
         <table className="w-full border-collapse">
           <tbody>
@@ -84,13 +80,13 @@ const CodeBlock = ({ code, language, isDark }) => {
   );
 };
 
-// ─── Flow step visualizer ─────────────────────────────────────────────────────
+// ─── Flow step list ───────────────────────────────────────────────────────────
 
 const FlowSteps = ({ steps, isDark }) => (
   <div className="space-y-3">
     {steps.map((s, i) => (
       <div key={i} className="flex gap-3 items-start">
-        <div className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border ${
+        <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border ${
           isDark
             ? 'bg-primary-1/20 border-primary-1/40 text-primary-1'
             : 'bg-primary-1/10 border-primary-1/30 text-primary-1'
@@ -98,16 +94,153 @@ const FlowSteps = ({ steps, isDark }) => (
           {i + 1}
         </div>
         <div className="flex-1 min-w-0">
-          <div className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-n-8'}`}>{s.step}</div>
-          <div className={`text-xs mt-0.5 leading-relaxed ${isDark ? 'text-white/55' : 'text-n-5'}`}>{s.description}</div>
+          <div className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-n-8'}`}>{s.step}</div>
+          <div className={`text-[11px] mt-0.5 leading-relaxed ${isDark ? 'text-white/50' : 'text-n-5'}`}>{s.description}</div>
         </div>
-        {i < steps.length - 1 && (
-          <div className={`absolute left-3.5 mt-7 w-px h-3 ${isDark ? 'bg-white/10' : 'bg-gray-200'}`} />
-        )}
       </div>
     ))}
   </div>
 );
+
+// ─── Lead-gen CTA ─────────────────────────────────────────────────────────────
+
+const TechCTA = ({ tech, isDark }) => {
+  const catName = tech?.category?.[0]?.name || 'AI';
+  const subName = tech?.subcategories?.[0]?.name || '';
+
+  const bullets = [
+    `Production deployment of ${tech.name} in your stack`,
+    `Custom integration with your existing data pipelines`,
+    `Ongoing monitoring, optimization, and support`,
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      className={`relative rounded-2xl overflow-hidden border ${
+        isDark
+          ? 'border-primary-1/20 bg-gradient-to-br from-n-8 via-n-8 to-primary-1/5'
+          : 'border-primary-1/20 bg-gradient-to-br from-white via-white to-primary-1/5'
+      }`}
+    >
+      {/* Decorative glow */}
+      <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary-1/10 blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-yellow-400/8 blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4" />
+
+      <div className="relative z-10 p-8 md:p-10">
+        <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-center">
+
+          {/* Left: copy */}
+          <div className="flex-1 min-w-0">
+            {/* Badge */}
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-4 border ${
+              isDark
+                ? 'bg-primary-1/10 border-primary-1/30 text-primary-1'
+                : 'bg-primary-1/10 border-primary-1/20 text-primary-1'
+            }`}>
+              <FiStar size={10} />
+              {catName}{subName ? ` · ${subName}` : ''}
+            </div>
+
+            <h3 className={`text-2xl md:text-3xl font-bold leading-tight mb-3 ${isDark ? 'text-white' : 'text-n-8'}`}>
+              Deploy {tech.name} in your production environment
+            </h3>
+            <p className={`text-base leading-relaxed mb-6 max-w-xl ${isDark ? 'text-white/60' : 'text-n-5'}`}>
+              JEDI's engineering team has deployed {tech.name} across healthcare, finance, and enterprise clients.
+              We handle the complexity — you get results in weeks, not months.
+            </p>
+
+            {/* Bullet list */}
+            <ul className="space-y-2 mb-0">
+              {bullets.map((b, i) => (
+                <li key={i} className="flex items-start gap-2.5">
+                  <div className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
+                    isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-500/15 text-green-600'
+                  }`}>
+                    <FiCheck size={10} />
+                  </div>
+                  <span className={`text-sm ${isDark ? 'text-white/70' : 'text-n-6'}`}>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right: action cards */}
+          <div className="flex flex-col gap-3 w-full lg:w-[280px] shrink-0">
+
+            {/* Primary CTA */}
+            <Link
+              to="/contact"
+              className="group flex items-center justify-between gap-3 px-5 py-4 rounded-xl bg-primary-1 hover:bg-primary-1/90 text-white font-semibold text-sm transition-all shadow-lg shadow-primary-1/25 hover:shadow-primary-1/40 hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0">
+                  <FiCalendar size={15} />
+                </div>
+                <div>
+                  <div className="font-bold">Book a Technical Call</div>
+                  <div className="text-white/70 text-xs font-normal">Free 30-min architecture review</div>
+                </div>
+              </div>
+              <FiArrowRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {/* Secondary CTA */}
+            <Link
+              to="/use-cases"
+              className={`group flex items-center justify-between gap-3 px-5 py-4 rounded-xl border font-semibold text-sm transition-all hover:scale-[1.02] ${
+                isDark
+                  ? 'bg-white/5 border-white/15 text-white hover:bg-white/10 hover:border-white/25'
+                  : 'bg-white border-gray-200 text-n-8 hover:border-primary-1/40 hover:shadow-md shadow-sm'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                  isDark ? 'bg-white/10' : 'bg-gray-100'
+                }`}>
+                  <FiZap size={15} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
+                </div>
+                <div>
+                  <div className="font-bold">See Live Deployments</div>
+                  <div className={`text-xs font-normal ${isDark ? 'text-white/50' : 'text-n-5'}`}>Real client use cases</div>
+                </div>
+              </div>
+              <FiArrowRight size={16} className={`shrink-0 group-hover:translate-x-1 transition-transform ${isDark ? 'text-white/40' : 'text-gray-400'}`} />
+            </Link>
+
+            {/* Tertiary: chat */}
+            <Link
+              to="/contact"
+              className={`group flex items-center gap-3 px-5 py-3.5 rounded-xl border text-sm transition-all hover:scale-[1.02] ${
+                isDark
+                  ? 'bg-transparent border-white/10 text-white/60 hover:text-white hover:border-white/20'
+                  : 'bg-transparent border-gray-200 text-n-5 hover:text-n-8 hover:border-gray-300'
+              }`}
+            >
+              <FiMessageSquare size={14} className="shrink-0" />
+              <span>Ask us anything about {tech.name}</span>
+              <FiArrowRight size={13} className="ml-auto shrink-0 group-hover:translate-x-1 transition-transform opacity-50" />
+            </Link>
+
+            {/* Social proof */}
+            <div className={`flex items-center gap-2 px-2 pt-1 ${isDark ? 'text-white/30' : 'text-n-4'}`}>
+              <div className="flex -space-x-1.5">
+                {['#E9ED4C', '#FF9400', '#75A025', '#0279EE'].map((c, i) => (
+                  <div key={i} className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center text-[9px] font-bold text-white" style={{ backgroundColor: c, borderColor: isDark ? '#1a1a2e' : '#fff' }}>
+                    {['J','E','D','I'][i]}
+                  </div>
+                ))}
+              </div>
+              <span className="text-xs">Trusted by 40+ enterprise teams</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -120,18 +253,16 @@ const TechDemoPanel = ({ tech, isDark }) => {
   const logsEndRef = useRef(null);
   const isProcessingRef = useRef(false);
 
-  // Generate content from tech metadata
-  const questions = generateTechQuestions(tech);
-  const codeSnippet = generateTechCodeSnippet(tech);
-  const flowSteps = generateTechFlowSteps(tech);
-  const syntheticUseCase = buildSyntheticUseCase(tech);
+  // Stable content derived from tech metadata (computed once)
+  const questions      = useRef(generateTechQuestions(tech)).current;
+  const codeSnippet    = useRef(generateTechCodeSnippet(tech)).current;
+  const flowSteps      = useRef(generateTechFlowSteps(tech)).current;
+  const syntheticUseCase = useRef(buildSyntheticUseCase(tech)).current;
   const hasRichDetails = !isSlop(tech.additonalDetails);
 
   // Auto-scroll terminal
   useEffect(() => {
-    if (logsEndRef.current) {
-      logsEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+    logsEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [terminalLogs]);
 
   const addLog = useCallback((msg, type = 'info') => {
@@ -141,6 +272,10 @@ const TechDemoPanel = ({ tech, isDark }) => {
     ]);
   }, []);
 
+  // Keep a ref to the latest runSimulation so the mount effect always calls
+  // the current version without needing it in the dep array.
+  const runSimulationRef = useRef(null);
+
   const runSimulation = useCallback(async (query) => {
     if (isProcessingRef.current) return;
     isProcessingRef.current = true;
@@ -149,36 +284,31 @@ const TechDemoPanel = ({ tech, isDark }) => {
     setTerminalLogs([]);
 
     addLog(`COMMAND RECEIVED: ${query}`, 'cmd');
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 400));
 
-    // Flow steps as terminal logs
-    const dynamics = flowSteps.map(s => ({
-      msg: `[${s.step}] ${s.description}`,
-      delay: 350 + Math.random() * 500,
-    }));
-
-    for (const step of dynamics) {
-      addLog(step.msg, 'sys');
-      await new Promise(r => setTimeout(r, step.delay));
+    // Stream flow steps into terminal
+    for (const s of flowSteps) {
+      addLog(`[${s.step}] ${s.description}`, 'sys');
+      await new Promise(r => setTimeout(r, 300 + Math.random() * 400));
     }
 
-    // Show tech module load
+    // Tech module load
     addLog('LOADING_CORE_MODULES...', 'sys');
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 250));
     addLog({
       text: `MODULE_LOAD: ${tech.name.toUpperCase()}`,
       iconUrl: getTechIconUrl(tech),
       status: 'OK',
     }, 'tech');
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 250));
 
     try {
       const response = await openAIService.generateResponse(syntheticUseCase, query);
-      await new Promise(r => setTimeout(r, 400));
+      await new Promise(r => setTimeout(r, 300));
       addLog('Analysis Complete. Telemetry Loaded.', 'success');
 
-      const flowSection = response.sections?.find(s => s.title === 'IMPLEMENTATION FLOW');
-      const systemSection = response.sections?.find(s => s.title === 'SYSTEM OVERVIEW');
+      const flowSection       = response.sections?.find(s => s.title === 'IMPLEMENTATION FLOW');
+      const systemSection     = response.sections?.find(s => s.title === 'SYSTEM OVERVIEW');
       const capabilitySection = response.sections?.find(s => s.title === 'CAPABILITIES');
       const getContent = (section, subTitle) =>
         section?.subsections?.find(sub => sub.title === subTitle)?.content || [];
@@ -189,11 +319,11 @@ const TechDemoPanel = ({ tech, isDark }) => {
         relevantCapabilities: response.relevantCapabilities || [],
         architecture: {
           ...syntheticUseCase.architecture,
-          components: getContent(flowSection, 'Processing Steps'),
+          components:     getContent(flowSection, 'Processing Steps'),
           coreComponents: getContent(systemSection, 'Core Components'),
-          flow: getContent(flowSection, 'Processing Steps'),
+          flow:           getContent(flowSection, 'Processing Steps'),
         },
-        metrics: getContent(flowSection, 'Key Metrics'),
+        metrics:      getContent(flowSection, 'Key Metrics'),
         capabilities: getContent(capabilitySection, 'Key Features').map(c => c.description || c),
         technologies: getContent(systemSection, 'Technology Stack'),
       });
@@ -206,11 +336,16 @@ const TechDemoPanel = ({ tech, isDark }) => {
     }
   }, [tech, syntheticUseCase, flowSteps, addLog]);
 
-  // Auto-run first question on mount
+  // Keep ref in sync with latest callback
+  runSimulationRef.current = runSimulation;
+
+  // Auto-run first question on mount — uses ref so closure is never stale
   useEffect(() => {
-    const timer = setTimeout(() => runSimulation(questions[0]), 600);
+    const timer = setTimeout(() => {
+      runSimulationRef.current?.(questions[0]);
+    }, 700);
     return () => clearTimeout(timer);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // intentionally empty — fires once on mount
 
   return (
     <div className="space-y-8">
@@ -222,7 +357,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
           : 'bg-gray-50 border-n-3 shadow-xl'
       }`}>
 
-        {/* Header */}
+        {/* Header bar */}
         <div className={`h-14 border-b flex items-center justify-between px-6 z-20 shrink-0 ${
           isDark ? 'bg-n-9/80 border-n-7 backdrop-blur-md' : 'bg-white/80 border-n-3 backdrop-blur-md'
         }`}>
@@ -241,13 +376,11 @@ const TechDemoPanel = ({ tech, isDark }) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className={`px-3 py-1 rounded-full border flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider ${
-              isDark ? 'bg-n-8 border-n-7' : 'bg-white border-n-3'
-            }`}>
-              <span className={`w-2 h-2 rounded-full ${isProcessing ? 'bg-primary-1 animate-pulse' : 'bg-green-500'}`} />
-              <span className={isDark ? 'text-n-3' : 'text-n-6'}>{isProcessing ? 'PROCESSING' : 'ONLINE'}</span>
-            </div>
+          <div className={`px-3 py-1 rounded-full border flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider ${
+            isDark ? 'bg-n-8 border-n-7' : 'bg-white border-n-3'
+          }`}>
+            <span className={`w-2 h-2 rounded-full ${isProcessing ? 'bg-primary-1 animate-pulse' : 'bg-green-500'}`} />
+            <span className={isDark ? 'text-n-3' : 'text-n-6'}>{isProcessing ? 'PROCESSING' : 'ONLINE'}</span>
           </div>
         </div>
 
@@ -262,6 +395,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
               <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-1">Control Deck</div>
               <div className={`text-base font-bold ${isDark ? 'text-n-1' : 'text-n-7'}`}>Available Protocols</div>
             </div>
+
             <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
               {questions.map((q, i) => (
                 <button
@@ -272,7 +406,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
                     isProcessing
                       ? 'opacity-50 cursor-not-allowed'
                       : isDark
-                        ? 'bg-n-8 border-n-6 hover:border-primary-1/50 hover:bg-n-7 hover:shadow-[0_4px_20px_-10px_rgba(var(--color-primary-1-rgb),0.3)]'
+                        ? 'bg-n-8 border-n-6 hover:border-primary-1/50 hover:bg-n-7'
                         : 'bg-white border-n-3 hover:border-primary-1 hover:shadow-lg'
                   }`}
                 >
@@ -295,7 +429,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
               ))}
             </div>
 
-            {/* Flow steps sidebar */}
+            {/* Flow steps */}
             <div className={`p-4 border-t ${isDark ? 'border-n-7' : 'border-n-3'}`}>
               <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-3">System Flow</div>
               <FlowSteps steps={flowSteps} isDark={isDark} />
@@ -333,7 +467,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
         </div>
 
         {/* Terminal Console */}
-        <div className={`h-[260px] shrink-0 flex flex-col border-t relative overflow-hidden ${
+        <div className={`h-[240px] shrink-0 flex flex-col border-t relative overflow-hidden ${
           isDark ? 'bg-black border-n-7' : 'bg-n-8 border-n-6'
         }`}>
           <div className="h-10 flex items-center justify-between px-5 bg-primary-1/5 border-b border-primary-1/10 shrink-0">
@@ -348,8 +482,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
           </div>
           <div className="flex-1 p-4 font-mono text-sm overflow-y-auto custom-scrollbar leading-relaxed">
             <div className="text-n-4 mb-2 select-none opacity-40 text-xs">
-              // JEDI.KERNEL.INIT<br />
-              // TECH_MODULE: {tech.slug?.toUpperCase() || tech.name?.toUpperCase()}
+              // JEDI.KERNEL.INIT — TECH_MODULE: {(tech.slug || tech.name || '').toUpperCase()}
             </div>
             <AnimatePresence mode="popLayout">
               {terminalLogs.map((log, i) => (
@@ -357,7 +490,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.18 }}
                   className={`mb-1.5 break-words font-mono text-xs flex items-center gap-2 ${
                     log.type === 'cmd'     ? 'text-primary-1 font-bold mt-2 mb-2' :
                     log.type === 'error'   ? 'text-red-400' :
@@ -370,10 +503,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
                   {log.type === 'cmd' && <span className="mr-1">root@jedi:~$</span>}
                   {typeof log.msg === 'object' ? (
                     <span className="flex items-center gap-2">
-                      {log.msg.iconUrl
-                        ? <img src={log.msg.iconUrl} alt="" className="w-4 h-4 object-contain inline" />
-                        : log.msg.icon && <span>{log.msg.icon}</span>
-                      }
+                      {log.msg.iconUrl && <img src={log.msg.iconUrl} alt="" className="w-4 h-4 object-contain inline" />}
                       <span>{log.msg.text}</span>
                       {log.msg.status && (
                         <span className="text-[10px] bg-white/10 px-1 rounded text-white/50">{log.msg.status}</span>
@@ -402,17 +532,13 @@ const TechDemoPanel = ({ tech, isDark }) => {
         >
           <div className="flex items-center gap-3">
             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              isDark ? 'bg-yellow-400/10 text-yellow-400' : 'bg-yellow-400/10 text-yellow-600'
+              isDark ? 'bg-yellow-400/10 text-yellow-400' : 'bg-yellow-500/10 text-yellow-600'
             }`}>
               <FiCode size={16} />
             </div>
             <div className="text-left">
-              <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-n-8'}`}>
-                {codeSnippet.title}
-              </div>
-              <div className={`text-xs mt-0.5 ${isDark ? 'text-white/45' : 'text-n-5'}`}>
-                {codeSnippet.description}
-              </div>
+              <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-n-8'}`}>{codeSnippet.title}</div>
+              <div className={`text-xs mt-0.5 ${isDark ? 'text-white/45' : 'text-n-5'}`}>{codeSnippet.description}</div>
             </div>
           </div>
           {showCode
@@ -420,29 +546,24 @@ const TechDemoPanel = ({ tech, isDark }) => {
             : <FiChevronDown className={isDark ? 'text-white/40' : 'text-gray-400'} />
           }
         </button>
-
         <AnimatePresence>
           {showCode && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.22 }}
               className="overflow-hidden"
             >
               <div className="px-6 pb-6">
-                <CodeBlock
-                  code={codeSnippet.code}
-                  language={codeSnippet.language}
-                  isDark={isDark}
-                />
+                <CodeBlock code={codeSnippet.code} language={codeSnippet.language} isDark={isDark} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* ── Deep Dive (only if rich Hygraph content exists) ──────────────── */}
+      {/* ── Deep Dive (only when Hygraph content is rich) ────────────────── */}
       {hasRichDetails && (
         <div className={`rounded-2xl border overflow-hidden ${
           isDark ? 'border-n-6 bg-n-8/50' : 'border-gray-200 bg-white'
@@ -460,12 +581,8 @@ const TechDemoPanel = ({ tech, isDark }) => {
                 <FiZap size={16} />
               </div>
               <div className="text-left">
-                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-n-8'}`}>
-                  Technical Deep Dive
-                </div>
-                <div className={`text-xs mt-0.5 ${isDark ? 'text-white/45' : 'text-n-5'}`}>
-                  Full documentation and implementation details
-                </div>
+                <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-n-8'}`}>Technical Deep Dive</div>
+                <div className={`text-xs mt-0.5 ${isDark ? 'text-white/45' : 'text-n-5'}`}>Full documentation and implementation details</div>
               </div>
             </div>
             {showDeepDive
@@ -473,14 +590,13 @@ const TechDemoPanel = ({ tech, isDark }) => {
               : <FiChevronDown className={isDark ? 'text-white/40' : 'text-gray-400'} />
             }
           </button>
-
           <AnimatePresence>
             {showDeepDive && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                transition={{ duration: 0.22 }}
                 className="overflow-hidden"
               >
                 <div className={`px-6 pb-6 prose prose-sm max-w-none ${
@@ -495,6 +611,10 @@ const TechDemoPanel = ({ tech, isDark }) => {
           </AnimatePresence>
         </div>
       )}
+
+      {/* ── Lead-gen CTA ─────────────────────────────────────────────────── */}
+      <TechCTA tech={tech} isDark={isDark} />
+
     </div>
   );
 };
