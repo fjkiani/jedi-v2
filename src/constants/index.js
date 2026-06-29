@@ -71,6 +71,11 @@ export const navigation = [
     url: "/case-studies",
   },
   {
+    id: "ai-training",
+    title: "AI TRAINING",
+    url: "/ai-training",
+  },
+  {
     id: "research",
     title: "R&D",
     url: "/blog",

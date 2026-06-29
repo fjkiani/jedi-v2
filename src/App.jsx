@@ -45,6 +45,7 @@ import InfrastructurePage from './pages/InfrastructurePage';
 import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
 import { CareersPage, JobDetailPage } from './pages/careers';
 import NotFound from './pages/NotFound';
+import AiTraining from './pages/AiTraining';
 
 const BlogLegacyRedirect = () => {
   const { slug } = useParams();
@@ -162,6 +163,9 @@ const AppContent = ({ location }) => {
               <Route path="/methodology" element={<PageTransition><MethodologyPage /></PageTransition>} />
               <Route path="/explore" element={<PageTransition><ExplorePage /></PageTransition>} />
               <Route path="/methodology/:slug" element={<PageTransition><MethodologyDetail /></PageTransition>} />
+
+              {/* ── AI Training ──────────────────────────────────────────── */}
+              <Route path="/ai-training" element={<PageTransition><AiTraining /></PageTransition>} />
 
               {/* ── 404 ──────────────────────────────────────────────────── */}
               <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
