@@ -22,6 +22,12 @@ import {
 } from 'react-icons/fi';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/Button';
+import {
+  industryPlaybooks,
+  capabilityMatrix,
+  technologySpine,
+  portfolioAnchors,
+} from '@/constants/jediContent';
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
 const StatusBadge = ({ status = "ONLINE" }) => {
@@ -476,6 +482,198 @@ const JediPage = () => {
                 >
                   See Case Studies <FiArrowRight className="w-3 h-3" />
                 </Link>
+              </div>
+            </div>
+
+            {/* ─────────── Expanded business sections ─────────── */}
+
+            {/* ── 1. Industry Playbooks ── */}
+            <div className="mb-24">
+              <div className="max-w-3xl mx-auto text-center mb-12">
+                <p className={`tagline mb-3 ${t.weakText}`}>4 verticals · 4 working demos</p>
+                <h2 className={`h2 ${t.headingText} mb-4`}>Industry Playbooks</h2>
+                <p className={`body-1 ${t.bodyText}`}>
+                  Every claim below is anchored to a working portfolio artifact. Click "See the build" on any
+                  card to inspect the data pipeline, training run, and live inference for that vertical.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {industryPlaybooks.map((play, idx) => {
+                  const Icon = play.icon;
+                  return (
+                    <motion.div
+                      key={play.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.4, delay: idx * 0.05 }}
+                      className={`relative ${t.cardBg} border ${t.cardBorder} ${t.cardBorderHover} rounded-2xl p-6 sm:p-7 transition-colors`}
+                    >
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${play.color} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className={`h5 ${t.headingText} mb-1`}>{play.title}</h3>
+                          <p className={`caption ${t.weakText}`}>{play.audiences}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-3 mb-5">
+                        <div>
+                          <p className={`text-xs uppercase tracking-wider ${t.weakText} font-code mb-1`}>Problem</p>
+                          <p className={`body-2 ${t.bodyText}`}>{play.problem}</p>
+                        </div>
+                        <div>
+                          <p className={`text-xs uppercase tracking-wider ${t.weakText} font-code mb-1`}>What we build</p>
+                          <p className={`body-2 ${t.bodyText}`}>{play.capability}</p>
+                        </div>
+                        <div>
+                          <p className={`text-xs uppercase tracking-wider ${t.weakText} font-code mb-1`}>Workflow</p>
+                          <p className={`body-2 ${t.bodyText} font-code text-sm`}>{play.workflow}</p>
+                        </div>
+                        <div>
+                          <p className={`text-xs uppercase tracking-wider ${t.weakText} font-code mb-1`}>Typical impact</p>
+                          <p className={`body-2 ${t.bodyText}`}>{play.typicalImpact}</p>
+                        </div>
+                      </div>
+                      <div className={`border-t ${t.dividerBorder} pt-4 mt-4`}>
+                        <p className={`text-xs uppercase tracking-wider text-primary-1 font-code mb-2`}>
+                          {play.portfolioAnchor.label}
+                        </p>
+                        <p className={`body-2 ${t.bodyText} mb-4`}>{play.portfolioAnchor.detail}</p>
+                        <Link
+                          to={play.portfolioAnchor.href}
+                          className={`inline-flex items-center gap-2 text-sm font-code ${t.headingText} hover:text-primary-1 transition-colors`}
+                        >
+                          {play.portfolioAnchor.cta} <FiArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── 2. Capability Matrix ── */}
+            <div className="mb-24">
+              <div className="max-w-3xl mx-auto text-center mb-12">
+                <p className={`tagline mb-3 ${t.weakText}`}>What we build, top to bottom</p>
+                <h2 className={`h2 ${t.headingText} mb-4`}>Capability Matrix</h2>
+                <p className={`body-1 ${t.bodyText}`}>
+                  We deliver the whole stack — from raw data ingestion to ongoing monitoring. Most engagements
+                  start with pipelines + one model, then expand as production traffic reveals what to invest in next.
+                </p>
+              </div>
+              <div className={`overflow-hidden rounded-2xl border ${t.cardBorder}`}>
+                <div className="grid grid-cols-1 lg:grid-cols-12 bg-primary-1/10 px-6 py-3 hidden lg:grid">
+                  <div className={`lg:col-span-3 text-xs uppercase tracking-wider font-code ${t.weakText}`}>Capability</div>
+                  <div className={`lg:col-span-5 text-xs uppercase tracking-wider font-code ${t.weakText}`}>What it includes</div>
+                  <div className={`lg:col-span-2 text-xs uppercase tracking-wider font-code ${t.weakText}`}>Typical timeline</div>
+                  <div className={`lg:col-span-2 text-xs uppercase tracking-wider font-code ${t.weakText}`}>How it lands</div>
+                </div>
+                {capabilityMatrix.map((row, idx) => {
+                  const Icon = row.icon;
+                  return (
+                    <motion.div
+                      key={row.capability}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.3, delay: idx * 0.04 }}
+                      className={`grid grid-cols-1 lg:grid-cols-12 gap-4 px-6 py-5 ${idx % 2 === 0 ? t.cardBg : ''} ${idx < capabilityMatrix.length - 1 ? `border-b ${t.dividerBorder}` : ''}`}
+                    >
+                      <div className="lg:col-span-3 flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-lg ${isDarkMode ? 'bg-primary-1/20' : 'bg-primary-1/10'} flex items-center justify-center flex-shrink-0`}>
+                          <Icon className="w-4 h-4 text-primary-1" />
+                        </div>
+                        <h4 className={`h6 ${t.headingText}`}>{row.capability}</h4>
+                      </div>
+                      <div className={`lg:col-span-5 body-2 ${t.bodyText}`}>{row.includes}</div>
+                      <div className={`lg:col-span-2 body-2 ${t.bodyText} font-code`}>{row.timeline}</div>
+                      <div className={`lg:col-span-2 body-2 ${t.bodyText}`}>{row.landing}</div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── 3. Technology Spine ── */}
+            <div className="mb-24">
+              <div className="max-w-3xl mx-auto text-center mb-12">
+                <p className={`tagline mb-3 ${t.weakText}`}>The actual stack — not a marketing diagram</p>
+                <h2 className={`h2 ${t.headingText} mb-4`}>Technology Spine</h2>
+                <p className={`body-1 ${t.bodyText}`}>
+                  These are the tools that show up across every portfolio project. We choose by fit, not familiarity —
+                  but consistency at the spine layer keeps multi-domain work coherent.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                {technologySpine.map((col, idx) => {
+                  const Icon = col.icon;
+                  return (
+                    <motion.div
+                      key={col.layer}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.4, delay: idx * 0.06 }}
+                      className={`${t.cardBg} border ${t.cardBorder} rounded-2xl p-5`}
+                    >
+                      <div className="flex items-center gap-2 mb-4">
+                        <Icon className="w-4 h-4 text-primary-1" />
+                        <h4 className={`h6 ${t.headingText} font-code uppercase tracking-wider text-sm`}>
+                          {col.layer}
+                        </h4>
+                      </div>
+                      <ul className="space-y-3">
+                        {col.tools.map((tool) => (
+                          <li key={tool.name}>
+                            <p className={`text-sm font-semibold ${t.headingText} mb-0.5`}>{tool.name}</p>
+                            <p className={`text-xs ${t.bodyText}`}>{tool.role}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── 4. Portfolio Anchor Ribbon ── */}
+            <div className="mb-24">
+              <div className="max-w-3xl mx-auto text-center mb-8">
+                <p className={`tagline mb-3 ${t.weakText}`}>Audit any claim</p>
+                <h2 className={`h2 ${t.headingText} mb-3`}>The Portfolio</h2>
+                <p className={`body-2 ${t.bodyText}`}>
+                  Four working domains. Inspect the build for any of them.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {portfolioAnchors.map((anchor, idx) => {
+                  const Icon = anchor.icon;
+                  return (
+                    <motion.div
+                      key={anchor.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    >
+                      <Link
+                        to={anchor.href}
+                        className={`group block ${t.cardBg} border ${t.cardBorder} ${t.cardBorderHover} rounded-xl p-5 transition-colors h-full`}
+                      >
+                        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${anchor.color} flex items-center justify-center mb-3 shadow`}>
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <h4 className={`h6 ${t.headingText} mb-1 group-hover:text-primary-1 transition-colors`}>
+                          {anchor.title}
+                        </h4>
+                        <p className={`text-xs font-code ${t.weakText}`}>{anchor.metric}</p>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
 
