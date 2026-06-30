@@ -20,15 +20,30 @@ const DemoEmbed = ({ url, title, repoUrl }) => {
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-n-6 my-4">
-      <iframe
-        src={url}
-        title={title}
-        className="w-full"
-        style={{ height: "600px", border: "none" }}
-        sandbox="allow-scripts allow-same-origin allow-forms"
-        loading="lazy"
-      />
+    <div className="my-4">
+      <div className="rounded-xl overflow-hidden border border-n-6">
+        <iframe
+          src={url}
+          title={title}
+          className="w-full"
+          style={{ height: "600px", border: "none" }}
+          sandbox="allow-scripts allow-same-origin allow-forms"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex items-center justify-between mt-2 px-1">
+        <p className="text-n-4 text-xs">
+          Hosted on HuggingFace Spaces (free tier). May take ~30s to wake if inactive.
+        </p>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-color-1 hover:text-color-1/80 text-xs font-medium transition-colors"
+        >
+          Open in new tab →
+        </a>
+      </div>
     </div>
   );
 };
