@@ -89,12 +89,17 @@ const DomainShowcase = ({ domain, index }) => {
         </div>
       </div>
 
-      {/* Live demo */}
+      {/* Demo results */}
       <div>
         <h4 className="text-n-1 font-code text-sm uppercase tracking-wider mb-3">
-          Live Demo
+          Demo Results
         </h4>
-        <DemoEmbed url={domain.demoUrl} title={domain.title} repoUrl={domain.repoUrl} />
+        <DemoEmbed
+          url={domain.demoUrl}
+          title={domain.title}
+          repoUrl={domain.repoUrl}
+          resultImages={domain.resultImages}
+        />
       </div>
 
       {/* Repo link */}

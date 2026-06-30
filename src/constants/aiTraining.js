@@ -1,5 +1,6 @@
 // AI Training Pipeline showcase data
 // Each domain: title, description, icon, pipeline steps, code snippet, metrics, demo URL, tech stack
+// resultImages: pre-computed demo outputs (static PNGs in /public/ai-training-results/)
 
 export const aiTrainingDomains = [
   {
@@ -37,6 +38,12 @@ result = predict("chest_xray.png")
     repoUrl: "https://github.com/fjkiani/ai-training/tree/main/domains/medical",
     inputType: "Radiograph (PNG/JPG)",
     outputType: "Predicted class + confidence",
+    resultImages: [
+      { src: "/ai-training-results/showcase_medical_Hand.png", caption: "Hand → Hand (100%)" },
+      { src: "/ai-training-results/showcase_medical_HeadCT.png", caption: "HeadCT → HeadCT (99.7%)" },
+      { src: "/ai-training-results/showcase_medical_BreastMRI.png", caption: "BreastMRI → BreastMRI (99.9%)" },
+      { src: "/ai-training-results/showcase_medical_CXR.png", caption: "CXR → CXR (96.7%)" },
+    ],
   },
   {
     id: "geospatial",
@@ -73,10 +80,14 @@ mask = predict_tile(image_array)`,
       { label: "Train Time", value: "~10 min" },
     ],
     techStack: ["rasterio", "geopandas", "shapely", "SMP", "PyTorch", "Gradio"],
-    demoUrl: 'https://fjkiani-ai-geospatial.hf.space'",
+    demoUrl: "https://fjkiani-ai-geospatial.hf.space",
     repoUrl: "https://github.com/fjkiani/ai-training/tree/main/domains/geospatial",
     inputType: "Satellite tile (PNG/JPG)",
     outputType: "Land/water segmentation mask",
+    resultImages: [
+      { src: "/ai-training-results/showcase_geospatial_coastline_tile.png", caption: "Coastline tile → 49.9% land" },
+      { src: "/ai-training-results/showcase_geospatial_island_tile.png", caption: "Island tile → 42.7% land" },
+    ],
   },
   {
     id: "audio",
@@ -109,10 +120,18 @@ result = predict("sound.wav")
       { label: "Train Time", value: "Seconds" },
     ],
     techStack: ["librosa", "soundfile", "scikit-learn", "Gradio", "matplotlib"],
-    demoUrl: 'https://fjkiani-ai-audio.hf.space'",
+    demoUrl: "https://fjkiani-ai-audio.hf.space",
     repoUrl: "https://github.com/fjkiani/ai-training/tree/main/domains/audio",
     inputType: "Audio file (WAV/MP3)",
     outputType: "Class prediction + spectrogram",
+    resultImages: [
+      { src: "/ai-training-results/showcase_audio_helicopter.png", caption: "Helicopter → helicopter (72.5%)" },
+      { src: "/ai-training-results/showcase_audio_siren.png", caption: "Siren → siren (75.5%)" },
+      { src: "/ai-training-results/showcase_audio_rooster.png", caption: "Rooster → rooster (70.0%)" },
+      { src: "/ai-training-results/showcase_audio_dog.png", caption: "Dog → dog (65.5%)" },
+      { src: "/ai-training-results/showcase_audio_crying_baby.png", caption: "Crying baby → crying_baby (60.0%)" },
+      { src: "/ai-training-results/showcase_audio_sea_waves.png", caption: "Sea waves → sea_waves (53.5%)" },
+    ],
   },
   {
     id: "video",
@@ -147,9 +166,12 @@ manifest = analyze_video(
       { label: "Train Time", value: "None" },
     ],
     techStack: ["PySceneDetect", "OpenCV", "Transformers", "CLIP", "Gradio"],
-    demoUrl: 'https://fjkiani-ai-video.hf.space'",
+    demoUrl: "https://fjkiani-ai-video.hf.space",
     repoUrl: "https://github.com/fjkiani/ai-training/tree/main/domains/video",
     inputType: "Video (MP4)",
     outputType: "Scene list + keyframes + CLIP tags",
+    resultImages: [
+      { src: "/ai-training-results/showcase_video_demo_scenes.png", caption: "4 scenes detected: landscape, text, sky (97.7%), text" },
+    ],
   },
 ];
