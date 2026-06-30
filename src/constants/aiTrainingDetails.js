@@ -11,10 +11,24 @@ export const aiTrainingDetails = [
     color: "from-blue-500 to-cyan-500",
     description:
       "A medical imaging preprocessing and classification pipeline built on SimpleITK, pydicom, and MONAI. Handles DICOM/NIfTI ingestion, HU windowing, resampling, and normalization. Demo model is a U-Net classifier trained on MedNIST.",
-    problem:
-      "Medical imaging data arrives in DICOM format — a complex medical imaging standard that stores pixel data alongside patient metadata, acquisition parameters, and spatial geometry. ML models can't consume DICOM directly; the data must be decoded, normalized to a consistent intensity range, resampled to uniform spacing, and cropped to a fixed size before a neural network can process it.\n\nCompounding this, different modalities (CT, MRI, X-ray) use different intensity scales, photometric interpretations, and spatial resolutions. A pipeline that handles one modality may fail silently on another. Building a robust preprocessing pipeline that handles these variations correctly is the foundation of any medical imaging AI project.",
-    approach:
-      "We use SimpleITK as the core imaging library because it handles DICOM series natively, understands spatial geometry (spacing, direction, origin), and provides battle-tested resampling algorithms. pydicom handles raw DICOM tag parsing for cases where SimpleITK's series reader needs supplementing.\n\nFor the model, we chose MONAI's ecosystem — it provides medical-imaging-specific transforms, a U-Net implementation designed for 2D/3D medical images, and the MedNIST dataset for rapid prototyping. The U-Net encoder extracts hierarchical spatial features, and a classification head maps those features to 6 radiograph classes. We trained on a 2,000-image subset for 5 epochs on CPU — enough to reach 99.3% validation accuracy on this well-separated dataset.",
+    problem: {
+      lead: "Medical images arrive as DICOM — a format ML models can't consume directly. Raw data must be decoded, normalized, resampled, and cropped before a network can see it.",
+      points: [
+        "DICOM packages pixel data alongside patient metadata, acquisition parameters, and spatial geometry",
+        "Modalities (CT, MRI, X-ray) use different intensity scales — a pipeline built for one can fail silently on another",
+        "Spatial resolution and orientation vary by scanner, so resampling to a common grid is required",
+        "Without robust preprocessing, downstream model accuracy is unreliable",
+      ],
+    },
+    approach: {
+      lead: "SimpleITK + pydicom handle DICOM ingestion and geometric preprocessing; MONAI's U-Net classifies the result.",
+      points: [
+        "SimpleITK reads DICOM series natively and provides battle-tested B-spline resampling to 1mm isotropic",
+        "pydicom supplements where SimpleITK's series reader needs raw tag access",
+        "MONAI's U-Net encoder extracts hierarchical spatial features; a classification head maps to 6 radiograph classes",
+        "Trained on a 2,000-image MedNIST subset for 5 epochs on CPU → 99.3% validation accuracy",
+      ],
+    },
     pipeline: [
       { step: "Load", tool: "pydicom / SimpleITK", detail: "DICOM series or NIfTI volume" },
       { step: "Normalize", tool: "SimpleITK", detail: "MONOCHROME1→2, HU windowing (-1024 to 1600)" },
@@ -131,10 +145,24 @@ for epoch in range(5):
     color: "from-green-500 to-emerald-500",
     description:
       "A geospatial preprocessing and segmentation pipeline built on rasterio, geopandas, and segmentation-models-pytorch. Handles GeoTIFF ingestion, reprojection, normalization, tiling, and vector label rasterization. Demo model is a U-Net (ResNet18) for land/water segmentation.",
-    problem:
-      "Satellite and aerial imagery comes as GeoTIFFs — often gigabytes in size, spanning multiple coordinate reference systems, with varying spatial resolutions and band configurations. A single satellite scene can be 10,000×10,000 pixels across 4+ spectral bands. No neural network can process that directly.\n\nThe data must be reprojected to a common CRS, normalized to a consistent intensity range, tiled into manageable patches (256×256 or 512×512), and paired with label masks rasterized from vector annotations (GeoJSON, Shapefile). Each of these steps has geospatial-specific challenges: nodata handling, edge tile management, spatial leakage between train/test splits.",
-    approach:
-      "We use rasterio as the core raster I/O library — it reads GeoTIFFs efficiently with windowed access, handles CRS transformations, and provides the tiling primitives. geopandas and shapely handle vector data (labels in GeoJSON/Shapefile format) and rasterize them into binary masks aligned with the image tiles.\n\nFor the model, segmentation-models-pytorch provides a U-Net with a ResNet18 encoder — lightweight enough for CPU training, powerful enough for binary segmentation. We generate a synthetic land/water dataset with wavy boundaries and realistic noise to demonstrate the full pipeline. The model reaches 100% IoU on this clean synthetic data, and the same pipeline works on real GeoTIFFs by swapping the data source.",
+    problem: {
+      lead: "Satellite scenes are gigabyte GeoTIFFs spanning multiple CRSes and resolutions — too large to feed a model directly.",
+      points: [
+        "A single scene can be 10,000×10,000 pixels across 4+ spectral bands",
+        "Reprojection to a common CRS is needed before tiles align across scenes",
+        "Vector annotations (GeoJSON, Shapefile) must be rasterized into masks aligned to tile geometry",
+        "Edge cases — nodata pixels, tile boundaries, train/test spatial leakage — are all geospatial-specific",
+      ],
+    },
+    approach: {
+      lead: "rasterio handles raster I/O and reprojection; geopandas rasterizes vector labels; a U-Net segments the tiles.",
+      points: [
+        "rasterio reads GeoTIFFs with windowed access and handles CRS transformations efficiently",
+        "geopandas + shapely rasterize polygon labels into binary masks aligned with the image grid",
+        "segmentation-models-pytorch provides a U-Net (ResNet18 encoder) — lightweight enough for CPU training",
+        "Synthetic land/water dataset reaches 100% IoU; same pipeline works on real GeoTIFFs by swapping data sources",
+      ],
+    },
     pipeline: [
       { step: "Load", tool: "rasterio", detail: "GeoTIFF (any CRS, multi-band)" },
       { step: "Reproject", tool: "rasterio", detail: "To EPSG:3857 if needed" },
@@ -248,10 +276,24 @@ for epoch in range(10):
     color: "from-purple-500 to-violet-500",
     description:
       "An audio preprocessing and classification pipeline built on librosa and scikit-learn. Handles audio loading, resampling, feature extraction (MFCC, mel-spectrogram, chroma, spectral contrast, tonnetz), and aggregation. Demo model is a Random Forest trained on ESC-50 (50 environmental sound classes).",
-    problem:
-      "Audio data for ML comes in various formats (WAV, MP3, FLAC), sample rates (8kHz to 48kHz), and channel configurations (mono, stereo). A neural network can't process raw waveforms efficiently for classification — the signal must be transformed into a compact feature representation that captures the perceptually relevant characteristics of sound.\n\nThe challenge is choosing the right features: MFCCs capture the spectral envelope (what humans perceive as timbre), mel-spectrograms show frequency content over time, chroma represents pitch class, spectral contrast measures dynamic range, and tonnetz captures harmonic relationships. Different classification tasks benefit from different feature combinations.",
-    approach:
-      "We use librosa as the core audio library — it handles loading, resampling, and provides all the feature extraction functions we need. The pipeline extracts 5 feature types (MFCC, mel-spectrogram, chroma, spectral contrast, tonnetz) and aggregates each to a fixed-length vector using mean and standard deviation, producing a 130-dimensional representation per audio clip.\n\nFor the model, we chose a Random Forest classifier — it's fast, interpretable, handles high-dimensional features without normalization tricks, and trains in seconds on CPU. We trained on ESC-50 (2,000 environmental sound clips across 50 classes) and achieved 60.3% test accuracy. This is solid for a Random Forest on 130-dim features with only 1,400 training samples — random chance is 2%. A CNN on mel-spectrograms would push this higher, and the pipeline code includes that option.",
+    problem: {
+      lead: "Raw audio is high-dimensional and varies wildly by format, sample rate, and channel count — classification needs a compact, normalized feature representation.",
+      points: [
+        "Inputs span WAV/MP3/FLAC, 8–48 kHz sample rates, and mono/stereo configurations",
+        "Different feature families capture different signal aspects: MFCC (timbre), mel-spectrogram (time-frequency), chroma (pitch), spectral contrast (dynamics), tonnetz (harmony)",
+        "A neural network on raw waveforms is impractical for short clips; compact features train faster and generalize",
+        "Choosing the right feature mix is task-dependent — environmental sounds need different features than speech",
+      ],
+    },
+    approach: {
+      lead: "librosa extracts five feature types per clip; a Random Forest classifies the 130-dim aggregated vector across 50 ESC-50 classes.",
+      points: [
+        "librosa handles loading, 22.05 kHz resampling, and provides all feature extractors used",
+        "5 feature families (MFCC, mel-spec, chroma, contrast, tonnetz) aggregated by mean+std → 130-dim vector",
+        "Random Forest classifier is fast, interpretable, and trains in seconds on CPU with no normalization tricks",
+        "Trained on ESC-50 (2,000 clips, 50 classes) → 60.3% test accuracy (random chance is 2%); CNN-on-mel-spec option included for higher accuracy",
+      ],
+    },
     pipeline: [
       { step: "Load", tool: "librosa", detail: "WAV/MP3 → 22050 Hz mono" },
       { step: "Extract", tool: "librosa", detail: "MFCC(40), mel-spec(128), chroma(12), contrast(7), tonnetz(6)" },
@@ -371,10 +413,24 @@ model.fit(X_train, y_train)
     color: "from-orange-500 to-red-500",
     description:
       "A video preprocessing pipeline built on PySceneDetect, OpenCV, and HuggingFace Transformers (CLIP). Detects scene boundaries, extracts representative keyframes, deduplicates near-identical frames, and performs zero-shot classification using CLIP. No training required — CLIP's pretrained weights provide zero-shot tagging.",
-    problem:
-      "Video data is dense — a 10-minute clip at 30fps contains 18,000 frames. For ML training or content analysis, you need to identify the distinct scenes, extract representative frames, and tag what's in each one. Processing every frame is wasteful and slow; you need intelligent scene detection to find the boundaries where content changes meaningfully.\n\nOnce you have keyframes, the next challenge is labeling them. Training a custom classifier requires labeled data, which is expensive. Zero-shot classification using CLIP sidesteps this entirely — you provide text descriptions of what you're looking for, and CLIP matches images to descriptions without any training.",
-    approach:
-      "We use PySceneDetect's ContentDetector to find scene boundaries — it compares consecutive frames and flags transitions where pixel content changes significantly (threshold 27). For each detected scene, we extract the middle frame as a representative keyframe using OpenCV.\n\nTo avoid redundant frames, we apply perceptual hashing (pHash) with a 0.9 similarity threshold — near-identical keyframes are removed. Finally, we use OpenAI's CLIP model (ViT-Base-Patch32) for zero-shot classification: we provide 10 candidate labels (outdoor, indoor, person, vehicle, landscape, building, animal, text, food, sky) and CLIP returns probability scores for each. No training required — the pretrained CLIP weights handle the image-text matching.",
+    problem: {
+      lead: "Videos are too dense to process frame-by-frame, and labeled training data for tagging is expensive — you need scene-aware sampling plus a label-free way to describe content.",
+      points: [
+        "A 10-minute clip at 30fps is 18,000 frames — processing every one is wasteful",
+        "Scene boundaries (where content shifts meaningfully) matter more than uniform sampling",
+        "Near-identical keyframes between similar shots add noise without information",
+        "Training a custom classifier needs labeled data; zero-shot avoids that bottleneck entirely",
+      ],
+    },
+    approach: {
+      lead: "PySceneDetect finds scene boundaries, OpenCV samples keyframes, pHash deduplicates them, and CLIP zero-shot-tags each scene — no training required.",
+      points: [
+        "PySceneDetect ContentDetector (threshold 27) flags frames where pixel content shifts meaningfully",
+        "OpenCV grabs the middle frame of each detected scene as the representative keyframe",
+        "Perceptual hash (pHash, 0.9 similarity threshold) removes near-identical keyframes",
+        "CLIP ViT-Base-Patch32 returns probabilities for 10 candidate labels (outdoor, indoor, person, vehicle, landscape, building, animal, text, food, sky)",
+      ],
+    },
     pipeline: [
       { step: "Probe", tool: "ffmpeg", detail: "Video metadata, FPS, resolution" },
       { step: "Detect Scenes", tool: "PySceneDetect", detail: "ContentDetector (threshold 27)" },

@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 
 const PipelineDiagram = ({ steps, color }) => {
+  const { isDarkMode } = useTheme();
+  const cardBg = isDarkMode ? "bg-n-7/50" : "bg-n-1";
+  const cardBorder = isDarkMode ? "border-n-6" : "border-n-3";
+  const stepText = isDarkMode ? "text-n-1" : "text-n-8";
+  const detailText = isDarkMode ? "text-n-4" : "text-n-5";
+
   return (
     <div className="flex flex-col gap-3 my-6">
       {steps.map((step, i) => (
@@ -20,14 +27,14 @@ const PipelineDiagram = ({ steps, color }) => {
           </div>
 
           {/* Step content */}
-          <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 p-3 rounded-lg bg-n-7/50 border border-n-6">
-            <span className="font-code text-n-1 font-semibold text-sm sm:text-base">
+          <div className={`flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 p-3 rounded-lg border ${cardBg} ${cardBorder}`}>
+            <span className={`font-code font-semibold text-sm sm:text-base ${stepText}`}>
               {step.step}
             </span>
             <span className="text-color-1 text-xs sm:text-sm font-medium">
               {step.tool}
             </span>
-            <span className="text-n-4 text-xs sm:text-sm hidden md:block">
+            <span className={`text-xs sm:text-sm hidden md:block ${detailText}`}>
               {step.detail}
             </span>
           </div>

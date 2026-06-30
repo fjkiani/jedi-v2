@@ -219,6 +219,27 @@ const SystemLog = () => {
 // ─── Main page ────────────────────────────────────────────────────────────────
 const JediPage = () => {
   const { isDarkMode } = useTheme();
+
+  const t = {
+    pageBg: isDarkMode ? "bg-n-8" : "bg-n-1",
+    pageText: isDarkMode ? "text-n-1" : "text-n-8",
+    headingText: isDarkMode ? "text-n-1" : "text-n-8",
+    subheadText: isDarkMode ? "text-n-2" : "text-n-7",
+    bodyText: isDarkMode ? "text-n-4" : "text-n-5",
+    mutedText: isDarkMode ? "text-n-4" : "text-n-6",
+    semiText: isDarkMode ? "text-n-3" : "text-n-6",
+    weakText: isDarkMode ? "text-n-5" : "text-n-5",
+    cardBg: isDarkMode ? "bg-n-7/50" : "bg-n-1",
+    cardBorder: isDarkMode ? "border-n-6" : "border-n-3",
+    cardBorderHover: "hover:border-primary-1/30",
+    ctaBorder: isDarkMode ? "border-n-6" : "border-n-3",
+    ctaText: isDarkMode ? "text-n-2" : "text-n-7",
+    dividerBorder: isDarkMode ? "border-n-6" : "border-n-3",
+    gridLines: isDarkMode
+      ? "[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]"
+      : "[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)]",
+  };
+
   const [applications, setApplications] = useState([]);
   const [useCases, setUseCases] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -272,10 +293,16 @@ const JediPage = () => {
         <link rel="canonical" href="https://jedilabs.org/jedi" />
       </Helmet>
 
-      <div className="min-h-screen bg-n-8 text-n-1 pt-[8rem] pb-20 relative overflow-hidden">
+      <div className={`min-h-screen ${t.pageBg} ${t.pageText} pt-[8rem] pb-20 relative overflow-hidden`}>
 
         {/* Background Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+        <div
+          className={
+            isDarkMode
+              ? "absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"
+              : "absolute inset-0 bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"
+          }
+        ></div>
 
         <Section className="relative z-10" crosses>
           <div className="container">
@@ -291,11 +318,11 @@ const JediPage = () => {
                   <FiZap className="animate-pulse" />
                   <span>JEDI LABS — AI THAT SHIPS</span>
                 </div>
-                <h1 className="h1 font-bold text-white mb-6">
+                <h1 className={`h1 font-bold ${t.headingText} mb-6`}>
                   We build AI systems that{" "}
                   <span className="text-primary-1">solve real business problems</span>
                 </h1>
-                <p className="body-1 text-n-4 max-w-3xl mx-auto">
+                <p className={`body-1 ${t.bodyText} max-w-3xl mx-auto`}>
                   Jedi Labs turns AI from a buzzword into a bottom-line result. We design, build,
                   and deploy production AI applications — from data pipelines to intelligent agents —
                   that integrate with your existing systems and deliver measurable outcomes.
@@ -305,7 +332,7 @@ const JediPage = () => {
 
             {/* ── What We Solve ── */}
             <div className="max-w-5xl mx-auto mb-20">
-              <h2 className="text-center text-n-1 font-code text-sm uppercase tracking-wider mb-10">
+              <h2 className={`text-center ${t.headingText} font-code text-sm uppercase tracking-wider mb-10`}>
                 What We Solve For Businesses
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -361,19 +388,19 @@ const JediPage = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.08 }}
-                      className="p-6 rounded-2xl bg-n-7/50 border border-n-6 hover:border-primary-1/30 transition-colors"
+                      className={`p-6 rounded-2xl ${t.cardBg} border ${t.cardBorder} hover:border-primary-1/30 transition-colors`}
                     >
                       <div className="flex items-center gap-3 mb-4">
                         <div className="p-2.5 bg-primary-1/10 rounded-lg text-primary-1">
                           <Icon size={20} />
                         </div>
-                        <h3 className="text-n-1 font-bold text-sm">{item.title}</h3>
+                        <h3 className={`${t.headingText} font-bold text-sm`}>{item.title}</h3>
                       </div>
-                      <p className="text-n-4 text-xs mb-2">
-                        <span className="text-n-3 font-semibold">The problem: </span>
+                      <p className={`${t.bodyText} text-xs mb-2`}>
+                        <span className={`${t.semiText} font-semibold`}>The problem: </span>
                         {item.problem}
                       </p>
-                      <p className="text-n-4 text-xs mb-4">
+                      <p className={`${t.bodyText} text-xs mb-4`}>
                         <span className="text-primary-1 font-semibold">Our solution: </span>
                         {item.solution}
                       </p>
@@ -389,7 +416,7 @@ const JediPage = () => {
 
             {/* ── How We Help ── */}
             <div className="max-w-4xl mx-auto mb-20">
-              <h2 className="text-center text-n-1 font-code text-sm uppercase tracking-wider mb-10">
+              <h2 className={`text-center ${t.headingText} font-code text-sm uppercase tracking-wider mb-10`}>
                 How Jedi Labs Engages
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
@@ -419,14 +446,14 @@ const JediPage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="relative p-6 rounded-2xl bg-n-7/50 border border-n-6"
+                    className={`relative p-6 rounded-2xl ${t.cardBg} border ${t.cardBorder}`}
                   >
                     <div className="text-primary-1 font-mono text-3xl font-bold mb-3 opacity-50">
                       {phase.step}
                     </div>
-                    <h3 className="text-n-1 font-bold text-lg mb-2">{phase.title}</h3>
-                    <p className="text-n-4 text-sm mb-4">{phase.desc}</p>
-                    <span className="text-xs font-mono text-n-5 uppercase tracking-wider">
+                    <h3 className={`${t.headingText} font-bold text-lg mb-2`}>{phase.title}</h3>
+                    <p className={`${t.bodyText} text-sm mb-4`}>{phase.desc}</p>
+                    <span className={`text-xs font-mono ${t.weakText} uppercase tracking-wider`}>
                       {phase.duration}
                     </span>
                   </motion.div>
@@ -436,8 +463,8 @@ const JediPage = () => {
 
             {/* ── CTA ── */}
             <div className="max-w-2xl mx-auto text-center mb-20">
-              <h2 className="h2 text-n-1 mb-4">Ready to turn AI into outcomes?</h2>
-              <p className="text-n-4 mb-8">
+              <h2 className={`h2 ${t.headingText} mb-4`}>Ready to turn AI into outcomes?</h2>
+              <p className={`${t.bodyText} mb-8`}>
                 Tell us about your workflow. We'll show you exactly where AI can deliver measurable impact —
                 with a concrete plan, timeline, and ROI estimate.
               </p>
@@ -445,13 +472,15 @@ const JediPage = () => {
                 <Button href="/contact" white>Book a Discovery Call</Button>
                 <Link
                   to="/case-studies"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-n-6 text-n-2 font-code text-sm hover:border-primary-1/40 transition-colors"
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border ${t.ctaBorder} ${t.ctaText} font-code text-sm hover:border-primary-1/40 transition-colors`}
                 >
                   See Case Studies <FiArrowRight className="w-3 h-3" />
                 </Link>
               </div>
             </div>
 
+            {/* ── Dark HUD Island (preserves terminal aesthetic across themes) ── */}
+            <div className={isDarkMode ? "" : "bg-n-8 text-n-1 rounded-3xl px-6 sm:px-8 py-10 -mx-4 sm:-mx-8 mt-8 shadow-2xl"}>
             {/* ── Divider ── */}
             <div className="border-t border-n-6 pt-12 mb-8">
               <div className="flex items-center gap-2 text-primary-1 font-mono text-sm mb-2">
@@ -537,6 +566,8 @@ const JediPage = () => {
               </div>
             )}
 
+            </div>
+            {/* ── /Dark HUD Island ── */}
           </div>
         </Section>
       </div>

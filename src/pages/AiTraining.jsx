@@ -3,8 +3,22 @@ import { Link } from "react-router-dom";
 import Section from "../components/Section";
 import Heading from "../components/Heading";
 import { aiTrainingDetails } from "../constants/aiTrainingDetails";
+import { useTheme } from "../context/ThemeContext";
 
 const AiTraining = () => {
+  const { isDarkMode } = useTheme();
+
+  // Theme tokens — mirrors the pattern from CaseStudies.jsx / FeaturedApplications.jsx
+  const t = {
+    headingText: isDarkMode ? "text-n-1" : "text-n-8",
+    bodyText: isDarkMode ? "text-n-4" : "text-n-5",
+    mutedText: isDarkMode ? "text-n-4" : "text-n-6",
+    cardBg: isDarkMode ? "bg-n-7/50" : "bg-n-1",
+    cardBgHover: isDarkMode ? "group-hover:bg-n-7/70" : "group-hover:bg-n-2/60",
+    cardBorder: isDarkMode ? "border-n-6" : "border-n-3",
+    dividerBorder: isDarkMode ? "border-n-6" : "border-n-3",
+  };
+
   return (
     <>
       <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
@@ -16,11 +30,11 @@ const AiTraining = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <h1 className="h1 mb-6">
+              <h1 className={`h1 mb-6 ${t.headingText}`}>
                 AI Training{" "}
                 <span className="text-color-1">Pipelines</span>
               </h1>
-              <p className="body-1 text-n-4 max-w-3xl mx-auto">
+              <p className={`body-1 max-w-3xl mx-auto ${t.bodyText}`}>
                 Four domain-specific data preprocessing pipelines — medical imaging,
                 geospatial, audio, and video — each with a trained demo model and
                 interactive Gradio interface. Built from open-source foundations,
@@ -43,7 +57,7 @@ const AiTraining = () => {
                   to={`/ai-training/${domain.id}`}
                   className="block group h-full"
                 >
-                  <div className="h-full p-6 rounded-2xl bg-n-7/50 border border-n-6 hover:border-color-1/40 transition-all duration-300 group-hover:bg-n-7/70">
+                  <div className={`h-full p-6 rounded-2xl ${t.cardBg} border ${t.cardBorder} hover:border-color-1/40 transition-all duration-300 ${t.cardBgHover}`}>
                     {/* Header */}
                     <div className="flex items-center gap-4 mb-4">
                       <div
@@ -52,7 +66,7 @@ const AiTraining = () => {
                         {domain.icon}
                       </div>
                       <div>
-                        <h3 className="h3 text-n-1 group-hover:text-color-1 transition-colors">
+                        <h3 className={`h3 ${t.headingText} group-hover:text-color-1 transition-colors`}>
                           {domain.title}
                         </h3>
                         <p className="text-color-1 text-sm font-code">{domain.tagline}</p>
@@ -60,17 +74,17 @@ const AiTraining = () => {
                     </div>
 
                     {/* Description */}
-                    <p className="body-2 text-n-4 mb-6 line-clamp-2">
+                    <p className={`body-2 mb-6 line-clamp-2 ${t.bodyText}`}>
                       {domain.description}
                     </p>
 
                     {/* Key metric + link */}
-                    <div className="flex items-center justify-between pt-4 border-t border-n-6">
+                    <div className={`flex items-center justify-between pt-4 border-t ${t.dividerBorder}`}>
                       <div className="flex gap-4">
                         {domain.metrics.slice(0, 2).map((m, j) => (
                           <div key={j}>
                             <span className="text-color-1 font-bold text-lg">{m.value}</span>
-                            <span className="text-n-4 text-xs ml-1">{m.label}</span>
+                            <span className={`text-xs ml-1 ${t.bodyText}`}>{m.label}</span>
                           </div>
                         ))}
                       </div>
@@ -104,11 +118,11 @@ const AiTraining = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-5 rounded-2xl bg-n-7/50 border border-n-6 text-center"
+                  className={`p-5 rounded-2xl border text-center ${t.cardBg} ${t.cardBorder}`}
                 >
                   <div className="text-3xl mb-3">{item.icon}</div>
-                  <h4 className="text-n-1 font-code text-sm mb-2">{item.label}</h4>
-                  <p className="text-n-4 text-xs">{item.desc}</p>
+                  <h4 className={`font-code text-sm mb-2 ${t.headingText}`}>{item.label}</h4>
+                  <p className={`text-xs ${t.bodyText}`}>{item.desc}</p>
                 </motion.div>
               ))}
             </div>
