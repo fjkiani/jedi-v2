@@ -46,6 +46,7 @@ import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
 import { CareersPage, JobDetailPage } from './pages/careers';
 import NotFound from './pages/NotFound';
 import AiTraining from './pages/AiTraining';
+import AiTrainingDomain from './pages/AiTrainingDomain';
 
 const BlogLegacyRedirect = () => {
   const { slug } = useParams();
@@ -166,6 +167,7 @@ const AppContent = ({ location }) => {
 
               {/* ── AI Training ──────────────────────────────────────────── */}
               <Route path="/ai-training" element={<PageTransition><AiTraining /></PageTransition>} />
+              <Route path="/ai-training/:domainId" element={<PageTransition><AiTrainingDomain /></PageTransition>} />
 
               {/* ── 404 ──────────────────────────────────────────────────── */}
               <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

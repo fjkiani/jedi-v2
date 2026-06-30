@@ -1,18 +1,10 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Section from "../components/Section";
 import Heading from "../components/Heading";
-import DomainShowcase from "../components/AiTraining/DomainShowcase";
-import { aiTrainingDomains } from "../constants/aiTraining";
+import { aiTrainingDetails } from "../constants/aiTrainingDetails";
 
 const AiTraining = () => {
-  const [activeDomain, setActiveDomain] = useState("all");
-
-  const filteredDomains =
-    activeDomain === "all"
-      ? aiTrainingDomains
-      : aiTrainingDomains.filter((d) => d.id === activeDomain);
-
   return (
     <>
       <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
@@ -37,38 +29,58 @@ const AiTraining = () => {
             </motion.div>
           </div>
 
-          {/* Domain filter tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-12 lg:mb-20">
-            <button
-              onClick={() => setActiveDomain("all")}
-              className={`px-4 py-2 rounded-full text-sm font-code transition-colors ${
-                activeDomain === "all"
-                  ? "bg-color-1 text-n-8"
-                  : "bg-n-7 text-n-3 hover:text-n-1 border border-n-6"
-              }`}
-            >
-              All Domains
-            </button>
-            {aiTrainingDomains.map((domain) => (
-              <button
+          {/* Domain cards */}
+          <div className="grid sm:grid-cols-2 gap-6 max-w-5xl mx-auto mb-20">
+            {aiTrainingDetails.map((domain, i) => (
+              <motion.div
                 key={domain.id}
-                onClick={() => setActiveDomain(domain.id)}
-                className={`px-4 py-2 rounded-full text-sm font-code transition-colors flex items-center gap-2 ${
-                  activeDomain === domain.id
-                    ? "bg-color-1 text-n-8"
-                    : "bg-n-7 text-n-3 hover:text-n-1 border border-n-6"
-                }`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <span>{domain.icon}</span>
-                {domain.title}
-              </button>
-            ))}
-          </div>
+                <Link
+                  to={`/ai-training/${domain.id}`}
+                  className="block group h-full"
+                >
+                  <div className="h-full p-6 rounded-2xl bg-n-7/50 border border-n-6 hover:border-color-1/40 transition-all duration-300 group-hover:bg-n-7/70">
+                    {/* Header */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${domain.color} flex items-center justify-center text-2xl`}
+                      >
+                        {domain.icon}
+                      </div>
+                      <div>
+                        <h3 className="h3 text-n-1 group-hover:text-color-1 transition-colors">
+                          {domain.title}
+                        </h3>
+                        <p className="text-color-1 text-sm font-code">{domain.tagline}</p>
+                      </div>
+                    </div>
 
-          {/* Domain showcases */}
-          <div className="max-w-5xl mx-auto">
-            {filteredDomains.map((domain, i) => (
-              <DomainShowcase key={domain.id} domain={domain} index={i} />
+                    {/* Description */}
+                    <p className="body-2 text-n-4 mb-6 line-clamp-2">
+                      {domain.description}
+                    </p>
+
+                    {/* Key metric + link */}
+                    <div className="flex items-center justify-between pt-4 border-t border-n-6">
+                      <div className="flex gap-4">
+                        {domain.metrics.slice(0, 2).map((m, j) => (
+                          <div key={j}>
+                            <span className="text-color-1 font-bold text-lg">{m.value}</span>
+                            <span className="text-n-4 text-xs ml-1">{m.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <span className="text-color-1 text-sm font-medium group-hover:translate-x-1 transition-transform">
+                        View case study →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
 
