@@ -113,6 +113,7 @@ const AiTrainingDomain = () => {
               title={domain.title}
               repoUrl={domain.repoUrl}
               resultImages={domain.resultImages}
+              demoPaused={domain.demoPaused}
             />
           </div>
 

@@ -17,7 +17,8 @@ import { hygraphClient } from '@/lib/hygraph';
 import { GET_APPLICATIONS } from '@/graphql/queries/applications';
 import { GET_USE_CASES } from '@/graphql/queries/useCases';
 import {
-  FiCpu, FiActivity, FiServer, FiShield, FiArrowRight, FiLock, FiCrosshair, FiExternalLink, FiLink
+  FiCpu, FiActivity, FiServer, FiShield, FiArrowRight, FiLock, FiCrosshair, FiExternalLink, FiLink,
+  FiZap, FiTrendingUp, FiUsers, FiClock, FiDollarSign, FiCheckCircle
 } from 'react-icons/fi';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/Button';
@@ -265,8 +266,8 @@ const JediPage = () => {
   return (
     <>
       <Helmet>
-        <title>Applications Registry | JEDI Labs — Production AI Co-Pilots</title>
-        <meta name="description" content="Explore JEDI Labs applications. Production agentic AI co-pilots for Healthcare, Finance, Education. Voice agents, search optimization, interactive co-pilots." />
+        <title>Jedi Labs — AI Systems That Solve Real Business Problems</title>
+        <meta name="description" content="Jedi Labs builds and deploys production AI applications that automate workflows, reduce costs, and unlock knowledge. From data pipelines to intelligent agents — AI that ships." />
         <meta property="og:url" content="https://jedilabs.org/jedi" />
         <link rel="canonical" href="https://jedilabs.org/jedi" />
       </Helmet>
@@ -279,30 +280,188 @@ const JediPage = () => {
         <Section className="relative z-10" crosses>
           <div className="container">
 
-            {/* Header / HUD Top Bar */}
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-n-6 pb-6 gap-6">
-              <div>
-                <div className="flex items-center gap-2 text-primary-1 font-mono text-sm mb-2">
-                  <FiShield className="animate-pulse" />
-                  <span>SECURE CONNECTION ESTABLISHED</span>
+            {/* ── Business Value Proposition ── */}
+            <div className="max-w-4xl mx-auto text-center mb-20">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+              >
+                <div className="flex items-center justify-center gap-2 text-primary-1 font-mono text-sm mb-4">
+                  <FiZap className="animate-pulse" />
+                  <span>JEDI LABS — AI THAT SHIPS</span>
                 </div>
-                <h1 className="h1 font-bold text-white uppercase tracking-tighter">
-                  Applications<br />Registry
+                <h1 className="h1 font-bold text-white mb-6">
+                  We build AI systems that{" "}
+                  <span className="text-primary-1">solve real business problems</span>
                 </h1>
-                <p className="mt-3 text-sm text-n-4 max-w-md">
-                  Each application is built on the JEDI stack.{' '}
-                  <span className="text-primary-1 font-semibold">Click a use case pill</span> to see the architecture behind it.
+                <p className="body-1 text-n-4 max-w-3xl mx-auto">
+                  Jedi Labs turns AI from a buzzword into a bottom-line result. We design, build,
+                  and deploy production AI applications — from data pipelines to intelligent agents —
+                  that integrate with your existing systems and deliver measurable outcomes.
                 </p>
-              </div>
+              </motion.div>
+            </div>
 
-              <div className="hidden md:block w-96">
-                <SystemLog />
-                <div className="mt-4 flex justify-end">
-                  <Link to="/" className="text-xs font-mono text-n-4 hover:text-primary-1 flex items-center gap-2 transition-colors">
-                    <FiArrowRight className="rotate-180" /> RETURN TO COMMAND
-                  </Link>
-                </div>
+            {/* ── What We Solve ── */}
+            <div className="max-w-5xl mx-auto mb-20">
+              <h2 className="text-center text-n-1 font-code text-sm uppercase tracking-wider mb-10">
+                What We Solve For Businesses
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    icon: FiClock,
+                    title: "Slow, Manual Workflows",
+                    problem: "Teams waste hours on repetitive tasks — document processing, data entry, customer triage, report generation.",
+                    solution: "We deploy AI agents that automate these workflows end-to-end, reducing processing time from hours to seconds while improving accuracy.",
+                    metric: "60-100x faster",
+                  },
+                  {
+                    icon: FiDollarSign,
+                    title: "High Operational Costs",
+                    problem: "Scaling operations means hiring more people. Customer support, data analysis, and content creation all grow linearly with headcount.",
+                    solution: "AI systems handle 80-90% of routine work at a fraction of the cost, letting your team focus on high-value tasks that actually require human judgment.",
+                    metric: "50-90% cost reduction",
+                  },
+                  {
+                    icon: FiUsers,
+                    title: "Knowledge Locked in Silos",
+                    problem: "Critical business knowledge lives in documents, databases, and employees' heads. Finding the right information takes too long.",
+                    solution: "We build RAG systems and knowledge graphs that unify your data into a searchable, queryable intelligence layer — accessible by humans and AI agents alike.",
+                    metric: "Instant knowledge access",
+                  },
+                  {
+                    icon: FiTrendingUp,
+                    title: "Decisions Without Data",
+                    problem: "Business leaders make decisions on intuition because extracting insights from raw data takes too long or requires technical teams.",
+                    solution: "Our analytics pipelines and AI co-pilots surface real-time insights, predictions, and recommendations — so decisions are grounded in data, not guesswork.",
+                    metric: "Data-driven decisions",
+                  },
+                  {
+                    icon: FiCpu,
+                    title: "AI Projects That Never Ship",
+                    problem: "Companies invest in AI initiatives that stall in proof-of-concept limbo — models work in notebooks but never reach production.",
+                    solution: "We build for production from day one: proper data pipelines, model deployment, monitoring, and integration with your existing infrastructure. We ship working software, not demos.",
+                    metric: "Production-ready AI",
+                  },
+                  {
+                    icon: FiShield,
+                    title: "Data Security & Compliance",
+                    problem: "AI initiatives raise valid concerns about data privacy, regulatory compliance, and security — especially in healthcare and finance.",
+                    solution: "Our systems are built with security by design: on-premise deployment options, data encryption, audit trails, and compliance with HIPAA, SOC 2, and GDPR requirements.",
+                    metric: "Enterprise-grade security",
+                  },
+                ].map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.08 }}
+                      className="p-6 rounded-2xl bg-n-7/50 border border-n-6 hover:border-primary-1/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2.5 bg-primary-1/10 rounded-lg text-primary-1">
+                          <Icon size={20} />
+                        </div>
+                        <h3 className="text-n-1 font-bold text-sm">{item.title}</h3>
+                      </div>
+                      <p className="text-n-4 text-xs mb-2">
+                        <span className="text-n-3 font-semibold">The problem: </span>
+                        {item.problem}
+                      </p>
+                      <p className="text-n-4 text-xs mb-4">
+                        <span className="text-primary-1 font-semibold">Our solution: </span>
+                        {item.solution}
+                      </p>
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-1/10 border border-primary-1/20 text-primary-1 text-xs font-mono">
+                        <FiCheckCircle className="w-3 h-3" />
+                        {item.metric}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
+            </div>
+
+            {/* ── How We Help ── */}
+            <div className="max-w-4xl mx-auto mb-20">
+              <h2 className="text-center text-n-1 font-code text-sm uppercase tracking-wider mb-10">
+                How Jedi Labs Engages
+              </h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  {
+                    step: "01",
+                    title: "Discover",
+                    desc: "We audit your workflows, data, and bottlenecks to identify where AI delivers the highest ROI. You get a prioritized roadmap with clear success metrics — not a generic AI pitch.",
+                    duration: "1-2 weeks",
+                  },
+                  {
+                    step: "02",
+                    title: "Build",
+                    desc: "We design and build the AI system end-to-end: data pipelines, model training, deployment infrastructure, and integration with your existing tools. Working software in weeks, not quarters.",
+                    duration: "4-8 weeks",
+                  },
+                  {
+                    step: "03",
+                    title: "Scale",
+                    desc: "We deploy to production, monitor performance, and iterate based on real usage. The system integrates with your team's workflow and scales as your needs grow — no science projects.",
+                    duration: "Ongoing",
+                  },
+                ].map((phase, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="relative p-6 rounded-2xl bg-n-7/50 border border-n-6"
+                  >
+                    <div className="text-primary-1 font-mono text-3xl font-bold mb-3 opacity-50">
+                      {phase.step}
+                    </div>
+                    <h3 className="text-n-1 font-bold text-lg mb-2">{phase.title}</h3>
+                    <p className="text-n-4 text-sm mb-4">{phase.desc}</p>
+                    <span className="text-xs font-mono text-n-5 uppercase tracking-wider">
+                      {phase.duration}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── CTA ── */}
+            <div className="max-w-2xl mx-auto text-center mb-20">
+              <h2 className="h2 text-n-1 mb-4">Ready to turn AI into outcomes?</h2>
+              <p className="text-n-4 mb-8">
+                Tell us about your workflow. We'll show you exactly where AI can deliver measurable impact —
+                with a concrete plan, timeline, and ROI estimate.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button href="/contact" white>Book a Discovery Call</Button>
+                <Link
+                  to="/case-studies"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-n-6 text-n-2 font-code text-sm hover:border-primary-1/40 transition-colors"
+                >
+                  See Case Studies <FiArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+            </div>
+
+            {/* ── Divider ── */}
+            <div className="border-t border-n-6 pt-12 mb-8">
+              <div className="flex items-center gap-2 text-primary-1 font-mono text-sm mb-2">
+                <FiShield className="animate-pulse" />
+                <span>APPLICATIONS REGISTRY</span>
+              </div>
+              <p className="text-n-4 text-sm max-w-2xl">
+                Below are deployed JEDI Labs applications — production AI systems built on the JEDI stack.
+                Each links to its use case architecture.
+              </p>
             </div>
 
             {/* Stats Bar */}

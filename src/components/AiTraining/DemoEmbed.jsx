@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const DemoEmbed = ({ url, title, repoUrl, resultImages }) => {
+const DemoEmbed = ({ url, title, repoUrl, resultImages, demoPaused }) => {
   const [iframeStatus, setIframeStatus] = useState("loading"); // loading | loaded | sleeping
   const [selected, setSelected] = useState(0);
   const timerRef = useRef(null);
 
   // Detect if the HF Space is sleeping by checking if the iframe loads within 8s
   useEffect(() => {
-    if (!url) {
+    // If demo is known to be paused, skip iframe entirely
+    if (!url || demoPaused) {
       setIframeStatus("sleeping");
       return;
     }

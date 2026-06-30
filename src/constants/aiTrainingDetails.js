@@ -276,6 +276,7 @@ result = predict("sound.wav")
     ],
     techStack: ["librosa", "soundfile", "scikit-learn", "Gradio", "matplotlib"],
     demoUrl: "https://fjkiani-ai-audio.hf.space",
+    demoPaused: true,
     repoUrl: "https://github.com/fjkiani/ai-training/tree/main/domains/audio",
     inputType: "Audio file (WAV/MP3)",
     outputType: "Class prediction + spectrogram",
