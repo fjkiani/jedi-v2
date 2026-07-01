@@ -39,6 +39,17 @@ const GetNavbarData = gql`
         slug
       }
     }
+    caseStudies(stage: PUBLISHED, orderBy: publishedAt_DESC, first: 20) {
+      id
+      title
+      slug
+      clientName
+    }
+    posts(stage: PUBLISHED, orderBy: publishedAt_DESC, first: 12) {
+      id
+      title
+      slug
+    }
   }
 `;
 
@@ -188,6 +199,8 @@ const Header = () => {
   const [navIndustries, setNavIndustries] = useState([]);
   const [navUseCases, setNavUseCases] = useState([]); // State for VALID use cases
   const [navApplications, setNavApplications] = useState([]);
+  const [navCaseStudies, setNavCaseStudies] = useState([]);
+  const [navPosts, setNavPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
   const [expandedMobileItems, setExpandedMobileItems] = useState({}); // State for mobile expansion
@@ -222,6 +235,8 @@ const Header = () => {
         const fetchedIndustries = data.industries || [];
         const fetchedUseCases = data.useCaseS || [];
         const fetchedApplications = data.industryApplications || [];
+        const fetchedCaseStudies = data.caseStudies || [];
+        const fetchedPosts = data.posts || [];
 
         // Filter use cases to ensure they have the necessary industry slug
         const validUseCases = fetchedUseCases.filter(uc => {
@@ -237,15 +252,16 @@ const Header = () => {
         setNavIndustries(fetchedIndustries);
         setNavUseCases(validUseCases);
         setNavApplications(validApplications);
-        console.log("[Header] Set navIndustries:", fetchedIndustries);
-        console.log("[Header] Set navUseCases (filtered):", validUseCases);
-        console.log("[Header] Set navApplications:", validApplications);
+        setNavCaseStudies(fetchedCaseStudies);
+        setNavPosts(fetchedPosts);
 
       } catch (error) {
         console.error('Error fetching navbar data:', error);
         setNavIndustries([]);
         setNavUseCases([]);
         setNavApplications([]);
+        setNavCaseStudies([]);
+        setNavPosts([]);
       } finally {
         setLoading(false);
       }
@@ -296,17 +312,58 @@ const Header = () => {
         title: app.applicationTitle,
         url: app.industry?.slug ? `/industries/${app.industry.slug}` : '/jedi'
       }));
-      console.log(`[Header] Injected ${baseNav[registryIndex].dropdownItems?.length || 0} applications.`);
     } else if (registryIndex !== -1) {
       baseNav[registryIndex].dropdownItems = [];
     }
 
-    // Infrastructure dropdown uses static items from constants/index.js
-    // (dynamic category injection removed — was generating broken /solutions/* routes)
+    // Inject Case Studies dropdown
+    const caseStudiesIndex = baseNav.findIndex(item => item.id === 'case-studies');
+    if (caseStudiesIndex !== -1 && !loading) {
+      baseNav[caseStudiesIndex].dropdownItems = navCaseStudies.slice(0, 10).map(cs => ({
+        id: cs.id,
+        title: cs.title.length > 55 ? cs.title.slice(0, 52) + '…' : cs.title,
+        url: `/case-studies/${cs.slug}`,
+      }));
+      if (navCaseStudies.length > 10) {
+        baseNav[caseStudiesIndex].dropdownItems.push({
+          id: 'all-cs', title: 'All Case Studies →', url: '/case-studies',
+        });
+      }
+    } else if (caseStudiesIndex !== -1) {
+      baseNav[caseStudiesIndex].dropdownItems = [];
+    }
 
-    console.log("[Header] Final dynamicNavigation:", baseNav);
+    // Inject Training dropdown (static — 4 domains from constants/aiTraining.js)
+    const trainingIndex = baseNav.findIndex(item => item.id === 'ai-training');
+    if (trainingIndex !== -1) {
+      baseNav[trainingIndex].dropdownItems = [
+        { id: 'tr-medical', title: 'Medical Imaging', url: '/ai-training/medical' },
+        { id: 'tr-geo', title: 'Geospatial', url: '/ai-training/geospatial' },
+        { id: 'tr-audio', title: 'Audio', url: '/ai-training/audio' },
+        { id: 'tr-video', title: 'Video', url: '/ai-training/video' },
+        { id: 'tr-all', title: 'All Domains →', url: '/ai-training' },
+      ];
+    }
+
+    // Inject Research (blog posts) dropdown
+    const researchIndex = baseNav.findIndex(item => item.id === 'research');
+    if (researchIndex !== -1 && !loading) {
+      baseNav[researchIndex].dropdownItems = navPosts.slice(0, 8).map(p => ({
+        id: p.id,
+        title: p.title.length > 55 ? p.title.slice(0, 52) + '…' : p.title,
+        url: `/blog/post/${p.slug}`,
+      }));
+      if (navPosts.length > 8) {
+        baseNav[researchIndex].dropdownItems.push({
+          id: 'all-posts', title: 'All Research →', url: '/blog',
+        });
+      }
+    } else if (researchIndex !== -1) {
+      baseNav[researchIndex].dropdownItems = [];
+    }
+
     return baseNav;
-  }, [loading, navIndustries, navUseCases, navApplications, categories]);
+  }, [loading, navIndustries, navUseCases, navApplications, navCaseStudies, navPosts, categories]);
 
 
   // Fetch categories for Technology dropdown

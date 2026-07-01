@@ -87,6 +87,8 @@ export const navigation = [
     dropdownItems: [
       { title: "About Us", url: "/about" },
       { title: "Team", url: "/team" },
+      { title: "Pricing", url: "/pricing" },
+      { title: "Careers", url: "/careers" },
       { title: "Contact", url: "/contact" }
     ]
   },

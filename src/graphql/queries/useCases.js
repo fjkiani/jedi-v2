@@ -12,6 +12,7 @@ export const GET_USE_CASES = gql`
       queries
       capabilities
       metrics
+      implementation
       resultsHeadline
       applicationUrl
       thumbnail { url }

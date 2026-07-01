@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FiArrowRight, FiZap } from 'react-icons/fi';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
+import PageBottomCTA from '@/components/PageBottomCTA';
 import SEO from '@/components/SEO';
 import { JEDI_METHODOLOGY_STEPS } from '@/constants/methodology';
 import { useTheme } from '@/context/ThemeContext';
@@ -234,6 +235,14 @@ const MethodologyPage = () => {
           </div>
         </div>
       </Section>
+
+      <PageBottomCTA
+        eyebrow="Apply the methodology"
+        title="Ship a working system, not a slide deck"
+        description="Every engagement runs this 4-step loop end-to-end — Architect, Forge, Deploy, Evolve. Start with a scoped Discovery call."
+        primary={{ label: 'Start Discovery', href: '/contact?inquiry=methodology' }}
+        secondary={{ label: 'See pricing tiers', href: '/pricing' }}
+      />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { RichText } from '@graphcms/rich-text-react-renderer';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_CASE_STUDY_BY_SLUG } from '@/graphql/queries/caseStudies';
 import Section from '@/components/Section';
+import PageBottomCTA from '@/components/PageBottomCTA';
 import SEO from '@/components/SEO';
 import { useTheme } from '@/context/ThemeContext';
 import {
@@ -534,6 +535,14 @@ const CaseStudyDetailPage = () => {
             </div>
           </div>
         </Section>
+
+        <PageBottomCTA
+          eyebrow="Want the same outcome?"
+          title="Scope a project like this one"
+          description="Every case study started with a scoped Discovery call and a written success criterion. That's still the first step."
+          primary={{ label: 'Start Discovery', href: `/contact?inquiry=case-${caseStudy?.slug || ''}` }}
+          secondary={{ label: 'See engagement tiers', href: '/pricing' }}
+        />
       </div>
     </>
   );

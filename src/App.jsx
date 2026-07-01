@@ -7,7 +7,7 @@ import NextGenAIStack from "./components/NextGenAIStack";
 import Collaboration from "./components/Collaboration";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Pricing from "./components/Pricing";
+import PricingPage from "./pages/PricingPage";
 import WhyChooseUs from "./components/WhyChooseUs";
 import CaseStudies from "./components/CaseStudies";
 import TransformationMethodology from "./components/TransformationMethodology";
@@ -99,7 +99,6 @@ const AppContent = ({ location }) => {
                     <NextGenAIStack />
                     <WhyChooseUs />
                     <JediApplicationsPreview />
-                    <Pricing />
                     <Collaboration />
                     <SidebarConsultant />
                     <LeadCaptureCTA />
@@ -140,7 +139,7 @@ const AppContent = ({ location }) => {
               <Route path="/team/:slug" element={<PageTransition><TeamMemberDetail /></PageTransition>} />
 
               {/* ── Contact / Pricing ────────────────────────────────────── */}
-              <Route path="/pricing" element={<Navigate to="/contact?inquiry=pricing" replace />} />
+              <Route path="/pricing" element={<PageTransition><PricingPage /></PageTransition>} />
               <Route path="/contact" element={<PageTransition><ContactUs /></PageTransition>} />
 
               {/* ── JEDI ─────────────────────────────────────────────────── */}

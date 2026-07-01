@@ -362,7 +362,7 @@
   </url>
   <url>
     <loc>https://jedilabs.org/industries/telecommunications/24-7-voice-ai-customer-service</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -375,6 +375,30 @@
   <url>
     <loc>https://jedilabs.org/industries/technology/gitlab-mlops-automation</loc>
     <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/industries/healthcare/hf-chest-xray-classifier</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/industries/technology/hf-coastline-segmentation</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/industries/technology/hf-esc50-audio-classifier</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/industries/technology/hf-clip-video-scenes</loc>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -4,6 +4,7 @@ import Section from "../components/Section";
 import SEO from '@/components/SEO';
 import { PAGE_META } from '@/constants/seo';
 import Heading from "../components/Heading";
+import PageBottomCTA from "../components/PageBottomCTA";
 import TechStoryTopology from "../components/solutions/TechStoryTopology";
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_ALL_CATEGORIES_WITH_TECHS } from '../graphql/queries/solutions';
@@ -147,6 +148,14 @@ const InfrastructurePage = () => {
                     </div>
                 </div>
             </Section>
+
+            <PageBottomCTA
+                eyebrow="Deploy on your stack"
+                title="Same architecture, your infrastructure"
+                description="Cloud, VPC, on-prem — the same evaluation harness and deployment pattern ships to your environment."
+                primary={{ label: 'Talk to Engineering', href: '/contact?inquiry=infrastructure' }}
+                secondary={{ label: 'Explore the Stack', href: '/technology' }}
+            />
         </>
     );
 };

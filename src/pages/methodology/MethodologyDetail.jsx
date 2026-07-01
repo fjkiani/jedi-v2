@@ -6,6 +6,7 @@ import Section from '@/components/Section';
 import { JEDI_METHODOLOGY_STEPS } from '@/constants/methodology';
 import { FiArrowRight, FiArrowLeft, FiCpu, FiLayers, FiActivity } from 'react-icons/fi';
 import Button from '@/components/Button';
+import PageBottomCTA from '@/components/PageBottomCTA';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_TECHNOLOGIES_BY_SLUGS } from '@/graphql/queries/technologies';
 
@@ -309,6 +310,14 @@ const MethodologyDetail = () => {
 
                 </div>
             </Section>
+
+            <PageBottomCTA
+                eyebrow={`Apply ${step?.title || 'this step'}`}
+                title="Run this step on your problem"
+                description="Every engagement moves through Architect → Forge → Deploy → Evolve. Start where the problem lives — usually Architect."
+                primary={{ label: 'Talk to Engineering', href: `/contact?inquiry=methodology-${slug}` }}
+                secondary={{ label: 'See all 4 steps', href: '/methodology' }}
+            />
         </div>
     );
 };

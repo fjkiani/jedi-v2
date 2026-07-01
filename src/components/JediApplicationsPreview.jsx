@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_USE_CASES } from '@/graphql/queries/useCases';
+import SparkCurve from './live-deployments/SparkCurve';
 import {
   FiArrowRight,
   FiZap,
@@ -126,7 +127,7 @@ const DeploymentCard = ({ uc, index }) => {
 
           {/* Outcome metrics */}
           {metrics.length > 0 && (
-            <div className="space-y-2 mb-5">
+            <div className="space-y-2 mb-3">
               {metrics.map((m, i) => (
                 <div key={i} className="flex items-start gap-2 text-xs text-white/60">
                   <FiCheckCircle className="shrink-0 mt-0.5 text-yellow-400/70" size={12} />
@@ -135,6 +136,9 @@ const DeploymentCard = ({ uc, index }) => {
               ))}
             </div>
           )}
+
+          {/* Inline training curve — reads real metrics.json from ai-training repo */}
+          <SparkCurve implementation={uc.implementation} />
 
           {/* Footer: tech icons + CTA */}
           <div className="flex items-center justify-between pt-4 border-t border-white/8">
@@ -210,7 +214,7 @@ const JediApplicationsPreview = () => {
               Live Deployments
             </h2>
             <p className="mt-3 text-white/50 text-base max-w-xl leading-relaxed">
-              Four production model demos with real evaluation curves, train/val splits, and live inference. Every card below is publicly reachable — no screenshots, no PowerPoint.
+              Four production model demos with real per-epoch curves, train/val splits, and live inference. Every card links to a public Hugging Face Space.
             </p>
           </div>
 
@@ -274,14 +278,14 @@ const JediApplicationsPreview = () => {
         >
           <span className="w-8 h-px bg-white/20" />
           <span>
-            These use cases power{' '}
+            These deployments power the{' '}
             <Link
               to="/jedi"
               className="text-primary-1 font-semibold hover:text-primary-1/80 transition-colors"
             >
-              3 live products
+              full applications registry
             </Link>
-            {' '}— see the full applications registry
+            {' '}— every model in one place
           </span>
           <Link
             to="/jedi"

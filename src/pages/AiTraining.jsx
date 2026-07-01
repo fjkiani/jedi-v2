@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Section from "../components/Section";
 import Heading from "../components/Heading";
+import PageBottomCTA from "../components/PageBottomCTA";
 import { aiTrainingDetails } from "../constants/aiTrainingDetails";
 import { useTheme } from "../context/ThemeContext";
 
@@ -146,6 +147,14 @@ const AiTraining = () => {
           </div>
         </div>
       </Section>
+
+      <PageBottomCTA
+        eyebrow="Bring this into your stack"
+        title="From open pipelines to your production models"
+        description="Every domain above is a working blueprint — training loop, evaluation harness, deployment script. Same shape scales to your data."
+        primary={{ label: 'Talk to Engineering', href: '/contact?inquiry=training' }}
+        secondary={{ label: 'See live HF deployments', href: '/#live-deployments' }}
+      />
     </>
   );
 };

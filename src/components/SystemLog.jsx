@@ -5,16 +5,15 @@ const SystemLog = ({ className = "" }) => {
     const { isDarkMode } = useTheme();
     const [logs, setLogs] = useState([]);
 
-    // Simulates a live system boot sequence
+    // Illustrative platform boot trace — decorative only, not real telemetry.
     useEffect(() => {
         const sequence = [
-            "Initializing JEDI Core...",
-            "Connecting to Neural Uplink...",
-            "Fetching Agent Protocols...",
-            "Verifying Security Clearance...",
-            "Access Granted: COMMANDER LEVEL",
-            "Loading Registry...",
-            "System Ready."
+            "loading application registry from Hygraph",
+            "hydrating case studies + research posts",
+            "fetching HF Space status",
+            "connecting to inference endpoints",
+            "training curves ready",
+            "platform online",
         ];
 
         let i = 0;
@@ -22,16 +21,20 @@ const SystemLog = ({ className = "" }) => {
             if (i < sequence.length) {
                 setLogs(prev => {
                     const newLogs = [...prev, `${new Date().toISOString().split('T')[1].split('.')[0]} > ${sequence[i]}`];
-                    // Keep only last 5 logs to prevent overflow if used in small spaces
                     return newLogs.slice(-5);
                 });
                 i++;
             } else {
-                // Reset or just loop "System Ready" or keep quiet
-                // For hero, maybe we want it to keep looking active?
-                // Let's add random "Scanning" logs occasionally
+                // Occasional heartbeat line, phrased honestly.
                 if (Math.random() > 0.7) {
-                    setLogs(prev => [...prev.slice(-4), `${new Date().toISOString().split('T')[1].split('.')[0]} > SCANNING SECTOR ${Math.floor(Math.random() * 9)}...`]);
+                    const beats = [
+                        "polling HF Space health",
+                        "CDN cache warm",
+                        "GraphQL response 200",
+                        "registry sync ok",
+                    ];
+                    const beat = beats[Math.floor(Math.random() * beats.length)];
+                    setLogs(prev => [...prev.slice(-4), `${new Date().toISOString().split('T')[1].split('.')[0]} > ${beat}`]);
                 }
             }
         }, 800);

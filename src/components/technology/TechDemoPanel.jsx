@@ -283,7 +283,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
     setResult(null);
     setTerminalLogs([]);
 
-    addLog(`COMMAND RECEIVED: ${query}`, 'cmd');
+    addLog(`> ${query}`, 'cmd');
     await new Promise(r => setTimeout(r, 400));
 
     // Stream flow steps into terminal
@@ -293,19 +293,19 @@ const TechDemoPanel = ({ tech, isDark }) => {
     }
 
     // Tech module load
-    addLog('LOADING_CORE_MODULES...', 'sys');
+    addLog('matched components:', 'sys');
     await new Promise(r => setTimeout(r, 250));
     addLog({
-      text: `MODULE_LOAD: ${tech.name.toUpperCase()}`,
+      text: tech.name,
       iconUrl: getTechIconUrl(tech),
-      status: 'OK',
+      status: 'ok',
     }, 'tech');
     await new Promise(r => setTimeout(r, 250));
 
     try {
       const response = await openAIService.generateResponse(syntheticUseCase, query);
       await new Promise(r => setTimeout(r, 300));
-      addLog('Analysis Complete. Telemetry Loaded.', 'success');
+      addLog('response ready — matched Hygraph implementation record', 'success');
 
       const flowSection       = response.sections?.find(s => s.title === 'IMPLEMENTATION FLOW');
       const systemSection     = response.sections?.find(s => s.title === 'SYSTEM OVERVIEW');
@@ -329,7 +329,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
       });
     } catch (err) {
       console.error('TechDemoPanel error:', err);
-      addLog('CRITICAL ERROR: Connection Failed.', 'error');
+      addLog('error — no matching implementation record', 'error');
     } finally {
       isProcessingRef.current = false;
       setIsProcessing(false);
@@ -392,8 +392,8 @@ const TechDemoPanel = ({ tech, isDark }) => {
             isDark ? 'bg-n-9/30 border-n-7' : 'bg-white/50 border-n-3'
           }`}>
             <div className={`p-5 border-b ${isDark ? 'border-n-7' : 'border-n-3'}`}>
-              <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-1">Control Deck</div>
-              <div className={`text-base font-bold ${isDark ? 'text-n-1' : 'text-n-7'}`}>Available Protocols</div>
+              <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-1">Try a query</div>
+              <div className={`text-base font-bold ${isDark ? 'text-n-1' : 'text-n-7'}`}>Sample requests</div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
@@ -459,7 +459,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
                       <FiActivity size={28} className={isDark ? 'text-n-4' : 'text-n-5'} />
                     </div>
                   </div>
-                  <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-n-4">Awaiting Protocol</h3>
+                  <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-n-4">Pick a query to run</h3>
                 </div>
               )}
             </div>
@@ -472,7 +472,10 @@ const TechDemoPanel = ({ tech, isDark }) => {
         }`}>
           <div className="h-10 flex items-center justify-between px-5 bg-primary-1/5 border-b border-primary-1/10 shrink-0">
             <span className="text-sm font-mono text-primary-1 uppercase tracking-wider flex items-center gap-2">
-              <FiTerminal size={16} /> Console Output
+              <FiTerminal size={16} /> Response trace
+            </span>
+            <span className="hidden md:inline text-[10px] font-mono text-primary-1/60 uppercase tracking-wider">
+              local_response_engine · v1.0
             </span>
             <div className="flex gap-1.5">
               <div className="w-2 h-2 rounded-full bg-red-500/50" />
@@ -482,7 +485,8 @@ const TechDemoPanel = ({ tech, isDark }) => {
           </div>
           <div className="flex-1 p-4 font-mono text-sm overflow-y-auto custom-scrollbar leading-relaxed">
             <div className="text-n-4 mb-2 select-none opacity-40 text-xs">
-              // JEDI.KERNEL.INIT — TECH_MODULE: {(tech.slug || tech.name || '').toUpperCase()}
+              // pattern-matched from Hygraph — not a live LLM call<br />
+              // module: {tech.name}
             </div>
             <AnimatePresence mode="popLayout">
               {terminalLogs.map((log, i) => (
@@ -500,7 +504,7 @@ const TechDemoPanel = ({ tech, isDark }) => {
                   }`}
                 >
                   <span className="opacity-40 mr-1 text-[10px] tracking-wider shrink-0 w-14">[{log.time}]</span>
-                  {log.type === 'cmd' && <span className="mr-1">root@jedi:~$</span>}
+                  {log.type === 'cmd' && <span className="mr-1 opacity-60">phylo&gt;</span>}
                   {typeof log.msg === 'object' ? (
                     <span className="flex items-center gap-2">
                       {log.msg.iconUrl && <img src={log.msg.iconUrl} alt="" className="w-4 h-4 object-contain inline" />}

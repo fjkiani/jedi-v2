@@ -6,6 +6,7 @@ import PipelineDiagram from "../components/AiTraining/PipelineDiagram";
 import MetricCard from "../components/AiTraining/MetricCard";
 import CodeSnippet from "../components/AiTraining/CodeSnippet";
 import DemoEmbed from "../components/AiTraining/DemoEmbed";
+import PageBottomCTA from "../components/PageBottomCTA";
 import { aiTrainingDetails } from "../constants/aiTrainingDetails";
 import { useTheme } from "../context/ThemeContext";
 
@@ -429,6 +430,14 @@ const AiTrainingDomain = () => {
           </div>
         </div>
       </Section>
+
+      <PageBottomCTA
+        eyebrow={`Ship a ${domain?.title || 'domain'} model`}
+        title="Bring this pipeline to your data"
+        description="Same training loop, same evaluation harness, same deployment pattern — adapted to your dataset and your infra."
+        primary={{ label: 'Scope an engagement', href: `/contact?inquiry=training-${domainId}` }}
+        secondary={{ label: 'View the code', href: `https://github.com/fjkiani/ai-training/tree/main/domains/${domainId}` }}
+      />
     </>
   );
 };

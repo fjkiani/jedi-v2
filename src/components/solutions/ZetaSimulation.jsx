@@ -45,18 +45,17 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
         setResult(null);
         setTerminalLogs([]);
 
-        addLog(`COMMAND RECEIVED: ${query}`, 'cmd');
-        await new Promise(r => setTimeout(r, 600));
+        addLog(`> ${query}`, 'cmd');
+        await new Promise(r => setTimeout(r, 400));
 
+        // Real architecture flow steps (from Hygraph) — no fake fallback fluff.
         const dynamics = useCase?.architecture?.flow?.length > 0
             ? useCase.architecture.flow.map(step => ({
                 msg: `[${step.step || step.order || ''}] ${step.description}`,
-                delay: 400 + Math.random() * 600
+                delay: 300 + Math.random() * 400
             }))
             : [
-                { msg: "Initializing JEDI Core v4.2...", delay: 800 },
-                { msg: "Establishing secure uplink to Neural Grid...", delay: 1000 },
-                { msg: "Processing input vectors...", delay: 1200 }
+                { msg: "no architecture flow defined for this use case", delay: 500 },
             ];
 
         for (const step of dynamics) {
@@ -65,15 +64,15 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
         }
 
         if (useCase?.technologies && useCase.technologies.length > 0) {
-            addLog("LOADING_CORE_MODULES...", 'sys');
-            await new Promise(r => setTimeout(r, 400));
+            addLog("matched components:", 'sys');
+            await new Promise(r => setTimeout(r, 300));
             for (const tech of useCase.technologies) {
                 addLog({
-                    text: `MODULE_LOAD: ${tech.name ? tech.name.toUpperCase() : typeof tech === 'string' ? tech.toUpperCase() : 'UNKNOWN'}`,
+                    text: tech.name ? tech.name : typeof tech === 'string' ? tech : 'unknown',
                     iconUrl: getTechIconUrl(tech),
-                    status: 'OK'
+                    status: 'ok'
                 }, 'tech');
-                await new Promise(r => setTimeout(r, 200));
+                await new Promise(r => setTimeout(r, 150));
             }
         }
 
@@ -88,8 +87,8 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                 }
             );
 
-            await new Promise(r => setTimeout(r, 500));
-            addLog("Analysis Complete. Telemetry Loaded.", 'success');
+            await new Promise(r => setTimeout(r, 300));
+            addLog("response ready — matched Hygraph implementation record", 'success');
 
             const flowSection = response.sections.find(s => s.title === "IMPLEMENTATION FLOW");
             const systemSection = response.sections.find(s => s.title === "SYSTEM OVERVIEW");
@@ -112,7 +111,7 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
             });
         } catch (error) {
             console.error("Simulation Error", error);
-            addLog("CRITICAL ERROR: Connection Failed.", 'error');
+            addLog('error — no matching implementation record', 'error');
         } finally {
             isProcessingRef.current = false;
             setIsProcessing(false);
@@ -157,8 +156,8 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                 {/* 1. Control Panel (Left) */}
                 <div className={`w-full lg:w-[350px] flex flex-col border-r ${isDarkMode ? 'bg-n-9/30 border-n-7' : 'bg-white/50 border-n-3'}`}>
                     <div className={`p-5 border-b ${isDarkMode ? 'border-n-7' : 'border-n-3'}`}>
-                        <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-1">Control Deck</div>
-                        <div className={`text-base font-bold ${isDarkMode ? 'text-n-1' : 'text-n-7'}`}>Available Protocols</div>
+                        <div className="text-xs font-mono text-n-4 tracking-wider uppercase mb-1">Try a query</div>
+                        <div className={`text-base font-bold ${isDarkMode ? 'text-n-1' : 'text-n-7'}`}>Sample requests</div>
                     </div>
                     <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
                         {queries.map((q, i) => (
@@ -202,7 +201,7 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                                         <FiActivity size={32} className={isDarkMode ? 'text-n-4' : 'text-n-5'} />
                                     </div>
                                 </div>
-                                <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-n-4">Awaiting Protocol</h3>
+                                <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-n-4">Pick a query to run</h3>
                             </div>
                         )}
                     </div>
@@ -214,7 +213,10 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                 {/* Terminal Bar */}
                 <div className="h-10 flex items-center justify-between px-5 bg-primary-1/5 border-b border-primary-1/10 shrink-0">
                     <span className="text-sm font-mono text-primary-1 uppercase tracking-wider flex items-center gap-2">
-                        <FiTerminal size={16} /> Console Output
+                        <FiTerminal size={16} /> Response trace
+                    </span>
+                    <span className="hidden md:inline text-[10px] font-mono text-primary-1/60 uppercase tracking-wider">
+                        local_response_engine · v1.0
                     </span>
                     <div className="flex gap-1.5">
                         <div className="w-2 h-2 rounded-full bg-red-500/50"></div>
@@ -226,8 +228,8 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                 {/* Log Stream */}
                 <div className="flex-1 p-5 font-mono text-base overflow-y-auto custom-scrollbar leading-relaxed">
                     <div className="text-n-4 mb-2 select-none opacity-40 text-sm">
-                        // SYSTEM.KERNEL.INIT<br />
-                        // LISTENING_ON_PORT_3000...
+                        // pattern-matched from Hygraph — not a live LLM call<br />
+                        // pick a query above to see the trace
                     </div>
                     <AnimatePresence mode='popLayout'>
                         {terminalLogs.map((log, i) => (
@@ -244,7 +246,7 @@ const ZetaSimulation = ({ useCase, initialQuery }) => {
                                     }`}
                             >
                                 <span className="opacity-40 mr-1 text-xs tracking-wider shrink-0 w-16">[{log.time}]</span>
-                                {log.type === 'cmd' && <span className="mr-2">root@zeta:~$</span>}
+                                {log.type === 'cmd' && <span className="mr-2 opacity-60">phylo&gt;</span>}
                                 {typeof log.msg === 'object' ? (
                                     <span className="flex items-center gap-2">
                                         {log.msg.iconUrl ? <img src={log.msg.iconUrl} alt="" className="w-5 h-5 object-contain inline" /> : log.msg.icon && <span className="text-sm">{log.msg.icon}</span>}

@@ -186,13 +186,12 @@ const SystemLog = () => {
 
   useEffect(() => {
     const sequence = [
-      "Initializing JEDI Core...",
-      "Connecting to Neural Uplink...",
-      "Fetching Applications...",
-      "Verifying Security Clearance...",
-      "Access Granted: COMMANDER LEVEL",
-      "Loading Registry...",
-      "System Ready."
+      "loading application registry from Hygraph",
+      "hydrating case studies + research posts",
+      "fetching HF Space status",
+      "connecting to inference endpoints",
+      "training curves ready",
+      "platform online",
     ];
 
     let i = 0;
