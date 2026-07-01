@@ -4,7 +4,7 @@ import { gql } from 'graphql-request';
 // NOTE: Hygraph pluralises this model as "useCaseS" (capital S) — not "useCases"
 export const GET_USE_CASES = gql`
   query GetUseCases {
-    useCaseS(stage: PUBLISHED, orderBy: title_ASC) {
+    useCaseS(stage: PUBLISHED, orderBy: updatedAt_DESC) {
       id
       title
       slug
@@ -13,6 +13,7 @@ export const GET_USE_CASES = gql`
       capabilities
       metrics
       resultsHeadline
+      applicationUrl
       thumbnail { url }
       heroImage { url }
       industry {

@@ -85,7 +85,9 @@ const DeploymentCard = ({ uc, index }) => {
       transition={{ duration: 0.4, delay: index * 0.08 }}
     >
       <Link
-        to={uc.external || `/use-cases/${uc.slug}`}
+        to={uc.applicationUrl || `/use-cases/${uc.slug}`}
+        target={uc.applicationUrl ? "_blank" : undefined}
+        rel={uc.applicationUrl ? "noopener noreferrer" : undefined}
         className="group block h-full rounded-2xl border border-white/10 bg-white/3 hover:bg-white/6 hover:border-yellow-400/30 transition-all duration-300 overflow-hidden"
       >
         {/* Top accent line */}
@@ -159,88 +161,6 @@ const DeploymentCard = ({ uc, index }) => {
   );
 };
 
-// ─── Static fallback (real shipped HF Space demos) ───────────────────────────
-// Used when Hygraph returns 0 use-cases so the section is never empty.
-// Every card here is a live, publicly reachable HF Space with real metrics.
-const FALLBACK_CASES = [
-  {
-    id: 'hf-medical',
-    slug: 'medical',
-    title: 'Chest X-Ray Classification',
-    resultsHeadline: 'Val accuracy peaked at 99.33% — with an epoch-4 collapse to 75.67%.',
-    description: 'Production CNN trained on chest X-ray classification. The visible epoch-4 validation dip is exactly the kind of failure production evaluation must surface.',
-    category: { name: 'Medical Imaging' },
-    metrics: [
-      'Best val accuracy: 0.9933 (epoch 2)',
-      'Epoch-4 catastrophic dip: 0.99 → 0.76',
-      'Live inference on Hugging Face Spaces',
-    ],
-    technologies: [
-      { name: 'PyTorch' },
-      { name: 'HF Spaces' },
-      { name: 'Gradio' },
-    ],
-    external: '/ai-training/medical',
-  },
-  {
-    id: 'hf-geospatial',
-    slug: 'geospatial',
-    title: 'Coastline Land/Water Segmentation',
-    resultsHeadline: 'Val IoU reached 0.9999 over 10 epochs with train_loss down 100×.',
-    description: 'Dual-axis evaluation tracks train_loss (0.09 → 0.001) against val_IoU simultaneously — surfaces overfit early, exactly the metric enterprise ML teams need.',
-    category: { name: 'Geospatial Segmentation' },
-    metrics: [
-      'Best val IoU: 0.9999',
-      'Train loss: 0.0914 → 0.0009',
-      'Dual-axis metric tracking',
-    ],
-    technologies: [
-      { name: 'PyTorch' },
-      { name: 'HF Spaces' },
-      { name: 'Gradio' },
-    ],
-    external: '/ai-training/geospatial',
-  },
-  {
-    id: 'hf-audio',
-    slug: 'audio',
-    title: 'ESC-50 Audio Classification',
-    resultsHeadline: 'Macro F1 0.5666 across 50 classes — 30× lift over 2% random baseline.',
-    description: 'Random-Forest classifier on 130-dim hand-crafted features (MFCC + chroma + contrast + tonnetz + mel). Per-class F1 bars expose exactly which of the 50 classes silently fail.',
-    category: { name: 'Audio Classification' },
-    metrics: [
-      'Test accuracy: 0.6033',
-      'Weighted F1: 0.5897',
-      'Per-class F1 across 50 categories',
-    ],
-    technologies: [
-      { name: 'scikit-learn' },
-      { name: 'librosa' },
-      { name: 'HF Spaces' },
-    ],
-    external: '/ai-training/audio',
-  },
-  {
-    id: 'hf-video',
-    slug: 'video',
-    title: 'CLIP Zero-Shot Video Scenes',
-    resultsHeadline: 'Real cold-start CLIP inference — no fine-tuning, no pre-cache.',
-    description: 'CLIP ViT-B/32 (~150MB) doing zero-shot classification across sampled video scenes. Ships with per-scene top-3 probabilities.',
-    category: { name: 'Video Understanding' },
-    metrics: [
-      'Zero-shot: no fine-tuning',
-      '~150MB model, ~5s cold start',
-      'Per-scene top-3 probabilities',
-    ],
-    technologies: [
-      { name: 'CLIP' },
-      { name: 'PyTorch' },
-      { name: 'HF Spaces' },
-    ],
-    external: '/ai-training/video',
-  },
-];
-
 // ─── Main section ─────────────────────────────────────────────────────────────
 const JediApplicationsPreview = () => {
   const { isDarkMode } = useTheme();
@@ -258,9 +178,8 @@ const JediApplicationsPreview = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // If Hygraph returned use-cases, show those; otherwise show the 4 real HF Space demos.
-  const displayCases = useCases.length > 0 ? useCases : FALLBACK_CASES;
-  const usingFallback = useCases.length === 0 && !loading;
+  // Hygraph is the single source of truth for Live Deployments. Show top-4 by updatedAt.
+  const displayCases = useCases.slice(0, 4);
 
   return (
     <section
