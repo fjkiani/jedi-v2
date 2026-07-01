@@ -68,8 +68,8 @@ const Hero = () => {
   const logoAnimation = useScrollAnimation({ animationType: 'fadeIn', delay: 800 });
 
   const heroContent = {
-    title: "Production AI Co-Pilots.",
-    subtitle: "Agentic AI consulting and development studio — shipping production co-pilots for SMBs across Healthcare, Finance, and Education via a modular MCP/NLP/LLM stack.",
+    title: "We solve what AI fails.",
+    subtitle: "Production-grade deployment, training, evaluation, and benchmarking for frontier-model teams and enterprise AI. Four shipped demos. Real metrics. No PowerPoint.",
     video: "/videos/coding2.mp4",
   };
 
@@ -104,9 +104,12 @@ const Hero = () => {
           <p ref={subtitleAnimation.ref} className={`body-1 max-w-3xl mx-auto mb-6 theme-text-secondary lg:mb-8 font-mono text-sm tracking-wide ${subtitleAnimation.animationClasses}`}>
             {formatText(heroContent.subtitle)}
           </p>
-          <div ref={buttonAnimation.ref} className={buttonAnimation.animationClasses}>
+          <div ref={buttonAnimation.ref} className={`${buttonAnimation.animationClasses} flex flex-wrap items-center justify-center gap-4`}>
             <Button href="/jedi" white>
-              Access The Registry
+              See the Demos
+            </Button>
+            <Button href="/contact?inquiry=engineering">
+              Talk to Engineering
             </Button>
           </div>
         </div>

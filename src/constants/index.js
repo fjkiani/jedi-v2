@@ -42,13 +42,13 @@ import { cohere, langchain, openai, anthropic, aws, clay, lambda, snowflake } fr
 export const navigation = [
   {
     id: "registry",
-    title: "APPLICATIONS",
+    title: "DEMOS",
     url: "/jedi",
     dropdownItems: [],
   },
   {
     id: "infrastructure",
-    title: "INFRASTRUCTURE",
+    title: "PLATFORM",
     url: "/infrastructure",
     dropdownItems: [
       { title: "AI Agents", url: "/solutions/ai-agents" },
@@ -72,12 +72,12 @@ export const navigation = [
   },
   {
     id: "ai-training",
-    title: "AI TRAINING",
+    title: "TRAINING",
     url: "/ai-training",
   },
   {
     id: "research",
-    title: "R&D",
+    title: "RESEARCH",
     url: "/blog",
   },
   {

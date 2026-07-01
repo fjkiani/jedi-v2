@@ -1,55 +1,55 @@
 export const aboutContent = {
   meta: {
-    title: "About Us | JEDI Labs — Agentic AI Co-Pilots",
-    description: "Agentic AI consulting and development studio. We ship production co-pilots for SMBs across Healthcare, Finance, and Education via JEDI Ensemble™, JEDI Rules™, and JEDI Automate™ — deployed for production, not pilots."
+    title: "About Jedi Labs — We solve what AI fails",
+    description: "Jedi Labs builds, evaluates, and deploys production AI for frontier-model teams and enterprises. Four shipped model demos with real evaluation curves, train/val splits, and live inference."
   },
 
   hero: {
-    highlightText: "Agentic AI Co-Pilots",
-    title: "About JEDI Labs",
-    description: "We architect and ship agentic AI co-pilots using JEDI Ensemble™ (multi-model orchestration), JEDI Rules™ (business logic engine), and JEDI Automate™ (model optimization). Production deployments for SMBs across Healthcare, Finance, and Education — via a modular MCP/NLP/LLM stack. Deployed for production, not pilots.",
+    highlightText: "We solve what AI fails.",
+    title: "About Jedi Labs",
+    description: "We are not a consulting firm. We are the engineering team you call when your model passes evaluation and dies in production — or when you need someone to build the deployment, the evaluation harness, and the failure-mode catalogue from scratch. Four production demos. Two GitHub orgs shipping continuously. Real metrics, not decks.",
     stats: [
-      { value: "3", label: "JEDI Components" },
-      { value: "9+", label: "Industries Served" },
-      { value: "Production", label: "Ready AI" }
+      { value: "4", label: "Production Model Demos" },
+      { value: "2", label: "GitHub Orgs Shipping" },
+      { value: "Real", label: "Metrics, Not Decks" }
     ]
   },
 
   vision: {
-    title: "The JEDI Approach",
-    description: "We believe every business deserves AI that works out of the box. Our approach combines modular components, real client implementations, and measurable results. Voice agents, identity layers, and industry-specific co-pilots—shipped for production, not pilots.",
+    title: "The Jedi Approach",
+    description: "AI ships with a training accuracy number and a demo GIF. Production ships without either. We close that gap: evaluation harnesses that surface epoch-4 collapses, dual-axis loss/IoU curves that expose overfit, per-class F1 that shows which classes silently fail, and deployment pipelines that measure what we ship.",
     image: "/images/about/vision.webp",
-    imageAlt: "JEDI Labs Vision",
+    imageAlt: "Jedi Labs — evaluation curves and production deployment",
     highlights: [
       {
-        id: "ensemble",
-        text: "JEDI Ensemble™ — Multi-model orchestration",
-        icon: {
-          path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10",
-          viewBox: "0 0 24 24"
-        }
-      },
-      {
-        id: "rules",
-        text: "JEDI Rules™ — Business logic engine",
-        icon: {
-          path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4",
-          viewBox: "0 0 24 24"
-        }
-      },
-      {
-        id: "automate",
-        text: "JEDI Automate™ — Model optimization",
+        id: "deploy",
+        text: "Deploy — FastAPI, Docker, HF Spaces, live inference",
         icon: {
           path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
           viewBox: "0 0 24 24"
         }
       },
       {
-        id: "production",
-        text: "Modular MCP/NLP/LLM stack",
+        id: "train",
+        text: "Train — PyTorch loops, checkpoints, reproducible splits",
         icon: {
-          path: "M3.6 3h16.8a.6.6 0 0 1 .6.6v16.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6z M7 12h10 M12 7v10",
+          path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
+          viewBox: "0 0 24 24"
+        }
+      },
+      {
+        id: "evaluate",
+        text: "Evaluate — train/val curves, per-class F1, failure modes",
+        icon: {
+          path: "M3 3v18h18 M8 17l4-8 4 4 4-6",
+          viewBox: "0 0 24 24"
+        }
+      },
+      {
+        id: "benchmark",
+        text: "Benchmark — dual-axis metrics, zero-shot classifiers, published deep-dives",
+        icon: {
+          path: "M3 12l4-8h10l4 8-9 9-9-9z M12 4v17",
           viewBox: "0 0 24 24"
         }
       }
@@ -58,71 +58,80 @@ export const aboutContent = {
 
   values: {
     title: "What We Deliver",
-    subtitle: "Production-ready AI solutions built on real client implementations",
+    subtitle: "Every capability below has a live artifact you can inspect.",
     items: [
       {
-        title: "Voice Agents",
-        description: "24/7 voice AI with RetellAI integration. Go Answer: 80% faster response times, 60% improved satisfaction.",
-        icon: { path: "M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z M8 12L11 15L16 10", viewBox: "0 0 24 24" }
+        title: "Deploy",
+        description: "Production FastAPI scaffolds, Docker + HF Spaces deployment, live inference endpoints. See it: /ai-training.",
+        icon: { path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z", viewBox: "0 0 24 24" }
       },
       {
-        title: "AI Search Optimization",
-        description: "Consulting for AISO and GEO. 150% organic traffic increase, 200% lead quality improvement.",
-        icon: { path: "M3 6H21M3 12H21M3 18H21", viewBox: "0 0 24 24" }
+        title: "Train",
+        description: "PyTorch training loops, reproducible train/val/test splits, checkpoint management, multi-domain (medical, geospatial, audio, video). See it: ai-training GitHub.",
+        icon: { path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4", viewBox: "0 0 24 24" }
       },
       {
-        title: "Interactive Co-Pilots",
-        description: "Personalized coaching, behavior-change nudges. Scalable to any use case.",
-        icon: { path: "M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21", viewBox: "0 0 24 24" }
+        title: "Evaluate",
+        description: "Train/val loss & accuracy curves, epoch-collapse detection, dual-axis loss/IoU, per-class F1, sorted-bar diagnostics across 50-class problems. See it: /jedi.",
+        icon: { path: "M3 3v18h18 M8 17l4-8 4 4 4-6", viewBox: "0 0 24 24" }
       },
       {
-        title: "Industry Solutions",
-        description: "Education, Healthcare, Finance. CrisPRO Oncology Co-Pilot, fraud detection, personalized learning.",
-        icon: { path: "M12 2L2 7L12 12L22 7L12 2Z M2 17L12 22L22 17 M2 12L12 17L22 12", viewBox: "0 0 24 24" }
+        title: "Benchmark",
+        description: "Zero-shot classifiers (CLIP), baseline lift measurements, published evaluation deep-dives. See it: /blog.",
+        icon: { path: "M3 12l4-8h10l4 8-9 9-9-9z M12 4v17", viewBox: "0 0 24 24" }
       }
     ]
   },
 
   expertise: {
-    title: "JEDI Expertise",
-    subtitle: "Real implementations across industries",
+    title: "Where We Ship",
+    subtitle: "Four production demos across four modalities. Real inference, not screenshots.",
     areas: [
       {
-        title: "Voice & Identity",
-        description: "Voice agents, OAuth 2.0, RBAC, Zero-Trust, HIPAA-compliant triage",
+        title: "Medical Imaging",
+        description: "Chest X-ray classification with catastrophic-forgetting analysis. Epoch-4 validation collapse from 0.99 → 0.76 is visible in the training curve.",
         features: [
-          "RetellAI integration",
-          "PHI scrubbing",
-          "MCP security"
+          "PyTorch CNN + train/val split",
+          "Val accuracy peak: 0.9933",
+          "Live inference on HF Spaces"
         ]
       },
       {
-        title: "AI Search & RAG",
-        description: "AISO, GEO, Hugging Face, custom models, semantic search",
+        title: "Geospatial Segmentation",
+        description: "Coastline land/water segmentation with dual-axis train_loss + val_IoU tracking. Loss decreases 0.09 → 0.001 over 10 epochs.",
         features: [
-          "Organic traffic growth",
-          "Lead quality improvement",
-          "Knowledge retrieval"
+          "IoU-based evaluation",
+          "Best val IoU: 0.9999",
+          "Dual-axis metric tracking"
         ]
       },
       {
-        title: "Co-Pilot Development",
-        description: "LangChain, Pydantic AI, conversational AI, interactive simulations",
+        title: "Audio Classification",
+        description: "50-class ESC-50 classifier with hand-crafted features (MFCC + chroma + contrast + tonnetz + mel). 30× lift over 2% random baseline.",
         features: [
-          "Industry-specific co-pilots",
-          "Progressive disclosure",
-          "Hygraph CMS integration"
+          "Test accuracy: 0.6033",
+          "Macro F1: 0.5666 across 50 classes",
+          "Random Forest + 130-dim features"
+        ]
+      },
+      {
+        title: "Video Understanding",
+        description: "CLIP ViT-B/32 zero-shot classification across sampled scenes. Real cold-start inference on HF Spaces, no pre-computed cache.",
+        features: [
+          "Zero-shot: no fine-tuning",
+          "~150MB model, ~5s cold start",
+          "Per-scene top-3 probabilities"
         ]
       }
     ]
   },
 
   team: {
-    title: "The JEDI Team",
-    subtitle: "Experts building agentic AI for production",
+    title: "The Team",
+    subtitle: "Engineers who ship production models — not slide decks.",
     comingSoon: {
       icon: { path: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", viewBox: "0 0 24 24" },
-      text: "Coming Soon"
+      text: "Meet the team"
     }
   }
 };

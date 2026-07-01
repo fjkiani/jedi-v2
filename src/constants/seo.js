@@ -1,57 +1,57 @@
 /**
- * Central SEO constants for JEDI Labs
+ * Central SEO constants for Jedi Labs
  * Use across Helmet components, meta tags, and structured data.
  */
 
 export const SITE_URL = 'https://jedilabs.org';
 
 export const DEFAULT_META = {
-  title: 'JEDI Labs — Agentic AI Co-Pilots for SMBs | Production, Not Pilots',
-  description: 'Agentic AI consulting and development studio. We ship production co-pilots for SMBs across Healthcare, Finance, and Education via JEDI Ensemble™, JEDI Rules™, and JEDI Automate™ — deployed for production, not pilots.',
-  keywords: 'agentic AI, AI co-pilots, production AI, SMB AI, healthcare AI, finance AI, education AI, JEDI Ensemble, JEDI Rules, JEDI Automate, MCP, NLP, LLM, AI consulting, AI development',
+  title: 'Jedi Labs — We solve what AI fails',
+  description: 'Production-grade deployment, training, evaluation, and benchmarking for frontier-model teams and enterprise AI. Four shipped demos with real evaluation curves, per-class F1, and live inference. No PowerPoint.',
+  keywords: 'model evaluation, production AI, model deployment, ML benchmarking, LLM evaluation, computer vision, medical imaging, geospatial segmentation, audio classification, CLIP zero-shot, PyTorch, Hugging Face Spaces, MLOps, model failure modes',
   ogImage: `${SITE_URL}/og-image.jpg`,
   twitterImage: `${SITE_URL}/twitter-image.jpg`,
 };
 
 export const PAGE_META = {
   jedi: {
-    title: 'Applications Registry | JEDI Labs — Production AI Co-Pilots',
-    description: 'Explore JEDI Labs applications. Production agentic AI co-pilots for Healthcare, Finance, Education. Voice agents, search optimization, interactive co-pilots.',
+    title: 'Demos | Jedi Labs — Production Model Evaluations',
+    description: 'Four production model demos with real evaluation curves: chest X-ray classification, coastline segmentation, ESC-50 audio, CLIP video zero-shot. Live inference on Hugging Face Spaces.',
   },
   useCases: {
-    title: 'Use Cases | JEDI Labs — Agentic AI Implementations',
-    description: 'Real use cases: CrisPRO Oncology, AI voice operations, fraud detection, personalized learning. Production co-pilots built for SMBs.',
+    title: 'Use Cases | Jedi Labs — Production AI Implementations',
+    description: 'Real production use cases across medical imaging, geospatial segmentation, audio classification, and video understanding. Every case backed by real metrics.',
   },
   caseStudies: {
-    title: 'Case Studies | JEDI Labs — Production AI Results',
-    description: 'Real client results. Go Answer voice agents, AISO search optimization, CrisPRO oncology co-pilot. Deployed for production, not pilots.',
+    title: 'Case Studies | Jedi Labs — Production AI Results',
+    description: 'Case studies from real production deployments. Evaluation curves, failure modes, per-class F1, and live inference — not screenshots.',
   },
   infrastructure: {
-    title: 'Infrastructure | JEDI Labs — Neural Architectures & Tech Stack',
-    description: 'JEDI Labs infrastructure: agent swarm theory, data pipelines, full tech stack. Modular MCP/NLP/LLM architecture.',
+    title: 'Platform | Jedi Labs — Deployment & Evaluation Stack',
+    description: 'The Jedi Labs platform: FastAPI scaffolds, Docker, Hugging Face Spaces, PyTorch training loops, and evaluation harnesses. Modular deployment for production AI.',
   },
   solutions: {
-    title: 'Solutions | JEDI Labs — AI Development & Consulting',
-    description: 'Full-stack AI development, AI agents, data engineering. Production-ready solutions for SMBs.',
+    title: 'Solutions | Jedi Labs — AI Deployment, Training, Evaluation',
+    description: 'AI solutions across the model lifecycle: deployment, training, evaluation, benchmarking. Multi-model routing, data pipelines, and production ML.',
   },
   industries: {
-    title: 'Industries | JEDI Labs — Healthcare, Finance, Education',
-    description: 'Industry-specific AI co-pilots. Healthcare, Financial Services, Education, Telecommunications. Production deployments.',
+    title: 'Industries | Jedi Labs — Medical, Geospatial, Audio, Video',
+    description: 'Multi-domain production AI: medical imaging, geospatial segmentation, audio classification, video understanding. Real metrics per domain.',
   },
   technology: {
-    title: 'Technology | JEDI Labs — MCP/NLP/LLM Stack',
-    description: 'Our technology stack: LangChain, Weaviate, Hugging Face, RetellAI. Modular AI architecture for production co-pilots.',
+    title: 'Technology | Jedi Labs — PyTorch, HF Spaces, CLIP, MLOps',
+    description: 'Our technology stack: PyTorch training loops, Hugging Face Spaces deployment, CLIP zero-shot, FastAPI, evaluation harnesses. Production ML tooling.',
   },
   about: {
-    title: 'About Us | JEDI Labs — Agentic AI Co-Pilots',
-    description: 'We architect and ship agentic AI co-pilots. JEDI Ensemble™, JEDI Rules™, JEDI Automate™. Production deployments for SMBs.',
+    title: 'About | Jedi Labs — We solve what AI fails',
+    description: 'Jedi Labs builds, evaluates, and deploys production AI for frontier-model teams and enterprises. Four shipped demos. Two GitHub orgs. Real metrics, not decks.',
   },
   contact: {
-    title: 'Contact | JEDI Labs — Get Started',
-    description: 'Contact JEDI Labs. Discuss your agentic AI co-pilot project. Healthcare, Finance, Education. Production, not pilots.',
+    title: 'Contact | Jedi Labs — Talk to Engineering',
+    description: 'Talk to Jedi Labs engineering about production model deployment, training, evaluation, and benchmarking. Frontier-model teams and enterprise AI.',
   },
   blog: {
-    title: 'R&D Blog | JEDI Labs — Agentic AI Insights',
-    description: 'Insights on agentic AI, production deployments, voice agents, AI search optimization. Real learnings from building co-pilots.',
+    title: 'Research | Jedi Labs — Evaluation Deep-Dives',
+    description: 'Evaluation deep-dives, failure-mode analyses, training-curve postmortems, and benchmarks from real production deployments.',
   },
 };

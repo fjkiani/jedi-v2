@@ -126,8 +126,8 @@ const SolutionsPage = ({ isHomepage = false }) => {
     <>
       {!isHomepage && (
         <SEO
-          title="Solutions | JEDI Labs — AI Agents, Data Engineering, Full-Stack"
-          description="Production AI solutions: AI/ML, agent swarm theory, data pipelines, full-stack development. JEDI Ensemble™, JEDI Rules™, JEDI Automate™ — deployed for SMBs."
+          title="Solutions | Jedi Labs — AI Deployment, Training, Evaluation"
+          description="AI solutions across the model lifecycle: deployment, training, evaluation, benchmarking. Multi-model routing, data pipelines, and production ML."
           path="/solutions"
         />
       )}
