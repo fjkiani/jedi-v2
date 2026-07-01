@@ -299,7 +299,7 @@ const CATEGORY_QUESTIONS = {
     `How does ${getName(t)} fit into a multi-agent architecture?`,
     `Show me a production deployment pattern for ${getName(t)}`,
     `How does ${getName(t)} handle context and state management?`,
-    `What's the integration pattern with JEDI Ensemble™?`,
+    `What's the integration pattern with a multi-model routing layer?`,
   ],
   'Data Engineering': (t) => [
     `How does ${getName(t)} fit into a modern data stack?`,

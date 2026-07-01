@@ -349,17 +349,16 @@ const MainContent = ({ application, activeComponentId }) => {
   // Get the currently active component if any
   const activeComponent = jediComponent.find(comp => comp.id === activeComponentId);
 
-  // Component descriptions mapping (simulated - in a real app, this would come from Hygraph)
-  const componentDescriptions = {
-    'JEDI Ensemble™': 'Analyzes real-time student interaction data (quiz performance, content engagement, query patterns, feedback) to build a dynamic profile of each learner\'s strengths, weaknesses, and preferred learning modalities.',
-    'JEDI Rules™': 'Empowers agents to orchestrate an adaptive A-Z learning path: Identifying knowledge gaps, levels, and providing targeted feedback or intervention prompts.',
-    'JEDI AutoTune™': 'Ensures learner profiles are constantly refined and updated based on changing performance and interactions.'
-  };
-  
-  // Function to get component description
-  const getComponentDescription = (name) => {
-    return componentDescriptions[name] || 
-      'An advanced AI component of the JEDI platform designed to enhance solution capabilities and performance.';
+  // Rich-text component descriptions live in Hygraph and are rendered by the
+  // section parser below (parseRichText) — not inline as a single string. Here
+  // we just render the tagline (a plain String field), falling back to a
+  // generic line rather than a hardcoded product blurb.
+  const getComponentDescription = (component) => {
+    if (!component) return '';
+    if (typeof component.tagline === 'string' && component.tagline.trim()) {
+      return component.tagline;
+    }
+    return `${component.name || 'This component'} is part of the production AI stack that powers this solution.`;
   };
 
   return (
@@ -439,7 +438,7 @@ const MainContent = ({ application, activeComponentId }) => {
                   <h4 className="font-semibold text-primary-1">{activeComponent.name}</h4>
                 </div>
                 <p className={`text-sm ${isDarkMode ? 'text-n-2' : 'text-n-6'}`}>
-                  {getComponentDescription(activeComponent.name)}
+                  {getComponentDescription(activeComponent)}
                 </p>
               </motion.div>
             )}
@@ -483,7 +482,7 @@ const MainContent = ({ application, activeComponentId }) => {
                       </h3>
                     </div>
                     <p className={`text-sm mb-4 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
-                      {getComponentDescription(component.name)}
+                      {getComponentDescription(component)}
                     </p>
                     <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-n-8' : 'bg-n-2'}`}>
                       <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-n-2' : 'text-n-7'}`}>
@@ -685,10 +684,6 @@ const ApproachSection = ({ content, isDarkMode }) => {
            if (textContent.includes('ProteinBind™')) {
                if (currentSection.title !== 'intro' || currentSection.paragraphs.length > 0 || currentSection.list.length > 0) sections.push(currentSection);
                currentSection = { title: 'ProteinBind™', icon: <FiCpu className="w-6 h-6"/>, paragraphs: [child], list: [] };
-               sectionChanged = true;
-           } else if (textContent.includes('JEDI Ensemble™')) {
-               if (currentSection.title !== 'intro' || currentSection.paragraphs.length > 0 || currentSection.list.length > 0) sections.push(currentSection);
-               currentSection = { title: 'JEDI Ensemble™', icon: <FiDatabase className="w-6 h-6"/>, paragraphs: [child], list: [] };
                sectionChanged = true;
            } else if (textContent.includes('By combining high-fidelity')) {
                 if (currentSection.title !== 'intro' || currentSection.paragraphs.length > 0 || currentSection.list.length > 0) sections.push(currentSection);

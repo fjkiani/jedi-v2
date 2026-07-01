@@ -35,8 +35,6 @@ import CallToAction from "./components/CallToAction";
 import LeadCaptureCTA from "./components/LeadCaptureCTA";
 import SidebarConsultant from "./components/SidebarConsultant";
 import Hero from "./components/Hero";
-import JediComponentsPage from "./pages/JediComponentsPage";
-import JediComponentPage from "./pages/technology/JediComponentPage";
 import JediPage from "./pages/JediPage";
 import MethodologyDetail from './pages/methodology/MethodologyDetail';
 import MethodologyPage from './pages/methodology/MethodologyPage';
@@ -133,9 +131,6 @@ const AppContent = ({ location }) => {
 
               {/* ── Technology ───────────────────────────────────────────── */}
               <Route path="/technology" element={<PageTransition><TechnologyStack /></PageTransition>} />
-              <Route path="/technology/jedi-ensemble" element={<PageTransition><JediComponentPage /></PageTransition>} />
-              <Route path="/technology/jedi-rules" element={<PageTransition><JediComponentPage /></PageTransition>} />
-              <Route path="/technology/jedi-automate" element={<PageTransition><JediComponentPage /></PageTransition>} />
               {/* Must come after specific /technology/* routes */}
               <Route path="/technology/:slug" element={<PageTransition><EnhancedTechnologyDetail /></PageTransition>} />
 
@@ -150,7 +145,6 @@ const AppContent = ({ location }) => {
 
               {/* ── JEDI ─────────────────────────────────────────────────── */}
               <Route path="/jedi" element={<PageTransition><JediPage /></PageTransition>} />
-              <Route path="/jedi-components" element={<PageTransition><JediComponentsPage /></PageTransition>} />
 
               {/* ── Case Studies ─────────────────────────────────────────── */}
               <Route path="/case-studies" element={<PageTransition><CaseStudiesPage /></PageTransition>} />

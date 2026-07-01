@@ -69,7 +69,7 @@ const SolutionsPage = ({ isHomepage = false }) => {
   const pageTitle = isHomepage ? "AI/ML Solutions" : "Production AI Solutions";
   const pageDescription = isHomepage ? 
     "Enterprise-grade AI and machine learning solutions for intelligent automation and decision-making."
-    : "AI agents, data engineering, full-stack development. JEDI Ensemble™, JEDI Rules™, JEDI Automate™. Production deployments for Healthcare, Finance, Education.";
+    : "AI agents, data engineering, full-stack development. Custom trained models, LLM orchestration, evaluation pipelines. Production deployments for Healthcare, Finance, Education.";
 
   // Helper function to flatten tech stack and get icons (REVISED LOGIC)
   const getTechIcons = (techStack) => {

@@ -122,14 +122,16 @@ const TransformationMethodology = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-primary-1 animate-pulse"></div>
             <span className="text-[10px] font-mono text-primary-1 tracking-widest uppercase">Protocol: GENESIS</span>
           </div>
-          <h2 className={`text-lg sm:text-xl font-mono uppercase tracking-tight mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>The JEDI Stack</h2>
+          <h2 className={`text-lg sm:text-xl font-mono uppercase tracking-tight mb-2 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>How we ship it</h2>
           <p className={`text-sm sm:text-base font-light tracking-wide max-w-2xl mx-auto leading-snug px-2 ${isDarkMode ? 'text-n-4' : 'text-n-6'}`}>
-            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>JEDI Ensemble™</strong>
-            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> multi-model orchestration · </span>
-            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>JEDI Rules™</strong>
-            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> business logic engine · </span>
-            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>JEDI Automate™</strong>
-            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> model optimization</span>
+            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>Deploy</strong>
+            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> production endpoints · </span>
+            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>Train</strong>
+            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> with reproducible curves · </span>
+            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>Evaluate</strong>
+            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> per-epoch, per-class · </span>
+            <strong className={`font-semibold ${isDarkMode ? 'text-primary-1' : 'text-primary-1'}`}>Benchmark</strong>
+            <span className={isDarkMode ? 'text-n-4' : 'text-n-5'}> honestly</span>
           </p>
         </motion.div>
 

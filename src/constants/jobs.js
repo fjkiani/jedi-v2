@@ -10,7 +10,7 @@ export const FALLBACK_JOBS = [
     location: 'Remote (US)',
     type: 'Full-time',
     excerpt:
-      'Build agentic AI co-pilots for Healthcare, Finance, and Education. Work with JEDI Ensemble™, MCP, and LLMs.',
+      'Ship production AI systems for Healthcare, Finance, and Education. Work with LLM orchestration, MCP, and custom trained models.',
     requirements: [
       '5+ years experience with Python, Node.js',
       'Experience with LLMs (OpenAI, Claude, Gemini)',
