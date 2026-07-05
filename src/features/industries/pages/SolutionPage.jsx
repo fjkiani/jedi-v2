@@ -388,7 +388,7 @@ const SolutionPage = () => {
   return (
     <>
       <SEO
-        title={`${useCaseData.title} - ${useCaseData.industry?.name || 'Industry'} | Jedi Labs`}
+        title={useCaseData.title.length > 32 ? `${useCaseData.title} | Jedi Labs` : `${useCaseData.title} - ${useCaseData.industry?.name || 'Industry'} | Jedi Labs`}
         description={useCaseData.description || `Learn about ${useCaseData.title} solutions for the ${useCaseData.industry?.name || 'relevant'} industry.`}
         ogUrl={`https://www.jedilabs.org/industries/${useCaseData.industry?.slug}/${useCaseData.slug}`}
       />
@@ -419,6 +419,7 @@ const SolutionPage = () => {
             <Heading
               className="mb-4"
               title={useCaseData.title}
+              as="h1"
             />
             <p className={`body-1 max-w-4xl mx-auto mb-6 ${isDarkMode ? 'text-n-3' : 'text-n-5'}`}>
               {useCaseData.description}
@@ -833,8 +834,9 @@ const SolutionPage = () => {
               <button
                 onClick={() => navigate('/contact')}
                 className="btn btn-primary"
+                aria-label={`Start implementing ${useCaseData.title}`}
               >
-                Get Started
+                Start implementing {useCaseData.title}
                 <FiArrowRight className="ml-2" size={16} />
               </button>
               <button

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/SEO';
 import { useState, useEffect } from 'react';
 import Section from '@/components/Section';
 import { fadeIn } from '@/utils/motion';
@@ -35,22 +36,29 @@ const AboutUs = () => {
 
   if (loading) {
     return (
-      <Section className="pt-[12rem] -mt-[5.25rem] flex justify-center items-center min-h-screen">
-        <RingLoader color={isDarkMode ? "#FFF" : "#000"} size={60} />
-        <span className={`ml-4 text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading About Us...</span>
-      </Section>
+      <>
+        <SEO
+          title={aboutContent.meta.title}
+          description={aboutContent.meta.description}
+          path="/about"
+          ogImage="https://jedilabs.org/og/og-about.png"
+        />
+        <Section className="pt-[12rem] -mt-[5.25rem] flex justify-center items-center min-h-screen">
+          <RingLoader color={isDarkMode ? "#FFF" : "#000"} size={60} />
+          <span className={`ml-4 text-lg ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading About Us...</span>
+        </Section>
+      </>
     );
   }
 
   return (
     <>
-      <Helmet>
-        <title>{aboutContent.meta.title}</title>
-        <meta 
-          name="description" 
-          content={aboutContent.meta.description}
-        />
-      </Helmet>
+      <SEO
+        title={aboutContent.meta.title}
+        description={aboutContent.meta.description}
+        path="/about"
+        ogImage="https://jedilabs.org/og/og-about.png"
+      />
 
       {/* Hero Section */}
       <Section className="pt-[12rem] -mt-[5.25rem]">

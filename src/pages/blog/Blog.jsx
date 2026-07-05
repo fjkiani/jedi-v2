@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BlogSEO } from '@/components/SEO/BlogSEO';
+import SEO from '@/components/SEO';
 import { hygraphClient } from '@/lib/hygraph';
 import { useTheme } from '@/context/ThemeContext';
 import CallToAction from '@/components/CallToAction';
@@ -77,7 +77,13 @@ export const Blog = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <BlogSEO isBlogIndex={true} />
+      <SEO
+        title="Blog | Jedi Labs — Research, Deep-Dives, Postmortems"
+        description="Evaluation deep-dives, failure-mode analyses, training-curve postmortems, and benchmarks from real production AI deployments."
+        path="/blog"
+        ogImage="https://jedilabs.org/og/og-benchmarks.png"
+        keywords="AI research blog, model evaluation, MLOps case studies, deep learning postmortem, benchmark analyses, Jedi Labs research"
+      />
       <h1 className={`h1 text-4xl font-bold mb-8 ${isDarkMode ? 'text-n-1' : 'text-n-8'}`}>Blog</h1>
       
       {posts.length === 0 ? (

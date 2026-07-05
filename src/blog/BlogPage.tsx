@@ -4,6 +4,7 @@ import { Categories, PostWidget } from '../components/hyGraph';
 import { getPostDetails } from '../services';
 import { AdjacentPosts } from '../sections';
 import PostDetail from '../components/hyGraph/PostDetail';
+import SEO from '@/components/SEO';
 
 const PostDetails = () => {
   const { slug } = useParams();
@@ -50,8 +51,20 @@ const PostDetails = () => {
     return <div className="container mx-auto px-4 py-12 text-center">Post not found</div>;
   }
 
+  const rawExcerpt = (post as any).excerpt || (post as any).description || '';
+  const cleanExcerpt = String(rawExcerpt).replace(/<[^>]+>/g, '').trim().slice(0, 160);
+  const seoTitle = `${(post as any).title} | Jedi Labs Research`;
+  const seoDesc = cleanExcerpt || `Read "${(post as any).title}" on Jedi Labs — production AI evaluation deep-dives.`;
+  const seoImage = (post as any).featuredImage?.url || 'https://jedilabs.org/og/og-blog.png';
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-10 mb-8">
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        path={`/blog/post/${(post as any).slug}`}
+        ogImage={seoImage}
+      />
       <div className="flex justify-center">
         <div className="w-full max-w-4xl">
           <PostDetail post={post} />

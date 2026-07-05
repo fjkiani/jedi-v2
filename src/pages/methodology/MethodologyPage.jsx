@@ -70,6 +70,7 @@ const MethodologyPage = () => {
         <div className="container relative">
           <Heading
             title="The JEDI Methodology"
+            as="h1"
             text="Four phases that transform manual workflows into autonomous agentic systems."
             className="mb-16 text-center"
           />

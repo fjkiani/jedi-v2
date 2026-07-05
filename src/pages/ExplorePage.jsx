@@ -5,7 +5,7 @@ import { FiSearch, FiGrid, FiZap, FiArrowRight, FiX } from 'react-icons/fi';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_ALL_CATEGORIES_WITH_TECHS } from '@/graphql/queries/solutions';
 import { GET_USE_CASES } from '@/graphql/queries/useCases';
-import { RootSEO } from '@/components/SEO';
+import SEO from '@/components/SEO';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const TechIcon = ({ icon, name }) => {
@@ -175,9 +175,11 @@ const ExplorePage = () => {
 
   return (
     <>
-      <RootSEO
-        title="Explore the Stack | JEDI Labs"
-        description="Browse JEDI Labs technologies and use cases by capability. Filter by category to find the right AI stack for your problem."
+      <SEO
+        title="Explore the Stack | Jedi Labs — Technologies & Use Cases"
+        description="Browse Jedi Labs technologies and use cases by capability. Filter by category to find the right AI stack for your problem — medical imaging, geospatial, audio, video."
+        path="/explore"
+        ogImage="https://jedilabs.org/og/og-explore.png"
       />
 
       <div className="min-h-screen bg-n-8 text-white">

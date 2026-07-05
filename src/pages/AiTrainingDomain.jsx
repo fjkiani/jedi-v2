@@ -9,6 +9,7 @@ import DemoEmbed from "../components/AiTraining/DemoEmbed";
 import PageBottomCTA from "../components/PageBottomCTA";
 import { aiTrainingDetails } from "../constants/aiTrainingDetails";
 import { useTheme } from "../context/ThemeContext";
+import SEO from '@/components/SEO';
 
 const AiTrainingDomain = () => {
   const { domainId } = useParams();
@@ -53,6 +54,13 @@ const AiTrainingDomain = () => {
 
   return (
     <>
+      <SEO
+        title={`${domain.title} | AI Training | Jedi Labs`}
+        description={domain.description ? String(domain.description).slice(0, 160) : `Production AI training program for ${domain.title}. Real training curves, per-class F1, and reproducible experiments from Jedi Labs.`}
+        path={`/ai-training/${domain.id}`}
+        keywords={`${domain.title}, AI training, model fine-tuning, production ML, Jedi Labs`}
+        ogImage="https://jedilabs.org/og/og-technology.png"
+      />
       <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
         <div className="container relative">
 

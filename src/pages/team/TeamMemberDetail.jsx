@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/SEO';
 import Section from '@/components/Section';
 import { fadeIn } from '@/utils/motion';
 import { teamService } from '@/services/teamService';
@@ -218,14 +219,30 @@ const TeamMemberDetail = () => {
   }
 
   if (loading) {
+    const TEAM_NICE = {
+      'fahad': 'Fahad Kiani',
+      'asim': 'Asim Aslam',
+      'muhammad': 'Muhammad Kabir',
+      'bivek': 'Bivek Panthi',
+    };
+    const fallbackName = slug
+      ? (TEAM_NICE[slug] || slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
+      : 'Team Member';
     return (
-      <Section className="pt-[12rem]">
-        <div className="container">
-          <div className="flex justify-center">
-            <div className="w-12 h-12 border-4 border-color-1 rounded-full animate-spin border-t-transparent"></div>
+      <>
+        <SEO
+          title={`${fallbackName} | Jedi Labs Leadership`}
+          description={`${fallbackName} — team member at Jedi Labs. Production AI engineering, evaluation, and deployment.`}
+          path={`/team/${slug || ''}`}
+        />
+        <Section className="pt-[12rem]">
+          <div className="container">
+            <div className="flex justify-center">
+              <div className="w-12 h-12 border-4 border-color-1 rounded-full animate-spin border-t-transparent"></div>
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      </>
     );
   }
 
@@ -249,13 +266,12 @@ const TeamMemberDetail = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{currentMember.name} | JediLabs Leadership</title>
-        <meta 
-          name="description" 
-          content={`Learn more about ${currentMember.name}, ${currentMember.role} at JediLabs. ${currentMember.bio?.html?.replace(/<[^>]*>/g, '').substring(0, 150)}...`}
-        />
-      </Helmet>
+      <SEO
+        title={`${currentMember.name} | Jedi Labs Leadership`}
+        description={`${currentMember.name}, ${currentMember.role} at Jedi Labs. ${currentMember.bio?.html?.replace(/<[^>]*>/g, '').substring(0, 140) || 'Production AI engineering team.'}`}
+        path={`/team/${slug || currentMember.slug || ''}`}
+        ogImage={currentMember.image?.url || 'https://jedilabs.org/og/og-team.png'}
+      />
 
       <Section className="pt-[8rem] -mt-[5.25rem]">
         <div className="container">
@@ -450,6 +466,7 @@ const TeamMemberDetail = () => {
                     key={index}
                     to={`/blog/post/${post.slug}`}
                     className="group block"
+                    aria-label={`Read blog post: ${post.title}`}
                   >
                     <motion.div 
                       className="relative overflow-hidden rounded-3xl bg-n-2 dark:bg-n-7"
@@ -502,7 +519,7 @@ const TeamMemberDetail = () => {
                         
                         {/* Read More Link */}
                         <div className="flex items-center gap-2 text-n-4 font-medium">
-                          <span className="group-hover:text-color-1 transition-colors">Read More</span>
+                          <span className="group-hover:text-color-1 transition-colors">Read the full post</span>
                           <svg 
                             className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:text-color-1" 
                             viewBox="0 0 24 24" 

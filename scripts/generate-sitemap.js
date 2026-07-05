@@ -51,7 +51,11 @@ const staticRoutes = [
   { path: '/blog', changefreq: 'daily', priority: 0.8 },
   { path: '/technology', changefreq: 'weekly', priority: 0.8 },
   { path: '/about', changefreq: 'monthly', priority: 0.7 },
-  { path: '/contact', changefreq: 'monthly', priority: 0.7 }
+  { path: '/contact', changefreq: 'monthly', priority: 0.7 },
+  { path: '/benchmarks', changefreq: 'weekly', priority: 0.95 },
+  { path: '/glossary', changefreq: 'monthly', priority: 0.7 },
+  { path: '/explore', changefreq: 'weekly', priority: 0.85 },
+  { path: '/methodology', changefreq: 'monthly', priority: 0.85 }
 ];
 
 async function fetchDynamicRoutes() {

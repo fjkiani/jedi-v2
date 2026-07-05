@@ -1,0 +1,505 @@
+{
+  "generatedAt": "2026-07-05T14:55:28.295Z",
+  "paths": [
+    "/",
+    "/jedi",
+    "/solutions",
+    "/industries",
+    "/use-cases",
+    "/case-studies",
+    "/infrastructure",
+    "/team",
+    "/careers",
+    "/blog",
+    "/technology",
+    "/about",
+    "/contact",
+    "/methodology",
+    "/pricing",
+    "/ai-training",
+    "/deployments",
+    "/explore",
+    "/benchmarks",
+    "/glossary",
+    "/blog/post/ai-agents",
+    "/blog/post/graph-rag",
+    "/blog/post/knowledge-graph",
+    "/blog/post/aws-railway",
+    "/blog/post/supabase-etl",
+    "/blog/post/ora-hackathon",
+    "/blog/post/evo-2",
+    "/blog/post/jedilabs",
+    "/blog/post/identity-missing-pillar-agentic-ai",
+    "/team/fahad",
+    "/team/asim",
+    "/team/muhammad",
+    "/team/bivek",
+    "/solutions/ml",
+    "/solutions/automation",
+    "/solutions/data-engineering",
+    "/solutions/frontend-development",
+    "/solutions/nlp-nlu",
+    "/solutions/ai-agents",
+    "/solutions/task-planning",
+    "/solutions/decision-algorithms",
+    "/solutions/system-integration-tech",
+    "/solutions/continuous-learning",
+    "/technology/langchain",
+    "/technology/huggingface",
+    "/technology/autogpt",
+    "/technology/react",
+    "/technology/spacy",
+    "/technology/dialogflow",
+    "/technology/rasa",
+    "/technology/openai-functions",
+    "/technology/babyagi",
+    "/technology/react-ai",
+    "/technology/langchain/use-case/ai-powered-research-assistant",
+    "/technology/spacy/use-case/ai-powered-research-assistant",
+    "/technology/openai-functions/use-case/ai-powered-research-assistant",
+    "/industries/healthcare",
+    "/industries/financial-services",
+    "/industries/technology",
+    "/industries/education",
+    "/industries/telecommunications",
+    "/industries/transportation-logistics",
+    "/industries/government-public-sector",
+    "/industries/future-education",
+    "/industries/education/ai-powered-research-assistant",
+    "/industries/healthcare/crispro-oncology-copilot",
+    "/industries/telecommunications/ai-voice-operations-crm",
+    "/industries/telecommunications/24-7-voice-ai-customer-service",
+    "/industries/healthcare/healthcare-receptionist-clinical-operations",
+    "/industries/technology/gitlab-mlops-automation",
+    "/industries/healthcare/hf-chest-xray-classifier",
+    "/industries/technology/hf-coastline-segmentation",
+    "/industries/technology/hf-esc50-audio-classifier",
+    "/industries/technology/hf-clip-video-scenes"
+  ],
+  "detail": [
+    {
+      "path": "/",
+      "changefreq": "daily",
+      "priority": 1
+    },
+    {
+      "path": "/jedi",
+      "changefreq": "weekly",
+      "priority": 0.95
+    },
+    {
+      "path": "/solutions",
+      "changefreq": "weekly",
+      "priority": 0.9
+    },
+    {
+      "path": "/industries",
+      "changefreq": "weekly",
+      "priority": 0.9
+    },
+    {
+      "path": "/use-cases",
+      "changefreq": "weekly",
+      "priority": 0.9
+    },
+    {
+      "path": "/case-studies",
+      "changefreq": "weekly",
+      "priority": 0.85
+    },
+    {
+      "path": "/infrastructure",
+      "changefreq": "monthly",
+      "priority": 0.8
+    },
+    {
+      "path": "/team",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/careers",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/blog",
+      "changefreq": "daily",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/about",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/contact",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/methodology",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/pricing",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/ai-training",
+      "changefreq": "weekly",
+      "priority": 0.75
+    },
+    {
+      "path": "/deployments",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/explore",
+      "changefreq": "weekly",
+      "priority": 0.75
+    },
+    {
+      "path": "/benchmarks",
+      "changefreq": "weekly",
+      "priority": 0.85
+    },
+    {
+      "path": "/glossary",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/blog/post/ai-agents",
+      "lastmod": "2025-01-30",
+      "changefreq": "weekly",
+      "priority": 0.85
+    },
+    {
+      "path": "/blog/post/graph-rag",
+      "lastmod": "2025-01-13",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/knowledge-graph",
+      "lastmod": "2026-02-09",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/aws-railway",
+      "lastmod": "2025-02-11",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/supabase-etl",
+      "lastmod": "2025-02-14",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/ora-hackathon",
+      "lastmod": "2025-03-05",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/evo-2",
+      "lastmod": "2025-05-03",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/jedilabs",
+      "lastmod": "2026-02-09",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/blog/post/identity-missing-pillar-agentic-ai",
+      "lastmod": "2026-02-26",
+      "changefreq": "weekly",
+      "priority": 0.85
+    },
+    {
+      "path": "/team/fahad",
+      "lastmod": "2025-01-13",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/team/asim",
+      "lastmod": "2025-01-09",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/team/muhammad",
+      "lastmod": "2025-05-02",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/team/bivek",
+      "lastmod": "2025-05-02",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/solutions/ml",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/automation",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/data-engineering",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/frontend-development",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/nlp-nlu",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/ai-agents",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/task-planning",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/decision-algorithms",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/system-integration-tech",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/solutions/continuous-learning",
+      "lastmod": "2026-05-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/langchain",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/huggingface",
+      "lastmod": "2026-02-08",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/autogpt",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/react",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/spacy",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/dialogflow",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/rasa",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/openai-functions",
+      "lastmod": "2026-02-08",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/babyagi",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/react-ai",
+      "lastmod": "2026-02-25",
+      "changefreq": "weekly",
+      "priority": 0.8
+    },
+    {
+      "path": "/technology/langchain/use-case/ai-powered-research-assistant",
+      "lastmod": "2026-02-08",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/technology/spacy/use-case/ai-powered-research-assistant",
+      "lastmod": "2026-02-08",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/technology/openai-functions/use-case/ai-powered-research-assistant",
+      "lastmod": "2026-02-08",
+      "changefreq": "weekly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/healthcare",
+      "lastmod": "2026-02-08",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/financial-services",
+      "lastmod": "2025-04-29",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/technology",
+      "lastmod": "2026-02-08",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/education",
+      "lastmod": "2025-04-29",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/telecommunications",
+      "lastmod": "2025-04-28",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/transportation-logistics",
+      "lastmod": "2025-04-28",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/government-public-sector",
+      "lastmod": "2025-04-29",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/future-education",
+      "lastmod": "2026-02-07",
+      "changefreq": "monthly",
+      "priority": 0.75
+    },
+    {
+      "path": "/industries/education/ai-powered-research-assistant",
+      "lastmod": "2026-02-08",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/healthcare/crispro-oncology-copilot",
+      "lastmod": "2025-06-22",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/telecommunications/ai-voice-operations-crm",
+      "lastmod": "2026-05-25",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/telecommunications/24-7-voice-ai-customer-service",
+      "lastmod": "2026-07-01",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/healthcare/healthcare-receptionist-clinical-operations",
+      "lastmod": "2026-05-25",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/technology/gitlab-mlops-automation",
+      "lastmod": "2026-05-25",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/healthcare/hf-chest-xray-classifier",
+      "lastmod": "2026-07-01",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/technology/hf-coastline-segmentation",
+      "lastmod": "2026-07-01",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/technology/hf-esc50-audio-classifier",
+      "lastmod": "2026-07-01",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
+      "path": "/industries/technology/hf-clip-video-scenes",
+      "lastmod": "2026-07-01",
+      "changefreq": "monthly",
+      "priority": 0.7
+    }
+  ]
+}

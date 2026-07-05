@@ -11,7 +11,7 @@ export const OverviewTab = ({
   <div className="space-y-8">
     {/* Title and Description */}
     <div className="text-center">
-      <h2 className="h2 mb-4">{useCaseData?.title || 'Fraud Detection'}</h2>
+      <h1 className="h2 mb-4">{useCaseData?.title || 'Fraud Detection'}</h1>
       <p className="text-n-3 text-lg">{useCaseData?.description}</p>
     </div>
 

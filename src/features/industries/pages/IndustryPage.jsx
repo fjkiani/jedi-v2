@@ -149,12 +149,20 @@ const IndustryPage = () => {
   }, [industryId]);
 
   if (loading) {
+    const fallbackName = industryId ? industryId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) : 'Industry';
     return (
-      <Section className="pt-[8rem] min-h-screen">
-        <div className="container text-center py-24">
-          <div className={`text-sm font-mono ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading…</div>
-        </div>
-      </Section>
+      <>
+        <SEO
+          title={`${fallbackName} AI Solutions | JEDI Labs`}
+          description={`Jedi Labs autonomous AI solutions for the ${fallbackName} industry. Production deployment, evaluation, and benchmarking.`}
+          path={`/industries/${industryId || ''}`}
+        />
+        <Section className="pt-[8rem] min-h-screen">
+          <div className="container text-center py-24">
+            <div className={`text-sm font-mono ${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading…</div>
+          </div>
+        </Section>
+      </>
     );
   }
 

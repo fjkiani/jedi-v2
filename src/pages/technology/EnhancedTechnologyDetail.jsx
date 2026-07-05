@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowLeft, FiArrowRight, FiExternalLink, FiCode, FiLayers, FiZap, FiGrid } from 'react-icons/fi';
-import { RootSEO } from '@/components/SEO';
+import SEO from '@/components/SEO';
 import { useTheme } from '@/context/ThemeContext';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_TECHNOLOGY_BY_SLUG, GET_TECHNOLOGY_BY_CATEGORY } from '@/graphql/queries/technologies';
@@ -285,10 +285,32 @@ const EnhancedTechnologyDetail = () => {
   }, [slug]);
 
   if (loading) {
+    const TECH_NICE = {
+      'langchain': 'LangChain',
+      'huggingface': 'Hugging Face',
+      'autogpt': 'AutoGPT',
+      'react': 'React',
+      'react-ai': 'ReAct (Reasoning + Acting)',
+      'babyagi': 'BabyAGI',
+      'spacy': 'spaCy',
+      'dialogflow': 'Dialogflow',
+      'openai-functions': 'OpenAI Function Calling',
+      'rasa': 'Rasa',
+    };
+    const fallbackName = slug
+      ? (TECH_NICE[slug] || slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
+      : 'Technology';
     return (
-      <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-n-8' : 'bg-gray-50'}`}>
-        <div className={`animate-pulse ${isDarkMode ? 'text-white/40' : 'text-n-4'}`}>Loading technology…</div>
-      </div>
+      <>
+        <SEO
+          title={`${fallbackName} | JEDI Labs Technology Stack`}
+          description={`${fallbackName} — part of the JEDI Labs production AI engineering stack. Model deployment, evaluation, and benchmarking.`}
+          path={`/technology/${slug || ''}`}
+        />
+        <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-n-8' : 'bg-gray-50'}`}>
+          <div className={`animate-pulse ${isDarkMode ? 'text-white/40' : 'text-n-4'}`}>Loading technology…</div>
+        </div>
+      </>
     );
   }
 
@@ -317,9 +339,10 @@ const EnhancedTechnologyDetail = () => {
 
   return (
     <>
-      <RootSEO
-        title={`${tech.name} | JEDI Labs Technology`}
-        description={tech.description || `${tech.name} — part of the JEDI Labs AI stack`}
+      <SEO
+        title={`${tech.name} | JEDI Labs Technology Stack`}
+        description={tech.description || `${tech.name} — part of the JEDI Labs production AI engineering stack.`}
+        path={`/technology/${tech.slug}`}
       />
 
       <div className={`min-h-screen ${D ? 'bg-n-8 text-white' : 'bg-gray-50 text-n-8'}`}>

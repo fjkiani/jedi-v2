@@ -1,17 +1,49 @@
+# Jedi Labs — robots.txt
+# https://jedilabs.org
+
+# Default: allow all crawlers
 User-agent: *
 Allow: /
 
-# Disallow paths
+# Deny system + admin paths
 Disallow: /404
-Disallow: /api/
 Disallow: /admin/
-Disallow: /*.html$
-Disallow: /*.svg$
-Disallow: /*.gltf$
-Disallow: /*.bin$
-Disallow: /assets/
+Disallow: /assets/*
+Disallow: /desktop_pc/
 Disallow: /models/
 Disallow: /videos/
+Disallow: /scene.bin
+Disallow: /scene.gltf
+
+# Explicitly allow key crawler-friendly artefacts
+Allow: /llms.txt
+Allow: /api/oracle.json
+Allow: /og/
+Allow: /og-image.jpg
+Allow: /twitter-image.jpg
+Allow: /sitemap.xml
+
+# AI crawlers — explicit allow
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 # Sitemap
-Sitemap: https://jedilabs.org/sitemap.xml 
+Sitemap: https://jedilabs.org/sitemap.xml

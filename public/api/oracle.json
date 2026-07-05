@@ -1,0 +1,109 @@
+{
+  "$schema": "https://schema.org/Dataset",
+  "meta": {
+    "name": "Jedi Labs public benchmarks",
+    "description": "Machine-readable benchmark numbers for Jedi Labs shipped model demos. Free to cite. Creative Commons BY 4.0.",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "publisher": {
+      "name": "Jedi Labs",
+      "url": "https://jedilabs.org"
+    },
+    "canonical": "https://jedilabs.org/benchmarks",
+    "updated": "2026-07-05",
+    "citation_hint": "If you cite one of these numbers, cite https://jedilabs.org/benchmarks as the source and include the retrieval date."
+  },
+  "benchmarks": [
+    {
+      "id": "medical-imaging-val-acc",
+      "domain": "Medical Imaging",
+      "demo": "Chest X-ray classifier",
+      "metric": "val_accuracy",
+      "value": 0.9933,
+      "unit": "fraction",
+      "dataset": "Chest X-ray public benchmark",
+      "architecture": "PyTorch CNN + train/val split",
+      "hf_space": "https://huggingface.co/spaces/fjkiani/chest-xray",
+      "verified": "2026-06",
+      "featured": true
+    },
+    {
+      "id": "geospatial-val-iou",
+      "domain": "Geospatial Segmentation",
+      "demo": "Coastline land/water",
+      "metric": "best_val_iou",
+      "value": 0.9999,
+      "unit": "fraction",
+      "dataset": "Coastline aerial segmentation corpus",
+      "architecture": "U-Net variant with IoU-based loss",
+      "hf_space": "https://huggingface.co/spaces/fjkiani/coastline-segmentation",
+      "verified": "2026-06",
+      "featured": true
+    },
+    {
+      "id": "audio-macro-f1",
+      "domain": "Audio Classification",
+      "demo": "ESC-50 environmental audio",
+      "metric": "macro_f1",
+      "value": 0.5666,
+      "unit": "fraction",
+      "dataset": "ESC-50",
+      "sample_size": 2000,
+      "architecture": "Random Forest + 130-dim audio features",
+      "hf_space": "https://huggingface.co/spaces/fjkiani/esc50-audio",
+      "verified": "2026-06",
+      "featured": true
+    },
+    {
+      "id": "audio-test-acc",
+      "domain": "Audio Classification",
+      "demo": "ESC-50 environmental audio",
+      "metric": "test_accuracy",
+      "value": 0.6033,
+      "unit": "fraction",
+      "dataset": "ESC-50",
+      "sample_size": 2000,
+      "architecture": "Random Forest + 130-dim audio features",
+      "hf_space": "https://huggingface.co/spaces/fjkiani/esc50-audio",
+      "verified": "2026-06",
+      "featured": false
+    },
+    {
+      "id": "video-zero-shot-latency",
+      "domain": "Video Understanding",
+      "demo": "CLIP scene classifier",
+      "metric": "cold_start_inference_seconds",
+      "value": 5,
+      "unit": "seconds",
+      "value_note": "Approximate; measured on Hugging Face Spaces free-tier cold start with ~150 MB model download.",
+      "dataset": "Sampled video scenes (zero-shot, no training data)",
+      "architecture": "CLIP ViT-B/32 (frozen)",
+      "hf_space": "https://huggingface.co/spaces/fjkiani/clip-video-scenes",
+      "verified": "2026-06",
+      "featured": true
+    }
+  ],
+  "methodology": {
+    "steps": [
+      {
+        "step": 1,
+        "name": "Assemble",
+        "description": "Pull the public validation/test cohort (e.g. ESC-50, chest X-ray, coastline imagery, sampled video). Freeze a versioned snapshot in the training repo. No proprietary data enters the public number."
+      },
+      {
+        "step": 2,
+        "name": "Train",
+        "description": "Run the training loop end-to-end with reproducible seed, published architecture, and checkpoint management. All code lives in the fjkiani GitHub org and the ai-training repo."
+      },
+      {
+        "step": 3,
+        "name": "Evaluate",
+        "description": "Compute the reported metric (accuracy / IoU / F1) against held-out validation or test data. Dual-axis loss curves and per-class F1 are logged for every training run."
+      },
+      {
+        "step": 4,
+        "name": "Ship",
+        "description": "Post the number here and on the corresponding Hugging Face Space with live inference. If the number moves, the Space moves. If the Space breaks, the number is retracted until it does not."
+      }
+    ]
+  }
+}

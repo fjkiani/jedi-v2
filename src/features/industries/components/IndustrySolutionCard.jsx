@@ -43,8 +43,9 @@ const IndustrySolutionCard = ({ title, description, industrySlug, useCaseSlug, i
           // Use industrySlug and useCaseSlug for the link
           to={`/industries/${industrySlug}/${useCaseSlug}`}
           className="inline-flex items-center gap-2 text-primary-1 hover:text-primary-2 transition-colors font-semibold"
+          aria-label={`Explore ${title} use case`}
         >
-          <span>Learn More</span>
+          <span>Explore {title}</span>
           <Icon name="arrow-right" className="w-4 h-4" />
         </Link>
       </div>

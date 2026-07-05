@@ -112,8 +112,9 @@ const PricingPage = () => {
   return (
     <>
       <SEO
-        title="Pricing — Phylo AI Systems"
+        title="Pricing | Jedi Labs — Pilot, Production, and Partner Engagements"
         description="Three engagement tiers for production AI systems: Pilot ($15–25K), Production ($50K+), and Partner (custom). Real numbers, real work — no per-seat SaaS pricing."
+        path="/pricing"
       />
 
       <section className={`relative py-24 lg:py-32 overflow-hidden ${isDarkMode ? 'bg-n-8' : 'bg-white'}`}>

@@ -7,6 +7,7 @@ import Heading from "../components/Heading";
 import Arrow from "../assets/svg/Arrow";
 import ClipPath from "../assets/svg/ClipPath";
 import { GradientLight } from "../components/design/Benefits";
+import SEO from '@/components/SEO';
 
 const GetAllUseCases = gql`
   query GetAllUseCases {
@@ -48,6 +49,13 @@ const DeploymentsPage = () => {
 
     return (
         <>
+            <SEO
+              title="Live Deployments | Jedi Labs — Real Production AI"
+              description="Four live deployments across medical imaging, geospatial segmentation, audio classification, and video understanding. Real evaluation curves, per-class F1, live inference — no PowerPoint."
+              path="/deployments"
+              keywords="production AI deployments, live inference, model serving, Hugging Face Spaces, real ML deployments, Jedi Labs"
+              ogImage="https://jedilabs.org/og/og-technology.png"
+            />
             <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
                 <div className="container relative">
                     <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[4rem] md:mb-20 lg:mb-[6rem]">

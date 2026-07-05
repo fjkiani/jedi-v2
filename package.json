@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run generate-sitemap && npx vite build",
+    "build:prerender": "npm run snapshot-routes && npm run generate-sitemap && PRERENDER=1 npx vite build",
+    "snapshot-routes": "node scripts/snapshot-routes.mjs",
     "serve:dev": "NODE_ENV=development node server/server.js",
     "serve:prod": "NODE_ENV=production node server/server.js",
     "start": "npm run build && npm run serve:prod",
@@ -19,7 +21,14 @@
     "create:case-study-schema": "node scripts/migrations/hygraph/createCaseStudySchema.js",
     "blog:research": "node scripts/blog/research_topic.js",
     "blog:create": "node scripts/blog/create_post.js",
-    "resume:build": "node scripts/resume/build.js"
+    "resume:build": "node scripts/resume/build.js",
+    "audit:titles": "node scripts/seo/audit-titles.cjs",
+    "audit:title-length": "node scripts/seo/audit-title-length.cjs",
+    "audit:meta": "node scripts/seo/audit-meta.cjs",
+    "audit:h1": "node scripts/seo/audit-h1.cjs",
+    "audit:anchor-text": "node scripts/seo/audit-anchor-text.cjs",
+    "audit:all": "npm run audit:titles && npm run audit:title-length && npm run audit:meta && npm run audit:h1 && npm run audit:anchor-text",
+    "audit:baseline": "node scripts/seo/baseline-report.cjs"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
@@ -52,6 +61,7 @@
     "react-intersection-observer": "^9.13.0",
     "react-just-parallax": "^3.1.16",
     "react-live": "^4.1.8",
+    "react-markdown": "^9.0.1",
     "react-modal": "^3.16.1",
     "react-multi-carousel": "^2.8.5",
     "react-router-dom": "^6.26.1",
@@ -66,11 +76,12 @@
     "swiper": "^11.2.6",
     "tailwind-merge": "^2.6.0",
     "typewriter-effect": "^2.21.0",
-    "vite-plugin-sitemap": "^0.7.1",
-    "react-markdown": "^9.0.1"
+    "vite-plugin-sitemap": "^0.7.1"
   },
   "devDependencies": {
     "@hygraph/management-sdk": "^1.5.2",
+    "@prerenderer/renderer-puppeteer": "^1.2.4",
+    "@prerenderer/rollup-plugin": "^0.3.12",
     "@types/node": "^22.5.0",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",

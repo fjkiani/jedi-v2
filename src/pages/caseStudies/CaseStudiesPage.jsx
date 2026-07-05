@@ -140,7 +140,7 @@ const CaseStudiesPage = () => {
                         </div>
                       )}
                       <span className="inline-flex items-center gap-2 mt-4 text-primary-1 font-mono text-sm group-hover:gap-3 transition-all">
-                        Read more <FiArrowRight className="w-4 h-4" />
+                        Read the full case study <FiArrowRight className="w-4 h-4" />
                       </span>
                     </div>
                   </motion.article>

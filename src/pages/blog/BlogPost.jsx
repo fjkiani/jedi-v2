@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BlogSEO } from '@/components/SEO/BlogSEO';
+import SEO from '@/components/SEO';
 import { hygraphClient } from '@/lib/hygraph';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -107,7 +108,19 @@ export const BlogPost = () => {
     li: ({ children }) => <li className="mb-2">{children}</li>,
   };
 
-  if (loading) return <div>Loading blog post...</div>;
+  if (loading) {
+    const fallbackTitle = slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) : 'Blog Post';
+    return (
+      <>
+        <SEO
+          title={`${fallbackTitle} | Jedi Labs Research`}
+          description={`${fallbackTitle} — production AI research and engineering insights from Jedi Labs.`}
+          path={`/blog/post/${slug || ''}`}
+        />
+        <div>Loading blog post...</div>
+      </>
+    );
+  }
   if (error) return <div>Error loading blog post: {error.message}</div>;
   if (!post) return <div>Blog post not found</div>;
 

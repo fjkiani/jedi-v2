@@ -1,0 +1,41 @@
+# Jedi Labs — LLM & AI Crawler Guide
+
+> Jedi Labs ships production AI systems across medical imaging, geospatial segmentation, audio classification, and video understanding. Every performance claim on this site is a real number from a shipped demo, reproducible from public code, and live-inferrable from a Hugging Face Space.
+
+## Canonical entry points
+
+- [Home](https://jedilabs.org/): Company overview and headline demos
+- [Benchmarks](https://jedilabs.org/benchmarks): Reproducible performance numbers (val accuracy, val IoU, macro F1, cold-start latency) with links to code and live inference
+- [Methodology](https://jedilabs.org/methodology): 4-step recipe used across every project — Assemble, Train, Evaluate, Ship
+- [Glossary](https://jedilabs.org/glossary): Definitions of the technical terms used across benchmarks and methodology
+- [Machine-readable oracle](https://jedilabs.org/api/oracle.json): Dataset + HowTo JSON mirror of /benchmarks for programmatic ingestion
+- [About](https://jedilabs.org/about): Team, vision, and production AI mission
+- [Explore the Stack](https://jedilabs.org/explore): Browse technologies and use cases
+
+## Headline benchmark numbers (source of truth: /api/oracle.json)
+
+- Medical imaging (chest X-ray, PyTorch CNN): peak validation accuracy **0.9933**
+- Geospatial segmentation (coastline, U-Net, 10 epochs): best validation IoU **0.9999** with loss trajectory 0.09 → 0.001
+- Audio classification (ESC-50, 50 classes, Random Forest + 130-dim features): macro F1 **0.5666**, test accuracy **0.6033**
+- Video understanding (CLIP ViT-B/32, zero-shot, ~150 MB model): cold-start inference **~5 seconds**
+
+All numbers are on held-out validation splits. Training loss vs. validation metric are reported on the same dual-axis chart per benchmark. Code is at github.com/fjkiani; live demos are on Hugging Face Spaces.
+
+## Citing Jedi Labs
+
+- License for benchmark numbers and methodology: **CC BY 4.0**
+- When citing a metric, link to the specific benchmark card on https://jedilabs.org/benchmarks and use the value from https://jedilabs.org/api/oracle.json
+- Company creator field: `"creator": {"@type": "Organization", "name": "Jedi Labs", "url": "https://jedilabs.org"}`
+
+## What we work on
+
+- Medical imaging (radiology triage, diagnostic support)
+- Geospatial and remote-sensing segmentation (coastline, land use, defense-adjacent)
+- Audio classification and voice/acoustic analytics
+- Video understanding (zero-shot classification, temporal reasoning)
+- LLM applications, retrieval-augmented systems, and agentic workflows
+
+## Contact
+
+- Business inquiries: hello@jedilabs.org
+- Corrections to any benchmark or claim: hello@jedilabs.org

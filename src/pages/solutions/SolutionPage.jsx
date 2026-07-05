@@ -19,6 +19,7 @@ import { GET_USE_CASES } from '@/graphql/queries/useCases';
 import { GET_TECHNOLOGY_BY_CATEGORY } from '@/graphql/queries/technologies';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
+import SEO from '@/components/SEO';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -219,17 +220,39 @@ const SolutionPage = () => {
 
   // ── Loading skeleton ──────────────────────────────────────────────────────
   if (loading) {
+    const SLUG_NICE = {
+      'ml': 'Machine Learning',
+      'nlp-nlu': 'NLP & NLU',
+      'ai-agents': 'AI Agents',
+      'automation': 'Automation',
+      'data-engineering': 'Data Engineering',
+      'frontend-development': 'Frontend Development',
+      'task-planning': 'Task Planning',
+      'decision-algorithms': 'Decision Algorithms',
+      'system-integration-tech': 'System Integration',
+      'continuous-learning': 'Continuous Learning',
+    };
+    const fallbackName = slug
+      ? (SLUG_NICE[slug] || slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
+      : 'Solution';
     return (
-      <Section className="pt-[12rem] -mt-[5.25rem]">
-        <div className="container max-w-4xl mx-auto">
-          <div className="animate-pulse space-y-6">
-            <div className={`h-20 w-20 rounded-2xl mx-auto ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
-            <div className={`h-10 rounded-xl mx-auto w-2/3 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
-            <div className={`h-6 rounded-xl mx-auto w-1/2 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
-            <div className={`h-4 rounded-xl mx-auto w-3/4 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
+      <>
+        <SEO
+          title={`${fallbackName} | Jedi Labs Solutions`}
+          description={`${fallbackName} — production AI solution from Jedi Labs. Real deployment, real metrics.`}
+          path={`/solutions/${slug || ''}`}
+        />
+        <Section className="pt-[12rem] -mt-[5.25rem]">
+          <div className="container max-w-4xl mx-auto">
+            <div className="animate-pulse space-y-6">
+              <div className={`h-20 w-20 rounded-2xl mx-auto ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
+              <div className={`h-10 rounded-xl mx-auto w-2/3 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
+              <div className={`h-6 rounded-xl mx-auto w-1/2 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
+              <div className={`h-4 rounded-xl mx-auto w-3/4 ${isDarkMode ? 'bg-n-7' : 'bg-n-3'}`} />
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      </>
     );
   }
 
@@ -266,6 +289,17 @@ const SolutionPage = () => {
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className={`pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden ${isDarkMode ? 'bg-n-8' : 'bg-gray-50'}`}>
+      <SEO
+        title={`${solution.title} | Jedi Labs Solutions`}
+        description={
+          solution.description
+            ? String(solution.description).replace(/<[^>]+>/g, '').slice(0, 160)
+            : `${solution.title} — production AI solution from Jedi Labs. Real deployment, real metrics.`
+        }
+        path={`/solutions/${solution.slug}`}
+        keywords={`${solution.title}, AI solutions, production AI, Jedi Labs, ${(solution.techSubcategories || []).slice(0, 3).join(', ')}`}
+        ogImage="https://jedilabs.org/og/og-solution.png"
+      />
 
       {/* Hero */}
       <Section className="pt-[8rem] -mt-[5.25rem]" crosses>

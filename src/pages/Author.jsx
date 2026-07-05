@@ -299,8 +299,9 @@ const Author = () => {
                       <a
                         href={`/blog/${post.slug}`}
                         className="text-primary-1 hover:text-primary-2 transition-colors"
+                        aria-label={`Read the full post: ${post.title}`}
                       >
-                        Read More
+                        Read post
                       </a>
                     </div>
                   </div>

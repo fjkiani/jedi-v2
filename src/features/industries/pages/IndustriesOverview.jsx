@@ -67,27 +67,44 @@ const IndustriesOverview = () => {
     fetchIndustries();
   }, []);
 
+  // Hoist SEO above loading/error gates so prerender always emits route-level meta
+  const seo = (
+    <SEO
+      title={PAGE_META.industries.title}
+      description={PAGE_META.industries.description}
+      path="/industries"
+      ogImage="https://jedilabs.org/og/og-solutions.png"
+      keywords="AI industries, medical imaging AI, geospatial segmentation, audio classification, video understanding, production AI"
+    />
+  );
+
   if (loading) {
     return (
-      <Section className="flex justify-center items-center min-h-[300px]">
-        <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading industries...</p>
-      </Section>
+      <>
+        {seo}
+        <Section className="flex justify-center items-center min-h-[300px]">
+          <p className={`${isDarkMode ? 'text-n-4' : 'text-n-5'}`}>Loading industries...</p>
+        </Section>
+      </>
     );
   }
 
   if (error) {
     return (
-      <Section className="flex justify-center items-center min-h-[300px]">
-        <div className={`border rounded-lg p-4 ${isDarkMode ? 'bg-red-900/20 border-red-500/30' : 'bg-red-50 border-red-200'}`}>
-          <p className="text-red-500">{error}</p>
-        </div>
-      </Section>
+      <>
+        {seo}
+        <Section className="flex justify-center items-center min-h-[300px]">
+          <div className={`border rounded-lg p-4 ${isDarkMode ? 'bg-red-900/20 border-red-500/30' : 'bg-red-50 border-red-200'}`}>
+            <p className="text-red-500">{error}</p>
+          </div>
+        </Section>
+      </>
     );
   }
 
   return (
     <>
-      <SEO title={PAGE_META.industries.title} description={PAGE_META.industries.description} path="/industries" />
+      {seo}
       <Section className="pt-[12rem] -mt-[5.25rem]" crosses crossesOffset="lg:translate-y-[5.25rem]" customPaddings id="industries">
       <div className="container relative">
         <div ref={heroAnimation.ref} className={`relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem] ${heroAnimation.animationClasses}`}>

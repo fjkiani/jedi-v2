@@ -5,6 +5,7 @@ import Heading from "../components/Heading";
 import PageBottomCTA from "../components/PageBottomCTA";
 import { aiTrainingDetails } from "../constants/aiTrainingDetails";
 import { useTheme } from "../context/ThemeContext";
+import SEO from '@/components/SEO';
 
 const AiTraining = () => {
   const { isDarkMode } = useTheme();
@@ -22,6 +23,13 @@ const AiTraining = () => {
 
   return (
     <>
+      <SEO
+        title="AI Training | Jedi Labs — Production Model Fine-Tuning"
+        description="Production AI training programs across medical imaging, geospatial segmentation, audio classification, and video understanding. Real training curves, per-class F1, and reproducible experiments."
+        path="/ai-training"
+        keywords="AI training, model fine-tuning, PyTorch training, production ML, evaluation curves, transfer learning, Jedi Labs"
+        ogImage="https://jedilabs.org/og/og-technology.png"
+      />
       <Section className="pt-[12rem] -mt-[5.25rem]" crosses>
         <div className="container relative">
           {/* Hero */}

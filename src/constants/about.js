@@ -1,7 +1,7 @@
 export const aboutContent = {
   meta: {
-    title: "About Jedi Labs — We solve what AI fails",
-    description: "Jedi Labs builds, evaluates, and deploys production AI for frontier-model teams and enterprises. Four shipped model demos with real evaluation curves, train/val splits, and live inference."
+    title: "About | Jedi Labs — Team, Vision, and Production AI Mission",
+    description: "Jedi Labs builds, evaluates, and deploys production AI for frontier-model teams and enterprises. Meet the team and see our production model demos with real evaluation curves."
   },
 
   hero: {

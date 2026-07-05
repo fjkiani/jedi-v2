@@ -27,7 +27,6 @@ import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetai
 import TechnologyStack from './pages/technology/TechnologyStack';
 import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
-import { TestSEO } from '@/components/SEO/TestSEO';
 import UseCasesPage from './pages/UseCasesPage';
 import UseCaseDetailPage from './pages/UseCaseDetailPage';
 import JediApplicationsPreview from "./components/JediApplicationsPreview";
@@ -44,6 +43,8 @@ import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
 import { CareersPage, JobDetailPage } from './pages/careers';
 import NotFound from './pages/NotFound';
 import AiTraining from './pages/AiTraining';
+import BenchmarksPage from './pages/benchmarks/BenchmarksPage';
+import GlossaryPage from './pages/glossary/GlossaryPage';
 import AiTrainingDomain from './pages/AiTrainingDomain';
 
 const BlogLegacyRedirect = () => {
@@ -79,8 +80,6 @@ const AppContent = ({ location }) => {
     <div className={`min-h-screen transition-colors duration-200 mobile-safe
       ${isDarkMode ? 'bg-n-8 text-n-1' : 'bg-white text-gray-900'}`}>
       <HelmetProvider>
-        <TestSEO />
-        <SEO />
         <RootSEO />
         <Header />
         <ScrollToTop />
@@ -93,7 +92,13 @@ const AppContent = ({ location }) => {
               <Route
                 path="/"
                 element={
-                  <>
+                  <PageTransition>
+                    <SEO
+                      title="Jedi Labs — AI Systems That Solve What AI Fails"
+                      description="Production-grade AI development, evaluation, and deployment for frontier-model teams and enterprises. Shipped model demos across medical imaging, geospatial segmentation, audio, and video — real metrics, real inference."
+                      path="/"
+                      ogImage="https://jedilabs.org/og/og-home.png"
+                    />
                     <Hero />
                     <TransformationMethodology />
                     <NextGenAIStack />
@@ -102,7 +107,7 @@ const AppContent = ({ location }) => {
                     <Collaboration />
                     <SidebarConsultant />
                     <LeadCaptureCTA />
-                  </>
+                  </PageTransition>
                 }
               />
 
@@ -161,6 +166,10 @@ const AppContent = ({ location }) => {
               {/* ── AI Training ──────────────────────────────────────────── */}
               <Route path="/ai-training" element={<PageTransition><AiTraining /></PageTransition>} />
               <Route path="/ai-training/:domainId" element={<PageTransition><AiTrainingDomain /></PageTransition>} />
+
+              {/* ── Benchmarks ───────────────────────────────────────────── */}
+              <Route path="/benchmarks" element={<PageTransition><BenchmarksPage /></PageTransition>} />
+              <Route path="/glossary" element={<PageTransition><GlossaryPage /></PageTransition>} />
 
               {/* ── 404 ──────────────────────────────────────────────────── */}
               <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

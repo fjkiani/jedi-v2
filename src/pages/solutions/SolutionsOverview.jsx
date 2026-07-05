@@ -7,6 +7,8 @@ import { GET_ALL_SOLUTIONS } from '@/graphql/queries/solutions';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/Button';
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
+import { PAGE_META } from '@/constants/seo';
 
 const SolutionsOverview = () => {
   const { isDarkMode } = useTheme();
@@ -31,10 +33,18 @@ const SolutionsOverview = () => {
   }, []);
 
   return (
-    <Section className="pt-[8rem] -mt-[5.25rem]">
+    <>
+      <SEO
+        title={PAGE_META.solutions.title}
+        description={PAGE_META.solutions.description}
+        path="/solutions"
+        ogImage="https://jedilabs.org/og/og-solutions.png"
+      />
+      <Section className="pt-[8rem] -mt-[5.25rem]">
       <div className="container">
         <Heading
           title="AI Solutions"
+            as="h1"
           text="Enterprise-grade capabilities built for scale."
           className="mb-16 text-center"
         />
@@ -130,6 +140,7 @@ const SolutionsOverview = () => {
         )}
       </div>
     </Section>
+    </>
   );
 };
 

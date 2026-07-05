@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/SEO';
 import { useState, useEffect } from 'react';
 import Section from '@/components/Section';
 import ContactCoPilot from '@/components/ContactCoPilot';
@@ -31,13 +31,13 @@ const ContactUs = () => {
 
   return (
     <div className={isDarkMode ? 'min-h-screen bg-n-8' : 'min-h-screen bg-n-1'}>
-      <Helmet>
-        <title>Contact Us | JediLabs - Start Your 100x Transformation Journey</title>
-        <meta 
-          name="description" 
-          content="Get in touch with JediLabs to discuss how we can help your business achieve 100x growth. Let's transform your organization together."
-        />
-      </Helmet>
+      <SEO
+        title="Contact | Jedi Labs — Talk to our AI Engineering Team"
+        description="Contact Jedi Labs to discuss production AI deployments, pilots, evaluations, training, and partnership engagements."
+        path="/contact"
+        ogImage="https://jedilabs.org/og/og-default.png"
+        keywords="contact Jedi Labs, AI consulting, AI deployment consultation, book a demo, enterprise AI"
+      />
 
       {/* Floating Elements */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">

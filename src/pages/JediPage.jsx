@@ -20,7 +20,7 @@ import {
   FiCpu, FiActivity, FiServer, FiShield, FiArrowRight, FiLock, FiCrosshair, FiExternalLink, FiLink,
   FiZap, FiTrendingUp, FiUsers, FiClock, FiDollarSign, FiCheckCircle
 } from 'react-icons/fi';
-import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/SEO';
 import Button from '../components/Button';
 import {
   industryPlaybooks,
@@ -291,12 +291,13 @@ const JediPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Jedi Labs — AI Systems That Solve Real Business Problems</title>
-        <meta name="description" content="Jedi Labs builds and deploys production AI applications that automate workflows, reduce costs, and unlock knowledge. From data pipelines to intelligent agents — AI that ships." />
-        <meta property="og:url" content="https://jedilabs.org/jedi" />
-        <link rel="canonical" href="https://jedilabs.org/jedi" />
-      </Helmet>
+      <SEO
+        title="Jedi Labs — AI Systems That Solve Real Business Problems"
+        description="Jedi Labs builds and deploys production AI applications that automate workflows, reduce costs, and unlock knowledge. From data pipelines to intelligent agents — AI that ships."
+        path="/jedi"
+        ogImage="https://jedilabs.org/og/og-home.png"
+        keywords="production AI, AI systems, business AI applications, AI automation, Jedi Labs, enterprise AI"
+      />
 
       <div className={`min-h-screen ${t.pageBg} ${t.pageText} pt-[8rem] pb-20 relative overflow-hidden`}>
 

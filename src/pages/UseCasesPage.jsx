@@ -71,6 +71,7 @@ const UseCasesPage = () => {
           {/* Page Header */}
           <Heading
             title="Use Cases"
+            as="h1"
             text="Production AI deployments across industries — each a live system, not a demo."
             className="mb-10 text-center"
           />

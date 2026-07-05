@@ -9,6 +9,7 @@ import Button from '@/components/Button';
 import PageBottomCTA from '@/components/PageBottomCTA';
 import { hygraphClient } from '@/lib/hygraph';
 import { GET_TECHNOLOGIES_BY_SLUGS } from '@/graphql/queries/technologies';
+import SEO from '@/components/SEO';
 
 const MethodologyDetail = () => {
     const { slug } = useParams();
@@ -109,6 +110,13 @@ const MethodologyDetail = () => {
 
     return (
         <div className={`min-h-screen pt-[4.75rem] lg:pt-[5.25rem] ${isDarkMode ? 'bg-n-8 text-n-1' : 'bg-gray-50 text-n-8'}`}>
+            <SEO
+              title={`${step?.title || 'Methodology Step'} | Jedi Labs Methodology`}
+              description={step?.description ? String(step.description).slice(0, 160) : `${step?.title || 'Methodology'} — how Jedi Labs deploys production AI. Real training curves, evaluation, and reproducible pipelines.`}
+              path={`/methodology/${slug}`}
+              keywords={`AI methodology, ${step?.title}, production ML, Jedi Labs, ${(step?.technologies || []).slice(0, 3).join(', ')}`}
+              ogImage="https://jedilabs.org/og/og-technology.png"
+            />
 
             {/* Hero Section */}
             <Section className="relative -mt-[5.25rem]" crosses>
