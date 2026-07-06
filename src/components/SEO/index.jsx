@@ -12,6 +12,17 @@ import { SITE_URL, DEFAULT_META } from '@/constants/seo';
  * - Direct <Helmet> children only, no conditionals or maps.
  * - Return a single <Helmet> (no fragment wrapper needed).
  * - No inline JSON stringification inside <script> children; pre-stringify.
+ *
+ * hreflang policy (round 3.5):
+ * The site currently ships English-only. We emit hreflang="en" pointing at the
+ * canonical URL plus hreflang="x-default" also pointing at the canonical URL.
+ * This is the correct pattern per Google's international-targeting docs when
+ * the site has one language: it disambiguates regional English variants
+ * (en-US, en-GB, en-IN etc.) so all English searchers see the same URL, and
+ * x-default tells Google to serve this URL to users whose language isn't
+ * otherwise matched. When additional languages ship, unroll additional
+ * <link rel="alternate" hrefLang="..."> tags below (react-helmet-async does
+ * not accept mapped arrays as children).
  */
 const SEO = ({
   title, description, keywords, path = '/', ogUrl, ogImage,
@@ -45,12 +56,16 @@ const SEO = ({
       <meta property="og:image" content={image} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:locale" content="en_US" />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={url} />
       <meta property="twitter:title" content={metaTitle} />
       <meta property="twitter:description" content={metaDesc} />
       <meta property="twitter:image" content={image} />
       <link rel="canonical" href={url} />
+      {/* hreflang alternates — English-only site, x-default falls back to same URL */}
+      <link rel="alternate" hrefLang="en" href={url} />
+      <link rel="alternate" hrefLang="x-default" href={url} />
       {jsonLdString ? <script type="application/ld+json">{jsonLdString}</script> : null}
     </Helmet>
   );

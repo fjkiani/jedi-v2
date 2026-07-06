@@ -1,0 +1,23 @@
+# Cloudflare Pages / Netlify _redirects file
+# Format: <from>  <to>  <status>
+# Netlify: this is duplicated by netlify.toml [[redirects]] but harmless.
+# Cloudflare Pages: this is the ONLY way to declare redirects (no TOML equivalent).
+
+# --- 301 redirects for retired blog posts ---
+# The Hygraph CMS content was updated in Jul 2026: 9 old posts were removed and
+# replaced with 4 new posts. These 301s preserve inbound-link equity by pointing
+# the dead URLs at /blog (the listing page), which now shows the current 4 posts.
+/blog/post/ai-agents                              /blog  301
+/blog/post/aws-railway                            /blog  301
+/blog/post/evo-2                                  /blog  301
+/blog/post/graph-rag                              /blog  301
+/blog/post/identity-missing-pillar-agentic-ai     /blog  301
+/blog/post/jedilabs                               /blog  301
+/blog/post/knowledge-graph                        /blog  301
+/blog/post/ora-hackathon                          /blog  301
+/blog/post/supabase-etl                           /blog  301
+
+# --- SPA fallback ---
+# Any unknown route serves the prerendered index.html so React Router can
+# handle client-side navigation. Placed LAST so specific rules above win.
+/*                                                /index.html  200

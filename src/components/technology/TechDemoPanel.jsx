@@ -233,7 +233,7 @@ const TechCTA = ({ tech, isDark }) => {
                   </div>
                 ))}
               </div>
-              <span className="text-xs">Trusted by 40+ enterprise teams</span>
+              <span className="text-xs">Four shipped demos live on Hugging Face</span>
             </div>
           </div>
         </div>

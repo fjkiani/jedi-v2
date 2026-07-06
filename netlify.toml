@@ -1,8 +1,147 @@
+# Netlify configuration for jedi-v2 (Vite + prerender)
+# ------------------------------------------------------
+# Docs:
+#   https://docs.netlify.com/configure-builds/file-based-configuration/
+#   https://docs.netlify.com/routing/redirects/
+#   https://docs.netlify.com/routing/headers/
+#
+# The build command must set PRERENDER=1 so vite.config.prerender.js runs.
+
 [build]
-  command = "npm run build"
+  command = "PRERENDER=1 npm run build"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "20"
+  # Set these in the Netlify UI (Environment variables), NOT here, if they're secret:
+  #   VITE_HYGRAPH_ENDPOINT
+  #   VITE_HYGRAPH_TOKEN
+  #   INDEXNOW_KEY
+
+# --- 301 redirects for retired blog posts ---
+# The Hygraph CMS was updated between round 3 (Jul 4-5) and round 3.5 (Jul 6):
+# 9 old posts (ai-agents, aws-railway, evo-2, graph-rag, identity-missing…, jedilabs,
+# knowledge-graph, ora-hackathon, supabase-etl) were replaced with 4 new posts
+# (dicom-pipeline, geotiffs-to-pixel, video-ml-clip, audio-ml). These 301s
+# preserve any inbound link equity by pointing dead URLs at /blog (the listing
+# page). Placed BEFORE the SPA fallback so they take precedence.
+[[redirects]]
+  from = "/blog/post/ai-agents"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/aws-railway"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/evo-2"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/graph-rag"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/identity-missing-pillar-agentic-ai"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/jedilabs"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/knowledge-graph"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/ora-hackathon"
+  to = "/blog"
+  status = 301
+[[redirects]]
+  from = "/blog/post/supabase-etl"
+  to = "/blog"
+  status = 301
+
+# SPA fallback — any unknown route serves the prerendered index.html and
+# React Router picks it up client-side.
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+  # But do NOT rewrite requests that already have a prerendered HTML at that path.
+  force = false
+
+# --- Cache headers (Netlify duplicates public/_headers, keep in sync) ---
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/videos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "application/manifest+json"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# --- Post-deploy IndexNow submission ---
+# Netlify does NOT expose a native "post-deploy" hook without a plugin. Options:
+#   1. Trigger an external webhook after deploy (Netlify → Site → Build hooks →
+#      Deploy notifications → Outgoing webhook → your worker), which then calls
+#      `node scripts/indexnow-submit.mjs` in your own runtime.
+#   2. Run IndexNow submission as the last step of the build command:
+#         command = "PRERENDER=1 npm run build && node scripts/indexnow-submit.mjs"
+#      This submits stale URLs at build-time, which is close-enough for most sites.
+#      Requires INDEXNOW_KEY set in Netlify env vars and the key file at
+#      public/<KEY>.txt.
+#   3. Use Netlify Functions with a scheduled trigger to periodically re-submit.

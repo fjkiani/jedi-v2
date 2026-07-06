@@ -160,7 +160,8 @@ const Footer = () => {
       url: '/resources',
       items: [
         { id: 'blog', title: 'Blog', url: '/blog' },
-        // { id: 'whitepapers', title: 'Whitepapers', url: '/whitepapers' },
+        { id: 'benchmarks', title: 'Benchmarks', url: '/benchmarks' },
+        { id: 'glossary', title: 'Glossary', url: '/glossary' },
         { id: 'case-studies', title: 'Case Studies', url: '/case-studies' },
       ]
     });

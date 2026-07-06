@@ -10,6 +10,21 @@
     <meta name="google-site-verification" content="d4cdbca54979656a" />
     <title>Jedi Labs — We solve what AI fails</title>
 
+    <!-- Performance hints: DNS + preconnect to origins the initial page needs -->
+    <link rel="preconnect" href="https://api-us-east-1-shared-euc1-02.hygraph.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api-us-east-1-shared-euc1-02.hygraph.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Theme colors so mobile browsers render address bar in-brand -->
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAF9F3" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/og/og-home.png" />
+
     <!-- Default meta tags (will be overridden per route by Helmet) -->
     <meta name="description" content="Production-grade deployment, training, evaluation, and benchmarking for frontier-model teams and enterprise AI. Four shipped demos with real evaluation curves, per-class F1, and live inference. No PowerPoint." />
     <meta property="og:site_name" content="Jedi Labs" />
@@ -24,5 +39,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Register service worker (production only) -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

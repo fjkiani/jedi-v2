@@ -1,51 +1,54 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import ButtonGradient from "./assets/svg/ButtonGradient";
-import NextGenAIStack from "./components/NextGenAIStack";
-import Collaboration from "./components/Collaboration";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import PricingPage from "./pages/PricingPage";
-import WhyChooseUs from "./components/WhyChooseUs";
-import CaseStudies from "./components/CaseStudies";
-import TransformationMethodology from "./components/TransformationMethodology";
 import ScrollToTop from "./components/ScrollToTop";
 import { HelmetProvider } from 'react-helmet-async';
-import AboutUs from './pages/AboutUs';
-import TeamMemberDetail from './pages/team/TeamMemberDetail';
-import TeamPage from './pages/team';
-
-// Pages
-import Blog from './pages/blog/Blog';
-import BlogPage from '@/blog/BlogPage.tsx';
-import SolutionsPage from './pages/solutions/SolutionsOverview.jsx';
-import SolutionPage from './pages/solutions/SolutionPage.jsx';
-import IndustryRoutes from './features/industries/routes';
-import EnhancedTechnologyDetail from './pages/technology/EnhancedTechnologyDetail';
-import TechnologyStack from './pages/technology/TechnologyStack';
-import ContactUs from "./pages/ContactUs";
 import SEO, { RootSEO } from "@/components/SEO";
-import UseCasesPage from './pages/UseCasesPage';
-import UseCaseDetailPage from './pages/UseCaseDetailPage';
-import JediApplicationsPreview from "./components/JediApplicationsPreview";
-import CallToAction from "./components/CallToAction";
-import LeadCaptureCTA from "./components/LeadCaptureCTA";
-import SidebarConsultant from "./components/SidebarConsultant";
+
+// ---- Above-the-fold on / stays eager for LCP ----
 import Hero from "./components/Hero";
-import JediPage from "./pages/JediPage";
-import MethodologyDetail from './pages/methodology/MethodologyDetail';
-import MethodologyPage from './pages/methodology/MethodologyPage';
-import ExplorePage from './pages/ExplorePage';
-import InfrastructurePage from './pages/InfrastructurePage';
-import { CaseStudiesPage, CaseStudyDetailPage } from './pages/caseStudies';
-import { CareersPage, JobDetailPage } from './pages/careers';
-import NotFound from './pages/NotFound';
-import AiTraining from './pages/AiTraining';
-import BenchmarksPage from './pages/benchmarks/BenchmarksPage';
-import GlossaryPage from './pages/glossary/GlossaryPage';
-import AiTrainingDomain from './pages/AiTrainingDomain';
+import TransformationMethodology from "./components/TransformationMethodology";
+import NextGenAIStack from "./components/NextGenAIStack";
+import WhyChooseUs from "./components/WhyChooseUs";
+import JediApplicationsPreview from "./components/JediApplicationsPreview";
+import Collaboration from "./components/Collaboration";
+import SidebarConsultant from "./components/SidebarConsultant";
+import LeadCaptureCTA from "./components/LeadCaptureCTA";
+import CaseStudies from "./components/CaseStudies";
+
+// ---- Route pages are all lazy (30+ pages, saved from initial bundle) ----
+const AboutUs                  = lazy(() => import('./pages/AboutUs'));
+const TeamMemberDetail         = lazy(() => import('./pages/team/TeamMemberDetail'));
+const TeamPage                 = lazy(() => import('./pages/team'));
+const Blog                     = lazy(() => import('./pages/blog/Blog'));
+const BlogPage                 = lazy(() => import('@/blog/BlogPage.tsx'));
+const SolutionsPage            = lazy(() => import('./pages/solutions/SolutionsOverview.jsx'));
+const SolutionPage             = lazy(() => import('./pages/solutions/SolutionPage.jsx'));
+const IndustryRoutes           = lazy(() => import('./features/industries/routes'));
+const EnhancedTechnologyDetail = lazy(() => import('./pages/technology/EnhancedTechnologyDetail'));
+const TechnologyStack          = lazy(() => import('./pages/technology/TechnologyStack'));
+const ContactUs                = lazy(() => import('./pages/ContactUs'));
+const UseCasesPage             = lazy(() => import('./pages/UseCasesPage'));
+const UseCaseDetailPage        = lazy(() => import('./pages/UseCaseDetailPage'));
+const PricingPage              = lazy(() => import('./pages/PricingPage'));
+const JediPage                 = lazy(() => import('./pages/JediPage'));
+const MethodologyDetail        = lazy(() => import('./pages/methodology/MethodologyDetail'));
+const MethodologyPage          = lazy(() => import('./pages/methodology/MethodologyPage'));
+const ExplorePage              = lazy(() => import('./pages/ExplorePage'));
+const InfrastructurePage       = lazy(() => import('./pages/InfrastructurePage'));
+const CaseStudiesPage          = lazy(() => import('./pages/caseStudies').then(m => ({ default: m.CaseStudiesPage })));
+const CaseStudyDetailPage      = lazy(() => import('./pages/caseStudies').then(m => ({ default: m.CaseStudyDetailPage })));
+const CareersPage              = lazy(() => import('./pages/careers').then(m => ({ default: m.CareersPage })));
+const JobDetailPage            = lazy(() => import('./pages/careers').then(m => ({ default: m.JobDetailPage })));
+const NotFound                 = lazy(() => import('./pages/NotFound'));
+const AiTraining               = lazy(() => import('./pages/AiTraining'));
+const AiTrainingDomain         = lazy(() => import('./pages/AiTrainingDomain'));
+const BenchmarksPage           = lazy(() => import('./pages/benchmarks/BenchmarksPage'));
+const GlossaryPage             = lazy(() => import('./pages/glossary/GlossaryPage'));
 
 const BlogLegacyRedirect = () => {
   const { slug } = useParams();
@@ -63,9 +66,15 @@ const PageTransition = ({ children }) => (
   </motion.div>
 );
 
+// Lightweight Suspense fallback — no layout shift
+const PageFallback = () => (
+  <div className="min-h-[60vh] flex items-center justify-center" aria-hidden="true">
+    <div className="w-8 h-8 border-2 border-n-6 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
 const App = () => {
   const location = useLocation();
-
   return (
     <ThemeProvider>
       <AppContent location={location} />
@@ -86,95 +95,95 @@ const AppContent = ({ location }) => {
 
         <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden mobile-safe">
           <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
+            <Suspense fallback={<PageFallback />}>
+              <Routes location={location} key={location.pathname}>
 
-              {/* ── Home ─────────────────────────────────────────────────── */}
-              <Route
-                path="/"
-                element={
-                  <PageTransition>
-                    <SEO
-                      title="Jedi Labs — AI Systems That Solve What AI Fails"
-                      description="Production-grade AI development, evaluation, and deployment for frontier-model teams and enterprises. Shipped model demos across medical imaging, geospatial segmentation, audio, and video — real metrics, real inference."
-                      path="/"
-                      ogImage="https://jedilabs.org/og/og-home.png"
-                    />
-                    <Hero />
-                    <TransformationMethodology />
-                    <NextGenAIStack />
-                    <WhyChooseUs />
-                    <JediApplicationsPreview />
-                    <Collaboration />
-                    <SidebarConsultant />
-                    <LeadCaptureCTA />
-                  </PageTransition>
-                }
-              />
+                {/* ── Home ─────────────────────────────────────────────────── */}
+                <Route
+                  path="/"
+                  element={
+                    <PageTransition>
+                      <SEO
+                        title="Jedi Labs — AI Systems That Solve What AI Fails"
+                        description="Production-grade AI development, evaluation, and deployment for frontier-model teams and enterprises. Shipped model demos across medical imaging, geospatial segmentation, audio, and video — real metrics, real inference."
+                        path="/"
+                        ogImage="https://jedilabs.org/og/og-home.png"
+                      />
+                      <Hero />
+                      <TransformationMethodology />
+                      <NextGenAIStack />
+                      <WhyChooseUs />
+                      <JediApplicationsPreview />
+                      <Collaboration />
+                      <SidebarConsultant />
+                      <LeadCaptureCTA />
+                    </PageTransition>
+                  }
+                />
 
-              {/* ── Solutions ────────────────────────────────────────────── */}
-              <Route path="/solutions" element={<PageTransition><SolutionsPage /><WhyChooseUs /><CaseStudies /></PageTransition>} />
-              <Route path="/solutions/:slug" element={<PageTransition><SolutionPage /></PageTransition>} />
+                {/* ── Solutions ────────────────────────────────────────────── */}
+                <Route path="/solutions" element={<PageTransition><SolutionsPage /><WhyChooseUs /><CaseStudies /></PageTransition>} />
+                <Route path="/solutions/:slug" element={<PageTransition><SolutionPage /></PageTransition>} />
 
-              {/* ── Infrastructure ───────────────────────────────────────── */}
-              <Route path="/infrastructure" element={<PageTransition><InfrastructurePage /></PageTransition>} />
+                {/* ── Infrastructure ───────────────────────────────────────── */}
+                <Route path="/infrastructure" element={<PageTransition><InfrastructurePage /></PageTransition>} />
 
-              {/* ── Use Cases ────────────────────────────────────────────── */}
-              <Route path="/deployments" element={<Navigate to="/use-cases" replace />} />
-              <Route path="/usecases" element={<Navigate to="/use-cases" replace />} />
-              <Route path="/use-cases" element={<PageTransition><UseCasesPage /></PageTransition>} />
-              <Route path="/use-cases/:slug" element={<PageTransition><UseCaseDetailPage /></PageTransition>} />
+                {/* ── Use Cases ────────────────────────────────────────────── */}
+                <Route path="/deployments" element={<Navigate to="/use-cases" replace />} />
+                <Route path="/usecases" element={<Navigate to="/use-cases" replace />} />
+                <Route path="/use-cases" element={<PageTransition><UseCasesPage /></PageTransition>} />
+                <Route path="/use-cases/:slug" element={<PageTransition><UseCaseDetailPage /></PageTransition>} />
 
-              {/* ── Blog ─────────────────────────────────────────────────── */}
-              <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
-              <Route path="/blog/post/:slug" element={<PageTransition><BlogPage /></PageTransition>} />
-              {/* Legacy: /blog/ai-agents → /blog/post/ai-agents */}
-              <Route path="/blog/:slug" element={<BlogLegacyRedirect />} />
+                {/* ── Blog ─────────────────────────────────────────────────── */}
+                <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
+                <Route path="/blog/post/:slug" element={<PageTransition><BlogPage /></PageTransition>} />
+                <Route path="/blog/:slug" element={<BlogLegacyRedirect />} />
 
-              {/* ── Industries ───────────────────────────────────────────── */}
-              <Route path="/industries/*" element={<PageTransition><IndustryRoutes /></PageTransition>} />
+                {/* ── Industries ───────────────────────────────────────────── */}
+                <Route path="/industries/*" element={<PageTransition><IndustryRoutes /></PageTransition>} />
 
-              {/* ── Technology ───────────────────────────────────────────── */}
-              <Route path="/technology" element={<PageTransition><TechnologyStack /></PageTransition>} />
-              {/* Must come after specific /technology/* routes */}
-              <Route path="/technology/:slug" element={<PageTransition><EnhancedTechnologyDetail /></PageTransition>} />
+                {/* ── Technology ───────────────────────────────────────────── */}
+                <Route path="/technology" element={<PageTransition><TechnologyStack /></PageTransition>} />
+                <Route path="/technology/:slug" element={<PageTransition><EnhancedTechnologyDetail /></PageTransition>} />
 
-              {/* ── About / Team ─────────────────────────────────────────── */}
-              <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
-              <Route path="/team" element={<PageTransition><TeamPage /></PageTransition>} />
-              <Route path="/team/:slug" element={<PageTransition><TeamMemberDetail /></PageTransition>} />
+                {/* ── About / Team ─────────────────────────────────────────── */}
+                <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
+                <Route path="/team" element={<PageTransition><TeamPage /></PageTransition>} />
+                <Route path="/team/:slug" element={<PageTransition><TeamMemberDetail /></PageTransition>} />
 
-              {/* ── Contact / Pricing ────────────────────────────────────── */}
-              <Route path="/pricing" element={<PageTransition><PricingPage /></PageTransition>} />
-              <Route path="/contact" element={<PageTransition><ContactUs /></PageTransition>} />
+                {/* ── Contact / Pricing ────────────────────────────────────── */}
+                <Route path="/pricing" element={<PageTransition><PricingPage /></PageTransition>} />
+                <Route path="/contact" element={<PageTransition><ContactUs /></PageTransition>} />
 
-              {/* ── JEDI ─────────────────────────────────────────────────── */}
-              <Route path="/jedi" element={<PageTransition><JediPage /></PageTransition>} />
+                {/* ── JEDI ─────────────────────────────────────────────────── */}
+                <Route path="/jedi" element={<PageTransition><JediPage /></PageTransition>} />
 
-              {/* ── Case Studies ─────────────────────────────────────────── */}
-              <Route path="/case-studies" element={<PageTransition><CaseStudiesPage /></PageTransition>} />
-              <Route path="/case-studies/:slug" element={<PageTransition><CaseStudyDetailPage /></PageTransition>} />
+                {/* ── Case Studies ─────────────────────────────────────────── */}
+                <Route path="/case-studies" element={<PageTransition><CaseStudiesPage /></PageTransition>} />
+                <Route path="/case-studies/:slug" element={<PageTransition><CaseStudyDetailPage /></PageTransition>} />
 
-              {/* ── Careers ──────────────────────────────────────────────── */}
-              <Route path="/careers" element={<PageTransition><CareersPage /></PageTransition>} />
-              <Route path="/careers/:slug" element={<PageTransition><JobDetailPage /></PageTransition>} />
+                {/* ── Careers ──────────────────────────────────────────────── */}
+                <Route path="/careers" element={<PageTransition><CareersPage /></PageTransition>} />
+                <Route path="/careers/:slug" element={<PageTransition><JobDetailPage /></PageTransition>} />
 
-              {/* ── Methodology ──────────────────────────────────────────── */}
-              <Route path="/methodology" element={<PageTransition><MethodologyPage /></PageTransition>} />
-              <Route path="/explore" element={<PageTransition><ExplorePage /></PageTransition>} />
-              <Route path="/methodology/:slug" element={<PageTransition><MethodologyDetail /></PageTransition>} />
+                {/* ── Methodology ──────────────────────────────────────────── */}
+                <Route path="/methodology" element={<PageTransition><MethodologyPage /></PageTransition>} />
+                <Route path="/explore" element={<PageTransition><ExplorePage /></PageTransition>} />
+                <Route path="/methodology/:slug" element={<PageTransition><MethodologyDetail /></PageTransition>} />
 
-              {/* ── AI Training ──────────────────────────────────────────── */}
-              <Route path="/ai-training" element={<PageTransition><AiTraining /></PageTransition>} />
-              <Route path="/ai-training/:domainId" element={<PageTransition><AiTrainingDomain /></PageTransition>} />
+                {/* ── AI Training ──────────────────────────────────────────── */}
+                <Route path="/ai-training" element={<PageTransition><AiTraining /></PageTransition>} />
+                <Route path="/ai-training/:domainId" element={<PageTransition><AiTrainingDomain /></PageTransition>} />
 
-              {/* ── Benchmarks ───────────────────────────────────────────── */}
-              <Route path="/benchmarks" element={<PageTransition><BenchmarksPage /></PageTransition>} />
-              <Route path="/glossary" element={<PageTransition><GlossaryPage /></PageTransition>} />
+                {/* ── Benchmarks / Glossary ────────────────────────────────── */}
+                <Route path="/benchmarks" element={<PageTransition><BenchmarksPage /></PageTransition>} />
+                <Route path="/glossary" element={<PageTransition><GlossaryPage /></PageTransition>} />
 
-              {/* ── 404 ──────────────────────────────────────────────────── */}
-              <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+                {/* ── 404 ──────────────────────────────────────────────────── */}
+                <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
 
-            </Routes>
+              </Routes>
+            </Suspense>
           </AnimatePresence>
 
           <Footer />

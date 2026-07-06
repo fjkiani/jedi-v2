@@ -2,157 +2,139 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jedilabs.org/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/jedi</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/solutions</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/industries</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/use-cases</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/case-studies</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/infrastructure</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/team</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/careers</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/blog</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/technology</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/about</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/contact</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/benchmarks</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/glossary</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/explore</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://jedilabs.org/methodology</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://jedilabs.org/blog/post/ai-agents</loc>
-    <lastmod>2025-01-30</lastmod>
+    <loc>https://jedilabs.org/ai-training</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/pricing</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/blog/post/dicom-pipeline</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://jedilabs.org/blog/post/graph-rag</loc>
-    <lastmod>2025-01-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/knowledge-graph</loc>
-    <lastmod>2026-02-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/aws-railway</loc>
-    <lastmod>2025-02-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/supabase-etl</loc>
-    <lastmod>2025-02-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/ora-hackathon</loc>
-    <lastmod>2025-03-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/evo-2</loc>
-    <lastmod>2025-05-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jedilabs.org/blog/post/jedilabs</loc>
-    <lastmod>2026-02-09</lastmod>
+    <loc>https://jedilabs.org/blog/post/geotiffs-to-pixel</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://jedilabs.org/blog/post/identity-missing-pillar-agentic-ai</loc>
-    <lastmod>2026-02-26</lastmod>
+    <loc>https://jedilabs.org/blog/post/video-ml-clip</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://jedilabs.org/blog/post/audio-ml</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

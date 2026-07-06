@@ -38,6 +38,10 @@ async function hygraphRequest(query, retries = 3) {
 }
 
 // Static routes configuration - aligned with App.jsx routes
+// Kept in sync with scripts/enumerate-routes.mjs staticRoutes.
+// NOTE: /deployments is a 301 redirect to /use-cases, so it's intentionally
+// excluded here — redirected URLs must not appear in sitemap.xml (Google will
+// treat them as duplicates).
 const staticRoutes = [
   { path: '/', changefreq: 'daily', priority: 1.0 },
   { path: '/jedi', changefreq: 'weekly', priority: 0.95 },
@@ -55,7 +59,9 @@ const staticRoutes = [
   { path: '/benchmarks', changefreq: 'weekly', priority: 0.95 },
   { path: '/glossary', changefreq: 'monthly', priority: 0.7 },
   { path: '/explore', changefreq: 'weekly', priority: 0.85 },
-  { path: '/methodology', changefreq: 'monthly', priority: 0.85 }
+  { path: '/methodology', changefreq: 'monthly', priority: 0.85 },
+  { path: '/ai-training', changefreq: 'weekly', priority: 0.75 },
+  { path: '/pricing', changefreq: 'monthly', priority: 0.75 }
 ];
 
 async function fetchDynamicRoutes() {
@@ -80,7 +86,9 @@ async function fetchDynamicRoutes() {
       `);
 
       if (postsResult.posts) {
-        const priorityPosts = ['identity-missing-pillar-agentic-ai', 'pilot-to-production-agentic-ai-smbs', 'from-pilot-to-production-agentic-ai-smbs', 'building-web3', 'ai-agents', 'jedilabs'];
+        // Live Hygraph blog slugs as of Jul 2026 (see docs/SEO_BASELINE.md).
+        // Old priority slugs were retired when the CMS content was refreshed.
+        const priorityPosts = ['dicom-pipeline', 'geotiffs-to-pixel', 'video-ml-clip', 'audio-ml'];
         routes.push(
           ...postsResult.posts.map(post => ({
             path: `/blog/post/${post.slug}`,

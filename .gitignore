@@ -28,3 +28,8 @@ dist-ssr
 # MCP config may contain Hygraph token (filled by scripts/setup-hygraph-mcp.js)
 .cursor/mcp.json
 .vercel
+
+# Debug / diagnostic scripts (not versioned)
+probe.mjs
+probe2.mjs
+_probe*.mjs

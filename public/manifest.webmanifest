@@ -1,0 +1,45 @@
+{
+  "name": "Jedi Labs — AI Systems That Solve What AI Fails",
+  "short_name": "Jedi Labs",
+  "description": "Production-grade AI development, evaluation, and deployment for frontier-model teams and enterprises.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "en",
+  "categories": ["business", "productivity", "developer"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/og/og-home.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og/og-home.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Jedi Labs home"
+    },
+    {
+      "src": "/og/og-benchmarks.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Reproducible AI benchmarks"
+    }
+  ]
+}

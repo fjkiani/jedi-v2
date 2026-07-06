@@ -143,13 +143,16 @@ const Hero = () => {
                   className={`w-full h-full object-cover transition-opacity duration-300 ${isVideoLoading ? 'opacity-0' : 'opacity-100'
                     }`}
                   src="/videos/coding2.mp4"
+                  poster="/og/og-home.png"
                   controls
                   muted
                   autoPlay
                   preload="none"
+                  loading="lazy"
+                  fetchPriority="low"
                   onLoadedData={() => setIsVideoLoading(false)}
                   playsInline
-                  alt="Hero video"
+                  aria-label="Jedi Labs engineering demo — coding session with our AI stack"
                 />
 
                 {/* Replaced 'Generating' with SystemLog for a more active look */}

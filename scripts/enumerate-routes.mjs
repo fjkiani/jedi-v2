@@ -66,7 +66,13 @@ export async function fetchDynamicRoutes() {
       { posts(stage: PUBLISHED) { slug updatedAt } }
     `);
     if (postsResult?.posts) {
-      const priorityPosts = ['identity-missing-pillar-agentic-ai', 'pilot-to-production-agentic-ai-smbs', 'building-web3', 'ai-agents'];
+      // Live Hygraph blog slugs as of Jul 2026 (see docs/SEO_BASELINE.md).
+      // Old priority slugs (identity-missing-pillar-agentic-ai, ai-agents,
+      // pilot-to-production-agentic-ai-smbs, building-web3) were retired
+      // when the CMS content was refreshed. All 4 current posts are
+      // production-relevant ML/AI walkthroughs, so all get the higher 0.85
+      // sitemap priority.
+      const priorityPosts = ['dicom-pipeline', 'geotiffs-to-pixel', 'video-ml-clip', 'audio-ml'];
       routes.push(...postsResult.posts.map(p => ({
         path: `/blog/post/${p.slug}`,
         lastmod: p.updatedAt?.split('T')[0],

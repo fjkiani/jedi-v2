@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T14:55:28.295Z",
+  "generatedAt": "2026-07-06T04:50:23.791Z",
   "paths": [
     "/",
     "/jedi",
@@ -21,15 +21,10 @@
     "/explore",
     "/benchmarks",
     "/glossary",
-    "/blog/post/ai-agents",
-    "/blog/post/graph-rag",
-    "/blog/post/knowledge-graph",
-    "/blog/post/aws-railway",
-    "/blog/post/supabase-etl",
-    "/blog/post/ora-hackathon",
-    "/blog/post/evo-2",
-    "/blog/post/jedilabs",
-    "/blog/post/identity-missing-pillar-agentic-ai",
+    "/blog/post/dicom-pipeline",
+    "/blog/post/geotiffs-to-pixel",
+    "/blog/post/video-ml-clip",
+    "/blog/post/audio-ml",
     "/team/fahad",
     "/team/asim",
     "/team/muhammad",
@@ -178,56 +173,26 @@
       "priority": 0.8
     },
     {
-      "path": "/blog/post/ai-agents",
-      "lastmod": "2025-01-30",
+      "path": "/blog/post/dicom-pipeline",
+      "lastmod": "2026-07-05",
       "changefreq": "weekly",
       "priority": 0.85
     },
     {
-      "path": "/blog/post/graph-rag",
-      "lastmod": "2025-01-13",
+      "path": "/blog/post/geotiffs-to-pixel",
+      "lastmod": "2026-07-05",
       "changefreq": "weekly",
-      "priority": 0.7
+      "priority": 0.85
     },
     {
-      "path": "/blog/post/knowledge-graph",
-      "lastmod": "2026-02-09",
+      "path": "/blog/post/video-ml-clip",
+      "lastmod": "2026-07-05",
       "changefreq": "weekly",
-      "priority": 0.7
+      "priority": 0.85
     },
     {
-      "path": "/blog/post/aws-railway",
-      "lastmod": "2025-02-11",
-      "changefreq": "weekly",
-      "priority": 0.7
-    },
-    {
-      "path": "/blog/post/supabase-etl",
-      "lastmod": "2025-02-14",
-      "changefreq": "weekly",
-      "priority": 0.7
-    },
-    {
-      "path": "/blog/post/ora-hackathon",
-      "lastmod": "2025-03-05",
-      "changefreq": "weekly",
-      "priority": 0.7
-    },
-    {
-      "path": "/blog/post/evo-2",
-      "lastmod": "2025-05-03",
-      "changefreq": "weekly",
-      "priority": 0.7
-    },
-    {
-      "path": "/blog/post/jedilabs",
-      "lastmod": "2026-02-09",
-      "changefreq": "weekly",
-      "priority": 0.7
-    },
-    {
-      "path": "/blog/post/identity-missing-pillar-agentic-ai",
-      "lastmod": "2026-02-26",
+      "path": "/blog/post/audio-ml",
+      "lastmod": "2026-07-05",
       "changefreq": "weekly",
       "priority": 0.85
     },

@@ -817,59 +817,12 @@ export const socials = [
 
 // Service Content
 // constants.js
-export const serviceContent = [
-  {
-    title: "AI-Powered Healthcare Transformation",
-    title2: "100x Medical Diagnostic Efficiency",
-    subtitle: "Revolutionize Healthcare Diagnostics with Exponential AI Solutions",
-    description: "Our AI-powered diagnostic platform reduces analysis time by 97%, enabling medical professionals to diagnose conditions in seconds rather than hours.\n\nThis exponential improvement in efficiency translates to faster patient care, reduced costs, and significantly improved outcomes across healthcare organizations. Hospitals implementing our solution have seen dramatic improvements in patient throughput and diagnostic accuracy.",
-    video: "/videos/medical-ai.mp4",
-    useCases: [
-      "Reduce diagnostic time from 30 minutes to just 30 seconds - a 60x improvement",
-      "Increase radiologist productivity by up to 400% through AI-assisted workflows",
-      "Achieve 99.7% accuracy in pneumonia detection, exceeding human-only diagnosis"
-    ],
-  },
-  {
-    title: "Financial Intelligence Platform",
-    title2: "100x Revenue Optimization & Cost Efficiency",
-    subtitle: "Transform Financial Decision-Making with AI-Powered Analytics",
-    description: "Our comprehensive financial intelligence platform leverages advanced AI to identify revenue opportunities and cost efficiencies that traditional analysis misses.\n\nOrganizations implementing our solution have achieved revenue increases of up to 120x while simultaneously reducing operational costs by 60-90% through intelligent automation and predictive analytics.",
-    video: "/videos/analytics.mp4",
-    useCases: [
-      "Identify hidden revenue opportunities worth 10-100x your current growth projections",
-      "Reduce financial decision-making time from weeks to minutes - a 1000x improvement",
-      "Automate 95% of manual financial processes while improving accuracy by 99.9%",
-      "Achieve real-time financial visibility across all business units"
-    ],
-  },
-  {
-    title: "Intelligent Customer Engagement",
-    title2: "100x Customer Relationship Transformation",
-    subtitle: "Revolutionize Customer Interactions with AI-Powered Conversations",
-    description: "Our Retrieval-Augmented Generation (RAG) platform transforms customer engagement by delivering personalized, accurate, and contextually relevant interactions at scale.\n\nCompanies implementing this solution have seen conversion rates increase by up to 150x while reducing customer service costs by 80% through intelligent automation of complex interactions.",
-    video: "/videos/rdChat.mp4",
-    useCases: [
-      "Handle 100x more customer inquiries without increasing support staff",
-      "Increase conversion rates by 15-150x through hyper-personalized engagement",
-      "Reduce customer resolution time from days to seconds - a 1000x improvement"
-    ],
-  },
-  {
-    title: "Marketing ROI Maximizer",
-    title2: "100x Marketing Performance Transformation",
-    subtitle: "Achieve Exponential Marketing Returns Through AI-Powered Optimization",
-    description: "Our machine learning marketing platform transforms raw advertising data into predictive insights that have delivered over 400% ROI for our clients.\n\nBy identifying high-performing channels, optimizing spend allocation in real-time, and predicting future performance, we help businesses achieve marketing results that were previously thought impossible.",
-    video: "/videos/HH.mp4",
-    useCases: [
-      "Increase marketing ROI by 5-40x through AI-optimized channel allocation",
-      "Predict customer lifetime value with 92% accuracy to focus acquisition efforts",
-      "Reduce customer acquisition costs by 75-90% while increasing conversion quality",
-      "Transform marketing from a cost center to a predictable revenue engine"
-    ],
-  },
-];
-
+// NOTE: previous export removed 2026-07-05 during SEO round-3.5 content audit.
+// Prior copy contained unsubstantiated multipliers ("100x", "1000x", "150x")
+// and was not imported anywhere. If you need a service-pitch block again,
+// write fresh copy that ties every quantitative claim to a specific
+// evaluation curve, benchmark, or public case study.
+export const serviceContent = [];
 
 export const brainwaveServices = [
   "Test",
