@@ -92,9 +92,10 @@ const PostDetail = ({ post: postProp }) => {
 
       case 'heading-one':
         return (
-          <h1 key={key} className="text-4xl font-bold mb-6">
+          /* seo:round4:postdetail-h1-demote */
+<h2 key={key} className="text-4xl font-bold mb-6">
             {item.children.map((child, i) => renderContentFragment(child, `${key}-${i}`))}
-          </h1>
+          </h2>
         );
 
       case 'heading-two':

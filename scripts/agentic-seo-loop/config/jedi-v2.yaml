@@ -1,0 +1,85 @@
+# Site-specific configuration for the agentic SEO loop on jedi-v2.
+# This file exists to keep repo/branch/route-editability policy out of code.
+
+site: jedilabs.org
+
+repo:
+  path: /workspace/jedi-v2
+  base_branch: round3-jedi-seo
+  branch_pattern: "agent/round4-{timestamp}"
+
+dist:
+  path: /workspace/jedi-v2/dist
+  build_command: "npm run build:prerender"
+  audit_command: "npm run audit:all"
+
+route_policy:
+  # Only top-level static routes have real .jsx pages. Everything else is
+  # rendered by a single dynamic component reading from Hygraph or a slug
+  # map — see EDITABLE_ROUTES in content-injector.mjs for the canonical list.
+  editable_routes:
+    - "/"
+    - "/about"
+    - "/ai-training"
+    - "/benchmarks"
+    - "/blog"
+    - "/careers"
+    - "/case-studies"
+    - "/contact"
+    - "/explore"
+    - "/glossary"
+    - "/industries"
+    - "/infrastructure"
+    - "/jedi"
+    - "/methodology"
+    - "/pricing"
+    - "/solutions"
+    - "/team"
+    - "/technology"   # /technology (index page); /technology/:slug is CMS
+    - "/use-cases"
+  cms_owned_prefixes:
+    # Anything under these is Hygraph/data-driven. Proposals for them go to
+    # cms-proposals-not-applied.jsonl for hand-off to CMS operators.
+    - "/blog/"
+    - "/technology/"
+    - "/solutions/"
+    - "/use-cases/"
+    - "/methodology/"
+    - "/industries/"
+    - "/team/"
+    - "/careers/"
+    - "/case-studies/"
+    - "/ai-training/"
+
+keyword_policy:
+  country: us
+  min_volume: 10
+  max_kd_pct: 80
+  max_edits_per_pass: 20
+  max_new_pages_per_pass: 5
+  min_confidence: 0.5
+
+matching_policy:
+  edit_threshold: 0.6
+  new_page_threshold: 0.4
+
+api_policy:
+  semrush:
+    rate_limit_ms: 1000
+    backoff_429_ms: 30000
+    cache_dir: /mnt/shared-workspace/agentic-seo-loop/_cache/semrush
+  gemma:
+    model: gemma-4-26b-a4b-it
+    max_output_tokens: 500
+    temperature: 0.4
+    thinking_budget: 0  # required for JSON prompts
+
+worker_layout:
+  # For sessions with multiple compute workers, dispatch as follows.
+  # Round 4 uses same-machine parallel processes; multi-machine dispatch
+  # requires wrapping worker steps in remote calls.
+  w0_orchestrator: worker-0
+  w1_analyst: worker-1
+  w2_perf_fixer: worker-2
+  w3_content_injector: worker-3
+  w4_page_scaffolder: worker-4
