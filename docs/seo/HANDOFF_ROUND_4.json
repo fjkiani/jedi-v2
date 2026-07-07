@@ -1,0 +1,196 @@
+{
+  "round": "4",
+  "commit": "58bb5fd",
+  "base_commit": "9658527",
+  "branch": "agent/round4-2026-07-07T1852",
+  "pushed_to_origin": true,
+  "generated_at": "2026-07-07T18:52:00Z",
+  "summary": "Round 4 introduces the agentic-seo-loop skill: a repeatable, resumable pipeline that measures the site's SEO state, harvests Semrush keyword data (US), asks an LLM (Gemini 2.5 Flash by default, Gemma-4-31b-it as an emergency fallback) for per-page copy proposals, applies deterministic perf/CWV fixes, patches non-CMS pages, and re-audits the whole thing on a staged branch. This pass shipped the full framework (15 skill files: SKILL.md, config, 5 worker scripts, 5 shared libs, 3 references) plus ONE real code change — postdetail-h1-demote — which reduced the multi-h1 offender count from 1 to 0. The loop generated one high-confidence copy proposal for /technology/spacy (vol=390, KD=35%) which was correctly classified as CMS-owned and handed off to the operator instead of being force-merged. See notes about Google free-tier daily quota exhaustion (20 req/day/model) and the small editable code surface (~18 top-level static pages; most of jedi-v2 is Hygraph-driven).",
+
+  "technical_scope_delivered": {
+    "agentic_seo_loop_skill": {
+      "location": "scripts/agentic-seo-loop/",
+      "layout": {
+        "SKILL.md": "Skill entrypoint — when to use, requirements, artifacts, rollback, known limitations",
+        "config/jedi-v2.yaml": "Site-specific policy: editable routes, CMS-owned prefixes, keyword/matching/api thresholds, worker layout",
+        "scripts/orchestrator.mjs": "w0 — cuts agent/round4-<utc-ts> branch, syncs skill into repo, snapshots audit-before, dispatches analyst then w2/w3/w4 in parallel, rebuilds + audits, commits with a truthful auto-generated message",
+        "scripts/analyst.mjs": "w1 — auto-seed extraction, Semrush harvest (US, cached), page match, LLM per-candidate edit + new-page proposals",
+        "scripts/perf-fixer.mjs": "w2 — deterministic non-LLM fixes; ships one real fix (postdetail-h1-demote), sentinel-guarded and idempotent",
+        "scripts/content-injector.mjs": "w3 — patches <SEO> string-literal attrs + <h1> on editable routes; hands off CMS-owned proposals to operator",
+        "scripts/page-scaffolder.mjs": "w4 — creates new /topics/<slug>/index.jsx, wires App.jsx + enumerate-routes.mjs + generate-sitemap.js. Zero pages scaffolded this pass (no whitespace opportunities in filtered seeds)",
+        "scripts/lib/semrush.mjs": "Keyword Magic Tool RapidAPI client. Handles vendor typo 'searche volume' (parsed as integer), '1.9k'/'50'/'0' volume strings, '76%' KD strings. SHA1-cached on shared workspace, 1 req/sec rate limit, 30s backoff on 429",
+        "scripts/lib/gemma.mjs": "Google Generative Language client. Default model gemini-2.5-flash; fallback chain gemini-2.5-flash-lite -> gemini-2.0-flash -> gemma-4-31b-it. 65s backoff on 429, 3 retries per model. Auto-strips thinkingConfig on 400 'not supported'. buildEditPrompt + buildNewPagePrompt helpers.",
+        "scripts/lib/seed-extractor.mjs": "cheerio-based dist walker. Extracts title/H1/JSON-LD name. Strips brand suffix, splits on connectors, filters noise (pure brand, 2-token names, 404 prerenders, short/long, common noise words)",
+        "scripts/lib/page-matcher.mjs": "Fuzzy match: exact substring (score 1.0), token Jaccard (0.0-0.95), slug bonus (+0.15). Thresholds edit>=0.6, new<=0.4, skip 0.4-0.6",
+        "scripts/lib/audit-diff.mjs": "summarize(distRoot) + diffSummaries(a, b) — counts routes/titles/canonicals/og:images/JSON-LD/multi-h1",
+        "references/README-agentic-seo.md": "Architecture notes and worker roles",
+        "references/gemma-prompt-templates.md": "Exact prompts used, tuneable for prompt engineering",
+        "references/troubleshooting.md": "Common failure modes: quota exhaustion, EPERM on empty JSONL, cheerio module resolution, Chrome missing"
+      }
+    },
+
+    "perf_carryover_fix": {
+      "postdetail_h1_demote": {
+        "file": "src/components/hyGraph/PostDetail.jsx",
+        "sentinel": "/* seo:round4:postdetail-h1-demote */",
+        "change": "Demoted the first <h1> in the Hygraph rich-text renderer to <h2>. The blog post detail page renders both an outer title <h1> (from the page component) and a rich-text heading-one <h1> block, tripping the multi-h1-per-page audit warn. The outer title is the correct primary h1; the inner one is CMS content that should be a subheading.",
+        "audit_impact": {
+          "metric": "multi_h1_offenders",
+          "before": 1,
+          "after": 0,
+          "route_fixed": "/blog/post/dicom-pipeline"
+        }
+      }
+    },
+
+    "cms_handoff_proposal": {
+      "location": "/mnt/shared-workspace/agentic-seo-loop/round4-2026-07-07T1852/cms-proposals-not-applied.jsonl",
+      "note": "One high-confidence proposal for /technology/spacy that could not be code-injected because /technology/:slug is Hygraph-driven. The operator applies this via CMS.",
+      "proposal": {
+        "route": "/technology/spacy",
+        "target_keyword": "spacy",
+        "volume_us": 390,
+        "kd_pct": 35,
+        "current_title": "spaCy | JEDI Labs Technology Stack",
+        "current_desc": "Production-grade deployment, training, evaluation, and benchmarking for frontier-model teams and enterprise AI. Four shipped demos with real evaluation curves, per-class F1, and live inference. No PowerPoint.",
+        "current_h1": "spaCy",
+        "proposed_title": "spaCy: Production AI Evaluation | JEDI Labs",
+        "proposed_desc": "JEDI Labs offers production-grade deployment, training, and evaluation for frontier models. Explore our spaCy demos with real evaluation curves and live inference for enterprise AI.",
+        "proposed_h1": "Evaluating spaCy for Production AI at JEDI Labs",
+        "confidence": 1.0,
+        "opportunity_score": 253.5
+      }
+    }
+  },
+
+  "loop_state_this_pass": {
+    "seeds_extracted": 40,
+    "seed_note": "60 -> 40 after cap. Also filtered: 3 stale 404 prerenders (from previous rounds' orphaned use-case sub-routes) and 5-7 team-member 2-token name patterns.",
+    "semrush_harvest": {
+      "requests": 40,
+      "cache_hits_from_prior_runs": 26,
+      "no_data_returned_by_vendor": 12,
+      "throttled_429": 2,
+      "kept_with_data": 26
+    },
+    "keywords_qualified": {
+      "threshold": "volume >= 10 AND kd_pct <= 80",
+      "count": 1,
+      "kept": [{"keyword": "spacy", "volume_us": 390, "kd_pct": 35}]
+    },
+    "keywords_dropped_high_kd": [
+      {"keyword": "careers",            "volume_us": 18100, "kd_pct": 100},
+      {"keyword": "technology",         "volume_us": 18100, "kd_pct": 100},
+      {"keyword": "react",              "volume_us": 12100, "kd_pct": 100},
+      {"keyword": "rasa",               "volume_us": 12100, "kd_pct": 100},
+      {"keyword": "automation",         "volume_us":  5400, "kd_pct": 100},
+      {"keyword": "langchain",          "volume_us":  5400, "kd_pct": 100},
+      {"keyword": "benchmarks",         "volume_us":  5400, "kd_pct": 100},
+      {"keyword": "autogpt",            "volume_us":   320, "kd_pct": 100},
+      {"keyword": "dialogflow",         "volume_us":   260, "kd_pct": 100},
+      {"keyword": "babyagi",            "volume_us":    50, "kd_pct": 100},
+      {"keyword": "healthcare ai solutions", "volume_us": 20, "kd_pct": 100}
+    ],
+    "llm_proposals": {
+      "note": "This pass generated 0 organic proposals because Google's free-tier daily quota (20 req/day/model) was exhausted by earlier smoke tests + orchestrator runs during the session. The one CMS-handoff proposal shown above is from run round4-2026-07-07T1808 where quota was still available.",
+      "daily_quota_reset": "midnight PT"
+    },
+    "worker_outcomes": {
+      "perf_fixer": {"applied": 1, "skipped": 0},
+      "content_injector": {"applied": 0, "cms_skipped": 0, "other_skipped": 0},
+      "page_scaffolder": {"applied": 0, "dropped": 0}
+    },
+    "audit_diff": {
+      "total_routes": {"before": 68, "after": 68, "delta": 0},
+      "unique_titles": {"before": 68, "after": 68, "delta": 0},
+      "title_length_avg": {"before": 46, "after": 46, "delta": 0},
+      "description_length_avg": {"before": 208, "after": 208, "delta": 0},
+      "has_canonical": {"before": 68, "after": 68, "delta": 0},
+      "has_og_image": {"before": 68, "after": 68, "delta": 0},
+      "has_json_ld_routes": {"before": 68, "after": 68, "delta": 0},
+      "multi_h1_offenders": {"before": 1, "after": 0}
+    },
+    "audits_passed": true
+  },
+
+  "api_state_verified_this_session": {
+    "semrush_keyword_magic_tool": {
+      "endpoint": "https://semrush-keyword-magic-tool.p.rapidapi.com/global-volume",
+      "auth_header": "x-rapidapi-key + x-rapidapi-host",
+      "status": "healthy_with_intermittent_429",
+      "notes": "Vendor rate limits aggressively when querying novel keywords. Cache hits do NOT count against rate limit."
+    },
+    "google_generative_language": {
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+      "auth_header": "x-goog-api-key",
+      "models_tried": {
+        "gemini-2.5-flash":       {"health": "quota_exhausted_today", "notes": "20 req/day free tier"},
+        "gemini-2.5-flash-lite":  {"health": "quota_exhausted_today", "notes": "20 req/day free tier"},
+        "gemini-2.0-flash":       {"health": "quota_exhausted_today", "notes": "20 req/day free tier"},
+        "gemini-2.5-pro":         {"health": "quota_exhausted_today"},
+        "gemma-4-26b-a4b-it":     {"health": "intermittent_500_and_max_tokens_thinking_burn", "notes": "Model burns 300-800 tokens on internal thinking before emitting text; often returns finishReason=MAX_TOKENS with empty content"},
+        "gemma-4-31b-it":         {"health": "responsive_but_chatty", "notes": "Ignores 'return only JSON' instructions; echoes reasoning verbatim. Unusable for structured extraction with current prompts."}
+      }
+    }
+  },
+
+  "known_limitations": [
+    "Editable code surface is thin: ~18 top-level static pages have real .jsx files; everything under /blog/*, /technology/*, /solutions/*, /use-cases/*, /methodology/*, /industries/*, /team/*, /careers/*, /case-studies/*, /ai-training/* is Hygraph-driven. Proposals for those routes are handed off via cms-proposals-not-applied.jsonl.",
+    "Gemini free-tier daily quota is 20 requests per day per model. After ~40-60 seeds, the loop will exhaust primary + fallbacks. Reset happens at midnight PT. To keep the loop running through a full session, either budget for a paid API tier or shard seeds across days.",
+    "Gemma 4 models (26b-a4b-it, 31b-it) do not reliably emit clean JSON. Kept in the fallback chain but expect degraded quality vs Gemini.",
+    "Semrush no-data on very-long-tail queries (>~50 chars) is common. The seed-extractor is intentionally biased toward the site's existing vocabulary, which includes some very-long-tail phrases pulled from H1s.",
+    "String-literal attributes only: the content injector rewrites <SEO title=\"...\" description=\"...\"> when both are string literals. Dynamic JSX values ({foo}) are left alone.",
+    "US-only Semrush: the vendor supports many countries but this pass only queries US. Non-US markets are cached in the raw payload."
+  ],
+
+  "recommended_next_rounds": {
+    "round_5_cms_workflow": {
+      "priority": "high",
+      "note": "Since ~80% of the site's SEO surface lives in Hygraph, build a companion 'cms-seo-loop' skill that reads cms-proposals-not-applied.jsonl and (a) generates a PR-comment or PR checklist, (b) if the Hygraph management API is available, drafts CMS updates via GraphQL mutations for operator approval. Without this, the current loop's LLM proposals for CMS-owned routes are a dead-letter queue."
+    },
+    "round_5_paid_llm_tier": {
+      "priority": "medium",
+      "note": "Move off Google free-tier. Options: (a) Vertex AI paid tier with same key (higher rate limits), (b) Anthropic Claude Sonnet ($3/million input) — better JSON compliance than Gemma, (c) Together AI or Fireworks-hosted open models for cost. Current per-pass token budget is ~100k input + ~15k output tokens => under $1 at commercial rates."
+    },
+    "round_5_semrush_paid_or_alt": {
+      "priority": "medium",
+      "note": "RapidAPI Semrush endpoint has aggressive 429s. Consider (a) Semrush direct API (rate limit 10 req/sec commercial), (b) Ahrefs Keyword Explorer API (better long-tail data), (c) DataForSEO (aggregates multiple vendors). Alternatively narrow the seed universe — this pass wasted 12/40 requests on no-data long-tail phrases."
+    },
+    "round_5_seed_quality": {
+      "priority": "medium",
+      "note": "Current seed-extractor pulls from titles/H1s. Many of those are already very-long-tail (>50 chars). Add a step that extracts noun phrases from body copy (n-grams filtered by frequency + stopwords) to seed with mid-tail terms that vendors actually have data for."
+    },
+    "round_5_perf_fixer_scope": {
+      "priority": "low",
+      "note": "Current perf-fixer only ships one fix. Add real, verified fixes as they're identified: e.g. font-preload hints, above-the-fold LCP image explicit dimensions if any HERO components lack them, specific route-level lazy imports."
+    }
+  },
+
+  "artifacts_run_dir": {
+    "path": "/mnt/shared-workspace/agentic-seo-loop/round4-2026-07-07T1852/",
+    "files": [
+      "audit-after.json",
+      "audit-before.json",
+      "audit-diff.json",
+      "cms-proposals-not-applied.jsonl",
+      "commit-message.txt",
+      "edit-proposals.jsonl",
+      "edits-applied.jsonl",
+      "edits-skipped.jsonl",
+      "keyword-data.json",
+      "manifest.json",
+      "new-page-proposals.jsonl",
+      "page-index.json",
+      "pages-scaffolded.jsonl",
+      "perf-fixes-applied.jsonl",
+      "perf-fixes-skipped.jsonl",
+      "seeds.json"
+    ]
+  },
+
+  "rollback": [
+    "git checkout round3-jedi-seo",
+    "git branch -D agent/round4-2026-07-07T1852",
+    "git push origin --delete agent/round4-2026-07-07T1852"
+  ]
+}
