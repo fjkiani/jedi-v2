@@ -50,6 +50,9 @@ const AiTrainingDomain         = lazy(() => import('./pages/AiTrainingDomain'));
 const BenchmarksPage           = lazy(() => import('./pages/benchmarks/BenchmarksPage'));
 const GlossaryPage             = lazy(() => import('./pages/glossary/GlossaryPage'));
 
+// ── SEO Command Center — internal ops app, Clerk-gated ──
+const SeoCommandCenter         = lazy(() => import('./pages/SeoCommandCenter'));
+
 const BlogLegacyRedirect = () => {
   const { slug } = useParams();
   return <Navigate to={`/blog/post/${slug}`} replace />;
@@ -178,6 +181,10 @@ const AppContent = ({ location }) => {
                 {/* ── Benchmarks / Glossary ────────────────────────────────── */}
                 <Route path="/benchmarks" element={<PageTransition><BenchmarksPage /></PageTransition>} />
                 <Route path="/glossary" element={<PageTransition><GlossaryPage /></PageTransition>} />
+
+                {/* ── SEO Command Center — internal ops app (Clerk gate lives inside the page) ── */}
+                <Route path="/seo-command-center" element={<SeoCommandCenter />} />
+                <Route path="/seo-command-center/*" element={<SeoCommandCenter />} />
 
                 {/* ── 404 ──────────────────────────────────────────────────── */}
                 <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

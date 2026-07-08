@@ -191,6 +191,17 @@ export default defineConfig({
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-    }
+    },
+    proxy: {
+      // SEO agent backend — spawns orchestrator/workers, exposes SSE streams.
+      // Run alongside the dev server via `npm run seo:agent` (port 5175).
+      '/api': {
+        target: process.env.SEO_AGENT_URL || 'http://localhost:5175',
+        changeOrigin: true,
+        ws: true,
+        // SSE needs the response to be flushed line-by-line; disable proxy buffering.
+        selfHandleResponse: false,
+      },
+    },
   }
 });

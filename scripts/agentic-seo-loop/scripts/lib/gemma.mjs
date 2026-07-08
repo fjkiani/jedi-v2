@@ -235,21 +235,99 @@ export class GemmaClient {
 /**
  * Build the SEO copy-editor prompt for an existing page. Kept as a pure
  * function so unit tests can snapshot it without needing the API key.
+ *
+ * Pass `pageKind` when known (e.g. 'technology', 'use-case', 'case-study',
+ * 'industry', 'blog-post', 'static') so the prompt can be shape-aware. The
+ * important distinction: **CMS product/technology pages describe a REAL
+ * external product** (e.g. spaCy is an actual open-source NLP library);
+ * the description must remain a *factual product description*, not
+ * generic Jedi Labs marketing copy. Round-4 saw the model happily replace
+ * spaCy's NLP-library description with "spaCy: Production AI Evaluation |
+ * JEDI Labs" — that's a truth violation, not an SEO win.
  */
-export function buildEditPrompt({ keyword, country, volume, kdPct, intent, route, title, description, h1 }) {
-  return `You are an SEO copy editor for Jedi Labs (jedilabs.org), a production-AI evaluation company.
-Target keyword: "${keyword}" — ${country} volume ${volume}, KD ${kdPct}%, intent ${intent}.
-Existing page (route: ${route}):
-  title: "${title || ''}"
-  description: "${description || ''}"
-  h1: "${h1 || ''}"
-Constraints:
-  - title 40-60 chars, must include the target keyword or its closest natural variant, must fit under 65 chars
-  - description 130-160 chars, must include target keyword once, no clickbait, no unsubstantiated multipliers
-  - h1 40-70 chars, matches title intent, differs from title
-  - do not add claims Jedi Labs hasn't already made
+export function buildEditPrompt({ keyword, country, volume, kdPct, intent, route, title, description, h1, pageKind }) {
+  // Route → pageKind auto-detect if not passed. Kept in sync with the
+  // ROUTE_MODELS prefix table in scripts/cms-injector.mjs.
+  const kind = pageKind || (
+    route.startsWith('/technology/') ? 'technology' :
+    route.startsWith('/use-cases/') ? 'use-case' :
+    route.startsWith('/case-studies/') ? 'case-study' :
+    route.startsWith('/industries/') ? 'industry' :
+    route.startsWith('/blog/post/') ? 'blog-post' :
+    'static'
+  );
+
+  // Per-shape rules. Each entry:
+  //   subject_rule: what the copy is fundamentally ABOUT (product, industry, service…)
+  //   truth_rule: what MUST be preserved
+  //   framing_hint: how SEO polish should sit on top of the truth
+  const KIND_RULES = {
+    'technology': {
+      subject_rule: `This page describes an external tool/library/framework, not Jedi Labs itself. Treat it like a technical dictionary entry with a Jedi Labs usage angle.`,
+      truth_rule: `Preserve the accurate product description — what it is, what it does technically, its actual capabilities. Do NOT replace the technical description with generic "Jedi Labs solutions" copy. Do NOT invent usage claims — e.g. do NOT write "used for X" if the original description doesn't already establish that use, unless X is a well-known primary use case of the technology (e.g. "spaCy for NLP" is fine, "spaCy for quantum computing benchmarks" is NOT).`,
+      framing_hint: `Add a short "how Jedi Labs uses it" clause ONLY if the existing description already mentions Jedi Labs or the target keyword warrants it.`,
+    },
+    'use-case': {
+      subject_rule: `This page describes a specific use case Jedi Labs delivers.`,
+      truth_rule: `Preserve the described capability + outcome. Do not invent new capabilities.`,
+      framing_hint: `Tighten to include the target keyword naturally in the use-case framing.`,
+    },
+    'case-study': {
+      subject_rule: `This page describes a specific engagement — client + outcome.`,
+      truth_rule: `Preserve the client name, sector, and named outcomes exactly. Do not rewrite results.`,
+      framing_hint: `Add the target keyword only if it fits the actual engagement.`,
+    },
+    'industry': {
+      subject_rule: `This page describes an industry vertical Jedi Labs serves.`,
+      truth_rule: `Preserve the industry-specific problems + services described.`,
+      framing_hint: `Add the target keyword if it names the industry or a service within it.`,
+    },
+    'blog-post': {
+      subject_rule: `This page is a blog article on a topic.`,
+      truth_rule: `Preserve the article's actual argument/topic. Do not invent a different thesis.`,
+      framing_hint: `Add the target keyword to title and description if it matches the topic.`,
+    },
+    'static': {
+      subject_rule: `This is a static Jedi Labs marketing/about page.`,
+      truth_rule: `Preserve Jedi Labs's actual positioning.`,
+      framing_hint: `Standard SEO polish — clearer keyword targeting.`,
+    },
+  };
+  const rules = KIND_RULES[kind] || KIND_RULES['static'];
+
+  return `You are an SEO copy editor for the Jedi Labs (jedilabs.org) site. This is one page on that site.
+
+## Page under edit
+route: ${route}
+page_kind: ${kind}
+title:       "${title || ''}"
+description: "${description || ''}"
+h1:          "${h1 || ''}"
+
+## Target keyword
+"${keyword}" — ${country} volume ${volume}, KD ${kdPct}%, intent ${intent}.
+
+## What this page is about
+${rules.subject_rule}
+
+## Truth rule (highest priority — violates disqualify the proposal)
+${rules.truth_rule}
+- Do NOT invent claims that aren't already on the page.
+- Do NOT replace factual product/technical descriptions with company marketing copy.
+- If the current description is already accurate, KEEP its substance and just polish for the keyword.
+
+## SEO rules
+- title: 40-65 chars, includes the target keyword or its closest natural variant, ends with " | Jedi Labs" ONLY if it fits within the 65-char cap.
+- description: 130-160 chars, includes target keyword once, no clickbait, no unsubstantiated multipliers or "leading" / "best-in-class" language.
+- h1: 40-70 chars, matches title intent, differs from title text.
+- ${rules.framing_hint}
+
+## When you shouldn't propose an edit
+If the target keyword doesn't naturally fit this page's actual subject (per truth rule above), return confidence < 0.4 and set proposed_title/proposed_desc/proposed_h1 to the existing values verbatim, and explain the mismatch in rationale. Better to skip than to lie.
+
+## Output
 Return ONE valid JSON object with keys:
-  proposed_title, proposed_desc, proposed_h1, rationale (plain English, 2-3 sentences), confidence (0-1)
+  proposed_title, proposed_desc, proposed_h1, rationale (2-3 sentences, plain English, explicitly name what you preserved from the original), confidence (0-1)
 Return nothing else.`;
 }
 

@@ -33,3 +33,5 @@ dist-ssr
 probe.mjs
 probe2.mjs
 _probe*.mjs
+.env.local
+seo-command-center-server.log
