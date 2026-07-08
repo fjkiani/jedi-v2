@@ -1,0 +1,148 @@
+{
+  "round": "5",
+  "commit": "4332515",
+  "base_commit": "cd48c8a",
+  "branch": "agent/seo-command-center-2026-07-07T1930",
+  "pushed_to_origin": true,
+  "pr_url": "https://github.com/fjkiani/jedi-v2/pull/new/agent/seo-command-center-2026-07-07T1930",
+  "generated_at": "2026-07-07T22:30:00Z",
+  "summary": "Round 5 ships /seo-command-center — an internal, Clerk-authed ops app for the agentic-seo-loop, plus a local Node backend that spawns the round-4 workers and streams their stdout via SSE. Backend is fully live-verified against real endpoints: 46 aggregated keywords across 8 past runs, 65 site pages with 32 CMS-owned (Post 4, Technology 10, Industry 18, UseCase 0, CaseStudy 0), 68 built routes with unique titles + zero multi-h1 offenders. Hygraph schema was live-introspected — the real JEDI Labs schema has NO nested `seo` model, so cms-injector was rewritten to mutate flat title/description-equivalent fields per model. The round-4 LLM regression (spaCy's NLP-library description replaced with generic Jedi Labs marketing copy) was fixed by rewriting buildEditPrompt to be page_kind-aware with an explicit truth rule that preserves accurate product descriptions on /technology/* pages. Re-tested live against Gemini 2.5 Flash: the model now returns 'Explore spaCy, an open-source Python library for advanced NLP…' with tokenization/POS/NER intact.",
+
+  "technical_scope_delivered": {
+    "seo_agent_backend": {
+      "location": "scripts/seo-agent-server/",
+      "port": 5175,
+      "auth": "Clerk JWT via @clerk/backend verifyToken() with JWKS. AUTH_MODE=disabled bypass supported for local dev; production requires CLERK_SECRET_KEY.",
+      "endpoints_verified_live": {
+        "GET /api/health": "returns { ok, env_keys_present: { CLERK_SECRET_KEY, HYGRAPH_MANAGEMENT_TOKEN, ... } }",
+        "GET /api/auth-mode": "returns 'enabled' or 'disabled'",
+        "POST /api/orchestrator/run": "spawns full pipeline; body { baseBranch }. Currently fails on default 'main' — repo default is feat/refactor-solution-page-hygraph",
+        "GET /api/orchestrator/runs": "8 runs discovered under /mnt/shared-workspace/agentic-seo-loop/",
+        "GET /api/orchestrator/runs/:id": "manifest + counts + proposals",
+        "GET /api/workers": "5 workers with last_exit_code, last_started_at, last_ended_at",
+        "POST /api/workers/:name/run": "spawn any one worker; verified analyst smoke + cms-injector preview",
+        "GET /api/audit/dist": "68 routes, 68 unique titles, 68 canonicals, 68 og:image, 68 JSON-LD, 0 multi-h1 offenders",
+        "GET /api/hygraph/config": "endpoint + token_present:true, mgmt_token_present:false (management token not provisioned yet)",
+        "GET /api/hygraph/introspect": "live JEDI Labs schema — Post, Technology, UseCase, CaseStudy, Industry, TeamMember",
+        "GET /api/hygraph/lookup?slug=spacy&model=Technology": "returns id cm5bxov6r1xhc07loztif3ksd",
+        "GET /api/aggregate/keywords": "46 unique keywords, 13 with volume>0, avg KD 41%, top-by-opportunity: 'ai powered research assistant' (v=1000, kd=25, opp=750)",
+        "GET /api/aggregate/page-index": "65 pages, 32 CMS-owned (Post 4, Technology 10, Industry 18), 65 flagged (all long_desc from a 208-char boilerplate)",
+        "GET /api/orchestrator/stream?key=<worker>": "SSE tail of process stdout/stderr"
+      },
+      "files": {
+        "server.mjs": "Express app, Clerk middleware, .env.local loader",
+        "lib/spawn-stream.mjs": "Process registry with isActive() checking exitCode===null. Restart evicts stale entries for a clean log slate.",
+        "lib/hygraph.mjs": "Lazy readEnv() inside each function (must NOT read env at module top — server's .env.local loader runs after import phase)",
+        "lib/git.mjs": "Simple git status/branches wrapper for the repo panel",
+        "lib/util.mjs": "readJsonSafe, listRunDirs",
+        "routes/orchestrator.mjs": "Spawn agentic-seo-loop full pipeline",
+        "routes/workers.mjs": "Spawn individual workers",
+        "routes/audit.mjs": "Read dist/ and report SEO surface stats",
+        "routes/hygraph.mjs": "Introspect + list content per model + per-slug lookup",
+        "routes/aggregate.mjs": "Cross-run keyword harvest + annotated page-index with CMS-ownership + SEO flags",
+        "routes/repo.mjs": "Branch + status for the OrchestratorPanel"
+      }
+    },
+    "seo_agent_frontend": {
+      "location": "src/pages/SeoCommandCenter.jsx + src/components/seoAgent/",
+      "auth": "Clerk-gated via AuthGate; unauthenticated users see sign-in wall.",
+      "route": "/seo-command-center (registered in src/App.jsx)",
+      "panels": {
+        "HeaderBar": "Backend health + auth mode + userId badge",
+        "AuditPanel": "Snapshot of /api/audit/dist",
+        "OrchestratorPanel": "Kick a full run, choose base branch",
+        "LiveLogPanel": "SSE-driven tail of any running worker",
+        "WorkersGrid": "Card per worker with last_exit_code + start/end",
+        "RunsPanel": "Past runs from /mnt/shared-workspace",
+        "RunDetailPanel": "Tabs: overview, edit-proposals, new-page-proposals, cms-handoff. Reads real proposal JSONLs from the run dir.",
+        "HygraphPanel": "Live schema introspection + per-model preview",
+        "KeywordsPanel": "Aggregated Semrush across all runs, sorted by opportunity = volume × (1 − kd/100). 46 keywords rendered live.",
+        "PageIndexPanel": "Most-recent page-index annotated with cms_owned + cms_model + flags. 65 pages rendered live."
+      }
+    },
+    "cms_injector_rewrite": {
+      "location": "scripts/agentic-seo-loop/scripts/cms-injector.mjs",
+      "what_changed": "Was written against an assumed nested `seo { title description }` field pattern. Live introspection showed JEDI Labs' Hygraph schema has NO nested seo model. Rewritten to target flat model-specific title/description-equivalent fields.",
+      "route_model_mapping_live_verified": [
+        { "prefix": "/blog/post/", "model": "Post", "titleField": "title", "descField": "excerpt" },
+        { "prefix": "/technology/", "model": "Technology", "titleField": "name", "descField": "description" },
+        { "prefix": "/use-cases/", "model": "UseCase", "titleField": "title", "descField": "description" },
+        { "prefix": "/case-studies/", "model": "CaseStudy", "titleField": "title", "descField": "excerpt" },
+        { "prefix": "/industries/", "model": "Industry", "titleField": "name", "descField": "description" }
+      ],
+      "features": {
+        "preflight": "Live-introspects schema, checks every ROUTE_MODEL's target fields exist, writes cms-schema-preflight.json",
+        "buffered_writes": "S3 FUSE mounts silently drop appendFileSync — all preview/applied/skipped entries buffered in memory arrays and flushed with single writeFileSync at end",
+        "preview_only_mode": "Default is dry-run: real Hygraph lookup, real GraphQL mutation drafted, but NOT executed. --apply flag needed to run mutations.",
+        "publish_mutation_drafted": "Publish step included in preview so operator sees the full state transition"
+      },
+      "verified_end_to_end": "POST /api/workers/cms-injector/run with { runDir: <round4>, previewOnly: true } returned exit 0 in 3s. Preflight report: all 5 models present, 0 problems. Real Hygraph lookup found Technology record cm5bxov6r1xhc07loztif3ksd for slug 'spacy'."
+    },
+    "analyst_prompt_tune": {
+      "location": "scripts/agentic-seo-loop/scripts/lib/gemma.mjs — buildEditPrompt",
+      "regression_fixed": "Round 4 replaced spaCy's factual NLP-library description ('spaCy is an open-source library for advanced NLP in Python…') with generic Jedi Labs marketing copy. This was a truth violation, not an SEO win.",
+      "fix_approach": "buildEditPrompt is now page_kind-aware. Route → kind detection (technology, use-case, case-study, industry, blog-post, static). Per-kind truth rules make explicit what MUST be preserved.",
+      "technology_truth_rule": "Preserve the accurate product description — what it is, what it does technically, its actual capabilities. Do NOT replace the technical description with generic 'Jedi Labs solutions' copy. Do NOT invent usage claims — e.g. do NOT write 'used for X' if the original description doesn't already establish that use.",
+      "verified_live": "Re-tested against Gemini 2.5 Flash with the exact spaCy input from round 4. Model now returns: 'Explore spaCy, an open-source Python library for advanced Natural Language Processing (NLP). It offers pre-trained models for tokenization, POS tagging, and NER.' — tokenization/POS/NER preserved, keyword targeted, title polished to 'spaCy: Advanced NLP in Python | Jedi Labs' at 41 chars. Confidence 0.95."
+    }
+  },
+
+  "wiring": {
+    "src/App.jsx": "Registers /seo-command-center route inside the existing AllRoutes tree",
+    "src/main.jsx": "Wraps App in ClerkProvider + attaches window.__seoAgentGetToken helper the api.js wrapper uses to send Bearer tokens",
+    "vite.config.js": "Dev proxy /api/* → http://localhost:5175 with SSE-compatible pass-through",
+    "package.json": "Added @clerk/clerk-react, @clerk/backend ^2.33.5, express, cheerio ^1.0.0. Added seo:agent script for local dev.",
+    ".gitignore": "Added .env.local and seo-command-center-server.log"
+  },
+
+  "live_verification": {
+    "site_state": {
+      "built_routes": 68,
+      "unique_titles": 68,
+      "canonicals": 68,
+      "og_image": 68,
+      "json_ld_routes": 68,
+      "multi_h1_offenders": 0
+    },
+    "keyword_harvest": {
+      "unique_keywords": 46,
+      "with_volume_gt_0": 13,
+      "avg_kd_pct": 41,
+      "top_by_opportunity": [
+        { "keyword": "ai powered research assistant", "volume": 1000, "kdPct": 25, "opportunity": 750 },
+        { "keyword": "spacy", "volume": 390, "kdPct": 35, "opportunity": 253.5 },
+        { "keyword": "react", "volume": 12100, "kdPct": 100, "opportunity": 0, "note": "correctly filtered by KD=100" },
+        { "keyword": "automation", "volume": 5400, "kdPct": 100, "opportunity": 0 }
+      ]
+    },
+    "page_index": {
+      "total_routes": 65,
+      "cms_owned": 32,
+      "static_owned": 33,
+      "flagged_pages": 65,
+      "by_cms_model": { "Post": 4, "Technology": 10, "UseCase": 0, "CaseStudy": 0, "Industry": 18 },
+      "note": "All 65 flagged for long_desc — the site is running a 208-char boilerplate description across every route. That's a real SEO issue but is independent of the loop's per-page proposals."
+    },
+    "worker_smoke_tests": {
+      "analyst": "Real Semrush call: 'ai evaluation' US volume=70 kdPct=100%. Real Gemini call: title='AI Evaluation & Research | About Jedi Labs', 0 retries, model=gemini-2.5-flash. Exit 0 in 2.4s.",
+      "cms_injector": "Real Hygraph lookup for slug=spacy → id cm5bxov6r1xhc07loztif3ksd. Preflight: 5 models present, 0 schema problems. Real GraphQL mutation drafted for both update + publish. Exit 0 in 3s. Buffered writes bypassed S3 FUSE appendFileSync limitation."
+    }
+  },
+
+  "known_limitations": {
+    "browser_test_gap": "Panels compile via esbuild + serve via Vite HMR (HTTP 200 on all URLs). Backend endpoints all return the correct data shape. But panels have NOT been rendered in a headless browser end-to-end — mount errors or hook mistakes could still surface at runtime.",
+    "orchestrator_default_branch": "Repo has no `main` branch. Default remote HEAD is `feat/refactor-solution-page-hygraph`. Full orchestrator runs must be given the correct baseBranch; the default 'main' will fail with 'fatal: bad revision'. Recommend updating OrchestratorPanel default value.",
+    "management_token_absent": "HYGRAPH_MANAGEMENT_TOKEN is empty in .env.local. cms-injector can lookup and draft mutations but cannot APPLY them until an operator adds a management token. Preview mode works fully without it.",
+    "long_desc_across_site": "All 65 crawled pages have a 208-char description (over the 160-char cap). This is the site's default meta description template, not per-page copy. Fix requires either: (a) shortening the default template, or (b) per-page description generation for every route — a much bigger effort than SEO polish on individual pages.",
+    "cms_visible_models_zero_use_cases_case_studies": "The page-index shows UseCase=0 and CaseStudy=0 CMS-owned pages, even though the models exist in Hygraph. Likely the dist crawler doesn't find any /use-cases/* or /case-studies/* routes in the built site — they may be under a different prefix, or the CMS records may not be published, or the routes may be dynamically generated at request time and thus absent from the prerendered dist.",
+    "gemini_free_tier_quota": "Same 20 req/day/model limit from round 4 still applies. cms-injector avoids this by only calling Gemini via analyst; a full orchestrator pass with many candidates will hit quota."
+  },
+
+  "recommended_next_rounds": {
+    "round_6a_fix_default_description": "Locate the default 208-char meta description template. Replace it with a short SEO-safe generic (60-140 chars) so uncustomized pages stop being flagged as long_desc. This single change flips 65 flagged pages to clean.",
+    "round_6b_apply_flag_end_to_end": "Provision HYGRAPH_MANAGEMENT_TOKEN, then run cms-injector with --apply on the spaCy proposal that's already sitting in round4-2026-07-07T1852's queue. Verify the mutation lands, page rebuilds, and the flat description update propagates to prod.",
+    "round_6c_page_index_source_bug": "Investigate why UseCase and CaseStudy models have 0 pages in the crawler even though Hygraph has records. Might be a route prefix mismatch, a missing prerender step, or the routes require login (unlikely).",
+    "round_6d_deploy_backend": "The seo-agent-server currently runs on the operator's laptop. Move to a durable host (Vercel serverless functions won't work — needs long-lived SSE connections and process spawning. Fly.io or a small Render service fits). Update the frontend VITE_SEO_AGENT_BASE env when deployed.",
+    "round_6e_slack_notifications": "Wire orchestrator runs to post start/complete/fail into a Slack channel so the operator doesn't have to keep the dashboard open."
+  }
+}
